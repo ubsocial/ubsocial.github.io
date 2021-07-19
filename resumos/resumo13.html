@@ -1,0 +1,1023 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Ovo&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../anexos/icons/logoTit.png">
+    <link rel="stylesheet" href="../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12" id="menu">
+            <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a id="serifada" class="navbar-brand" href="../index.html"><img src="../anexos/icons/logo.png" id="logo"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../contato.html">Contato</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12" id="titulo1">
+            <h1 id="serifada">Laravel</h1>
+            <h6><strong>Utilizando o maior framework php</strong></h6>
+        </div>
+
+        <div class="col-sm-12">
+            <p id="textoPost">Laravel é o maior framework php do mundo, usando como princípio MVC. Possui motor administrado pelo Composer, automatização com php artisan e BD(PDO), views padronizadas Blade e estilização Bootstrap, estruturação Hash de segurança, entre outros recursos tecnológicos. Possui, além disso, o maior ecossistema de soluções extensíveis, atendendo à todo tipo de necessidade de software moderno, como ServerLess e Server, Deployment, Queue Monitoring, Admin Panel, Realtime, Micro, Pre-Packaged, SaaS, Mac, Webpack, Billing Integration, Testing e Automation, Painless OAuth2, Search, Debug, Scaffolding e muito mais.</p>
+            <a class="btn btn-link" id="btnLink" href="https://github.com/mateusschwede/laravel" target="_blank">Acesse no Github</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <br>
+            <h4>Instalação</h4>
+            <ol>
+                <li>Instalar e executar Xampp</li>
+                <li>Instalar Composer: Baixe o arquivo em composer.org, e enviá-lo para pasta de var referência global(no Windows somente executar)</li>
+                <li>Testar Composer: No terminal, execute o comando <i>'composer'</i> para ver informações do mesmo</li>
+                <li>Instalar Laravel8: Via composer Create-Project: No diretório dos projetos, executar o comando(criar projeto): <i>composer create-project --prefer-dist laravel/laravel nomeProjeto</i></li>
+                <li>Criar BD 'laravel' padrão, com comando, no diretório do projeto <i>php artisan migrate</i> (1º criar BD no Phpmyadmin, depois o comando gerará as tables)</li>
+                <li>Opcional: Instalar Laravel Installer(composer global require laravel/installer), então criar projeto(laravel new nomeProjeto)</li>
+            </ol>
+            <p>NOVO PROJETO LARAVEL(passo4):<br>No diretório desejado, executar o comando: <i>composer create-project --prefer-dist laravel/laravel nomeProjeto</i></p>
+            <h5>Linux Debian</h5>
+            <ol>
+                <b>Baixar Xampp</b>
+                <li>Baixar arquivo (https://www.apachefriends.org/pt_br/index.html)</li>
+                <li>(diretório do download)Torná-lo executável: <i>sudo chmod +x nomeArquivoXampp.run</i></li>
+                <li>Instalar arquivo: <i>sudo ./nomeArquivoXampp.run</i> (next procedimentos até finish)</li>
+                <li>(Diretório Desktop)Iniciar xampp: <i>sudo ../../opt/lampp/lampp start</i> (stop para encerrar, status para verificar)</li>
+                <b>Baixar Composer</b>
+                <li>Com Xampp Php executando, instalar curl: <i>sudo apt install curl</i></li>
+                <li>Baixar Composer e vincular com Php Xampp: <i>sudo curl -s https://getcomposer.org/installer | /opt/lampp/bin/php</i></li>
+                <li>Mover arquivo composer.phar para torná-lo de uso Global: <i>sudo mv composer.phar /usr/local/bin/composer</i></li>
+                <li>Vincular Php com uso Global: <i>sudo ln -s /opt/lampp/bin/php /usr/local/bin/php</i></li>
+                <b>Instalar Nodejs e npm</b>
+                <li><i>sudo apt install nodejs && sudo apt install npm</i></li>
+                <b>Baixar projeto Laravel:</b>
+                <li>(Diretório que desejar) <i>composer create-project --prefer-dist laravel/laravel nomeProjeto</i></li>
+            </ol>
+        </div>
+
+        <div class="col-sm-12">
+            <br>
+            <h4>Funcionamento</h4>
+            <img src="../anexos/resumo13/laravelMvc.png" width="70%" height="auto">
+            <ol>
+                <li>User dispara ação no Browser para determinada url</li>
+                <li>Ação será capturada pelo routes 'web.php', no diretório Routes, que será roteado a um controller</li>
+                <li>Controller conversa com Model, que conversa com BD(PDO)</li>
+                <li>Feeback do BD(falha/sucesso) volta ao Model, esse repassa ao Controller</li>
+                <li>Controller chama View dinâmica(Blade), que enviará o resultado via Browser(Html) para User</li>
+            </ol>
+            <p>NA PRÁTICA<br><small>(Atente-se com os 'use' e 'namespace', para checar se os mesmos encontram-se e correspondem à árvore de diretórios)</small></p>
+            <ol>
+                <li>Criar route no 'web.php', comentá-la para criar o Controller</li>
+                <li>Criar controller, com artisan, e criar metodo que será lido na route</li>
+                <li>Testar, informando uri, se o método do controller e route funcionam(sem erros)</li>
+                <li>Criar view com Html</li>
+                <li>No controller, criar o metodo de return view, com parâmetros var visão e var controller</li>
+                <li>Na view, informar as vars dinâmicas {{$user->name}} do informadas como parâmetros do método no controller</li>
+            </ol>
+        </div>
+
+        <div class="col-sm-12">
+            <br>
+            <h4>Diretórios</h4>
+            <ul>
+                <li><b>Index:</b> Pasta <i>public</i> estão arquivos visualizáveis aos usuários (que serão vinculados à url)</li>
+                <li><b>Models:</b> Pasta <i>app/models</i> encontram-se as models(user.php model padrão de usuários)</li>
+                <li><b>Controllers:</b> Pasta <i>app/http/controllers</i></li>
+                <li><b>Views:</b> Pasta <i>resources/views</i> (ex welcome.blade.php view padrão index Laravel)</li>
+                <li><b>Routes:</b> Pasta <i>routes</i> (web.php possui as rotas do Browser, api.php de APIs...)</li>
+                <li><b>.env:</b> Arquivo de configurações do Laravel (DBs, Drivers...)</li>
+                <li><b>Vendor:</b> Pasta <i>vendor</i> possui dependências do Laravel (não mexer)</li>
+                <li><b>Migrations:</b> Pasta <i>database/migrations</i> possui migrations(códigos php gestores BD)</li>
+                <li><b>Public:</b> Diretórios Web Accessible, acessados por todos</li>
+                <li><b>package.json:</b> Arquivo de dependências do projeto</li>
+                <li><b>webpack.mix.js:</b> Se existir, arquivo de vinculação e mimificação de arquivos ao Public</li>
+                <li><b>Storage:</b> Pasta onde são salvos arquivos</li>
+                <li><b>filesystems.php:</b> Arquivo, na pasta Config, de configurações de diretórios do Laravel</li>
+            </ul>
+            <br>
+            <h4>Comandos automatizadores</h4>
+            <small>(Ordem de criação: Migrations(se ñ mcr) -> Model mcr -> PopularMigrations -> Controller(se ñ mcr) -> Fresh)</small>
+            <ul>
+                <li>Migrations em Paralelo:
+                    <ul>
+                        <li><b>Criar migration:</b> php artisan make:migration comando_nomeTable_table --create=nomeTable(create opcional)</li>
+                        <li><b>Add campo à migration:</b> php artisan make:migration comando_nomeTable_table --table=nomeTable</li>
+                        <li><b>Executar migrations pendentes:</b> php artisan migrate</li>
+                        <li><b>Desfazer migration:</b> php artisan migrate:rollback --step=2(step opcional)</li>
+                        <li><b>Resetar BD conforme migrations:</b> php artisan migrate:fresh</li>
+                    </ul>
+                </li>
+                <li>Model e Controller limpo:
+                    <ul>
+                        <li><b>Criar model:</b> php artisan make:model nomeModel -mcr(mcr Migration/Controller opcional)</li>
+                    </ul>
+                </li>
+                <li>Model e Controller CRUD:
+                    <ul>
+                        <li><b>Criar controller:</b> php artisan make:controller pasta\nomeController --resource --model=nomeModel(--resource e model opcionais)</li>
+                    </ul>
+                </li>
+                <li>Outros:
+                    <ul>
+                        <li><b>Listar routes:</b> php artisan route::list</li>
+                        <li><b>Instalar dependências:</b> npm install nomeDependencia</li>
+                        <li><b>Executar modificações com dependências/mimificaçõesMix:</b> npm run dev(produtcion)</li>
+                        <li><b>Manter execução de dependências:</b> npm run watch</li>
+                        <li><b>Criar objeto(Mail):</b> php artisan make:mail newLaravelTips</li>
+                        <li><b>Importar templates markdown(Email):</b> php artisan vendor:publish --tag=laravel-mail</li>
+                        <li><b>Inserir estrutura BD queues:</b> php artisan queue:table</li>
+                        <li><b>Executar jobs queues:</b> php artisan queue:work</li>
+                        <li><b>Criar classes/objetos jobs:</b> php artisan make:job nomeClasse</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-sm-12">
+            <br>
+            <h4>Deploy ambiente compartilhado</h4>
+<small><pre><code>
+<i>(Instalar o Laravel no servidor compartilhado)</i>
+
+Pré-Requisitos:
+&gt; Php recente instalado
+
+No terminal do cPanel do serviço de hospedagem:
+1- Instalar Composer, no diretório do usuário(~):
+&gt; wget https://getcomposer.org/installer
+&gt; php installer
+&gt; rm -rf installer
+2- Instalar Laravel:
+&gt; composer create-project --prefer-dist laravel/laravel nomeProjeto
+
+Tornar o Public do Laravel acessível ao servidor(public_html):
+&gt; mv public_html public_html_bkp (Ou tbm pode remover o arquivo caso não queira deixá-lo como forma de backup)
+&gt; ln -s nomeProjeto/public public_html (Pasta www do servidor agora apontará ao public.html, que agora vincula o Public do Laravel, mesmo assim apontará erro 500: sem permissão ao cPanel, necessárias permissões diretórios(755), arquivos(644))
+&gt; cd nomeProjeto
+&gt; find * -type d -exec chmod 755 {} \;
+&gt; find * -type f -exec chmod 644 {} \;
+&gt; cd ..
+&gt; chmod 755 nomeProjeto
+(Testar, no Browser, domínio/url do site, verificar se o welcome do Laravel está apresentado)
+<i>(Arquivos, como .env, podem ser acessados via terminal com editor de texto nano)</i>
+<i>(Pode parametrizar a IDE para trabalhar diretamente com FTP de dentro do cPanel)</i>
+</code></pre></small>
+            <br>
+            <h4>Deploy em ambiente privado</h4>
+<small><pre><code>
+<i>(Quando não possui-se serviços já prontos fornecidos pelo provedor de hospedagem, como o cPanel e terminal parametrizado, somente o acesso ao servidor, como um Ubuntu Server, com acesso à ip interno)</i>
+
+Acesso via SSH ao servidor(Exemplo utilizado Linux CentOS):
+&gt; ssh root@198.50.205.96 -p 1140 (ip e porta devem ser fornecidos pelo provedor, geralmente a porta padrão é 22)
+(Informar senha do servidor)
+&gt; Instalar kit de programas e configurações: https://github.com/teddysun/lamp
+
+Instalação Lamp CentOS:
+&gt; yum -y install wget git (Debian: apt-get -y install wget git)
+&gt; git clone https://github.com/teddysun/lamp.git
+&gt; cd lamp
+(Diretório lamp)&gt; chmod 755 *.sh
+&gt; ./lamp.sh
+
+Instalador:
+&gt; Instalar Apache: opção 1
+&gt; Não instalar módulos do Apache: opção 4
+&gt; Instalar MariaDB última versão: ver opção
+&gt; Caminho do MariaDB, somente 'enter' pra confirmar caminho padrão(/usr/local/mariadb/data)
+&gt; Senha do MariaDB: Informe a senha que desejar
+&gt; Instalar Php última versão: ver opção
+&gt; Módulos Php necessários: xdebug(Ver opção)
+&gt; Instalar Phpmyadmin: opção 1
+&gt; Não instalar kodexplorer: ver opção
+&gt; Verificar resumo e anotar caminhos de cada módulo, após informe 'enter' pra finalizar, senão 'cntrl+c' pra cancelar
+&gt;&gt; Após tudo instalado, testar, no Browser, se página home abre no ip do servidor informado
+(Ex: ip/phpmyadmin abrirá o Phpmyadmin, testar login com senha que informou)
+(Nesse caso, o diretório pra home do sistema será data/www/default/index.html)
+
+Instalar Composer:
+&gt; cd www
+(Diretório www)&gt; wget https://getcomposer.org/installer
+&gt; php installer
+
+No arquivo php.ini(Nesse caso, user/local/php/php.ini), remover linha proc_open:
+&gt; nano user/local/php/php.ini
+(No arquivo, linha 'disable_functions' remover 'proc_open' e 'proc_get_status')(cntr+o e cntrl+x pra salvar e sair)
+
+Reiniciar serviços:
+&gt; /etc/init.d/httpd restart
+
+Instalar projeto Laravel:
+&gt; php composer.phar create-project --prefer-dist laravel/laravel nomeProjeto (Se necessário, em caso de erro, remover diretório installer e pasta do projeto já existente)
+
+Apontar public do Laravel para acesso à página home:
+&gt; mv default/ default_bkp
+&gt; ln -s nomeProjeto/public default
+&gt;&gt; Testar, no Browser, se página home abre no ip do servidor informado(provável que informe erro Laravel de permissão)
+
+Permitir root:
+&gt; chown apache:apache nomeProjeto
+&gt; chown apache:apache default
+&gt; cd nomeProjeto
+(Diretório nomeProjeto)&gt; find * -type d -exec chmod 755 {} \;
+&gt; find * -type f -exec chmod 644 {} \;
+&gt; cd ..
+(Diretório www)&gt; chmod 755 nomeProjeto
+&gt; chown -R apache:apache nomeProjeto
+&gt;&gt; Testar, no Browser, se página home abre no ip do servidor informado
+
+Colocar composer.phar no diretório do projeto Laravel:
+&gt; mv composer.phar nomeProjeto/composer.phar
+<i>(Agora, tudo que será instalado via composer no projeto, ao invés de só 'composer ...', deverá ser 'php composer.phar ...')</i>
+
+Instalar npm:
+&gt; CentOS: yum install npm
+</code></pre></small>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <br>
+            <h4>Projetos</h4>
+            <ol>
+                <h5>Base e estruturação</h5>
+                <li><b>Projeto1:</b> Conceitos base de Laravel, routes e conexão com BD<a class="btn btn-link" id="btnLink" href="https://github.com/mateusschwede/laravel/tree/main/projeto1" target="_blank">Ver Github</a></li>
+                <li><b>Projeto2:</b> CRUD Laravel com verbalização rest e injeção de dependências<a class="btn btn-link" id="btnLink" href="https://github.com/mateusschwede/laravel/tree/main/projeto2" target="_blank">Ver Github</a></li>
+                <li><b>Projeto3:</b> Automatização com artisan e resource, baseado no projeto2<a class="btn btn-link" id="btnLink" href="https://github.com/mateusschwede/laravel/tree/main/projeto3" target="_blank">Ver Github</a></li>
+                <li><b>Projeto4:</b> Versionando BD com Migrations, gestão de BD automatizada com php<a class="btn btn-link" id="btnLink" href="https://github.com/mateusschwede/laravel/tree/main/projeto4" target="_blank">Ver Github</a></li>
+                <li><b>Projeto5:</b> Criando regra de negócio e configurando Model, manual e automatizado<a class="btn btn-link" id="btnLink" href="https://github.com/mateusschwede/laravel/tree/main/projeto5" target="_blank">Ver Github</a></li>
+                <li><b>Projeto6:</b> Relacionamentos entre Models<a class="btn btn-link" id="btnLink" href="https://github.com/mateusschwede/laravel/tree/main/projeto6" target="_blank">Ver Github</a></li>
+                <li><b>Projeto7:</b> Laravel login e Authentication com artisan e hardcode<a class="btn btn-link" id="btnLink" href="https://github.com/mateusschwede/laravel/tree/main/projeto7" target="_blank">Ver Github</a></li>
+                <li><b>Projeto7.8:</b> Laravel login e Authentication(Protótipo versão8)<a class="btn btn-link" id="btnLink" href="https://github.com/mateusschwede/laravel/tree/main/projeto7.8" target="_blank">Ver Github</a></li>
+                <br><h5>Frontend</h5>
+                <li><b>Projeto8:</b> Laravel frontend com Blade<a class="btn btn-link" id="btnLink" href="https://github.com/mateusschwede/laravel/tree/main/projeto8" target="_blank">Ver Github</a></li>
+                <li><b>Projeto9:</b> Gerenciando Assets com Laravel Mix<a class="btn btn-link" id="btnLink" href="https://github.com/mateusschwede/laravel/tree/main/projeto9" target="_blank">Ver Github</a></li>
+                <li><b>Projeto10:</b> Bootstrap local no Laravel<a class="btn btn-link" id="btnLink" href="https://github.com/mateusschwede/laravel/tree/main/projeto10" target="_blank">Ver Github</a></li>
+                <br><h5>Tips</h5>
+                <li><b>Projeto11:</b> Uploads automatizados no Laravel<a class="btn btn-link" id="btnLink" href="https://github.com/mateusschwede/laravel/tree/main/projeto11" target="_blank">Ver Github</a></li>
+                <li><b>Projeto12:</b> Ajax no Laravel<a class="btn btn-link" id="btnLink" href="https://github.com/mateusschwede/laravel/tree/main/projeto12" target="_blank">Ver Github</a></li>
+                <li><b>Projeto13:</b> Enviando emails no Laravel<a class="btn btn-link" id="btnLink" href="https://github.com/mateusschwede/laravel/tree/main/projeto13" target="_blank">Ver Github</a></li>
+                <li><b>Projeto14:</b> Fila e Processamento Assíncrono no Laravel<a class="btn btn-link" id="btnLink" href="https://github.com/mateusschwede/laravel/tree/main/projeto14" target="_blank">Ver Github</a></li>
+                <li><b>Projeto15:</b> Autenticação com Socialite(Google,Facebook) no Laravel<a class="btn btn-link" id="btnLink" href="https://github.com/mateusschwede/laravel/tree/main/projeto15" target="_blank">Ver Github</a></li>
+                <li><b>Projeto16:</b> Sessões com Helper e Facade no Laravel<a class="btn btn-link" id="btnLink" href="https://github.com/mateusschwede/laravel/tree/main/projeto16" target="_blank">Ver Github</a></li>
+                <li><b>Projeto17:</b> Autenticação em API Rest com JWT<a class="btn btn-link" id="btnLink" href="https://github.com/mateusschwede/laravel/tree/main/projeto17" target="_blank">Ver Github</a></li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col sm-12">
+            <br>
+            <h4>Anotações</h4>
+<small><pre><code>
+<h6><b>Iniciando projeto Laravel</b></h6>
+<i>Pré-Requisitos</i>
+- Xampp Apache e MySQL executando
+- Composer e npm instalados
+
+1. Instalação do projeto
+2. Configuração BD no '.env'
+3. Criar model, migration e controller simples(php artisan make:model nomeModel -mcr)
+4. Parametrizar migration, então model
+5. Resetar BD e executar migrations(php artisan migrate:fresh)
+6. Definir route
+7. Programar método(s) do controller vinculado à route
+8. Criar e programar view, com Html dinâmico, vinculada ao método do controller
+9. Testar acesso com Browser
+
+
+<h6><b>Projeto3: Automatizando com artisan e resource</b></h6>
+&gt; Criar controller com metodos à determinada view automaticamente:
+php artisan make:controller Form\TestController --resource --model=User
+(--resource cria todos os métodos do controller: verbalização rest e injeções de dependência automaticamente)
+(--model=User criará automaticamente toda injeção de dependências dos demais parâmetros relacionados à model User)
+
+&gt; Criar view automatizada universal métodos CRUD
+//Criador universal de rotas padrões para o controller TestController(get,post,put/patch,delete), altera o nome da route de 'usuario' para 'user', e altera os parâmetros de uri 'usuarios' para 'user'
+Route::resource('usuarios',TestController::class)-&gt;names('user')-&gt;parameters(['usuarios'=&gt;'user']);
+
+&gt; Alterar nome de trechos da uri para personalizados('original'=&gt;'personalizado')
+//Providers &gt; AppServiceProvider.php, método boot()
+use Illuminate\Support\Facades\Route;
+public function boot() {
+    Route::resourceVerbs([
+        'create'=&gt;'novo',
+        'edit'=&gt;'editar'
+    ]);
+}
+
+<b>CheckList aula4:</b>
+1- Criação automatizada do controller
+2- Criação, no routes 'web.php', da route automatizada resources. Tradução dos parâmetros uri na própria route
+3- Alimentar views e, ao mesmo tempo, alimentação dos métodos do controller relacionados às mesmas, conforme parâmetros e BD
+
+
+<h6><b>Projeto4: Versionando BD com Migrations</b></h6>
+<i>Ver anotações relacionadas no último arquivo do diretório migrations</i>
+
+Migrations:
+Comandos de gestão de BD de dentro do Laravel, usando php
+&gt; Up: Comando de envio ao BD (ex: Create table)
+&gt; Down: Exatamente o contrário de Up, comando de retorno/desfazer ao BD (ex: Drop table). Down é o método, criado automaticamente, contrário ao criado no Up
+Importante que as Migrations sejam criadas em ordem, de acordo com o BD, com relação às tables dependentes. Migrations são executadas em ordem crescente por criação.
+
+Criar Migration:
+Comando, no diretório do projeto, via terminal.
+Criar nova table(Create Table):
+php artisan make:migration comando_nomeTable_table(ex: create_users_table) --create=nomeTable(sintaxe de criação(create) à table nomeTable)
+
+Adicionar novo campo à table existente(Alter Table):
+php artisan make:migration comando_nomeTable_table --table=nomeTable
+
+Criar BD após criadas as Migrations:
+php artisan migrate (executa todos os arquivos de migrate criados pendentes)
+
+Desfazer criação no BD:
+php artisan migrate:rollback (desfaz todas as alterações no BD)
+php artisan migrate:rollback --step=2 (No caso, desfazer os últimos 2 passos, ex: desfazer as últimas 2 migrations criadas no BD)
+
+<i>No final, em ambiente empresarial, faço commit de tudo, e a pessoa que trabalhará com o prjeto somente executa o 'php artisan migrate', e todo o BD será gerado/atualizado automaticamente</i>
+
+
+<h6><b>Projeto5: Criando regra de negócio e configurando Model, manual e automatizado</b></h6>
+Para criar Model, primeiro precisa de uma table do mesmo no BD sobre a mesma, criando nova Migration
+&gt; Atualizar/Resetar BD com projeto:
+php artisan migrate:fresh (exlui tds as tables e recria com base nas Migrations do projeto)
+
+&gt; Criar Migration: php artisan make:migration create_posts_table
+&gt;&gt; Após codificar Migration, resetar BD com Migration pendente: php artisan migrate
+
+&gt; Criar Controller: php artisan make:controller PostController
+&gt;&gt; Modificar o método welcome em routes 'web.php', com o controller PostController, com método de execução 'showForm'
+
+&gt; Criar método 'showForm' no PostController, em branco
+&gt; Criar view de return do 'showForm', chamada 'form.blade.php', e populá-la com Html básico e @csrf
+&gt; Criar nova route em 'web.php', do tipo post, com nome e método chamados 'debug'
+
+&gt; No Controller 'PostController', criar método debug só com o inicial, e concluir o 'showForm'
+&gt; Inserir action como {{route}} na view 'form.blade.php'
+&gt; Popular método 'debug' no controller PostController
+
+&gt; Testar submissão do formulário Hmtl com 'dd($request-&gt;al());'
+
+Para inserir os dados do form Html no BD, precisa-se criar a respectiva Model antes.
+
+&gt; Criar Model 'Post':
+php artisan make:model Post
+
+&gt; Popular Model 'Post'
+Laravel converte tudo para minúsculo e plural ao BD, ou seja, a table relacionada precisa ser 'posts'
+1- Informar somente dados relacionados com BD no Controller 'PostController', no método 'debug'(remover o _token...)
+2- Informar dados que serão enviados ao Model 'Post' para que possa serem persistidos ao BD(informar no método 'debug' do 'PostController')
+Da forma acima, dará erro pq o slug precisa ser não null. Para contornar isso, segue:
+&gt; Na Model 'Post', informar e popular o método setPropriedadeAttribute($valorPassadoAtributo) (ex setTitleAttribute($value))
+Com isso, automaticamente ao informar o title, ele informará o mesmo como slug, já formatado no formato url, gerados pelo método Str, já informado
+
+&gt; Testar, no formulário Html, a inserção de valores no BD
+
+&gt; (Não recomendável) Pode-se fazer o tratamento de erro de campos e slug de forma mais simples, criando, na Model 'Post', a propriedade fillable
+&gt; (Não recomendável) Caso queira remover os campos timestamp() do BD, precisa-se:
+1- Remover o atributo na Migration
+2- Na Model, inserir atributo 'public timestamps = false;'
+3- Atualizar/Resetar BD com comando 'php artisan migrate:fresh'
+
+<b>AUTOMATIZADO</b>
+&gt; Criar Model, com Migration e Controller:
+php artisan make:model nomeModel -mcr (ex: php artisan make:model Product -mcr)
+Após isso, será necessário somente:
+1- Preencher campos na migration, de acordo com a respectiva table no DB
+2- Informar atributos na Model
+3- Informar as routes 'web.php' e programar os métodos no Controller
+(Atente-se em informar e verificar os 'use' e 'namespace' corretos para os recursos em cada arquivo)
+
+
+<h6><b>Projeto6: Relacionamentos entre Models</b></h6>
+&gt; Criar Models, com Controllers e Migrations:
+php artisan make:model Address -mcr
+php artisan make:model Category -mcr
+php artisan make:model Post -mcr
+php artisan make:controller UserController --resource
+(Popular Migrations com atributos)
+
+&gt; Atualizar/Resetar BD: php artisan migrate:fresh
+
+&gt; Inserir, manualmente, alguns Users no BD.
+INSERT INTO users(name,email,password,created_at,updated_at) VALUES ('mateus','mateus@gmail',123,now(),now()),('mateus2','mateus@hotmail',456,now(),now());
+
+&gt; Add route usuario/{id} para UserController@show em 'web.php' (informar 'use' tbm)
+&gt; Popular método show em UserController (informar 'use' tbm), com $user = User::where('id',$id)-&gt;first(); dd($user);
+&gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/public/usuario/1)
+
+&gt; Inserir, manualmente, alguns Addressess no BD.
+INSERT INTO addresses(user,street,number,city,state,created_at,updated_at) VALUES (1,'rua x',33,'cidade','rs',now(),now());
+
+&gt; Popular Model Address
+(Não serão criadas views com forms, será colocado diretamente via controller(NÃO RECOMENDADO))
+
+
+<b><i>Relacionamentos:</i></b>
+<b>1-1:</b> 1 User possui 1 Address
+<b>1-N:</b> 1 User possui N Posts
+<b>N-N:</b> N Categories possui(em) N Posts
+
+
+<b>RELACIONAMENTO 1-1 (1User possui 1Address)</b>
+<i>Parte-se da table de origem da informação(User, pois User possui Address, Address é dependente de User)</i>
+
+Para saber de qual Address é determinado User (Caminho de ida)
+&gt; Em Model User, criar método de relacionamento 'address', que retornará o relacionamento com as keys relacionáveis
+
+&gt; Em UserController, no método show, adicionar método $address
+&gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/public/usuario/1)
+
+Para saber de qual User é determinado Address (Caminho de volta)
+&gt; Em route 'web.php', inserir route /endereco/{address}
+(Informe 'use' tbm)
+
+&gt; Em AddressController, popular metodo show
+&gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/public/endereco/1)
+
+&gt; Em Model Address, adicionar método user
+&gt; Em AddressController, no método show, adicionar método $user
+&gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/public/endereco/1)
+
+
+<b>RELACIONAMENTO 1-N (1User escreve NPosts)</b>
+<i>Processo similar ao acima, só muda o nome do método de relacionamento de keys</i>
+
+Para saber de quais Posts é determinado User (Caminho de ida)
+&gt; Inserir, manualmente, alguns Posts no BD
+INSERT INTO posts(author,title,slug,content,created_at,updated_at) VALUES (1,'titulo1','titulo1','testeContent',now(),now()),(1,'titulo2','titulo2','testeContent2',now(),now()),(2,'titulo3','titulo3','testeContent3',now(),now());
+
+&gt; Em Model User, criar método de relacionamento 'posts'
+
+&gt; Em UserController, no método show, adicionar método $posts
+&gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/public/usuario/1)
+&gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/public/usuario/2)
+
+Para saber de qual User são determinados Posts (Caminho de volta)
+&gt; Em Model Post, propriedade $table e método de relacionamento 'author'
+
+&gt; Em PostController, no método show, echo de volta, somente a linha
+
+&gt; Em route 'web.php', inserir route /artigo/{post}
+&gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/artigo/1)
+
+&gt; Em PostController, método show, informar $user e listagem
+&gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/artigo/1)
+&gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/artigo/2)
+&gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/artigo/3)
+
+
+<b>RELACIONAMENTO N-N (NPosts possuem NCategories)</b>
+<i>Precisa-se de table pivô para fazer a união dos registros(Ex: table posts_categories).</i>
+
+Criar Migration
+php artisan make:migration create_posts_categories_table --create=posts_categories
+php artisan migrate
+(Popular migration tbm)
+
+&gt; Inserir, manualmente, algumas Categories no BD:
+INSERT INTO categories(title,description,created_at,updated_at) VALUES ('cat1','descCat1',now(),now()),('cat','descCat2',now(),now());
+
+&gt; Inserir, manualmente, relações entre tables Posts e Categories no BD:
+INSERT INTO posts_categories(post,category) VALUES (1,1),(1,2),(2,1),(3,2);
+
+Quais Posts são determinadas Categories(Ida)
+&gt; Em Model Category, informar $table
+&gt; Em Model Post, informar método de relacionamento categories
+
+Em PostController, no método show, informar $categories e listagem
+&gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/artigo/1)
+&gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/artigo/2)
+&gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/artigo/3)
+
+Quais Categories são determinados Posts(Volta)
+&gt; Em route 'web.php', inserir route /categoria/{category}
+(Informar 'use' tbm)
+
+&gt; No CategoryController, no método show, informar Html Categories
+&gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/categoria/1)
+&gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/categoria/2)
+&gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/categoria/3)
+
+&gt; Em Model Category, informar método de relacionamento posts
+&gt; No CategoryController, no método show, informar Html de Posts
+&gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/categoria/1)
+&gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/categoria/2)
+&gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/categoria/3)
+
+
+<h6><b>Projeto7: Laravel login com artisan e hardcode</b></h6>
+<i>LARAVEL8:</i>
+//Criar projeto Projeto7.8 e, dentro do projeto, instalar dependências:
+&gt; Com Laravel Installer(laravel new nomeProjeto --jet) Escolher opção de dependência que melhor convém-lhe
+&gt; php artisan migrate
+&gt; Verificar arquivos e inserir código faltando
+&gt; INSERIR BD MANUALMENTE: INSERT INTO user(name,email,password) VALUES ('mateus','mateus@gmail',123);
+<i>(O Doc Projeto7.8 mostra o projeto de autenticação incializado, utilizado Laravel8)</i>
+
+Com o lançamento do Laravel8, novas maneiras de autenticação foram desenvolvidas. Elas funcionam por meio do Laravel Jetstream e Fortify, juntamente com serviços de autenticação token API Laravel Livewire e Inertia.js, além de pacotes de autenticação como o Passport Sanctum, ambas libraries baseadas em cookies embutidos no Laravel, onde uma delas deverá ser escolhida para criação do projeto. No entanto, como tudo ainda encontra-se muito novo, instável e pouco padronizado, utilizaremos o meio mais utilizado na versão 6, através do Laravel UI, de uma forma simples com Bootstrap, ao invés do Vue. Isso, além do fato de que desenvolveremos toda a estrutura de login para maior entendimento. Por fim, o processo é bastante similar entre as versões, desde que conheça-se a estrutura e funcionamento da mesma.
+
+&gt; Resetar BD: php artisan migrate:fresh
+
+<b>Instalação Clássica Laravel6 Authentication:</b>
+&gt; composer require laravel/ui --dev
+&gt; php artisan ui bootstrap --auth
+&gt; npm install && npm run dev (necessário Node.js instalado!)
+(Serão geradas migrations, route, controllers e views específicas para authentication)
+
+&gt; Testar no Browser se a página possui botões de Login/Register (http://localhost/projetos/laravel/projeto7/public)
+(Entrar na página 'Register' e registrar novo User, senha de pelo menos 8 caracteres, Testar login com os mesmos dados)
+
+<b>Criando Painel de Administração Manualmente:</b>
+&gt; Em routes 'web.php', adicionar route comentada /admin (Descomentar após feitos respectivos Controller e método envolvidos)
+
+&gt; Criar controller AuthController: php artisan make:controller AuthController
+&gt; Criar método dashboard no AuthController
+
+&gt; Criar, em views, diretório admin
+&gt; Em views/admin criar View dashboard
+&gt; Testar no Browser (http://localhost/projetos/laravel/projeto7/public/admin)
+
+&gt; Inserir, dentro do método dashboard do AuthController, condição if da facade Auth
+(Insira os 'use' tbm)
+&gt; Em routes 'web.php', adicionar route /admin/login
+&gt; Em AuthController, inserir método showLoginForm
+&gt; Em views/admin, adicionar view formLogin
+&gt; Em AuthController, informar return redirect
+&gt; Testar no Browser (http://localhost/projetos/laravel/projeto7/public/admin) será redirecionado à /login
+
+<b>Validar iserção dos dados e exibir dashboard:</b>
+&gt; Em routes 'web.php', informar route '/admin/login/do'
+&gt; Em AuthController, informar método login com somente dd()
+&gt; Testar formulário no Browser F5
+
+&gt; Em AuthController, método login, informar $credentials e Auth::attempt()
+&gt; Testar login, conforme BD, no Browser (http://localhost/projetos/laravel/projeto7/public/admin/login) e, após isso voltar para /admin, encontrarei o painel de admin
+
+&gt; Em AuthController, informar no if dd(Auth::user)
+
+<b>Logout:</b>
+&gt; Em routes 'web.php', informar route '/admin/logout'
+&gt; Em AuthController, informar método logout
+&gt; Em view dashboard, informar link com route logouts
+&gt; Testar login, conforme BD, no Browser (http://localhost/projetos/laravel/projeto7/public/admin/login) e, após isso clicar em 'logout'(voltará ao form de login)
+
+<b>Validar Erros:</b>
+&gt; AuthController, informar if Auth::attempt e return redirect back
+&gt; Em view formLogin, informar @if
+&gt; Testar login incorreto no Browser (http://localhost/projetos/laravel/projeto7/public/admin/login)
+
+<b>Validar email:</b>
+&gt; Em view formLogin, trocar a propriedade email para text no input email
+&gt; AuthController, método login, informar if filter_var $request-&gt;email
+&gt; Testar email login incorreto no Browser (http://localhost/projetos/laravel/projeto7/public/admin/login)
+
+
+<h6><b>Projeto8: Laravel Frontend com Blade</b></h6>
+- Diretivas sintáticas específicas do Blade(if, foreach, while...)
+- Caracteres de interpolação(interpolation, misturar Html com Php de forma mais simples)
+- Assets: Ativos do site(js, css...)
+
+&gt; Em routes 'web.php' criar routes /cursos e /contato, inserindo name() nas routes, e alterar view 'welcome' para 'site.home'
+&gt; Em views, criar diretório 'site' e, dentro dele, criar view home
+&gt; Acessar site do Bootstrap &gt; Examples &gt; Carousel, acessar código fonte, copiar todo o &lt;body&gt; até o &lt;/main&gt;, colar o código na view 'home' e fechar o &lt;/body&gt;
+&gt; No Browser, página 'public', recarregar página e testar site
+
+<b>Interpolation (Mesclar Php com Html usando o Blade):</b>
+&gt; Em view 'home', alterar, no footer, o ano para Php {{date('Y')}}
+
+<b>Diretivas (@if, @foreach, @while...):</b>
+&gt; Em view 'home', inserir if de condição bom dia, boa tarde, boa noite (Aprox linha 47) e foreach modelo
+&gt; Em Config/app.php, alterar timezone para 'America/Sao_Paulo' (UTC é o padrão do Laravel, 3 hrs a mais...)
+&gt; No Browser, página 'public', recarregar página e testar site
+Exemplo:
+<i>@foreach()
+    &lt;p&gt;Código aqui&lt;/p&gt;
+@endforeach</i>
+
+<b>Criar página de contato:</b>
+&gt; No navbar, criar links de routes para os itens home, cursos e contato(retirar 'disable' do contato)
+&gt; Criar views, no diretório site, 'contact' e 'courses'
+
+<b>Herança (@extends: Layout Filho herda de Layout Master):</b>
+&gt; No diretório 'site', criar diretório 'master'
+&gt; Em 'master', criar view 'layout'(Layout Master). Recortar todo conteúdo da view 'home' na view 'layout'
+&gt; Em view 'home' informar @extends
+
+&gt; Em view 'layout', informar links de routes nos itens do navbar
+&gt; Em routes 'web.php', alterar routes /cursos e /contato de view 'welcome' para suas respectivas views
+
+&gt; Em view 'layout' recortar conteúdo de &lt;main&gt; até &lt;/main&gt; (Mas manter o footer, tag main deve ser mantida)
+&gt;&gt; Dentro da tag main informar @yield('content')
+&gt; View 'home', informar @section('content'), colar conteúdo recortado de layout abaixo da section, após informar @endsection
+&gt;&gt; Testar, no Browser, página home e verificar se o conteúdo interno fora acoplada à mesma(Páginas courses e contact possuem somente conteúdos extendidos de 'layout')
+
+&gt; View 'contact', informar @section('content') e @endsection e conteúdo interno à ela
+&gt;&gt; Testar, no Browser, página contact e verificar se o conteúdo interno fora acoplada à mesma
+
+&gt; View 'courses', informar @section('content') e @endsection e conteúdo interno à ela
+&gt;&gt; Testar, no Browser, página courses e verificar se o conteúdo interno fora acoplada à mesma
+
+<b>Menu itens ativos/selecionados:</b>
+&gt; View 'layout', em nav-item do navbar, informar condição ternária {{Route...}}
+
+
+<h6><b>Projeto9: Gerenciando Assets com Laravel Mix</b></h6>
+<b>Laravel Mix:</b> Ferramenta do ecossistema Laravel para gestão de webpacks
+
+<b>Codificação diretório site:</b>
+&gt; Diretório 'views', criar novo diretório 'site', criando dentro desse uma view 'home'
+&gt;&gt; Diretório 'site', criar novos diretórios 'css' e 'js'
+&gt;&gt;&gt; Diretório 'css', criar arquivo 'style.css'
+&gt;&gt;&gt; Diretório 'js', criar arquivo 'script.js'
+
+<b>Instalar dependências de acesso à arquivos que não estão no diretório public:</b>
+&gt; npm install (Instalará todas dependências presentes no arquivo package.json) - Necessário Nodejs com NPM instalados
+(Criará diretório 'node_modules', contendo todas dependências js)
+
+<b>Parametrizar arquivos css que serão vinculados ao diretório 'public':</b>
+&gt; Arquivo 'webpack.mix.js', comentar entradas e informar mix styles
+&gt;&gt; npm run dev (Atualizar arquivos com mix, gera arquivo de destino no diretório 'public')
+
+&gt; Em 'views/site/css/style.css', inserir estilos para *
+<i>(Sempre alterar arquivos no 'resources', os de 'public' serão gerados automaticamente à partir destes)</i>
+&gt;&gt; Atualizar arquivos mix: npm run dev (npm run produtcion mimifica tbm)
+
+<b>Inserir novo arquivo de css para parametrizar:</b>
+&gt; Em views/site/css criar novo arquivo 'reset.css', recortar conteúdo do 'style.css' e colar no 'reset.css'
+&gt;&gt; Em views/site/css/style.css, informar estilos de h1
+&gt;&gt; Em 'webpack.mix.js' informar, no caminho de origem, arquivo 'reset.css'
+&gt;&gt; Atualizar arquivos mix: npm run dev (npm run produtcion mimifica tbm)
+(npm run dev resultará em 1 único arquivo no public, com todos código concatenados, em ordem, dos arquivos origem)
+(npm run produtcion fará o mesmo que npm run dev, mas colocará o código, no arquivo destino, em única linha)
+
+<b>Vincular arquivos css com view home:</b>
+&gt; View 'home', informar &lt;link&gt; com asset, que linkará arquivos no diretório 'public'
+&gt; Em routes 'web.php', alterar route '/'
+&gt;&gt; Testar, no Browser, url padrão de entrada (http://localhost/projetos/laravel/projeto9/public)
+
+<b>Otimizar chamada de arquivos origem/destino, para melhor compatibilidade com futuras atualizações de versões css e js:</b>
+&gt; Em 'webpack.mix.js', informar .version() no mix.styles
+&gt;&gt; Atualizar arquivos mix: npm run produtcion (Gerará, em public, arquivo 'mix-manifest.json', com link Hash de versão do css e js)
+&gt;&gt; Linkar Hash na view home: View 'home', alterar link asset por url(mix)
+
+<b>Parametrizar arquivos js que serão vinculados ao diretório 'public':</b>
+&gt; Em 'views/site/js/script.js' popular arquivo com alert
+&gt; Em 'webpack.mix.js', criar mix.scripts e informar caminhos
+&gt;&gt; Atualizar arquivos mix: npm run produtcion
+
+<b>Vincular arquivos js com view site home:</b>
+&gt; View 'site.home', informar &lt;script&gt; com url(mix)
+&gt;&gt; Testar, no Browser, url padrão de entrada (http://localhost/projetos/laravel/projeto9/public)
+
+<b>Automatizar atualização dos arquivos mix:</b>
+npm run watch (Lê arquivos e assite-os. Qualquer modificação nos arquivos, o npm fará a atualização automaticamente)
+
+&gt; Em views/site/css/style.css, alterar tamanho de fonte
+&gt;&gt; Testar, no Browser, url padrão de entrada (http://localhost/projetos/laravel/projeto9/public)
+
+<b>Codificação diretório admin:</b>
+&gt; Em diretório views, criar novo diretório 'admin'
+&gt;&gt; Diretório admin, criar novos diretórios 'css' e 'js'
+&gt;&gt; Diretório admin, criar view 'home'
+&gt;&gt;&gt; Em routes 'web.php', criar route '/admin'
+&gt;&gt;&gt;&gt; Testar, no Browser, url admin de entrada (http://localhost/projetos/laravel/projeto9/public/admin)
+
+<b>Criar css do admin:</b>
+&gt; Em 'views/admin/css' criar arquivo 'style.css'
+&gt; Em 'views/admin/js' criar arquivo 'script.js'
+
+<b>Vincular arquivos com diretório public:</b>
+&gt; Em 'webpack.mix.js', acrescentar novos mix.styles() e mix.scripts()
+&gt;&gt; Matar processo de watch: cntrl+c no terminal
+&gt;&gt; Rodar watch novamente para sincronizar: npm run watch
+
+<b>Vincular css e js com view admin home:</b>
+&gt;&gt; View 'admin.home', informar &lt;link css&gt; e &lt;script&gt; com url(mix)
+&gt;&gt;&gt;&gt; Testar, no Browser, url admin de entrada (http://localhost/projetos/laravel/projeto9/public/admin)
+(Proibirá o acesso - conflito entre routes e diretórios (Caminho da route e diretório com mesmo nome))
+
+<i>(Resolver alterando o caminho da route, ou nome do diretório)</i>
+&gt; Mudar nome do caminho da route '/admin' para '/painel'
+&gt;&gt; Testar, no Browser, nova url admin de entrada (http://localhost/projetos/laravel/projeto9/public/painel)
+
+
+<h6><b>Projeto10: Bootstrap local no Laravel</b></h6>
+&gt; Criar view 'home'
+&gt; Em routes 'web.php', alterar route 'welcome' para 'home'
+
+<b>Instalação das dependências:</b>
+&gt; Instalar, no diretório do projeto, jQuery via terminal usando npm: npm install jquery
+<i>(Diretório node_modules será criado com dependências js)</i>
+
+<b>Vincular jQuery com o public do projeto:</b>
+&gt; Arquivo 'webpack.mix.js', apagar/comentar mix padrão e criar novo mix.scripts
+&gt; Vincular com public: npm run dev
+
+<b>Implementar jquery dentro da view 'home':</b>
+&gt; View 'home', informar &lt;script&gt; com asset
+
+&gt; Instalar Bootstrap no projeto: npm install bootstrap
+<i>(Diretório bootstrap será criado em node_modules)</i>
+&gt; Arquivo 'webpack.mix.js', criar mix.scripts do bootstrap
+&gt; Vincular com public: npm run dev
+
+&gt; Arquivo 'webpack.mix.js', criar mix.sass do bootstrap acima do mix.scripts
+<i>(Poderia-se vincular somente os arquivos .css no dist do Bootstrap para usar o framework comum, mas não poderia-se criar estilos próprios)</i>
+&gt; Vincular com public: npm run dev (2x se necessário para instalação de outras dependências)
+
+<b>Implementar bootstrap dentro da view 'home':</b>
+&gt; View 'home', informar &lt;script&gt; do Bootstrap, e &lt;link css&gt; do Bootstrap(Acima dos &lt;script&gt;) e conteúdo Html de teste
+&gt;&gt; Testar, no Browser, informando url padrão(http://localhost/projetos/laravel/projeto10/public/)
+
+<b>Alterar propriedades do Bootstrap (Personalização):</b>
+&gt; Diretório 'views', criar novo diretório 'scss' e, dentro desse, criar arquivo 'style.scss'
+&gt;&gt; Em 'webpack.mix.js', recortar caminho de origem do mix.sass, e colar dentro de um @import do style.scss
+&gt; Em 'webpack.mix.js', em mix.sass, informar novo caminho de origem com relação ao arquivo style.scss em views. Modificar o nome dor arquivo de saída de bootstrap para style.css
+&gt; Vincular com public: npm run dev
+(Apagar arquivo antigo public/site/bootstrap.css)
+
+<b>Atualizar vinculação com view 'home':</b>
+&gt; Em view 'home', alterar &lt;link css&gt; do bootstrap para novo arquivo(style.css)
+
+<b>Alterar o Theming(Vars de Personalização) do Bootstrap:</b>
+&gt; Adicionar novo padrão de cor(Theme Colors)
+&gt; Em 'resources/views/scss/style.scss', informar Theme Colors informando cores personalizadas
+&gt; Vincular com public: npm run dev
+&gt; Na view 'home', informar button de class danger
+&gt;&gt; Testar, no Browser, informando url padrão(http://localhost/projetos/laravel/projeto10/public/)
+
+
+<h6><b>Projeto11: Uploads automatizados no Laravel</b></h6>
+<i>Pré-Requisitos:</i>
+&gt; Criar Migration CreateProductsTable: php artisan make:migration create_products_table --create=products (Informar dados tbm)
+&gt; Criar Migration CreateProductsImagesTable: php artisan make:migration create_products_images_table --create=products_images (Informar dados tbm)
+&gt;&gt; Resetar BD: php artisan migrate:fresh
+&gt; Criar Models Product e ProductImage
+
+<b>UPLOAD SIMPLES</b>
+&gt; Em 'views', criar diretórios 'upload' e 'products', em 'upload' criar view 'form'
+&gt; 'web.php' criar route 'form'
+&gt;&gt; Testar, no Browser, url (http://localhost/projetos/laravel/projeto11/public/form)
+
+&gt; Cria controller UploadConttroller: php artisan make:controller UploadConttroller
+&gt;&gt; UploadConttroller, criar método upload, em branco(informar 'use' tbm)
+&gt;&gt; 'web.php', criar route 'upload'
+&gt;&gt; View 'form', informar action 'route()'
+&gt;&gt; UploadConttroller, popular método upload com 'dd()'
+&gt;&gt;&gt; Testar, no Browser, uma submissão
+
+&gt; UploadConttroller, método upload, informar $request-&gt;file()-&gt;store(), comentar 'dd()'
+<i>(No Laravel, arquivos são salvos na pasta 'storage', gerenciado pelo arquivo config&gt;filesystems.php, 'default'. A filesystem_driver está configurada, ou não, no arquivo .env. Se não existir, utilizará a 'local', configurada em 'disks', abaixo no mesmo arquivo)</i>
+
+<b>Criar filesystem_driver como public, para ser acessada:</b>
+&gt; Em .env, abaixo de LOG_CHANNEL, informar FILESYSTEM_DRIVER=public
+(Agora, de acordo com filesystems.php, os arquivos upload serão salvos em 'storage/app/public')
+(De acordo com UploadConttroller, método store, ao fazer upload, o arquivos será salvo em 'storage/app/public/pastaTeste')
+&gt;&gt; Testar, no Browser, uma submissão(Verificar se diretório e upload fora feito)
+
+<b>UPLOAD MÚLTIPLO e BD</b>
+&gt; Criar controller ProductController: php artisan make:controller ProductController --resource
+
+&gt; Em views/products criar views create e show
+&gt;&gt; ProductController, popular método create
+
+&gt; 'web.php', criar route resource('produtos')(informar 'use' tbm)
+&gt; Verificar se traduziu names: php artisan route:list
+&gt;&gt; Testar, no Browser, url(http://localhost/projetos/laravel/projeto11/public/produtos/create)
+
+&gt; ProductController, popular método store com 'dd()'
+&gt;&gt; Testar, no Browser, submissão de 2 arquivos
+&gt; ProductController, popular método store parte de Add Product, comentar 'dd()'(Informar 'use' tbm)
+&gt;&gt; Testar, no Browser, submissão de 2 arquivos(Verificar se gravou no BD)
+
+&gt; ProductController, popular método store parte de Add Image(s), com 'var_dump()' no for e no início
+&gt;&gt; Testar, no Browser, submissão de 2 arquivos
+
+&gt; ProductController, popular método store parte de Add Image(s), comentar var_dumps(Informar 'use' tbm)
+&gt;&gt; Testar, no Browser, submissão de 2 arquivos(Verificar se gravou no BD)
+
+&gt; ProductController, popular método show
+&gt;&gt; Testar, no Browser, url(http://localhost/projetos/laravel/projeto11/public/produtos/4)
+
+&gt; Em .env, APP_URL, informar url do projeto(http://localhost/projetos/laravel/projeto11/public)
+&gt; Atualizar Laravel url de storage à Public: php artisan storage:link
+&gt;&gt; Testar, no Browser, url(http://localhost/projetos/laravel/projeto11/public/produtos/4)
+
+
+<h6><b>Projeto12: Ajax no Laravel</b></h6>
+<i>(Baseado no Projeto7, Laravel6 login)</i>
+
+Pré-Requisitos:
+&gt; Resetar BD: php artisan migrate:fresh
+&gt; Inserir user no Register
+
+&gt; Atualizar jQuery, informando link na view 'formLogin', inserir tbm arquivo Ajax(https://github.com/jquery-form/form), informando link CDN
+&gt; No final do código, informar área de código(&lt;script&gt;) com função Ajax, com alert teste
+&gt; Testar no Browser(http://localhost/projetos/laravel/projeto12/public/admin/login)
+&gt; Remover method e action do form, e informar name no &lt;form&gt;
+&gt; Inserir função de submissão, com alert teste2 e testar, no Browser, submissão
+&gt; Inserir vars do form e testar, no Browser, submissões com os alerts
+&gt; Comentar vars, inserir função $.ajax
+
+&gt; Controller AuthController, alterar if de feedback de validação de email
+&gt; Da mesma forma, informar no if Auth::attempt e abaixo, fora, dele
+&gt;&gt; Testar, no Browser, informando email inválido e dados inválidos(Verificar console se json fora informado)
+
+&gt; View formLogin, alterar, na $.ajax, console por resposta
+&gt; Remover blocos @if e @foreach, bloco {{$error}} também. Alterar class da &lt;div&gt;
+&gt; Função $.ajax, abaixo do else para erro, informar messageBox
+&gt;&gt; Testar, no Browser, informando dados inválidos(verificar se mensagem &lt;div&gt; aparecerá)
+&gt;&gt; Testar, no Browser, informando dados corretos(verificar se será redirecionado)
+
+
+<h6><b>Projeto13: Enviando emails no Laravel</b></h6>
+Pré-Requisitos:
+&gt; Arquivo .env, parte de mail, configurar autenticação com servidor(Recomendável servidor de hospedagem/compartilhado premium para que o email não caia em span)
+&gt; Se seu remetente for Gmail, ative a opção de segurança 'Acesso a app menos seguro', nas configurações de sua conta Gmail
+
+&gt; Criar objeto de email: php artisan make:mail newLaravelTips(nomeClasse)(No diretório app, cria-se diretório Mail)
+&gt; Em routes 'web.php', informar route 'envio-email'
+
+Criar views de teste template de email:
+&gt; Em 'views', criar diretório 'mail', com view 'newLaravelTips' e populá-la
+&gt; Em classe newLaravelTips, método build, alterar nome da view de retorno
+&gt;&gt; Testar, no Browser, url (http://localhost/projetos/laravel/projeto13/public/envio-email)
+
+&gt; Classe newLaravelTips, popular método build com parâmetros
+&gt; Views 'web.php' popular view 'envio-email' com objeto std e parâmetros
+&gt; Classe newLaravelTips, informar parâmetro $user no método construct, populá-lo, e atributos acima dele
+
+Disparar email teste:
+&gt; View newLaravelTips, informar vars{{}}
+&gt;&gt; Testar, no Browser, se variáveis foram informadas, url(http://localhost/projetos/laravel/projeto13/public/envio-email)
+&gt; web.php, comentar return new, e informar Facade Mail
+&gt;&gt; Testar, no Browser, se variáveis foram informadas, url(http://localhost/projetos/laravel/projeto13/public/envio-email)
+<i>(Verificar caixa de entrada e span no email destinatário)</i>
+
+Criar template markdown de Email:
+Importar templates markdown personalizáveis de email do Laravel: php artisan vendor:publish --tag=laravel-mail
+<i>(Em resources/views cria-se diretório 'vendor/mail' com temas e configuráveis)</i>
+&gt; web.php, comentar linha de Mail send() e descomentar linha acima, de return
+&gt;&gt; Testar, no Browser, recarregar págnina, se view é mostrada novamente(http://localhost/projetos/laravel/projeto13/public/envio-email)
+
+&gt; Classe newLaravelTips, alterar return this-&gt;view para markdown(Comentei linha antiga e informei nova abaixo)
+&gt;&gt; Testar, no Browser, se layout mudou(http://localhost/projetos/laravel/projeto13/public/envio-email)
+&gt; View newLaravelTips, informar @component e @endcomponent
+&gt;&gt; Testar, no Browser, se layout mudou(http://localhost/projetos/laravel/projeto13/public/envio-email)
+
+Disparar email pronto:
+&gt; web.php, comentar return e descomentar Mail send()
+&gt;&gt; Testar, no Browser, envio do email(http://localhost/projetos/laravel/projeto13/public/envio-email)
+<i>(Verificar na caixa de email/span do email destinatário)</i>
+
+
+<h6><b>Projeto14: Fila e Processamento Assíncrono no Laravel</b></h6>
+<i>(Replica do projeto13)</i>
+
+Ideia é enviar requisições ao BD, para depois executá-las, ao invés de executar tudo no momento
+
+Parametrizar o projeto para trabalhar com fias:
+&gt; web.php, alterar método send() para queue()
+&gt; Em .env, alterar QUEUE_CONNECTION para modo 'database'
+
+Parametrizar BD para queue:
+&gt; Adicionar table específica no BD: php artisan queue:table (Cria migrations específicas: jobs e failed_jobs)
+&gt; Atualizar BD: php artisan migrate:fresh
+&gt;&gt; Testar, no Browser, se carregamento da página ficou mais rápido(http://localhost/projetos/laravel/projeto14/public/envio-email) (Cntrl+c para parar)
+<i>(Execuções de emails salvos na table jobs)</i>
+&gt; Executar fila: php artisan queue:work
+
+Criar agendamentos/programações de tarefas(Jobs):
+&gt; Criar objeto job: php artisan make:job newLaravelTips
+<i>(Em app, cria-se diretório 'jobs', com classes dentro)</i>
+&gt; web.php, alterar método queue por send() novamente, e recortar linha da classe job newLaravelTips, método handle
+&gt; web.php, informar dispatch()
+&gt; Classe job newLaravelTips, popular método construct, criar atributo acima
+&gt; Executar fila: php artisan queue:work
+&gt;&gt; Testar, no Browser, submissão(http://localhost/projetos/laravel/projeto14/public/envio-email)
+<i>(Após delay, no caso 15seg, jobs são processados e, se der falha, tenta, no caso, faz até 3 tentativas no total)</i>
+
+
+<h6><b>Projeto15: Autenticação com Socialite(Google,Facebook) no Laravel</b></h6>
+
+Pacote para autenticação com outros servidores(Google, Facebook...). Os processos tendem a ser iguais, com excessão das nomeoclaturas
+O ideal, além disso, é criar, após isso, uma regra de negócios para salvar a autenticação em BD, para então não depender somente dos dados terceiros e sessões fictícias
+
+Pré-Requisitos:
+&gt; Pesquisar na documentação o Laravel Socialite
+&gt; Facebook for Developers
+&gt; Google Integrating
+&gt; Instalar componente Socialite: composer require laravel/socialite
+
+Configurar Socialite:
+&gt; Diretório config, services.php, inserir trecho de configuração 'facebook'
+&gt; Arquivo .env, informar todas as chaves do trecho de configuração 'facebook', no final do arquivo(Valores serão informados em breve)
+
+<i>FACEBOOK</i>
+Página Facebook Developers:
+&gt; Meus Apps / Criar novo: Pegar id do app gerado e colá-lo no FACEBOOK_CLIENT_ID
+&gt; Configurar, na página, em Facebook Login / Web, infrmar url(http://localhost/projetos/laravel/projeto15/public/), avançar até finalizar as etapas(Nada mais será necessário, somente avançar)
+&gt; Em configurações/basico, copiar chave secreta e colá-la no FACEBOOK_CLIENT_SECRET, informar domínio(localhost) e url's de privacidade e termos de uso(da sua aplicação/github como exemplo), tipo de uso comercial(Apoia minha própria empresa) e salvar alterações
+
+Criar routes:
+&gt; Criar controller SocialiteController: php artisan make:controller SocialiteController
+&gt; Em SocialiteController, informar métodos(Informar 'use' tbm)
+&gt; Em routes 'web.php', informar routes(Informar 'use' tbm)
+&gt;&gt; Testar login, no Browser, informando url(http://localhost/projetos/laravel/projeto15/public/login/facebook), clicar em 'continuar', e um erro 404 de feedback aparecerá
+&gt; Em .env, alterar APP_URL com url informada(http://localhost/projetos/laravel/projeto15/public)
+&gt;&gt; Testar login, no Browser, novamente(http://localhost/projetos/laravel/projeto15/public/login/facebook), cairá em uma página em branco
+
+<i>GOOGLE</i>
+&gt; Diretório config, services.php, inserir trecho de configuração 'google'
+&gt; Arquivo .env, informar todas as chaves do trecho de configuração 'google', no final do arquivo(Valores serão informados em breve)
+&gt; Em SocialiteController, informar métodos Google
+&gt; web.php, informar routes google
+Página Google Developers Console:
+Credenciais / Criar Credenciais / ID do Cliente OAuth / Tipo de Aplicativo(App da web) / Nome(Laravel Socialite) / Origens JS autorizadas(http://localhost) / URLs de Redirecionamento Autorizados(http://localhost/projetos/laravel/projeto15/public/login/google)(http://localhost/projetos/laravel/projeto15/public/login/google/callback) / Create
+&gt; Copiar id e chave, colá-los no .env do Google
+&gt;&gt; Testar login, no Browser, informando url(http://localhost/projetos/laravel/projeto15/public/login/google)
+
+
+<h6><b>Projeto16: Sessões com Helper e Facade no Laravel</b></h6>
+Configurar sessão:
+&gt; Em config/session.php e .env alterar SESSION_DRIVER de 'file' para 'cookie'
+
+&gt; Criar controller SessionController: php artisan make:controller SessionController
+&gt; SessionController, criar método session(Informar 'use' tbm) com somente dd()
+&gt; Em routes 'web.php', criar route session(Informar 'use' tbm)
+&gt;&gt; Testar, no Browser, se route funciona(http://localhost/projetos/laravel/projeto16/public/session)
+
+Gravar dados na sessão:
+&gt; SessionController, método session, popular método e testar, no Browser, mesma url
+&gt;&gt; Testar, no Browser, echos de sessão(http://localhost/projetos/laravel/projeto16/public/session)
+(1ª vez confira flash, comente a Session::flash, depois recarregue a página novamente(ainda à exibirá), depois novamente(sumirá))
+
+
+<h6><b>Projeto17: Autenticação em API Rest com JWT</b></h6>
+<i>(JWT Json Web Token)</i>
+
+A diferença é que as routes serão criadas no arquivo 'api.php'
+Visar reuso das Models, tanto pra aplicação, quanto pra API
+
+Pré-Requisitos:
+&gt; Resetar BD: php artisan migrate:fresh
+&gt;&gt; Inserir 1 user na table Users
+
+Criar exemplo de saída em json:
+&gt; Criar controller Api\UserController: php artisan make:controller Api\UserController --api(Cria métodos de Api)
+&gt; Controller UserController, popular méotodo index(Informar 'use' tbm)
+
+&gt; Em routes 'api.php', comentar primeira route, criar route 'users'(Informar 'use' tbm)
+&gt;&gt; Testar, no Browser, se route funciona e retornar json(http://localhost/projetos/laravel/projeto17/public/api/users)
+
+EndPoint é público, precisa autentacá-lo para protegê-lo(Proteção de routes):
+&gt; Instalar componente JWT-Auth: composer require tymon/jwt-auth 1.0.1
+&gt; Em config/app.php, inserir linha em 'providers'
+&gt; Publicar configurações: php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"
+&gt; Gerar Secret Key: php artisan jwt:secret (Key estará no final do .env)
+&gt; Atualizar Mode User, informando 'implements'(Informar 'use' tbm) e métodos
+&gt; Em config/auth.php, inserir 'defaults' e 'guards'
+&gt; Criar controller AuthController(Populá-lo após criá-lo): php artisan make:controller Api\AuthController
+&gt; Em routes 'api.php', informar route 'login'(Informar 'use' tbm)
+
+&gt; Em routes 'api.php', informar route '/home'
+&gt; Criar view 'home'
+&gt; Criar middleware apiProtectedRoute(pouplá-lo tbm, informar 'use'): php artisan make:middleware apiProtectedRoute
+&gt; Em Controllers/kernel.php, informar apelido do middleware
+&gt; Em routes 'api.php', informar route group, colocar route 'users' dentro dela
+&gt;&gt; Testar, no Browser, se route funciona e retornar json(http://localhost/projetos/laravel/projeto17/public/api/users), informando token bear, que será válido por 1hora(3600seg)
+<i>(Nos casos de Laravel8, será necessário adaptar o código conforme pesquisas...)</i>
+</code></pre></small>
+        </div>
+    </div>
+
+
+</div>
+</body>
+</html>

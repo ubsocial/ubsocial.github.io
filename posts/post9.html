@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Ovo&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../anexos/icons/logoTit.png">
+    <link rel="stylesheet" href="../estilo.css">
+    <title>UB Social</title>
+</head>
+<body id="fundo">
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12" id="menu">
+            <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a id="serifada" class="navbar-brand" href="../index.html"><img src="../anexos/icons/logo.png" id="logo"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../contato.html">Contato</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12" id="titulo1">
+            <h1 id="serifada">Php e Gráficos Google Charts</h1>
+            <h6><strong>Gráficos dinâmicos com Php e Google Charts</strong></h6>
+        </div>
+
+        <div class="col-sm-12">
+            <h4>Regra de negócios</h4>
+            <p id="textoPost">O exemplo a seguir listará a distribuição de carteiras de ações que um cliente investidor possui em seu perfil, de acordo com objetivo percentual definido respectivamente às mesmas. De acordo com a base de dados, cada carteira de ações possui ações vinculadas, e essas possuem quantidades de saldo, e um valor de cotação atual. O gráfico a seguir mostrará a distribuição do patrimônio atual que o cliente investidor possui, com relação à cada carteira de ações de seu perfil. Confira toda a Regra de Negócios e funcionamento no Github do projeto.</p>
+            <a href="https://developers.google.com/chart" class="btn btn-link" id="btnLink" target="_blank">Google Charts</a>
+            <a href="https://github.com/mateusschwede/Desenvolvimento" class="btn btn-link" id="btnLink" target="_blank">Github do Projeto</a>
+            
+            <br><br><h4>Código Php</h4>
+<small><pre><code>
+<b>1- Importar, no &lt;head&gt;, API Google Charts:</b>
+&lt;script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"&gt;&lt;/script&gt;
+
+<b>2- Desenvolver &lt;script&gt; do gráfico:</b>
+&lt;script type="text/javascript"&gt;
+    google.charts.load("current", {packages: ["corechart"]} );
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        let data = google.visualization.arrayToDataTable([
+            ['Objetivo', 'Part. Atual'],
+            &lt;?php
+                //Consulta e cálculos na base de dados
+                $r = $db-&gt;prepare("SELECT * FROM carteira WHERE cpfCliente=?");
+                $r-&gt;execute(array($_SESSION['cpf']));
+                $linhas = $r-&gt;fetchAll(PDO::FETCH_ASSOC);
+                foreach ($linhas as $l) {
+                    $patrAtualizado = 0;
+                    $r = $db-&gt;prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
+                    $r-&gt;execute(array($l['id']));
+                    $linhas2 = $r-&gt;fetchAll(PDO::FETCH_ASSOC);
+                    foreach ($linhas2 as $l2) {
+                        $r = $db-&gt;prepare("SELECT * FROM acao WHERE ativo=?");
+                        $r-&gt;execute(array($l2['ativoAcao']));
+                        $linhas3 = $r-&gt;fetchAll(PDO::FETCH_ASSOC);
+                        foreach ($linhas3 as $l3) {
+                            $valorAcao = $l3['cotacaoAtual'] * $l2['qtdAcao'];
+                            $patrAtualizado += $valorAcao;
+                        }
+                    }
+                    if ($totalCarteiras == 0) {$partAtual = 0;}
+                    else {$partAtual = ($patrAtualizado * 100) / $totalCarteiras;}
+
+                    //Linha do gráfico
+                    echo "['" . $l['objetivo'] . "', " . $partAtual . "],";
+                }
+            ?&gt;
+        ]);
+        let options = {title: 'Participação Atual em Carteiras', pieHole: 0.4};
+        let chart = new google.visualization.PieChart(document.getElementById('graficoDonutUBSocial'));
+        chart.draw(data, options);
+    }
+&lt;/script&gt;
+
+<b>3- Mostrar gráfico:</b>
+&lt;div id="graficoDonutUBSocial" style="width: 700px; height: 500px; margin: auto;"&gt;&lt;/div&gt;
+</code></pre></small>
+
+            <br><h4>Exemplo visual</h4>
+            <a href="https://github.com/mateusschwede/mateusschwede.github.io/blob/master/posts/post9.html" class="btn btn-link" id="btnLink" target="_blank">Código do gráfico abaixo</a>
+            <!--Código do gráfico 'Avaliação UB Social' abaixo-->
+            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+            <script type="text/javascript">
+                google.charts.load("current", {packages:["corechart"]});
+                google.charts.setOnLoadCallback(drawChart);
+                function drawChart() {
+                    var data = google.visualization.arrayToDataTable([
+                        ['Descrição', 'Nota'],
+                        ['Bom', 7],
+                        ['Médio', 2],
+                        ['Ruim', 1]
+                    ]);
+                    var options = {title: 'Avaliação UB Social', pieHole: 0.4};
+                    var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+                    chart.draw(data, options);
+                }
+            </script>
+            <div id="donutchart" style="width: 600px; height: 400px;"></div>
+
+        </div>
+    </div>
+
+
+</div>
+</body>
+</html>

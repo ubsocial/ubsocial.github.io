@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Ovo&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../anexos/icons/logoTit.png">
+    <link rel="stylesheet" href="../estilo.css">
+    <title>UB Social</title>
+</head>
+<body id="fundo">
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12" id="menu">
+            <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a id="serifada" class="navbar-brand" href="../index.html"><img src="../anexos/icons/logo.png" id="logo"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../contato.html">Contato</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12" id="titulo1">
+            <h1 id="serifada">Login Php MySQL</h1>
+            <h6><strong>Estrutura completa de login/logout</strong></h6>
+        </div>
+
+        <div class="col-sm-12">
+            <p id="textoPost">No código abaixo, execute 1º o <i>banco.sql</i> em sua base de dados, verificando se os parâmetros de conexão coincidem com seu projeto. Caso desejar estrutura de login mais complexa, com validações de cpf, clientes inativados e tipos de clientes, confira abaixo. Para logar neste exemplo, use as credenciais nome <b>fulano</b> e senha <b>123</b>.</p>
+            <a href="https://github.com/mateusschwede/InvistAi" class="btn btn-link" id="btnLink" target="_blank">Login avançado</a>
+
+            <br><br><h4>banco.sql</h4>
+<small><pre><code>
+CREATE DATABASE loginphp;
+USE loginphp;
+CREATE TABLE cliente (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(50) NOT NULL,
+    senha VARCHAR(100) NOT NULL
+);
+INSERT INTO cliente(nome,senha) VALUES ("fulano",MD5(123));
+</code></pre></small>
+
+            <br><h4>conexao.php</h4>
+<small><pre><code>
+&lt;?php
+    try {
+        $db = new PDO('mysql:host=localhost;dbname=loginphp;charset=utf8','root','');
+        $db-&gt;setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    } catch (PDOException $exception) {header("location: offline.php");}
+?&gt;
+</code></pre></small>
+
+            <br><h4>offline.php</h4>
+<small><pre><code>
+&lt;h1&gt;Erro ao conectar-se com a base de dados&lt;/h1&gt;
+&lt;p&gt;Verifique sua conexão com o banco de dados e tente novamente&lt;/p&gt;
+&lt;a href="index.php"&gt;Recarregar&lt;/a&gt;
+</code></pre></small>
+
+            <br><h4>index.php</h4>
+<small><pre><code>
+&lt;?php
+    require_once 'conexao.php';
+
+    if((!empty($_POST['nome'])) and (!empty($_POST['senha']))) {
+        $r = $db-&gt;prepare("SELECT nome,senha FROM cliente WHERE nome=? AND senha=?");
+        $r-&gt;execute(array($_POST['nome'],md5($_POST['senha'])));
+
+        if($r-&gt;rowCount()==0) {echo "Dado(s) incorreto(s)!";}
+        else {
+            session_start();
+            $linhas = $r-&gt;fetchAll(PDO::FETCH_ASSOC);
+            foreach($linhas as $l) {
+                $_SESSION['nome'] = addslashes($l['nome']);
+                $_SESSION['senha'] = addslashes($_POST['senha']); //Remover para melhor segurança
+                $_SESSION['senhamd5'] = addslashes($l['senha']);
+                $_SESSION['logado'] = true;
+                header("location: logado.php");
+            }
+        }
+    }
+?&gt;
+&lt;h1&gt;Login&lt;/h1&gt;
+&lt;form action="index.php" method="post"&gt;
+    &lt;input type="text" maxlength="50" name="nome" required placeholder="nome" style="text-transform: lowercase;"&gt;
+    &lt;input type="password" name="senha" maxlength="6" required placeholder="senha"&gt;
+    &lt;input type="submit" value="Entrar"&gt;
+&lt;/form&gt;
+</code></pre></small>
+
+            <br><h4>acessoNegado.php</h4>
+<small><pre><code>
+&lt;?php
+    session_start();
+    session_unset();
+    session_destroy();
+?&gt;
+&lt;h1&gt;Acesso negado!&lt;/h1&gt;
+&lt;p&gt;Faça login para ter acesso&lt;/p&gt;
+&lt;a href="index.php"&gt;Login&lt;/a&gt;
+</code></pre></small>
+
+            <br><h4>logado.php</h4>
+<small><pre><code>
+&lt;?php
+    require_once 'conexao.php';
+    session_start();
+    if((!isset($_SESSION['logado'])) and (!isset($_SESSION['nome'])) and (!isset($_SESSION['senha'])) and (!isset($_SESSION['senhamd5']))) {header('Location: acessoNegado.php');}
+?&gt;
+&lt;h1&gt;&lt;?=$_SESSION['nome']?&gt;, você logou!&lt;/h1&gt;
+&lt;p&gt;Sua senha é &lt;?=$_SESSION['senha']?&gt;&lt;/p&gt;
+&lt;p&gt;Sua senha é, em MD5, &lt;?=$_SESSION['senhamd5']?&gt;&lt;/p&gt;
+&lt;a href="logout.php"&gt;Logout&lt;/a&gt;
+</code></pre></small>
+
+            <br><h4>logout.php</h4>
+<small><pre><code>
+&lt;?php
+    session_start();
+    unset($_SESSION['nome']);
+    unset($_SESSION['senha']);
+    unset($_SESSION['senhamd5']);
+    unset($_SESSION['logado']);
+    session_unset();
+    session_destroy();
+    header("location: index.php");
+?&gt;
+</code></pre></small>
+        </div>
+    </div>
+
+
+</div>
+</body>
+</html>

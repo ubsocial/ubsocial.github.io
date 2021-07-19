@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Ovo&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="../../anexos/icons/logoCircle64.png"/>
+    <link rel="stylesheet" href="../estilo2.css">
+    <title>Mateus Notes</title>
+</head>
+<body id="fundo">
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12" id="menu">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a id="serifada" class="navbar-brand" href="../../../artigos/seguranca/index2.html">UB Social - Voltar</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12" id="titulo1">
+            <h1>Introdução à Pentest, Footprinting e Information Gathering</h1>
+            <h6><strong>Whois, RegistroBr, Host, Dnsenum, Dnsbrute.py, Wafw00f e Robots.txt</strong></h6>
+        </div>
+
+        <div class="col-sm-12">
+            <h4>Pentest</h4>
+            <p id="textoPost">Teste, realizado por profissional contratado, fará em empresa, rede ou sistema, a fim de obter a efetividade de segurança de tal.<br>As ferramentas abaixo devem ser testadas no site fictício, preparado para fins didáticos, no link <a href="http://www.bancocn.com" target="_blank">bancocn.com</a></p>
+            <ul>
+                <li><b>Black Hat:</b> Hacker com más intenções;</li>
+                <li><b>White Hat:</b> Ethical Hacker profissional. Isso a fim de proteger o sistema, rede e empresa de Black Hat. Geralmente possui maiores habilidades quando comparado ao Black Hat, possui precisa-se de maiores conhecimentos para defender um sistema, para prever possíveis ataques, do que simplesmente para atacar. Nesse meio, o Pentester é o profissional contratado para testar sistemas, encontrar vulnerabilidades e reportá-las.</li>
+            </ul>
+            <br>
+            <h4>Fases do Pentest</h4>
+            <ol>
+                <li>Definição do escopo e coleta de informações (information gathering);</li>
+                <li>Análise de vulnerabilidades;</li>
+                <li>Exploração (Invasão);</li>
+                <li>Pós exploração (Aquisição de dados);</li>
+                <li>Relatório.</li>
+            </ol>
+            <br>
+            <h4>Tipos de Pentest</h4>
+            <ol>
+                <li><b>White Box:</b> Quando o Pentester possui informações/dados sobre seu alvo;</li>
+                <li><b>Black Box:</b> Quando o Pentester não possui nenhuma informação/dado sobre seu alvo;</li>
+                <li><b>Grey Box:</b> Quando o Pentester possui algumas informações/dados sobre seu alvo.</li>
+            </ol>
+            <br>
+            <h4>Information Gathering</h4>
+            <p id="textoPost">Coletar todas as informações que pareçam-lhe úteis(emails, telefones, nomes, links, inspecionar código fonte...). Lógica da técnica é, através do whois, descobrir alguns ip’s relacionados e, com isso, fazer o host nos endereços de email e relacionados. Então encontrará ip's, que pode ser feito whois e descobrir mais informações. Na maioria das vezes, encontrar ip’s verdadeiros pelo domínio pode esbarrar em firewalls(Cloudflare, Akamai...). Desta forma, pode-se pesquisar por subdomínios (admin.bancocn.com, painel.bancocn.com ...)</p>
+            <br>
+            <h4>Whois e RegistroBr</h4>
+<small><pre id="codigo"><code>
+Url who.is, ou no  terminal Kali Linux: “whois url”
+</code></pre></small>
+            <p id="textoPost">Site mundial para visualização proprietária do site(registro de url). Exibirão dados cadastrais, Name Servers (servidores que apontam para o ip do servidor do site - geralmente pode ser um firewall, que protege o verdadeiro ip deste servidor). O <b>RegistroBr</b>, registrobr.com, é o Whois dos sites brasileiros. Para pesquisas no RegistroBr pode-se informar a url do site, ip ou o cnpj do proprietário. Cada país tem o seu Whois.</p>
+            <img src="../anexos1/posta1/whois.png" class="img-fluid">
+            <br><br>
+            <h4>Host</h4>
+<small><pre id="codigo"><code>
+"host url"
+</code></pre></small>
+            <p id="textoPost">Comando para localizar ip’s de determinada url.</p>
+            <img src="../anexos1/posta1/host.png" class="img-fluid">
+            <br><br>
+            <h4>Dnsenum</h4>
+<small><pre id="codigo"><code>
+dnsenum url
+dnsenum -f listaSubdominios.txt url (com brute force)
+dnsenum -f listaSubdominios.txt url > relatorio.txt (guarda em arquivo)
+</code></pre></small>
+            <p id="textoPost">Comando para enumeração de DNS (Domain Name Server - Pega o nome do domínio e redireciona a determinado ip). Sugere-se pesquisa com subdomínios também.</p>
+            <img src="../anexos1/posta1/dnsenum.png" class="img-fluid">
+            <br><br>
+            <h4>Dnsbrute.py</h4>
+            <p id="textoPost">Software Python que enumera DNS através de uma lista de subdomínios informados num txt. Download no link <a href="https://github.com/guilhermej/dnsbrute" target="_blank">dnsbrute.py</a>. 1º crie um txt com lista de subdomínios que deseja pesquisar. Depois execute no terminal(no diretório da ferramenta) "python dnsbrute.py url pasta/documento.txt".</p>
+<small><pre id="codigo"><code>
+Criei um documento ‘lista.txt’, na pasta desktop, onde informei os seguintes subdomínios:
+www
+admin
+administrador
+painel
+webmail
+mail
+Executo o dnsbrute.py, na pasta downloads: python dnsbrute.py bancocn.com ../Desktop/lista.txt
+Mostrarão os subdomínio encontrados, juntamente com seus ip’s
+</code></pre></small><br>
+            <h4>Wafw00f <small>(Ids/Ips Identificator)</small></h4>
+<small><pre id="codigo"><code>
+"wafw00f url"
+</code></pre></small>
+            <p id="textoPost">Identifica o nome do firewall por detrás da url informada.</p>
+            <br>
+            <h4>Robots.txt</h4>
+<small><pre id="codigo"><code>
+No browser: "url/robots.txt"
+</code></pre></small>
+            <p id="textoPost">Guarda conteúdo que não deve ser inspecionado pelos robots do Google (disallow).</p>
+            <img src="../anexos1/posta1/wafw00f.png" class="img-fluid">
+        </div>
+    </div>
+
+
+</div>
+</body>
+</html>

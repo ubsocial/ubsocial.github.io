@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Ovo&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../anexos/icons/logoTit.png">
+    <link rel="stylesheet" href="../estilo.css">
+    <title>UB Social</title>
+</head>
+<body id="fundo">
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12" id="menu">
+            <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a id="serifada" class="navbar-brand" href="../index.html"><img src="../anexos/icons/logo.png" id="logo"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../contato.html">Contato</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12" id="titulo1">
+            <h1 id="serifada">Crud Php MySQL PDO</h1>
+            <h6><strong>Crud simples com Php PDO e MySQL</strong></h6>
+        </div>
+
+        <div class="col-sm-12">
+            <h4>Pré-requisitos</h4>
+            <p id="textoPost">Xampp instalado e executando, criar um diretório no <i>htdocs</i> para inserir os arquivos abaixo. 1º executar o arquivo .sql no <i>Phpmyadmin</i>.</p>            
+            <h4>banco.sql</h4>
+<small><pre><code>
+CREATE DATABASE agenda;
+CREATE TABLE pessoa (
+    id INTEGER AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(50) NOT NULL
+);
+</code></pre></small><br>
+            <h4>add.php</h4>
+<small><pre><code>
+&lt;?php
+$db = new PDO('mysql:host=localhost;dbname=agenda;charset=utf8','root','');
+$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+if(!empty($_POST['nome'])) {
+    $r = $db->prepare("INSERT INTO pessoa(nome) VALUES (?)");
+    $r->execute(array($_POST['nome']));
+}
+header("location: index.php");
+</code></pre></small><br>
+            <h4>ed.php</h4>
+<small><pre><code>
+&lt;?php
+$db = new PDO('mysql:host=localhost;dbname=agenda;charset=utf8','root','');
+$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+if(!empty($_GET['id'])) {
+    $r = $db->prepare("SELECT * FROM pessoa WHERE id=?");
+    $r->execute(array($_GET['id']));
+    $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($linhas as $l) {$nome = $l['nome'];}
+}
+
+if ((!empty($_GET['idVelho'])) and (!empty($_POST['nome']))) {
+    $r = $db->prepare("UPDATE pessoa SET nome=? WHERE id=?");
+    $r->execute(array($_POST['nome'],$_GET['idVelho']));
+    header("location: index.php");
+}
+?&gt;
+&lt;form action="ed.php?idVelho=&lt;?=$_GET['id']?&gt;" method="post"&gt;
+    &lt;input type="text" name="nome" value="&lt;?=$nome?&gt;"&gt;
+    &lt;input type="submit" value="Atualizar"&gt;
+&lt;/form&gt;
+</code></pre></small><br>
+            <h4>rem.php</h4>
+<small><pre><code>
+&lt;?php
+$db = new PDO('mysql:host=localhost;dbname=agenda;charset=utf8','root','');
+$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+$r = $db->prepare("DELETE FROM pessoa WHERE id=?");
+$r->execute(array($_GET['id']));
+header("location: index.php");
+</code></pre></small><br>
+            <h4>index.php</h4>
+<small><pre><code>
+&lt;?php
+$db = new PDO('mysql:host=localhost;dbname=agenda;charset=utf8','root','');
+$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+$r = $db->query("SELECT * FROM pessoa");
+$linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+foreach($linhas as $l) {
+    echo "&lt;a href='ed.php?id=".$l['id']."'&gt;".$l['nome']."&lt;/a&gt; - &lt;a href='rem.php?id=".$l['id']."'&gt;Excluir&lt;/a&gt;&lt;br&gt;";
+}
+?&gt;
+&lt;form action="add.php" method="pos//Listagem com link pra edição e exclusãot"&gt;
+    &lt;input type="text" name="nome" placeholder="Nome"&gt;
+    &lt;input type="submit" value="Adicionar"&gt;
+&lt;/form&gt;
+</code></pre></small>
+        </div>
+    </div>
+
+
+</div>
+</body>
+</html>

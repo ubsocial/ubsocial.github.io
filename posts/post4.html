@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Ovo&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../anexos/icons/logoTit.png">
+    <link rel="stylesheet" href="../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12" id="menu">
+            <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a id="serifada" class="navbar-brand" href="../index.html"><img src="../anexos/icons/logo.png" id="logo"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../contato.html">Contato</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12" id="titulo1">
+            <h1 id="serifada">Carrinho de compras Php Mysql</h1>
+            <h6><strong>Código de carrinho de compras Php e Mysql</strong></h6>
+        </div>
+
+        <div class="col-sm-12">
+            <h4>Pré-requisitos</h4>
+            <p id="textoPost">Xampp executando, criar diretório no <i>htdocs</i> para armazenar os arquivos. 1º execute o .sql no <i>Phpmyadmin</i>, após isso, utilize os códigos informados abaixo.</p>
+            <small class="text-muted">Neste caso, simplifiquei os códigos sql e alguns casos php, com o objetivo de trazer um código mais limpo e focado. Entretanto, SEMPRE utilize das boas práticas de programação: Nos casos sql, utilize chaves primárias e estrangeiras, assim como a limitação dos tipos primitivos. A relação entre os dados e a organização do código são pontos fundamentais para a integridade do sistema!</small>
+            <br><br>
+            <h4>banco.sql</h4>
+<small><pre><code>
+CREATE DATABASE carrinho;
+CREATE TABLE item (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome TEXT NOT NULL,
+    preco FLOAT NOT NULL
+);
+CREATE TABLE pedido (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    dia DATETIME NOT NULL DEFAULT NOW(),
+    cpf TEXT,
+    endereco TEXT,
+    precoTotal FLOAT,
+    finalizado BOOLEAN NOT NULL DEFAULT 0
+);
+CREATE TABLE item_pedido (
+    idPedido INT,
+    idItem INT,
+    qtd INT NOT NULL
+);
+INSERT INTO item(nome,preco) VALUES ("item1",29.90),("item2",90),("item3",10.65);
+</code></pre></small><br>
+            <h4>conect.php</h4>
+<small><pre><code>
+&lt;?php
+$db = new PDO('mysql:host=localhost;dbname=carrinho;charset=utf8','root','');
+$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+</code></pre></small><br>
+            <h4>itensPedido.php</h4>
+<small><pre><code>
+&lt;a href="addItem.php"&gt;Adicionar item&lt;/a&gt;
+&lt;?php
+    require_once 'conect.php';
+    session_start();
+    $totPedido = 0;
+
+    // Itens do pedido
+    $r = $db->prepare("SELECT * FROM item_pedido WHERE idPedido=?");
+    $r->execute(array($_SESSION['id']));
+    $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+    foreach($linhas as $l) {
+        $r2 = $db->prepare("SELECT * FROM item WHERE id=?");
+        $r2->execute(array($l['idItem']));
+        $linhas2 = $r2->fetchAll(PDO::FETCH_ASSOC);
+        foreach($linhas2 as $l2) {
+            $totItem = $l['qtd']*$l2['preco'];
+            $totPedido += $totItem;
+            echo "
+                &lt;br&gt;
+                ".$l2['nome']."- ".$l['qtd']."(R$ ".$l2['preco']."un) - R$ ".$totItem."
+                &lt;a href='edItem.php?item=".$l['idItem']."'&gt;Editar&lt;a&gt;
+                &lt;a href='remItem.php?item=".$l['idItem']."'&gt;Excluir&lt;a&gt;
+            ";
+        }
+        $_SESSION['totPedido'] = $totPedido;
+    }
+
+    // Dados do pedido
+    $r = $db->prepare("SELECT * FROM pedido WHERE id=?");
+    $r->execute(array($_SESSION['id']));
+    $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+    foreach($linhas as $l) {
+        echo "&lt;br&gt;&lt;hr&gt;Pedido ".$l['id']."&lt;br&gt;Data: ".$l['dia']."&lt;br&gt;Cpf: ".$l['cpf']."&lt;br&gt;Total: R$ ".$totPedido."&lt;br&gt;Endereço: ".$l['endereco'];
+    }
+?&gt;
+
+&lt;form action="canPedido.php" method="post"&gt;
+    &lt;input type="hidden" name="can" value="1"&gt;
+    &lt;input type="submit" value="Cancelar Pedido"&gt;
+&lt;/form&gt;
+&lt;form action="fimPedido.php" method="post"&gt;
+    &lt;input type="hidden" name="fim" value="1"&gt;
+    &lt;input type="submit" value="Confirmar Pedido"&gt;
+&lt;/form&gt;
+</code></pre></small><br>
+            <h4>addItem.php</h4>
+<small><pre><code>
+&lt;?php
+    require_once 'conect.php';
+    session_start();
+
+    if((!empty($_POST['item'])) and (!empty($_POST['qtd']))) {
+        $r = $db->prepare("INSERT INTO item_pedido(idItem,idPedido,qtd) VALUES (?,?,?)");
+        $r->execute(array($_POST['item'],$_SESSION['id'],$_POST['qtd']));
+        header("location: itensPedido.php");
+    }
+?&gt;
+
+&lt;form action="addItem.php" method="post"&gt;
+    Adicionar item:
+    &lt;select required name="item"&gt;
+        &lt;?php
+            $r = $db->query("SELECT * FROM item");
+            $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+            foreach($linhas as $l) {
+                $r = $db->prepare("SELECT * FROM item_pedido WHERE idItem=? AND idPedido=?");
+                $r->execute(array($l['id'],$_SESSION['id']));
+                if($r->rowCount()==0) {echo "&lt;option value=".$l['id']."&gt;".$l['nome']."&lt;/option&gt;";}
+            }
+        ?&gt;
+    &lt;/select&gt;
+    &lt;input type="number" required name="qtd" min=1 max=99 placeholder="Qtd"&gt;
+    &lt;a href="itensPedido.php"&gt;Cancelar&lt;/a&gt;
+    &lt;input type="submit" value="Adicionar"&gt;
+&lt;/form&gt;
+</code></pre></small><br>
+            <h4>remItem.php</h4>
+<small><pre><code>
+&lt;?php
+require_once 'conect.php';
+session_start();
+$r = $db->prepare("DELETE FROM item_pedido WHERE idItem=? AND idPedido=?");
+$r->execute(array($_GET['item'],$_SESSION['id']));
+header("location: itensPedido.php");
+</code></pre></small><br>
+            <h4>edItem.php</h4>
+<small><pre><code>
+&lt;?php
+    require_once 'conect.php';
+    session_start();
+
+    if(!empty($_GET['item'])) {
+        $r = $db->prepare("SELECT qtd FROM item_pedido WHERE idItem=? AND idPedido=?");
+        $r->execute(array($_GET['item'],$_SESSION['id']));
+        $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+        foreach($linhas as $l) {$qtd = $l['qtd'];}
+    }
+
+    if((!empty($_GET['idNovo'])) and (!empty($_POST['qtd']))) {
+        $r = $db->prepare("UPDATE item_pedido SET qtd=? WHERE idItem=? AND idPedido=?");
+        $r->execute(array($_POST['qtd'],$_GET['idNovo'],$_SESSION['id']));
+        header("location: itensPedido.php");
+    }
+
+    $r = $db->prepare("SELECT nome FROM item WHERE id=?");
+    $r->execute(array($_GET['item']));
+    $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+    foreach($linhas as $l) {echo "Editar ".$l['nome'];}
+?&gt;
+
+&lt;form action="edItem.php?idNovo=&lt;?=$_GET['item']?&gt;" method="post"&gt;
+    &lt;input type="number" name="qtd" placeholder="Qtd" required min=1 max=99 value="&gt;?=$qtd?&gt;"&gt;
+    &lt;a href="itensPedido.php"&gt;Cancelar&lt;/a&gt;
+    &lt;input type="submit" value="Atualizar"&gt;
+&lt;/form&gt;
+</code></pre></small><br>
+            <h4>canPedido.php</h4>
+<small><pre><code>
+&lt;?php
+require_once 'conect.php';
+session_start();
+
+$r = $db->prepare("DELETE FROM item_pedido WHERE idPedido=?");
+$r->execute(array($_SESSION['id']));
+$r = $db->prepare("DELETE FROM pedido WHERE id=?");
+$r->execute(array($_SESSION['id']));
+unset($_SESSION['id']);
+unset($_SESSION['totPedido']);
+header("location: index.php");
+</code></pre></small><br>
+            <h4>fimPedido.php</h4>
+<small><pre><code>
+&lt;?php
+require_once 'conect.php';
+session_start();
+
+$r = $db->prepare("SELECT count(idItem) FROM item_pedido WHERE idPedido=?");
+$r->execute(array($_SESSION['id']));
+$linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+foreach($linhas as $l) {
+    if($l['count(idItem)']>0) {
+        // Pedido com itens adicionados finaliza
+        $r = $db->prepare("UPDATE pedido SET dia=now(),precoTotal=?,finalizado=1 WHERE id=?");
+        $r->execute(array($_SESSION['totPedido'],$_SESSION['id']));
+        unset($_SESSION['id']);
+        unset($_SESSION['totPedido']);
+        header("location: index.php");
+    } else {header("location: itensPedido.php");}
+}
+</code></pre></small><br>
+            <h4>index.php</h4>
+<small><pre><code>
+&lt;?php
+    require_once 'conect.php';
+    session_start();
+
+    if((!empty($_POST['cpf'])) and (!empty($_POST['endereco']))) {
+        $r = $db->prepare("INSERT INTO pedido(cpf,endereco) VALUES (?,?)");
+        $r->execute(array($_POST['cpf'],$_POST['endereco']));
+
+        $r = $db->query("SELECT id,cpf FROM pedido WHERE finalizado IS FALSE");
+        $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+        foreach($linhas as $l) {
+            $_SESSION['id'] = $l['id'];
+            $_SESSION['cpf'] = $l['cpfCliente'];
+        }
+        header("location: itensPedido.php");
+    }
+?&gt;
+
+&lt;form action="index.php" method="post"&gt;
+    Novo pedido
+    &lt;input type="text" name="cpf" placeholder="Cpf(xxx.xxx.xxx-xx)" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"&gt;
+    &lt;input type="text" name="endereco" placeholder="Endereço"&gt;
+    &lt;input type="submit" value="Avançar"&gt;
+&lt;/form&gt;
+
+&lt;h1&gt;Pedidos&lt;/h1&gt;
+&lt;?php
+    $r = $db->query("SELECT * FROM pedido");
+    $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+    foreach($linhas as $l) {
+        echo "&lt;br&gt;--- Pedido ".$l['id']." (".$l['dia'].") ---&lt;br&gt;";
+        echo "Cpf: ".$l['cpf']." Endereço: ".$l['endereco']." Total: R$ ".$l['precoTotal']."&lt;br&gt;";
+        $r = $db->prepare("SELECT * FROM item_pedido WHERE idPedido=?");
+        $r->execute(array($l['id']));
+        $linhas2 = $r->fetchAll(PDO::FETCH_ASSOC);
+        foreach($linhas2 as $l2) {
+            $r = $db->prepare("SELECT * FROM item WHERE id=?");
+            $r->execute(array($l2['idItem']));
+            $linhas3 = $r->fetchAll(PDO::FETCH_ASSOC);
+            foreach($linhas3 as $l3) {
+                echo "Item ".$l3['nome']."- ".$l2['qtd']."(R$ ".$l3['preco'].") - R$ ".($l3['preco']*$l2['qtd'])."&lt;br&gt;";
+            }
+        }
+    }
+?>
+</code></pre></small>
+        </div>
+    </div>
+
+
+</div>
+</body>
+</html>

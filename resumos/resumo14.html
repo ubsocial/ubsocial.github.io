@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Ovo&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../anexos/icons/logoTit.png">
+    <link rel="stylesheet" href="../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12" id="menu">
+            <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a id="serifada" class="navbar-brand" href="../index.html"><img src="../anexos/icons/logo.png" id="logo"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../contato.html">Contato</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12" id="titulo1">
+            <h1 id="serifada">Docker</h1>
+            <h6><strong>Gerenciando Containers</strong></h6>
+        </div>
+
+        <div class="col-sm-12">
+            <p id="textoPost">Software que fornece Containers virtuais de aplicações. Realiza o empacotamento de dependências, como bibliotecas e configurações, para dentro de um container unificado, independente da quantidade de aplicações que o mesmo possuirá, tudo definido pelo usuário. Ao instalar o Container em outra máquina, basta executá-lo, que todas as aplicações e dependências presentes no mesmo funcionarão completamente, fazendo com que o usuário não necessite de pré-configurações ou instalações, prevenindo assim possíveis erros de dependências, ambiente e versões. Isso, independentemente do SO da máquina e dependências da mesma, já que o Container é autônomo com relação a isso, pois trabalha de forma isolada. Inclusive, cada Container também é independente de demais Containers.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <br><h4>Instalação (Linux .deb)</h4>
+            <a class="btn btn-link" id="btnLink" href="https://docs.docker.com/engine/install" target="_blank">Guia Site Oficial</a>
+            <ol>
+                <li><b>Pré-requisitos:</b> Linux x64, com Kernel acima de 3.8 (<i>uname -r</i>)</li>
+                <li><b>Instalar Curl:</b> <i>sudo apt install curl</i></li>
+                <li><b>Instalar Docker/Curl:</b> <i>curl -fsSL https://get.docker.com | sh</i></li>
+                <li><b>Conferir instalação:</b> <i>docker -v</i></li>
+                <li><b>Caso Docker não estiver iniciado, inicie-o1:</b> <i>/etc/init.d/docker start</i></li>
+                <li><b>Caso Docker não estiver iniciado, inicie-o2:</b> <i>service docker start (Ou systemctl start docker)</i></li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <br><h4>Container</h4>
+            <p id="textoPost">Conjunto de dependências e bibliotecas concatenadas em 1 só parte, favorecendo a instalação, configuração e gerenciamento, que será, então, única (Binário compatível com Host Docker - Sua máquina, Kernel dela). Container é muito similar à VM, onde, na maioria das vezes, o Container é mais leve, pois possui somente o necessário, ou seja, não emula o SO junto, como é feito na VM. O Docker é o Container Engine. Enquanto a VM virtualiza toda a máquina (Hardware, SO, aplicações), o Docker virtualiza somente aplicações, tornando maior desempenho e facilidade de gerenciamento. Containers Docker também possuem portabilidade, onde um Container produzido em servidor Ubuntu pode ser enviado a outro servidor qualquer, como um Slackware. Docker utiliza Copy-on-write na construção e implementação de Containers, técnica onde, sempre o que será escrito, será a cópia do arquivo, conservando assim, intacto, o original.</p>
+            <p><i>“É a virtualização de sua aplicação, provinda do Host Docker”</i></p>
+            <img src="../anexos/resumo14/vmcontainer.jpg" width="70%" height="auto">
+        </div>
+
+        <div class="col-sm-12">
+            <br><h4>Imagem</h4>
+            <p id="textoPost">'Container parado', como um template, que não está em execução no momento, contendo todas as configurações necessárias e aplicações. Nela é definido o SO, dependências e regras associadas. A partir disso, a imagem pode ser disponibilizada aos Containers. Uma imagem pode ser executada em vários Containers, pois também funciona de forma isolada. Os Containers e Imagens podem comunicar-se entre si. Arquivos de imagens são denominados 'Dockerfile'</p>
+            
+            <br><h4>Vantagens:</h4>
+            <ul>
+                <li><b>Deploy mais ágil:</b> Não há necessidade de ficar baixando e configurando projeto de aplicações, juntamente com particularidades da máquina, em cada etapa do desenvolvimento do projeto.</li>
+                <li><b>Funcionamento sempre:</b> Docker não depende de SO e dependências. Todos os Containers funcionam de forma isolada, com relação ao Host Docker e aos demais Containers.</li>
+                <li><b>Agilidade ao Administrador do Sistema (SysAdmin):</b> Dispensa preparação de servidor para cada implementação/modificação.</li>
+                <li><b>Disponibilidade:</b> Se um container vier a cair, outro similar rapidamente é acionado, facilitando assim a garantia contra falhas e indisponibilidades.</li>
+                <li><b>Economia e Agilidade:</b> Economia com aquisição de recursos, pois com o Docker estes serão dispensados, como servidores, horas com profissionais. Docker é software grátis, dependendo do consumo. Docker utiliza menos memória e armazenamento, quando comparado aos demais recursos similares, como VMs. Para melhor aproveitamento e agilidade do Container, sugere-se que o SO do Container seja o mesmo que o do Host Docker, mas não obrigatoriamente.</li>
+            </ul>
+
+            <br><h4>Docker Hub</h4>
+            <p id="textoPost">Repositório oficial do Docker, composto de milhares imagens com os mais variados ambientes, aplicações e situações.</p>
+            <a class="btn btn-link" id="btnLink" href="https://hub.docker.com" target="_blank">Site Oficial</a>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <br><h4>Exemplo prático</h4>
+                <p id="textoPost">No estudo de caso, suponha que você necessite de um ambiente, para Windows 10, com MySQL, Nodejs e Php. E usuários com MacOS e Linux.</p>
+                <img src="../anexos/resumo14/exemplo.PNG" width="70%" height="auto">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <br><h4>Dockerfile</h4>
+                Arquivo com configurações do Containers. Tais comandos precisam ser inseridos dentro do arquivo Dockerfile.
+<small><pre><code>
+<b>Inserir Imagem externa:</b> FROM nomeImagem (Ou FROM nomeImagem:versaoImagem)
+    <b>Exemplo (Importar imagem de MySQL):</b> FROM mysql
+    <b>Exemplo2 (Importar imagem com Php e versão):</b> FROM php:7.2-apache
+<b>Inserir variáveis na imagem:</b> ENV nomeVariavel valorVariavel
+    <b>Exemplo:</b> ENV MYSQL_ROOT_PASSWORD senhaDB
+<b>Informar diretório de trabalho do Container:</b> WORKDIR caminho/pastaProjeto
+<b>Informar comandos Cmd:</b> CMD comandoCmd (O comando será executado no WorkDir)
+</code></pre></small>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <br><h4>Comandos Docker</h4>
+                Executar comandos no diretório raíz de seu projeto.
+<small><pre><code>
+<b>Construir Imagem:</b> docker build -t nomeImagem -f caminho/nomeDockerFile .
+    <b>Exemplo:</b> docker build -t mysql-image -f api/db/Dockerfile .
+<b>Ver Imagens disponíveis para uso:</b> docker image ls
+<b>Criar/Acessar/Baixar(Pull) Container:</b> docker run -d --rm --name nomeContainer nomeImagem
+    <b>Exemplo:</b> docker run -d -rm -name mysql-container mysql-image
+<b>Ver Containers em execução:</b> docker ps
+<b>Ver todos Containers do host docker:</b> docker ps -a
+<b>Ver todas informações do container:</b> docker inspect idContainer (Ou, no diretório do Container: docker inspect)
+<b>Voltar para o container:</b> docker attach idContainer (Ou nome do Container)
+<b>Executar comandos em Container em execução:</b> docker exec -i nomeContainer comando
+    <b>Exemplo (Executar comando MySQL de arquivo script.sql):</b> docker exec -i mysql-container mysql -uroot -nomeDB &lt; caminho/script.sql
+    <b>Ver se BD foi criado:</b> docker exec -it mysql-container /bin/bash
+    <b>Dentro do Container, no Bash, consultar DB:</b>
+        -&gt; mysql -uroot -nomeDB
+        -&gt; show databases;
+        -&gt; use nomeDB;
+        -&gt; select * from nomeTable;
+        -&gt; exit;
+<b>Sair do Container:</b> exit
+<b>Iniciar container:</b> docker start idContainer
+<b>Parar Container:</b> docker stop nomeContainer
+<b>Pausar container:</b> docker pause idContainer
+<b>Retomar container:</b> docker unpause idContainer
+<b>Ver status do container:</b> docker stats idContainer
+<b>Ver processos do container:</b> docker top idContainer
+<b>Ver logs do container:</b> docker logs idContainer
+<b>Excluir container(Parado):</b> docker rm idContainer
+<b>Excluir container em execução:</b> docker rm -f idContainer (Excluir o container manterá suas imagens)
+
+<h5>Legenda:</h5>
+<b>-t</b> = tag
+<b>-f</b> = especifica dockerfile
+<b>Ponto no final:</b> O contexto para gerar a Imagem parte da pasta atual na execução do comando
+<b>-d</b> = Executar Container em background
+<b>-rm</b> = Sobrescreve Container com novo, caso já exista antigo similar
+<b>-i</b> = Execução de comando em modo interativo, como um shell
+<b>-i</b>t = TTY, utilizar emulador de Terminal
+<b>-v</b> = Volume
+<b>$(pwd)</b> = Especifica caminho do diretório atual
+<b>-p</b> = Especifica porta no Container estará exposta para porta do host (pHostDocker:pContainer)
+</code></pre></small>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <br><h4>Volume</h4>
+                <p id="textoPost">Possibilita o compartilhamento de conteúdo/pastas do host docker com o Container. Tudo o que for feito em um, será refletido/alterado no outro. Quando o Container é parado/removido, todo o conteúdo realizado nele é perdido. Para evitar isso, deve-se utilizar Volumes para o compartilhamento de conteúdos do host docker. No volume, cada pasta/caminho é separado por '<b>:</b>' . O Docker utiliza, por padrão, Containers em uma mesma rede. Porém, pode-se criar diferentes redes no Docker.</p>
+<small><pre><code>
+<b>Criar/Acessar Container com Volume:</b> docker run -d -v caminho1/pastaComp1:caminho2/pastaComp2 --rm --name nomeContainer nomeImagem
+    <b>Exemplo(Compartilhar, na pasta do projeto, a pasta com MySQL):</b>
+        -&gt; docker run -d -v $(pwd)/pastaProjeto:/var/lib/mysql --rm --name mysql-container mysql-image
+        -&gt; docker exec -i mysql-container mysql -uroot -nomeDB &lt; pastaProjeto/script.sql
+    <b>Exemplo2 (Com porta de roteamento fora do Container, no host docker):</b>
+        -&gt; docker run -d -v $(pwd)/pastaProjeto:/var/lib/mysql -p 9001:9001 --rm --name mysql-container mysql-image
+        -&gt; Conferir: No browser, acessar url 'localhost:9001/arquivo'
+    <b>Exemplo3 (Com link de apelido, pode-se trocar o ip do Container por seu apelido, para acesso):</b>
+        -&gt; docker run -d -v $(pwd)/pastaProjeto:/var/lib/mysql -p 9001:9001 --link apelidoContainer --rm --name mysql-container mysql-image
+</code></pre></small>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <br><h4>Exemplo prático</h4>
+                <ol>
+                    <li>Na pasta raíz de seu projeto, crie pasta 'website', contendo arquivo 'index.php', com código '&lt;?php echo 'ola' ?&gt;'</li>
+                    <li>Criar Container:
+                        <ol>
+                            <li><b>Criar Dockerfile (Conteúdo interno):</b>
+                                <ol>
+                                    <li>Importar imagem Php, versão 7.2: <i>FROM php:7.2-apache</i></li>
+                                    <li>Informar pasta de execução do Php: <i>WORKDIR /var/www/html</i></li>
+                                </ol>
+                            </li>
+                            <li><b>Construir imagem:</b> <i>docker build -t php-image -f website/Dockerfile .</i></li>
+                            <li><b>Executar Container com imagem:</b> <i>docker run -d -v $(pwd)/website:/var/www/html -p 8888:80 --link phpContainer --rm --name php-container php-image</i></li>
+                        </ol>
+                    </li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <br><h4>Limitar recursos de hardware</h4>
+                <p id="textoPost">O uso de CPU será proporcional à quantidade de containers presentes, com relação ao percentual da soma de CPU entre os mesmos. Ex: 3 containers, abc com 1024(50%), def com 512(25%) e ghi com 512(50%). Cada unitário desses valores será 1 cpu-shares. Ex: container abc possui 1024 cpu-shares.</p>
+<small><pre><code>
+<b>Ver todas informações do container:</b> docker inspect idContainer (Ou nomeContainer)
+<b>Alterar limite de memória do container(parado):</b> docker run -ti -m 512m --name nomeContainer debian (512 MegaBytes)
+<b>Alterar limite de memória do container(execução):</b> docker update -m 256m idContainer
+<b>Alterar limite de CPU do container(parado):</b> docker run -ti --cpu-shares 1024 --name nomeContainer debian
+<b>Alterar limite de CPU do container(execução):</b> docker update --cpu-shares 512 idContainer
+</code></pre></small>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <br><h4>Docker Compose</h4>
+                <p id="textoPost">Em grandes projetos, torna-se muito difícil gerenciar Containers e comandos dos mesmos. Para facilitar tal prática, usa-se o Docker Compose, onde todos os comandos para a execução de um projeto macro, envolvendo vários Containers, com Imagens e Volumes, em um arquivo único, denominado 'docker-compose.yml'.</p>
+                <p><b>Passo a passo tradicional:</b></p>
+                <ol>
+                    <li>Construir Imagens, com docker build</li>
+                    <li>Executar Containers, com docker run</li>
+                </ol>
+
+                <br>
+                <p><b>Usando Docker Compose (Em 'docker-compose.yml'):</b></p>
+                <p>Caso com 3 Containers: MySQL, Node e Php.<br>Cada service possui nome à escolha do usuário ('db', 'api' e 'web' foram da escolha do usuário, conforme seu projeto). No 1º caso('db' e 'web'), como o Dockerfile é bastante simples, passa-se a imagem e variáveis de ambiente diretamente, deixando assim de utilizar tal arquivo Dockerfile. O restart reinicia o container caso o mesmo caia. No caso do 'build', se o Dockerfile tiver nome diferente, precisa-se adicionar a pasta na propriedade 'context' e, abaixo, adicionar propriedade 'dockerfile' com nome do arquivo Dockerfile. Conteúdo do 'docker-compose.yml' abaixo.</p>
+<small><pre><code>
+<b>version:</b> "3.7" (Especificar versão do Docker Compose utilizado)
+<b>services:</b> (Especificar serviços/containers)
+    <b>db:</b>
+        <b>image:</b> mysql
+        <b>container_name:</b> mysql-container
+        <b>command:</b> comandoContainerMysqlParaCompatibilidade (Informar 'command' só se necessário)
+        <b>environment:</b>
+            MYSQL_ROOT_PASSWORD: <i>senhaBD</i>
+        <b>volumes:</b>
+            - ./pastaProjeto:/var/lib/mysql
+        <b>restart:</b> always
+    <b>api:</b>
+        <b>build:</b> "./pastaComDockerfile"
+        <b>container_name:</b> node-container
+        <b>restart:</b> always
+        <b>volumes:</b>
+            - ./pastaProjeto:/home/node/app
+        <b>ports:</b> "9001:9001" (PortaHost:PortaContainer)
+        <b>depends_on:</b>
+            - db (Isso porque o link do Container node 'api' depende do Container mysql 'db')
+    <b>web:</b>
+        <b>image:</b> "php:7.2-apache"
+        <b>container_name:</b> php-container
+        <b>restart:</b> always
+        <b>volumes:</b>
+            - ./website:/var/www/html
+        <b>ports:</b>
+            - "8888:80"
+        <b>depends_on:</b>
+            - db
+            - api (No caso, o 'db' não precisa ser informado acima, porque o 'api' já o possui como dependência)
+</code></pre></small>
+                <p>Após criado o arquivo docker-compose.yml, executar comando de execução do projeto: <i>docker compose up -d</i>
+                <br>Parar todo o projeto: <i>docker compose stop</i></p>
+            </div>
+        </div>
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Ovo&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../anexos/icons/logoTit.png">
+    <link rel="stylesheet" href="../estilo.css">
+    <title>UB Social</title>
+</head>
+<body id="fundo">
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12" id="menu">
+            <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a id="serifada" class="navbar-brand" href="../index.html"><img src="../anexos/icons/logo.png" id="logo"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../contato.html">Contato</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12" id="titulo1">
+            <h1 id="serifada">Crud Php MySQL MYSQLi</h1>
+            <h6><strong>Crud simples com Php MYSQLi e MySQL</strong></h6>
+        </div>
+
+        <div class="col-sm-12">
+            <h4>Pré-requisitos</h4>
+            <p id="textoPost">Xampp instalado e executando, criar um diretório no <i>htdocs</i> para inserir os arquivos abaixo. 1º executar o arquivo bd.sql no <i>Phpmyadmin</i>.</p>
+            <br>
+            <h4>bd.sql</h4>
+<small><pre><code>
+CREATE DATABASE agenda;
+USE agenda;
+CREATE TABLE pessoa (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(50) NOT NULL
+);
+INSERT INTO pessoa(nome) VALUES ("mateus"),("mateusa");
+</code></pre></small><br>
+            <h4>con.php</h4>
+<small><pre><code>
+&lt;?php
+$c = mysqli_connect("localhost","root","","agenda");
+if(!$c){echo "Erro conexão: ".mysqli_connect_error();}
+</code></pre></small><br>
+            <h4>add.php</h4>
+<small><pre><code>
+&lt;?php
+require 'con.php';
+$nome = $_POST['nome'];
+mysqli_query($c,"INSERT INTO pessoa(nome) VALUES ('$nome')");
+header("location: index.php");
+</code></pre></small><br>
+            <h4>ed.php</h4>
+<small><pre><code>
+&lt;?php
+require 'con.php';
+if(isset($_GET['id'])) {
+    $id = $_GET['id'];
+    $d = mysqli_query($c,"SELECT * FROM pessoa WHERE id='$id'");
+    $r = mysqli_fetch_assoc($d);
+}
+?&gt;
+&lt;form action="" method="post"&gt;
+    &lt;input type="text" name="nome" placeholder="Nome" value="&lt;?php=$r['nome']?&gt;" required&gt;
+    &lt;input type="submit" value="Atualizar"&gt;
+&lt;/form&gt;
+&lt;?php
+if(isset($_POST['nome'])) {
+    $nome = $_POST['nome'];
+    mysqli_query($c,"UPDATE pessoa SET nome='$nome' WHERE id=$id");
+    header("location: index.php");
+}
+?&gt;
+</code></pre></small><br>
+            <h4>del.php</h4>
+<small><pre><code>
+&lt;?php
+require 'con.php';
+$id = $_GET['id'];
+mysqli_query($c,"DELETE FROM pessoa WHERE id='$id'");
+header("location: index.php");
+</code></pre></small><br>
+            <h4>index.php</h4>
+<small><pre><code>
+&lt;?php
+require 'con.php';
+    $d = mysqli_query($c,"SELECT * FROM pessoa");
+    while($r = mysqli_fetch_assoc($d)){
+        echo $r['id']."- ".$r['nome']."
+        &lt;a href='ed.php?id=".$r['id']."'&gt;Editar&lt;/a&gt;
+        &lt;a href='del.php?id=".$r['id']."'&gt;Excluir&lt;/a&gt;&lt;br&gt;";
+    }
+?&gt;
+&lt;form action="add.php" method="post"&gt;
+    &lt;input type="text" name="nome" placeholder="Nome" required&gt;
+    &lt;input type="submit" value="Inserir"&gt;
+&lt;/form&gt;
+</code></pre></small>
+        </div>
+    </div>
+
+
+</div>
+</body>
+</html>
