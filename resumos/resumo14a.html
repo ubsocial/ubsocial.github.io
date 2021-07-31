@@ -40,44 +40,21 @@
         </div>
 
         <div class="col-sm-12">
-            <p id="textoPost">Software que fornece Containers virtuais de aplicações. Realiza o empacotamento de dependências, como bibliotecas e configurações, para dentro de um container unificado, independente da quantidade de aplicações que o mesmo possuirá, tudo definido pelo usuário. Ao instalar o Container em outra máquina, basta executá-lo, que todas as aplicações e dependências presentes no mesmo funcionarão completamente, fazendo com que o usuário não necessite de pré-configurações ou instalações, prevenindo assim possíveis erros de dependências, ambiente e versões. Isso, independentemente do SO da máquina e dependências da mesma, já que o Container é autônomo com relação a isso, pois trabalha de forma isolada. Inclusive, cada Container também é independente de demais Containers.</p>
+            <p id="textoPost">Docker é software Container Engine. Alternativas <i>Podman</i> e <i>LXD</i>. Há outros softwares orquestradores de Container, de arquitetura distribuída como <i>Containerd</i>, <i>Cri-o</i> e <i>Kubernetes</i>. Containers são pequenos pacotes de software, isolados, leves e fáceis de movimentar. São baseados em <b>Imagens</b> que possuem camadas, que podem ser compartilhadas. Descartam pré configuração de ambiente físico. Diferenciam-se de VM, sendo mais leves. Como vantagens, tem-se deploy mais ágil, descarta condições de ambiente físico, facilidade em escalabilidade e economia. Container precisa de mesma arquitetura que a máquina hospedeira. São ideais para cloud e microsserviços. Possui tecnologias <b>namespaces</b> (Isolam os processos dos containers e também os pontos de montagem, diretórios, discos, redes, etc), <b>cgroups</b> (Limitam acesso a recursos da máquina (CPU, memória, tráfego de rede, etc)) e <b>union mounting</b> (Criar camadas no sistema de arquivos, que podem ser compartilhadas nos demais containers, reduzindo uso de recursos).</p>
+            <img src="../anexos/resumo14/exemplo.PNG" width="70%" height="auto">
         </div>
     </div>
 
     <div class="row">
         <div class="col-sm-12">
-            <br><h4>Instalação (Linux .deb)</h4>
-            <a class="btn btn-link" id="btnLink" href="https://docs.docker.com/engine/install" target="_blank">Guia Site Oficial</a>
-            <ol>
-                <li><b>Instalar Curl:</b> <i>sudo apt install curl</i></li>
-                <li><b>Instalar Docker/Curl:</b> <i>curl -fsSL https://get.docker.com | sh</i></li>
-                <li><b>Conferir instalação:</b> <i>docker -v</i></li>
-                <li><b>Caso Docker não estiver iniciado, inicie-o1:</b> <i>/etc/init.d/docker start</i></li>
-                <li><b>Caso Docker não estiver iniciado, inicie-o2:</b> <i>service docker start (Ou systemctl start docker)</i></li>
-            </ol>
+            
         </div>
     </div>
 
     <div class="row">
-        <div class="col-sm-12">
-            <br><h4>Container</h4>
-            <p id="textoPost">Conjunto de dependências e bibliotecas concatenadas em 1 só parte, favorecendo a instalação, configuração e gerenciamento, que será, então, única (Binário compatível com Host Docker - Sua máquina, Kernel dela). Container é muito similar à VM, onde, na maioria das vezes, o Container é mais leve, pois possui somente o necessário, ou seja, não emula o SO junto, como é feito na VM. O Docker é o Container Engine. Enquanto a VM virtualiza toda a máquina (Hardware, SO, aplicações), o Docker virtualiza somente aplicações, tornando maior desempenho e facilidade de gerenciamento. Containers Docker também possuem portabilidade, onde um Container produzido em servidor Ubuntu pode ser enviado a outro servidor qualquer, como um Slackware. Docker utiliza Copy-on-write na construção e implementação de Containers, técnica onde, sempre o que será escrito, será a cópia do arquivo, conservando assim, intacto, o original.</p>
-            <p><i>“É a virtualização de sua aplicação, provinda do Host Docker”</i></p>
-            <img src="../anexos/resumo14/vmcontainer.jpg" width="70%" height="auto">
-        </div>
-
         <div class="col-sm-12">
             <br><h4>Imagem</h4>
-            <p id="textoPost">'Container parado', como um template, que não está em execução no momento, contendo todas as configurações necessárias e aplicações. Nela é definido o SO, dependências e regras associadas. A partir disso, a imagem pode ser disponibilizada aos Containers. Uma imagem pode ser executada em vários Containers, pois também funciona de forma isolada. Os Containers e Imagens podem comunicar-se entre si. Arquivos de imagens são denominados 'Dockerfile'</p>
-            
-            <br><h4>Vantagens:</h4>
-            <ul>
-                <li><b>Deploy mais ágil:</b> Não há necessidade de ficar baixando e configurando projeto de aplicações, juntamente com particularidades da máquina, em cada etapa do desenvolvimento do projeto.</li>
-                <li><b>Funcionamento sempre:</b> Docker não depende de SO e dependências. Todos os Containers funcionam de forma isolada, com relação ao Host Docker e aos demais Containers.</li>
-                <li><b>Agilidade ao Administrador do Sistema (SysAdmin):</b> Dispensa preparação de servidor para cada implementação/modificação.</li>
-                <li><b>Disponibilidade:</b> Se um container vier a cair, outro similar rapidamente é acionado, facilitando assim a garantia contra falhas e indisponibilidades.</li>
-                <li><b>Economia e Agilidade:</b> Economia com aquisição de recursos, pois com o Docker estes serão dispensados, como servidores, horas com profissionais. Docker é software grátis, dependendo do consumo. Docker utiliza menos memória e armazenamento, quando comparado aos demais recursos similares, como VMs. Para melhor aproveitamento e agilidade do Container, sugere-se que o SO do Container seja o mesmo que o do Host Docker, mas não obrigatoriamente.</li>
-            </ul>
+            <p id="textoPost">Dentro da Imagem está a aplicação, libraries e outros arquivos. Ao ser movida, tudo será movido junto. São somente leitura. Através de Imagens, pode-se criar containers. Com o conceito de camadas, imagens podem ser baseadas em outras, pré-existentes (Ex: Imagem Php é baseada em imagem de Apache, que é baseada na Debian). Funciona de forma isolada, funcionando simultaneamente em vários containers. Arquivos de imagens são denominados <i>Dockerfile</i>.</p>
 
             <br><h4>Docker Hub</h4>
             <p id="textoPost">Repositório oficial do Docker, composto de milhares imagens com os mais variados ambientes, aplicações e situações.</p>
@@ -86,9 +63,18 @@
 
         <div class="row">
             <div class="col-sm-12">
+                <br><h4>Instalação (Linux .deb)</h4>
+                <a class="btn btn-link" id="btnLink" href="https://docs.docker.com/engine/install" target="_blank">Guia Site Oficial</a>
+                <ol>
+                    <li><b>Instalar Curl:</b> <i>sudo apt install curl</i></li>
+                    <li><b>Instalar Docker/Curl:</b> <i>curl -fsSL https://get.docker.com | sh</i></li>
+                    <li><b>Conferir instalação:</b> <i>docker -v</i></li>
+                    <li><b>Caso Docker não estiver iniciado, inicie-o1:</b> <i>/etc/init.d/docker start</i></li>
+                    <li><b>Caso Docker não estiver iniciado, inicie-o2:</b> <i>service docker start (Ou systemctl start docker)</i></li>
+                </ol>
+
                 <br><h4>Exemplo prático</h4>
-                <p id="textoPost">No estudo de caso, suponha que você necessite de um ambiente, para Windows 10, com MySQL, Nodejs e Php. E usuários com MacOS e Linux.</p>
-                <img src="../anexos/resumo14/exemplo.PNG" width="70%" height="auto">
+                <p id="textoPost">Suponha que você necessite de um ambiente, para Windows 10, com MySQL, Nodejs e Php. E usuários com MacOS e Linux.</p>
             </div>
         </div>
 
