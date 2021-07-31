@@ -98,7 +98,7 @@
     <b>Exemplo:</b> docker run -d -rm -name mysql-container mysql-image
 <b>Ver Containers em execução:</b> docker ps
 <b>Ver todos Containers do host docker:</b> docker ps -a
-<b>Ver informações do container:</b> docker container inspect idContainer (Ou, no diretório do Container: docker inspect)
+<b>Ver informações do container:</b> docker inspect idContainer (Ou, no diretório do Container: docker inspect)
 <b>Voltar para o container:</b> docker attach idContainer (Ou nome do Container)
 <b>Executar comandos em Container em execução:</b> docker exec -i nomeContainer comando
     <b>Exemplo (Executar comando MySQL de arquivo script.sql):</b> docker exec -i mysql-container mysql -uroot -nomeDB &lt; caminho/script.sql
