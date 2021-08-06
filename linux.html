@@ -289,6 +289,17 @@
                         <li><b>Netboot</b>: Forma de instalação. Geralmente associada à instalação direta, via rede TFTP, DHCP/BOOTP/RARP, utilizando PXE e TFTP;</li>
                         <li><b>Torrent / Container / ARM / Cloud / VM / Mobile / Build Scripts</b>: Outras formas de instalação, sendo build scripts os códigos em arquivos diretos.</li>
                     </ul>
+                    <h5>Particionamento de disco:</h5>
+                    <p>Levando em consideração espaço em disco único de 500GB, independente dessa quantidade ser o disco inteiro vazio, ou um espaço sem alocação, ao lado de outras partições de SO (Dual Boot) e 4GB de RAM. Levando em consideração, de forma genérica (tudo dependerá do poder da máquina, com relação à RAM e espaço em disco, e 'peso' da distro, ou seja, os valores mínimos que ela necessita para funcionar), o particionamento do espaço em disco em questão, para instalação do Pop!_OS 20.04, se fará da seguinte forma:</p>
+                    <ul>
+                        <li><b>Boot</b>: Partição para boot da distro, do tipo FAT32, com label <i>/boot/efi</i>, com média de 600MB;</li>
+                        <li><b>Swap</b>: Partição de memória virtual, do tipo linux-swap, sem label, com média de metade do tamanho da RAM (Aqui no caso 2GB);</li>
+                        <li><b>Root</b>: Partição raíz, onde ficará o sistema, do tipo journaling EXT4, com label <i>/</i>, preenchendo com o restante do espaço livre.
+                            <ul>
+                                <li><b>Opcional (Partição home separada)</b>: Partição onde ficarão os arquivos dos usuários (documentos, imagens, vídeos, etc), do tipo journaling EXT4, com label <i>/home</i>, preenchendo com o espaço livre restante (Neste caso, 40% do espaço livre restante será de home, e os demais 60% será de root).</li>
+                            </ul>
+                        </li>
+                    </ul>
                     <h5>Tutoriais de instalação:</h5>
                     <ul>
                         <li>Vídeo de instalação (Pendrive Bootável): <a id="btnLink" href="https://www.youtube.com/watch?v=ZhLjvy23rrs" target="_blank">Acesse</a></li>
