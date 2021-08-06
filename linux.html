@@ -210,7 +210,7 @@
                         <li><b>Ambiente de Trabalho (Desktop Environment):</b> Ambiente de hospedagem dos programas, cujo funcionamento depende do uso de Interface Gráfica (GUI)</li>
                     </ol>
                     <h4>Estrutura de arquivos:</h4>
-                    <p>Em 1994, a FSSTND (Filesystem Standard) criou a estrutura básica de organização de arquivos no Linux. Linux compõe-se da seguinte estrutura de arquivos, baseada na FHS (Filesystem Hierarchy Standard), mantida pela FSG (Free Standard Group), no padrão Posix:</p>
+                    <p>Em 1994, a FSSTND (Filesystem Standard) criou a estrutura básica de organização de arquivos no Linux. Atualmente, algumas distros trazem ZFS como integração, mais voltado para distros profissionais. Linux compõe-se da seguinte estrutura de arquivos, baseada na FHS (Filesystem Hierarchy Standard), mantida pela FSG (Free Standard Group), no padrão Posix:</p>
                     <p><b>/ (raíz):</b><br>Dentro do diretório raíz (<b>/</b>) encontram-se todos os demais diretórios.</p>
                     <p><b>/bin:</b><br>Todos os comandos (Binaries) alias acessíveis ao usuário, sendo a pasta um link simbólico para /usr/bin, executáveis no Bash, são referenciados neste diretório. Por exemplo, o comando alias <i>ls</i> refere-se ao <i>/bin/ls</i>. Neste caso, <i>ls /boot/grub</i> é o mesmo que <i>/bin/ls /boot/grub</i>.</p>
                     <p><b>/boot:</b><br>Onde ficam os arquivos estáticos necessários para a inicialização do sistema, como o gerenciador de boot (<i>grub</i>) e imagem do Kernel.</p>
