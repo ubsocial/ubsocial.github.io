@@ -731,7 +731,20 @@ Acessar pasta de meus lançadores: nautilus ~/.local/share/applications
 <b>Voltar processo parado em background, para foreground:</b> fg idJob
 <b>Alterar estado do processo em background (como stopped para running):</b> bg idJob
 <b>Enviar processos executando, para background:</b> top & (Ex levar o comando top para background)
-</small></pre></code>
+</code></pre></small>
+                    <h4>Shell Script</h4>
+                    <p>Script de execução em Shell Linux, seguindo determinada codificação de linguagem Shell, onde os arquivos terminam com extensão '.sh'. Atuam na automatização de tarefas em rotinas Linux, como instalação e personalização de ambientes de desenvolvimento, realizando, por exemplo, criação de arquivos e diretórios com conteúdos personalizados, abertura automatizada e pré-configurada de pacotes, instalação de libraries e modo administrador, entre outros recursos. Para a execução de arquivos shell script, deve-se aplicar permissão de execução (Abaixo permissão pode ser 777). Abaixo, exemplo de shell script (<b>teste.sh</b>), que cria 3 pastas (pasta1, pasta2, pasta3). Para executá-lo, após conceder permissão chmod 777, executar <i>./teste.sh</i> no diretório de criação do arquivo.</p>
+<small><pre><code>
+#!/bin/bash
+x=1
+while [ $x -le 3 ];
+do
+    mkdir pasta$x
+    echo "pasta $x criada"
+    ((x=$x+1))
+done
+echo "Concluído!"
+</code></pre></small>
                 </div>
             </div>
             <br>
