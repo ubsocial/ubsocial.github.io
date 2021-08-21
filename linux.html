@@ -415,14 +415,21 @@
 <b>Histórico dos comandos executados na última hora:</b> fc -l h
 <b>Repetir comando x do history:</b> !34 (executará o comando 34 do history)
 
-<b>Informações sobre hardware:</b> lshw
+<b>Ver informações sobre hardware:</b> lshw
 <b>Ver versão do kernel:</b> uname -r (Release)
 <b>Ver detalhes do kernel:</b> uname -a
 <b>Ver arquitetura da máquina:</b> arch
+<b>Ver particionamento do disco:</b> lsblk
 <b>Ver espaços das partições:</b> df
 <b>Ver informações sobre uso do disco:</b> du
 <b>Ver mensagens do sistema:</b> sudo dmesg
 <b>Ver quantidade de memória livre:</b> free
+<b>Verificar e reparar sistema de arquivos:</b> fsck
+<b>Ver módulos kernel carregados em memória:</b> lsmod
+<b>Ver arquivos abertos:</b> lsof
+<b>Ver dispositivos PCI:</b> lspci
+<b>Ver dispositivos scsi:</b> lsscsi
+<b>Ver dispositivos USB:</b> lsusb
 
 <b>Desligamento:</b> <i>shutdown [parâmetros] tempo [mensagem]</i>
 Tempo: <i>dia_da_semana mês dia hora:minuto:segundo ano UTC</i>
@@ -724,6 +731,7 @@ Acessar pasta de meus lançadores: nautilus ~/.local/share/applications
 <b>Processos e detalhes:</b> top (Processos e detalhes da máquina)
 <b>Mostrar dados específicos de processo, com top:</b> top numPID
 <b>Processos de usuário específico:</b> top -u usuario
+<b>Processos de arquivo específico:</b> fuser nomeArquivo
 <b>Processos em tree:</b> pstree
 <b>Mostrar sinais de kill:</b> kill -l
 <b>Encerrar processo:</b> kill -15 numPID (função de sigterm. Somente kill numPID é o mesmo comando, por padrão)
