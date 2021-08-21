@@ -418,6 +418,7 @@
 <b>Ver informações sobre hardware:</b> lshw
 <b>Ver versão do kernel:</b> uname -r (Release)
 <b>Ver detalhes do kernel:</b> uname -a
+<b>Ver informações de memória cache em tempo real:</b> sudo slabtop (Usar ctrl+c para sair)
 <b>Ver arquitetura da máquina:</b> arch
 <b>Ver particionamento do disco:</b> lsblk
 <b>Ver espaços das partições:</b> df
@@ -425,11 +426,13 @@
 <b>Ver mensagens do sistema:</b> sudo dmesg
 <b>Ver quantidade de memória livre:</b> free
 <b>Verificar e reparar sistema de arquivos:</b> fsck
+<b>Ver módulos kernel:</b> modinfo nomeModulo
 <b>Ver módulos kernel carregados em memória:</b> lsmod
 <b>Ver arquivos abertos:</b> lsof
 <b>Ver dispositivos PCI:</b> lspci
 <b>Ver dispositivos scsi:</b> lsscsi
 <b>Ver dispositivos USB:</b> lsusb
+<b>Ver usuários do sistema:</b> w (who / whoami)
 
 <b>Desligamento:</b> <i>shutdown [parâmetros] tempo [mensagem]</i>
 Tempo: <i>dia_da_semana mês dia hora:minuto:segundo ano UTC</i>
@@ -1013,7 +1016,7 @@ O nano possibilita a abertura de diversos arquivos ao mesmo tempo.
             <div class="card">
                 <h4 class="card-header" id="serifada">27. Usuários</h4>
                 <div class="card-body">
-                    <p>O <b>administrador (sudo)</b> possui permissão total de utilização do sistema, como gerenciar arquivos e diretórios, além de executar aplicações, instalá-las e removê-las. Também pode executar qualquer comando do terminal. O <b>usuário comum ($)</b> é aquele padrão no Linux, para seu uso, possuindo algumas restrições em terminal e sistema. Entretanto, o usuário comum que instalou o Linux tem permissão para executar comandos/programas no modo administrador, utilizando o comando "sudo". O <b>usuário de sistema</b> é um usuário fictício criado durante a instalação de algum programa, a fim de executar tarefas específicas do mesmo. Não possui capacidade de login no sistema. Por fim, tem-se o <b>root (#, id 0)</b> (sudo su), como sendo um "super-usuário", capaz de fazer absolutamente TUDO no Linux. O que difere o root de outros usuários é o fato dele ser o único capaz de gerenciar coisas fora de seu diretório pessoal. Por essa razão, priva-se a utilização com este usuário. Todo usuário possiu cotas de disco, espaços em disco para seu uso.</p>
+                    <p>O <b>administrador (sudo)</b> possui permissão total de utilização do sistema, como gerenciar arquivos e diretórios, além de executar aplicações, instalá-las e removê-las. Também pode executar qualquer comando do terminal. O <b>usuário comum ($)</b> é aquele padrão no Linux, para seu uso, possuindo algumas restrições em terminal e sistema. Entretanto, o usuário comum que instalou o Linux tem permissão para executar comandos/programas no modo administrador, utilizando o comando "sudo". O <b>usuário de sistema</b> é um usuário fictício criado durante a instalação de algum programa, a fim de executar tarefas específicas do mesmo. Não possui capacidade de login no sistema. Por fim, tem-se o <b>root (#, id 0)</b> (sudo su), como sendo um "super-usuário", capaz de fazer absolutamente TUDO no Linux. O que difere o root de outros usuários é o fato dele ser o único capaz de gerenciar coisas fora de seu diretório pessoal. Por essa razão, priva-se a utilização com este usuário. Todo usuário possiu cotas de disco, espaços em disco para seu uso (<i>quota</i> mostra informações sobre).</p>
 <small><pre><code>
 <b>whoami</b>: Ver usuário atual
 <b>w</b>: Ver detalhes de usuários conectados
