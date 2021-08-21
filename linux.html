@@ -395,6 +395,7 @@
 <small><pre><code>
 <b>Filme Star Wars modo Terminal:</b> telnet towel.blinkenlights.nl
 <b>Relógio analógico:</b> oclock
+<b>Data e hora do sistema:</b> date
 <b>Fechar o bash:</b> exit
 <b>Limpar bash:</b> clear
 <b>Ajuda no bash:</b> help
@@ -418,6 +419,10 @@
 <b>Ver versão do kernel:</b> uname -r (Release)
 <b>Ver detalhes do kernel:</b> uname -a
 <b>Ver arquitetura da máquina:</b> arch
+<b>Ver espaços das partições:</b> df
+<b>Ver informações sobre uso do disco:</b> du
+<b>Ver mensagens do sistema:</b> sudo dmesg
+<b>Ver quantidade de memória livre:</b> free
 
 <b>Desligamento:</b> <i>shutdown [parâmetros] tempo [mensagem]</i>
 Tempo: <i>dia_da_semana mês dia hora:minuto:segundo ano UTC</i>
@@ -471,6 +476,7 @@ Durabilidade somente enquanto o terminal estiver aberto
 <b>Listar com arquivos ocultos:</b> ls -a (Todo arquivo oculto possui um ponto na frente)
 <b>Listar com informações incluindo armazenamento e arquivos ocultos e subpastas:</b> ls -Rlah (tipo do arquivo: d(diretório), arquivo comum(-), dispositivo de bloco(b), de caracteres(c), link(l))
 <b>Ver metadados de arquivo:</b> stat nomeArquivo (Metadados são usuárioCriador, datas e horas de criação/modificação...)
+<b>Ver tipo do arquivo:</b> file nomeArquivo
 <b>Listar conteúdo de arquivo:</b> cat nomearquivo.tipo
 <b>Listar conteúdo de arquivo de trás pra frente:</b> tac nomearquivo.tipo
 <b>Listar conteúdo de arquivo com paginação:</b> less /etc/services (Less: 'n' pula pra próxima página, '/palavra' procura palavra)
@@ -568,6 +574,7 @@ Comando de copiar <b>dd</b>, diferente do cp, faz cópia bit a bit, muito mais p
 <b>of:</b> Arquivo de saída, a ser gravado/escrito
 <b>bs:</b> Tamanho do bloco, podendo esse ser Kilobyte, Megabyte, Gigabyte, Terabyte, etc.
 <b>count:</b> Contagem de blocos a serem lidos da entrada
+<b>diff:</b> Comparar 2 arquivos linha por linha (<i>-r</i> recursivo, <i>-i</i> ignora camel case, <i>-a</i> compara qualquer tipo de arquivo.Ex: <i>diff arquivo1 arquivo2</i>)
 </code></pre></small>
                 </div>
             </div>
