@@ -75,13 +75,24 @@
                 <br><h4>Dockerfile</h4>
                 Arquivo texto de nome <i>Dockerfile</i>, com configurações da Imagem, para sua construção. Tais comandos precisam ser inseridos dentro do mesmo. Facilmente compartilhado e pode ser registrado no Docker Hub.
 <small><pre><code>
-<b>1. Inserir Imagem externa:</b> FROM nomeImagem (Ou FROM nomeImagem:versaoImagem)
-     <u>Ex Importar imagem MySQL</u>: FROM mysql
-     <u>Ex Importar imagem Php 7.2</u>: FROM php:7.2-apache
-<b>2. Inserir variáveis na imagem:</b> ENV nomeVariavel valorVariavel
-     <u>Ex</u>: ENV MYSQL_ROOT_PASSWORD senhaDB
-<b>3. Informar diretório de trabalho do Container:</b> WORKDIR caminho/pastaProjeto
-<b>4. Informar comandos Cmd:</b> CMD comandoCmd (O comando será executado no WorkDir)
+<b>MODELO:</b>
+FROM nomeImagens:versaoImagens
+ENV variaveisAmbiente=valor
+EXPOSE portasUtilizadas (Somente documentação, precisa ser informada na execução do container)
+RUN comandos (executa comandos durante a criação da imagem)
+COPY diretorioOrigem diretorioDestino (copiar código do diretório do dockerfile para diretório destino do container)
+WORKDIR diretorioPadrao (Diretório padrão ao entrar no container, onde todos os comandos serão originados, como Bash)
+CMD comandos (comando padrão ao executar imagem)
+
+<b>EXEMPLO:</b>
+FROM alpine
+ENV DB_HOST=172.17.0.4
+EXPOSE 5000
+RUN apk add py3-pip
+COPY * /opt/app
+RUN pip3 install -r /opt/app/arquivoRequirements.txt
+WORKDIR /opt/app
+CMD flask run --host 0.0.0.0
 </code></pre></small>
             </div>
         </div>
@@ -126,6 +137,8 @@
 <b>Excluir todos containers:</b> docker rm -f $(docker ps -qa) (-q é quit, mostra somente id’s dos containers)
 
 <b>Excluir imagem:</b> docker image rm nomeImagem (-f para imagens com containers existentes)
+<b>Listar volumes:</b> docker volume ls
+<b>Construir imagem, a partir do dockerfile:</b> docker build -t nomeImagem diretorioDockerfile (ou nomeImagem:infoAdicional)
 
 <u>PARÂMETROS</u>:
 <b>-t</b>: tag
@@ -145,8 +158,14 @@
         <div class="row">
             <div class="col-sm-12">
                 <br><h4>Volume</h4>
-                <p id="textoPost">Possibilita compartilhamento de conteúdo/diretórios do host docker com o Container. Tudo feito em um, será refletido/alterado no outro. Quando o Container é parado/removido, todo o conteúdo realizado nele é perdido: Para evitar isso, utiliza-se Volume. Nele, cada diretório é separado por '<b>:</b>' . O Docker usa, por padrão, Containers em uma mesma rede. Porém, pode-se criar diferentes redes no Docker.</p>
+                <p id="textoPost">Local onde ficam os dados do container, que podem ser transferidos, além do ciclo de vida do container (Ex: Dados de BD, códigos e arquivos, etc) e compartilhados com demais containers (Ao adicionar container, muda-se a porta do host docker. Cada container funciona em uma porta). Pode ser diretório local ou externo.</p>
 <small><pre><code>
+<b>Criar container com volume:</b> docker run -dti -v caminho/absolutoArqExterno:caminho/internoContainer -p portaHostDocker:portaContainer nomeImagem
+<b>Ex1 (Container Apache):</b> docker run -d -v /root/destino/:/usr/local/apache2/htdocs/ -p 80:80 httpd
+<b>Ex2 (Container Nginx):</b> docker run -d -v /root/destino/:/usr/share/nginx/html/ -p 81:80 nginx
+<b>Criar container com variáveis de ambiente:</b> docker run -d --name banco -e MYSQL_ROOT_PASSWORD=’abc’ -e MYSQL_USER=fulano mariadb
+<b>Criar container com volume específico, gerenciado interno pelo Docker (salvo em /var/lib/docker/):</b> ocker run -d --name banco -e MYSQL_ROOT_PASSWORD=’abc’ -e MYSQL_USER=fulano -v nomeVolume:/var/lib/mysql mariadb
+
 <b>Criar/Acessar Container com Volume:</b> docker run -d -v caminho1/pastaComp1:caminho2/pastaComp2 --rm --name nomeContainer nomeImagem
     <b>Exemplo(Compartilhar, na pasta do projeto, a pasta com MySQL):</b>
         -&gt; docker run -d -v $(pwd)/pastaProjeto:/var/lib/mysql --rm --name mysql-container mysql-image
@@ -156,8 +175,6 @@
         -&gt; Conferir: No browser, acessar url 'localhost:9001/arquivo'
     <b>Exemplo3 (Com link de apelido, pode-se trocar o ip do Container por seu apelido, para acesso):</b>
         -&gt; docker run -d -v $(pwd)/pastaProjeto:/var/lib/mysql -p 9001:9001 --link apelidoContainer --rm --name mysql-container mysql-image
-
-<b>Listar volumes:</b> docker volume ls
 </code></pre></small>
             </div>
         </div>
