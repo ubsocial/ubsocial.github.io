@@ -136,9 +136,17 @@ CMD flask run --host 0.0.0.0
 <b>Excluir container em execução:</b> docker rm -f idContainer (Excluir o container manterá suas imagens)
 <b>Excluir todos containers:</b> docker rm -f $(docker ps -qa) (-q é quit, mostra somente id’s dos containers)
 
+<b>Criar apelido para imagem:</b> docker image tag nomeAtual novoAlternativo
 <b>Excluir imagem:</b> docker image rm nomeImagem (-f para imagens com containers existentes)
 <b>Listar volumes:</b> docker volume ls
 <b>Construir imagem, a partir do dockerfile:</b> docker build -t nomeImagem diretorioDockerfile (ou nomeImagem:infoAdicional)
+
+<b>ENVIANDO IMAGENS (PULL):</b>
+Registry é um repositório de imagens (Ex: Portus (SUSE), Harbor, Nexus, Docker Hub (Público)).
+Exemplo nome de imagem: <i>docker.io/library/debian:buster-slim</i> (Ou usuario/nomeImagem:versaoImagem, versão padrão é latest)
+<b>Login no Docker Hub:</b> docker login
+<b>Baixar imagem:</b> docker pull nomeImagem
+<b>Subir imagem:</b> docker push nomeImagem
 
 <u>PARÂMETROS</u>:
 <b>-t</b>: tag
