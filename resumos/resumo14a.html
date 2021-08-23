@@ -40,7 +40,7 @@
         </div>
 
         <div class="col-sm-12">
-            <p id="textoPost">Docker é software Container Engine. Há orquestradores de Container, de arquitetura distribuída, como o <i>Kubernetes</i>. Containers são pequenos pacotes de software, isolados, leves e fáceis de movimentar, diferenciando-se de VM. São baseados em <b>Imagens</b> que possuem camadas, que podem ser compartilhadas. Descartam pré configuração de ambiente físico. Além disso, ocasionam deploy mais ágil, facilitam escalabilidade, previnem erros e causam economia, sendo ideais para cloud e microservices. Os <b>namespaces</b> (Isolam os containers), <b>cgroups</b> (Limitam acesso a recursos de hardware da máquina host) e <b>union mounting</b> (Criar camadas no sistema de arquivos, que podem ser compartilhadas nos demais containers, reduzindo uso de recursos). O repositório oficial do Docker é o <b>Docker Hub</b>, composto de inúmeras imagens. Pode-se treinar Docker online através do Play With Docker, login com Docker Hub.</p>
+            <p id="textoPost">Docker é software Container Engine. Há orquestradores de Container, de arquitetura distribuída, como o <i>Kubernetes</i>. Containers são pequenos pacotes de software, isolados, leves e fáceis de movimentar, diferenciando-se de VM. São baseados em <b>Imagens</b> que possuem camadas, que podem ser compartilhadas. Descartam pré configuração de ambiente físico. Além disso, ocasionam deploy mais ágil, facilitam escalabilidade, previnem erros e causam economia, sendo ideais para cloud e microservices. Os <b>namespaces</b> (Isolam os containers), <b>cgroups</b> (Limitam acesso a recursos de hardware da máquina host) e <b>union mounting</b> (Criar camadas no sistema de arquivos, que podem ser compartilhadas nos demais containers, reduzindo uso de recursos). O repositório oficial do Docker é o <b>Docker Hub</b>, composto de inúmeras imagens. Pode-se treinar Docker online através do Play With Docker, login com Docker Hub. O Docker fica salvo no diretório <i>/etc/</i>. A rede do Docker fica do 172.17.0.2 até 172.17.0.254 (172.17.0.1 é o host docker).</p>
             <ul>
                 <li>Docker Hub: <a id="btnLink" href="https://hub.docker.com" target="_blank">Acesse</a></li>
                 <li>Play With Docker: <a id="btnLink" href="https://labs.play-with-docker.com" target="_blank">Acesse</a></li>
@@ -53,7 +53,7 @@
     <div class="row">
         <div class="col-sm-12">
             <br><h4>Imagem</h4>
-            <p id="textoPost">Planta de containers e dados relacionados (configurações, libraries, variáveis, outros arquivos...). Possui conceitos de camadas, onde, por exemplo, imagem Php é baseada em imagem Apache, que é baseada em imagem Debia. O passo a passo de criação de uma imagem é um arquivo chamado <b>Dockerfile</b>.</p>
+            <p id="textoPost">Planta de containers e dados relacionados (configurações, libraries, variáveis, outros arquivos...). Possui conceitos de camadas, onde, por exemplo, imagem Php é baseada em imagem Apache, que é baseada em imagem Debia. O passo a passo de criação de uma imagem é um arquivo chamado <b>Dockerfile</b>. <i>Entrypoint</i> são scripts que o container executa prévio à sua instalação, como receber variáveis de ambiente, geralmente pré solicitadas na construção de containers.</p>
         </div>
 
         <div class="row">
@@ -94,11 +94,15 @@
 <b>Construir Imagem:</b> docker build -t nomeImagem -f caminho/nomeDockerFile .
     <b>Exemplo:</b> docker build -t mysql-image -f api/db/Dockerfile .
 <b>Ver Imagens disponíveis para uso:</b> docker image ls
+<b>Somente baixar imagem:</b> docker pull nomeImagem
 <b>Criar/Acessar/Baixar(Pull) Container:</b> docker run -d --rm --name nomeContainer nomeImagem
     <b>Exemplo:</b> docker run -d -rm -name mysql-container mysql-image
-<b>Ver Containers em execução:</b> docker ps
-<b>Ver todos Containers do host docker:</b> docker ps -a
+<b>Criar container, entrando nele:</b> docker run -ti nomeImagem (Ctrl+p+q sai do shell sem matar o container)
+<b>Ver Containers em execução:</b> docker ps (Ou docker container ls)
+<b>Ver todos Containers do host docker:</b> docker ps -a (Ou docker container ls -a)
 <b>Ver informações do container:</b> docker inspect idContainer (Ou, no diretório do Container: docker inspect)
+<b>Ver informações com filtro:</b> docker inspect nomeContainer | grep termoPesquisa
+<b>Criar container em background, com tty e interativo:</b> docker run -dti nomeImagem (tty e interactive é -it ou -ti)
 <b>Voltar para o container:</b> docker attach idContainer (Ou nome do Container)
 <b>Executar comandos em Container em execução:</b> docker exec -i nomeContainer comando (bash ao invés de comando, incluindo -t, para entrar no container)
     <b>Exemplo (Executar comando MySQL de arquivo script.sql):</b> docker exec -i mysql-container mysql -uroot -nomeDB &lt; caminho/script.sql
@@ -116,9 +120,12 @@
 <b>Retomar container:</b> docker unpause idContainer
 <b>Ver status do container:</b> docker stats idContainer
 <b>Ver processos do container:</b> docker top idContainer
-<b>Ver logs do container:</b> docker logs idContainer
+<b>Ver logs do container:</b> docker logs idContainer (ou nomeImagem)
 <b>Excluir container(Parado):</b> docker rm idContainer
 <b>Excluir container em execução:</b> docker rm -f idContainer (Excluir o container manterá suas imagens)
+<b>Excluir todos containers:</b> docker rm -f $(docker ps -qa) (-q é quit, mostra somente id’s dos containers)
+
+<b>Excluir imagem:</b> docker image rm nomeImagem (-f para imagens com containers existentes)
 
 <u>PARÂMETROS</u>:
 <b>-t</b>: tag
@@ -149,6 +156,8 @@
         -&gt; Conferir: No browser, acessar url 'localhost:9001/arquivo'
     <b>Exemplo3 (Com link de apelido, pode-se trocar o ip do Container por seu apelido, para acesso):</b>
         -&gt; docker run -d -v $(pwd)/pastaProjeto:/var/lib/mysql -p 9001:9001 --link apelidoContainer --rm --name mysql-container mysql-image
+
+<b>Listar volumes:</b> docker volume ls
 </code></pre></small>
             </div>
         </div>
