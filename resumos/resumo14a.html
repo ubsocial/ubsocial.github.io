@@ -141,7 +141,7 @@ CMD flask run --host 0.0.0.0
 <b>Listar volumes:</b> docker volume ls
 <b>Construir imagem, a partir do dockerfile:</b> docker build -t nomeImagem diretorioDockerfile (ou nomeImagem:infoAdicional)
 
-<b>ENVIANDO IMAGENS (PULL):</b>
+<u><b>ENVIANDO IMAGENS (PULL):</b></u>
 Registry é um repositório de imagens (Ex: Portus (SUSE), Harbor, Nexus, Docker Hub (Público)).
 Exemplo nome de imagem: <i>docker.io/library/debian:buster-slim</i> (Ou usuario/nomeImagem:versaoImagem, versão padrão é latest)
 <b>Login no Docker Hub:</b> docker login
@@ -226,7 +226,7 @@ Exemplo nome de imagem: <i>docker.io/library/debian:buster-slim</i> (Ou usuario/
         <div class="row">
             <div class="col-sm-12">
                 <br><h4>Docker Compose</h4>
-                <p id="textoPost">Em grandes projetos, torna-se muito difícil gerenciar Containers e comandos dos mesmos. Para facilitar isso, usa-se Docker Compose, onde tem-se todos os comandos para a execução de um projeto macro, com vários Containers, Imagens e Volumes, em um arquivo único denominado <i>docker-compose.yml</i>.</p>
+                <p id="textoPost">Arquivo do tipo <i>yml</i> chamado '<i>docker-compose.yml</i>', contendo composto (infraestrutura IAC) de configurações para automatização docker e comunicação entre containers (via nome estabelecido) e volumes, podendo haver versionamento e, com isso, melhor organização.</p>
                 <p><b>Passo a passo tradicional:</b></p>
                 <ol>
                     <li>Construir Imagens, com <i>docker build</i></li>
@@ -242,9 +242,9 @@ Exemplo nome de imagem: <i>docker.io/library/debian:buster-slim</i> (Ou usuario/
     <b>db:</b>
         <b>image:</b> mysql
         <b>container_name:</b> mysql-container
-        <b>command:</b> comandoContainerMysqlParaCompatibilidade (Informar 'command' só se necessário)
+        <b>command:</b> (Para comandos shell)
         <b>environment:</b>
-            MYSQL_ROOT_PASSWORD: <i>senhaBD</i>
+            MYSQL_ROOT_PASSWORD=<i>senhaBD</i>
         <b>volumes:</b>
             - ./pastaProjeto:/var/lib/mysql
         <b>restart:</b> always
@@ -268,9 +268,20 @@ Exemplo nome de imagem: <i>docker.io/library/debian:buster-slim</i> (Ou usuario/
         <b>depends_on:</b>
             - db
             - api (No caso, o <i>db</i> não precisa ser informado acima, porque o <i>api</i> já o possui como dependência)
+        <b>cache:</b> (Para dados relacionados à redes)
+        <b>labels:</b> (Para labels personalizadas)
+        <b>#</b>blablabla (Comentário)
+<b>volumes:</b>
+    <b>nomeVolume:</b> {}
+
+<u><b>COMANDOS DOCKER-COMPOSE:</b></u>
+<b>Executar containers do docker-compose:</b> docker-compose up (-d executa em background)
+<b>Listar container via docker-compose:</b> docker-compose ps
+<b>Listar logs de container no docker-compose:</b> docker-compose logs -f nomeContainer1
+<b>Parar docker-compose:</b> docker-compose down (Ou stop)
+<b>Entrar em container via docker-compose:</b> docker-compose exec nomeContainer bash
+(Pode-se, dentro, citar outros containers pelos nomes personalizados)
 </code></pre></small>
-                <p>Após criado o arquivo docker-compose.yml, executar comando de execução do projeto: <i>docker compose up -d</i>
-                <br>Parar todo o projeto: <i>docker compose stop</i></p>
             </div>
         </div>
 
