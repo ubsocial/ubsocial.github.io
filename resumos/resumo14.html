@@ -102,68 +102,66 @@ CMD flask run --host 0.0.0.0
                 <br><h4>Comandos Docker</h4>
                 Executar comandos no diretório raíz do projeto.
 <small><pre><code>
-<b>Construir Imagem:</b> docker build -t nomeImagem -f caminho/nomeDockerFile .
-    <b>Ex:</b> docker build -t mysql-image -f api/db/Dockerfile .
-<b>Ver Imagens disponíveis para uso:</b> docker image ls
-<b>Somente baixar imagem:</b> docker pull nomeImagem
+<b>Criar Container:</b> docker run -d --name nomeContainer nomeImagem (Também acessa e baixa, se não há na máquina)
+    <b>Ex:</b> docker run -d -rm --name banco mysql-image
+<b>Criar e entrar no container:</b> docker run -ti nomeImagem (Ctrl+p+q sai do shell sem matar container)
 
-<b>Criar/Acessar/Baixar(Pull) Container:</b> docker run -d --rm --name nomeContainer nomeImagem
-    <b>Ex:</b> docker run -d -rm -name mysql-container mysql-image
-<b>Criar container, entrando nele:</b> docker run -ti nomeImagem (Ctrl+p+q sai do shell sem matar o container)
-
-<b>Ver Containers em execução:</b> docker ps (Ou docker container ls)
-<b>Ver todos Containers do host docker:</b> docker ps -a (Ou docker container ls -a)
-<b>Ver informações do container:</b> docker inspect idContainer (Ou, no diretório do Container: docker inspect)
+<b>Ver Containers em execução:</b> docker ps (-a no final mostra todos containers)
+<b>Ver informações do container:</b> docker inspect idContainer
 <b>Ver informações com filtro:</b> docker inspect nomeContainer | grep termoPesquisa
 
-<b>Criar container em background, com tty e interativo:</b> docker run -dti nomeImagem (tty e interactive é -it ou -ti)
-<b>Voltar para o container:</b> docker attach idContainer (Ou nome do Container)
+<b>Criar container em background, com tty e interativo:</b> docker run -dti nomeImagem
+<b>Voltar para o container:</b> docker attach idContainer
 
 <b>Executar comandos em Container em execução:</b> docker exec -i nomeContainer comando (bash ao invés de comando, incluindo -t, para entrar no container)
     <b>Ex (Executar comando MySQL de arquivo script.sql):</b> docker exec -i mysql-container mysql -uroot -nomeDB &lt; caminho/script.sql
-    <b>Ver se BD foi criado:</b> docker exec -it mysql-container /bin/bash
-    <b>Dentro do Container, no Bash, consultar DB:</b>
-        -&gt; mysql -uroot -nomeDB
-        -&gt; show databases;
-        -&gt; use nomeDB;
-        -&gt; select * from nomeTable;
-        -&gt; exit;
+    <b>Entrar via Bash:</b> docker exec -it mysql-container /bin/bash
+    <b>Dentro do Container, consultar DB:</b>
+        mysql -uroot -nomeDB
+        show databases;
+        use nomeDB;
+        select * from nomeTable;
+        exit;
 
 <b>Sair do Container:</b> exit
-<b>Iniciar container:</b> docker start idContainer (Pode ser nome no lugar do id)
-<b>Parar Container:</b> docker stop nomeContainer
-<b>Pausar container:</b> docker pause idContainer
-<b>Retomar container:</b> docker unpause idContainer
+<b>Iniciar container:</b> docker start idContainer (stop para)
+<b>Pausar container:</b> docker pause idContainer (unpause retoma)
 
 <b>Ver status do container:</b> docker stats idContainer
 <b>Ver processos do container:</b> docker top idContainer
-<b>Ver logs do container:</b> docker logs idContainer (ou nomeImagem)
+<b>Ver logs do container:</b> docker logs idContainer
 
 <b>Excluir container(Parado):</b> docker rm idContainer
-<b>Excluir container em execução:</b> docker rm -f idContainer (Excluir o container manterá suas imagens)
-<b>Excluir todos containers:</b> docker rm -f $(docker ps -qa) (-q é quit, mostra somente id’s dos containers)
+<b>Excluir container em execução:</b> docker rm -f idContainer (Excluir container manterá suas imagens)
+<b>Excluir todos containers:</b> docker rm -f $(docker ps -qa) (-q é quit, mostra somente id's dos containers)
+
+<b>Construir Imagem:</b> docker build -t nomeImagem -f caminho/nomeDockerFile .
+    <b>Ex:</b> docker build -t mysql-image -f api/db/Dockerfile .
+<b>Ver imagens:</b> docker image ls
+<b>Somente baixar imagem:</b> docker pull nomeImagem (push sobe imagem)
+Registry é um repositório de imagens (Ex: Portus (SUSE), Harbor, Nexus, Docker Hub (Público)).
+Exemplo nome de imagem: <i>docker.io/library/debian:buster-slim</i> (Ou usuario/nomeImagem:versaoImagem, versão padrão é latest)
 
 <b>Criar apelido para imagem:</b> docker image tag nomeAtual novoAlternativo
 <b>Excluir imagem:</b> docker image rm nomeImagem (-f para imagens com containers existentes)
-<b>Listar volumes:</b> docker volume ls
-<b>Construir imagem, a partir do dockerfile:</b> docker build -t nomeImagem diretorioDockerfile (ou nomeImagem:infoAdicional)
+<b>Construir imagem, a partir do dockerfile:</b> docker build -t nomeImagem:opcionalInfo diretorioDockerfile
 
-<u><b>ENVIANDO IMAGENS (PULL):</b></u>
-Registry é um repositório de imagens (Ex: Portus (SUSE), Harbor, Nexus, Docker Hub (Público)).
-Exemplo nome de imagem: <i>docker.io/library/debian:buster-slim</i> (Ou usuario/nomeImagem:versaoImagem, versão padrão é latest)
-<b>Login no Docker Hub:</b> docker login
-<b>Baixar imagem:</b> docker pull nomeImagem
-<b>Subir imagem:</b> docker push nomeImagem
+<b>Ver volumes:</b> docker volume ls
+<b>Login Docker Hub:</b> docker login (Necessário antes de subir imagem)
+
+<u><b>Resumo:</b></u>
+<i>docker run -d --name banco -e MYSQL_USER=fulano -v dados:/var/lib/mysql -p 3306:3306 mariadb</i>
 
 <u>PARÂMETROS</u>:
-<b>-t</b>: tag
+idContainer pode também ser substituido pelo nome
 <b>-f</b>: especifica dockerfile
-<b>Ponto no final:</b> O contexto para gerar a Imagem parte da pasta atual na execução do comando
 <b>-d</b>: Executar Container em background
 <b>-rm</b>: Sobrescreve Container com novo, caso já exista antigo similar
+<b>-t</b>: tag
 <b>-i</b>: Execução de comando em modo interativo, como um shell
-<b>-it</b>: TTY, utilizar emulador de Terminal
+<b>-ti</b>: TTY, utilizar emulador de Terminal
 <b>-v</b>: Volume
+<b>Ponto no final:</b> Especifica diretório atual
 <b>$(pwd)</b>: Especifica caminho do diretório atual
 <b>-p</b>: Especifica porta no Container estará exposta para porta do host (pHostDocker:pContainer)
 </code></pre></small>
@@ -172,14 +170,15 @@ Exemplo nome de imagem: <i>docker.io/library/debian:buster-slim</i> (Ou usuario/
 
         <div class="row">
             <div class="col-sm-12">
+                <!--Anotação-->
                 <br><h4>Volume</h4>
                 <p id="textoPost">Local onde ficam os dados do container, que podem ser transferidos, além do ciclo de vida do container (Ex: Dados de BD, códigos e arquivos, etc) e compartilhados com demais containers (Ao adicionar container, muda-se a porta do host docker. Cada container funciona em uma porta). Pode ser diretório local ou externo.</p>
 <small><pre><code>
 <b>Criar container com volume:</b> docker run -dti -v caminho/absolutoArqExterno:caminho/internoContainer -p portaHostDocker:portaContainer nomeImagem
 <b>Ex1 (Container Apache):</b> docker run -d -v /root/destino/:/usr/local/apache2/htdocs/ -p 80:80 httpd
 <b>Ex2 (Container Nginx):</b> docker run -d -v /root/destino/:/usr/share/nginx/html/ -p 81:80 nginx
-<b>Criar container com variáveis de ambiente:</b> docker run -d --name banco -e MYSQL_ROOT_PASSWORD=’abc’ -e MYSQL_USER=fulano mariadb
-<b>Criar container com volume específico, gerenciado interno pelo Docker (salvo em /var/lib/docker/):</b> ocker run -d --name banco -e MYSQL_ROOT_PASSWORD=’abc’ -e MYSQL_USER=fulano -v nomeVolume:/var/lib/mysql mariadb
+<b>Criar container com variáveis de ambiente:</b> docker run -d --name banco -e MYSQL_ROOT_PASSWORD='abc' -e MYSQL_USER=fulano mariadb
+<b>Criar container com volume específico, gerenciado interno pelo Docker (salvo em /var/lib/docker/):</b> docker run -d --name banco -e MYSQL_ROOT_PASSWORD='abc' -e MYSQL_USER=fulano -v nomeVolume:/var/lib/mysql mariadb
 
 <b>Criar/Acessar Container com Volume:</b> docker run -d -v caminho1/pastaComp1:caminho2/pastaComp2 --rm --name nomeContainer nomeImagem
     <b>Ex1 (Compartilhar, na pasta do projeto, a pasta com MySQL):</b>
