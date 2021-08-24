@@ -161,21 +161,21 @@ idContainer pode também ser substituido pelo nome
                 <br><h4>Volume</h4>
                 <p id="textoPost">Local onde ficam os dados do container, que podem ser transferidos, além do ciclo de vida do container (Ex: Dados de BD, códigos e arquivos, etc) e compartilhados com demais containers (Ao adicionar container, muda-se a porta do host docker. Cada container funciona em uma porta). Pode ser diretório local ou externo.</p>
 <small><pre><code>
-<b>Criar container com volume:</b> docker run -dti -v caminho/absolutoArqExterno:caminho/internoContainer -p portaHostDocker:portaContainer nomeImagem
-    <b>Ex (Container Apache):</b> docker run -d -v /root/destino/:/usr/local/apache2/htdocs/ -p 80:80 httpd
+<b>Criar container com volume:</b> docker run -dtiv caminho/absolutoArqExterno:caminho/internoContainer -p portaHostDocker:portaContainer nomeImagem
+    <b>Ex (Container Apache):</b> docker run -dv /root/destino/:/usr/local/apache2/htdocs/ -p 80:80 httpd
 <b>Container com volume padrão (/var/lib/docker/):</b> docker run -d --name banco -e MYSQL_USER=fulano -v nomeVolume:/var/lib/mysql mariadb
 <b>Ver volumes:</b> docker volume ls
 
 <u><b>Exemplos:</b></u>
-<b>Criar Container:</b> docker run -d -v caminho1/pastaComp1:caminho2/pastaComp2 --name nomeContainer nomeImagem
+<b>Criar Container:</b> docker run -dv caminho1/pastaComp1:caminho2/pastaComp2 --name nomeContainer nomeImagem
 <b>Ex1 (Compartilhar, na pasta do projeto, a pasta com MySQL):</b>
-    -&gt; docker run -d -v $(pwd)/pastaProjeto:/var/lib/mysql --name banco mysql-image
+    -&gt; docker run -dv $(pwd)/pastaProjeto:/var/lib/mysql --name banco mysql-image
     -&gt; docker exec -i banco mysql -uroot -nomeDB &lt; pastaProjeto/script.sql
 <b>Ex2 (Com porta de roteamento fora do Container, no host docker):</b>
-    -&gt; docker run -d -v $(pwd)/pastaProjeto:/var/lib/mysql -p 9001:9001 --name banco mysql-image
+    -&gt; docker run -dv $(pwd)/pastaProjeto:/var/lib/mysql -p 9001:9001 --name banco mysql-image
     -&gt; Conferir: No browser, acessar url 'localhost:9001/arquivo'
 <b>Ex3 (Com link de apelido, pode-se trocar o ip do Container por seu apelido, para acesso):</b>
-    -&gt; docker run -d -v $(pwd)/pastaProjeto:/var/lib/mysql -p 9001:9001 --link apelidoContainer --name banco mysql-image
+    -&gt; docker run -dv $(pwd)/pastaProjeto:/var/lib/mysql -p 9001:9001 --link apelidoContainer --name banco mysql-image
 </code></pre></small>
             </div>
         </div>
@@ -195,7 +195,7 @@ idContainer pode também ser substituido pelo nome
                                 </ol>
                             </li>
                             <li><b>Construir imagem:</b> <i>docker build -t php-image -f website/Dockerfile .</i></li>
-                            <li><b>Executar container com imagem:</b> <i>docker run -d -v $(pwd)/website:/var/www/html -p 8888:80 --link phpContainer --rm --name php-container php-image</i></li>
+                            <li><b>Executar container com imagem:</b> <i>docker run -dv $(pwd)/website:/var/www/html -p 8888:80 --link phpContainer --rm --name php-container php-image</i></li>
                         </ol>
                     </li>
                 </ol>
