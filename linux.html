@@ -534,7 +534,7 @@ Durabilidade somente enquanto o terminal estiver aberto
 <b>Volta à pasta raíz:</b> cd / (Na pasta raíz tem-se o acesso de todo o sistema)
 </code></pre></small>
                     <h4>Caracteres globais (Globbing)</h4>
-                    <p>Também conhecidos como <b>Expressões Regulares</b>, quando caracteres Regex são utilizados em conjunto.</p>
+                    <p>Também conhecidos como <b>Expressões Regulares</b>, quando caracteres Regex são utilizados em conjunto. Seguem abaixo os metacaracteres.</p>
 <small><pre><code>
 <b>.</b> Referência a qualquer caractere único
 <b>*</b> Referência a conjunto de caracteres (presente no prompt do Windows)
@@ -554,6 +554,12 @@ Durabilidade somente enquanto o terminal estiver aberto
 <b>( )</b> Criar grupos
 <b>!</b> Exclui caractere da operação
 <u>Obs</u>: Há diferença entre maiúsculas e minúsculas
+
+<b><u>Classificação:</u></b>
+<b>Marcação (Âncoras):</b> ^ $ \b
+<b>Quantificadores:</b> . ? * + {n[,m]} [...] [^...]
+<b>Agrupamento:</b> () \n
+<b>Outros:</b> \
 
 <b>Criar 5 arquivos:</b> touch arquivo{1-5}.txt (Gerará 'arquivo1.txt', 'arquivo2.txt'...)
 <b>Listar tudo que começa com 'x':</b> ls /etc/x*
