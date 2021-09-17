@@ -845,15 +845,14 @@ O nano possibilita a abertura de diversos arquivos ao mesmo tempo.
 <b>gg</b> - Ir para início do arquivo
 <b>G</b> - Ir para final do arquivo
 <b>36G</b> - Ir para a 36ª linha
-<b>m</b> - Ir para linha do meio da tela
+<b>M</b> - Ir para linha do meio da tela
 <b>h</b> - Voltar 1 caractere
-<b>j</b> - Avançar 1 caractere
+<b>l</b> - Avançar 1 caractere
 <b>H</b> - Ir para a 1ª linha exibida na tela
 <b>L</b> - Ir para a última linha exibida na tela
 <b>j</b> - Abaixo 1 linha
 <b>J</b> - Juntar linha atual com linha seguinte
 <b>k</b> - Acima 1 linha
-<b>I</b> - 1 caractere à direita
 <b>w</b> - 1 palavra para a frente
 <b>b</b> - 1 palavra atrás
 <b>^</b> - Início da linha
@@ -870,23 +869,22 @@ O nano possibilita a abertura de diversos arquivos ao mesmo tempo.
                     <h5>Manipulações</h5>
 <small><pre><code>
 <b>u</b> - Desfazer modificação (Undo)
-<b>Y</b> - Copiar linha
 <b>s</b> - Deletar caractere atual e Colar linha
 <b>S</b> - Deletar linha atual e Colar linha
 <b>dgg</b> - Deletar a partir da linha visual do topo até linha do cursor
 <b>yw</b> - Copiar palavra sob cursor
 <b>dw</b> - Recortar palavra sob cursor
-<b>V</b> - Selecionar linha(s), usando teclas de movimentações para seleção
-<b>v</b> - Selecionar palavra(s), usando teclas de movimentações para seleção
+<b>Y</b> - Copiar linha
 <b>y</b> - Copiar trecho selecionado
 <b>D</b> - Recortar trecho selecionado
 <b>uu</b> - Recortar linha
-<b>J</b> - Juntar linha atual à linha seguinte
+<b>V</b> - Selecionar linha(s), usando teclas de movimentações para seleção
+<b>v</b> - Selecionar palavra(s), usando teclas de movimentações para seleção
 <b>p</b> - Colar trecho selecionado/copiado após o cursor
 <b>P</b> - Colar trecho selecionado/copiado antes do cursor
 <b>r</b> - Substituir caractere atual (Replace)
 <b>R</b> - Substituir conjunto de caracteres
-<u>Ex:</u> <b>3y</b> copia as 3 letras em frente (cursor + 2 letras seguintes). <b>p</b> colará, após o cursor, essas 3 letras
+<u>Ex:</u> <b>3y</b> copia as 3 letras em frente (cursor + 2 letras seguintes). <b>p</b> colará, após o cursor
 </small></pre></code>
                     <h5>Exclusões</h5>
 <small><pre><code>
@@ -896,14 +894,13 @@ O nano possibilita a abertura de diversos arquivos ao mesmo tempo.
 <b>dw</b> - Excluir palavra atual
 <b>d3w</b> - Excluir as próximas 3 palavras
 <b>d4h</b> - Excluir 4 caracteres à esquerda
-<b>ctrl+h</b> - Excluir último caractere
 </small></pre></code>
                     <h5>Modificações</h5>
 <small><pre><code>
 <b>cc</b> - Mudar linha atual
 <b>cw</b> - Mudar palavra atual
-<b>c3w</b> - Mudar as próximas 3 palavras
-<b>c5h</b> - Mudar 5 caracteres para a esquerda
+<b>c3w</b> - Mudar as próximas 3 palavras (Apaga para mudar)
+<b>c5h</b> - Mudar 5 caracteres para a esquerda (Apaga para mudar)
 </small></pre></code>
                     <h5>Arrancar (Yank)</h5>
                     <p>Yank coloca conteúdo no buffer sem excluí-lo (Copiar).</p>
@@ -911,10 +908,9 @@ O nano possibilita a abertura de diversos arquivos ao mesmo tempo.
 <b>yy</b> - Arranque a linha atual
 <b>3yy</b> - Arranque as próximas 3 linhas
 <b>yw</b> - Arranque as próximas 3 linhas
-<b>y$</b> - Arranque até o fim da linha
 </small></pre></code>
                     <h5>Pesquisa</h5>
-                    <p>O Vi aceita termos e expressões regulares para pesquisa. Pesquise, no Ex Mode, a partir da posição atual do cursor, usando <b>/</b> para iniciar a pesquisa, digite o termo de pesquisa e pressione 'Enter' para pesquisar. O cursor se moverá para a 1ª correspondência que for encontrada. Use 'n' para seguir para as próximas correspondências, usando 'N' para retroceder. Para pesquisar para trás da posição do cursor, use <b>?</b> seguido do termo e pressione 'Enter'. No Ex mode, para substituir todas as palavras 'Caza' por 'Casa' utilize '<i>:%s/Caza/Casa/g</i>'.</p>
+                    <p>O Vi aceita termos e expressões regulares para pesquisa. Pesquise, no Ex Mode, a partir da posição atual do cursor, usando <b>/</b> para iniciar a pesquisa, digite o termo de pesquisa e pressione 'Enter' para pesquisar. O cursor se moverá para a 1ª correspondência que for encontrada. Use 'n' para seguir para as próximas correspondências, usando 'N' para retroceder (Pesquisa <b>?</b>). No Ex mode, para substituir todas as palavras 'Caza' por 'Casa' utilize '<i>:%s/Caza/Casa/g</i>'.</p>
                     <h4>Modo de Inserção (i)</h4>
                     <p>Neste modo, o usuário poderá modificar o conteúdo interno do arquivo. Neste modo, utilize 'delete' para apagar conteúdo. Use 'esc' para sair do modo e voltar a utilizar o Ex Mode. O modo de Inserção, por padrão, faz a inserção de texto à esquerda do cursor. Caso desejar o contrário, informe a tecla <b>a</b> para inserção de texto à direita do cursor, ou seguindo as demais ações abaixo.</p>
 <small><pre><code>
