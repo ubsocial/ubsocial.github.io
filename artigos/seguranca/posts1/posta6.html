@@ -40,20 +40,37 @@
             <ul>
                 <li><b>site</b>: Busca um site específico (<i>site:wikipedia.org</i>)</li>
                 <li><b>related</b>: Busca sites relacionados (<i>related:wikipedia.org</i>)</li>
+                <li><b>around</b>: Busca por proximidade (<i>ubsocial AROUND(3) programação</i>)</li>
                 <li><b>cache</b>: Busca em sites salvos no cache do Google (<i>cache:wikipedia.org</i>)</li>
-                <li><b>intitle</b>: Busca título de página web (<i>intitle:wikipedia</i>)</li>
-                <li><b>inurl</b>: Busca exata url (<i>inurl:wikipedia</i>)</li>
+                <li><b>intitle / allintitle / inposttitle</b>: Busca título de página web (<i>intitle:wikipedia</i>)</li>
+                <li><b>inurl / allinurl / blogurl</b>: Busca exata url (<i>inurl:wikipedia</i>)</li>
                 <li><b>filetype</b>: Busca tipo de arquivo (<i>filetype:pdf</i>)</li>
-                <li><b>intext</b>: Busca apenas texto da página (<i>intext:wiki</i>)</li>
+                <li><b>intext / allintext / inbody</b>: Busca apenas texto da página (<i>intext:wiki</i>)</li>
+                <li><b>contains:</b> Busca sites que contém termo (<i>contains:pdf</i>)</li>
+                <li><b>info</b>: Busca informações similares, como textos, links e páginas (<i>info:wikipedia.org</i>)</li>
+                <li><b>source</b>: Busca em site proprietário (<i>programação source:ubsocial</i>)</li>
                 <li><b>link</b>: Busca links de páginas (<i>link:wikipedia</i>)</li>
                 <li><b>inanchor</b>: Busca termo em hiperlinks (<i>inanchor:ubsocial</i>)</li>
                 <li><b>numrange</b>: Intervalo de quantidade de resultados (<i>numrange:1-50</i>)</li>
                 <li><b>daterange</b>: Intervalo de datas de resultados (<i>2452671-2452671 columbia</i>)</li>
-                <li><b>author</b>: Busca autor da página (<i>author:ubsocial</i>)</li>
+                <li><b>author/ allinpostauthor / inpostauthor</b>: Busca autor da página (<i>author:ubsocial</i>)</li>
                 <li><b>group</b>: Busca por grupo de autoria da página (<i>group:ubsocial</i>)</li>
                 <li><b>msgid</b>: Busca por grupo msgid de autoria da página (<i>msgid:ubsocial</i>)</li>
+                <li><b>insubject</b>: Busca por assunto de grupo</li>
                 <li><b>subject</b>: Busca por assunto de páginas (<i>subject:linux</i>)</li>
                 <li><b>meta</b>: Busca metatags específicas</li>
+                <li><b>location / loc / region / near</b>: Busca por região específica (USA: <i>loc:3166-1</i>)</li>
+                <li><b>altloc / language</b>: Busca por localização/linguagem como pt-br ou en-us</li>
+                <li><b>book</b>: Busca por título de livros</li>
+                <li><b>maps:[localização]</b>: Busca por localização de mapa</li>
+                <li><b>weather</b>: Previsão do tempo (<i>weather:dubai</i>)</li>
+                <li><b>define</b>: Dicionário (<i>define:"marketing"</i>)</li>
+                <li><b>movie</b>: Título de filme (<i>movie:the social network</i>)</li>
+                <li><b>stocks</b>: Ações financeiras (<i>stocks:apple</i>)</li>
+                <li><b>linkfromdomain</b>: Busca por links de relacionado domínio (<i>linkfromdomain:ubsocial.github.io</i>)</li>
+                <li><b>phonebook</b>: Busca por telefone (<i>phonebook:(510) 555-2222 ou nomePessoa</i>)</li>
+                <li><b>feed / hasfeed:[url]</b>: Busca por feed RSS</li>
+                <li><b>ip</b>: Busca por endereço IP (<i>ip:192.158.1.38.</i>)</li>
                 <li><b>" "</b>: Busca padrão exato (<i>"wikipedia"</i>)</li>
                 <li><b>NOT ou -</b>: Exclui termo da busca (<i>ubsocial site -windows</i>)</li>
                 <li><b>OR ou |</b>: Combina termos na busca, ou um ou outro (<i>ubsocial OU youtube</i>)</li>
@@ -64,40 +81,68 @@
                 <li><b>imagesize</b>: Busca tamanho exato de imagem, incombinável com demais operadores (<i>imagesize:320x320</i>)</li>
                 <li><b>@</b>: Busca em redes sociais (<i>@wikipedia</i>)</li>
                 <li><b>#</b>: Busca por hashtags (<i>#ubsocial</i>)</li>
-                <li><b>$</b>: Busca por preços (<i>smartphone $2800</i>)</li>
+                <li><b>$ / € / £ / ¥</b>: Busca por preços (<i>smartphone $2800</i>)</li>
+                <li><b>to / in</b>: Conversão (<i>100 libs to kg</i>)</li>
+                <li><b>.</b>: Substitui por qualquer caracter (<i>.eb aplicação</i>)</li>
                 <li><b>..</b>: Busca entre faixas mínimo/máximo (<i>smartphone $2800..$5800</i>)</li>
             </ul>
             <h4>Links:</h4>
             <ul>
                 <li><b>GHDB</b>: Google Hacking Database, no Exploit Database, é um arsenal open source com milhares de dorks previamente prontas: <a href="https://www.exploit-db.com/google-hacking-database" target="_blank">Acesse</a></li>
                 <li><b>uDork</b>: Shell Script que realiza Google Hacking automaticamente: <a href="https://github.com/m3n0sd0n4ld/uDork" target="_blank">Acesse</a></li>
+                <li><b>Google Hacking Tool</b>: Automatizador online de Google Hacking: <a href="https://pentest-tools.com/information-gathering/google-hacking" target="_blank">Acesse</a></li>
+                <li><b>Tabela de operadores Google Hacking</b>: Tabela para cola: <a href="" target="_blank">Acesse</a></li>
             </ul>
             <h4>Exemplos:</h4>
             <ul>
                 <li><b>Câmeras:</b> <i>intitle:"webcamXP 5"</i> ou <i>inurl:top.htm inurl:currenttime</i></li>
                 <li><b>Câmeras ao vivo:</b> <i>inurl:"lvappl.htm"</i></li>
+                <li><b>Dispositivos online:</b> <i>"inurl:system_device.xml"</i></li>
                 <li><b>Previsão do tempo:</b> <i>intitle:"Weather Wing WS-2"</i></li>
                 <li><b>Conferências Zoom:</b> <i>inurl:zoom.us/j and intext:scheduled for</i></li>
-                <li><b>Servidores FTP abertos:</b> <i>intext:"index of" inurl:ftp</i></li>
-                <li><b>Servidores Web vulneráveis:</b> <i>inurl:/proc/self/cwd</i> ou <i>intitle:"Apache2 Ubuntu Default Page: It works"</i> ou <i>inurl:_cpanel/forgotpwd</i></li>
+                <li><b>Servidores FTP abertos:</b> <i>intext:"index of" inurl:ftp</i> ou <i>intitle:index.of "parent directory"</i> ou <i>intitle:index.of name size</i> ou <i>".git" intitle:"Index of"</i></li>
+                <li><b>Servidores Web vulneráveis:</b> <i>inurl:/proc/self/cwd</i> ou <i>intitle:"Apache2 Ubuntu Default Page: It works"</i> ou <i>inurl:_cpanel/forgotpwd</i> ou <i>filetype:config inurl:web.config inurl:ftp</i> ou <i>intitle:index.of server.at</i></li>
                 <li><b>Administração Wordpress:</b> <i>intitle:"Index of" wp-admin</i></li>
                 <li><b>Arquivos seinsíveis de frameworks:</b> <i>filetype:.env</i></li>
                 <li><b>Arquivos sensíveis de desenvolvimento:</b> <i>inurl:Dashboard.jspa intext:"Atlassian Jira Project Management Software"</i> ou <i>inurl:app/kibana intext:Loading Kibana</i></li>
                 <li><b>Chaves SSH privadas:</b> <i>intitle:index.of id_rsa -id_rsa.pub</i> ou <i>filetype:log username putty</i></li>
                 <li><b>Arquivos governamentais:</b> <i>allintitle: restricted filetype:doc site:gov</i></li>
-                <li><b>Listas de emails:</b> <i>filetype:xls inurl:"email.xls"</i> ou <i>site:.edu filetype:xls inurl:"email.xls"</i></li>
-                <li><b>Diretórios administrativos:</b> <i>inurl:/wp-admin</i> ou <i>intext:adminpass</i></li>
+                <li><b>Listas de emails:</b> <i>filetype:xls inurl:"email.xls"</i> ou <i>site:.edu filetype:xls inurl:"email.xls"</i> ou <i>allintext:email OR mail +*gmail.com filetype:txt</i></li>
+                <li><b>Diretórios administrativos:</b> <i>inurl:/wp-admin</i> ou <i>intext:adminpass</i> ou <i>inurl:8080 intitle:"Dashboard [Jenkins]"</i></li>
                 <li><b>Arquivos sensíveis de banco de dados:</b> <i>"index of" "database.sql.zip"</i></li>
                 <li><b>Banco de Dados abertos:</b> Via Phpmyadmin. <i>"Index of" inurl:phpmyadmin</i></li>
                 <li><b>Falha SQL Injection:</b> <i>"nomeSite"+inurl=index.php?id=1</i></li>
                 <li><b>Banco de dados indexados:</b> <i>"index of nomeOuDominioSite mysql/data"</i> (Ou somente mysql no final)</li>
                 <li><b>Buscar pessoas:</b> <i>"CPF + nome + RG + Conta Bancária" site=gov.br</i></li>
                 <li><b>Grupos públicos Whatsapp:</b> <i>intext:chat.whatsapp.com and intext:São Paulo and intext:futebol</i></li>
-                <li><b>Arquivos txt sensíveis:</b> <i>inurl:/wp-content/uploads/ ext:txt "username" AND "password" | "pwd" | "pw"</i></li>
+                <li><b>Arquivos txt sensíveis:</b> <i>inurl:/wp-content/uploads/ ext:txt "username" AND "password" | "pwd" | "pw"</i> ou <i>xamppdirpasswd.txt filetype:txt</i> ou <i>site:github.cominurl:sftp-config.json</i> ou <i>filetype:passwordjmxremote</i></li>
                 <li><b>Arquivos de logs:</b> <i>allintext:username filetype:log</i></li>
                 <li><b>Arquivos de banco de dados:</b> Geralmente relacionados a backups e despejos (<i>intitle:"index of" "dump.sql"</i>)</li>
                 <li><b>robots.txt:</b> Arquivos removidos da indexação do Google, informar campo na url do browser (<i>url/robots.txt</i>)</li>
             </ul>
+            <h4>Formulário busca Google:</h4>
+<small><pre><code style="color: white;">
+&lt;!--Formulário customizado de pesquisa no Google--&gt;
+&lt;form method="get" action="http://www.google.com/search"&gt;
+    &lt;input type="text" name="q" maxlength=255 value=""&gt;
+    &lt;br/&gt;
+    Tipo de arquivo:
+    &lt;select name="as_filetype"&gt;
+        &lt;option value="ppt"&gt;PowerPoint&lt;/option&gt;
+        &lt;option value="xls"&gt;Excel&lt;/option&gt;
+        &lt;option value="doc"&gt;Word&lt;/option&gt;
+    &lt;/select&gt;
+    &lt;br/&gt;
+    Site de busca:
+    &lt;select name="as_sitesearch"&gt;        
+        &lt;/option&gt;
+        &lt;option value="tompeters.com"&gt;TomPeters.com&lt;/option&gt;
+        &lt;option value="state.ca.us"&gt;State of California&lt;/option&gt;
+        &lt;option value="loc.gov"&gt;The Library of Congress&lt;/option&gt;
+    &lt;/select&gt;
+    &lt;input type="hidden" name="num" value="100"&gt;
+&lt;/form&gt;
+</code></pre></small>
         </div>
     </div>
 
