@@ -35,16 +35,16 @@
 
     <div class="row">
         <div class="col-sm-12" id="titulo1">
-            <h1 id="serifada">Consumindo Api com Php</h1>
-            <h6><strong>Leitura de dados de Api com Php</strong></h6>
+            <h1 id="serifada">Consumindo API com PHP</h1>
+            <h6><strong>Leitura de dados de API com PHP</strong></h6>
         </div>
 
         <div class="col-sm-12">
-            <h4>O que é Api?</h4>
-            <p id="textoPost">Application Programming Interface é uma forma de comunicação(troca de dados) entre sistemas paralelos, realizada através de um meio de comunicação(Json,Http(Url),Xml...) na qual ambos sistemas conseguem interpretar os dados em questão(um sistema emite o código, o outro recebe e o interpreta). Já imaginou seu sistema se comunicar, de forma perfeita, com um sistema, tecnicamente totalmente diferente do seu, hospedado do outro lado do mundo? Esse processo, na prática, é o consumo de Api, na qual um sistema X envia um conjunto de dados em códigos para um sistema Y, onde ambos conseguem se comunicar 100%.</p>
+            <h4>O que é API?</h4>
+            <p id="textoPost">Application Programming Interface tem função de intermediar comunicação do banco de dados com o sistema (Interno ou externo), utilizando protocolo de comunicação HTTP (XML/JSON), independente da tecnologia do sistema que irá consumi-la (Acessá-la). Pode-se solicitar dados à API, via métodos como POST, assim como a API poderá fornecer-lhe dados. Em ambos casos, utilizando a comunicação universal citada.</p>
             <br>
-            <h4>Consumindo Api na prática</h4>
-            <p id="textoPost">Agora, faremos a comunicação e consumo, em Php, com um sistema de Api que envia dados em código Json sobre a previsão do tempo. Além disso, o próprio sistema pega a geolocalização via IP da máquina receptora, na própria url. Basta inserir o código do arquivo abaixo no <i>htdocs</i> do seu Xampp executando, ou no diretório do seu usuário para Php 'raíz' executando, em localhost. Esse pequeno trecho de código faz toda a mágica acontecer, sempre de forma atualizada. Este é o link da Api, que possui também dados financeiros(moeda) e de geolocalização(leia a documentação[bem simples e rápida] para maiores instruções quanto à url compartilhada pela api):</p>
+            <h4>Consumindo API na prática</h4>
+            <p id="textoPost">Agora, faremos a comunicação e consumo, em PHP, com um sistema de API que envia dados em código JSON sobre a previsão do tempo. Além disso, o próprio sistema pega a geolocalização via IP da máquina receptora, na própria URL. Basta inserir o código do arquivo abaixo no <i>htdocs</i> do seu XAMPP executando, ou no diretório do seu usuário para PHP estrutural executando, em localhost. Esse pequeno trecho de código faz toda a mágica acontecer, sempre de forma atualizada. Este é o link da Api, que possui também dados financeiros (moeda) e de geolocalização (leia a documentação para maiores instruções quanto à URL compartilhada pela API):</p>
             <a href="https://hgbrasil.com/status/weather" id="btnLink" target="_blank" class="btn btn-link">Api HG Brasil</a>
 <small><pre><code>
 <h6><b>Modo Estrutural</b></h6>
@@ -144,7 +144,7 @@ class HG_API {
         </div>
         <div class="col-sm-12" id="msgm">
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong>Cuidados com Apis!</strong><br>Nunca compartilhe <strong>dados pessoais</strong> valiosos via url com Apis desconhecidas (nunca saberemos o que o sistema em paralelo irá processar do outro lado)<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <strong>Cuidados com APIs!</strong><br>Nunca compartilhe <strong>dados pessoais</strong> valiosos via URL com APIs desconhecidas (nunca saberemos o que o sistema em paralelo irá processar do outro lado)<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         </div>
     </div>
