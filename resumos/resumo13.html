@@ -36,11 +36,11 @@
     <div class="row">
         <div class="col-sm-12" id="titulo1">
             <h1 id="serifada">Laravel</h1>
-            <h6><strong>Utilizando o maior framework php</strong></h6>
+            <h6><strong>Utilizando o maior framework PHP</strong></h6>
         </div>
 
         <div class="col-sm-12">
-            <p id="textoPost">Laravel é o maior framework php do mundo, usando como princípio MVC. Possui motor administrado pelo Composer, automatização com php artisan e BD(PDO), views padronizadas Blade e estilização Bootstrap, estruturação Hash de segurança, entre outros recursos tecnológicos. Possui, além disso, o maior ecossistema de soluções extensíveis, atendendo à todo tipo de necessidade de software moderno, como ServerLess e Server, Deployment, Queue Monitoring, Admin Panel, Realtime, Micro, Pre-Packaged, SaaS, Mac, Webpack, Billing Integration, Testing e Automation, Painless OAuth2, Search, Debug, Scaffolding e muito mais.</p>
+            <p id="textoPost">Laravel é o maior framework PHP do mundo, usando como princípio MVC. Possui motor administrado pelo Composer, automatização com php artisan e BD (PDO), views padronizadas Blade e estilização Bootstrap, estruturação Hash de segurança, entre outros recursos tecnológicos. Possui, além disso, o maior ecossistema de soluções extensíveis, atendendo à todo tipo de necessidade de software moderno, como ServerLess e Server, Deployment, Queue Monitoring, Admin Panel, Realtime, Micro, Pre-Packaged, SaaS, Mac, Webpack, Billing Integration, Testing e Automation, Painless OAuth2, Search, Debug, Scaffolding e muito mais.</p>
             <a class="btn btn-link" id="btnLink" href="https://github.com/mateusschwede/laravel" target="_blank">Acesse no Github</a>
         </div>
     </div>
@@ -50,26 +50,26 @@
             <br>
             <h4>Instalação</h4>
             <ol>
-                <li>Instalar e executar Xampp</li>
-                <li>Instalar Composer: Baixe o arquivo em composer.org, e enviá-lo para pasta de var referência global(no Windows somente executar)</li>
+                <li>Instalar e executar XAMPP</li>
+                <li>Instalar Composer: Baixe o arquivo em composer.org, e enviá-lo para pasta de var referência global (no Windows somente executar)</li>
                 <li>Testar Composer: No terminal, execute o comando <i>'composer'</i> para ver informações do mesmo</li>
-                <li>Instalar Laravel8: Via composer Create-Project: No diretório dos projetos, executar o comando(criar projeto): <i>composer create-project --prefer-dist laravel/laravel nomeProjeto</i></li>
+                <li>Instalar Laravel 8: Via composer Create-Project: No diretório dos projetos, executar o comando(criar projeto): <i>composer create-project --prefer-dist laravel/laravel nomeProjeto</i></li>
                 <li>Criar BD 'laravel' padrão, com comando, no diretório do projeto <i>php artisan migrate</i> (1º criar BD no Phpmyadmin, depois o comando gerará as tables)</li>
-                <li>Opcional: Instalar Laravel Installer(composer global require laravel/installer), então criar projeto(laravel new nomeProjeto)</li>
+                <li>Opcional: Instalar Laravel Installer (composer global require laravel/installer), então criar projeto (laravel new nomeProjeto)</li>
             </ol>
-            <p>NOVO PROJETO LARAVEL(passo4):<br>No diretório desejado, executar o comando: <i>composer create-project --prefer-dist laravel/laravel nomeProjeto</i></p>
+            <p>NOVO PROJETO LARAVEL (passo4):<br>No diretório desejado, executar o comando: <i>composer create-project --prefer-dist laravel/laravel nomeProjeto</i></p>
             <h5>Linux Debian</h5>
             <ol>
-                <b>Baixar Xampp</b>
+                <b>Baixar XAMPP</b>
                 <li>Baixar arquivo (https://www.apachefriends.org/pt_br/index.html)</li>
                 <li>(diretório do download)Torná-lo executável: <i>sudo chmod +x nomeArquivoXampp.run</i></li>
                 <li>Instalar arquivo: <i>sudo ./nomeArquivoXampp.run</i> (next procedimentos até finish)</li>
-                <li>(Diretório Desktop)Iniciar xampp: <i>sudo ../../opt/lampp/lampp start</i> (stop para encerrar, status para verificar)</li>
+                <li>(Diretório Desktop) Iniciar xampp: <i>sudo ../../opt/lampp/lampp start</i> (stop para encerrar, status para verificar)</li>
                 <b>Baixar Composer</b>
-                <li>Com Xampp Php executando, instalar curl: <i>sudo apt install curl</i></li>
-                <li>Baixar Composer e vincular com Php Xampp: <i>sudo curl -s https://getcomposer.org/installer | /opt/lampp/bin/php</i></li>
+                <li>Com XAMPP PHP executando, instalar curl: <i>sudo apt install curl</i></li>
+                <li>Baixar Composer e vincular com PHP XAMPP: <i>sudo curl -s https://getcomposer.org/installer | /opt/lampp/bin/php</i></li>
                 <li>Mover arquivo composer.phar para torná-lo de uso Global: <i>sudo mv composer.phar /usr/local/bin/composer</i></li>
-                <li>Vincular Php com uso Global: <i>sudo ln -s /opt/lampp/bin/php /usr/local/bin/php</i></li>
+                <li>Vincular PHP com uso Global: <i>sudo ln -s /opt/lampp/bin/php /usr/local/bin/php</i></li>
                 <b>Instalar Nodejs e npm</b>
                 <li><i>sudo apt install nodejs && sudo apt install npm</i></li>
                 <b>Baixar projeto Laravel:</b>
@@ -82,13 +82,13 @@
             <h4>Funcionamento</h4>
             <img src="../anexos/resumo13/laravelMvc.png" width="70%" height="auto">
             <ol>
-                <li>User dispara ação no Browser para determinada url</li>
+                <li>User dispara ação no Browser para determinada URL</li>
                 <li>Ação será capturada pelo routes 'web.php', no diretório Routes, que será roteado a um controller</li>
-                <li>Controller conversa com Model, que conversa com BD(PDO)</li>
-                <li>Feeback do BD(falha/sucesso) volta ao Model, esse repassa ao Controller</li>
-                <li>Controller chama View dinâmica(Blade), que enviará o resultado via Browser(Html) para User</li>
+                <li>Controller conversa com Model, que conversa com BD (PDO)</li>
+                <li>Feeback do BD (falha/sucesso) volta ao Model, esse repassa ao Controller</li>
+                <li>Controller chama View dinâmica (Blade), que enviará o resultado via Browser (HTML) para User</li>
             </ol>
-            <p>NA PRÁTICA<br><small>(Atente-se com os 'use' e 'namespace', para checar se os mesmos encontram-se e correspondem à árvore de diretórios)</small></p>
+            <p>NA PRÁTICA<br> <small>(Atente-se com os 'use' e 'namespace', para checar se os mesmos encontram-se e correspondem à árvore de diretórios)</small></p>
             <ol>
                 <li>Criar route no 'web.php', comentá-la para criar o Controller</li>
                 <li>Criar controller, com artisan, e criar metodo que será lido na route</li>
