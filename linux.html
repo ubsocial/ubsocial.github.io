@@ -512,6 +512,10 @@ Durabilidade somente enquanto o terminal estiver aberto
 </code></pre></small>
                     <h4>Impressão (Básica)</h4>
 <small><pre><code>
+<b>Instalação CUPS:</b></u>
+    sudo apt install  cups cups-client foomatic-db
+    service cups restart (Ou <i>start</i> para iniciar, <i>stop</i> para encerrar)
+    http://127.0.0.1:631 (Acessa CUPS GUI manager)
 <b>Impressão simples:</b> lp arquivo.txt
 <b>Impressão avançada:</b> lp -d nomeImpressora -n 2 -P 1,3 Documents/arquivo.txt (2 cópias, pgs 1 e 3)
 <b>Nome da impressora:</b> lpstat -p -d
