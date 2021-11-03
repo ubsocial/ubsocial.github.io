@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Ovo&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../anexos/icons/logoTit.png">
+    <link rel="stylesheet" href="../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12" id="menu">
+            <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a id="serifada" class="navbar-brand" href="../index.html"><img src="../anexos/icons/logo.png" id="logo"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../contato.html">Contato</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12" id="titulo1">
+            <h1 id="serifada">Auditoria de Logs</h1>
+            <h6><strong>Conceitos e comandos para Linux</strong></h6>
+        </div>
+
+        <div class="col-sm-12">
+            <h4>Ambiente</h4>
+            <ol>
+                <li>Instalar Virtualbox, com extension pack</li>
+                <li>Instalar Ansible: Orquestrador de máquinas/infraestrutura, controlando-as de forma geral, via código
+                    <ul>
+                        <li>sudo apt update && sudo apt install software-properties-common</li>
+                        <li>sudo apt install ansible</li>
+                    </ul>
+                </li>
+                <li>Instalar Git: sudo apt install git (Configurar user e email do git)</li>
+                <li>Instalar Vagrant: Automação de VMs através de arquivos de código em repositório
+                    <ul>
+                        <li>Baixar .deb;</li>
+                        <li>No diretório das VMs, usar comando ‘vagrant status’ para verificar VMs para uso;</li>
+                        <li>Comando ‘vagrant up’ iniciará todas as VMs, 'vagrant halt' desligará VMs. Arquivo 'environment.yaml' possuirá detalhes das VMs. Usuário padrão do Vagrant é 'vagrant'.</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <br>
+            <h4>Introdução ao sistema de logs</h4>
+            <p id="textoPost">A utilização de logs nas rotinas profissionais é essencial para gerenciar o passo a passo do funcionamento dos sistemas. Assim como verificar problemas de forma detalhada e acessos indevidos/atividades não autorizadas. Entre os serviços de administração de logs, tem-se:</p>
+            <ul>
+                <li><b>syslog</b>: Mais antigo, não suporta a TCP/UDP em logs remoto, log criptografado e armazenamento de log em DB;</li>
+                <li><b>syslog-ng</b>: Possui tais suportes, possuindo também versão enterprise;</li>
+                <li><b>rsyslog</b>: Mais recente, possui versão enterprise e community.</li>
+            </ul>
+            <p><b>Elementos de configuração:</b></p>
+            <ul>
+                <li><b>Facility</b>: Identificação de qual serviço o log será enviado ao qual será registrado entre os demais: auth, authpriv, cron, ftp, local[0-7], lpr (Impressão), mail, news, user, kern (Kernel), syslog, daemon;</li>
+                <li><b>Nível</b>: Nível de criticidade do registro do serviço ao log: Emerg, Crit, Warn, Info, Alert, Err, Notice, Debug;</li>
+                <li><b>Arquivo</b>: Onde a informação será armazenada, em ‘/var/log/nomeServ.nivel’ (Ex: /var/log/mail.err);</li>
+                <li><b>Padrões</b>: Arquivos criados pelo próprio syslog automaticamente;
+                    <ul>
+                        <li><b>lastlog</b> (/var/log/lastlog): Logs dos últimos logins de usuários;</li>
+                        <li><b>dmesg</b> (/var/log/dmesg ou comando dmesg): Logs de conexões com hardwares externos, através do reconhecimento com o kernel Linux. Informações sobre hardware;</li>
+                        <li><b>messages</b>: Principais logs do sistema com relação aos serviços e afins;</li>
+                        <li><b>syslog</b>: Logs de arquivos e serviços que não possuem arquivo específico para tal.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <br>
+            <h4>Logs padrão no Linux</h4>
+            <p><b>Debian</b> (/var/log/):</p>
+            <ul>
+                <li>alternatives.log</li>
+                <li>apt</li>
+                <li>auth.log</li>
+                <li>btmp</li>
+                <li>daemon.log</li>
+                <li>debug</li>
+                <li>messages (Ubuntu não possui, alternativa é o comando syslog. Também presente no Debian)</li>
+            </ul>
+            <p><b>CentOS</b> (/var/log/):</p>
+            <ul>
+                <li>anaconda</li>
+                <li>audit</li>
+                <li>boot.log</li>
+                <li>btmp</li>
+                <li>chrony</li>
+                <li>cron</li>
+                <li>messages (Informações sobre serviços)</li>
+                <li>yum.log</li>
+            </ul>
+            <p>Comandos de log:</p>
+            <ul>
+                <li><b>dmesg</b>: Exibe arquivo /var/log/dmesg. Logs referentes à conexão de hardware externo com kernel</li>
+                <li><b>last</b>: Log dos últimos logins e logouts no sistema</li>
+                <li><b>lastlog</b>: Log dos últimos logins no sistema</li>
+                <li><b>lastb</b>: Log das tentativas mal sucedidas de login no sistema</li>
+            </ul>
+            <p>Personalização de logs:</p>
+            <ul>
+                <li>Mostrar configuração padrão de logs: <i>cat/etc/rsyslog.conf</i></li>
+                <li>Para criar configuração personalizada, deve-se ir ao diretório ‘/etc/rsyslog.d/’. Nele, criamos arquivo ‘cron.conf’. Nesse, inserir o seguinte conteúdo:
+                    <ul>
+                        <li>Sintaxe: <i>facility.nivel diretorioGravacao</i></li>
+                        <li>cron.* /var/log/cron.log<br>(Asterisco ativa todos os níveis para serem registrados no log)<br>(Arquivo cron.log será criado)</li>
+                    </ul>
+                </li>
+                <li>Para confirmar o rsyslog, deve-se reiniciar o serviço: <i>sudo systemctl restart rsyslog</i></li>
+                <li>Ao realizar o comando ‘crontab -l’ e verificar o cron.log, verá o log: <i>mês dia horário nomeMaquina serviço[processo]: (usuario) LIST (agendamentosdeusuario)</i>></li>
+            </ul>
+
+            <br>
+            <h4>Rotação de logs</h4>
+            <p id="textoPost">Log Rotate: Ferramenta que gerencia a organização dos logs por tamanho/tempo. Verificará o tamanho do log, dividindo-o e compactando-o. Para manter quantidade personalizada de arquivos de logs de determinado serviço, utiliza-se a rotação de logs, executado pelo crontab. Arquivos de logrotate criados automaticamente pelo sistema ficam em ‘/etc/logrotate.d/’: Arquivos como alternatives, apt, dpkg, rsyslog, unattended-upgrades.</p>
+            <p><b>Configuração padrão dos arquivos em logrotate:</b></p>
+            <ul>
+                <li>weekly (Agendamento de rotates - hourly, daily, weekly ou monthly)</li>
+                <li>rotate 4 (Quantidade de arquivos de logs que devem ser mantidos)</li>
+                <li>create (Criar arquivo de log quando o rotacionamento é feito)</li>
+                <li>compress (Comprimir arquivo de log para formato gzip - .gz)</li>
+                <li>missingok (Não fará roticionamento se o arquivo não existir)</li>
+                <li>notifempty (Não fará roticionamento de arquivo vazio)</li>
+            </ul>
+            <p>Criar rotate para arquivo criado acima, cron.log, Criando, em /etc/logrotate.d/, arquivo ‘cron’, com o conteúdo:</p>
+<small><pre><code>
+/var/log/cron.log {
+    daily
+    rotate 4
+    compress
+    delaycompress (Compacta a partir do 2º logrotate)
+    size 1M (Fará o roticionamento quando o arquivo atingir 1M)
+    missingok
+    notifempty
+    create 644 root root (Criará novos arquivos / permissão / usuario / grupo)
+}    
+</code></pre></small>
+            <p id="textoPost">O arquivo <i>cron.log</i> estará no rsyslog, caso isso aconteça, comente a linha (#) de sua referência no arquivo /var/log/rsyslog (<i>#/var/log/cron.log</i>). Quando o arquivo cron.log passar do tamanho definido, pode-se fazer o logrotate dele ou aguardá-lo automaticamente, de acordo com o provisionamento definido. Para realizar o logrotate forçadamente, use o comando <i>logrotate -f /etc/logrotate.conf</i>, que irá ler as configurações definidas nos arquivos em /etc/logrotate.d/ e, se preciso, executará o logrotate. Os arquivos envolvidos em logrotate ficarão em /var/log, onde os arquivos estarão com nomeclatura <i>nomeArquivo.log.1</i> e, caso houver atributo delaycompress, na 2ª execução do logrotate aparecerá o arquivo <i>nomeArquivo.log.2.gz</i>. Respectivamente, a cada próxima execução, será criado o arquivo <i>nomeArquivo.log.3.gz</i>, onde manterá somente os últimos X arquivos, de acordo com a quantidade definida no ‘rotate’ do mesmo (Ex: rotate 4 manterá somente os últimos 4 arquivos). Automaticamente, o período padrão de execução do logrotate está definido em <i>/etc/crontab</i>, onde haverá os diretórios apontados em <i>/etc/cron.daily</i>, <i>/etc/cron.weekly</i>, etc, que possuirão os arquivos com incluídos. Com ‘cat /etc/crontab’ as 2 primeiras colunas representam, respectivamente, quais minutos, hora, dia... do período ocorrerá o logrotate.</p>
+            <p><b>Resolvendo problemas através de logs:</b></p>
+            <ul>
+                <li><b>Cenário 1 (Erro de configuração de serviço):</b> Exemplo, um comando errado no arquivo /etc/rsyslog.conf (Após restart do serviço, verificar com ‘systemctl status rsyslog’, ou verificar arquivo /var/log/syslog)</li>
+                <li><b>Cenário 2 (Erro de autenticação no sistema através de um usuário, de máquina à outra)</b>:
+                    <ul>
+                        <li>PS: <i>mail.info /var/log/infomail.log</i> enviará informações de serviços de email para o arquivo de log especificado</li>
+                        <li>Usuário, via VM1, acessa VM2: <i>sshpass -p “senhaErrada” ssh -l nomeUsuario nomeVM</i></li>
+                        <li>Na VM2, verificar se houve tentativas mal sucedidas de acesso: <i>sudo grep Failed /var/log/secure --color</i></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <br>
+            <h4>Auditoria de acessos ao sistema</h4>
+            <p id="textoPost">Audit: Serviço que permite gerar logs de sistema através de regras. Instalar Audit: <i>sudo apt install auditd</i></p>
+            <ul>
+                <li>Ver status: <i>sudo auditctl -s</i></li>
+                <li>Listar regras: <i>sudo auditctl -l</i></li>
+                <li>Criar regra de auditoria de log em arquivo: sudo auditctl -w /diretorio/arquivo -p rwxa (-p permissões)
+                    <ul>
+                        <li>Ex: <i>sudo auditctl -w /etc/passwd -p rwxa</i>
+                            <ol>
+                                <li>Ler o arquivo /etc/passwd (<i>cat passwd</i>)</li>
+                                <li>Verificar se audit pegou a leitura do arquivo: <i>sudo grep -i passwd /var/log/audit/audit.log</i></li>
+                                <li>Também pode-se ler todo o arquivo de log gerado pelo audit: <i>sudo cat /var/log/audit/audit.log</i></li>
+                            </ol>
+                        </li>
+                    </ul>
+                </li>
+                <li>Remover regra: <i>sudo auditctl -W /diretorio/arquivo</i>
+                    <ul>
+                        <li>Ex: <i>sudo auditctl -W /etc/passwd</i></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <br>
+            <h4>Regra para execução de syscalls</h4>
+            <p id="textoPost">Syscalls (Chamadas de sistema) é a interface entre aplicação e kernel. Exemplo: Mudança de hora realizada pela aplicação.</p>
+            <p><b>Criar regra para auditar mudança do horário do sistema:</b></p>
+            <ul>
+                <li>Criar regra para syscall: <i>sudo auditctl -a exit,always -F arch=b64 -S clock_settime -F key=mudarHora</i> (always marca o tempo e grava o registro. exit permite criar evento quando a syscall for encerrada. -F filtro de syscall para arquitetura. -S define o que será registrado. key define variável string)</li>
+                <li>Alterar hora do sistema: <i>sudo date --set ‘2021/01/01 20:00“</i></li>
+                <li>Procurar apontamento no audit.log: <i>sudo grep -i mudarHora /var/log/audit/audit.log</i> (Ou cta nesse arquivo)</li>
+                <li>Listar registros syscall: <i>sudo ausyscall --dump (Ver nº do syscall no comando acima e procurá-lo nessa lista)</i>
+                    <ul>
+                        <li>Procurar diretamente: <i>sudo ausyscall --dump | grep numSyscall</i> (Ex: 227)</li>
+                    </ul>
+                </li>
+                <li>Remover regra: <i>sudo auditctl -d exit,always -F arch=b64 -S clock_settime -F key=mudarHora</i>
+                    <ul>
+                        <li>Verificar se regra foi removida ou não: <i>sudo auditctl -l</i></li>
+                    </ul>
+                </li>
+            </ul>
+            <p><b>Criar regras automaticamente ao iniciar máquina:</b></p>
+            <p>Para isso, define-se as regras dentro do arquivo /etc/audit/rules.d/audit.rules</p>
+            <ul>
+                <li>Criar regra para arquivo: <i>sudo auditctl -w /etc/passwd -p rwxa -k listaUsuarios</i></li>
+                <li>Criar regra para syscall: <i>sudo auditctl -a exit,always -F arch=b64 -S clock_settime -k mudarHora</i></li>
+                <li>Listar regras, para ver se foram criadas: <i>sudo auditctl -l</i></li>
+                <li>Encaminhar lista para final do arquivo audit.rules: <i>auditctl &gt;&gt; /etc/audit/rules.d/audit.rules</i></li>
+                <li>Para efeito, pode-se reiniciar a máquina ou seguir os comandos
+                    <ul>
+                        <li>Remover todas regras: <i>sudo auditctl -D</i></li>
+                        <li>Listar, para comprovar remoção: <i>sudo auditctl -l</i></li>
+                        <li>Reiniciar serviço auditd: <i>systemctl restart auditd</i></li>
+                        <li>Listar, para comprovar regras efetivadas: <i>sudo auditctl -l</i></li>
+                        <li>Lista de syscalls: <a href="https://man7.org/linux/man-pages/man2/syscalls.2.html" target="_blank">Acesse</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <br>
+            <h4>Analisar logs de auditoria</h4>
+            <p id="textoPost">Para gerar relatórios de logs envolvendo as 2 regras acima, usaremos ausearch e aureport.</p>
+            <ul>
+                <li>Acessar arquivo, para pegá-lo no log d arquivo: <i>cat /etc/passwd</i></li>
+                <li>Mudar horário do sistema, para pegá-la no log syscall: <i>date --set “1999/04/11 9:30”</i></li>
+                <li>Ver/Filtrar eventos no arquivo /etc/passwd através ausearch: <i>ausearch -k listaUsuarios</i></li>
+                <li>Ver/Filtrar eventos no syscall hora através do ausearch: <i>ausearch -k mudarHora</i></li>
+                <li>Ver logs específicos (Exemplo crontab) através do ausearch: <i>ausearch -x /usr/bin/crontab</i></li>
+                <li>Mostrar relatório do sistema, através do aureport: <i>aureport --summary</i>
+                    <ul>
+                        <li>Mostrar tudo: <i>aureport -f</i></li>
+                        <li>Em tempo real: <i>aureport -f | tail -f</i></li>
+                    </ul>
+                </li>
+                <li>Mostrar relatório de usuários: <i>aureport -m</i></li>
+            </ul>
+
+            <br>
+            <h4>Auditoria em tempo real</h4>
+        </div>
+    </div>
+
+
+</div>
+</body>
+</html>
