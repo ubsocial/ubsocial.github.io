@@ -244,6 +244,53 @@
 
             <br>
             <h4>Auditoria em tempo real</h4>
+            <p id="textoPost">PAM (Pluggable Authentication Modules) são módulos que fazem gerenciamento de logs no Linux, como autenticação, trocas de sessão, digitação, etc. Ele se encontra em <i>/etc/pam.d/</i>. Nele, os arquivos ‘common’ servem como modelos. Arquivos como ‘login’ mostram configuração para regras de login. Os arquivos seguem padrão de 4 partes:<br>[Interação] [Controle] [Módulo de controle] [Parâmetros do módulo]<br>auth/session optional/sufficient/requisite/required modulo.so delay=3000000<br>Exemplos:</p>
+            <ul>
+                <li><i>auth requisite pam_nologin.so</i> (Se há arquivo /etc/nologin, o root não poderá logar)</li>
+                <li><i>auth requisite pam_time.so</i> (Se há arquivo /etc/security/time.conf, haverá determinados horários para login)</li>
+            </ul>
+            <p id="textoPost">* <b>Required</b> verifica e não bloqueia na 1ª vez carregado, olhando outros módulos para então tomada de decisão. Se os demais módulos bloquearem, aí ele bloqueia também. <b>Requisite</b> bloqueia direto. <b>Sufficient</b> não impactará bloqueios caso o módulo falhe, passando para o próximo módulo.</p>
+            <p>Exemplo:</p>
+            <p id="textoPost"><b>pam_tty_audit</b> faz auditoria em logs de tudo o que for digitado no shell, registrando em <i>/var/log/audit/audit.log</i>. Neste caso, usará auditoria em tempo real para verificar o que o root estará digitando no shell.</p>
+            <ol>
+                <li>A sessão do usuário deverá ser requerida para uso do módulo: Inserir no final do arquivo /etc/pam.d/commom-password, a regra: <i>session required pam_tty_audit.so disable=* enable=root log_passwd</i></li>
+                <li>Adicionar regras de auditorias em <i>/etc/audit/rules.d/audit.rules</i>, para captar todos binários envolvidos com root:
+                    <ul>
+                        <li><i>echo ‘-a always,exit -F arch=b64 -F euid=0 -s execve’ &gt;&gt; /etc/audit/rules.d/audit.rules</i></li>
+                        <li><i>echo ‘-a always,exit -F arch=b32 -F euid=0 -s execve’ &gt;&gt; /etc/audit/rules.d/audit.rules</i></li>
+                    </ul>
+                </li>
+                <li>Reiniciar audit: <i>systemctl restart auditd</i></li>
+                <li>(Tudo o que o root digitar no shell será registrado no /var/log/audit/audit.log)</li>
+            </ol>
+            <p>Instalar plugin para evitar que o arquivo de registro desse log (<i>/var/log/audit/audit.log</i>) seja outro:</p>
+            <ol>
+                <li>Instalar: sudo apt install audispd-plugins (Após instalado, criará <i>/etc/audisp/plugins.d/</i>)
+                    <ul>
+                        <li>Os arquivos têm configurações, que podem ser ativadas (active), que permitem redirecionar resultados de logs para outros arquivos especificados.</li>
+                        <li>No arquivo /etc/audisp/plugins.d/syslog.conf, ativar o arquivo com ‘<i>active = yes</i>’.</li>
+                        <li>Editar arquivo /etc/rsyslog.d/50-default.conf, remover comentários das linhas 31, 32, 33 e 34 (<i>*.=info… até mail,news,none ~/var/log/messages</i>)
+                            <ul>
+                                <li>Todos logs info serão redirecionados para <i>~/var/log/messages</i></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>Reiniciar rsyslog e audit: <i>systemctl restart rsyslog && systemctl restart auditd</i></li>
+                <li>Será criado arquivo <i>/var/log/messages</i>, onde ficarão todos logs de info, assim como os logs que registram o que o root escreve no shell (Isso, além do arquivo audit.log primeiramente criado).</li>
+                <li>Para retransmitir a outra nível (local, info...):
+                    <ul>
+                        <li>Editar /etc/audisp/plugins.d/syslog.conf, alterar <i>ARGS</i> para ‘<i>LOG_LOCAL6</i>’</li>
+                        <li>Editar /etc/rsyslog.d/50-default.conf, alterar, nas linhas 31, 32, 33, 34 propriedade ‘<i>.none</i>’, que impede de gravar logs destes do no arquivo informado (~/var/log/messages). Junto, após ‘news.none’ informar ‘<i>;local6.none</i>’ (No caso, desabilitar os logs de local6 para serem informados no arquivo messages)</li>
+                        <li>Reiniciar rsyslog e audit: <i>systemctl restart rsyslog && systemctl restart auditd</i></li>
+                        <li>Ver, em /var/log/audit/audit.log, que os logs dos comandos que o root digitou no shell foram registrados
+                            <ul>
+                                <li>Nada disso foi registrado em /var/log/messages</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ol>
         </div>
     </div>
 
