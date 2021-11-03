@@ -53,8 +53,8 @@
                 <li>Instalar Vagrant: Automação de VMs através de arquivos de código em repositório
                     <ul>
                         <li>Baixar .deb;</li>
-                        <li>No diretório das VMs, usar comando ‘vagrant status’ para verificar VMs para uso;</li>
-                        <li>Comando ‘vagrant up’ iniciará todas as VMs, 'vagrant halt' desligará VMs. Arquivo 'environment.yaml' possuirá detalhes das VMs. Usuário padrão do Vagrant é 'vagrant'.</li>
+                        <li>No diretório das VMs, usar comando 'vagrant status' para verificar VMs para uso;</li>
+                        <li>Comando 'vagrant up' iniciará todas as VMs, 'vagrant halt' desligará VMs. Arquivo 'environment.yaml' possuirá detalhes das VMs. Usuário padrão do Vagrant é 'vagrant'.</li>
                     </ul>
                 </li>
             </ol>
@@ -71,7 +71,7 @@
             <ul>
                 <li><b>Facility</b>: Identificação de qual serviço o log será enviado ao qual será registrado entre os demais: auth, authpriv, cron, ftp, local[0-7], lpr (Impressão), mail, news, user, kern (Kernel), syslog, daemon;</li>
                 <li><b>Nível</b>: Nível de criticidade do registro do serviço ao log: Emerg, Crit, Warn, Info, Alert, Err, Notice, Debug;</li>
-                <li><b>Arquivo</b>: Onde a informação será armazenada, em ‘/var/log/nomeServ.nivel’ (Ex: /var/log/mail.err);</li>
+                <li><b>Arquivo</b>: Onde a informação será armazenada, em '/var/log/nomeServ.nivel' (Ex: /var/log/mail.err);</li>
                 <li><b>Padrões</b>: Arquivos criados pelo próprio syslog automaticamente;
                     <ul>
                         <li><b>lastlog</b> (/var/log/lastlog): Logs dos últimos logins de usuários;</li>
@@ -115,19 +115,19 @@
             <p>Personalização de logs:</p>
             <ul>
                 <li>Mostrar configuração padrão de logs: <i>cat/etc/rsyslog.conf</i></li>
-                <li>Para criar configuração personalizada, deve-se ir ao diretório ‘/etc/rsyslog.d/’. Nele, criamos arquivo ‘cron.conf’. Nesse, inserir o seguinte conteúdo:
+                <li>Para criar configuração personalizada, deve-se ir ao diretório '/etc/rsyslog.d/'. Nele, criamos arquivo 'cron.conf'. Nesse, inserir o seguinte conteúdo:
                     <ul>
                         <li>Sintaxe: <i>facility.nivel diretorioGravacao</i></li>
                         <li>cron.* /var/log/cron.log<br>(Asterisco ativa todos os níveis para serem registrados no log)<br>(Arquivo cron.log será criado)</li>
                     </ul>
                 </li>
                 <li>Para confirmar o rsyslog, deve-se reiniciar o serviço: <i>sudo systemctl restart rsyslog</i></li>
-                <li>Ao realizar o comando ‘crontab -l’ e verificar o cron.log, verá o log: <i>mês dia horário nomeMaquina serviço[processo]: (usuario) LIST (agendamentosdeusuario)</i>></li>
+                <li>Ao realizar o comando 'crontab -l' e verificar o cron.log, verá o log: <i>mês dia horário nomeMaquina serviço[processo]: (usuario) LIST (agendamentosdeusuario)</i>></li>
             </ul>
 
             <br>
             <h4>Rotação de logs</h4>
-            <p id="textoPost">Log Rotate: Ferramenta que gerencia a organização dos logs por tamanho/tempo. Verificará o tamanho do log, dividindo-o e compactando-o. Para manter quantidade personalizada de arquivos de logs de determinado serviço, utiliza-se a rotação de logs, executado pelo crontab. Arquivos de logrotate criados automaticamente pelo sistema ficam em ‘/etc/logrotate.d/’: Arquivos como alternatives, apt, dpkg, rsyslog, unattended-upgrades.</p>
+            <p id="textoPost">Log Rotate: Ferramenta que gerencia a organização dos logs por tamanho/tempo. Verificará o tamanho do log, dividindo-o e compactando-o. Para manter quantidade personalizada de arquivos de logs de determinado serviço, utiliza-se a rotação de logs, executado pelo crontab. Arquivos de logrotate criados automaticamente pelo sistema ficam em '/etc/logrotate.d/': Arquivos como alternatives, apt, dpkg, rsyslog, unattended-upgrades.</p>
             <p><b>Configuração padrão dos arquivos em logrotate:</b></p>
             <ul>
                 <li>weekly (Agendamento de rotates - hourly, daily, weekly ou monthly)</li>
@@ -137,7 +137,7 @@
                 <li>missingok (Não fará roticionamento se o arquivo não existir)</li>
                 <li>notifempty (Não fará roticionamento de arquivo vazio)</li>
             </ul>
-            <p>Criar rotate para arquivo criado acima, cron.log, Criando, em /etc/logrotate.d/, arquivo ‘cron’, com o conteúdo:</p>
+            <p>Criar rotate para arquivo criado acima, cron.log, Criando, em /etc/logrotate.d/, arquivo 'cron', com o conteúdo:</p>
 <small><pre><code>
 /var/log/cron.log {
     daily
@@ -150,14 +150,14 @@
     create 644 root root (Criará novos arquivos / permissão / usuario / grupo)
 }    
 </code></pre></small>
-            <p id="textoPost">O arquivo <i>cron.log</i> estará no rsyslog, caso isso aconteça, comente a linha (#) de sua referência no arquivo /var/log/rsyslog (<i>#/var/log/cron.log</i>). Quando o arquivo cron.log passar do tamanho definido, pode-se fazer o logrotate dele ou aguardá-lo automaticamente, de acordo com o provisionamento definido. Para realizar o logrotate forçadamente, use o comando <i>logrotate -f /etc/logrotate.conf</i>, que irá ler as configurações definidas nos arquivos em /etc/logrotate.d/ e, se preciso, executará o logrotate. Os arquivos envolvidos em logrotate ficarão em /var/log, onde os arquivos estarão com nomeclatura <i>nomeArquivo.log.1</i> e, caso houver atributo delaycompress, na 2ª execução do logrotate aparecerá o arquivo <i>nomeArquivo.log.2.gz</i>. Respectivamente, a cada próxima execução, será criado o arquivo <i>nomeArquivo.log.3.gz</i>, onde manterá somente os últimos X arquivos, de acordo com a quantidade definida no ‘rotate’ do mesmo (Ex: rotate 4 manterá somente os últimos 4 arquivos). Automaticamente, o período padrão de execução do logrotate está definido em <i>/etc/crontab</i>, onde haverá os diretórios apontados em <i>/etc/cron.daily</i>, <i>/etc/cron.weekly</i>, etc, que possuirão os arquivos com incluídos. Com ‘cat /etc/crontab’ as 2 primeiras colunas representam, respectivamente, quais minutos, hora, dia... do período ocorrerá o logrotate.</p>
+            <p id="textoPost">O arquivo <i>cron.log</i> estará no rsyslog, caso isso aconteça, comente a linha (#) de sua referência no arquivo /var/log/rsyslog (<i>#/var/log/cron.log</i>). Quando o arquivo cron.log passar do tamanho definido, pode-se fazer o logrotate dele ou aguardá-lo automaticamente, de acordo com o provisionamento definido. Para realizar o logrotate forçadamente, use o comando <i>logrotate -f /etc/logrotate.conf</i>, que irá ler as configurações definidas nos arquivos em /etc/logrotate.d/ e, se preciso, executará o logrotate. Os arquivos envolvidos em logrotate ficarão em /var/log, onde os arquivos estarão com nomeclatura <i>nomeArquivo.log.1</i> e, caso houver atributo delaycompress, na 2ª execução do logrotate aparecerá o arquivo <i>nomeArquivo.log.2.gz</i>. Respectivamente, a cada próxima execução, será criado o arquivo <i>nomeArquivo.log.3.gz</i>, onde manterá somente os últimos X arquivos, de acordo com a quantidade definida no 'rotate' do mesmo (Ex: rotate 4 manterá somente os últimos 4 arquivos). Automaticamente, o período padrão de execução do logrotate está definido em <i>/etc/crontab</i>, onde haverá os diretórios apontados em <i>/etc/cron.daily</i>, <i>/etc/cron.weekly</i>, etc, que possuirão os arquivos com incluídos. Com 'cat /etc/crontab' as 2 primeiras colunas representam, respectivamente, quais minutos, hora, dia... do período ocorrerá o logrotate.</p>
             <p><b>Resolvendo problemas através de logs:</b></p>
             <ul>
-                <li><b>Cenário 1 (Erro de configuração de serviço):</b> Exemplo, um comando errado no arquivo /etc/rsyslog.conf (Após restart do serviço, verificar com ‘systemctl status rsyslog’, ou verificar arquivo /var/log/syslog)</li>
+                <li><b>Cenário 1 (Erro de configuração de serviço):</b> Exemplo, um comando errado no arquivo /etc/rsyslog.conf (Após restart do serviço, verificar com 'systemctl status rsyslog', ou verificar arquivo /var/log/syslog)</li>
                 <li><b>Cenário 2 (Erro de autenticação no sistema através de um usuário, de máquina à outra)</b>:
                     <ul>
                         <li>PS: <i>mail.info /var/log/infomail.log</i> enviará informações de serviços de email para o arquivo de log especificado</li>
-                        <li>Usuário, via VM1, acessa VM2: <i>sshpass -p “senhaErrada” ssh -l nomeUsuario nomeVM</i></li>
+                        <li>Usuário, via VM1, acessa VM2: <i>sshpass -p "senhaErrada" ssh -l nomeUsuario nomeVM</i></li>
                         <li>Na VM2, verificar se houve tentativas mal sucedidas de acesso: <i>sudo grep Failed /var/log/secure --color</i></li>
                     </ul>
                 </li>
@@ -193,7 +193,7 @@
             <p><b>Criar regra para auditar mudança do horário do sistema:</b></p>
             <ul>
                 <li>Criar regra para syscall: <i>sudo auditctl -a exit,always -F arch=b64 -S clock_settime -F key=mudarHora</i> (always marca o tempo e grava o registro. exit permite criar evento quando a syscall for encerrada. -F filtro de syscall para arquitetura. -S define o que será registrado. key define variável string)</li>
-                <li>Alterar hora do sistema: <i>sudo date --set ‘2021/01/01 20:00“</i></li>
+                <li>Alterar hora do sistema: <i>sudo date --set '2021/01/01 20:00"</i></li>
                 <li>Procurar apontamento no audit.log: <i>sudo grep -i mudarHora /var/log/audit/audit.log</i> (Ou cta nesse arquivo)</li>
                 <li>Listar registros syscall: <i>sudo ausyscall --dump (Ver nº do syscall no comando acima e procurá-lo nessa lista)</i>
                     <ul>
@@ -226,10 +226,10 @@
 
             <br>
             <h4>Analisar logs de auditoria</h4>
-            <p id="textoPost">Para gerar relatórios de logs envolvendo as 2 regras acima, usaremos ausearch e aureport.</p>
+            <p id="textoPost">Para gerar relatórios de logs envolvendo as 2 regras acima, usaremos ausearch e aureport. Ausearch é ideal para comprimir comandos com variáveis. Ausearch é ideal para exibir, em analise de logs, quantidade de falhas na autenticação de usuários por exemplo.</p>
             <ul>
                 <li>Acessar arquivo, para pegá-lo no log d arquivo: <i>cat /etc/passwd</i></li>
-                <li>Mudar horário do sistema, para pegá-la no log syscall: <i>date --set “1999/04/11 9:30”</i></li>
+                <li>Mudar horário do sistema, para pegá-la no log syscall: <i>date --set "1999/04/11 9:30"</i></li>
                 <li>Ver/Filtrar eventos no arquivo /etc/passwd através ausearch: <i>ausearch -k listaUsuarios</i></li>
                 <li>Ver/Filtrar eventos no syscall hora através do ausearch: <i>ausearch -k mudarHora</i></li>
                 <li>Ver logs específicos (Exemplo crontab) através do ausearch: <i>ausearch -x /usr/bin/crontab</i></li>
@@ -244,7 +244,7 @@
 
             <br>
             <h4>Auditoria em tempo real</h4>
-            <p id="textoPost">PAM (Pluggable Authentication Modules) são módulos que fazem gerenciamento de logs no Linux, como autenticação, trocas de sessão, digitação, etc. Ele se encontra em <i>/etc/pam.d/</i>. Nele, os arquivos ‘common’ servem como modelos. Arquivos como ‘login’ mostram configuração para regras de login. Os arquivos seguem padrão de 4 partes:<br>[Interação] [Controle] [Módulo de controle] [Parâmetros do módulo]<br>auth/session optional/sufficient/requisite/required modulo.so delay=3000000<br>Exemplos:</p>
+            <p id="textoPost">PAM (Pluggable Authentication Modules) são módulos que fazem gerenciamento de logs no Linux, como autenticação, trocas de sessão, digitação, etc. Ele se encontra em <i>/etc/pam.d/</i>. Nele, os arquivos 'common' servem como modelos. Arquivos como 'login' mostram configuração para regras de login. Os arquivos seguem padrão de 4 partes:<br>[Interação] [Controle] [Módulo de controle] [Parâmetros do módulo]<br>auth/session optional/sufficient/requisite/required modulo.so delay=3000000<br>Exemplos:</p>
             <ul>
                 <li><i>auth requisite pam_nologin.so</i> (Se há arquivo /etc/nologin, o root não poderá logar)</li>
                 <li><i>auth requisite pam_time.so</i> (Se há arquivo /etc/security/time.conf, haverá determinados horários para login)</li>
@@ -256,8 +256,8 @@
                 <li>A sessão do usuário deverá ser requerida para uso do módulo: Inserir no final do arquivo /etc/pam.d/commom-password, a regra: <i>session required pam_tty_audit.so disable=* enable=root log_passwd</i></li>
                 <li>Adicionar regras de auditorias em <i>/etc/audit/rules.d/audit.rules</i>, para captar todos binários envolvidos com root:
                     <ul>
-                        <li><i>echo ‘-a always,exit -F arch=b64 -F euid=0 -s execve’ &gt;&gt; /etc/audit/rules.d/audit.rules</i></li>
-                        <li><i>echo ‘-a always,exit -F arch=b32 -F euid=0 -s execve’ &gt;&gt; /etc/audit/rules.d/audit.rules</i></li>
+                        <li><i>echo '-a always,exit -F arch=b64 -F euid=0 -s execve' &gt;&gt; /etc/audit/rules.d/audit.rules</i></li>
+                        <li><i>echo '-a always,exit -F arch=b32 -F euid=0 -s execve' &gt;&gt; /etc/audit/rules.d/audit.rules</i></li>
                     </ul>
                 </li>
                 <li>Reiniciar audit: <i>systemctl restart auditd</i></li>
@@ -268,7 +268,7 @@
                 <li>Instalar: sudo apt install audispd-plugins (Após instalado, criará <i>/etc/audisp/plugins.d/</i>)
                     <ul>
                         <li>Os arquivos têm configurações, que podem ser ativadas (active), que permitem redirecionar resultados de logs para outros arquivos especificados.</li>
-                        <li>No arquivo /etc/audisp/plugins.d/syslog.conf, ativar o arquivo com ‘<i>active = yes</i>’.</li>
+                        <li>No arquivo /etc/audisp/plugins.d/syslog.conf, ativar o arquivo com '<i>active = yes</i>'.</li>
                         <li>Editar arquivo /etc/rsyslog.d/50-default.conf, remover comentários das linhas 31, 32, 33 e 34 (<i>*.=info… até mail,news,none ~/var/log/messages</i>)
                             <ul>
                                 <li>Todos logs info serão redirecionados para <i>~/var/log/messages</i></li>
@@ -280,8 +280,8 @@
                 <li>Será criado arquivo <i>/var/log/messages</i>, onde ficarão todos logs de info, assim como os logs que registram o que o root escreve no shell (Isso, além do arquivo audit.log primeiramente criado).</li>
                 <li>Para retransmitir a outra nível (local, info...):
                     <ul>
-                        <li>Editar /etc/audisp/plugins.d/syslog.conf, alterar <i>ARGS</i> para ‘<i>LOG_LOCAL6</i>’</li>
-                        <li>Editar /etc/rsyslog.d/50-default.conf, alterar, nas linhas 31, 32, 33, 34 propriedade ‘<i>.none</i>’, que impede de gravar logs destes do no arquivo informado (~/var/log/messages). Junto, após ‘news.none’ informar ‘<i>;local6.none</i>’ (No caso, desabilitar os logs de local6 para serem informados no arquivo messages)</li>
+                        <li>Editar /etc/audisp/plugins.d/syslog.conf, alterar <i>ARGS</i> para '<i>LOG_LOCAL6</i>'</li>
+                        <li>Editar /etc/rsyslog.d/50-default.conf, alterar, nas linhas 31, 32, 33, 34 propriedade '<i>.none</i>', que impede de gravar logs destes do no arquivo informado (~/var/log/messages). Junto, após 'news.none' informar '<i>;local6.none</i>' (No caso, desabilitar os logs de local6 para serem informados no arquivo messages)</li>
                         <li>Reiniciar rsyslog e audit: <i>systemctl restart rsyslog && systemctl restart auditd</i></li>
                         <li>Ver, em /var/log/audit/audit.log, que os logs dos comandos que o root digitou no shell foram registrados
                             <ul>
