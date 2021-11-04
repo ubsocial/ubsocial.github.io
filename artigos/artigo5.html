@@ -310,6 +310,138 @@ template (name=”LogRemoto” type=”string” string=”/srv/log/%HOSTNAME%/%
 *.* @@graylog:514 (O nome do servidor é graylog)
 </code></pre></small>
             <p id="textoPost">Após finalizar arquivo, fazer teste de conexão <i>ping -c4 graylog</i>. Caso a máquina não reconheça o servidor, verificar arquivo '/etc/hosts'. Se os 4 pacotes foram transmitidos com sucesso, deve-se reiniciar o rsyslog <i>sudo systemctl restart rsyslog</i>. Agora, na máquina servidor aparecerão, em '/srv/log/', os logs da máquina cliente.</p>
+
+            <br>
+            <h4>Criptografia TLS</h4>
+            <p id="textoPost">A criptografia em logs é essencial para a segurança dos mesmos. O Certtool é a ferramenta para gestão de certificados em chaves de criptografia.</p>
+            <p><b>Máquina Servidor (Ubuntu / graylog):</b></p>
+            <ul>
+                <li>Instalar pacotes para permitir criptografia e gerar certificado em chaves: <i>sudo apt install rsyslog-gnutils gnutils-bin</i></li>
+                <li>Criar e acessar diretório para guardar as chaves de criptografia: <i>mkdir /etc/rsyslog-keys && cd /etc/rsyslog-keys</i></li>
+            </ul>
+            <p><b>Máquina Cliente (CentOS / webserver):</b></p>
+            <ul>
+                <li>Instalar pacote para permitir criptografia: <i>sudo yum install rsyslog-gnutils</i></li>
+                <li>Criar diretório para guardar chaves: <i>mkdir /etc/rsyslog-key</i></li>
+            </ul>
+            <p><b>Máquina Cliente (Debian / kibana):</b></p>
+            <ul>
+                <li>Instalar pacote para permitir criptografia: <i>sudo apt install rsyslog-gnutils</i></li>
+                <li>Criar diretório para guardar chaves: <i>mkdir /etc/rsyslog-key</i></li>
+            </ul>
+            <p><b>Máquina Servidor (Ubuntu):</b></p>
+            <ul>
+                <li>Em /etc/rsyslog-keys, gerar chave para o próprio servidor: <i>certtool --generate-privkey --outfile ca-key.pem</i> (O comando criará chave privada no próprio diretório de criação)</li>
+                <li>Alterar permissões da chave (Somente dono pode ler): <i>sudo chmod 400 ca-key.pem</i></li>
+                <li>Gerar certificado auto assinado com a chave ca-key: <i>certtool --generate-self-signed --load-privkey ca-key.pem --outfile ca.pem</i>. Informar os seguintes campos solicitados e informados:
+                    <ul>
+                        <li>Common name: graylog (Mesmo nome do servidor)</li>
+                        <li>The certificate will expire in (days): 3650</li>
+                        <li>Does the certificate belong to an authority? (y,N): y</li>
+                        <li>Enter a dnsName of the subject of the certificate: graylog (Mesmo nome do servidor)</li>
+                        <li>Will the certificate be used to sign other certificates? (y,N): y</li>
+                        <li>Will the certificate be used to sign CRLs? (y,N): y</li>
+                        <li>Is the above information ok? y</li>
+                        <li>(Com isso, será gerado nesse mesmo diretório o certificado 'ca.pem'.)</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h5>Criar chaves:</h5>
+            <ul>
+                <li>Em /etc/rsyslog, informar:
+                    <ul>
+                        <li>certtool --generate-privkey --outfile webserver-key.pem --bits 2048 (Webserver é o nome da máquina cliente 1)</li>
+                        <li>certtool --generate-privkey --outfile kibana-key.pem --bits 2048 (Kibana é o nome da máquina cliente 2)</li>
+                        <li>(Criará chave webserver-key.pem e kibana-key.pem neste diretório)</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h5>Criar requisições:</h5>
+            <p id="textoPost">Requests são necessárias para cada máquina gerar certificados auto assinados. Os arquivos gerados de requests (*-request.pem) podem ser removidos após criação dos certificados.</p>
+            <ul>
+                <li>certtool --generate-request --load-privkey webserver-key.pem --outfile webserver-request.pem
+                    <ul>
+                        <li>Common name: webserver (Nome da máquina)</li>
+                        <li>Enter a dnsName of the subject of the certificate: webserver</li>
+                        <li>Will be certificate be used for signing (DHE ciphersuites)? (y,N): y</li>
+                        <li>(Com isso, será gerado arquivo webserver-request.pem)</li>
+                    </ul>
+                </li>
+                <li>certtool --generate-request --load-privkey kibana-key.pem --outfile kibana-request.pem
+                    <ul>
+                        <li>Common name: kibana (Nome da máquina)</li>
+                        <li>Enter a dnsName of the subject of the certificate: kibana</li>
+                        <li>Will be certificate be used for signing (DHE ciphersuites)? (y,N): y</li>
+                        <li>(Com isso, será gerado arquivo kibana-request.pem)</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h5>Criar certificado auto assinado para máquinas clientes:</h5>
+            <ul>
+                <li>certtool --generate-certificate --load-request webserver-request.pem --outfile webserver-cert.pem --load-ca-certificate ca.pem --load-ca-privkey ca.key.pem
+                    <ul>
+                        <li>The certificate will expire in (days): 1000</li>
+                        <li>Is this a TLS web client certificate? (y,N): y</li>
+                        <li>Is this a TLS web server certificate? (y,N): y</li>
+                        <li>Enter a dnsName of the subject of the certificate: webserver (Nome da máquina)</li>
+                        <li>Is the above information ok? y</li>
+                        <li>(Com isso, gerará arquivo webserver-cert.pem)</li>
+                    </ul>
+                </li>
+                <li>certtool --generate-certificate --load-request kibana-request.pem --outfile kibana-cert.pem --load-ca-certificate ca.pem --load-ca-privkey ca.key.pem
+                    <ul>
+                        <li>The certificate will expire in (days): 1000</li>
+                        <li>Is this a TLS web client certificate? (y,N): y</li>
+                        <li>Is this a TLS web server certificate? (y,N): y</li>
+                        <li>Enter a dnsName of the subject of the certificate: kibana (Nome da máquina)</li>
+                        <li>Is the above information ok? y</li>
+                        <li>(Com isso, gerará arquivo kibana-cert.pem)</li>
+                    </ul>
+                </li>
+                <li>Copiar arquivos para máquinas webserver e kibana:
+                    <ul>
+                        <li>scp ca.pem webserver* nomeUsuario@webserver:/tmp (Informar yes)</li>
+                        <li>scp ca.pem kibana* nomeUsuario@kibana:/tmp (Informar yes)</li>
+                    </ul>
+                </li>
+            </ul>
+            <p><b>Máquina Cliente (CentOS / webserver):</b></p>
+            <ul>
+                <li>mv /tmp/ca.pem /etc/rsyslog-keys/ && mv /tmp/webserver*.pem /etc/rsyslog-keys/</li>
+                <li>Pode-se testar com 'ls /etc/rsyslog-keys' para verificar se os determinados arquivos encontram-se corretamente no diretório destino.</li>
+            </ul>
+            <p><b>Máquina Cliente (Debian / kibana):</b></p>
+            <ul>
+                <li>mv /tmp/ca.pem /etc/rsyslog-keys/ && mv /tmp/kibana*.pem /etc/rsyslog-keys/</li>
+                <li>Pode-se testar com 'ls /etc/rsyslog-keys' para verificar se os determinados arquivos encontram-se corretamente no diretório destino.</li>
+            </ul>
+            <p><b>Máquina Server (Ubuntu / graylog):</b></p>
+            <ul>
+                <li>Copiar modelo de configuração TLS: cp /opt/syslog-tls.conf /etc/rsyslog.d/</li>
+                <li>O arquivo /etc/rsyslog.d/syslog-tls.conf possui as informações de configuração e criptografia. Alterar permissão do mesmo: sudo chown syslog:syslog -R /etc/rsyslog.conf/</li>
+                <li>Editar arquivo /etc/rsyslog.conf, comentar linhas que anteriormente foram descomentadas (17, 18, 21 e 22). Após salvar o arquivo, reiniciar rsyslog 'sudo systemctl restart rsyslog'.</li>
+                <li>Por fim, verificar se está atendendo na porta 6514: 'ss -nlptu | grep 6514'.</li>
+            </ul>
+            <p><b>Máquina Cliente (CentOS / webserver):</b></p>
+            <ul>
+                <li>Copiar modelo de configuração TLS: cp /opt/syslog-tls.conf /etc/rsyslog.d/. Comentar, no arquivo /etc/rsyslog.conf, última linha preenchida nos passos acima.</li>
+                <li>Após isso, reiniciar rsyslog 'sudo systemctl restart rsyslog'.</li>
+            </ul>
+            <p><b>Máquina Cliente (Debian / kibana):</b></p>
+            <ul>
+                <li>Copiar modelo de configuração TLS: cp /opt/syslog-tls.conf /etc/rsyslog.d/.</li>
+                <li>Comentar, no arquivo /etc/rsyslog.conf, última linha preenchida nos passos acima.</li>
+                <li>Após isso, reiniciar rsyslog 'sudo systemctl restart rsyslog'.</li>
+            </ul>
+            <p><b>Máquina Servidor (Ubuntu / graylog):</b></p>
+            <ul>
+                <li>Verificar se tudo funcionou e há criptografia nas auditorias: tail -f /var/log/webserver/messages. Ir na máquina cliente webserver (debian) e reiniciar rsyslog.</li>
+                <li>Então, na máquina servidor (ubuntu) serão incorporadas novas mensagens de logs, sendo essas criptografadas.</li>
+                <li>(O mesmo vale para a máquina cliente kibana (debian).)</li>
+            </ul>
         </div>
     </div>
 
