@@ -148,7 +148,7 @@
     missingok
     notifempty
     create 644 root root (Criará novos arquivos / permissão / usuario / grupo)
-}    
+}
 </code></pre></small>
             <p id="textoPost">O arquivo <i>cron.log</i> estará no rsyslog, caso isso aconteça, comente a linha (#) de sua referência no arquivo /var/log/rsyslog (<i>#/var/log/cron.log</i>). Quando o arquivo cron.log passar do tamanho definido, pode-se fazer o logrotate dele ou aguardá-lo automaticamente, de acordo com o provisionamento definido. Para realizar o logrotate forçadamente, use o comando <i>logrotate -f /etc/logrotate.conf</i>, que irá ler as configurações definidas nos arquivos em /etc/logrotate.d/ e, se preciso, executará o logrotate. Os arquivos envolvidos em logrotate ficarão em /var/log, onde os arquivos estarão com nomeclatura <i>nomeArquivo.log.1</i> e, caso houver atributo delaycompress, na 2ª execução do logrotate aparecerá o arquivo <i>nomeArquivo.log.2.gz</i>. Respectivamente, a cada próxima execução, será criado o arquivo <i>nomeArquivo.log.3.gz</i>, onde manterá somente os últimos X arquivos, de acordo com a quantidade definida no 'rotate' do mesmo (Ex: rotate 4 manterá somente os últimos 4 arquivos). Automaticamente, o período padrão de execução do logrotate está definido em <i>/etc/crontab</i>, onde haverá os diretórios apontados em <i>/etc/cron.daily</i>, <i>/etc/cron.weekly</i>, etc, que possuirão os arquivos com incluídos. Com 'cat /etc/crontab' as 2 primeiras colunas representam, respectivamente, quais minutos, hora, dia... do período ocorrerá o logrotate.</p>
             <p><b>Resolvendo problemas através de logs:</b></p>
@@ -291,6 +291,25 @@
                     </ul>
                 </li>
             </ol>
+
+            <br>
+            <h4>Logs remoto</h4>
+            <p id="textoPost">A ideia de centralizar logs em um servidor para facilitar a análise e backups. O rsyslog, em <i>/etc/rsyslog.conf</i>, fornece disposição de logs remoto através de TCP/UDP na porta 514. Pode-se alterar tal porta, informando-a nos arquivos abaixo.</p>
+            <p><b>Máquina Servidor (Debian):</b></p>
+            <p id="textoPost">Ativar recebimento de requisições de logs externos, em <i>/etc/rsyslog.conf</i>, Modules descomentar linhas 17, 18, 21 e 22 (<i>#module... e #input(type...</i>), após isso reiniciar rsyslog (<i>sudo systemctl restart rsyslog</i>). Para testar se o servidor está atendendo à essa porta, usa-se <i>ss -nlptu | grep 514</i>. Verificar ip da máquina servidor com <i>ip a</i> na parte eth1 inet.</p>
+            <p id="textoPost">Configurar template para separar os logs de cada máquina: Criar diretório <i>sudo mkdir /srv/log/ && sudo chown syslog:syslog -R /srv/log</i>. Em <i>/etc/rsyslog.conf.d/</i>, criar arquivo chamado 'template.conf', inserindo o seguinte conteúdo:</p>
+<small><pre><code>
+template (name=”LogRemoto” type=”string” string=”/srv/log/%HOSTNAME%/%PROGRAMNAME%.log”)
+*.* ?LogRemoto
+</code></pre></small>
+            <p id="textoPost">Após finalizado o arquivo, reiniciar rsyslogs <i>sudo systemctl restart rsyslog</i>. Conferir também se o rsyslog está operando com sucesso <i>sudo systemctl status rsyslog</i>. A 1ª linha especifica que todos os logs serão enviados para o diretório destino informado, sendo-os separados pelo nome de cada máquina e seu respectivo programa que está enviando o log. A 2ª linha epecifica os logs da própria máquina servidor, sendo respectivamente 'facility.nivel', onde os mesmos serão enviados para o local LogRemoto, definido no template.</p>
+            <p><b>Máquina Cliente (CentOS):</b></p>
+            <p id="textoPost">Em <i>/etc/rsyslog.conf</i>, inserir no final:</p>
+<small><pre><code>
+# *.* @@NomeOuIpServidor:514 (@ é UDP. @@ é TCP)
+*.* @@graylog:514 (O nome do servidor é graylog)
+</code></pre></small>
+            <p id="textoPost">Após finalizar arquivo, fazer teste de conexão <i>ping -c4 graylog</i>. Caso a máquina não reconheça o servidor, verificar arquivo '/etc/hosts'. Se os 4 pacotes foram transmitidos com sucesso, deve-se reiniciar o rsyslog <i>sudo systemctl restart rsyslog</i>. Agora, na máquina servidor aparecerão, em '/srv/log/', os logs da máquina cliente.</p>
         </div>
     </div>
 
