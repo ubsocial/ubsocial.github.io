@@ -299,7 +299,7 @@
             <p id="textoPost">Ativar recebimento de requisições de logs externos, em <i>/etc/rsyslog.conf</i>, Modules descomentar linhas 17, 18, 21 e 22 (<i>#module... e #input(type...</i>), após isso reiniciar rsyslog (<i>sudo systemctl restart rsyslog</i>). Para testar se o servidor está atendendo à essa porta, usa-se <i>ss -nlptu | grep 514</i>. Verificar ip da máquina servidor com <i>ip a</i> na parte eth1 inet.</p>
             <p id="textoPost">Configurar template para separar os logs de cada máquina: Criar diretório <i>sudo mkdir /srv/log/ && sudo chown syslog:syslog -R /srv/log</i>. Em <i>/etc/rsyslog.conf.d/</i>, criar arquivo chamado 'template.conf', inserindo o seguinte conteúdo:</p>
 <small><pre><code>
-template (name=”LogRemoto” type=”string” string=”/srv/log/%HOSTNAME%/%PROGRAMNAME%.log”)
+template (name="LogRemoto" type="string" string="/srv/log/%HOSTNAME%/%PROGRAMNAME%.log")
 *.* ?LogRemoto
 </code></pre></small>
             <p id="textoPost">Após finalizado o arquivo, reiniciar rsyslogs <i>sudo systemctl restart rsyslog</i>. Conferir também se o rsyslog está operando com sucesso <i>sudo systemctl status rsyslog</i>. A 1ª linha especifica que todos os logs serão enviados para o diretório destino informado, sendo-os separados pelo nome de cada máquina e seu respectivo programa que está enviando o log. A 2ª linha epecifica os logs da própria máquina servidor, sendo respectivamente 'facility.nivel', onde os mesmos serão enviados para o local LogRemoto, definido no template.</p>
@@ -441,6 +441,43 @@ template (name=”LogRemoto” type=”string” string=”/srv/log/%HOSTNAME%/%
                 <li>Verificar se tudo funcionou e há criptografia nas auditorias: tail -f /var/log/webserver/messages. Ir na máquina cliente webserver (debian) e reiniciar rsyslog.</li>
                 <li>Então, na máquina servidor (ubuntu) serão incorporadas novas mensagens de logs, sendo essas criptografadas.</li>
                 <li>(O mesmo vale para a máquina cliente kibana (debian).)</li>
+            </ul>
+
+            <br>
+            <h4>Armazenar logs no MySQL</h4>
+            <p id="textoPost">O rsyslog trás o armazenamento dos logs padrão em arquivos, mas também conta com suporte a BDs Relacionais e NoSQL. O ideal é possuir o BD em máquina separada da máquina servidor, mas nesse caso ocorrerá na mesma máquina. Na máquina servidor:</p>
+            <ul>
+                <li>Instalar plugin rsyslog: <i>sudo DEBIAN_FRONTEND=noninteractive apt install mysql-server mysql-client mysql-common rsyslog-mysql</i></li>
+                <li>Conectar mysql: <i>mysql -u root -e 'CREATE DATABASE Syslog;'</i>
+                    <ul>
+                        <li>Conferir se o BD foi criado: <i>mysql -u root -e 'SHOW DATABASES;'</i></li>
+                    </ul>
+                </li>
+                <li>Ver arquivo BD rsyslog: cat /usr/share/dbconfig-common/data/rsyslog-mysql/install/mysql
+                    <ul>
+                        <li>Popular BD com o conteúdo do arquivo: <i>mysql -u root -D Syslog &gt; /usr/share/dbconfig-common/data/rsyslog-mysql/install/mysql</i></li>
+                        <li>Conferir BD Syslog: <i>mysql -u root -D Syslog -e 'SHOW TABLES;'</i></li>
+                        <li>Verificar estrutura das tables: <i>mysql -u root -D Syslog -e 'DESC SystemEvents;'</i></li>
+                        <li>Criar usuário para acessar BD: <i>mysql -u root -D Syslog -e “CREATE USER rsysloguser@localhost IDENTIFIED BY 'rsyslogpw';"</i></li>
+                        <li>Definir acesso ao usuário: <i>mysql -u root -D Syslog -e 'GRANT ALL ON Syslog.* TO rsysloguser@localhost;'</i>
+                            <ul>
+                                <li>Se o acesso fosse remoto, deveria-se colocar o % após o @</li>
+                            </ul>
+                        </li>
+                        <li>Editar arquivo /etc/rsyslog.d/mysql.conf, alterar uid="rsysloguser" e pwd="rsyslogpw"</li>
+                    </ul>
+                </li>
+                <li>Reiniciar rsyslog: sudo systemctl restart rsyslog
+                    <ul>
+                        <li>Verificar se rsyslog está operando: sudo systemctl status rsyslog</li>
+                    </ul>
+                </li>
+                <li>Listar dados das tabelas, para conferência: <i>mysql -u root -D Syslog -e 'SELECT ID, fromHost, Message FROM SystemEvents;'</i>
+                    <ul>
+                        <li>Testar log de digitação no shell pelo root: (Em root) systemctl restart rsyslog</li>
+                        <li>Realizar novamente o select acima para verificar se o log citado foi incluído na table</li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>
