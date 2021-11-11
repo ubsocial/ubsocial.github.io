@@ -294,7 +294,7 @@
 
             <br>
             <h4>Logs remoto</h4>
-            <p id="textoPost">A ideia de centralizar logs em um servidor para facilitar a análise e backups. O rsyslog, em <i>/etc/rsyslog.conf</i>, fornece disposição de logs remoto através de TCP/UDP na porta 514. Pode-se alterar tal porta, informando-a nos arquivos abaixo.</p>
+            <p id="textoPost">A ideia de centralizar logs em um servidor para facilitar a análise e backups. O rsyslog, em <i>/etc/rsyslog.conf</i>, fornece disposição de logs remoto através de TCP/UDP na porta 514 ($InputTCPServerRun). Pode-se alterar tal porta, informando-a nos arquivos abaixo (Ex: Recebimentos de logs em TCP porta 514 é input(type="imtcp" port="514")).</p>
             <p><b>Máquina Servidor (Debian):</b></p>
             <p id="textoPost">Ativar recebimento de requisições de logs externos, em <i>/etc/rsyslog.conf</i>, Modules descomentar linhas 17, 18, 21 e 22 (<i>#module... e #input(type...</i>), após isso reiniciar rsyslog (<i>sudo systemctl restart rsyslog</i>). Para testar se o servidor está atendendo à essa porta, usa-se <i>ss -nlptu | grep 514</i>. Verificar ip da máquina servidor com <i>ip a</i> na parte eth1 inet.</p>
             <p id="textoPost">Configurar template para separar os logs de cada máquina: Criar diretório <i>sudo mkdir /srv/log/ && sudo chown syslog:syslog -R /srv/log</i>. Em <i>/etc/rsyslog.conf.d/</i>, criar arquivo chamado 'template.conf', inserindo o seguinte conteúdo:</p>
@@ -308,6 +308,8 @@ template (name="LogRemoto" type="string" string="/srv/log/%HOSTNAME%/%PROGRAMNAM
 <small><pre><code>
 # *.* @@NomeOuIpServidor:514 (@ é UDP. @@ é TCP)
 *.* @@graylog:514 (O nome do servidor é graylog)
+
+<u>Exemplo (UDP):</u> \*.\* @172.16.0.100**
 </code></pre></small>
             <p id="textoPost">Após finalizar arquivo, fazer teste de conexão <i>ping -c4 graylog</i>. Caso a máquina não reconheça o servidor, verificar arquivo '/etc/hosts'. Se os 4 pacotes foram transmitidos com sucesso, deve-se reiniciar o rsyslog <i>sudo systemctl restart rsyslog</i>. Agora, na máquina servidor aparecerão, em '/srv/log/', os logs da máquina cliente.</p>
 
@@ -445,7 +447,7 @@ template (name="LogRemoto" type="string" string="/srv/log/%HOSTNAME%/%PROGRAMNAM
 
             <br>
             <h4>Armazenar logs no MySQL</h4>
-            <p id="textoPost">O rsyslog trás o armazenamento dos logs padrão em arquivos, mas também conta com suporte a BDs Relacionais e NoSQL. O ideal é possuir o BD em máquina separada da máquina servidor, mas nesse caso ocorrerá na mesma máquina. Na máquina servidor:</p>
+            <p id="textoPost">O rsyslog trás o armazenamento dos logs padrão em arquivos, mas também conta com suporte a BDs Relacionais e NoSQL (Módulo ommysql). O ideal é possuir o BD em máquina separada da máquina servidor, mas nesse caso ocorrerá na mesma máquina. Na máquina servidor:</p>
             <ul>
                 <li>Instalar plugin rsyslog: <i>sudo DEBIAN_FRONTEND=noninteractive apt install mysql-server mysql-client mysql-common rsyslog-mysql</i></li>
                 <li>Conectar mysql: <i>mysql -u root -e 'CREATE DATABASE Syslog;'</i>
@@ -458,7 +460,7 @@ template (name="LogRemoto" type="string" string="/srv/log/%HOSTNAME%/%PROGRAMNAM
                         <li>Popular BD com o conteúdo do arquivo: <i>mysql -u root -D Syslog &gt; /usr/share/dbconfig-common/data/rsyslog-mysql/install/mysql</i></li>
                         <li>Conferir BD Syslog: <i>mysql -u root -D Syslog -e 'SHOW TABLES;'</i></li>
                         <li>Verificar estrutura das tables: <i>mysql -u root -D Syslog -e 'DESC SystemEvents;'</i></li>
-                        <li>Criar usuário para acessar BD: <i>mysql -u root -D Syslog -e “CREATE USER rsysloguser@localhost IDENTIFIED BY 'rsyslogpw';"</i></li>
+                        <li>Criar usuário para acessar BD: <i>mysql -u root -D Syslog -e "CREATE USER rsysloguser@localhost IDENTIFIED BY 'rsyslogpw';"</i></li>
                         <li>Definir acesso ao usuário: <i>mysql -u root -D Syslog -e 'GRANT ALL ON Syslog.* TO rsysloguser@localhost;'</i>
                             <ul>
                                 <li>Se o acesso fosse remoto, deveria-se colocar o % após o @</li>
@@ -479,6 +481,40 @@ template (name="LogRemoto" type="string" string="/srv/log/%HOSTNAME%/%PROGRAMNAM
                     </ul>
                 </li>
             </ul>
+
+            <br>
+            <h4>Backup e Restore de logs</h4>
+            <p><b>Backup:</b></p>
+            <ul>
+                <li>Fazer dump (backup) de base de dados: <i>mysqldump Syslog &gt; backup-banco-syslog.sql</i></li>
+                <li>Dump de table à parte: <i>mysqldump Syslog SystemEvents &gt; backup-tabela-system-events.sql</i></li>
+            </ul>
+            <p><b>Restore (Através do backup acima):</b></p>
+            <ul>
+                <li>Remover table SystemEvents: <i>mysql -u root -D Syslog -e 'DROP TABLE SystemEvents;'</i></li>
+                <li>Realizar restore: <i>mysql -u root -D Syslog &lt; backup-tabela-system-events.sql</i></li>
+            </ul>
+            <p><b>Agendamento de backups:</b></p>
+            <p id="textoPost">Criar, em <i>/opt/</i>, script de backup (<i>bkp-banco.sh</i>):</p>
+<small><pre><code>
+#!/bin/bash
+mysqldump --user=”rsysloguser” --password=”rsyslogpw” "$@” "Syslog” &gt; "/opt/backup/syslog-$(date '+%d-%n-%Y')”.sql 2&gt; /dev/null
+</code></pre></small>
+            <ul>
+                <li>Copiar script: <i>cp /opt/bkkp-banco.sh /usr/local/bin/ && chmod u+x /usr/local/bin/bkp-banco.sh</i></li>
+                <li>Criar diretório backup: <i>mkdir /opt/backup</i></li>
+                <li>Executar script: <i>bash /usr/local/bin/bkp-banco.sh</i>
+                    <ul>
+                        <li>Verificar funcionamento: <i>ls /opt/backup</i></li>
+                    </ul>
+                </li>
+                <li>Mover para cron daily, para executar script automaticamente diariamente: <i>cp /usr/local/bin/bkp-banco.sh etc/cron.daily/bkp-banco</i>
+                    <ul>
+                        <li>Verificar funcionamento: <i>rm /opt/backup/* && run-parts /etc/cron.daily && ls /opt/backup</i></li>
+                    </ul>
+                </li>
+            </ul>
+            <p id="textoPost">PS: Usuário e senha foram criados em /etc/rsyslog.d/rsyslog.conf no conteúdo acima. Arquivos no cron daily remove-se extensão.</p>
         </div>
     </div>
 
