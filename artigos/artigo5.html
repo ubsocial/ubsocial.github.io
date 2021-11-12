@@ -498,7 +498,7 @@ template (name="LogRemoto" type="string" string="/srv/log/%HOSTNAME%/%PROGRAMNAM
             <p id="textoPost">Criar, em <i>/opt/</i>, script de backup (<i>bkp-banco.sh</i>):</p>
 <small><pre><code>
 #!/bin/bash
-mysqldump --user=”rsysloguser” --password=”rsyslogpw” "$@” "Syslog” &gt; "/opt/backup/syslog-$(date '+%d-%n-%Y')”.sql 2&gt; /dev/null
+mysqldump --user="rsysloguser" --password="rsyslogpw" "$@" "Syslog" &gt; "/opt/backup/syslog-$(date '+%d-%n-%Y')".sql 2&gt; /dev/null
 </code></pre></small>
             <ul>
                 <li>Copiar script: <i>cp /opt/bkkp-banco.sh /usr/local/bin/ && chmod u+x /usr/local/bin/bkp-banco.sh</i></li>
@@ -515,6 +515,111 @@ mysqldump --user=”rsysloguser” --password=”rsyslogpw” "$@” "Syslog” 
                 </li>
             </ul>
             <p id="textoPost">PS: Usuário e senha foram criados em /etc/rsyslog.d/rsyslog.conf no conteúdo acima. Arquivos no cron daily remove-se extensão.</p>
+
+            <br>
+            <h4>Centralização de logs com Graylog</h4>
+            <img src="../anexos/artigo5/graylog.png" width="70%" height="auto">
+            <p id="textoPost">Graylog é software de gerenciamento de logs, funcionando em conjunto com MongoDB e Elasticsearch, viabilizando criação de filtros, alertas, deashboards e aumentando a velocidade de pesquisa de mensagens. Pode ser utilizado em cluster, via master e slaves. MongoDB armazenará as configurações do Graylog e o Elasticsearch o armazenamento dos logs.</p>
+            <p><b>Pré-requisitos:</b></p>
+            <ul>
+                <li>sudo apt update</li>
+                <li>sudo apt install apt-transport-https openjdk-8-jre-headless uuid-runtime pwgen</li>
+                <li>Configurar $JAVA_HOME para Elasticsearch:
+                    <ul>
+                        <li>sudo nano /etc/environment (Inserir no final do arquivo): JAVA_HOME="/usr/lib/jvm/java-1.8.0-openjdk-amd64/bin/"</li>
+                        <li>source /etc/environment
+                            <ul>
+                                <li>Testar funcionamento: <i>echo $JAVA_HOME</i> (Deverá retornar diretório informado)</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <p><b>Instalar MongoDB 4 (Debian):</b></p>
+            <ul>
+                <li>Instruções conforme https://docs.mongodb.com/v4.0/tutorial/install-mongodb-on-debian</li>
+                <li>wget -qO - https://www.mongodb.org/static/pgp/server-4.0.asc | sudo apt-key add -</li>
+                <li>echo "deb http://repo.mongodb.org/apt/debian stretch/mongodb-org/4.0 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list
+                    <ul>
+                        <li>Verificar versão do Debian acima (jessie/stretch)</li>
+                    </ul>
+                </li>
+                <li>sudo apt update && sudo apt install mongodb-org</li>
+                <li>sudo systemctl enable mongod.service
+                    <ul>
+                        <li>sudo systemctl start mongod.service</li>
+                        <li>Verificar funcionamento: sudo systemctl status mongod</li>
+                    </ul>
+                </li>
+            </ul>
+            <p><b>Instalar Elasticsearch:</b></p>
+            <ul>
+                <li>Instruções conforme https://www.elastic.co/guide/en/elasticsearch/reference/current/deb.html</li>
+                <li>wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -</li>
+                <li>echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-7.x.list</li>
+                <li>sudo apt update && sudo apt install elasticsearch</li>
+                <li>sudo nano /etc/elasticsearch/elasticsearch.yml
+                    <ul>
+                        <li>(Editar no arquivo): cluster.name: nomeMaquina (Ex: graylog)</li>
+                    </ul>
+                </li>
+                <li>sudo nano /etc/elasticsearch/jvm.options
+                    <ul>
+                        <li>(Editar no arquivo, linhas 22 e 23):
+                            <ul>
+                                <li>-Xms512m</li>
+                                <li>-Xmx512m</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>sudo systemctl enable elasticsearch.service
+                    <ul>
+                        <li>sudo systemctl start elasticsearch.service</li>
+                        <li>Verificar funcionamento: sudo systemctl status elasticsearch.service</li>
+                    </ul>
+                </li>
+            </ul>
+            <p><b>Instalar Graylog:</b></p>
+            <ul>
+                <li>wget https://packages.graylog2.org/repo/packages/graylog-4.2-repository_latest.deb</li>
+                <li>sudo dpkg -i graylog-4.2-repository_latest.deb</li>
+                <li>sudo apt update && sudo apt install graylog-server</li>
+                <li>sudo systemctl enable graylog.service
+                    <ul>
+                        <li>sudo systemctl start graylog.service</li>
+                        <li>Verificar funcionamento: sudo systemctl status graylog.service (Pode ocorrer erro devido a não configuração abaixo)</li>
+                    </ul>
+                </li>
+                <li>Gerar senha de autenticação graylog: sudo pwgen -N 1 -s 96 (Guardar essa chave1)</li>
+                <li>echo -n ubsocial | sha256sum (Guardar essa chave2)</li>
+                <li>sudo nano /etc/graylog/server/server.conf
+                    <ul>
+                        <li>(Informar na linha 57) password_secret = (chave1 acima)</li>
+                        <li>(Informar na linha 68) root_password_sha2 = (chave2 acima)</li>
+                        <li>(Descomentar e informar na linha 76) root_timezone = America/Sao_Paulo</li>
+                        <li>(Descomentar e informar na linha 105) http_bind_address = ipMaquina (Ex: 172.16.0.12:9000)</li>
+                        <li>(Inserir nova linha abaixo da linha 105): http_publish_uri = http://ipMaquina:9000/</li>
+                        <li>(Inserir nova linha): http_external_uri = http://ipMaquina:9000</li>
+                    </ul>
+                </li>
+                <li>sudo systemctl restart graylog-server
+                    <ul>
+                        <li>sudo systemctl start graylog-server</li>
+                        <li>Verificar funcionamento: sudo systemctl status graylog-server</li>
+                    </ul>
+                </li>
+                <li>sudo systemctl restart elasticsearch.service
+                    <ul>
+                        <li>Verificar funcionamento: sudo systemctl status elasticsearch.service</li>
+                    </ul>
+                </li>
+                <li>Acessar painel do graylog: No browser, informar http://ipMaquina:9000
+                    <ul>
+                        <li>Usuário '<i>admin</i>', Senha '<i>ubsocial</i>'</li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </div>
 
