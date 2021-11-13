@@ -620,6 +620,48 @@ mysqldump --user="rsysloguser" --password="rsyslogpw" "$@" "Syslog" &gt; "/opt/b
                     </ul>
                 </li>
             </ul>
+            
+            <br>
+            <h5>Inputs:</h5>
+            <img src="../anexos/artigo5/graylogInputs.png" width="70%" height="auto">
+            <p id="textoPost">Inputs de mensagens são responsáveis por levar os logs ao Graylog (Inputs para TCP, UDP, AWS, GCP, Containers...).</p>
+            <p><b>Maquina Server (Ubuntu / graylog):</b></p>
+            <p id="textoPost">Criar Input UDP: Objetivo é criar Input UDP para coletar logs das máquinas clients (Webserver/CentOS e Kibana/Debian). No graylog, aba System/Inputs, selecionar Syslog UDP e clicar em Launch New Input.</p>
+            <ul>
+                <li>Node selecionar o único (Máquina atual / graylog)</li>
+                <li>Title “SYSLOG”</li>
+                <li>Bind Address: 172.16.0.12 (ipMaquina)</li>
+                <li>Port: 1514</li>
+                <li>Selecionar opção ‘Allow overriding date?’ caso não esteja selecionada</li>
+                <li>Save (O status do Graylog deverá ser Running)</li>
+            </ul>
+            <p><b>Máquina Cliente (CentOS / webserver):</b></p>
+            <p id="textoPost">Configurar para encaminhar os logs desejados para o Graylog da máquina server (Porta 1514).</p>
+            <ul>
+                <li>sudo nano /etc/rsyslog.conf
+                    <ul>
+                        <li>(Editar última linha, descomentá-la) *.* @graylog:1514;RSYSLOG_SyslogProtoco123Format</li>
+                    </ul>
+                </li>
+                <li>sudo systemctl restart rsyslog</li>
+            </ul>
+            <p><b>Maquina Cliente (Debian / kibana):</b></p>
+            <ul>
+                <li>sudo nano /etc/rsyslog.conf
+                    <ul>
+                        <li>(Editar última linha, descomentá-la) *.* @graylog:1514;RSYSLOG_SyslogProtoco123Format</li>
+                    </ul>
+                </li>
+                <li>sudo systemctl restart rsyslog</li>
+            </ul>
+            <p><b>Maquina Server (Ubuntu / graylog):</b></p>
+            <p id="textoPost">Após configuração das máquinas acima, verificar funcionamento do Graylog clicando em Show received messages, após recarregar página selecionar opção Search in all messages e no ícone de pesquisa informar ‘webserver’ seguido de Enter, para verificar logs da máquina cliente centOS webserver. Informar ‘kibana’ para verificar logs da máquina cliente debian kibana. Para mostrar logs em tempo real, selecionar, no select superior direito, o tempo de Update every 1 second.</p>
+            <p id="textoPost">Fazer teste com log de autenticação, autenticando-se na máquina centOS webserver com senha errada.</p>
+            <ul>
+                <li>ssh suporte@172.16.0.11 (usuario@ipMaquina)</li>
+                <li>Informar senha errada</li>
+                <li>Verificar mensagens de logs no Graylog, onde estará, no topo, mensagem de erro de autenticação na máquina centOS webserver.</li>
+            </ul>
         </div>
     </div>
 
