@@ -629,7 +629,7 @@ mysqldump --user="rsysloguser" --password="rsyslogpw" "$@" "Syslog" &gt; "/opt/b
             <p id="textoPost">Criar Input UDP: Objetivo é criar Input UDP para coletar logs das máquinas clients (Webserver/CentOS e Kibana/Debian). No graylog, aba System/Inputs, selecionar Syslog UDP e clicar em Launch New Input.</p>
             <ul>
                 <li>Node selecionar o único (Máquina atual / graylog)</li>
-                <li>Title “SYSLOG”</li>
+                <li>Title "SYSLOG"</li>
                 <li>Bind Address: 172.16.0.12 (ipMaquina)</li>
                 <li>Port: 1514</li>
                 <li>Selecionar opção ‘Allow overriding date?’ caso não esteja selecionada</li>
@@ -661,6 +661,107 @@ mysqldump --user="rsysloguser" --password="rsyslogpw" "$@" "Syslog" &gt; "/opt/b
                 <li>ssh suporte@172.16.0.11 (usuario@ipMaquina)</li>
                 <li>Informar senha errada</li>
                 <li>Verificar mensagens de logs no Graylog, onde estará, no topo, mensagem de erro de autenticação na máquina centOS webserver.</li>
+            </ul>
+
+            <br>
+            <h5>Coletar Logs de Containers:</h5>
+            <p id="textoPost">Inputs do tipo GELF (Graylog Extended Log Format) UDP permitem envio de logs de host externo. O provisionamento e configuração será realizada via arquivo docker compose. No seguinte exemplo, será realizado utilizando container Wordpress, para que, como resultado, tenha-se o site Wordpress em funcionamento e seus logs armazenados e gerenciados no Graylog.</p>
+            <p><b>Configurar Graylog (Maquina Server (Ubuntu / graylog)):</b></p>
+            <ul>
+                <li>No Graylog, aba System/Inputs, selecionar opção <i>Input GELF UDP</i> e clicar em Launch New Input
+                    <ul>
+                        <li>Node: Selecionar sua máquina</li>
+                        <li>Title: Docker</li>
+                        <li>Blind Address: ipMaquina (Ex: 172.16.0.12)</li>
+                        <li>Port: 12201 (Padrão)</li>
+                        <li>Save (Verificar funcionamento, status running)</li>
+                    </ul>
+                </li>
+            </ul>
+            <p><b>Configurar Docker (Máquina Cliente (CentOS / webserver)):</b></p>
+            <p id="textoPost">Diretório do usuário, criar diretório <i>wordpress-deploy</i> com o arquivo <i>docker-compose.yaml</i> com o seguinte conteúdo abaixo. Entrar no diretório do arquivo, e utilizar o comando para subí-lo "docker-compose up -d". Para verificar se os containers estão de pé, basta utilizar o comando "docker-compose ps" e verificar o State dos ambientes.</p>
+<small><pre><code>
+services:
+    traefik:
+        image: traefik:1.7
+        ports:
+            - "80:80"
+            - "8080:8080"
+            - "443:443"
+        networks:
+            - traefik
+        command: &gt;
+            --web
+            --docker
+            --docker.domain=4labs.example
+            --docker.watch
+        volumes:
+            - /var/run/docker.sock:/vat/run/docker.sock
+
+    wordpress-mysql:
+        image: "mysql:5.6"
+        logging:
+            driver: "gelf"
+            options:
+                gelf-address: "udp://ipMaquina:12201" (Ex: 172.16.0.12:12201)
+        environment:
+            MYSQL_ROOT_PASSWORD: wordpresspass
+        restart: always
+        volumes:
+            - "worpress-mysql:/var/lib/mysql"
+        networks:
+            - traefik
+
+    wordpress:
+        image: "wordpress:4.8-apache"
+        logging:
+            driver: "gelf"
+            options:
+                gelf-address: "udp://ipMaquina:12201" (Ex: 172.16.0.12:12201)
+        environment:
+            WORDPRESS_DB_HOST: wordpress-mysql
+            WORDPRESS_DB_PASSWORD: wordpresspass
+        restart: always    
+        labels:
+            - "traefik.enable=true"
+            - "traefik.port=80"
+            - "traefik.backend=wordpress"
+            - "traefik.docker.network=traefik"
+            - "traefik.frontend.rule=Host:wordpress.4labs.example"
+        volumes:
+            - "wordpress:/var/www/html"
+        networks:
+            - traefik
+
+volumes:
+    wordpress:
+    wordpress-mysql:
+
+networks:
+    traefik:
+        external: true[usuario@webserver ~]$
+</code></pre></small>
+            <p id="textoPost">Após subir os containers acima, pode-se acessar o site através de outra máquina:</p>
+            <ul>
+                <li>sudo nano /etc/hosts
+                    <ul>
+                        <li>(Inserir no final do arquivo) ipMaquinaWebserver    wordpress.4labs.example</li>
+                    </ul>
+                </li>
+                <li>No browser, acessar site: <i>https://wordpress.4labs.example</i>
+                    <ul>
+                        <li>Para 1º acesso, instalar Wordpress, seguindo as instruções no browser</li>
+                    </ul>
+                </li>
+                <li>No painel do Wordpress, aba esquerda, opção Aparência/Temas, trocar de tema do site</li>
+            </ul>
+            <p><b>Maquina Server (Ubuntu / graylog):</b></p>
+            <ul>
+                <li>No Graylog, página de Inputs, nos Inputs Docker, clicar em Show received messages
+                    <ul>
+                        <li>Nesta página aparecerão os logs do site via Container</li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>
