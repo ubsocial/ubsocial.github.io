@@ -763,6 +763,58 @@ networks:
                     </ul>
                 </li>
             </ul>
+
+            <br>
+            <h5>Extrator de logs:</h5>
+            <p id="textoPost">Extrator de log permite instruir nós (nodes) Graylog sobre como extrair dados de qualquer texto na mensagem recebida. A partir disso, pode-se gerar logs, gráficos estatísticos, painéis, alertas, etc. <u>Exemplo</u>: Tratando-se do caso Wordpress, ao acessar página inexistente, tem-se erro 404. Ao acessar página existente, tem-se código 200. Utilizando extrator, pode-se criar filtros mais específicos sobre essas informações relacionadas com tais códigos.</p>
+            <p><b>Máquina Cliente (Debian / kibana):</b></p>
+            <p id="textoPost">Criar extrator para filtrar logs de acesso com sucesso ao site Wordpress (Código HTTP 200).</p>
+            <ul>
+                <li>sudo nano /etc/hosts
+                    <ul>
+                        <li>(Inserir no final do arquivo) ipMaquinaWebserver    wordpress.4labs.example</li>
+                    </ul>
+                </li>
+                <li>ping wordpress.4labs.example</li>
+                <li>for cont in $(seq 1 10); do curl http://wordpress.4labs.example; done (Gerará 10 logs com código 200 no Graylog)</li>
+                <li>for cont in $(seq 1 10); do curl http://wordpress.4labs.example/teste; done (Gerará 10 logs com código 404 no Graylog)</li>
+                <li>for cont in $(seq 1 10); do curl http://wordpress.4labs.example/wp-admin/themes.php; done (Gerará 10 logs com código 302 no Graylog)</li>
+            </ul>
+            <p><b>Máquina Server (Ubuntu / graylog):</b></p>
+            <ul>
+                <li>No Graylog, possuirão vários logs de acesso, código 200, com sucesso ao site Wordpress
+                    <ul>
+                        <li>Acessar aba System/Inputs, área dos logs Docker, clicar em Manage extractors. Na nova página, sessão Add extractor, clicar em Get started, onde o Graylog selecionará a última mensagem recebida, clicar em Lead Message.
+                            <ul>
+                                <li>A mensagem selecionada será fatiada de acordo com suas strings: String message, clicar em Select extractor type, selecionando opção Regular expressions</li>
+                            </ul>
+                        </li>
+                        <li>Abrirá página do novo extrator com expressão regular
+                            <ul>
+                                <li>Campo de texto Regular expressions, informar: HTTP/1.1\"(.+?)\s.*
+                                    <ul>
+                                        <li>Verificar funcionamento, clicando em Try para verificar se o código 200 resultará da expressão informada</li>
+                                    </ul>
+                                </li>
+                                <li>Condition: Always try to extract</li>
+                                <li>Store as field: http_reponse_code</li>
+                                <li>Extractor title: HTTP_REPONSE_CODE</li>
+                                <li>Create extractor</li>
+                            </ul>
+                        </li>
+                        <li>Na página principal do Graylog, no campo de pesquisa, informar: <i>http_reponse_code: 200</i>
+                            <ul>
+                                <li>Clicar em pesquisar, onde serão filtrados somente os logs de código 200</li>
+                                <li>Realizar o mesmo procedimento de pesquisa acima, alterando o código para 404 e 302
+                                    <ul>
+                                        <li>No caso, o extrator fará o filtro de pesquisa via código HTTP nessa lista de logs</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </div>
 
