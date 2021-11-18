@@ -519,7 +519,7 @@ mysqldump --user="rsysloguser" --password="rsyslogpw" "$@" "Syslog" &gt; "/opt/b
             <br>
             <h4>Centralização de logs com Graylog</h4>
             <img src="../anexos/artigo5/graylog.png" width="70%" height="auto">
-            <p id="textoPost">Graylog é software de gerenciamento de logs, funcionando em conjunto com MongoDB e Elasticsearch, viabilizando criação de filtros, alertas, deashboards e aumentando a velocidade de pesquisa de mensagens. Pode ser utilizado em cluster, via master e slaves. MongoDB armazenará as configurações do Graylog e o Elasticsearch o armazenamento dos logs.</p>
+            <p id="textoPost">Graylog é software de gerenciamento de logs, funcionando em conjunto com MongoDB e Elasticsearch, viabilizando criação de filtros, alertas, dashboards e aumentando a velocidade de pesquisa de mensagens. Pode ser utilizado em cluster, via master e slaves. MongoDB armazenará as configurações do Graylog e o Elasticsearch o armazenamento dos logs.</p>
             <p><b>Pré-requisitos:</b></p>
             <ul>
                 <li>sudo apt update</li>
@@ -812,6 +812,92 @@ networks:
                                 </li>
                             </ul>
                         </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <br>
+            <h4>Dashboards estatísticos:</h4>
+            <img src="../anexos/artigo5/graylogDashboards.png" width="70%" height="auto">
+            <p id="textoPost">No Graylog, um Dashboard é a composição de painéis gráficos advindos de lógicas estatísticas dos logs coletados Ordenadamente, primeiro cria-se Dashboard vazio, após isso gerar logs de interesse e, por fim, modificar painel de apresentação de tais logs. Para realização de testes com estatísticas nos painéis do Dashboard abaixo, pode-se replicar os códigos for cont na máquina kibana, como expressado acima.</p>
+            <p><b>Criar Dashboard para acoplar painéis:</b></p>
+            <ul>
+                <li>Criar dashboard vazio
+                    <ul>
+                        <li>Acessar página de Dashboard do Graylog, clicar em Create new dashboard</li>
+                        <li>Clicar em Save as, informando:
+                            <ul>
+                                <li>Title: Wordpress Dashboard</li>
+                                <li>Summary: Wordpress Dashboard</li>
+                                <li>Description: Dashboard para estatísticas do site Wordpress</li>
+                            </ul>
+                        </li>
+                        <li>Clicar em Save</li>
+                    </ul>
+                </li>
+            </ul>
+            <p><b>Gráfico para estatísticas de acesso:</b></p>
+            <ul>
+                <li>Graylog, página System/Inputs, acessar Input Docker, clicar em Show received messages
+                    <ul>
+                        <li>Pesquisar com filtro: _exists_:http_reponse_code</li>
+                        <li>No painel Message Count (Acima dos logs), clicar na seta direita de opções, clicar na opção Edit. No modal de edição do painel:
+                            <ul>
+                                <li>Visualization Type: Pie Chart</li>
+                                <li>Rows: http_reponse_code</li>
+                                <li>Metrics: count()</li>
+                                <li>Save</li>
+                            </ul>
+                        </li>
+                        <li>Nesse painel, clicar na seta direita de opções, clicar na opção Copy to Dashboard, selecionando Wordpress Dashboard, clicar em Select
+                            <ul>
+                                <li>No Wordpress Dashboard, painel do gráfico, clicar na seta direita de opções, clicar na opção Edit e dar duplo clique sobre o nome do painel, para alterá-lo à "Estatísticas de Acesso - Wordpress" e, por fim, clicar em Save</li>
+                            </ul>
+                        </li>
+                        <li>Por fim, no Dashboard, selecionar Update a cada 1 segundo, após isso clicar em Save</li>
+                    </ul>
+                </li>
+            </ul>
+            <p><b>Tabela de contagem de acesso:</b></p>
+            <ul>
+                <li>Graylog, página System/Inputs, acessar Input Docker, clicar em Show received messages
+                    <ul>
+                        <li>Pesquisar com filtro: _exists_:http_reponse_code</li>
+                        <li>No painel All Messages (Painel das mensagens dos logs), clicar na seta direita de opções, clicar na opção Edit. No modal de edição do painel:
+                            <ul>
+                                <li>Fields: timestamp, source, http_reponse_code</li>
+                                <li>Save</li>
+                            </ul>
+                        </li>
+                        <li>No painel All Messages (Painel das mensagens dos logs), selecionar seta direita da coluna de cabeçalho "http_reponse_code", clicar na opção Show top values (Criará painel gráfico com tabela com contagem dos valores)
+                            <ul>
+                                <li>Nesse painel, clicar na seta direita de opções, clicar na opção Copy to Dashboard, selecionando Wordpress Dashboard, clicar em Select</li>
+                                <li>No Wordpress Dashboard, painel da tabela, clicar na seta direita de opções, clicar na opção Edit e dar duplo clique sobre o nome do painel, para alterá-lo à "Contagem de acessos por HTTP REPONSE CODE" e, por fim, clicar em Save</li>
+                            </ul>
+                        </li>
+                        <li>Por fim, no Dashboard, selecionar Update a cada 1 segundo, após isso clicar em Save</li>
+                    </ul>
+                </li>
+            </ul>
+            <p><b>Número de contagem total de acessos:</b></p>
+            <ul>
+                <li>Graylog, página System/Inputs, acessar Input Docker, clicar em Show received messages
+                    <ul>
+                        <li>Pesquisar com filtro: _exists_:http_reponse_code</li>
+                        <li>No painel Message Count (Acima dos logs), clicar na seta direita de opções, clicar na opção Edit. No modal de edição do painel:
+                            <ul>
+                                <li>Visualization Type: Single Number</li>
+                                <li>Rows: http_reponse_code</li>
+                                <li>Metrics: count()</li>
+                                <li>Save</li>
+                            </ul>
+                        </li>
+                        <li>Nesse painel, clicar na seta direita de opções, clicar na opção Copy to Dashboard, selecionando Wordpress Dashboard, clicar em Select
+                            <ul>
+                                <li>No Wordpress Dashboard, painel do gráfico, clicar na seta direita de opções, clicar na opção Edit e dar duplo clique sobre o nome do painel, para alterá-lo à "Número total de acessos Wordpress" e, por fim, clicar em Save</li>
+                            </ul>
+                        </li>
+                        <li>Por fim, no Dashboard, selecionar Update a cada 1 segundo, após isso clicar em Save</li>
                     </ul>
                 </li>
             </ul>
