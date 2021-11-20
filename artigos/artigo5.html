@@ -817,7 +817,7 @@ networks:
             </ul>
 
             <br>
-            <h4>Dashboards estatísticos:</h4>
+            <h5>Dashboards estatísticos:</h5>
             <img src="../anexos/artigo5/graylogDashboards.png" width="70%" height="auto">
             <p id="textoPost">No Graylog, um Dashboard é a composição de painéis gráficos advindos de lógicas estatísticas dos logs coletados Ordenadamente, primeiro cria-se Dashboard vazio, após isso gerar logs de interesse e, por fim, modificar painel de apresentação de tais logs. Para realização de testes com estatísticas nos painéis do Dashboard abaixo, pode-se replicar os códigos for cont na máquina kibana, como expressado acima.</p>
             <p><b>Criar Dashboard para acoplar painéis:</b></p>
@@ -901,6 +901,84 @@ networks:
                     </ul>
                 </li>
             </ul>
+            
+            <br>
+            <h5>Alerta via emails:</h5>
+            <p><b>Habilitar envio de emails do Graylog:</b></p>
+            <ul>
+                <li>sudo nano /etc/graylog/server/server.conf:
+                    <ul>
+                        <li>(Linha 558) Email transport (Descomentar e editar):
+                            <ul>
+                                <li>transport_email_enabled = true</li>
+                                <li>transport_email_hostname = smtp.gmail.com (Usar Gmail neste exemplo)</li>
+                                <li>transport_email_port = 587</li>
+                                <li>transport_email_use_auth = true</li>
+                                <li>transport_email_auth_username = seuemail@gmail.com</li>
+                                <li>transport_email_auth_password = suasenhagmail</li>
+                                <li>transport_email_subject_prefix = [graylog]</li>
+                                <li>transport_email_from_email = graylog@4labs.example</li>
+                            </ul>
+                        </li>
+                        <li>(Linha 578, descomentar): transport_email_use_ssl = false</li>
+                    </ul>
+                </li>
+                <li>Reiniciar graylog-server: systemctl restart graylog-server</li>
+            </ul>
+            <p><b>Habilitar evento no Graylog:</b></p>
+            <ul>
+                <li>Graylog, página Alerts e, na página, clicar em Get Started (Entrará na página New Event Definition)
+                    <ul>
+                        <li>Event Details:
+                            <ul>
+                                <li>Title: Acesso ao site Wordpress</li>
+                                <li>Description: O acesso ao site Wordpress gerou o código 404</li>
+                                <li>Priority: Normal</li>
+                                <li>Clicar em Next</li>
+                            </ul>
+                        </li>
+                        <li>Condition:
+                            <ul>
+                                <li>Condition Type: Filter & Aggregation</li>
+                                <li>Filter
+                                    <ul>
+                                        <li>Search Query: 404</li>
+                                        <li>Streams: All messages</li>
+                                    </ul>
+                                </li>
+                                <li>Clicar em Next</li>
+                            </ul>
+                        </li>
+                        <li>Fields:
+                            <ul>
+                                <li>Clicar em Add Custom Field (Entrará na página New Custom Field)</li>
+                                <li>Name: http_response_code</li>
+                                <li>Set Value From: Template</li>
+                                <li>Template: Filter</li>
+                                <li>Clicar em Done</li>
+                                <li>Clicar em Next</li>
+                            </ul>
+                        </li>
+                        <li>Notifications:
+                            <ul>
+                                <li>Clicar em Add Notification (Entrará na página Add Notification)</li>
+                                <li>Choose Notification: Create New Notification</li>
+                                <li>Title: Acesso ao site Wordpress</li>
+                                <li>Description: O acesso ao site Wordpress gerou o código 404</li>
+                                <li>Notification Type: Email Notification</li>
+                                <li>Sender: seuemail@gmail.com</li>
+                                <li>User Recipient(s): Admin (Administrator)</li>
+                                <li>Email Recipient(s): seuemail@gmail.com</li>
+                                <li>Clicar em Done</li>
+                                <li>Clicar em Next</li>
+                            </ul>
+                        </li>
+                        <li>Summary: Clicar em Done</li>
+                    </ul>
+                </li>
+            </ul>
+            <p id="textoPost">Para testar funcionamento da notificação, clicar no botão direito superior Notifications e, na notification, clicar no botão de opções More, clicar na opção Test Notification. Caso houver erro de reconhecimento de email, entrar no endereço "<i>https://myaccount.google.com/lesssecureapps?</i>". Nesta página habilitar, como On, opção Allow less secure apps. Após isso, realizar novamente o procedimento de teste da notification no Graylog. Se fora testada com sucesso, verifique a caixa de seu email informado ao Graylog (Verificar Caixa de Entrada e Spam), que lhe será enviado email de teste.</p>
+            <p id="textoPost">Por fim, para testar realmente o funcionamento da notificação do Graylog, acessar site com URL incorreta (Exemplo: <i>https://wordpress.4labs.example/teste</i>), que gerará erro HTTP 404. Após alguns minutos, então verificar caixa de emails de seu email informado.</p>
         </div>
     </div>
 
