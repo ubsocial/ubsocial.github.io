@@ -979,6 +979,233 @@ networks:
             </ul>
             <p id="textoPost">Para testar funcionamento da notificação, clicar no botão direito superior Notifications e, na notification, clicar no botão de opções More, clicar na opção Test Notification. Caso houver erro de reconhecimento de email, entrar no endereço "<i>https://myaccount.google.com/lesssecureapps?</i>". Nesta página habilitar, como On, opção Allow less secure apps. Após isso, realizar novamente o procedimento de teste da notification no Graylog. Se fora testada com sucesso, verifique a caixa de seu email informado ao Graylog (Verificar Caixa de Entrada e Spam), que lhe será enviado email de teste.</p>
             <p id="textoPost">Por fim, para testar realmente o funcionamento da notificação do Graylog, acessar site com URL incorreta (Exemplo: <i>https://wordpress.4labs.example/teste</i>), que gerará erro HTTP 404. Após alguns minutos, então verificar caixa de emails de seu email informado.</p>
+
+            <br>
+            <h5>Alerta via mensagens Rocket Chat</h5>
+            <img src="../anexos/artigo5/graylogRocketChat.png" width="70%" height="auto">
+            <p><b>Máquina Cliente (CentOS / webserver), instalar Rocket Chat via docker:</b></p>
+            <ul>
+                <li>Criar diretório ~/rocketchat-deploy/docker-compose.yaml, com o seguinte conteúdo:</li>
+            </ul>
+<small><pre><code>
+version: '3'
+
+services:
+    rocketchat:
+    image: rocketchat/rocket.chat:latest
+    command: &gt;
+        bash -c
+        "for i in 'seq 1 30'; do
+            node main.js &&
+            s=$$? && break || s=$$?;
+            echo \"Tried $$i times. Waiting 5 secs...\";
+            sleep 5;
+        done; (exit $$s)"
+    volumes:
+        - "./uploads:/app/uploads"
+    environment:
+        - PORT=3000
+        - ROOT_URL=http://172.16.0.11:3000 (ipMaquinaWebserver)
+        - MONGO_URL=mongodb://mongo:27017/rocketchat
+        - MONGO_OPLOG_URL=mongodb://mongo:27017/local
+    ports:
+        - 3000:3000
+    networks:
+        - traefik
+
+    mongo:
+    image: mongo:4.0
+    volumes:
+        - "./data/db:/data/db"
+    command: mongod --smallfiles --oplogSize 128 --replSet rs0 --storageEngine=mmapv1
+    networks:
+        - traefik
+
+    mongo-init-replica:
+    image: mongo:4.0
+    command: &gt;
+        bash -c
+        "for i in 'seq 1 30'; do
+            mongo mongo/rocketchat --eval \"
+            rs.initiate({
+                _id: 'rs0',
+                members: [ { _id: 0, host: 'localhost:27017' } ]})\" &&
+            s=$$? && break || s=$$?;
+            echo \"Tried $$i times. Waiting 5 secs...\";
+            sleep 5;
+        done; (exit $$s)"
+
+    networks:
+        - traefik
+
+networks:
+    traefik:
+    external: true
+</code></pre></small>
+            <ul>
+                <li>Após isso, no diretório, subir containers: docker-compose up -d
+                    <ul>
+                        <li>Verificar funcionamento: docker-compose ps (Stat deve ser Up, com exceção do replica, que é Exit 0)</li>
+                        <li>No browser, abrir Rocket Chat em outra máquina, informando URL http://ipMaquinaWebserver:3000 (Ex: http://172.16.0.11:3000)
+                            <ul>
+                                <li>Nome: admin</li>
+                                <li>Nome de usuário: admin</li>
+                                <li>Email da organização: admin@4labs.example</li>
+                                <li>Senha: ubsocial</li>
+                                <li>Clicar em Continuar</li>
+                                <li>Tipo de organização: Comunidade</li>
+                                <li>Nome da Organização: UB Social</li>
+                                <li>Indústria: Provedor de tecnologia</li>
+                                <li>Tamanho: 11-50 pessoas</li>
+                                <li>País: Brasil</li>
+                                <li>Site: 4labs.example</li>
+                                <li>Clicar em Continuar</li>
+                                <li>Nome do site: Rocket.Chat</li>
+                                <li>Idioma: Português do Brasil</li>
+                                <li>Tipo de servidor: Comunidade</li>
+                                <li>Ativar autenticação em duas etapas: Sim</li>
+                                <li>Clicar em Continuar</li>
+                                <li>Selecionar opção Mantenha-se autônomo</li>
+                                <li>Clicar em Continuar</li>
+                                <li>Clicar em Vá para seu espaço de trabalho</li>
+                            </ul>
+                        </li>
+                        <li>Criar Channel separado para receber mensagens do Graylog:
+                            <ul>
+                                <li>Botão superior esquerdo, Create Channel</li>
+                                <li>Nome: graylog</li>
+                                <li>Tópico: (Não informar nada)</li>
+                                <li>Privado: Desabilitar (Será público)</li>
+                                <li>Add Members: Rocket.Cat</li>
+                                <li>Clicar em Criar</li>
+                            </ul>
+                        </li>
+                        <li>Criar Webhook para conexão do Rocket.Chat com Graylog:
+                            <ul>
+                                <li>Botão superior esquerdo, selecionar opção Administração/Integrações</li>
+                                <li>Aba Incoming, clicar em Novo</li>
+                                <li>Ativado: Habilitar</li>
+                                <li>Nome: alertgraylog</li>
+                                <li>Postar no Canal: #graylog</li>
+                                <li>Postar como: rocket.cat</li>
+                                <li>Apelido: Graylog Alert</li>
+                                <li>Script Ativado: Habilitar</li>
+                                <li>Script: (Colocar esse script abaixo)</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+<small><pre><code>
+/* exported Script */
+/* globals console, _, s */
+
+const GRAYLOG_URL = 'https://graylog.example.com';
+
+const createPermalink = (m, index) =&gt; {
+    const label = index === 0 ? 'Display complete message' : '#${index + 1}';
+    return '[${label}](${GRAYLOG_URL}/messages/${m.index}/${m.id})'
+};
+
+const formatMessages = (messages) =&gt; {
+    const grouped = messages.reduce((acc, m) =&gt; {
+            if (!acc.hasOwnProperty(m.message)) {
+                acc[m.message] = [];
+            }
+            acc[m.message].push(m);
+            return acc;
+        }
+        , {});
+    const result = [];
+    for (let mType in grouped) {
+        if (grouped.hasOwnProperty(mType)) {
+            const line = '*Message*: ' + mType + '\n*Source*: ' + grouped[mType][0].source + '\n' + grouped[mType].map(createPermalink).join(", ");
+            result.push(line);
+        }
+    }
+    
+    return result.join('\n-------------\n');
+};
+
+const parseText = function (result) {
+    if (result.matching_messages.length &gt; 0) {
+        return formatMessages(result.matching_messages);
+    } else {
+        return result.result_description;
+    }
+};
+
+const createAlertMessageEvent = function(result) {
+    return ':warning: *Alert*: ' + result.triggered_condition.title + '\n' + parseText(result)
+}
+
+const makeAttachment = (text) =&gt; {
+    return {
+        text,
+        color: '#e8d612',
+    };
+};
+
+class Script {
+    process_incoming_request({request}) {        
+        return {
+            content: {
+                attachments:
+                [
+                    makeAttachment(createAlertMessageEvent(request.content.check_result))
+                ]
+            }
+        };
+    }
+}
+</code></pre></small>
+            <ul>
+                <li>Clicar em Salvar
+                    <ul>
+                        <li>Gerará URL de Webhook (Copiar URL)</li>
+                    </ul>
+                </li>
+            </ul>
+            <p><b>Vincular Graylog com Rocket Chat:</b></p>
+            <ul>
+                <li>No Graylog (http://ipMaquinaServidor:9000), aba System/Configurations</li>
+                <li>Na sessão URL Whitelist Configuration, clicar em Update, que abrirá modal para inserir URL, clicando em Add List
+                    <ul>
+                        <li>Title: Acesso ao site Wordpress</li>
+                        <li>URL: (Colar URL copiada)</li>
+                        <li>Clicar em Save</li>
+                    </ul>
+                </li>
+                <li>Aba Alerts, clicar no botão superior direito Notifications, nesta página clicar em Create Notification
+                    <ul>
+                        <li>Title: Acesso ao site Wordpress - Chat</li>
+                        <li>Description: O acesso ao site Wordpress gerou o código 404</li>
+                        <li>Notification Type: Legacy Alarm Callback</li>
+                        <li>Choose Legacy Notifications: Legacy HTTP Alarm Callback</li>
+                        <li>URL: (Colar URL copiada)</li>
+                        <li>Clicar em Create</li>
+                    </ul>
+                </li>
+                <li>Na página de Notifications, selecionar a notificação criada e clicar no botão direito More, opção Test Notification
+                    <ul>
+                        <li>No Rocket Chat, verificar recebimento da mensagem de teste</li>
+                    </ul>
+                </li>
+                <li>No Graylog, aba Alerts, clicar no botão superior direito Event Definitions, na notificação criada clicar em Edit
+                    <ul>
+                        <li>Selecionar aba Notifications, clicar em Add Notification
+                            <ul>
+                                <li>Choose Notification: Acesso ao site Wordpress - Chat</li>
+                                <li>Clicar em Donei</li>
+                                <li>Na sessão Notification Settings, habilitar opção Grace Period, informando 5 segundos</li>
+                                <li>Clicar em Next</li>
+                                <li>Clicar em Done, para salvar Alert</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <p id="textoPost">Por fim, para testar realmente o funcionamento da notificação do Graylog, acessar site com URL incorreta (Exemplo: https://wordpress.4labs.example/teste), que gerará erro HTTP 404. Então, verificar recebimento da mensagem de alerta no Rocket Chat.</p>
         </div>
     </div>
 
