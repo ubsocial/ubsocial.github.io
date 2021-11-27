@@ -539,7 +539,7 @@ mysqldump --user="rsysloguser" --password="rsyslogpw" "$@" "Syslog" &gt; "/opt/b
             </ul>
             <p><b>Instalar MongoDB 4 (Debian):</b></p>
             <ul>
-                <li>Instruções conforme https://docs.mongodb.com/v4.0/tutorial/install-mongodb-on-debian</li>
+                <li>Instruções conforme site oficial</li>
                 <li>wget -qO - https://www.mongodb.org/static/pgp/server-4.0.asc | sudo apt-key add -</li>
                 <li>echo "deb http://repo.mongodb.org/apt/debian stretch/mongodb-org/4.0 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list
                     <ul>
@@ -556,7 +556,7 @@ mysqldump --user="rsysloguser" --password="rsyslogpw" "$@" "Syslog" &gt; "/opt/b
             </ul>
             <p><b>Instalar Elasticsearch:</b></p>
             <ul>
-                <li>Instruções conforme https://www.elastic.co/guide/en/elasticsearch/reference/current/deb.html</li>
+                <li>Instruções conforme site oficial</li>
                 <li>wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -</li>
                 <li>echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-7.x.list</li>
                 <li>sudo apt update && sudo apt install elasticsearch</li>
