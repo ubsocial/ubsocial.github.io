@@ -634,7 +634,7 @@ mysqldump --user="rsysloguser" --password="rsyslogpw" "$@" "Syslog" &gt; "/opt/b
                 <li>Title "SYSLOG"</li>
                 <li>Bind Address: 172.16.0.12 (ipMaquina)</li>
                 <li>Port: 1514</li>
-                <li>Selecionar opção ‘Allow overriding date?’ caso não esteja selecionada</li>
+                <li>Selecionar opção 'Allow overriding date?' caso não esteja selecionada</li>
                 <li>Save (O status do Graylog deverá ser Running)</li>
             </ul>
             <p><b>Máquina Cliente (CentOS / webserver):</b></p>
@@ -657,7 +657,7 @@ mysqldump --user="rsysloguser" --password="rsyslogpw" "$@" "Syslog" &gt; "/opt/b
                 <li>sudo systemctl restart rsyslog</li>
             </ul>
             <p><b>Maquina Server (Ubuntu / graylog):</b></p>
-            <p id="textoPost">Após configuração das máquinas acima, verificar funcionamento do Graylog clicando em Show received messages, após recarregar página selecionar opção Search in all messages e no ícone de pesquisa informar ‘webserver’ seguido de Enter, para verificar logs da máquina cliente centOS webserver. Informar ‘kibana’ para verificar logs da máquina cliente debian kibana. Para mostrar logs em tempo real, selecionar, no select superior direito, o tempo de Update every 1 second.</p>
+            <p id="textoPost">Após configuração das máquinas acima, verificar funcionamento do Graylog clicando em Show received messages, após recarregar página selecionar opção Search in all messages e no ícone de pesquisa informar 'webserver' seguido de Enter, para verificar logs da máquina cliente centOS webserver. Informar 'kibana' para verificar logs da máquina cliente debian kibana. Para mostrar logs em tempo real, selecionar, no select superior direito, o tempo de Update every 1 second.</p>
             <p id="textoPost">Fazer teste com log de autenticação, autenticando-se na máquina centOS webserver com senha errada.</p>
             <ul>
                 <li>ssh suporte@172.16.0.11 (usuario@ipMaquina)</li>
@@ -1339,7 +1339,7 @@ server {
             <ul>
                 <li>Adicionar parametrização de novo usuário nginx com o comando (Com senha criptografada): echo "admin:`openssl passwd ubsocial`" | sudo tee -a /etc/nginx/htpasswd.users
                     <ul>
-                        <li>Usuário ‘admin’, senha ‘ubsocial’</li>
+                        <li>Usuário 'admin', senha 'ubsocial'</li>
                     </ul>
                 </li>
                 <li>Ativar configuração nginx através de link simbólico com o comando: sudo ln -s /etc/nginx/sites-avaliable/kibana.4labs.example /etc/nginx/sites-enabled/kibana.4labs.example</li>
@@ -1356,7 +1356,130 @@ server {
                         <li>sudo systemctl restart nginx</li>
                         <li>Acessar, no browser, Kibana: http://kibana.4labs.example
                             <ul>
-                                <li>Usuário ‘admin’, senha ‘ubsocial’</li>
+                                <li>Usuário 'admin', senha 'ubsocial'</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <p><b>Beats, instalação e configuração:</b></p>
+            <p id="textoPost">Ferramentas leves desenvolvidas para exportar todos tipos de dados (Logs, protocolos de rede, uptime, informações sobre memória e cpu) para o Elasticsearch e/ou Logstash. Através do Beats, é possível exportar dados de servidores, containers e até mesmo funções. Entre os Beats desenvolvidos pela Elastic Co, tem-se:</p>
+            <ul>
+                <li><b>Filebeat</b>: Monitora logs, trabalhando com logs de Apache, nginx, logs de sistemas, logs de BD, etc;</li>
+                <li><b>Functionbeat</b>: Monitora infraestrutura de cloud, como AWS Lambda;</li>
+                <li><b>Metricbeat</b>: Monitora métricas (libs) de sistema, de cpu, memória, rede, sistema de arquivos, processos, etc;</li>
+                <li><b>Packetbeat</b>: Monitora protocolos de rede de aplicações;</li>
+                <li><b>Winlogbeat</b>: Monitora logs e eventos do Windows;</li>
+                <li><b>Auditbeat</b>: Monitora auditoria de logs, coletando dados do auditd;</li>
+                <li><b>Heartbeat</b>: Monitora uptime do host.</li>
+            </ul>
+            <p>Instalação do Filebeat:</p>
+            <ul>
+                <li>curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.10.1-amd64.deb</li>
+                <li>sudo dpkg -i filebeat-7.10.1-amd64.deb
+                    <ul>
+                        <li>Repetir download nas máquinas Graylog (Ubuntu) e Webserver (CentOS)</li>
+                        <li>No caso do Webserver (CentOS):
+                            <ul>
+                                <li>curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.10.1-x86_64.rpm</li>
+                                <li>sudo rpm filebeat-7.10.1-x86_64.rpm</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>Criar arquivo de configuração do Filebeat /etc/filebeat/filebeat.yml, com o seguinte conteúdo:
+                    <ul>
+                        <li class="text-muted"><i>Criar em todas as 3 máquinas envolvidas</i></li>
+                    </ul>
+                </li>
+            </ul>
+<small><pre><code>
+filebeat.inputs:
+    - type: log
+    enabled: true
+    paths:
+        - /var/log/*.log
+
+filebeat.config.modules:
+    path: ${path.config}/modules.d/*.yml
+    reload.enabled: false
+
+setup.template.settings:
+    index.number_of_shards: 1
+
+setup.kibana:
+    host: "172.16.0.13:5601"
+
+output.logstash:
+    hosts: ["172.16.0.13:5044"]
+
+processors:
+    - add_host_metadata:
+        when.not.contains.tags: forwarded
+    - add_cloud_metadata: ~
+    - add_docker_metadata: ~
+    - add_kubernetes_metadata: ~
+</code></pre></small>
+            <p class="text-muted"><i>(Em todas as 3 máquinas envolvidas):</i></p>
+            <ul>
+                <li>Ativar módulos logstash e system:
+                    <ul>
+                        <li>sudo filebeat modules enable logstash system</li>
+                    </ul>
+                </li>
+                <li>Carregar template de links:
+                    <ul>
+                        <li>sudo filebeat setup --index-management -E output.logstash.enabled=false -E 'output.elasticsearch.hosts=["ipMaquina:9200"]'</li>
+                    </ul>
+                </li>
+                <li>sudo systemctl start filebeat && sudo systemctl enable filebeat</li>
+            </ul>
+            <p>Instalação do Metricbeat:<br><span class="text-muted"><i>(Somente na máquina Kibana Debian)</i></span></p>
+            <ul>
+                <li>sudo apt install metricbeat=7.10.2</li>
+                <li>Criar arquivo de configuração do Metricbeat /etc/metricbeat/metricbeat.yml, com o seguinte conteúdo:</li>
+            </ul>
+<small><pre><code>
+metricbeat.config.modules:
+    path: ${path.config}/modules.d/*.yml
+    reload.enabled: false
+
+setup.template.settings:
+    index.number_of_shards: 1
+    index.codec: best_compression
+
+setup.kibana:
+    host: "172.16.0.13:5601"
+
+output.elasticsearch:
+    hosts: ["172.16.0.13:9200"]
+
+processors:
+    - add_host_metadata: ~
+    - add_cloud_metadata: ~
+    - add_docker_metadata: ~
+    - add_kubernetes_metadata: ~
+
+logging.to_files: true
+logging.files:
+    path: /var/log/metricbeat
+    name: metricbeat
+    keepfiles: 7
+    permissions: 0644
+</code></pre></small>
+            <ul>
+                <li>Verificar funcionamento: sudo metricbeat setup --dashboards
+                    <ul>
+                        <li class="text-muted"><i>Para isso, o Kibana deverá estar em execução!</i></li>
+                    </ul>
+                </li>
+                <li>sudo sysetmctl start metricbeat && sudo sysetmctl enable metricbeat
+                    <ul>
+                        <li>Verificar funcionamento com Elasticsearch:
+                            <ul>
+                                <li>Maneira 1: curl http://ipMaquinaKibana:9200/_cat/indices/metricbeat*?v</li>
+                                <li>Maneira 2: curl http://ipMaquinaKibana:9200/metricbeat=*/_search?pretty</li>
                             </ul>
                         </li>
                     </ul>
