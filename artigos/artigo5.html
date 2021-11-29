@@ -1525,6 +1525,40 @@ logging.files:
                 <li>Selecionar SystemHostOverview</li>
             </ul>
             <p id="textoPost">Salvar pesquisa, clicando no ícone de salvamento superior esquerdo, informar nome de preferência. Tal pesquisa salva pode ser acessada, via menu lateral, Management / Stack Management, clicar em Saved Objects, onde poderá localizá-la através da pesquisa: Será mostrado o dashboard do filebeat-*, mas poderá alterar para metricbeat-* nas opções de seleção no canto superior esquerdo.</p>
+
+            <br>
+            <h4>Gerenciar logs na AWS com CloudWatch</h4>
+            <p class="text-muted"><i>(Criar conta em Amazon AWS Free)</i></p>
+            <p id="textoPost">Amazon CloudWatch é o serviço AWS para monitoramento e observação de instâncias na cloud AWS, que possibilita a realização das seguintes tarefas:</p>
+            <ul>
+                <li>Fornecer dados e insights práticos para monitorar aplicações</li>
+                <li>Permite responder às alterações de performance em todo o sistema</li>
+                <li>Otimizar utilização de recursos e obter uma visualização unificada da integridade operacional</li>
+                <li>Coleta dados de monitoramento e operações na forma de logs, via syslog, aplicação como servidor web, containers, etc</li>
+                <li>Permite uso de alarmes e notificações via e-mail</li>
+                <li>Visualização unificada dos recursos de aplicações e dos serviços da AWS executados na AWS e em servidores locais</li>
+            </ul>
+            <p>Criar função de acesso completo à AWS (CloudWatchFullAcces):</p>
+            <ul>
+                <li>Acessar opção superior esquerda ‘Serviços’, sessão ‘Segurança, identidade e conformidade’, clicar em IAM (Identify and Access Management)</li>
+                <li>Sessão ‘Recursos do IAM’, clicar em Funções. Ao entrar, clicar em Criar Função
+                    <ul>
+                        <li>Tipo de identidade: Serviço da AWS</li>
+                        <li>Casos de uso comuns: EC2 (Após selecionar, clicar em Próximo Permissões)</li>
+                    </ul>
+                </li>
+                <li>Página Criar Função
+                    <ul>
+                        <li>Pesquisar política ‘cloudwatchfullaccess’ e selecioná-la/check (Abrirá aba de resumo, que pode ser fechada/descartada)</li>
+                        <li>Clicar em Próximo Tags / Próximo Revisar
+                            <ul>
+                                <li>Nome da função: ec2-role-cloudwatch</li>
+                            </ul>
+                        </li>
+                        <li>Clicar em Criar Função</li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </div>
 
