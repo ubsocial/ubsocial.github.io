@@ -36,7 +36,7 @@
     <div class="row">
         <div class="col-sm-12" id="titulo1">
             <h1 id="serifada">Auditoria de Logs</h1>
-            <h6><strong>Conceitos e comandos para Linux</strong></h6>
+            <h6><strong>Conceitos, aplicações e comandos para Linux</strong></h6>
         </div>
 
         <div class="col-sm-12">
@@ -1538,7 +1538,7 @@ logging.files:
                 <li>Permite uso de alarmes e notificações via e-mail</li>
                 <li>Visualização unificada dos recursos de aplicações e dos serviços da AWS executados na AWS e em servidores locais</li>
             </ul>
-            <p>Criar função de acesso completo à AWS (CloudWatchFullAcces):</p>
+            <p><b>Criar função de acesso completo à AWS (CloudWatchFullAcces):</b></p>
             <ul>
                 <li>Acessar opção superior esquerda ‘Serviços’, sessão ‘Segurança, identidade e conformidade’, clicar em IAM (Identify and Access Management)</li>
                 <li>Sessão ‘Recursos do IAM’, clicar em Funções. Ao entrar, clicar em Criar Função
@@ -1558,6 +1558,55 @@ logging.files:
                         <li>Clicar em Criar Função</li>
                     </ul>
                 </li>
+            </ul>
+
+            <p><b>Gerenciar Instâncias na AWS:</b></p>
+            <ol>
+                <li>Criar Instância:</li>
+            </ol>
+            <ul>
+                <li>Acessar opção superior esquerda ‘Serviços’, sessão ‘Computação’, clicar em EC2</li>
+                <li>Sessão ‘Executar Instância’, clicar em Executar Instância
+                    <ul>
+                        <li>Selecionar Imagem de Máquina da Amazon (AMI): Amazon Linux 2 AMI 64 bits x86</li>
+                        <li>Selecionar tipo de instância: Gratuito</li>
+                        <li>Clicar em Próximo Configurar Detalhes da Instância</li>
+                        <li>Página configurar detalhes da instância:
+                            <ul>
+                                <li>Função do IAM, selecionar ec2-role-cloudwatch (Clicar em Próximo Adicionar Armazenamento / Próximo Adicionar Tags / Próximo Configure o Security Group)</li>
+                            </ul>
+                        </li>
+                        <li>Página Configure o Security Group:
+                            <ul>
+                                <li>Clicar em Add Rule</li>
+                                <li>Selecionar tipo: HTTP</li>
+                                <li>Protocol: TCP</li>
+                                <li>Port: 80</li>
+                                <li>Clicar em Verificar e Ativar</li>
+                            </ul>
+                        </li>
+                        <li>Página Review Instance Launch (Clicar em Executar)
+                            <ul>
+                                <li>Modal de par de chaves:
+                                    <ul>
+                                        <li>Selecionar ‘Criar um novo par de chaves’</li>
+                                        <li>Nome do par de chaves: cloudwatch</li>
+                                        <li>Clicar em Fazer Download do Par de Chaves (Baixará arquivo nomeParChaves.pem)</li>
+                                        <li>Clicar em Executar Instância</li>
+                                    </ul>
+                                </li>
+                                <li>Clicar em Exibir Instância</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <ol start="2">
+                <li>Acessar Instância:</li>
+            </ol>
+            <ul>
+                <li>Selecionar/check Instância e clicar no botão superior Conectar</li>
+                <li>Página de conectar-se à Instância, selecionar 1ª aba: Conexão de Instância do EC2, clicar em Conectar (Abrirá nova aba com Instância conectada ao shell do Amazon Linux da Instância)</li>
             </ul>
         </div>
     </div>
