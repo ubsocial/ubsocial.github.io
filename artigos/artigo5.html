@@ -1221,7 +1221,7 @@ class Script {
             <p id="textoPost"><u>OBS</u>: <i>Os componentes abaixo deverão ser instalados na máquina cliente Debian Kibana. Quando outra máquina envolver-se no processo, a mesma será referenciada</i>.</p>
             
             <p><b>Elasticsearch, instalação e configuração:</b></p>
-            <img src="../anexos/artigo5/elkElasticsearch.png" width="65%" height="auto">
+            <img src="../anexos/artigo5/elkElasticsearch.png" width="70%" height="auto">
             <ul>
                 <li>sudo apt update && sudo apt install openjdk-11-jre wget apt-transport-https curl</li>
                 <li>wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -</li>
@@ -1307,7 +1307,7 @@ output {
             </ul>
 
             <p><b>Kibana, instalação e configuração:</b></p>
-            <img src="../anexos/artigo5/elkKibana.png" width="65%" height="auto">
+            <img src="../anexos/artigo5/elkKibana.png" width="70%" height="auto">
             <ul>
                 <li>sudo apt install kibana-oss nginx</li>
                 <li>Editar arquivo de configuração do Kibana, /etc/kibana/kibana.yml
@@ -1485,6 +1485,46 @@ logging.files:
                     </ul>
                 </li>
             </ul>
+
+            <p><b>Dashboards no Kibana:</b></p>
+            <p id="textoPost">Filebeat enviará os logs do /var/log/, enviando-os ao Logstash que, por sua vez, os filtrará (Formatação e organização) e, por fim, será armazenado no Elasticsearch. Com isso, o Kibana conseguirá visualizar tais logs de forma organizada e personalizada. Acessar Elastic / kibana: http://kibana.4labs.example, usuário 'Admin' e senha 'ubsocial'.</p>
+            <p>Visualizar dashboards de Logs (Filebeat):</p>
+            <img src="../anexos/artigo5/kibanaDashboard.png" width="70%" height="auto">
+            <ul>
+                <li>Acessar tela Home do Kibana, clicar em Manage</li>
+                <li>Na tela de Manager, clicar em Index Patterns / Create Index Pattern
+                    <ul>
+                        <li>Name: filebeat-* (Clicar em Next Step)</li>
+                        <li>Time Field: @timespamp (Create index pattern)</li>
+                    </ul>
+                </li>
+                <li>Menu lateral, acessar Kibana / Discover para visualizar dashboard de gráficos
+                    <ul>
+                        <li>Informar na pesquisa 'graylog', últimas 24hrs</li>
+                        <li>Selecionar filebeat-* no Discover, clicar em Refresh para visualizar atualizado
+                            <ul>
+                                <li>Em caso de Windows, selecionar na pesquisa a máquina Windows e selecionar, ao invés do filebeat, o winlogbeat</li>
+                            </ul>
+                        </li>
+                        <li>A paleta esquerda serve para adicionar colunas personalizadas ao Dashboard</li>
+                    </ul>
+                </li>
+            </ul>
+            <p>Visualizar gráficos de métricas de máquina (Metricbeat):</p>
+            <img src="../anexos/artigo5/kibanaGraficos.png" width="70%" height="auto">
+            <ul>
+                <li class="text-muted">Metric Server já fora instalado e configurado na máquina cliente Kibana Debian</li>
+                <li>Menu lateral, acessar Management / Stack Management, clicar em Index Patterns / Create Index Pattern
+                    <ul>
+                        <li>Name: metricbeat-* (Clicar em Next Step)</li>
+                        <li>Time Field: @timestamp</li>
+                        <li>Show advanced settings, informar metricbeat-* (Create index pattern)</li>
+                    </ul>
+                </li>
+                <li>Menu lateral, acessar Kibana / Dashboards, pesquisar por host</li>
+                <li>Selecionar SystemHostOverview</li>
+            </ul>
+            <p id="textoPost">Salvar pesquisa, clicando no ícone de salvamento superior esquerdo, informar nome de preferência. Tal pesquisa salva pode ser acessada, via menu lateral, Management / Stack Management, clicar em Saved Objects, onde poderá localizá-la através da pesquisa: Será mostrado o dashboard do filebeat-*, mas poderá alterar para metricbeat-* nas opções de seleção no canto superior esquerdo.</p>
         </div>
     </div>
 
