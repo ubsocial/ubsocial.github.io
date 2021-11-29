@@ -1540,8 +1540,8 @@ logging.files:
             </ul>
             <p><b>Criar função de acesso completo à AWS (CloudWatchFullAcces):</b></p>
             <ul>
-                <li>Acessar opção superior esquerda ‘Serviços’, sessão ‘Segurança, identidade e conformidade’, clicar em IAM (Identify and Access Management)</li>
-                <li>Sessão ‘Recursos do IAM’, clicar em Funções. Ao entrar, clicar em Criar Função
+                <li>Acessar opção superior esquerda 'Serviços', sessão 'Segurança, identidade e conformidade', clicar em IAM (Identify and Access Management)</li>
+                <li>Sessão 'Recursos do IAM', clicar em Funções. Ao entrar, clicar em Criar Função
                     <ul>
                         <li>Tipo de identidade: Serviço da AWS</li>
                         <li>Casos de uso comuns: EC2 (Após selecionar, clicar em Próximo Permissões)</li>
@@ -1549,7 +1549,7 @@ logging.files:
                 </li>
                 <li>Página Criar Função
                     <ul>
-                        <li>Pesquisar política ‘cloudwatchfullaccess’ e selecioná-la/check (Abrirá aba de resumo, que pode ser fechada/descartada)</li>
+                        <li>Pesquisar política 'cloudwatchfullaccess' e selecioná-la/check (Abrirá aba de resumo, que pode ser fechada/descartada)</li>
                         <li>Clicar em Próximo Tags / Próximo Revisar
                             <ul>
                                 <li>Nome da função: ec2-role-cloudwatch</li>
@@ -1561,12 +1561,13 @@ logging.files:
             </ul>
 
             <p><b>Gerenciar Instâncias na AWS:</b></p>
+            <img src="../anexos/artigo5/awsShell.png" width="70%" height="auto">
             <ol>
                 <li>Criar Instância:</li>
             </ol>
             <ul>
-                <li>Acessar opção superior esquerda ‘Serviços’, sessão ‘Computação’, clicar em EC2</li>
-                <li>Sessão ‘Executar Instância’, clicar em Executar Instância
+                <li>Acessar opção superior esquerda 'Serviços', sessão 'Computação', clicar em EC2</li>
+                <li>Sessão 'Executar Instância', clicar em Executar Instância
                     <ul>
                         <li>Selecionar Imagem de Máquina da Amazon (AMI): Amazon Linux 2 AMI 64 bits x86</li>
                         <li>Selecionar tipo de instância: Gratuito</li>
@@ -1589,7 +1590,7 @@ logging.files:
                             <ul>
                                 <li>Modal de par de chaves:
                                     <ul>
-                                        <li>Selecionar ‘Criar um novo par de chaves’</li>
+                                        <li>Selecionar 'Criar um novo par de chaves'</li>
                                         <li>Nome do par de chaves: cloudwatch</li>
                                         <li>Clicar em Fazer Download do Par de Chaves (Baixará arquivo nomeParChaves.pem)</li>
                                         <li>Clicar em Executar Instância</li>
@@ -1607,6 +1608,52 @@ logging.files:
             <ul>
                 <li>Selecionar/check Instância e clicar no botão superior Conectar</li>
                 <li>Página de conectar-se à Instância, selecionar 1ª aba: Conexão de Instância do EC2, clicar em Conectar (Abrirá nova aba com Instância conectada ao shell do Amazon Linux da Instância)</li>
+            </ul>
+
+            <p><b>Visualizar logs da Instância no shell CloudWatch:</b></p>
+            <img src="../anexos/artigo5/awsLogs.png" width="70%" height="auto">
+            <ul>
+                <li>Conectar ao shell do Amazon Linux da Instância, como realizado acima</li>
+                <li>sudo yum install awslogs</li>
+                <li>Acessar arquivo de configurações: sudo nano /etc/awslogs/awscli.conf
+                    <ul>
+                        <li>(Alterar) region = (Deve ser a mesma que a da Instância na AWS, com exceção da letra no final, que é removida no arquivo)</li>
+                    </ul>
+                </li>
+                <li>Acessar arquivo de configurações: sudo nano /etc/awslogs/awslogs.conf:
+                    <ul>
+                        <li>(Perto do final do arquivo, alterar, grupo [/var/log/messages]): log_stream_name = idInstanciaReferenciada (Geralmente encontra-se no rodapé da conexão do shell)</li>
+                    </ul>
+                </li>
+                <li>sudo systemctl start awslogsd && sudo systemctl enable awslogsd</li>
+                <li>Voltar na AWS, opção superior esquerda 'Serviços', sessão 'Gerenciamento e Governança', clicar em Cloudwatch</li>
+                <li>Ao acessar a página do CloudWatch, menu lateral esquerdo, selecionar opção 'Grupos de logs'
+                    <ul>
+                        <li>Na página de Grupos de logs, clicar no grupo /var/log/messages e, após entrar, clicar na Instância</li>
+                        <li>Aparecerão todos os logs relacionados</li>
+                    </ul>
+                </li>
+                <li>No shell do Amazon Linux, fazer teste para verificar, após isso, na AWS: sudo systemctl restart rsyslog
+                    <ul>
+                        <li>Verificar, na AWS, se o log aparecerá, clicando no botão Refresh</li>
+                    </ul>
+                </li>
+                <li>Incluir cron aos logs do rsyslog:
+                    <ul>
+                        <li>sudo nano /etc/rsyslog.conf
+                            <ul>
+                                <li>(Editar linha) *.info;mail.none;authpriv.none;*.cron(remover cron.none) /var/log/messages</li>
+                                <li>(Editar linha abaixo de Log cron stuff) cron.* /var/log/messages(antes era /var/log/cron)</li>
+                                <li>sudo systemctl restart rsyslog</li>
+                            </ul>
+                        </li>
+                        <li>Fazer teste para verificar, após isso, log do cron na AWS: crontab -l
+                            <ul>
+                                <li>Verificar, na AWS, se o log aparecerá, clicando no botão Refresh</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>
