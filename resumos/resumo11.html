@@ -126,10 +126,15 @@ após, ir na pasta com o bash
 &gt; git pull origin master
 
 <b>BAIXAR DO GITHUB: (Clone)</b>
-1- New -&gt; new Repository -&gt; inserir nome, descrição e marcar caixa "readme.md"
-2- Clone or Download -&gt; copiar Ssh Key / Https
-3- No caso de Ssh, copie a key do arquivo .pub gerado!
-4- Bash &gt;git clone keycopiada/httpscopiado
+<b>Via HTTPS:</b>
+1- No repositório do Github, botão Code, selecionar opção HTTPS e copiar trecho
+2- Bash &gt; git clone httpsCopiado
+<b>Via SSH:</b>
+1- Bash (Criar chave SSH) &gt; ssh-keygen -t ed25519 -C "seuEmailGithub@example.com" (Gerará arquivo ed25519.pub)
+2- Bash (Copiar chave SSH) &gt; cat ~/.ssh/id_ed25519.pub
+3- Ir nas configurações do Github, nova chave SSH e colar conteúdo (Título qualquer)
+4- No repositório do Github, botão Code, selecionar opção SSH e copiar trecho
+5- Bash &gt; git clone trechoCopiado
 
 <b>IMPORTAR AO GITHUB:</b>
 1- Mover seus arquivos à pasta baixada
