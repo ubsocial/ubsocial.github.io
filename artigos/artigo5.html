@@ -1689,11 +1689,75 @@ logging.files:
                     </ul>
                 </li>
             </ul>
-            <ol>
+            <ol start="2">
                 <li>Acessar Instância:</li>
             </ol>
             <ul>
-                <li>Na listagem de Instâncias, clicar nas opções de Conectar da Instância em questão, clicar em opção 'Abrir na janela do navegador’'/li>
+                <li>Na listagem de Instâncias, clicar nas opções de Conectar da Instância em questão, clicar em opção 'Abrir na janela do navegador'</li>
+            </ul>
+
+            <p><b>Visualizar logs no shell da GCP:</b></p>
+            <img src="../anexos/artigo5/gcpLogs.png" width="70%" height="auto">
+            <ul>
+                <li>Conectar ao shell da Instância Ubuntu, conforme acima</li>
+                <li>sudo su -</li>
+                <li>curl -sSO https://dl.google.com/cloudagents/add-logging-agent-repo.sh
+                    <ul>
+                        <li>Verificar se criou-se o arquivo de script: ls</li>
+                    </ul>
+                </li>
+                <li>bash add-logging-agent-repo.sh</li>
+                <li>apt update && apt install google-fluentd google-fluentd-catch-all-config
+                    <ul>
+                        <li>Coletará, com isso, logs de todos os citados: ls /etc/google-fluentd/config.d/</li>
+                    </ul>
+                </li>
+                <li>systemctl start google-fluentd && systemctl enable google-fluentd</li>
+                <li>Acompanhar logs: tail -f /var/log/google-fluentd/google-fluentd.log</li>
+                <li>Menu lateral superior esquerdo, acessar Operations/Registros, clicar em 'Roteador de Registros'
+                    <ul>
+                        <li>Na página de Roteador de Registros, clicar em Criar Coletor
+                            <ul>
+                                <li>Nome: bucket-audit (Clicar em Next)</li>
+                                <li>Tipo do coletor: Bucket do Cloud Logging</li>
+                                <li>Selecionar um bucket de registros: Criar novo bucket de registros
+                                    <ul>
+                                        <li>Nome: bucket1</li>
+                                        <li>Região: Global (Clicar em Next)</li>
+                                    </ul>
+                                </li>
+                                <li>Clicar em Next nas próximas etapas</li>
+                                <li>Clicar em Criar Coletor</li>
+                                <li>No shell Ubuntu da Instância: sudo systemctl restart google-fluentd</li>
+                                <li>Após isso, voltar na GCP</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>Menu lateral superior esquerdo, acessar Operations/Registros, clicar em 'Explorador de Registros'
+                    <ul>
+                        <li>Na página Explorador de Registros, selecionar:
+                            <ul>
+                                <li>Recurso: Instância de VM/instancia-gcp</li>
+                                <li>Nome do registro: syslog</li>
+                                <li>Gravidade: Selecionar tudo</li>
+                            </ul>
+                        </li>
+                        <li>No shell Ubuntu da Instância, configurar para exibir logs
+                            <ul>
+                                <li>sudo nano /etc/rsyslog.d/50-default.conf
+                                    <ul>
+                                        <li>(Descomentar) cron.*</li>
+                                    </ul>
+                                </li>
+                                <li>crontab -l</li>
+                                <li>logger 'auditoria de logs ubsocial'</li>
+                                <li>sudo systemctl restart rsyslog</li>
+                                <li>Voltar ao painel de logs da Instância na GCP, clicar em Executar Consulta e verificar se os primeiros logs apresentados referem-se ao restart do rsyslog, logger e crontab</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>
