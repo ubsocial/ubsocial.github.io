@@ -1610,7 +1610,7 @@ logging.files:
                 <li>Página de conectar-se à Instância, selecionar 1ª aba: Conexão de Instância do EC2, clicar em Conectar (Abrirá nova aba com Instância conectada ao shell do Amazon Linux da Instância)</li>
             </ul>
 
-            <p><b>Visualizar logs da Instância no shell CloudWatch:</b></p>
+            <p><b>Visualizar logs da Instância do shell CloudWatch:</b></p>
             <img src="../anexos/artigo5/awsLogs.png" width="70%" height="auto">
             <ul>
                 <li>Conectar ao shell do Amazon Linux da Instância, como realizado acima</li>
@@ -1655,6 +1655,45 @@ logging.files:
                     </ul>
                 </li>
             </ul>
+            <p><b>Visualizar logs de servidor web Apache no CloudWatch:</b></p>
+            <ul>
+                <li>No shell do Amazon Linux da Instância</li>
+                <li>Instalar Apache: sudo yum install httpd && sudo systemctl start httpd && sudo systemctl enable httpd</li>
+                <li>Configurar arquivo de configuração AWS /etc/awslogs/awslog.conf, com o seguinte conteúdo:
+                    <ul>
+                        <li>(No final do arquivo, adicionar bloco):</li>
+                    </ul>
+                </li>
+            </ul>
+<small><pre><code>
+[/var/log/httpd/access_log]
+datetime_format = %b %d %H:%M:%S
+file = /var/log/httpd/access_log
+buffer_duration = 5000
+log_stream_name = (O mesmo que o do bloco acima, de /var/log/messages)
+initial_position = start_of_file
+log_group_name = /var/log/httpd/access_log
+</code></pre></small>
+            <ul>
+                <li>sudo systemctl restart awslogsd</li>
+                <li>Acessar servidor web da Instância:
+                    <ul>
+                        <li>Copiar IP do rodapé no shell do Amazon Linux da Instância e colá-lo em outra aba do browser</li>
+                        <li>Isso gerará log de access_log, que pode ser visualizado na AWS CloudWatch, nos logs da Instância, menu lateral esquerdo, Logs/Grupo de logs. Após isso, clicar na Instância access_log, clicar na Instância e, com isso, aparecerão os respectivos logs do servidor Apache</li>
+                    </ul>
+                </li>
+            </ul>
+            <p><b>Visualizar logs de container nginx no CloudWatch:</b></p>
+            <ul>
+                <li>No shell do Amazon Linux da Instância</li>
+                <li>sudo yum update && sudo yum install docker && sudo systemctl start docker && sudo systemctl stop httpd</li>
+                <li>sudo docker container run -d --name nginx --log-driver=awslogs --log-opt awslogs-region=(Mesma região da Instância, não incluir a letra final da região) --log-opt awslogs-group=nginx-logs --log-opt awslogs-create-group=true -p 80:80 nginx
+                    <ul>
+                        <li>Acessar, no browser, o IP do rodapé no shell do Amazon Linux da Instância, onde aparecerá o servidor nginx do container</li>
+                        <li>Isso gerará log de nginx-logs, que pode ser visualizado na AWS CloudWatch, nos logs da Instância, menu lateral esquerdo, Logs/Grupo de logs. Após isso, clicar na Instância nginx-logs, clicar na Instância e, com isso, aparecerão os respectivos logs do container servidor nginx</li>
+                    </ul>
+                </li>
+            </ul>
 
             <br>
             <h4>Gerenciar logs na GCP com Stackdriver</h4>
@@ -1696,7 +1735,7 @@ logging.files:
                 <li>Na listagem de Instâncias, clicar nas opções de Conectar da Instância em questão, clicar em opção 'Abrir na janela do navegador'</li>
             </ul>
 
-            <p><b>Visualizar logs no shell da GCP:</b></p>
+            <p><b>Visualizar logs do shell da GCP:</b></p>
             <img src="../anexos/artigo5/gcpLogs.png" width="70%" height="auto">
             <ul>
                 <li>Conectar ao shell da Instância Ubuntu, conforme acima</li>
