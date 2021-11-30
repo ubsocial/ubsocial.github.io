@@ -1798,6 +1798,54 @@ log_group_name = /var/log/httpd/access_log
                     </ul>
                 </li>
             </ul>
+
+            <p><b>Visualizar logs de servidor web nginx na GCP:</b></p>
+            <ul>
+                <li>Procurar IP da Instância Ubuntu da GCP, para momento posterior:
+                    <ul>
+                        <li>Na GCP, menu lateral esquerdo superior, Computer Engine, sessão Máquinas Virtuais, clicar em Instâncias de VM, e aparecerá o IP da Instância GCP</li>
+                    </ul>
+                </li>
+                <li>Conectar ao shell da Instância Ubuntu da GCP (Modo root sudo su)</li>
+                <li>apt install nginx && systemctl start nginx</li>
+                <li>systemctl restart google-fluentd
+                    <ul>
+                        <li>No browser, nova aba, acessar servidor web nginx com o IP da Instância</li>
+                        <li>A GCP pegará os logs de acordo com o arquivo de configuração /etc/google-fluentd/config.d/nginx.conf</li>
+                    </ul>
+                </li>
+                <li>Para visualizar os logs na GCP, acessá-la e, no menu lateral esquerdo superior, Registros, clicar em Explorador de Registros
+                    <ul>
+                        <li>Recurso: Instância de VM / instancia-gcp</li>
+                        <li>Nome do registro: nginx-access</li>
+                        <li>Gravidade: Tudo</li>
+                        <li>Clicar em Executar Consulta</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <p><b>Visualizar logs de container Apache GCP:</b></p>
+            <ul>
+                <li>Conectar ao shell da Instância Ubuntu da GCP (Modo root sudo su)</li>
+                <li>apt install apt-transport-https ca-certificates curl gnupg-agent software-properties-common</li>
+                <li>curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -</li>
+                <li>add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"</li>
+                <li>apt update && apt install docker-ce docker-ce-cli containerd.io</li>
+                <li>systemctl start docker && systemctl stop nginx</li>
+                <li>docker container run -d --name httpd --log-driver=gcplogs --log-opt gcp-meta-name=`hostname` -p 80:80 httpd
+                    <ul>
+                        <li>No browser, nova aba, abrir servidor web Apache com o IP da Instância Ubuntu da GCP</li>
+                    </ul>
+                </li>
+                <li>Para visualizar os logs na GCP, acessá-la e, no menu lateral esquerdo superior, Registros, clicar em Explorador de Registros
+                    <ul>
+                        <li>Recurso: Instância de VM / intancia-gcp</li>
+                        <li>Nome do registro: gcplogs-docker-driver</li>
+                        <li>Gravidade: Tudo</li>
+                        <li>Clicar em Executar Consulta</li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </div>
 
