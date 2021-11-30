@@ -1655,6 +1655,46 @@ logging.files:
                     </ul>
                 </li>
             </ul>
+
+            <br>
+            <h4>Gerenciar logs na GCP com Stackdriver</h4>
+            <p class="text-muted"><i>(Criar conta em Google Cloud Platform)</i></p>
+            <p id="textoPost">Google Stackdriver é um serviço freemium de gerenciamento de sistemas em cloud, fornecendo dados de desempenho e diagnósticos para usuários de nuvem pública. O Stackdriver é uma solução com várias clouds, fornecendo suporte para GCP e AWS.</p>
+            
+            <p><b>Gerenciar Instâncias na GCP:</b></p>
+            <ol>
+                <li>Criar Instância:</li>
+            </ol>
+            <ul>
+                <li>Menu lateral superior esquerdo, acessar Compute Engine, sessão Máquinas Virtuais, clicar em Instâncias de VM</li>
+                <li>Clicar em Criar
+                    <ul>
+                        <li>Nome: instancia-gcp</li>
+                        <li>Bloco de inicialização:
+                            <ul>
+                                <li>Sistema Operacional: Ubuntu</li>
+                                <li>Versão: Ubuntu 20.04 LTS</li>
+                                <li>Tipo de disco de inicialização: Disco Permanente SSD</li>
+                                <li>Tamanho (GB): 100</li>
+                                <li>Clicar em Selecionar</li>
+                            </ul>
+                        </li>
+                        <li>Firewall:
+                            <ul>
+                                <li>Marcar Permitir tráfego HTTP</li>
+                                <li>Marcar Permitir tráfego HTTPS</li>
+                            </ul>
+                        </li>
+                        <li>Clicar em Criar</li>
+                    </ul>
+                </li>
+            </ul>
+            <ol>
+                <li>Acessar Instância:</li>
+            </ol>
+            <ul>
+                <li>Na listagem de Instâncias, clicar nas opções de Conectar da Instância em questão, clicar em opção 'Abrir na janela do navegador’'/li>
+            </ul>
         </div>
     </div>
 
