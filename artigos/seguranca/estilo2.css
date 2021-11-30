@@ -1,12 +1,11 @@
 #fundo {background-color: rgb(37, 37, 37); color: white;}
 #listaItem {background-color: rgb(29, 29, 29); color: white;}
 #codigo {color: white;}
-
 #serifada {font-family: 'Ovo', serif;}
-
 #menu {padding: 0%;}
 #titulo1 {padding: 4% 0% 3% 0%; text-align: center;}
 #titulo2 {padding: 3% 0% 3% 0%;}
 #titulo3 {padding-bottom: 3%;}
 #textoPost {text-align: justify;}
 #msgm {padding: 3% 3% 0% 3%;}
+#rodape {color: white; padding: 23px 0px 10px 0px;}
