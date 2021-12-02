@@ -40,7 +40,16 @@
         </div>
 
         <div class="col-sm-12">
-            <p id="textoPost">Indicam, em feedback, se requisição HTTP foi corretamente concluída.</p>
+            <p id="textoPost">Indicam, em feedback, se requisição HTTP foi corretamente concluída, sendo agrupadas em 5 classes:</p>
+            <ol>
+                <li>Respostas informativas (100-199);</li>
+                <li>Respostas de sucesso (200-299);</li>
+                <li>Redirecionamentos (300-399);</li>
+                <li>Erros do cliente (400-499);</li>
+                <li>Erros do servidor (500-599).</li>
+            </ol>
+            
+            <br>
             <h4>Respostas informativas</h4>
             <ul>
                 <li><b>100 Continue</b>: Resposta provisória indicando conformidades até o momento, onde o cliente pode continuar com a requisição ou ignorá-la;</li>
@@ -48,6 +57,7 @@
                 <li><b>102 Processing</b>: Voltado à WebDAV, indica que servidor recebeu e está processando a requisição, mas nenhuma resposta encontra-se disponível ainda;</li>
                 <li><b>103 Early Hints</b>: Tem objetivo de uso como header link, indicando que o agente deve iniciar a pré-carregar recursos enquanto servidor prepara resposta;</li>
             </ul>
+            
             <br>
             <h4>Respostas de sucesso</h4>
             <p>https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Status</p>
