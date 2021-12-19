@@ -5,3 +5,7 @@
 #textoPost {text-align: justify;}
 #btnLink {text-decoration: none;}
 #rodape {background-color: black; color: white; padding: 23px 0px 10px 0px;}
+
+/*Card Natal*/
+#natalHeader {background-color: rgb(33, 33, 33); color: white; font-family: 'Ovo', serif;}
+#natalBody {background-color: rgb(38, 38, 38); color: white;}
