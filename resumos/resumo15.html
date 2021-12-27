@@ -321,7 +321,20 @@ base_credit.loc[base_credit['age'] &lt; 0] <span class="text-muted">#Verificar s
 
             <p><b>Tratamento de valores faltantes</b></p>
             <p id="textoPost">No dataframe há registros de clientes que não informaram a idade.</p>
-            
+<small><pre><code>
+base_credit.isnull() <span class="text-muted">#Verificar se há dados faltantes (True é faltante)</span>
+base_credit.isnull().sum() <span class="text-muted">#Mostrará quantidade de dados faltantes</span>
+base_credit.loc[pd.isnull(base_credit['age'])] <span class="text-muted">#Ver quais linhas possuem idade faltante</span>
+
+<span class="text-muted"># Preencher valores faltantes com média</span>
+base_credit['age'].fillna(base_credit['age'].mean(), inplace=True) <span class="text-muted">#Preencher automaticamente com média</span>
+base_credit.loc[pd.isnull(base_credit['age'])] <span class="text-muted">#Verificar se existem idades faltantes (Não haverão idades faltantes)</span>
+base_credit.loc[(base_credit['clientid']==29) | (base_credit['clientid']==31) | (base_credit['clientid']==32)]
+base_credit.loc[base_credit['clientid'].isin([29,31,32])]
+</code></pre></small>
+
+            <!--Ver 20: Divisão entre previsores e classe-->
+            <!--Colab: https://colab.research.google.com/drive/1GL4sN3PiqSVCeUHZKctQc4lvAqH3NhiG#scrollTo=h25oSZkQA6Sr -->
         </div>
     </div>
 
