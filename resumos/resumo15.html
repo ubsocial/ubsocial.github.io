@@ -265,19 +265,62 @@ import plotly.express as px
                     </tbody>
                 </table>
             </div>
-            <small class="text-muted">clientid - <i>Variável categórica nominal</i><br>income (Renda anual) - <i>Variável numérica contínua</i><br>age - <i>Variável numérica contínua</i><br>loan (Dívida) - <i>Variável numérica contínua</i><br>Default 0: Pagou o empréstimo - <i>Variável numérica discreta</i><br>Default 1: Não pagou o empréstimo - <i>Variável numérica discreta</i></small>
+            <small class="text-muted">index (Número do registro no dataframe)<br>clientid - <i>Variável categórica nominal</i><br>income (Renda anual) - <i>Variável numérica contínua</i><br>age - <i>Variável numérica contínua</i><br>loan (Dívida) - <i>Variável numérica contínua</i><br>Default 0: Pagou o empréstimo - <i>Variável numérica discreta</i><br>Default 1: Não pagou o empréstimo - <i>Variável numérica discreta</i></small>
             
             <br><br><p><b>Exploração dos dados:</b></p>
 <small><pre><code>
-base_credit = pd.read_csv('/content/credit_data.csv') //Upload no Colab do CSV com dados (Atente-se ao local do upload '/content/')
-base_credit //Ver dados
-base_credit_head(10) //Ver 10 primeiros dados
-base_credit.tail(8) //Ver 8 últimos dados
-base_credit.describe() //Mostrará, para cada atributo numérico: count (Quantidade total), mean (Média), sid (Desvio padrão - Variação/afastamento dos dados em relação ao valor da média), min/25%/50%/75%/max (Valores mínimos/máximos)
-base_credit[base_credit['income'] == 1000.00] //Mostrar pessoa com renda 1000.00
-base_credit[base_credit['loan'] &gt;= 1.377] //Mostrar pessoa com dívida menor ou igual a 1.377
+base_credit = pd.read_csv('/content/credit_data.csv') <span class="text-muted">#Upload no Colab do CSV com dados (Atente-se ao local do upload '/content/')</span>
+base_credit <span class="text-muted">#Ver dados</span>
+base_credit_head(10) <span class="text-muted">#Ver 10 primeiros dados</span>
+base_credit.tail(8) <span class="text-muted">#Ver 8 últimos dados</span>
+base_credit.describe() <span class="text-muted">#Mostrará, para cada atributo numérico: count (Quantidade total), mean (Média), sid (Desvio padrão - Variação/afastamento dos dados em relação ao valor da média), min/25%/50%/75%/max (Valores mínimos/máximos)</span>
+base_credit[base_credit['income'] == 1000.00] <span class="text-muted">#Mostrar pessoa com renda 1000.00</span>
+base_credit[base_credit['loan'] &gt;= 1.377] <span class="text-muted">#Mostrar pessoa com dívida menor ou igual a 1.377</span>
 </code></pre></small>
+            
             <p><b>Visualização em gráficos:</b></p>
+<small><pre><code>
+np.unique(base_credit['default']) <span class="text-muted">#Mostrar quais os números presentes nessa classe (0 quando a pessoa não paga o empréstimo, 1 quando paga o empréstimo)</span>
+np.unique(base_credit['default'], return_counts=True) <span class="text-muted">#Ver quantos registros possui cada classe (Zeros e Uns)</span>
+sns.countplot(x = base_credit['default']); <span class="text-muted">#Mostrar dados acima em gráfico de barras (Gráfico 1)</span>
+plt.hist(x = base_credit['age']); <span class="text-muted">#Gerará gráfico histograma, separados em classes/intervalos de idades (Gráfico 2)</span>
+plt.hist(x = base_credit['income']); <span class="text-muted">#Gráfico histograma de renda (Gráfico 3)</span>
+plt.hist(x = base_credit['loan']); <span class="text-muted">#Gráfico histograma de dívida (Gráfico 4)</span>
+
+grafico = px.scatter_matrix(base_credit, dimensions=['age','income','loan'], color='default') <span class="text-muted">#Gráfico dinâmico scatter (Dispersão) que combina os atributos de acordo com 'default' (Pagou/Devendo)</span>
+grafico.show() <span class="text-muted">#Imagem dos gráficos com colorações internas</span>
+</code></pre></small>
+            <img src="../anexos/resumo15/snsGrafico1.jpg" title="sns.countplot(x = base_credit['default']);" width="250px" height="auto">
+            <img src="../anexos/resumo15/pltGrafico1.jpg" title="plt.hist(x = base_credit['age']);" width="250px" height="auto">
+            <img src="../anexos/resumo15/pltGrafico2.jpg" title="plt.hist(x = base_credit['income']);" width="250px" height="auto">
+            <img src="../anexos/resumo15/pltGrafico3.jpg" title="plt.hist(x = base_credit['loan']);" width="250px" height="auto">
+            <br><img src="../anexos/resumo15/pxGrafico1.jpg" title="px.scatter_matrix" width="90%" height="auto">
+
+            <br><br><p><b>Tratamento de valores inconsistentes:</b></p>
+            <p id="textoPost">No gráfico acima, pode-se perceber a existência de idades negativas, significando dados equivocados, ou seja, inconsistentes. Situações como essa geralmente são advindas de imerfeições do sistema, onde há possibilidade do usuário informar determinado valor inconsistente.</p>
+<small><pre><code>
+base_credit.loc[base_credit['age'] &lt; 0] <span class="text-muted">#Localizar registros (Ou base_credit[base_credit['age'] &lt; 0])</span>
+
+<span class="text-muted"># Apagar coluna inteira do registro inconsistente</span>
+base_credit2 = base_credit.drop('age', axis=1) <span class="text-muted">#Axis 0 é para linha e Axis 1 é para coluna</span>
+base_credit2
+base_credit.index <span class="text-muted">#Index é o nº do registro no BD, conforme tabela acima</span>
+base_credit[base_credit['age'] &lt; 0].index</code>
+
+<span class="text-muted"># Apagar somente células de registros com valores inconsistentes</span>
+base_credit3 = base_credit.drop(base_credit[base_credit['age'] &lt; 0].index)
+base_credit3
+base_credit3.loc[base_credit3['age'] &lt; 0] <span class="text-muted">#Apagou, então retornará nenhum registro encontrado</span>
+
+<span class="text-muted"></span># Preencher os valores inconsistentes manualmente (Geralmente preencher com média da classe)</span>
+base_credit.mean() <span class="text-muted">#Localizar média de valores (Ou base_credit['age'].mean())</span>
+base_credit['age'][base_credit['age'] &gt; 0].mean() <span class="text-muted">#Média não considerando valores negativos</span>
+base_credit.loc[base_credit['age'] &lt; 0, 'age'] = 40.92 <span class="text-muted">#Preencher idades negativas com média de idades</span>
+base_credit.loc[base_credit['age'] &lt; 0] <span class="text-muted">#Verificar se existem idades negativas (Não haverão idades negativas)</span>
+</code></pre></small>
+
+            <p><b>Tratamento de valores faltantes</b></p>
+            <p id="textoPost">No dataframe há registros de clientes que não informaram a idade.</p>
             
         </div>
     </div>
