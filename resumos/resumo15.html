@@ -40,6 +40,7 @@
             <a class="btn btn-link" id="btnLink" href="https://github.com/mateusschwede/ubsocialIA" target="_blank">Github do projeto</a><br>
             <a class="btn btn-link" id="btnLink" href="https://colab.research.google.com/drive/1SnsJEDRxizpwff6K0JFEFHoBtXR5NT9y?usp=sharing" target="_blank">Google Colab</a><br>
             <a class="btn btn-link" id="btnLink" href="https://www.kaggle.com/laotse/credit-risk-dataset" target="_blank">BD Risco de Crédito</a>
+            <a class="btn btn-link" id="btnLink" href="https://archive.ics.uci.edu/ml/datasets/adult" target="_blank">BD Censo</a>
         </div>
 
         <div class="col-sm-12">
@@ -230,6 +231,7 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 </code></pre></small>
             <h5>Base de Dados (Risco de Crédito)</h5>
+            <p class="text-muted" id="textoPost">Objetivo da IA é dizer se a pessoa, de acordo com suas condições, pagará ou não o crédito (default 0 ou 1).</p>
             <a class="btn btn-link" id="btnLink" href="https://github.com/mateusschwede/ubsocialIA/blob/main/Bases%20de%20dados.zip" target="_blank">Acessar BD Risco de Crédito (credit_data.csv)</a>
             <div class="table-responsive">
                 <table class="table table-bordered table-sm">
@@ -271,7 +273,7 @@ base_credit = pd.read_csv('/content/credit_data.csv') <span class="text-muted">#
 base_credit <span class="text-muted">#Ver dados</span>
 base_credit_head(10) <span class="text-muted">#Ver 10 primeiros dados</span>
 base_credit.tail(8) <span class="text-muted">#Ver 8 últimos dados</span>
-base_credit.describe() <span class="text-muted">#Mostrará, para cada atributo numérico: count (Quantidade total), mean (Média), sid (Desvio padrão - Variação/afastamento dos dados em relação ao valor da média), min/25%/50%/75%/max (Valores mínimos/máximos)</span>
+base_credit.describe() <span class="text-muted">#Mostrará, para cada atributo numérico: count (Quantidade total), mean (Média), sid (Desvio padrão - Variação/afastamento dos dados em relação ao valor da média), min/25%/50%/75%/max (Quartis - Valores mínimos/percentuais/máximos)</span>
 base_credit[base_credit['income'] == 1000.00] <span class="text-muted">#Mostrar pessoa com renda 1000.00</span>
 base_credit[base_credit['loan'] &gt;= 1.377] <span class="text-muted">#Mostrar pessoa com dívida menor ou igual a 1.377</span>
 </code></pre></small>
@@ -358,7 +360,101 @@ X_credit[:,0].max(), X_credit[:,1].max(), X_credit[:,2].max()
 X_credit
 </span>
 </code></pre></small>
-            <!--VER 22-->
+            <h5>Base de Dados (Censo)</h5>
+            <p class="text-muted" id="textoPost">Objetivo da IA é dizer se a pessoa, de acordo com suas condições, ganhará ou não mais que 50mil por ano (income &lt;=50K ou &gt;50K).</p>
+            <a class="btn btn-link" id="btnLink" href="https://github.com/mateusschwede/ubsocialIA/blob/main/Bases%20de%20dados.zip" target="_blank">Acessar BD Censo (census.csv)</a>
+            <div class="table-responsive">
+                <table class="table table-bordered table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="table-secondary"></th>
+                            <th scope="col" class="table-secondary">age</th>
+                            <th scope="col" class="table-secondary">workclass</th>
+                            <th scope="col" class="table-secondary">final-weight</th>
+                            <th scope="col" class="table-secondary">education</th>
+                            <th scope="col" class="table-secondary">education-num</th>
+                            <th scope="col" class="table-secondary">marital-status</th>
+                            <th scope="col" class="table-secondary">occupation</th>
+                            <th scope="col" class="table-secondary">relationship</th>
+                            <th scope="col" class="table-secondary">race</th>
+                            <th scope="col" class="table-secondary">sex</th>
+                            <th scope="col" class="table-secondary">capital-gain</th>
+                            <th scope="col" class="table-secondary">capital-loos</th>
+                            <th scope="col" class="table-secondary">hour-per-week</th>
+                            <th scope="col" class="table-secondary">native-country</th>
+                            <th scope="col" class="table-secondary">income</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>0</th>
+                            <td>39</td>
+                            <td>State-gov</td>
+                            <td>77516</td>
+                            <td>Bachelors</td>
+                            <td>13</td>
+                            <td>Never-married</td>
+                            <td>Adm-clerical</td>
+                            <td>Not-in-family</td>
+                            <td>White</td>
+                            <td>Male</td>
+                            <td>2174</td>
+                            <td>0</td>
+                            <td>40</td>
+                            <td>United-States</td>
+                            <td>&lt;=50K</td>
+                        </tr>
+                        <tr>
+                            <th>32556</th>
+                            <td>27</td>
+                            <td>Private</td>
+                            <td>257302</td>
+                            <td>Assoc-acdm</td>
+                            <td>12</td>
+                            <td>Married-civ-spouse</td>
+                            <td>Tech-support</td>
+                            <td>Wife</td>
+                            <td>White</td>
+                            <td>Female</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>38</td>
+                            <td>United-States</td>
+                            <td>&lt;=50K</td>
+                        </tr>
+                        <tr>
+                            <th>32557</th>
+                            <td>40</td>
+                            <td>Private</td>
+                            <td>154374</td>
+                            <td>HS-grad</td>
+                            <td>9</td>
+                            <td>Married-civ-spouse</td>
+                            <td>Machine-op-inspct</td>
+                            <td>Husband</td>
+                            <td>White</td>
+                            <td>Male</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>40</td>
+                            <td>United-States</td>
+                            <td>&gt;50K</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <small class="text-muted">age - <i>Variável numérica discreta</i><br>workclass (Classe de trabalho) - <i>Variável categórica nominal</i><br>final-weight (Pontuação segundo censo) - <i>Variável numérica contínua</i><br>education - <i>Variável categórica ordinal</i><br>education-num (Nº de anos de estudo) - <i>Variável numérica discreta</i><br>marital-status, relationship, race, sex - <i>Variáveis categóricas nominais</i><br>capital-gain, capital-loos (Ganho/perda de capital) - <i>Variáveis numéricas contínuas</i><br>hour-per-week (Horas trabalhadas por semana) - <i>Variável numérica discreta</i><br>native-country - <i>Variável categórica nominal</i><br>income (Ganho por ano) - <i>Variável categórica ordinal</i></small>
+            
+            <br><br><p><b>2. Exploração dos dados:</b></p>
+<small><pre><code>
+base_census = pd.read_csv('/content/census.csv')
+base_census48.000000
+base_census.describe()
+base_census.isnull().sum() <span class="text-muted">#Verificar se há registros com valores faltantes</span>
+</code></pre></small>
+
+            <p><b>3. Visualização em gráficos:</b></p>
+            <!--VER 23-->
             <!--Colab: https://colab.research.google.com/drive/1GL4sN3PiqSVCeUHZKctQc4lvAqH3NhiG#scrollTo=h25oSZkQA6Sr -->
         </div>
     </div>
