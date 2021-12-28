@@ -36,7 +36,7 @@
     <div class="row">
         <div class="col-sm-12" id="titulo1">
             <h1 id="serifada">Inteligência Artificial</h1>
-            <h6><strong>Inteligência Artificial e Machine Learning</strong></h6>
+            <h6><strong>Inteligência Artificial e Machine Learning</strong><br><br><span class="badge bg-warning text-dark">Resumo em construção</span></h6>
             <a class="btn btn-link" id="btnLink" href="https://github.com/mateusschwede/ubsocialIA" target="_blank">Github do projeto</a><br>
             <a class="btn btn-link" id="btnLink" href="https://colab.research.google.com/drive/1SnsJEDRxizpwff6K0JFEFHoBtXR5NT9y?usp=sharing" target="_blank">Google Colab</a><br>
             <a class="btn btn-link" id="btnLink" href="https://www.kaggle.com/laotse/credit-risk-dataset" target="_blank">BD Risco de Crédito</a>
@@ -202,7 +202,7 @@
 
             <br>
             <h4>Pré-processamento de dados:</h4>
-            <p><b>Tipos de variáveis:</b></p>
+            <h5>Tipos de variáveis</h5>
             <ul>
                 <li><b>Numéricas</b>: Possuem valor numérico
                     <ul>
@@ -219,9 +219,7 @@
             </ul>
             <p id="textoPost" class="text-muted">* A conversão de variável categórica para discreta geralmente ocorre quando a categoria básica representa 1, categoria moderada representa 2 e categoria avançada representa 3.</p>
 
-            <!--PAROU 3.15 (Importação das bibliotecas)-->
-            <br>
-            <h5>Importar libraries</h5>
+            <p><b>1. Importar libraries:</b></p>
             <p id="textoPost">Importar libraries plotly (Geração de gráficos dinâmicos), pandas (Gerenciamento de arquivos CSV), numpy, seaborn e matplotlib.pyplot (Visualização de gráficos), plotly.express (Chamará a library plotly).</p>
 <small><pre><code>
 !pip install plotly --upgrade
@@ -267,7 +265,7 @@ import plotly.express as px
             </div>
             <small class="text-muted">index (Número do registro no dataframe)<br>clientid - <i>Variável categórica nominal</i><br>income (Renda anual) - <i>Variável numérica contínua</i><br>age - <i>Variável numérica contínua</i><br>loan (Dívida) - <i>Variável numérica contínua</i><br>Default 0: Pagou o empréstimo - <i>Variável numérica discreta</i><br>Default 1: Não pagou o empréstimo - <i>Variável numérica discreta</i></small>
             
-            <br><br><p><b>Exploração dos dados:</b></p>
+            <br><br><p><b>2. Exploração dos dados:</b></p>
 <small><pre><code>
 base_credit = pd.read_csv('/content/credit_data.csv') <span class="text-muted">#Upload no Colab do CSV com dados (Atente-se ao local do upload '/content/')</span>
 base_credit <span class="text-muted">#Ver dados</span>
@@ -278,7 +276,7 @@ base_credit[base_credit['income'] == 1000.00] <span class="text-muted">#Mostrar 
 base_credit[base_credit['loan'] &gt;= 1.377] <span class="text-muted">#Mostrar pessoa com dívida menor ou igual a 1.377</span>
 </code></pre></small>
             
-            <p><b>Visualização em gráficos:</b></p>
+            <p><b>3. Visualização em gráficos:</b></p>
 <small><pre><code>
 np.unique(base_credit['default']) <span class="text-muted">#Mostrar quais os números presentes nessa classe (0 quando a pessoa não paga o empréstimo, 1 quando paga o empréstimo)</span>
 np.unique(base_credit['default'], return_counts=True) <span class="text-muted">#Ver quantos registros possui cada classe (Zeros e Uns)</span>
@@ -296,7 +294,7 @@ grafico.show() <span class="text-muted">#Imagem dos gráficos com colorações i
             <img src="../anexos/resumo15/pltGrafico3.jpg" title="plt.hist(x = base_credit['loan']);" width="250px" height="auto">
             <br><img src="../anexos/resumo15/pxGrafico1.jpg" title="px.scatter_matrix" width="90%" height="auto">
 
-            <br><br><p><b>Tratamento de valores inconsistentes:</b></p>
+            <br><br><p><b>4.1. Tratamento de valores inconsistentes:</b></p>
             <p id="textoPost">No gráfico acima, pode-se perceber a existência de idades negativas, significando dados equivocados, ou seja, inconsistentes. Situações como essa geralmente são advindas de imerfeições do sistema, onde há possibilidade do usuário informar determinado valor inconsistente.</p>
 <small><pre><code>
 base_credit.loc[base_credit['age'] &lt; 0] <span class="text-muted">#Localizar registros (Ou base_credit[base_credit['age'] &lt; 0])</span>
@@ -319,7 +317,7 @@ base_credit.loc[base_credit['age'] &lt; 0, 'age'] = 40.92 <span class="text-mute
 base_credit.loc[base_credit['age'] &lt; 0] <span class="text-muted">#Verificar se existem idades negativas (Não haverão idades negativas)</span>
 </code></pre></small>
 
-            <p><b>Tratamento de valores faltantes</b></p>
+            <p><b>4.2. Tratamento de valores faltantes</b></p>
             <p id="textoPost">No dataframe há registros de clientes que não informaram a idade.</p>
 <small><pre><code>
 base_credit.isnull() <span class="text-muted">#Verificar se há dados faltantes (True é faltante)</span>
@@ -333,7 +331,34 @@ base_credit.loc[(base_credit['clientid']==29) | (base_credit['clientid']==31) | 
 base_credit.loc[base_credit['clientid'].isin([29,31,32])]
 </code></pre></small>
 
-            <!--Ver 20: Divisão entre previsores e classe-->
+            <p><b>5. Separação entre previsores e classes:</b></p>
+            <p id="textoPost">Variável <b>x</b> armazenará somente atributos previsores (income, age e loan) e outra variável <b>y</b> para armazenar somente a classe. Geralmente atributos únicos, como id's, são descartados nessa etapa.</p>
+<small><pre><code>
+X_credit = base_credit.iloc[:,1:4].values <span class="text-muted">#':' Indica selecionar todas as linhas do dataframe, '1:4' indica selecionar da coluna 1 até a 3</span>
+y_credit = base_credit.iloc[:, 4].values <span class="text-muted">#Indica somente coluna 4</span>
+X_credit <span class="text-muted">#Ver conteúdo da variável ('y_credit' ver variável y, 'type(X_credit)' para ver o tipo)</span>
+</code></pre></small>
+
+            <p><b>6. Escalonamento dos atributos:</b></p>
+            <p id="textoPost">Selecionando os valores mínimos/máximos, tem-se valores muito distantes entre si, o que pode ser problemático para algoritmos de IA baseados em distância. Portanto, deve-se realizar a padronização entre tais valores, para que os mesmos fiquem na mesma escala, pois a ordem de importância que o algoritmo dará aos valores maiores, onde valores maiores possuem peso maior, será inconsistente nesse caso (<u>Ex</u>: loan mais importante que age, por razão de possuir valores maiores). A <b>padronização</b> é mais indicada quando há outliers no dataset (Registros muito fora do padrão): Nesse caso, utilizaremos padronização para o exemplo em questão. Abaixo, seguem fórmulas para solucionar tais problemas.</p>
+            <ul>
+                <li>Padronização(Standardisation): <span style="color: rgb(77, 0, 0);">x = ((x-media(x)) / desvioPadrao(x))</span></li>
+                <li>Normalização(Normalization): <span style="color: rgb(77, 0, 0);">x = ((x-min(x)) / (max(x)-min(x)))</span></li>
+            </ul>
+<small><pre><code>
+X_credit[:,0].min(), X_credit[:,1].min(), X_credit[:,2].min() <span class="text-muted">#Selecionar valores mínimos de cada atributo</span>
+X_credit[:,0].max(), X_credit[:,1].max(), X_credit[:,2].max() <span class="text-muted">#Seelcionar valores máximos de cada atributo</span>
+
+from sklearn.preprocessing import StandardScaler <span class="text-muted">#Sklearn é library para ML no Python, o StandardScaler fará a padronização</span>
+scaler_credit = StandardScaler()
+X_credit = scaler_credit.fit_transform(X_credit) <span class="text-muted">#Fará a padronização da variável x
+
+X_credit[:,0].min(), X_credit[:,1].min(), X_credit[:,2].min() <span class="text-muted">#Valores mínimos e máximos padronizados (Não há problema de valores negativos, pois considera-se, nesse caso, uso da média e desvio padrão)</span>
+X_credit[:,0].max(), X_credit[:,1].max(), X_credit[:,2].max()
+X_credit
+</span>
+</code></pre></small>
+            <!--VER 22-->
             <!--Colab: https://colab.research.google.com/drive/1GL4sN3PiqSVCeUHZKctQc4lvAqH3NhiG#scrollTo=h25oSZkQA6Sr -->
         </div>
     </div>
