@@ -203,7 +203,8 @@
 
             <br>
             <h4>===== Pré-processamento de dados =====</h4>
-            <h5>Tipos de variáveis</h5>
+            
+            <br><h5>Tipos de variáveis</h5>
             <ul>
                 <li><b>Numéricas</b>: Possuem valor numérico
                     <ul>
@@ -230,7 +231,8 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import plotly.express as px
 </code></pre></small>
-            <h5>Base de Dados (Risco de Crédito)</h5>
+            
+            <br><h5>Base de Dados (Risco de Crédito)</h5>
             <p class="text-muted" id="textoPost">Objetivo da IA é dizer se a pessoa, de acordo com suas condições, pagará ou não o crédito (default 0 ou 1).</p>
             <a class="btn btn-link" id="btnLink" href="https://github.com/mateusschwede/ubsocialIA/blob/main/Bases%20de%20dados.zip" target="_blank">Acessar BD Risco de Crédito (credit_data.csv)</a>
             <div class="table-responsive">
@@ -360,7 +362,8 @@ X_credit[:,0].max(), X_credit[:,1].max(), X_credit[:,2].max()
 X_credit
 </span>
 </code></pre></small>
-            <h5>Base de Dados (Censo)</h5>
+            
+            <br><h5>Base de Dados (Censo)</h5>
             <p class="text-muted" id="textoPost">Objetivo da IA é dizer se a pessoa, de acordo com suas condições, ganhará ou não mais que 50mil por ano (income &lt;=50K ou &gt;50K).</p>
             <a class="btn btn-link" id="btnLink" href="https://github.com/mateusschwede/ubsocialIA/blob/main/Bases%20de%20dados.zip" target="_blank">Acessar BD Censo (census.csv)</a>
             <div class="table-responsive">
@@ -530,7 +533,7 @@ X_census
 </code></pre></small>
 
             <p><b>5.2. Tratamento de atributos categóricos (OneHotEncoder):</b></p>
-            <p id="textoPost">Um dos problemas de somente utilizar LabelEncoder são as inúmeras categorias e valores muito amplos (Algoritmo de IA considerará atributo 20 mais importante que o 3, somente por razão do nº 20 ser maior). No OneHotEncoder, cada tipo de registro (Categoria) receberá um número/código identificador, de acordo com a quantidade de tipos de registros neste atributo (<u>Ex</u>: Carros Gol, Pálio e Uno: São 3 tipos de registros do atributo 'Carro', então Gol será 100, Pálio será 010 e Uno será 001).</p>
+            <p id="textoPost">Um dos problemas de somente utilizar LabelEncoder são as inúmeras categorias e valores muito amplos (Algoritmo de IA considerará atributo 20 mais importante que o 3, somente por razão do nº 20 ser maior). No OneHotEncoder, cada tipo de registro (Categoria) receberá um número/código identificador (Do tipo Dummy), de acordo com a quantidade de tipos de registros neste atributo (<u>Ex</u>: Carros Gol, Pálio e Uno: São 3 tipos de registros do atributo 'Carro', então Gol será 100, Pálio será 010 e Uno será 001).</p>
 <small><pre><code>
 len(np.unique(base_census['workclass'])) <span class="text-muted">#9 categorias diferentes: Códigos de 9 colunas (<u>Ex:</u> State-gov 10000000)</span>
 len(np.unique(base_census['occupation'])) <span class="text-muted">#15 categorias diferentes: Códigos de 10 colunas</span>
@@ -552,6 +555,40 @@ scaler_census = StandardScaler()
 X_census = scaler_census.fit_transform(X_census)
 X_census[0] <span class="text-muted">#Converterá os atributos numéricos para o mesmo formato de código também</span>
 </code></pre></small>
+
+            <br><h5>Introdução a avaliação de algoritmos</h5>
+            <p id="textoPost">Levando em conta o exemplo da base de dados Risco de Crédito, o algoritmo de IA analisará os atributos previsores, juntamente com seus respectivos dados, gerando assim o <b>Modelo do Algoritmo</b>, como, por exemplo, um algoritmo Naïve Bayes criará uma tabela de probabilidade, para que, quando quiser classificar registros, utilizará estimativa da probabilidade de cada classe (<u>Ex</u>: Probabilidade da classe Risco alto, moderado e baixo). Um algoritmo de Árvore de Decisão, conforme dados analisados, construirá árvore de decisão, que será percorrida cada vez para identificar a decisão, onde tal nó final será a classe.</p>
+            <p id="textoPost">Após isso, para fazer a classificação de novos registros à base de dados, submete-se o mesmo para o Modelo do Algoritmo e gerará, com isso, a resposta da classificação. Para sabe a classe que ao qual o registro será classificado, tem-se a <b>base de dados de treinamento</b> e a <b>base de dados de teste</b>, onde, em ambas, a classe de resultado já está informada e os registros são bem diferentes quando comparados uma a outra (Nunca pode testar o algoritmo com os mesmos registros de seu treinamento). Então, submete-se a base de dados do treinamento ao algoritmo (Base de dados de treinamento sempre é bem maior que a de teste), onde o algoritmo gerará o Modelo. Após isso, testa-se o algoritmo conferindo seus resultados com a base de dados de teste (Base bem diversificada, para a maioria de possibilidades em teste).</p>
+            <p id="textoPost">Com o teste pronto, o supervisor saberá identificar, usando como base os registros de teste, quantos o algoritmo acertou e errou (<u>Ex</u>: O 1º registro está classificado na base de teste como alto, e o algoritmo identificou como Alto (<i>Acerto</i>). O 2º registro está classificado na base de teste como Moderado, e o algoritmo identificou como Baixo (<i>Erro</i>)). Assim, medindo acertos/erros em percentuais, tem-se a medição da eficiência do algoritmo de IA.</p>
+            <p><b>Divisão das bases em Treinamento e Teste:</b></p>
+<small><pre><code>
+from sklearn.model_selection import train_test_split
+
+<span class="text-muted"># Dividir base Risco de Crédito</span>
+X_credit_treinamento, X_credit_teste, y_credit_treinamento, y_credit_teste = train_test_split(X_credit,y_credit,test_size = 0.25,random_state = 0) <span class="text-muted">#X: previsores e Y: classe. Tamanho da base de Teste será 0.25 (75% da base de dados para treinar, 25% para testar), random_state para manter registros de trainamento/teste e consguir compará-los</span>
+X_credit_treinamento.shape <span class="text-muted">#1500 registros previsores para treinamento, 3 colunas (income,age,loan)</span>
+y_credit_treinamento.shape <span class="text-muted">#1500 registros classe, somente coluna default</span>
+X_credit_teste.shape, y_credit_teste.shape <span class="text-muted">#25% dos dados total para cada variável da base teste (X previsores, Y respostas/classe)</span>
+
+<span class="text-muted"># Dividir base Censo</span>
+X_census_treinamento, X_census_teste, y_census_treinamento, y_census_teste = train_test_split(X_census,y_census,test_size = 0.15,random_state = 0) <span class="text-muted">#85% dos registros para base Treinamento, 15% para base Teste</span>
+X_census_treinamento.shape, y_census_treinamento.shape <span class="text-muted">#27676 registros previsores, 108 colunas. 27676 registros de resposta/classe</span>
+X_census_teste.shape, y_census_teste.shape <span class="text-muted">#4855 registros previsores, 108 colunas. 4855 registros de resposta/classe</span>
+</code></pre></small>
+
+            <p><b>Salvar bases:</b></p>
+<small><pre><code>
+import pickle
+
+<span class="text-muted">#Salvar em disco, wb (Write): Criará arquivos 'credit.pkl' e 'census.pkl'</span>
+with open('credit.pkl', mode='wb') as f:
+    pickle.dump([X_credit_treinamento, y_credit_treinamento, X_credit_teste, y_credit_teste], f)
+
+with open('census.pkl', mode='wb') as f:
+    pickle.dump([X_census_treinamento, y_census_treinamento, X_census_teste, y_census_teste], f)
+</code></pre></small>
+
+            <!--VER 32-->
             <!--Colab: https://colab.research.google.com/drive/1GL4sN3PiqSVCeUHZKctQc4lvAqH3NhiG#scrollTo=h25oSZkQA6Sr -->
         </div>
     </div>
