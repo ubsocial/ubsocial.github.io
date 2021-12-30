@@ -202,7 +202,7 @@
             </ul>
 
             <br>
-            <h4>Pré-processamento de dados:</h4>
+            <h4>===== Pré-processamento de dados =====</h4>
             <h5>Tipos de variáveis</h5>
             <ul>
                 <li><b>Numéricas</b>: Possuem valor numérico
@@ -342,7 +342,7 @@ X_credit <span class="text-muted">#Ver conteúdo da variável ('y_credit' ver va
 </code></pre></small>
 
             <p><b>6. Escalonamento dos atributos:</b></p>
-            <p id="textoPost">Selecionando os valores mínimos/máximos, tem-se valores muito distantes entre si, o que pode ser problemático para algoritmos de IA baseados em distância. Portanto, deve-se realizar a padronização entre tais valores, para que os mesmos fiquem na mesma escala, pois a ordem de importância que o algoritmo dará aos valores maiores, onde valores maiores possuem peso maior, será inconsistente nesse caso (<u>Ex</u>: loan mais importante que age, por razão de possuir valores maiores). A <b>padronização</b> é mais indicada quando há outliers no dataset (Registros muito fora do padrão): Nesse caso, utilizaremos padronização para o exemplo em questão. Abaixo, seguem fórmulas para solucionar tais problemas.</p>
+            <p id="textoPost">Deixar valores na mesma escala: Selecionando os valores mínimos/máximos, tem-se valores muito distantes entre si, o que pode ser problemático para algoritmos de IA baseados em distância. Portanto, deve-se realizar a padronização entre tais valores, para que os mesmos fiquem na mesma escala, pois a ordem de importância que o algoritmo dará aos valores maiores, onde valores maiores possuem peso maior, será inconsistente nesse caso (<u>Ex</u>: loan mais importante que age, por razão de possuir valores maiores). A <b>padronização</b> é mais indicada quando há outliers no dataset (Registros muito fora do padrão): Nesse caso, utilizaremos padronização para o exemplo em questão. Abaixo, seguem fórmulas para solucionar tais problemas.</p>
             <ul>
                 <li>Padronização(Standardisation): <span style="color: rgb(77, 0, 0);">x = ((x-media(x)) / desvioPadrao(x))</span></li>
                 <li>Normalização(Normalization): <span style="color: rgb(77, 0, 0);">x = ((x-min(x)) / (max(x)-min(x)))</span></li>
@@ -530,7 +530,28 @@ X_census
 </code></pre></small>
 
             <p><b>5.2. Tratamento de atributos categóricos (OneHotEncoder):</b></p>
-            <p id="textoPost"></p>
+            <p id="textoPost">Um dos problemas de somente utilizar LabelEncoder são as inúmeras categorias e valores muito amplos (Algoritmo de IA considerará atributo 20 mais importante que o 3, somente por razão do nº 20 ser maior). No OneHotEncoder, cada tipo de registro (Categoria) receberá um número/código identificador, de acordo com a quantidade de tipos de registros neste atributo (<u>Ex</u>: Carros Gol, Pálio e Uno: São 3 tipos de registros do atributo 'Carro', então Gol será 100, Pálio será 010 e Uno será 001).</p>
+<small><pre><code>
+len(np.unique(base_census['workclass'])) <span class="text-muted">#9 categorias diferentes: Códigos de 9 colunas (<u>Ex:</u> State-gov 10000000)</span>
+len(np.unique(base_census['occupation'])) <span class="text-muted">#15 categorias diferentes: Códigos de 10 colunas</span>
+
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+
+onehotencoder_census = ColumnTransformer(transformers=[('OneHot', OneHotEncoder(), [1,3,5,6,7,8,9,13])], remainder='passthrough') <span class="text-muted">#Transformar em OneHotEncoder, passar lista de atributos (Índices) para transformação e passthrough para não exlcuir os demais atributos</span>
+X_census = onehotencoder_census.fit_transform(X_census).toarray() <span class="text-muted">#Recriar base de dados com codificação OneHotEncoder feita</span>
+X_census <span class="text-muted">#X_census[0] na linha 0</span>
+X_census.shape <span class="text-muted">#Aumentou-se para 108 colunas com o OneHotEncoder (Resultante do somatório das quantidades de colunas de todos os códigos gerados para cada categoria de cada atributo)</span>
+</code></pre></small>
+
+            <p><b>6. Escalonamento dos atributos:</b></p>
+<small><pre><code>
+from sklearn.preprocessing import StandardScaler
+
+scaler_census = StandardScaler()
+X_census = scaler_census.fit_transform(X_census)
+X_census[0] <span class="text-muted">#Converterá os atributos numéricos para o mesmo formato de código também</span>
+</code></pre></small>
             <!--Colab: https://colab.research.google.com/drive/1GL4sN3PiqSVCeUHZKctQc4lvAqH3NhiG#scrollTo=h25oSZkQA6Sr -->
         </div>
     </div>
