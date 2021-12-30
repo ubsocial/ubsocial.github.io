@@ -265,7 +265,7 @@ import plotly.express as px
                     </tbody>
                 </table>
             </div>
-            <small class="text-muted">index (Número do registro no dataframe)<br>clientid - <i>Variável categórica nominal</i><br>income (Renda anual) - <i>Variável numérica contínua</i><br>age - <i>Variável numérica contínua</i><br>loan (Dívida) - <i>Variável numérica contínua</i><br>Default 0: Pagou o empréstimo - <i>Variável numérica discreta</i><br>Default 1: Não pagou o empréstimo - <i>Variável numérica discreta</i></small>
+            <small class="text-muted">index (Número do registro no dataframe)<br>clientid - <i>Variável categórica nominal</i><br>income (Renda anual) - <i>Variável numérica contínua</i><br>age - <i>Variável numérica contínua</i><br>loan (Dívida) - <i>Variável numérica contínua</i><br>Default 0: Pagou o empréstimo - <i>Variável numérica discreta</i><br>Default 1 (Devendo): Não pagou o empréstimo - <i>Variável numérica discreta</i></small>
             
             <br><br><p><b>2. Exploração dos dados:</b></p>
 <small><pre><code>
@@ -290,10 +290,10 @@ plt.hist(x = base_credit['loan']); <span class="text-muted">#Gráfico histograma
 grafico = px.scatter_matrix(base_credit, dimensions=['age','income','loan'], color='default') <span class="text-muted">#Gráfico dinâmico scatter (Dispersão) que combina os atributos de acordo com 'default' (Pagou/Devendo)</span>
 grafico.show() <span class="text-muted">#Imagem dos gráficos com colorações internas</span>
 </code></pre></small>
-            <img src="../anexos/resumo15/snsGrafico1.jpg" title="sns.countplot(x = base_credit['default']);" width="250px" height="auto">
-            <img src="../anexos/resumo15/pltGrafico1.jpg" title="plt.hist(x = base_credit['age']);" width="250px" height="auto">
-            <img src="../anexos/resumo15/pltGrafico2.jpg" title="plt.hist(x = base_credit['income']);" width="250px" height="auto">
-            <img src="../anexos/resumo15/pltGrafico3.jpg" title="plt.hist(x = base_credit['loan']);" width="250px" height="auto">
+            <img src="../anexos/resumo15/snsGrafico1.jpg" title="sns.countplot(x = base_credit['default'])" width="250px" height="auto">
+            <img src="../anexos/resumo15/pltGrafico1.jpg" title="plt.hist(x = base_credit['age'])" width="250px" height="auto">
+            <img src="../anexos/resumo15/pltGrafico2.jpg" title="plt.hist(x = base_credit['income'])" width="250px" height="auto">
+            <img src="../anexos/resumo15/pltGrafico3.jpg" title="plt.hist(x = base_credit['loan'])" width="250px" height="auto">
             <br><img src="../anexos/resumo15/pxGrafico1.jpg" title="px.scatter_matrix" width="90%" height="auto">
 
             <br><br><p><b>4.1. Tratamento de valores inconsistentes:</b></p>
@@ -443,7 +443,7 @@ X_credit
                     </tbody>
                 </table>
             </div>
-            <small class="text-muted">age - <i>Variável numérica discreta</i><br>workclass (Classe de trabalho) - <i>Variável categórica nominal</i><br>final-weight (Pontuação segundo censo) - <i>Variável numérica contínua</i><br>education - <i>Variável categórica ordinal</i><br>education-num (Nº de anos de estudo) - <i>Variável numérica discreta</i><br>marital-status, relationship, race, sex - <i>Variáveis categóricas nominais</i><br>capital-gain, capital-loos (Ganho/perda de capital) - <i>Variáveis numéricas contínuas</i><br>hour-per-week (Horas trabalhadas por semana) - <i>Variável numérica discreta</i><br>native-country - <i>Variável categórica nominal</i><br>income (Ganho por ano) - <i>Variável categórica ordinal</i></small>
+            <small class="text-muted">age - <i>Variável numérica discreta</i><br>workclass (Classe de trabalho) - <i>Variável categórica nominal</i><br>final-weight (Pontuação segundo censo) - <i>Variável numérica contínua</i><br>education - <i>Variável categórica ordinal</i><br>education-num (Nº de anos de estudo) - <i>Variável numérica discreta</i><br>marital-status, relationship, race, sex - <i>Variáveis categóricas nominais</i><br>capital-gain, capital-loos (Ganho/perda de capital) - <i>Variáveis numéricas contínuas</i><br>hour-per-week (Horas trabalhadas por semana) - <i>Variável numérica discreta</i><br>native-country - <i>Variável categórica nominal</i><br>income (Renda/Ganho por ano) - <i>Variável categórica ordinal</i></small>
             
             <br><br><p><b>2. Exploração dos dados:</b></p>
 <small><pre><code>
@@ -454,7 +454,83 @@ base_census.isnull().sum() <span class="text-muted">#Verificar se há registros 
 </code></pre></small>
 
             <p><b>3. Visualização em gráficos:</b></p>
-            <!--VER 23-->
+<small><pre><code>
+np.unique(base_census['income'], return_counts=True) <span class="text-muted">#Ver contagem de dados para cada classe</span>
+sns.countplot(x = base_census['income']); <span class="text-muted">#Ver em gráfico de barras (Gráfico 1)</span>
+plt.hist(x = base_census['age']); <span class="text-muted">#Ver em histograma de idades (Gráfico 2)</span>
+plt.hist(x = base_census['education-num']); <span class="text-muted">#Ver em histograma de nº de anos estudados (Gráfico 3)</span>
+plt.hist(x = base_census['hour-per-week']); <span class="text-muted">#Ver em histograma de nº de horas trabalhadas por semana (Gráfico 4)</span>
+
+grafico = px.treemap(base_census, path=['workclass','age'])
+grafico.show() <span class="text-muted">#Ver gráficos dinâmicos de agrupamentos entre classe de trabalho e idade (Gráfico 5)</span>
+
+grafico = px.treemap(base_census, path=['occupation','relationship','age'])
+grafico.show() <span class="text-muted">#Ver gráficos dinâmicos de agrupamentos entre ocupação, relacionamento e idade (Gráfico 6)</span>
+
+grafico = px.parallel_categories(base_census, dimensions=['occupation','relationship'])
+grafico.show() <span class="text-muted">#Ver gráfico dinâmico de categorias paralelas entre ocupação e relacionamento (Gráfico 7)</span>
+
+grafico = px.parallel_categories(base_census, dimensions=['workclass','occupation','income'])
+grafico.show() <span class="text-muted">#Ver gráfico dinâmico de categorias paralelas entre classe de trabalho, ocupação e renda (Gráfico 8)</span>
+
+grafico = px.parallel_categories(base_census, dimensions=['education','income'])
+grafico.show() <span class="text-muted">#Ver gráfico dinâmico de categorias paralelas entre educação e renda (Gráfico 9)</span>
+</code></pre></small>
+            <img src="../anexos/resumo15/snsGrafico2.jpg" title="sns.countplot(x = base_census['income'])" width="250px" height="auto">
+            <img src="../anexos/resumo15/pltGrafico4.jpg" title="plt.hist(x = base_census['age'])" width="250px" height="auto">
+            <img src="../anexos/resumo15/pltGrafico5.jpg" title="plt.hist(x = base_census['education-num'])" width="250px" height="auto">
+            <img src="../anexos/resumo15/pltGrafico6.jpg" title="plt.hist(x = base_census['hour-per-week'])" width="250px" height="auto">
+            <br><img src="../anexos/resumo15/pxGrafico2.jpg" title="px.treemap(base_census, path=['workclass','age'])" width="90%" height="auto">
+            <br><img src="../anexos/resumo15/pxGrafico3.jpg" title="px.treemap(base_census, path=['occupation','relationship','age'])" width="90%" height="auto">
+            <br><img src="../anexos/resumo15/pxGrafico4.jpg" title="px.parallel_categories(base_census, dimensions=['occupation','relationship'])" width="90%" height="auto">
+            <br><img src="../anexos/resumo15/pxGrafico5.jpg" title="px.parallel_categories(base_census, dimensions=['workclass','occupation','income'])" width="90%" height="auto">
+            <br><img src="../anexos/resumo15/pxGrafico6.jpg" title="px.parallel_categories(base_census, dimensions=['education','income'])" width="90%" height="auto">
+            
+            <br><br><p><b>4. Separação entre previsores e classes:</b></p>
+<small><pre><code>
+base_census.columns
+X_census = base_census.iloc[:,0:14].values <span class="text-muted">#Criar variável de previsores (Todas linhas, da coluna 0 à 14 - age à native-country)</span>
+X_census <span class="text-muted">#X_census[0]</span>
+y_census = base_census.iloc[:,14].values <span class="text-muted">#Criar variável da classe (Todas linhas, somente coluna 14 - income)</span>
+y_census
+</code></pre></small>
+
+            <p><b>5.1. Tratamento de atributos categóricos (LabelEncoder):</b></p>
+            <p id="textoPost">Neste caso, como há atributos categóricos (String), será necessário convertê-los em dados numéricos: Em LabelEncoder, cada tipo de valor no registro será transformado em um número de referência.</p>
+<small><pre><code>
+from sklearn.preprocessing import LabelEncoder
+label_encoder_teste = LabelEncoder()
+X_census[:,1]
+teste = label_encoder_teste.fit_transform(X_census[:,1]) <span class="text-muted">#Aplicar LabelEncoder</span>
+teste <span class="text-muted">#Cada tipo de valor do workclass será convertido em um nº de sua referência (Private é 4, State-gov é 7...)</span>
+X_census[0]
+
+<span class="text-muted">#Transformar cada atributo para LabelEncoder</span>
+label_encoder_workclass = LabelEncoder()
+label_encoder_education = LabelEncoder()
+label_encoder_marital = LabelEncoder()
+label_encoder_occupation = LabelEncoder()
+label_encoder_relationship = LabelEncoder()
+label_encoder_race = LabelEncoder()
+label_encoder_sex = LabelEncoder()
+label_encoder_country = LabelEncoder()
+
+<span class="text-muted">#Aplicar LabelEncoder para cada atributo categórico</span>
+X_census[:,1] = label_encoder_workclass.fit_transform(X_census[:,1])
+X_census[:,3] = label_encoder_education.fit_transform(X_census[:,3])
+X_census[:,5] = label_encoder_marital.fit_transform(X_census[:,5])
+X_census[:,6] = label_encoder_occupation.fit_transform(X_census[:,6])
+X_census[:,7] = label_encoder_relationship.fit_transform(X_census[:,7])
+X_census[:,8] = label_encoder_race.fit_transform(X_census[:,8])
+X_census[:,9] = label_encoder_sex.fit_transform(X_census[:,9])
+X_census[:,13] = label_encoder_country.fit_transform(X_census[:,13])
+
+X_census[0]
+X_census
+</code></pre></small>
+
+            <p><b>5.2. Tratamento de atributos categóricos (OneHotEncoder):</b></p>
+            <p id="textoPost"></p>
             <!--Colab: https://colab.research.google.com/drive/1GL4sN3PiqSVCeUHZKctQc4lvAqH3NhiG#scrollTo=h25oSZkQA6Sr -->
         </div>
     </div>
