@@ -35,11 +35,24 @@
 
     <div class="row">
         <div class="col-sm-12" id="titulo1">
-            <h1 id="serifada">Códigos HTTP</h1>
-            <h6><strong>Códigos de status de respostas HTTP</strong><br><br><span class="badge bg-warning text-dark">Artigo em construção</span></h6>
+            <h1 id="serifada">Códigos e Verbos HTTP</h1>
+            <h6><strong>Códigos de status de respostas e Verbos HTTP</strong><br><br><span class="badge bg-warning text-dark">Artigo em construção</span></h6>
         </div>
 
         <div class="col-sm-12">
+            <h4>Protocolo HTTP</h4>
+            <p id="textoPost">Protocolo de Transferência de Hipertexto é um dos protocolos web mais importantes, utilizado para acessar páginas web. Os serviços que implementam tal protocolo se comunicam através das portas 80 para HTTP e 443 para HTTPS (Porta criptografada).</p>
+            
+            <br><h4>Verbos HTTP</h4>
+            <p id="textoPost">Métodos utilizados para indicar ação desejada a ser realizada no recurso identificado.</p>
+            <ul>
+                <li><b>GET</b>: Buscar recursos e Cache;</li>
+                <li><b>POST</b>: Criar novo recurso;</li>
+                <li><b>PUT/PATCH</b>: Atualizar recurso existente;</li>
+                <li><b>DELETE</b>: Remover recurso.</li>
+            </ul>
+            
+            <br><h4>Códigos de status de respostas HTTP</h4>
             <p id="textoPost">Indicam, em feedback, se requisição HTTP foi corretamente concluída, sendo agrupadas em 5 classes:</p>
             <ol>
                 <li>Respostas informativas (100-199);</li>
@@ -49,8 +62,7 @@
                 <li>Erros do servidor (500-599).</li>
             </ol>
             
-            <br>
-            <h4>Respostas informativas</h4>
+            <br><h5>Respostas informativas</h5>
             <ul>
                 <li><b>100 Continue</b>: Resposta provisória indicando conformidades até o momento, onde o cliente pode continuar com a requisição ou ignorá-la;</li>
                 <li><b>101 Switching Protocol</b>: Código enviado em resposta de header de solicitação Upgrade pelo cliente, indicando protocolo a que o servidor está alternando;</li>
