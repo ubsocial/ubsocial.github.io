@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ovo&family=Qwitcher+Grypen&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../anexos/icons/logoTit.png">
+    <link rel="stylesheet" href="../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12" id="menu">
+            <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a id="serifada" class="navbar-brand" href="../index.html"><img src="../anexos/icons/logo.png" id="logo"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../contato.html">Contato</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12" id="titulo1">
+            <h1 id="serifada">Converter CSV em JSON com PHP</h1>
+            <h6><strong>Código PHP para conversão de CSV em JSON</strong></h6>
+        </div>
+
+        <div class="col-sm-12">
+            <h4>Pré-requisitos</h4>
+            <p id="textoPost">Necessário XAMPP executando, criar diretório no <i>htdocs</i> para armazenar os arquivos de código e CSV. Após, baixe o arquivo <i>.csv</i>, nomeando-o <b>planilha.csv</b> no mesmo diretório do <i>.php</i>. Caso pretendes modificar o nome do .csv, atualize-o também no .php. Precisa de inspiração pra baixar arquivos .csv? O governo federal dispõe dados públicos, nesse formato. Acesse abaixo.</p>
+            <a href="http://www.dados.gov.br/dataset" id="btnLink" target="_blank" class="btn btn-link">Dados públicos</a>
+<small><pre><code>
+&lt;?php
+function csvToJson($file) {
+    if (!($fp = fopen($file,'r'))) {die("Não abriu");}
+    $key = fgetcsv($fp,"1024",",");    
+    $json = array();
+    while ($row = fgetcsv($fp,"1024",",")) {$json[] = array_combine($key,$row);}
+    fclose($fp);
+    return json_encode($json);
+}
+header('Content-Type: application/json');
+print(csvToJson("planilha.csv"));
+</code></pre></small>
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center" id="rodape">
+        <p id="serifada">Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>

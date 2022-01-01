@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ovo&family=Qwitcher+Grypen&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="../.././../anexos/icons/logoTit.png"/>
+    <link rel="stylesheet" href="../estilo2.css">
+    <title>UB Social</title>
+</head>
+<body id="fundo">
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12" id="menu">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a id="serifada" class="navbar-brand" href="../../../artigos/seguranca/index2.html">UB Social - Voltar</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12" id="titulo1">
+            <h1 id="serifada">Port Scanner em Python</h1>
+            <h6><strong>Criando um Port Scanner com Python</strong></h6>
+        </div>
+
+        <div class="col-sm-12">
+            <h4>Utilização</h4>
+            <p id="textoPost">Os códigos de erros em portas 'fechadas' podem variar dependendo do SO. Porém o código 0 é o padrão universal para a conexão bem sucedida. Esses códigos 'caseiros' são importantes para uma 'pós entrada' em um servidor alvo, onde não há NMAP ou qualquer outro software do gênero instalado, sendo que você precise da utilização do mesmo para procurar outros dados em servidores internos àquele. Salve os códigos abaixo em arquivos <i>.py</i>. Para executá-lo, em terminal Linux, basta digitar, no diretório correspondente ao arquivo, "python nomearquivo.py". Remova os comentário de linha '#' para o código funcionar.</p>
+            <br>
+            <h4>Várias Portas</h4>
+<small><pre id="codigo"><code>
+import socket
+portas = [21, 23, 80, 443, 8080]
+for porta in portas:
+    cliente = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    cliente.settimeout(0.1)
+    codigo = cliente.connect_ex(('bancocn.com', porta)) #pode ser colocado o domínio ou ip
+    if codigo == 0:
+        print porta, "OPEN"
+</code></pre></small><br>
+            <h4>Porta Específica <small>(Similar ao Netcat)</small></h4>
+<small><pre id="codigo"><code>
+import socket
+cliente = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+cliente.connect(('bancocn.com',80)) #pode ser colocado o domínio ou ip
+cliente.send('escrita entrada na porta')
+resposta = cliente.recv(1024)
+print(resposta)
+</code></pre></small>
+            <img src="../anexos1/posta3/portscanner.png" class="img-fluid">
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center bg-dark" id="rodape">
+        <p id="serifada">Elaborado por Mateus Schwede<br><small>ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>

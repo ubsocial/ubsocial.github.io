@@ -1,0 +1,1912 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ovo&family=Qwitcher+Grypen&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../anexos/icons/logoTit.png">
+    <link rel="stylesheet" href="../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12" id="menu">
+            <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a id="serifada" class="navbar-brand" href="../index.html"><img src="../anexos/icons/logo.png" id="logo"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../contato.html">Contato</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12" id="titulo1">
+            <h1 id="serifada">PHP</h1>
+            <h6><strong>Sintaxe PHP 7</strong></h6>
+        </div>
+
+        <div class="col-sm-12">
+            <h4>Base</h4>
+<small><pre><code>
+VARIÁVEIS:
+As variáveis em PHP começam com $
+Não é preciso declarar o tipo da variável: o PHP automaticamente converte o tipo dependendo do valor atribuído à variável (coerção).
+Ex:
+&lt;?php
+$var1 = 999;
+echo $var1;
+$var3 = "Testando";
+echo $var3.$var1; //concatenação feita com o ponto (.)
+?&gt;
+
+&lt;?php
+$var1 = 999;
+echo $var1."&lt;br&gt;";
+echo "Olá &lt;br&gt;";
+?&gt;
+
+CONSTANTES:
+A constante é similar a uma variável, porém o seu valor não pode ser modificado. São nomeadas com letras maiúsculas.
+Sintaxe: define(nome,valor);
+Ex:
+&lt;?php
+define("PI",3.1415);
+echo PI;
+?&gt;
+
+
+OPERADORES DE ATRIBUIÇÃO:
+● Atribuição por concatenação:
+$b = "Bom ";
+$b .= "Dia!"; //define $b para "Bom Dia!", como em $b = $b."Dia!";
+● Atribuição por referência:
+$a = 3;
+$b = &$a; // $b é uma referência de $a
+print "$b"; // imprime 3
+$a = 4;
+print "$b\n"; //imprime 4 tbm, pois se mudar o valor de uma, a outra também será alterada
+
+VARIÁVEIS DE VARIÁVEIS: (variáveis variantes)
+$nome = "matt";
+$$nome = "santos"; //cria variável de nome "matt", com o valor "santos"
+
+OPERADOR TERNÁRIO:
+ex: $maior = ($a&gt;$b) ? $a : $b;
+
+ECHO:
+Através do comando echo, podemos testar diferentes situações resultantes da ação de operadores sobre variáveis.
+Ex:
+$i = 10;
+echo "Numero $i&lt;br&gt;"; (ocorre interpolação entre string e variável)
+echo 'Numero $i&lt;br&gt;'; (diferente do Javascript, ele encarará tudo como String)
+$j = 20;
+echo "Soma $i+$j&lt;br&gt;"; (interpola, mas não soma, pois encara o + como string)
+echo "Soma ".$i+$j."&lt;br&gt;"; (se informar a concatenação, aí aceitará)
+$var = 666;
+echo "Numero $var &lt;br&gt;";
+echo "Numero \"$var\" &lt;br&gt;"; // mostrar aspas no código
+echo "Meu \ntexto \nquebrado \naqui"; //quebra de linhas
+echo "\tTabulacao"; // tabulação
+echo "\tTabulacao"; (tabulação = espaço do tab)
+
+COMENTÁRIOS:
+&lt;?php
+//linha
+/* multiplas */
+?&gt;
+
+FUNÇÕES NATIVAS STRING:
+● printf: imprimir formatado
+ex:
+$p = "Leite"; $pr = 4.5;
+printf("O %s custa %.2f",$p,$pr);
+// %s - string | %.2f - float com 2 casas decimais
+// %d - decimal | %u - decimal sem sinal | %f - real | %s - string
+
+● explode / implode
+&lt;?php
+// explode — divide uma string em substrings
+// Usamos o espaco em branco " " como separador
+$todos = "Maria Jose Lucia Carlos Julia Roberto";
+$nome = explode(" ",$todos);
+echo $nome[0]."&lt;br&gt;\n";
+echo $nome[1]."&lt;br&gt;\n";
+echo $nome[3]."&lt;br&gt;\n";
+echo "&lt;br&gt;\n";
+// implode — une varias substrings em uma unica string
+// Usamos um hifen com espacos " - " como separador
+$todosNovamente = implode(" - ",$nome);
+echo $todosNovamente."&lt;br&gt;";
+?&gt;
+
+● strtoupper / strtolower / ucwords
+&lt;?php
+$nome = "joaquim jose da silva xavier";
+echo "Nome antes do strtoupper =&gt; $nome &lt;br&gt;\n";
+$nome = strtoupper($nome);
+echo "Nome depois do strtoupper =&gt; $nome &lt;br&gt;\n";
+$nome = strtolower($nome);
+echo "Nome depois do strtolower =&gt; $nome &lt;br&gt;\n";
+$nome = "joaquim jose da silva xavier";
+echo "Nome depois do ucwords =&gt; ".ucwords($nome)."&lt;br&gt;\n";
+?&gt;
+
+● ucfirst: colocar primeira letra maiúscula
+&lt;?php
+$nome = "mateus mchwede";
+print("Seu nome é".ucfirst($nome));
+print("Nome: ".strtolower(ucfirst($nome)));
+?&gt;
+
+● ucwords: primeira letra maiúscula em cada palavra
+&lt;?php
+$nome = "mateus schwede";
+print("O nome é ".ucwords($nome));
+?&gt;
+
+● stripos: mesmo que strpos, ignorando maiúsculas e minúsculas
+&lt;?php
+$frase = "Eu aprendo PHP";
+$pos = stripos($frase,"PHP");
+?&gt;
+
+● substr: determinado pedaço da String, com posição inicial e final
+&lt;?php
+$site = "MatBytes blog";
+$sub = substr($site,0,5);
+$sub = substr($site,5); //pega a partir da 5ª letra
+$sub = substr($site,0,-5); //pega as 5 últimas letras
+$sub = substr($site,0,-5,2); //pegas, das 5 últimas letras, as 2 primeiras delas
+?&gt;
+
+● str_repeat: repetir a string x vezes
+&lt;?php
+$txt = str_repeat("PHP",5);
+print($txt);
+?&gt;
+
+● str_replace: altera a palavra x pela y na string
+&lt;?php
+$frase = "Eu estudo PHP";
+$novaFrase = str_replace("PHP","Java", $frase);
+print($novaFrase);
+?&gt;
+
+● ltrim / rtrim / trim
+&lt;?php
+// rtrim e ltrim removem os espacos em branco na direita e esquerda das strings.
+// trim remove de ambos lados
+$var = " IFRS ";
+echo "String original com espacos em branco:&lt;br&gt;";
+echo "=".$var."=&lt;br&gt;";
+echo "Sem espaco em branco do lado direito:&lt;br&gt;";
+echo "=".rtrim($var)."=&lt;br&gt;";
+echo "Sem espaco em branco do lado esquerdo:&lt;br&gt;";
+echo "=".ltrim($var)."=&lt;br&gt;";
+echo "Sem espaco em branco de ambos lados:&lt;br&gt;";
+echo "=".lrim($var)."=&lt;br&gt;\n";
+?&gt;
+
+● str_split: mostrar cada letra em um índice do vetor
+ex:
+$nome = "Maria";
+$vetor = str_split($nome);
+
+● md5
+&lt;?php
+$senha = "MinhaSenha";
+echo md5($senha);
+?&gt;
+
+● ord: mostra o código da letra informada
+ex:
+$letra = "C";
+$cod = ord($letra);
+
+FUNÇÕES PARA ORDENAR ARRAYS:
+● De forma comum
+– asort // Ordem crescente
+– arsort // Ordem decrescente - reversa
+- array_reverse // Ordem decrescente - reversa (array_reverse($lista))
+
+● Com índices (keys)
+– ksort // Ordem crescente
+– krsort // Ordem decrescente - reversa
+
+● Outras
+– count // Conta o numero de elementos
+– sizeof // Igual ao count
+– shuffle // Embaralha um array
+- array_rand // Escolhe x elementos alteatórios (array_rand($lista,2))
+
+ESTRUTURA DE CONDIÇÃO IF:
+&lt;?php
+$valor = -10;
+if($valor == 0) {
+    echo "Zero!";
+} elseif($valor &gt; 0) {
+    echo "Positivo!";
+} else {
+    echo "Negativo!";
+}
+?&gt;
+
+ESTRUTURA DE CONDIÇÃO SWITCH:
+&lt;?php
+$valor = 1;
+// Entra em um dos cases dependendo de $valor
+switch($valor) {
+    case 0:
+        echo "Zero";
+        break;
+    case 1:
+
+    case 2:
+
+    case 3:
+        echo "Um, dois, tres";
+        break;
+    default:
+        echo "Outro";
+}
+?&gt;
+Se remover tdos os breaks, ele segue rodando as condições abaixo até o fim...
+
+ESTRUTURA DE CONDIÇÃO SEGUIDA DE REPETIÇÃO WHILE:
+&lt;?php
+$c = 0;
+while($c &lt; 10) {
+    echo $c."&lt;br&gt;";
+    $c++;
+}
+
+while ($c &lt;= 1000) {
+    #codigo
+    break; // termina o loop
+    #codigo
+    continue; // encerra o loop e volta ao topo da condição
+}
+?&gt;
+
+ESTRUTURA DE REPETIÇÃO SEGUIDA DE CONDIÇÃO:
+&lt;?php
+$d = 10;
+do {
+    echo $d."&lt;br&gt;";
+    $d++;
+} while($d &lt; 20);
+?&gt;
+
+ESTRUTURA DE REPETIÇÃO FOR:
+&lt;?php
+for ($i = 0; $i &lt;= 10; $i++) {
+    echo $i."&lt;br&gt;";
+}
+?&gt;
+
+EMPTY:
+A função empty determina se uma variável é vazia ou não (retorna true ou false).
+Uma variável é considerada empty se ela:
+– recebeu "" (string vazia)
+– recebeu 0 (zero como um valor inteiro)
+– recebeu "0"(zero como uma string)
+– null
+– false
+Ex:
+&lt;?php
+$v1 = "";
+if(empty($v1)) echo "Vazio! ";
+?&gt;
+Obs: o false, somente false empty, na realidade será verdadeiro!
+
+Ex2 (variável atribuída de form post):
+&lt;form action="atividade.php" method="post"&gt;
+    Salário: &lt;input type="number" name="salario" step="0.01"&gt;
+    &lt;input type="submit" value="Calcular"&gt;
+&lt;/form&gt;
+&lt;?php
+if (!empty($_POST['salario'])) {
+    $salario = $_POST['salario'];
+    echo "O salário é $salario";
+    } else {
+    echo "Salário não informado";
+    }
+?&gt;
+
+ISSET:
+A função isset determina se uma variável foi iniciada ou não (retorna true ou false).
+Esta função retorna false se a variável:
+– não foi iniciada
+– recebeu null
+– foi removida com a função unset
+Ex modelo de excessão em forms:
+$nome = isset($_GET['nome'])?$_GET['nome']:"Nome não informado";
+Ex do mesmo no php 7:
+$nome = $_GET['nome'] ?? "Nome não informado";
+Ex:
+&lt;?php
+$v1 = "";
+if(isset($v1)) echo "Existe sim! "; else echo "Nao! ";
+?&gt;
+
+FORMULÁRIOS:
+receber valores de informados em formulários
+&lt;form action="atividade.php" method="post"&gt;
+    Salário: &lt;input type="number" name="salario" step="0.01"&gt;
+    &lt;input type="submit" value="Calcular"&gt;
+&lt;/form&gt;
+&lt;?php
+if (!empty($_POST['salario'])) {
+    $salario = $_POST['salario'];
+    echo "O salário é $salario";
+    } else {
+    echo "Salário não informado";
+    }
+?&gt;
+
+Receber valores radio:
+&lt;form action="exemplo_slide_05.php"&gt;
+    &lt;input type="radio" name="resp" value="sim" checked&gt; Sim &lt;br&gt;
+    &lt;input type="radio" name="resp" value="nao"&gt; Não &lt;br&gt;
+    &lt;input type="radio" name="resp" value="talvez"&gt; Talvez &lt;br&gt;
+    &lt;input type="submit" value="Enviar"&gt;
+&lt;/form&gt;
+&lt;?php
+if (!empty($_GET)) {
+    if (!empty($_GET['resp'])) {
+        $resposta = $_GET['resp'];
+        echo "Resposta: ".$resposta;
+    }
+}
+?&gt;
+
+Receber valores checkbox:
+&lt;form action="exemplo_slide_06.php"&gt;
+    &lt;input type="checkbox" name="bebida1" value="vodka" checked&gt;Vodka&lt;br&gt;
+    &lt;input type="checkbox" name="bebida2" value="whisky"&gt;Whisky&lt;br&gt;
+    &lt;input type="checkbox" name="bebida3" value="cerveja"&gt;Cerveja&lt;br&gt;
+    &lt;input type="submit"&gt;
+&lt;/form&gt;
+&lt;?php
+if (!empty($_GET)) {
+    if (!empty($_GET['bebida1'])) {
+        $bebida1 = $_GET['bebida1'];
+        echo $bebida1."&lt;br&gt;";
+    }
+    if (!empty($_GET['bebida2'])) {
+        $bebida2 = $_GET['bebida2'];
+        echo $bebida2."&lt;br&gt;";
+    }
+// Segue codigo aqui
+}
+?&gt;
+
+Receber valores de password:
+&lt;form action="exemplo_slide_07.php" method="post"&gt;
+    Senha:&lt;input type="password" name="senha"&gt;&lt;br&gt;
+    &lt;input type="submit" value="Enviar"&gt;
+&lt;/form&gt;
+&lt;?php
+if (!empty($_POST)) {
+    if (!empty($_POST['senha'])) {
+        $senha = $_POST['senha'];
+        echo "Senha: ".$senha;
+    }
+}
+?&gt;
+
+Receber dados de textarea:
+&lt;form action="exemplo_slide_08.php"&gt;
+    &lt;textarea name="mensagem" rows="10" cols="30"&gt;&lt;/textarea&gt;
+    &lt;input type="submit"&gt;
+&lt;/form&gt;
+&lt;?php
+if (!empty($_GET)) {
+    if (!empty($_GET['mensagem'])) {
+        $mensagem = $_GET['mensagem'];
+        echo "&lt;/p&gt;".$mensagem."&lt;/p&gt;";
+    }
+}
+?&gt;
+
+Receber dados select box:
+&lt;form action="exemplo_slide_09.php"&gt;
+    &lt;select name="carro"&gt;
+        &lt;option value="volvo"&gt;Volvo&lt;/option&gt;
+        &lt;option value="chevrolet"&gt;Chevrolet&lt;/option&gt;
+        &lt;option value="fiat"&gt;Fiat&lt;/option&gt;
+        &lt;option value="porsche"&gt;Porsche&lt;/option&gt;
+    &lt;/select&gt;
+    &lt;input type="submit"&gt;
+&lt;/form&gt;
+&lt;?php
+if (!empty($_GET)) {
+    if (!empty($_GET['carro'])) {
+        $carro = $_GET['carro'];
+        echo "Carro: ".$carro."&lt;br&gt;";
+    }
+}
+?&gt;
+
+Campos Multivalorados checkbox:
+&lt;form action="exemplo-check.php" method="post"&gt;
+    &lt;input type="checkbox" name="letras[]" value="letraA"&gt; A&lt;br&gt;
+    &lt;input type="checkbox" name="letras[]" value="letraB"&gt; B&lt;br&gt;
+    &lt;input type="checkbox" name="letras[]" value="letraC"&gt; C&lt;br&gt;
+    &lt;input type="submit"/&gt;
+&lt;/form&gt;
+&lt;?php
+if(!empty($_POST['letras'])) {
+    foreach($_POST['letras'] as $letra) {
+        echo $letra.'&lt;br&gt;';
+    }
+}
+?&gt;
+
+Campos Multivalorados select:
+&lt;form action="exemplo-select.php" method="post"&gt;
+    &lt;select name="partidos[]" size="4" multiple="multiple"&gt;
+        &lt;option value="PSDB"&gt;PSDB&lt;/option&gt;
+        &lt;option value="PMDB"&gt;PMDB&lt;/option&gt;
+        &lt;option value="PT"&gt;PT&lt;/option&gt;
+        &lt;option value="PP"&gt;PP&lt;/option&gt;
+    &lt;/select&gt;
+    &lt;input type="submit"/&gt;
+&lt;/form&gt;
+&lt;?php
+if(!empty($_POST['partidos'])) {
+    foreach($_POST['partidos'] as $part) {
+        echo $part.'&lt;br&gt;';
+    }
+}
+?&gt;
+
+ARRAYS: 
+Um array em PHP serve para relacionar índices e valores, sendo que estes índices não são necessariamente números.
+&lt;?php
+$array2 = [4,6,20,200,88,33];
+var_dump($array2);
+
+//array key string
+$listaDiferente = ["foo" =&gt; "bar", "bar" =&gt; "foo"];
+
+//array key diversas
+$lista = [1 =&gt; "a", "1" =&gt; "b", 1.5 =&gt; "c", true =&gt; "d"];
+
+//array key referenciadas
+$lista2 = array("foo" =&gt; "bar", "bar" =&gt; "foo", 100 =&gt; -100, -100 =&gt; 100);
+
+//array key em alguns termos
+$lista3 = array("a", "b", 6 =&gt; "c", "d");
+
+//arrays multidimencionais
+$list4 = array( "foo" =&gt; "bar", 42 =&gt; 24, "multi" =&gt; array("dimensional" =&gt; array("array" =&gt; "foo")));
+$listaBidimencional = array(array(1,2,3), array(4,5,6), array(7,8,9));
+//cada elemento do listaBidimencional tbm é array
+echo $listaBidimencional[0][1]."&lt;br&gt;";
+echo $listaBidimencional[1][1]."&lt;br&gt;";
+echo $listaBidimencional[2][1];
+
+//atribuindo valores internos
+$listaBidimencional[2][0] = $listaBidimencional[1][1];
+
+//criando array com range:
+$c = range(5,20,5); //array inicia no 5, termina no 20, e pula de 5 em 5
+
+//Detalhado Array recursivos e multidimencionais:
+$fruits = array(
+    "frutas" =&gt; array(
+    "a" =&gt; "laranja","b" =&gt; "banana","c" =&gt; "maçã"),
+    "numeros" =&gt; array(1,2,3,4,5,6),
+    "buracos" =&gt; array("primeiro",5 =&gt; "segundo","terceiro",)
+);
+
+// Alguns exemplo de enderecos dos valores do array acima
+echo $fruits["buracos"][5]; // prints "segundo"
+echo $fruits["frutas"]["a"]; // prints "laranja"
+unset($fruits["buracos"][0]); // remove "primeiro"
+
+// Criando um novo array multidimensional
+$sucos["maca"]["verde"] = "bom";
+
+// Array de CONST com define:
+define('ANIMALS', ['dog','cat','bird']);
+echo ANIMALS[1]; // imprime "cat"
+?&gt;
+
+Adicionar Elementos de Array:
+$lista[] = 666;
+$arr["x"] = 42;
+$foo['bar'] = 'Inimigo';
+
+Acessar Elementos de Array:
+echo $lista[0];
+var_dump($list4["multi"]["dimensional"]["array"]);
+
+Remover Elementos de Array:
+unset($list4['foo']);
+unset($list4); //remove todo array
+Obs: Isso modificarão as keys do array
+
+Indexando numericamente elementos do array:
+$array1 = array(10,20,30,40,50);
+$array2 = array_values($array1);
+
+FOREACH: (percorrer array)
+$array1 = array("Feliz","Bom Principio","Tupandi");
+foreach ($array1 as $indice =&gt; $conteudo) {
+    echo $indice." - ".$conteudo."&lt;br&gt;";
+}
+
+//percorrer array bidimencional
+foreach($array1 as $i1 =&gt; $array2) {
+    foreach($array2 as $i2 =&gt; $numero) {
+        echo $numero." ";
+    }
+echo "&lt;br&gt;";
+}
+
+Comparando Arrays: array_diff()
+array_diff ( array $array1 , array $array2 [, array $ ... ] ) : array
+/*
+array1 deve ser comparado
+array2 para comparar
+retorna um array contendo tudo de array1 que não se encontra em array2
+*/
+ex:
+$array1 = array("a" =&gt; "verde", "vermelho", "azul", "vermelho");
+$array2 = array("b" =&gt; "verde", "amarelo", "vermelho");
+$result = array_diff($array1, $array2);
+print_r($result);
+
+Preenchendo Array:
+$handle = opendir('.');
+while (false !== ($file = readdir($handle))) {
+    $files[] = $file;
+}
+closedir($handle);
+
+Ordenando Array por valores:
+//coloca valores do array em ordem crescente
+//altera keys conforme ordenamento
+sort($lista);
+print_r($lista);
+rsort($lista); //em ordem decrescente
+
+Ordenação Associativa:
+//coloca valores em ordem, mas mantém as keys
+asort($lista);
+arsort($lista); //em ordem decrescente
+
+Ordenação por Keys:
+//coloca keys em ordem crescente
+ksort($lista);
+krsort($lista); //em ordem decrescente
+
+Contando itens Array:
+echo count($list4);
+
+Gerenciar últimos elementos Array:
+//LIFO (Left in first out)
+array_push($lista,7); //insere valor 7 no final $lista
+array_pop($lista); //remove último elemento
+
+Gerenciar primeiros elementos Array:
+array_unshift($lista,7); //insere valor 7 no início $lista
+array_shift($lista); //remove primeiro elemento
+
+FUNÇÕES:
+Uma função é uma parte de um programa com um objetivo específico, encapsulado sob uma estrutura única que recebe um conjunto de parâmetros e retorna um dado ou faz uma operação. Uma função é declarada apenas uma vez, mas pode ser chamada diversas vezes.
+ex:
+&lt;?php
+function quadrado($valor) {
+    return $valor * $valor;
+}
+echo quadrado(4);
+
+//função sem retorno
+function escreve($frase) {
+    echo $frase;
+}
+$retorno = escreve("Nada a declarar");
+
+//com parâmetros
+function incrementa($variavel,$valor) {
+    $variavel += $valor;
+}
+$a = 10;
+incrementa($a,20);
+echo $a;
+
+//parâmetros referenciados (altera externamente tbm)
+function incrementa(&$variavel,$valor) {
+    $variavel += $valor;
+}
+$a = 10; //no caso o $a será modificado tbm externamente
+incrementa($a,20);
+echo $a;
+
+//PHP 7: tipagem em parâmetros e retorno da função
+function sum(int $a, int $b): int {
+    return $a + $b;
+}
+echo sum(5,10);
+
+//número variável de argumentos:
+function sum(int ...$numbers): int {
+    $acc = 0;
+    foreach ($numbers as $n) {
+        $acc += $n;
+    }
+    return $acc;
+}
+echo sum(1, 2, 3, 4);
+
+//fornecer argumentos:
+function add($a, $b) {
+    return $a + $b;
+}
+echo add(...[1, 2])."\n";
+$a = [1, 2];
+echo add(...$a);
+
+//retornar referência de uma função:
+function &retorna_referencia() {
+    return $alguma_referencia;
+}
+$nova_referencia =& retorna_referencia();
+
+//funções anônimas:
+$greet = function($name) {
+    printf("Hello %s\r\n", $name);
+};
+$greet('World');
+$greet('PHP');
+
+//função com parâmetros dinâmicos
+function soma() {
+    $p = func_get_arg();
+    $t = func_num_args(); //5 nºs
+    for($i = 0; $i &lt; $tot; $i++) {
+        $s += $p[$i];
+    }
+    return $s;
+}
+$res = soma(3,4,8,1,2); //cada nº possui sua key
+
+//funções em outros arquivos:
+&gt; arquivo 'funcoes.php', recebe funções de outros 2 arquivos
+&gt; arq 'script1.php': include "funcoes.php";
+&gt; arq 'script2.php': include "funcoes.php";
+?&gt;
+
+TRY_CATCH excessões com funções:
+&lt;?php
+declare(strict_types=1);
+function sum(int $a, int $b) {
+    return $a + $b;
+}
+
+try {
+    var_dump(sum(1, 2));
+    var_dump(sum(1.5, 2.5));
+} catch (TypeError $e) {
+    echo 'Error: '.$e-&gt;getMessage();
+}
+?&gt;
+
+INCLUDE:
+A instrução include inclui e avalia o arquivo informado. Esse arquivo (um código com variáveis, estruturas, comandos, etc.) é incluído no escopo do programa, tornando-se disponível a partir da linha que que ocorre a inclusão. Se o arquivo não existir produzirá uma mensagem de advertência (warning), exceto se estiver desabilitado na configuração do PHP.
+ex:
+&lt;?php
+include "vars.php";
+include "fat.php";
+echo fatorial($a)."&lt;br&gt;\n";
+echo fatorial($b);
+
+//condicinal de conexão
+if (include('vars.php') == TRUE) {
+    echo 'OK';
+}
+?&gt;
+
+REQUIRE:
+&lt;?php
+require 'somefile.php';
+?&gt;
+
+INCLUDE vs REQUIRE:
+Ambos incluem arquivos com códigos externos. Caso o outro arquivo não inacessível, o include ñ incluirá e continuará o código. O require vai dar erro.
+Include: incluir (opcional, qntas vezes quiser)
+Require: requerir (obrigatório, qntas vezes quiser)
+include_once: inclui somente se ñ fora já incluido (inclui 1 vez só)
+require_once: requere somente se ñ fora já requerido (requere 1 vez só)
+
+ARQUIVOS REMOTOS:
+//pegando titulo de página remota
+&lt;?php
+$file = fopen ("http://www.example.com/", "r");
+if (!$file) {
+    echo "&lt;p&gt;Incapaz de abrir arquivo remoto.\n";
+    exit;
+}
+
+while (!feof ($file)) {
+    $line = fgets ($file, 1024);
+    /* Isso só funciona se o título e suas tags estiverem na mesma linha */
+    if (eregi ("&lt;title&gt;(.*)&lt;/title&gt;", $line, $out)) {
+        $title = $out[1];
+        break;
+    }
+}
+fclose($file);
+?&gt;
+
+//guardando informações em servidor remoto
+&lt;?php
+$file = fopen ("ftp://ftp.example.com/incoming/outputfile", "w");
+if (!$file) {
+    echo "&lt;p&gt;Incapaz de abrir arquivo remoto para escrita.\n";
+    exit;
+}
+/* Escreva informação aqui. */
+fwrite ($file, $_SERVER['HTTP_USER_AGENT'] . "\n");
+fclose ($file);
+?&gt;
+
+REDIRECIONAMENTO COM HEADER:
+&lt;?php
+header("Location:exemplo_slide_12B.php");
+// O codigo que vem após não sera executado
+?&gt;
+
+COOKIES & SESSÕES:
+● Problema: O protocolo HTTP não armazena informações de estado, ou seja, ele trata de forma independente cada requisição de pagina recebida.
+● Solução: Usar cookies e sessões, que servem para manter informações sobre os usuarios enquanto eles navegam no site.
+– Cookies são arquivos texto armazenados no computador do usuario, que podem ser recuperados posteriormente pelo servidor.
+– Sessões são recursos que podemos usar para manter uma conexão com o usuario enquanto ele navega no site.
+● Algumas utilidades de cookies e sessões:
+– Manter usuarios autenticados
+– Carrinhos de compras
+– Exibição de anúncios
+– Personalização de conteúdo e layouts
+
+COOKIES:
+● Um cookie é formado por um par nome/valor: possui um nome pelo qual é referenciado e um valor associado.
+● Permitem compartilhar dados entre diferentes paginas e diferentes acessos (dias e horarios distintos).
+● Cookies podem ser mantidos na maquina do usuario por varios dias, diferente de sessões!
+● Um cookie é enviado junto com o header, logo você deve criar ele antes de gerar qualquer conteúdo da pagina.
+ex:
+&lt;?php
+setcookie("pais","Spain",time()+15); //nome,valor,validade
+?&gt;
+&lt;p&gt;Os cookies foram criados.&lt;/p&gt;
+&lt;p&gt;&lt;a href="exemplo_slide_18.php"&gt;Clique ... &lt;/a&gt;&lt;/p&gt;
+
+Apagar Cookie:
+setcookie("pais"); //cookie somente com o nome
+Ex:
+&lt;p&gt;
+&lt;?php
+if($_COOKIE["pais"] == null) {
+    echo "pais == null&lt;br&gt;";
+} else {
+    echo $_COOKIE["pais"]."&lt;br&gt;";
+}
+?&gt;
+&lt;/p&gt;
+
+SESSÃO:
+● Uma sessão é um período de tempo no qual o usuário navega em um site.
+● Em uma sessão podemos registrar diversas variáveis, que ficarão gravadas em arquivo no servidor e poderão ser acessadas enquanto o site estiver aberto. Para criar uma sessão no PHP devemos chamar a função session_start(). Para criar variáveis na sessão devemos inserir valores no array $_SESSION.
+&lt;?php
+session_start();
+if(!isset($_SESSION['contador'])) {
+    $_SESSION['contador'] = 1;
+} else {
+    $_SESSION['contador']++;
+}
+echo $_SESSION['contador'];
+?&gt;
+
+Apagando variáveis da sessão:
+&lt;?php
+session_start();
+$_SESSION['contador'] = 1000;
+unset($_SESSION['contador']);
+if($_SESSION['contador'] == null) {
+    echo "Contador nulo!";
+}
+?&gt;
+
+Destruindo sessão:
+session_destroy();
+
+SESSÕES MÚLTIPLAS (ARRAYS):
+&lt;?php
+session_start(['cache_limiter' =&gt; 'private','read_and_close' =&gt; true,]);
+?&gt;
+Ex:
+&lt;?php
+session_start();
+if(!isset($_SESSION['contador'])) {
+    $_SESSION['contador'] = 1;
+} else {
+    $_SESSION['contador']++;
+}
+?&gt;
+</code></pre></small><br>
+            <h4>OOP</h4>
+<small><pre><code>
+CLASSE BASE EM PHP:
+
+-- CLASSE PRODUTO.CLASS.PHP --
+&lt;?php
+    class Produto {
+        //atributos
+        private $codigo;
+        private $descricao;
+        //Construtor
+        function Produto($c,$d) {
+            $this-&gt;codigo = $c;
+            $this-&gt;descricao = $d;
+        }
+        //Construtor 2
+        function __construct() {
+            $this-&gt;setCodigo(0);
+            $this-&gt;setDescricao("Bola");
+        }
+        //Get
+        function getCodigo() {return $this-&gt;codigo;}
+        //Set
+        function setCodigo($c) {$this-&gt;codigo = $c;
+        }
+    }
+?&gt;
+
+-- INDEX.PHP --
+&lt;?php
+    require_once 'Produto.class.php';
+    $p1 = new Produto(33,"Vassoura");
+    $p1-&gt;setCodigo(03);
+    $p1-&gt;codigo = 4; //se visibilidade for public
+    $p1-&gt;getCodigo();
+    print_r($p1);
+    echo "O produto {$p1-&gt;getCodigo()} é um {$p1-&gt;getDescricao()}!";
+?&gt;
+
+Obs1: O que vier após o return(nos métodos), nunca será executado!
+Obs2: Caso não seja definido um Construtor na classe, todas as propriedades da mesma serão inicializadas com null!
+Obs3: Crie uma pasta, para armazenar as classes com a extensão .class.php
+ex: require_once 'classes/Produto.class.php';
+
+
+COMPARAÇÃO DE OBJETOS:
+
+-- Objetos iguais:
+(mesmos atributos e valores, e instâncias da mesma classe)
+&lt;?php
+    $prod1 = new Produto();
+    $prod2 = new Produto();
+    $prod1-&gt;setCodigo(200);
+    $prod2-&gt;setCodigo(200);
+    if($prod1 == $prod2) {echo "Iguais"}
+    else {echo "Diferentes"};
+?&gt;
+
+-- Objetos idênticos:
+(variáveis idênticas e se referirem ao mesmo objeto, da mesma classe)
+&lt;?php
+    $prod1 = new Produto();
+    $prod2 = new Produto();
+    $prod1-&gt;setCodigo(200);
+    $prod2-&gt;setCodigo(200);
+    if($prod1 === $prod2) {echo "Identicos"}
+    else {echo "Diferentes"};
+?&gt;
+
+
+INDUÇÃO DE TIPOS:
+Para induzir um tipo no método, inserimos o nome da classe na frente da variável
+(para registrar um país no continente, preciso já ter um país criado)
+
+-- Class Continente.class.php
+&lt;?php
+    class Continente() {
+        function __construct() {$this-&gt;paises = array();}
+        function registrar(Pais $_pais) {$this-&gt;paises[] = $_pais;}
+        function imprimirPaises() {
+            foreach($this-&gt;paises as $p) {echo $p-&gt;nome."&lt;br&gt;";}
+        }
+    }
+?&gt;
+
+-- Classe Pais.class.php
+&lt;?php
+    class Pais() {
+        public $nome;
+        function __construct($n) {$this-&gt;nome = $n;}
+    }
+?&gt;
+
+-- Index.php
+&lt;?php
+    require_once 'Continente.class.php';
+    require_once 'Pais.class.php';
+
+    $c1 = new Continente();
+    $p1 = new Pais("Brasil");
+    $c1-&gt;registrar($p1);
+    $p2 = new Pais("Alemanha");
+    $c1-&gt;registrar($p2);
+    $c1-&gt;registrar("Argentina"); //erro, pois só aceita objetos Pais
+    $c1-&gt;imprimirPaises();
+?&gt;
+
+
+ENCAPSULAMENTO (Interface):
+
+-- INTERFACE Controlador.class.php --
+&lt;?php
+    interface Controlador {
+        abstract function ligar();
+        abstract function desigar();
+    }
+?&gt;
+
+-- CLASSE Controle.class.php --
+&lt;?php
+    require_once 'Controlador.class.php';
+    class Controle implements Controlador {
+        //atributos
+        private $ligado, $desligado;
+
+        //Construtor
+        function __construct() {
+            $this-&gt;ligado = false;
+            $this-&gt;desligado = true;
+        }
+
+        //Gets & Sets
+
+        //Métodos Abstratos implementados
+        function ligar() {
+            $this-&gt;setLigado(true);
+        }
+        function desigar() {
+            $this-&gt;setDesligado(true);
+        }
+    }
+?&gt;
+
+-- INDEX.PHP --
+&lt;?php
+    require_once 'Controle.class.php';
+    $c = new Controle();
+    $c-&gt;ligar();
+    $c-&gt;getLigado();
+?&gt;
+
+
+AGREGAÇÃO (tem um...) & OBJETOS COMPOSTOS (array):
+
+-- CLASSE Lutador.class.php --
+&lt;?php
+    class Lutador {
+        private $nome, $vitorias, $empates, $derrotas;
+
+        function __construct($n,$v,$e,$d) {
+            $this-&gt;nome = $n;
+            $this-&gt;vitorias = $v;
+            $this-&gt;empates = $e;
+            $this-&gt;derrotas = $d;
+        }
+
+        //gets e sets
+
+        function ganharLuta() {
+            $this-&gt;setVitorias($this-&gt;getVitorias()++);
+        }
+        function perderLuta() {
+            $this-&gt;setDerrotas($this-&gt;getDerrotas()++);
+        }
+        function empatarLuta() {
+            $this-&gt;setEmpates($this-&gt;getEmpates()++);
+        }
+    }
+?&gt;
+
+-- CLASSE Luta.class.php --
+&lt;?php
+    require_once 'Lutador.class.php';
+    class Luta {
+        private $desafiado, $desafiante;
+
+        //gets e sets de Lutador
+
+        function lutar($l1,$l2) {
+            $this-&gt;desafiado = $l1;
+            $this-&gt;desafiante = $l2;
+            $vencedor = rand(0,2);
+            switch($vencedor) {
+                case 0:
+                    $this-&gt;desafiado-&gt;empatarLuta();
+                    $this-&gt;desafiante-&gt;empatarLuta();
+                break;
+                case 1:
+                    $this-&gt;desafiado-&gt;ganharLuta();
+                    $this-&gt;desafiante-&gt;perderLuta();
+                break;
+                case 2:
+                    $this-&gt;desafiado-&gt;perderLuta();
+                    $this-&gt;desafiante-&gt;ganharLuta();
+                break;
+            }
+        }
+    }
+?&gt;
+
+-- INDEX.PHP --
+&lt;?php
+    require_once 'Luta.class.php';
+    require_once 'Lutador.class.php';
+
+    // agregação: luta 1 &lt;-&gt; 2 lutadores
+    $l = array();
+    $l[0] = new Lutador("Max",11,2,1);
+    $l[1] = new Lutador("Marc",8,2,3);
+
+    $ufc01 = new Luta($l[0],$l[1]);
+    $ufc01-&gt;lutar();
+?&gt;
+
+
+HERANÇA (extends):
+
+-- CLASSE ABSTRATA Pessoa.class.php --
+&lt;?php
+    //abstração - classe/métodos abstratos (final)
+    abstract class Pessoa {
+        private $nome;
+        private $idade;
+        final function fazerAniver() {
+            $this-&gt;idade++;
+        }
+        //gets e sets de Pessoa
+    }
+?&gt;
+
+-- CLASSE FILHA Aluno.class.php --
+&lt;?php
+    require_once 'Pessoa.class.php';
+    class Aluno extends Pessoa {
+        private $matricula;
+        private $curso;
+        function pgtoMensal() {
+            echo "pago!";
+        }
+        //gets e sets de Aluno
+    }
+?&gt;
+
+-- CLASSE FILHA Bolsista.class.php --
+&lt;?php
+    require_once 'Aluno.class.php';
+    class Bolsista extends Aluno { //herança
+        private $bolsa;
+        //sobreposição (polimorfismo)
+        function ptgoMensal() {
+            echo "pago com desconto!";
+        }
+        //gets e sets de Bolsista
+    }
+?&gt;
+
+-- INDEX.PHP --
+&lt;?php
+    require_once 'Pessoa.class.php';
+    require_once 'Aluno.class.php';
+    require_once 'Bolsista.class.php';
+
+    $a1 = new Aluno();
+    $a1-&gt;setNome("Pedro");
+    $b1 = new Bolsista();
+    $b1-&gt;setNome("João");
+    $b1-&gt;pgtoMensal();
+?&gt;
+
+
+POLIMORFISMO1 (Sobreposição-Sobrescrita):
+"Métodos com mesmo nome e lista de parâmetros, conteúdo interno diferente na subclasse"
+
+-- CLASSE ABSTRATA Animal.class.php --
+&lt;?php
+    abstract class Animal {
+        protected $peso;
+        protected $idade;
+        protected $membros;
+        //método abstrato:
+        abstract function locomover();
+        //gets e sets de Animal
+    }
+?&gt;
+
+-- CLASSE FILHA Mamifero.class.php --
+&lt;?php
+    require_once 'Animal.class.php';
+    class Mamifero extends Animal {
+        private $corPele;
+        function locomover() {
+            echo "correndo";
+        }
+        //gets e sets de Mamifero
+    }
+?&gt;
+
+-- CLASSE FILHA Peixe.class.php --
+&lt;?php
+    require_once 'Animal.class.php';
+    class Peixe extends Animal {
+        private $corEscama;
+        //sobrescrita no método:
+        function locomover() {
+            echo "nadando";
+        }
+        //gets e sets de Peixe
+    }
+?&gt;
+
+-- INDEX.PHP --
+&lt;?php
+    require_once 'Mamifero.class.php';
+    require_once 'Peixe.class.php';
+
+    $m1 = new Mamifero();
+    $m1-&gt;locomover();
+    $p1 = new Peixe();
+    p1-&gt;locomover(); //mesmo método, resultado diferente (polimorfismo)!
+?&gt;
+
+
+POLIMORFISMO2 (Sobrecarga):
+"Métodos com mesmo nome, lista de parâmetros diferentes (geralmente na mesma classe)"
+O php não tem suporte pra Sobrecarga, mas há soluções alternativas!
+=&gt; Solução: métodos similares de conteúdo, com nomes diferentes (emitirSom1(),emitirSom2())
+
+-- CLASSE ABSTRATA Animal.class.php --
+&lt;?php
+    abstract class Animal {
+        protected $peso;
+        function emitirSom();
+        //gets e sets de Animal
+    }
+?&gt;
+
+-- CLASSE FILHA Mamifero.class.php --
+&lt;?php
+    require_once 'Animal.class.php';
+    class Mamifero extends Animal {
+        function emitirSom() {
+            echo "Som de mamífero";
+        }
+    }
+?&gt;
+
+-- CLASSE FILHA Lobo.class.php --
+&lt;?php
+    require_once 'Mamifero.class.php';
+    class Lobo extends Mamifero {
+        function emitirSom() {
+            echo "Auuu!";
+        }
+    }
+?&gt;
+
+-- CLASSE FILHA Cachorro.class.php --
+&lt;?php
+    require_once 'Lobo.class.php';
+    class Cachorro extends Lobo {
+        function emitirSom() {
+            echo "Au Au Au!";
+        }
+    }
+?&gt;
+
+-- INDEX.PHP --
+&lt;?php
+    require_once 'Mamifero.class.php';
+    require_once 'Lobo.class.php';
+    require_once 'Cachorro.class.php';
+
+    $l1 = new Lobo();
+    $l1-&gt;emitirSom();
+    $c1 = new Cachorro();
+    $c1-&gt;emitirSom();
+?&gt;
+</code></pre></small><br>
+            <h4>PDO</h4>
+<small><pre><code>
+-- BANCO DE DADOS (Mysql) --
+CREATE DATABASE aula;
+CREATE TABLE Pessoa (
+    id INTEGER AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(20) NOT NULL,
+    sobrenome VARCHAR(20) NOT NULL
+);
+INSERT INTO Pessoa (nome,sobrenome) VALUES ('Carlos','Garcia'), ('Maria','Antunes'), ('Cassio','Silva');
+
+
+CONEXÃO PHP COM MYSQL:
+&lt;?php
+    $db = new PDO('mysql:host=localhost;dbname=aula;charset=utf8','root','');
+    $db-&gt;setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+?&gt;
+
+
+SELECT MODO 1: pouco usado, requer o dobro de memória
+&lt;?php
+    //código conexão com bd aqui
+    $resultado = $db-&gt;query('SELECT * FROM Pessoa');
+    foreach($resultado as $linha) {
+        echo $linha['nome'].' '.$linha['sobrenome']."&lt;br&gt;";
+    }
+?&gt;
+
+SELECT MODO 2: pouco usado, requer o dobro de memória
+&lt;?php
+    //código conexão com bd aqui
+    $resultado = $db-&gt;query('SELECT * FROM Pessoa');
+    foreach($resultado as $linha) {
+        echo $linha[0].' '.$linha[1].' '.$linha[2]."&lt;br&gt;";
+    }
+?&gt;
+
+SELECT MODO 3: Ideal, indexação única de array, não gasta muita memória
+&lt;?php
+    //código conexão com bd aqui
+    $resultado = $db-&gt;query('SELECT * FROM Pessoa');
+    // $linhas = $resultado-&gt;fetchAll(PDO::FETCH_NUM);
+    // $linhas = $resultado-&gt;fetchAll(PDO::FETCH_BOTH);
+    $linhas = $resultado-&gt;fetchAll(PDO::FETCH_ASSOC);
+    print_r($linhas);
+?&gt;
+
+Indexação de Array no Select:
+(parâmetros do fetchAll)
+● PDO::FETCH_ASSOC: (ideal) Retorna linhas do BD como array associativo indexado com nomes de colunas do BD.
+● PDO::FETCH_NUM: Retorna linhas do BD como array indexado de modo numérico, onde 0 é o índice da primeira coluna, 1 é o índice da segunda coluna, etc...
+● PDO::FETCH_BOTH: Duplica dados, retornando linhas tanto como um array associativo como um array numérico. Ocupa dobro da memória.
+
+
+CONTANDO LINHAS:
+(Usado para retornar se há resultados no Select, linhas &gt; 0)
+&lt;?php
+    //conexão com bd aqui...
+    $resultado = $db-&gt;query('SELECT * FROM Pessoa');
+    $numeroLinhas = $resultado-&gt;rowCount();
+    echo $numeroLinhas.' linhas foram selecionadas!';
+?&gt;
+
+
+INSERT DIRETO: (sem variáveis)
+&lt;?php
+    //conexão com bd aqui...
+    $numeroLinhasInseridas = $db-&gt;exec("INSERT INTO Pessoa (nome,sobrenome) VALUES ('Maria','Silva')");
+    echo $numeroLinhasInseridas." linha foi inserida.";
+?&gt;
+
+
+UPDATE DIRETO: (sem variáveis)
+&lt;?php
+    //conexão com bd aqui...
+    $numeroLinhasAtualizadas = $db-&gt;exec("UPDATE Pessoa SET nome='Mike' WHERE sobrenome='Silva'");
+    echo $numeroLinhasAtualizadas." linhas foram atualizadas.";
+?&gt;
+
+
+DELETE DIRETO: (sem variáveis)
+&lt;?php
+    //conexão com bd aqui...
+    $numeroLinhasApagadas = $db-&gt;exec("DELETE FROM Pessoa WHERE sobrenome='Silva'");
+    echo $numeroLinhasApagadas." linhas foram apagadas.";
+?&gt;
+
+
+ERROS EM PDO:
+PDO::ERRMODE_SILENT: Não exibe nenhuma mensagem de erro, você deve chamar o método $db-&gt;errorInfo() para obter informações sobre os erros ocorridos.
+PDO::ERRMODE_WARNING: Apenas exibe warnings na tela, mas segue execução.
+PDO::ERRMODE_EXCEPTION: Lança uma PDOException – é o modo que você vai querer usar pois permite que os erros sejam tratados.
+
+&lt;?php
+    try {
+        // Código que pode vir a gerar um erro
+    } catch (PDOException $exception) {
+        // Código para tratar erro caso aconteça
+    }
+?&gt;
+
+Exemplo:
+&lt;?php
+    //conexão com bd aqui...
+    try {
+        $db-&gt;query('THUNDERCAT');
+    } catch (PDOException $exception) {
+        echo "&lt;p&gt;&lt;b&gt; Occorreu um erro! &lt;/b&gt;&lt;/p&gt;";
+        echo "&lt;b&gt;Mensagem&lt;/b&gt;: ".$exception-&gt;getMessage();
+    }
+    echo "Programa segue normalmente depois do erro.";
+?&gt;
+
+PREPARED STATEMENTS:
+Realizar queries com variáveis de forms
+
+Modelo 1:
+&lt;?php
+    //código conexão com bd
+    $r = $db-&gt;prepare('SELECT * FROM Pessoa WHERE id=? OR nome=?');
+    $id = 1;
+    $nome = 'Maria';
+    $r-&gt;execute(array($id, $nome));
+    $linhas = $r-&gt;fetchAll(PDO::FETCH_ASSOC);
+    foreach($linhas as $linha) {
+        echo $linha['id'].' '.$linha['nome'].' '.$linha['sobrenome']."&lt;br&gt;";
+    }
+?&gt;
+
+Modelo 2: (mais usado)
+&lt;?php
+    //código conexão com bd
+    $r = $db-&gt;prepare( 'SELECT * FROM Pessoa WHERE id=:id OR nome=:nome');
+    $id = 2;
+    $nome = 'Marcela';
+    $r-&gt;execute(array(':id' =&gt; $id, ':nome' =&gt; $nome));
+    $linhas = $r-&gt;fetchAll(PDO::FETCH_ASSOC);
+    foreach($linhas as $linha) {
+        echo $linha['nome'].' '.$linha['sobrenome']."&lt;br&gt;";
+    }
+?&gt;
+
+Além dos arrays, podemos usar o método bindValue para especificar valores a serem inseridos na consulta. Qndo usamos o bindValue, temos que especificar o tipo de dado para o argumento ? ou :arg. Os possíveis tipos de dados são:
+● PDO::PARAM_INT
+● PDO::PARAM_STR
+● PDO::PARAM_BOOL
+Ex:
+&lt;?php
+    //código conexão com bd
+    $r = $db-&gt;prepare('SELECT * FROM Pessoa WHERE id=? OR nome=?');
+    $id = 1;
+    $nome = 'Maria';
+    $r-&gt;bindValue(1, $id, PDO::PARAM_INT);
+    $r-&gt;bindValue(2, $nome, PDO::PARAM_STR);
+    $r-&gt;execute();
+    $linhas = $r-&gt;fetchAll(PDO::FETCH_ASSOC);
+    foreach($linhas as $linha) {
+        echo $linha['nome'].' '.$linha['sobrenome']."&lt;br&gt;";
+    }
+?&gt;
+
+&lt;?php
+    //código conexão com bd
+    $r = $db-&gt;prepare('SELECT * FROM Pessoa WHERE id=:id OR nome=:nome');
+    $id = 2;
+    $nome = 'Marcela';
+    $r-&gt;bindValue(':id', $id, PDO::PARAM_INT);
+    $r-&gt;bindValue(':nome',$nome, PDO::PARAM_STR);
+    $r-&gt;execute();
+    $linhas = $r-&gt;fetchAll(PDO::FETCH_ASSOC);
+?&gt;
+
+
+INSERT COM VARIÁVEIS:
+&lt;?php
+    //código conexão com bd
+    $nome = 'Jair';
+    $sobrenome = 'Kobe';
+    $r = $db-&gt;prepare('INSERT INTO Pessoa(nome,sobrenome) VALUES (:nome,:sobrenome)');
+    $r-&gt;execute(array(':nome'=&gt;$nome,':sobrenome'=&gt;$sobrenome));
+    if($r-&gt;rowCount() &gt; 0) {
+        echo 'Linha inserida!';
+    }
+?&gt;
+
+
+UPDATE COM VARIÁVEIS:
+&lt;?php
+    //código conexão com bd
+    $id = 4;
+    $nome = 'Charlie';
+    $r = $db-&gt;prepare('UPDATE Pessoa SET nome=? WHERE id&gt;?');
+    $r-&gt;execute(array($nome, $id));
+    $numeroLinhas = $r-&gt;rowCount();
+    echo $numeroLinhas.' linhas atualizadas!';
+?&gt;
+
+
+DELETE COM VARIÁVEIS:
+&lt;?php
+    //código conexão com bd
+    $id = 4;
+    $r = $db-&gt;prepare('DELETE FROM Pessoa WHERE id&gt;?');
+    $r-&gt;execute(array($id));
+    $numeroLinhas = $r-&gt;rowCount();
+    echo $numeroLinhas.' linhas removidas!';
+?&gt;
+</code></pre></small><br>
+            <h4>PDO OOP</h4>
+<small><pre><code>
+-- COM 1 CLASSE --
+
+//Banco modelo:
+CREATE DATABASE aula16;
+USE aula16;
+CREATE TABLE Pessoa (
+    id INTEGER AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(20) NOT NULL,
+    sobrenome VARCHAR(20) NOT NULL
+);
+INSERT INTO Pessoa (nome,sobrenome) VALUES ('Carlos','Garcia'),('Maria','Antunes'),('Cassio','Silva'),('Marcela','Moraes');
+
+//Classe Pessoa.class.php
+&lt;?php
+    class Pessoa {
+        private $id;
+        private $nome;
+        private $sobrenome;
+
+        public function info() {
+            $r = '#'.$this-&gt;id;
+            $r .= ':'.$this-&gt;nome;
+            $r .= ' '.$this-&gt;sobrenome;
+            return $r;
+        }
+    }
+?&gt;
+O nome dos atributos da classe deve coincidir com o nome dos campos da tabela!
+
+&lt;?php
+    $db = new PDO('mysql:host=localhost;dbname=aula16;charset=utf8','root','');
+    $query = "SELECT id, nome, sobrenome FROM Pessoa";
+    $r = $db-&gt;query($query);
+    $r-&gt;setFetchMode(PDO::FETCH_CLASS,'Pessoa');
+    while($pessoa = $r-&gt;fetch()) {echo $pessoa-&gt;info()."&lt;br&gt;\n";}
+?&gt;
+
+
+-- COM 2 CLASSES --
+
+//Banco modelo:
+create database aula18;
+use aula18;
+create table equipe (
+    id integer not null primary key,
+    nome varchar(30) not null,
+    cidade varchar(30) not null
+);
+create table atleta (
+    id integer not null primary key,
+    nome varchar(30) not null,
+    sobrenome varchar(30) not null,
+    posicao varchar(30) not null,
+    equipe_id integer not null,
+    constraint equipe_fk foreign key (equipe_id) references equipe(id)
+);
+
+//Classe Equipe.class.php
+&lt;?php
+    class Equipe {
+        private $id, $nome, $cidade, $atletas;
+        public function getId() {return $this-&gt;id;}
+        public function getNome() {return $this-&gt;nome;}
+        public function getCidade() {return $this-&gt;cidade;}
+        public function getAtletas() {return $this-&gt;atletas;}
+        public function addAtleta(Atleta $atleta) {$this-&gt;atletas[] = $atleta;}
+    }
+?&gt;
+//$atletas: Atributo array para manter com a tabela 'atletas'
+
+//Classe Atleta.class.php
+&lt;?php
+    class Atleta {
+        private $id, $nome, $sobrenome, $posicao, $equipe_id;
+        public function getId() {return $this -&gt;id;}
+        public function getNome() {return $this -&gt;nome;}
+        public function getSobrenome() {return $this -&gt;sobrenome;}
+        public function getPosicao() {return $this -&gt;posicao;}
+        public function getEquipeID() {return $this -&gt;equipe_id;}
+    }
+?&gt;
+
+//index.php
+&lt;?php
+    $equipes = array();
+    $db = new PDO('mysql:host=localhost;dbname=aula18','root','');
+    $select1 = 'SELECT id, nome, cidade FROM Equipe';
+    $r1 = $db-&gt;query($select1);
+    $r1-&gt;setFetchMode(PDO::FETCH_CLASS,'Equipe');
+    $select2 = 'SELECT id, nome, sobrenome, posicao FROM Atleta WHERE equipe_id = :id';
+    $r2 = $db-&gt;prepare($select2);
+    while ($equipe = $r1-&gt;fetch()) {
+        $r2-&gt;bindValue(':id',$equipe-&gt;getId(),PDO::PARAM_INT);
+        $r2-&gt;execute();
+        $r2-&gt;setFetchMode(PDO::FETCH_CLASS,'Atleta');
+        while ($atleta = $r2-&gt;fetch()) {$equipe-&gt;addAtleta($atleta);}
+        $equipes[] = $equipe;
+    }
+?&gt;
+</code></pre></small><br>
+            <h4>MVC</h4>
+<small><pre><code>
+--- INDEX ---
+&lt;?php
+    include '/mvcexemplo/Controller/Controller.php';
+    include '/mvcexemplo/View/View.php';
+    include '/mvcexemplo/Model/Model.php';
+
+    $acao = $_GET['acao'];
+
+    if(isset($acao) && $acao == 'login'){
+        $controller = new Controller();
+        $controller-&gt;login();
+    } else {
+        $view = new View();
+        $view-&gt;login(); 
+    }
+?&gt;
+
+
+--- VIEW ---
+&lt;?php
+    class View {
+        public function login($validacao) { 
+            if(!isset($validacao)) {
+                echo ' 
+                    &lt;h3&gt;Login&lt;/h3&gt;
+                    &lt;form action='index.php' method ='post'&gt;
+                        &lt;input type='text' placeholder='Usuário' name='usuario'&gt;
+                        &lt;input type='password' placeholder='Senha' name='senha'&gt;
+                        &lt;input type='submit' value='Entrar'&gt;
+                    &lt;/form&gt;
+                ';
+            } else {echo '&lt;h3&gt;'.$validacao.'&lt;/h3&gt;';}
+        }
+    }
+?&gt;
+
+
+--- CONTROLLER ---
+&lt;?php
+    include '/../Model/Model.php';
+    class Controller {
+        public function login() {
+            $user = $_POST['usuario'];
+            $pass = $_POST['senha'];
+            $model = new Model();
+            $validacao = $model-&gt;validaDados($user,$pass);
+            $view = new View();
+            $view-&gt;login($validacao); 
+        }
+    }
+?&gt;
+
+
+--- MODEL ---
+&lt;?php
+    class Model {
+        public function validaDados($user,$pass) {
+            if(($user!="admin") and ($pass!="adm")) {return 'Login incorreto'; }
+            else {return 'Logado com sucesso';}
+        }
+    }
+?&gt;
+</code></pre></small><br>
+            <h4>PHP 8</h4>
+<small><pre><code>
+<b>--- Construct Promotion ---</b>
+Criar __construct passando atributos e relacionando-os diretamente dentro do método
+
+-- Antes:
+class Carro {
+    private string $marca;
+    private string $modelo;
+    private float $motor;
+
+    public function __construct($marca,$modelo,$motor=1.4) {
+        $this-&gt;marca = $marca;
+        $this-&gt;modelo = $modelo;
+        $this-&gt;motor = $motor;
+    }
+}
+
+-- Depois:
+class carro {
+    public fuction __construct(private string $marca, private string $modelo, private float motor=1.4){}
+}
+
+
+<b>--- Named Arguments ---</b>
+Somente argumentos necessários são informados, em qualquer ordem, inclusive à funções nativas.
+
+-- Antes:
+function desconto ($idCliente, $pSaude=false, $vRefeicao=false, vTransporte=false){}
+
+$descCli1 = desconto(1,false,true);
+$descCli2 = desconto(2,false,false,true);
+
+-- Depois:
+function desconto ($idCliente, $pSaude=false, $vRefeicao=false, vTransporte=false){}
+
+$descCli1 = desconto(idCliente:1, vRefeicao:true);
+$descCli2 = desconto(idCliente:2, vTransporte:true);
+$setcookie(name:'testing', expires:time()+60*60*10); //Argumento value não foi informado
+
+
+<b>--- Union Types ----</b>
+União de tipos especificada previamente pela linguagem
+
+-- Antes:
+class Numero {
+    /** @var int|float */
+    private $num;
+    /** @param float|int $num */
+    public function __construct($num) {
+        $this-&gt;num = $num;
+    }
+}
+new Numero('NaN'); //Ok
+
+-- Depois:
+class Numero {
+    public function __construct(private int|float $num){}
+}
+new Numero('NaN'); //TypeError
+
+
+<b>--- Mixed Types ---</b>
+Engloba todos os tipos possíveis de Union Types para a passagem de argumentos e retorno de funções.
+
+-- Antes:
+function addValor($val){}
+
+-- Depois:
+//Union Types
+function addValor(array|bool|callable|int|float|null|object|resource|string $val){}
+
+//Mixed Types
+function addValor(mixed $val){}
+
+
+<b>--- Atributes ---</b>
+Substitui o phpDoc por referência nativa na linguagem para routes, validações e propriedades de tableBD
+
+-- Antes:
+class UserController {
+    /**
+    * @Route("/usuarios/{id}", methods={"GET"})
+    */
+    public function get($id){}
+}
+
+-- Depois:
+class UserController {
+    #[Route("usuarios/{id}", methods:["GET"])] //Métadados estruturados
+    public function get($id){}
+}
+
+
+<b>--- Operador NullSafe ---</b>
+Verificação de objetos nulos de forma simplificada.
+
+-- Antes:
+if($sessao !== null) {
+    $user = $sessao-&gt;user;
+    if($user !== null) {
+        $pais = $user-&gt;getPais();
+        if($pais !== null) {
+            $estado = $pais-&gt;getEstado();
+        }
+    }
+}
+
+-- Depois:
+$estado = $sessao?-&gt;user?-&gt;getPais()?-&gt;getEstado();
+
+
+<b>--- Match Expressions ---</b>
+-- Antes:
+switch($status) {
+    case 200:
+    case 300:
+        $msg = null;
+        break;
+    case 400:
+        $msg = 'Não encontrado ou não permitido';
+        break;
+    case 500:
+        $msg = 'Erro de servidor';
+        break;
+    default:
+        $msg = 'Erro desconhecido';
+        break;
+}
+
+-- Depois:
+$msg = match($status) {
+    200,300 =&gt; null,
+    400 =&gt; 'Não encontrado ou não permitido',
+    500 =&gt; 'Erro de servidor',
+    default =&gt; 'Erro desconhecido',
+};
+
+
+<b>--- Comparação entre strings e números ---</b>
+-- Antes: 0 == 'zero' //true
+-- Depois: 0 == 'zero' //false
+
+
+<b>--- Funções ---</b>
+- <i>str_contains(string $v1, string $v2):bool</i> //buscas dentro de string, verica se v2 encontra-se em v1
+- <i>str_starts_with(string $v1, string $v2):bool</i> //Se v1 inicia com v2
+- <i>str_ends_with(string $v1, string $v2):bool</i> //Se v1 finaliza com v2
+- <i>get_debug_type()</i> //Similar à gettype(), retorna tipo de var, mais ágil
+- <i>fdiv(4.5,2.8)</i> //Divisão por float com resultado decimal preciso
+
+
+<b>--- Arrays com índices negativos ---</b>
+$carros = array_fill(-5,7,"Ferrari");
+
+
+<b>--- Exception sem variável catch ---</b>
+-- Antes:
+try {
+    multicar(2,3);
+} catch(Exception $error) {
+    echo "Erro na multiplicação";
+}
+
+-- Depois:
+try {
+    multiplicar(2,3);
+} catch(Exception) {
+    echo "Erro na multiplicação";
+}
+
+
+<b>--- Throw Exception em Operador Ternário ---</b>
+$show_error = fn($error) =&gt; throw new Exception($error);
+$show_error("Erro no PHP!!!");
+
+$result = call_api();
+return $result ?? throw new Exception("Erro na chamada da API");
+
+
+<b>--- Concatenações ---</b>
+Não há mais erro de concatenações de valores numéricos com strings.
+$n1 = 10;
+$n2 = 15;
+echo "Resultado: ".($n1+$n2);
+
+
+<b>--- Métodos com retorno Static ---</b>
+class First {
+    public static function class_name() {
+        return __CLASS__;
+    }
+    public static function show() {
+        return self::class_name(); //Ao trocar 'self' por 'static', a resposta se tornará 'Second'
+    }
+}
+
+class Second extends First {
+    public static function class_name() {
+        return __CLASS__;
+    }
+}
+echo Second::show(); //Exibirá 'first'
+
+
+<b>--- Classe WeakMaps ---</b>
+Cria referência ao objeto, e ao removê-lo será também removida sua referência.
+$anos = new WeakMap;
+$k = (object)"ano";
+$anos[$k] = 1969;
+var_dump($anos);
+echo "&lt;br&gt;";
+unset($k);
+var_dump($anos);
+
+
+<b>--- ::class em objetos ---</b>
+Para saber o nome da classe referente.
+class Company {
+    public function index() {
+        return 'UB Social';
+    }
+}
+$res = new Company();
+
+-- Antes: var_dump(get_class($res));
+-- Depois: var_dump($res::class);
+
+
+<b>--- Vírgula no último parâmetro ---</b>
+new Address("Avenida Paulista", 260, "São Paulo", "SP", "Brasil",);
+
+
+<b>--- Outras ---</b>
+- Operador @ não silencia mais os erros fatais
+
+
+<b>--- Herança de Métodos Privados ---</b>
+class A {
+    function callYourPrivate() {
+        $this-&gt;myPrivate();
+    }
+    function notOverriden_callYourPrivate() {
+        $this-&gt;myPrivate();
+    }
+    final private function myPrivate() {
+        echo __METHOD__ . PHP_EOL;
+    }
+}
+class B extends A {
+    function callYourPrivate() {
+        $this-&gt;myPrivate();
+    } 
+    private function myPrivate() {
+        echo __METHOD__ . PHP_EOL;
+    }
+}
+
+$a = new A();
+$a-&gt;callYourPrivate();
+$a-&gt;notOverriden_callYourPrivate();
+$b = new B();
+$b-&gt;callYourPrivate();
+$b-&gt;notOverriden_callYourPrivate();
+
+
+<b>--- Sintaxes de variáveis ---</b>
+- <i>Array:</i> $foo[$bar], $foo{$bar}
+- <i>Object:</i> $foo-&gt;bar, $foo-&gt;bar()
+- <i>Static:</i> Foo::$bar, Foo::bar(), Foo::BAR
+- <i>Call:</i> foo()
+
+
+<b>--- Interface Stringable ---</b>
+interface Stringable {
+    public function __toString(): string;
+}
+
+
+<b>--- Mais códigos ---</b>
+Site oficial PHP 8: <a href="https://www.php.net/releases/8.0/pt_BR.php" id="btnLink" target="_blank">Acesse aqui</a>
+</code></pre></small>
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center" id="rodape">
+        <p id="serifada">Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>

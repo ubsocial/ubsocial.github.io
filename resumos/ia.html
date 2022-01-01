@@ -1,0 +1,634 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ovo&family=Qwitcher+Grypen&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../anexos/icons/logoTit.png">
+    <link rel="stylesheet" href="../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12" id="menu">
+            <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a id="serifada" class="navbar-brand" href="../index.html"><img src="../anexos/icons/logo.png" id="logo"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../contato.html">Contato</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12" id="titulo1">
+            <h1 id="serifada">Inteligência Artificial</h1>
+            <h6><strong>Inteligência Artificial e Machine Learning</strong><br><br><span class="badge bg-warning text-dark">Resumo em construção</span></h6>
+            <a class="btn btn-link" id="btnLink" href="https://github.com/mateusschwede/ubsocialIA" target="_blank">Github do projeto</a><br>
+            <a class="btn btn-link" id="btnLink" href="https://colab.research.google.com/drive/1SnsJEDRxizpwff6K0JFEFHoBtXR5NT9y?usp=sharing" target="_blank">Google Colab</a><br>
+            <a class="btn btn-link" id="btnLink" href="https://www.kaggle.com/laotse/credit-risk-dataset" target="_blank">BD Risco de Crédito</a><br>
+            <a class="btn btn-link" id="btnLink" href="https://archive.ics.uci.edu/ml/datasets/adult" target="_blank">BD Censo</a>
+        </div>
+
+        <div class="col-sm-12">
+            <h4>Introdução</h4>
+            <p id="textoPost">Inteligência artificial é a área da Ciência da Computação responsável pelo desenvolvimento de sistemas que simulem a capacidade humana de resolver problemas.</p>
+            <img src="../anexos/resumo15/iaMeme.jpg" width="180px" height="auto">
+            <p>Exemplos de aplicações com Machine Learning:</p>
+            <ul>
+                <li>Sistemas Especialistas (Baseado em profissionais especialistas humanos)</li>
+                <li>Sistema de Recomendação</li>
+                <li>Reconhecimento Facial (Visão computacional)</li>
+                <li>Reconhecimento de Movimentos</li>
+                <li>Reconhecimento de Sons / Fala (Processamento de linguagem natural)</li>
+                <li>Robótica e Automação</li>
+                <li>Realidade Virtual</li>
+            </ul>
+            <p>Terminologias:</p>
+            <ul>
+                <li><b>Inteligência Artificial</b>: Termo geral, área da Ciência da Computação responsável pelo desenvolvimento de sistemas que simulem a capacidade humana de resolver problemas</li>
+                <li><b>Inteligência Computacional</b>: Redes neurais, computação evolucionária, lógica nebulosa (fuzzy)</li>
+                <li><b>Machine Learning (Aprendizado de Máquina)</b>: Métodos matemáticos para treinar algoritmos</li>
+                <li><b>Data Mining (Mineração de Dados)</b>: Extrair conhecimentos de base de dados, usando métodos de Machine Learning</li>
+                <li><b>Redes Neurais</b>: Tipo de Machine Learning, como um algoritmo</li>
+                <li><b>Deep Learning (Aprendizado Profundo)</b>: Muito mais dados e processadores mais potentes (Rede Neural com muitas camadas)</li>
+                <li><b>Big Data</b>: Imenso volume de dados (Necessário algoritmos de Machine Learning para realizar o tratamento dos dados)</li>
+                <li><b>Ciência de Dados</b>: Exploração e análise de dados, envolve Ciência da Computação + Estatística, além de Machine Learning</li>
+            </ul>
+            
+            <br>
+            <h4>Machine Learning</h4>
+            <p id="textoPost"><b>Métodos Preditivos:</b> Previsão resultante de conjunto de atributos.</p>
+            <ul>
+                <li><b>Classificação</b>: Dividir atributos por determinadas classes (Rótulos)
+                    <ul>
+                        <li><u>Exemplo</u>: Pessoas que gostam de Rock / Pessoas que não gostam de Rock</li>
+                    </ul>
+                </li>
+                <li><b>Regressão</b>: Previsão realizada através da análise de valores numéricos, como dados históricos
+                    <ul>
+                        <li><u>Exemplo</u>: Com base na temperatura, umidade e pressão do ar, ocorre-se a previsão da velocidade do vento</li>
+                    </ul>
+                </li>
+            </ul>
+            <p id="textoPost"><b>Métodos Descritivos:</b></p>
+            <ul>
+                <li><b>Associação</b>: Dados em comum
+                    <ul>
+                        <li><u>Exemplo</u>: Maior histórico de compra de carne e cerveja nos finais de semana</li>
+                    </ul>
+                </li>
+                <li><b>Agrupamento</b>: Agrupar dados em comum (Cria grupos)
+                    <ul>
+                        <li><u>Exemplo</u>: Com base de dados de histórico de mercado, agrupar clientes que compram jogos eletrônicos</li>
+                    </ul>
+                </li>
+                <li><b>Detecção de Desvios (Outliers)</b>: Detectar "anomalias" em grupos de dados
+                    <ul>
+                        <li><u>Exemplo</u>: Detectar doping em atletas (Atleta desempenhando além do normal)</li>
+                    </ul>
+                </li>
+                <li><b>Descoberta de Padrões Sequenciais</b>: Detectar "relações" entre grupos de dados
+                    <ul>
+                        <li><u>Exemplo</u>: Leitor de Harry Potter tende a gostar de livros de Harry Potter</li>
+                    </ul>
+                </li>
+                <li><b>Sumarização</b>: Abstrair dados de um grupo maior, de acordo com atributos solicitados
+                    <ul>
+                        <li><u>Exemplo</u>: Em base de dados de clientes, resgatar somente pessoas maiores de 50 anos, de origem japonesa</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h5>Tipos de Machine Learning:</h5>
+            <ul>
+                <li><b>Supervisonada:</b>
+                    <ul>
+                        <li>Classificação</li>
+                        <li>Regressão</li>
+                    </ul>
+                </li>
+                <li><b>Não Supervisonada:</b>
+                    <ul>
+                        <li>Associação</li>
+                        <li>Agrupamento</li>
+                        <li>Detecção de Desvios</li>
+                        <li>Padrões Sequenciais</li>
+                        <li>Sumarização</li>
+                    </ul>
+                </li>
+                <li><b>Reforço</b></li>
+            </ul>
+            <p><b>Aprendizagem Supervisionada:</b></p>
+            <p id="textoPost">Contexto: Classificar se uma imagem refere-se ao Homer Simpson, ou ao Bart Simpson.</p>
+            <p><u>Fase 1</u>: <i>Imagens -&gt; Extração de características (Montagem da base de dados) -&gt; Algoritmo de aprendizagem (Feito por supervisor) = Modelo Aprendido</i></p>
+            <p id="textoPost" class="text-muted">* Extração de Características: No Homer, a cabeça é arredondada, enquanto no Bart a cabeça não é arredondada, etc.</p>
+            <p id="textoPost" class="text-muted">* Algoritmo de aprendizagem: Supervisor submete imagens do Homer, informando características do Homer, também imagens do Bart, informando características do Bart. Dessa forma, será realizada uma padronização das classes Homer e Bart, de acordo com suas características personalizadas.</p>
+            <p><u>Fase 2</u>: <i>Imagem desconhecida -&gt; Extração de características -&gt; Submissão ao modelo aprendido = Modelo dirá que a imagem é da classe Bart</i></p>
+
+            <p><b>Aprendizagem Não Supervisionada:</b></p>
+            <p id="textoPost">Analisa automaticamente os dados (Associação, Agrupamento), ou seja, não há supervisão nem treinamento manual prévio, necessitando somente de análise para determinar o significado dos padrões encontrados (Se o padrão resultante é, de fato, pertinente). Nessa aprendizagem não é feita a predição dos dados, e sim somente a descrição (Descritiva).</p>
+            <p id="textoPost"><u>Exemplo</u>: Pessoa que compra X também compra Y. Portanto, toda pessoa que comprará X também comprará Y</p>
+
+            <p><b>Aprendizagem por Reforço:</b></p>
+            <p id="textoPost">Aprender com as interações com o ambiente (causa e efeito), aprendendo com sua própria experiência. Aprendizagem muito comum utilizada em ambientes SMA (Sistema Multiagente - Onde há vários agentes interagindo no ambiente).</p>
+            <p><u>Exemplo</u>: Robô automatizado bate em parede e danifica-se. Dessa forma, concluirá que deve-se evitar bater em parede</p>
+
+            <br>
+            <h5>Classificação:</h5>
+            <p id="textoPost">Levando em consideração o exemplo de análise de risco de crédito. Cada registro pertence a uma classe e possui um conjunto de atributos previsores. Na aprendizagem supervisionada, o valor do atributo meta sempre é conhecido. Com uma base de dados como o exemplo da tabela abaixo, é submetido ao treinamento de algoritmos de Machine Learning, para então prever o risco automaticamente.</p>
+            <ul>
+                <li><b>Atributos Previsores</b>: Histórico de crédito (Bom, ruim ou desconhecido), dívida (Baixa ou alta), garantias (Nenhuma ou adequada), renda anual (Menor que 15 mil, entre 15 mil e 35 mil, maior que 35 mil) - <i>Variáveis Independentes</i></li>
+                <li><b>Atributos Meta / Classe</b>: Risco (Baixo, moderado ou alto) - <i>Variáveis Dependentes</i></li>
+            </ul>
+            <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="table-primary">Histórico de crédito</th>
+                            <th scope="col" class="table-primary">Dívida</th>
+                            <th scope="col" class="table-primary">Garantias</th>
+                            <th scope="col" class="table-primary">Renda anual</th>
+                            <th scope="col" class="table-warning">Risco</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Ruim</td>
+                            <td>Alta</td>
+                            <td>Nenhuma</td>
+                            <td>Menos de 15 mil</td>
+                            <th>Alto</th>
+                        </tr>
+                        <tr>
+                            <td>Desconhecido</td>
+                            <td>Baixo</td>
+                            <td>Nenhuma</td>
+                            <td>Entre 15 mil e 35 mil</td>
+                            <th>Moderado</th>
+                        </tr>
+                        <tr>
+                            <td>Desconhecido</td>
+                            <td>Baixo</td>
+                            <td>Adequada</td>
+                            <td>Maior que 35 mil</td>
+                            <th>Baixo</th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p><b>Representação da Classificação (Método Indutivo):</b></p>
+            <ul>
+                <li><b>Fase 1</b>: Conjunto de exemplos (Atributos previsores + Atributos meta) -&gt; Sistema de aprendizado = Classificador</li>
+                <li><b>Fase 2</b>: Caso a ser classificado (Atributo meta não conhecido) -&gt; Classificador = Decisão</li>
+            </ul>
+            <p><u>Exemplo</u> (Indução com aprendizagem supervisionada):</p>
+            <ul>
+                <li><b>Fase 1</b>: Homer e Bart -&gt; Extração de características -&gt; Algoritmo de aprendizagem e Supervisor = Modelo aprendido</li>
+                <li><b>Fase 2</b>: Bart com Skate -&gt; Extração de características -&gt; Modelo aprendido = Bart</li>
+            </ul>
+
+            <br>
+            <h4>===== Pré-processamento de dados =====</h4>
+            
+            <br><h5>Tipos de variáveis</h5>
+            <ul>
+                <li><b>Numéricas</b>: Possuem valor numérico
+                    <ul>
+                        <li><b>Contínua</b>: Números reais (Temperatura, altura, peso, salário, etc - 44.2)</li>
+                        <li><b>Discreta</b>: Conjnto de valores finito, valores inteiros (Contagem de algo - 15)</li>
+                    </ul>
+                </li>
+                <li><b>Categóricas</b>: Representam categorias, possuem valor String
+                    <ul>
+                        <li><b>Nominal</b>: Dados não mensuráveis (Sem ordenação: cor dos olhos e gênero, id, nome, etc - "azul")</li>
+                        <li><b>Ordinal</b>: Categorizado sob ordenação (Tamanho: P, M e G)</li>
+                    </ul>
+                </li>
+            </ul>
+            <p id="textoPost" class="text-muted">* A conversão de variável categórica para discreta geralmente ocorre quando a categoria básica representa 1, categoria moderada representa 2 e categoria avançada representa 3.</p>
+
+            <p><b>1. Importar libraries:</b></p>
+            <p id="textoPost">Importar libraries plotly (Geração de gráficos dinâmicos), pandas (Gerenciamento de arquivos CSV), numpy, seaborn e matplotlib.pyplot (Visualização de gráficos), plotly.express (Chamará a library plotly).</p>
+<small><pre><code>
+!pip install plotly --upgrade
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+import plotly.express as px
+</code></pre></small>
+            
+            <br><h5>Base de Dados (Risco de Crédito)</h5>
+            <p class="text-muted" id="textoPost">Objetivo da IA é dizer se a pessoa, de acordo com suas condições, pagará ou não o crédito (default 0 ou 1).</p>
+            <a class="btn btn-link" id="btnLink" href="https://github.com/mateusschwede/ubsocialIA/blob/main/Bases%20de%20dados.zip" target="_blank">Acessar BD Risco de Crédito (credit_data.csv)</a>
+            <div class="table-responsive">
+                <table class="table table-bordered table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="table-secondary"></th>
+                            <th scope="col" class="table-secondary">clientid</th>
+                            <th scope="col" class="table-secondary">income</th>
+                            <th scope="col" class="table-secondary">age</th>
+                            <th scope="col" class="table-secondary">loan</th>
+                            <th scope="col" class="table-secondary">default</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>0</th>
+                            <td>1</td>
+                            <td>66155.925095</td>
+                            <td>59.017015</td>
+                            <td>8106.532131</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <th>4</th>
+                            <td>5</td>
+                            <td>66952.688845</td>
+                            <td>18.584336</td>
+                            <td>8770.099235</td>
+                            <td>1</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <small class="text-muted">index (Número do registro no dataframe)<br>clientid - <i>Variável categórica nominal</i><br>income (Renda anual) - <i>Variável numérica contínua</i><br>age - <i>Variável numérica contínua</i><br>loan (Dívida) - <i>Variável numérica contínua</i><br>Default 0: Pagou o empréstimo - <i>Variável numérica discreta</i><br>Default 1 (Devendo): Não pagou o empréstimo - <i>Variável numérica discreta</i></small>
+            
+            <br><br><p><b>2. Exploração dos dados:</b></p>
+<small><pre><code>
+base_credit = pd.read_csv('/content/credit_data.csv') <span class="text-muted">#Upload no Colab do CSV com dados (Atente-se ao local do upload '/content/')</span>
+base_credit <span class="text-muted">#Ver dados</span>
+base_credit_head(10) <span class="text-muted">#Ver 10 primeiros dados</span>
+base_credit.tail(8) <span class="text-muted">#Ver 8 últimos dados</span>
+base_credit.describe() <span class="text-muted">#Mostrará, para cada atributo numérico: count (Quantidade total), mean (Média), sid (Desvio padrão - Variação/afastamento dos dados em relação ao valor da média), min/25%/50%/75%/max (Quartis - Valores mínimos/percentuais/máximos)</span>
+base_credit[base_credit['income'] == 1000.00] <span class="text-muted">#Mostrar pessoa com renda 1000.00</span>
+base_credit[base_credit['loan'] &gt;= 1.377] <span class="text-muted">#Mostrar pessoa com dívida menor ou igual a 1.377</span>
+</code></pre></small>
+            
+            <p><b>3. Visualização em gráficos:</b></p>
+<small><pre><code>
+np.unique(base_credit['default']) <span class="text-muted">#Mostrar quais os números presentes nessa classe (0 quando a pessoa não paga o empréstimo, 1 quando paga o empréstimo)</span>
+np.unique(base_credit['default'], return_counts=True) <span class="text-muted">#Ver quantos registros possui cada classe (Zeros e Uns)</span>
+sns.countplot(x = base_credit['default']); <span class="text-muted">#Mostrar dados acima em gráfico de barras (Gráfico 1)</span>
+plt.hist(x = base_credit['age']); <span class="text-muted">#Gerará gráfico histograma, separados em classes/intervalos de idades (Gráfico 2)</span>
+plt.hist(x = base_credit['income']); <span class="text-muted">#Gráfico histograma de renda (Gráfico 3)</span>
+plt.hist(x = base_credit['loan']); <span class="text-muted">#Gráfico histograma de dívida (Gráfico 4)</span>
+
+grafico = px.scatter_matrix(base_credit, dimensions=['age','income','loan'], color='default') <span class="text-muted">#Gráfico dinâmico scatter (Dispersão) que combina os atributos de acordo com 'default' (Pagou/Devendo)</span>
+grafico.show() <span class="text-muted">#Imagem dos gráficos com colorações internas</span>
+</code></pre></small>
+            <img src="../anexos/resumo15/snsGrafico1.jpg" title="sns.countplot(x = base_credit['default'])" width="250px" height="auto">
+            <img src="../anexos/resumo15/pltGrafico1.jpg" title="plt.hist(x = base_credit['age'])" width="250px" height="auto">
+            <img src="../anexos/resumo15/pltGrafico2.jpg" title="plt.hist(x = base_credit['income'])" width="250px" height="auto">
+            <img src="../anexos/resumo15/pltGrafico3.jpg" title="plt.hist(x = base_credit['loan'])" width="250px" height="auto">
+            <br><img src="../anexos/resumo15/pxGrafico1.jpg" title="px.scatter_matrix" width="90%" height="auto">
+
+            <br><br><p><b>4.1. Tratamento de valores inconsistentes:</b></p>
+            <p id="textoPost">No gráfico acima, pode-se perceber a existência de idades negativas, significando dados equivocados, ou seja, inconsistentes. Situações como essa geralmente são advindas de imerfeições do sistema, onde há possibilidade do usuário informar determinado valor inconsistente.</p>
+<small><pre><code>
+base_credit.loc[base_credit['age'] &lt; 0] <span class="text-muted">#Localizar registros (Ou base_credit[base_credit['age'] &lt; 0])</span>
+
+<span class="text-muted"># Apagar coluna inteira do registro inconsistente</span>
+base_credit2 = base_credit.drop('age', axis=1) <span class="text-muted">#Axis 0 é para linha e Axis 1 é para coluna</span>
+base_credit2
+base_credit.index <span class="text-muted">#Index é o nº do registro no BD, conforme tabela acima</span>
+base_credit[base_credit['age'] &lt; 0].index</code>
+
+<span class="text-muted"># Apagar somente células de registros com valores inconsistentes</span>
+base_credit3 = base_credit.drop(base_credit[base_credit['age'] &lt; 0].index)
+base_credit3
+base_credit3.loc[base_credit3['age'] &lt; 0] <span class="text-muted">#Apagou, então retornará nenhum registro encontrado</span>
+
+<span class="text-muted"></span># Preencher os valores inconsistentes manualmente (Geralmente preencher com média da classe)</span>
+base_credit.mean() <span class="text-muted">#Localizar média de valores (Ou base_credit['age'].mean())</span>
+base_credit['age'][base_credit['age'] &gt; 0].mean() <span class="text-muted">#Média não considerando valores negativos</span>
+base_credit.loc[base_credit['age'] &lt; 0, 'age'] = 40.92 <span class="text-muted">#Preencher idades negativas com média de idades</span>
+base_credit.loc[base_credit['age'] &lt; 0] <span class="text-muted">#Verificar se existem idades negativas (Não haverão idades negativas)</span>
+</code></pre></small>
+
+            <p><b>4.2. Tratamento de valores faltantes</b></p>
+            <p id="textoPost">No dataframe há registros de clientes que não informaram a idade.</p>
+<small><pre><code>
+base_credit.isnull() <span class="text-muted">#Verificar se há dados faltantes (True é faltante)</span>
+base_credit.isnull().sum() <span class="text-muted">#Mostrará quantidade de dados faltantes</span>
+base_credit.loc[pd.isnull(base_credit['age'])] <span class="text-muted">#Ver quais linhas possuem idade faltante</span>
+
+<span class="text-muted"># Preencher valores faltantes com média</span>
+base_credit['age'].fillna(base_credit['age'].mean(), inplace=True) <span class="text-muted">#Preencher automaticamente com média</span>
+base_credit.loc[pd.isnull(base_credit['age'])] <span class="text-muted">#Verificar se existem idades faltantes (Não haverão idades faltantes)</span>
+base_credit.loc[(base_credit['clientid']==29) | (base_credit['clientid']==31) | (base_credit['clientid']==32)]
+base_credit.loc[base_credit['clientid'].isin([29,31,32])]
+</code></pre></small>
+
+            <p><b>5. Separação entre previsores e classes:</b></p>
+            <p id="textoPost">Variável <b>x</b> armazenará somente atributos previsores (income, age e loan) e outra variável <b>y</b> para armazenar somente a classe. Geralmente atributos únicos, como id's, são descartados nessa etapa.</p>
+<small><pre><code>
+X_credit = base_credit.iloc[:,1:4].values <span class="text-muted">#':' Indica selecionar todas as linhas do dataframe, '1:4' indica selecionar da coluna 1 até a 3</span>
+y_credit = base_credit.iloc[:, 4].values <span class="text-muted">#Indica somente coluna 4</span>
+X_credit <span class="text-muted">#Ver conteúdo da variável ('y_credit' ver variável y, 'type(X_credit)' para ver o tipo)</span>
+</code></pre></small>
+
+            <p><b>6. Escalonamento dos atributos:</b></p>
+            <p id="textoPost">Deixar valores na mesma escala: Selecionando os valores mínimos/máximos, tem-se valores muito distantes entre si, o que pode ser problemático para algoritmos de IA baseados em distância. Portanto, deve-se realizar a padronização entre tais valores, para que os mesmos fiquem na mesma escala, pois a ordem de importância que o algoritmo dará aos valores maiores, onde valores maiores possuem peso maior, será inconsistente nesse caso (<u>Ex</u>: loan mais importante que age, por razão de possuir valores maiores). A <b>padronização</b> é mais indicada quando há outliers no dataset (Registros muito fora do padrão): Nesse caso, utilizaremos padronização para o exemplo em questão. Abaixo, seguem fórmulas para solucionar tais problemas.</p>
+            <ul>
+                <li>Padronização(Standardisation): <span style="color: rgb(77, 0, 0);">x = ((x-media(x)) / desvioPadrao(x))</span></li>
+                <li>Normalização(Normalization): <span style="color: rgb(77, 0, 0);">x = ((x-min(x)) / (max(x)-min(x)))</span></li>
+            </ul>
+<small><pre><code>
+X_credit[:,0].min(), X_credit[:,1].min(), X_credit[:,2].min() <span class="text-muted">#Selecionar valores mínimos de cada atributo</span>
+X_credit[:,0].max(), X_credit[:,1].max(), X_credit[:,2].max() <span class="text-muted">#Seelcionar valores máximos de cada atributo</span>
+
+from sklearn.preprocessing import StandardScaler <span class="text-muted">#Sklearn é library para ML no Python, o StandardScaler fará a padronização</span>
+scaler_credit = StandardScaler()
+X_credit = scaler_credit.fit_transform(X_credit) <span class="text-muted">#Fará a padronização da variável x
+
+X_credit[:,0].min(), X_credit[:,1].min(), X_credit[:,2].min() <span class="text-muted">#Valores mínimos e máximos padronizados (Não há problema de valores negativos, pois considera-se, nesse caso, uso da média e desvio padrão)</span>
+X_credit[:,0].max(), X_credit[:,1].max(), X_credit[:,2].max()
+X_credit
+</span>
+</code></pre></small>
+            
+            <br><h5>Base de Dados (Censo)</h5>
+            <p class="text-muted" id="textoPost">Objetivo da IA é dizer se a pessoa, de acordo com suas condições, ganhará ou não mais que 50mil por ano (income &lt;=50K ou &gt;50K).</p>
+            <a class="btn btn-link" id="btnLink" href="https://github.com/mateusschwede/ubsocialIA/blob/main/Bases%20de%20dados.zip" target="_blank">Acessar BD Censo (census.csv)</a>
+            <div class="table-responsive">
+                <table class="table table-bordered table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="table-secondary"></th>
+                            <th scope="col" class="table-secondary">age</th>
+                            <th scope="col" class="table-secondary">workclass</th>
+                            <th scope="col" class="table-secondary">final-weight</th>
+                            <th scope="col" class="table-secondary">education</th>
+                            <th scope="col" class="table-secondary">education-num</th>
+                            <th scope="col" class="table-secondary">marital-status</th>
+                            <th scope="col" class="table-secondary">occupation</th>
+                            <th scope="col" class="table-secondary">relationship</th>
+                            <th scope="col" class="table-secondary">race</th>
+                            <th scope="col" class="table-secondary">sex</th>
+                            <th scope="col" class="table-secondary">capital-gain</th>
+                            <th scope="col" class="table-secondary">capital-loos</th>
+                            <th scope="col" class="table-secondary">hour-per-week</th>
+                            <th scope="col" class="table-secondary">native-country</th>
+                            <th scope="col" class="table-secondary">income</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>0</th>
+                            <td>39</td>
+                            <td>State-gov</td>
+                            <td>77516</td>
+                            <td>Bachelors</td>
+                            <td>13</td>
+                            <td>Never-married</td>
+                            <td>Adm-clerical</td>
+                            <td>Not-in-family</td>
+                            <td>White</td>
+                            <td>Male</td>
+                            <td>2174</td>
+                            <td>0</td>
+                            <td>40</td>
+                            <td>United-States</td>
+                            <td>&lt;=50K</td>
+                        </tr>
+                        <tr>
+                            <th>32556</th>
+                            <td>27</td>
+                            <td>Private</td>
+                            <td>257302</td>
+                            <td>Assoc-acdm</td>
+                            <td>12</td>
+                            <td>Married-civ-spouse</td>
+                            <td>Tech-support</td>
+                            <td>Wife</td>
+                            <td>White</td>
+                            <td>Female</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>38</td>
+                            <td>United-States</td>
+                            <td>&lt;=50K</td>
+                        </tr>
+                        <tr>
+                            <th>32557</th>
+                            <td>40</td>
+                            <td>Private</td>
+                            <td>154374</td>
+                            <td>HS-grad</td>
+                            <td>9</td>
+                            <td>Married-civ-spouse</td>
+                            <td>Machine-op-inspct</td>
+                            <td>Husband</td>
+                            <td>White</td>
+                            <td>Male</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>40</td>
+                            <td>United-States</td>
+                            <td>&gt;50K</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <small class="text-muted">age - <i>Variável numérica discreta</i><br>workclass (Classe de trabalho) - <i>Variável categórica nominal</i><br>final-weight (Pontuação segundo censo) - <i>Variável numérica contínua</i><br>education - <i>Variável categórica ordinal</i><br>education-num (Nº de anos de estudo) - <i>Variável numérica discreta</i><br>marital-status, relationship, race, sex - <i>Variáveis categóricas nominais</i><br>capital-gain, capital-loos (Ganho/perda de capital) - <i>Variáveis numéricas contínuas</i><br>hour-per-week (Horas trabalhadas por semana) - <i>Variável numérica discreta</i><br>native-country - <i>Variável categórica nominal</i><br>income (Renda/Ganho por ano) - <i>Variável categórica ordinal</i></small>
+            
+            <br><br><p><b>2. Exploração dos dados:</b></p>
+<small><pre><code>
+base_census = pd.read_csv('/content/census.csv')
+base_census48.000000
+base_census.describe()
+base_census.isnull().sum() <span class="text-muted">#Verificar se há registros com valores faltantes</span>
+</code></pre></small>
+
+            <p><b>3. Visualização em gráficos:</b></p>
+<small><pre><code>
+np.unique(base_census['income'], return_counts=True) <span class="text-muted">#Ver contagem de dados para cada classe</span>
+sns.countplot(x = base_census['income']); <span class="text-muted">#Ver em gráfico de barras (Gráfico 1)</span>
+plt.hist(x = base_census['age']); <span class="text-muted">#Ver em histograma de idades (Gráfico 2)</span>
+plt.hist(x = base_census['education-num']); <span class="text-muted">#Ver em histograma de nº de anos estudados (Gráfico 3)</span>
+plt.hist(x = base_census['hour-per-week']); <span class="text-muted">#Ver em histograma de nº de horas trabalhadas por semana (Gráfico 4)</span>
+
+grafico = px.treemap(base_census, path=['workclass','age'])
+grafico.show() <span class="text-muted">#Ver gráficos dinâmicos de agrupamentos entre classe de trabalho e idade (Gráfico 5)</span>
+
+grafico = px.treemap(base_census, path=['occupation','relationship','age'])
+grafico.show() <span class="text-muted">#Ver gráficos dinâmicos de agrupamentos entre ocupação, relacionamento e idade (Gráfico 6)</span>
+
+grafico = px.parallel_categories(base_census, dimensions=['occupation','relationship'])
+grafico.show() <span class="text-muted">#Ver gráfico dinâmico de categorias paralelas entre ocupação e relacionamento (Gráfico 7)</span>
+
+grafico = px.parallel_categories(base_census, dimensions=['workclass','occupation','income'])
+grafico.show() <span class="text-muted">#Ver gráfico dinâmico de categorias paralelas entre classe de trabalho, ocupação e renda (Gráfico 8)</span>
+
+grafico = px.parallel_categories(base_census, dimensions=['education','income'])
+grafico.show() <span class="text-muted">#Ver gráfico dinâmico de categorias paralelas entre educação e renda (Gráfico 9)</span>
+</code></pre></small>
+            <img src="../anexos/resumo15/snsGrafico2.jpg" title="sns.countplot(x = base_census['income'])" width="250px" height="auto">
+            <img src="../anexos/resumo15/pltGrafico4.jpg" title="plt.hist(x = base_census['age'])" width="250px" height="auto">
+            <img src="../anexos/resumo15/pltGrafico5.jpg" title="plt.hist(x = base_census['education-num'])" width="250px" height="auto">
+            <img src="../anexos/resumo15/pltGrafico6.jpg" title="plt.hist(x = base_census['hour-per-week'])" width="250px" height="auto">
+            <br><img src="../anexos/resumo15/pxGrafico2.jpg" title="px.treemap(base_census, path=['workclass','age'])" width="90%" height="auto">
+            <br><img src="../anexos/resumo15/pxGrafico3.jpg" title="px.treemap(base_census, path=['occupation','relationship','age'])" width="90%" height="auto">
+            <br><img src="../anexos/resumo15/pxGrafico4.jpg" title="px.parallel_categories(base_census, dimensions=['occupation','relationship'])" width="90%" height="auto">
+            <br><img src="../anexos/resumo15/pxGrafico5.jpg" title="px.parallel_categories(base_census, dimensions=['workclass','occupation','income'])" width="90%" height="auto">
+            <br><img src="../anexos/resumo15/pxGrafico6.jpg" title="px.parallel_categories(base_census, dimensions=['education','income'])" width="90%" height="auto">
+            
+            <br><br><p><b>4. Separação entre previsores e classes:</b></p>
+<small><pre><code>
+base_census.columns
+X_census = base_census.iloc[:,0:14].values <span class="text-muted">#Criar variável de previsores (Todas linhas, da coluna 0 à 14 - age à native-country)</span>
+X_census <span class="text-muted">#X_census[0]</span>
+y_census = base_census.iloc[:,14].values <span class="text-muted">#Criar variável da classe (Todas linhas, somente coluna 14 - income)</span>
+y_census
+</code></pre></small>
+
+            <p><b>5.1. Tratamento de atributos categóricos (LabelEncoder):</b></p>
+            <p id="textoPost">Neste caso, como há atributos categóricos (String), será necessário convertê-los em dados numéricos: Em LabelEncoder, cada tipo de valor no registro será transformado em um número de referência.</p>
+<small><pre><code>
+from sklearn.preprocessing import LabelEncoder
+label_encoder_teste = LabelEncoder()
+X_census[:,1]
+teste = label_encoder_teste.fit_transform(X_census[:,1]) <span class="text-muted">#Aplicar LabelEncoder</span>
+teste <span class="text-muted">#Cada tipo de valor do workclass será convertido em um nº de sua referência (Private é 4, State-gov é 7...)</span>
+X_census[0]
+
+<span class="text-muted">#Transformar cada atributo para LabelEncoder</span>
+label_encoder_workclass = LabelEncoder()
+label_encoder_education = LabelEncoder()
+label_encoder_marital = LabelEncoder()
+label_encoder_occupation = LabelEncoder()
+label_encoder_relationship = LabelEncoder()
+label_encoder_race = LabelEncoder()
+label_encoder_sex = LabelEncoder()
+label_encoder_country = LabelEncoder()
+
+<span class="text-muted">#Aplicar LabelEncoder para cada atributo categórico</span>
+X_census[:,1] = label_encoder_workclass.fit_transform(X_census[:,1])
+X_census[:,3] = label_encoder_education.fit_transform(X_census[:,3])
+X_census[:,5] = label_encoder_marital.fit_transform(X_census[:,5])
+X_census[:,6] = label_encoder_occupation.fit_transform(X_census[:,6])
+X_census[:,7] = label_encoder_relationship.fit_transform(X_census[:,7])
+X_census[:,8] = label_encoder_race.fit_transform(X_census[:,8])
+X_census[:,9] = label_encoder_sex.fit_transform(X_census[:,9])
+X_census[:,13] = label_encoder_country.fit_transform(X_census[:,13])
+
+X_census[0]
+X_census
+</code></pre></small>
+
+            <p><b>5.2. Tratamento de atributos categóricos (OneHotEncoder):</b></p>
+            <p id="textoPost">Um dos problemas de somente utilizar LabelEncoder são as inúmeras categorias e valores muito amplos (Algoritmo de IA considerará atributo 20 mais importante que o 3, somente por razão do nº 20 ser maior). No OneHotEncoder, cada tipo de registro (Categoria) receberá um número/código identificador (Do tipo Dummy), de acordo com a quantidade de tipos de registros neste atributo (<u>Ex</u>: Carros Gol, Pálio e Uno: São 3 tipos de registros do atributo 'Carro', então Gol será 100, Pálio será 010 e Uno será 001).</p>
+<small><pre><code>
+len(np.unique(base_census['workclass'])) <span class="text-muted">#9 categorias diferentes: Códigos de 9 colunas (<u>Ex:</u> State-gov 10000000)</span>
+len(np.unique(base_census['occupation'])) <span class="text-muted">#15 categorias diferentes: Códigos de 10 colunas</span>
+
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+
+onehotencoder_census = ColumnTransformer(transformers=[('OneHot', OneHotEncoder(), [1,3,5,6,7,8,9,13])], remainder='passthrough') <span class="text-muted">#Transformar em OneHotEncoder, passar lista de atributos (Índices) para transformação e passthrough para não exlcuir os demais atributos</span>
+X_census = onehotencoder_census.fit_transform(X_census).toarray() <span class="text-muted">#Recriar base de dados com codificação OneHotEncoder feita</span>
+X_census <span class="text-muted">#X_census[0] na linha 0</span>
+X_census.shape <span class="text-muted">#Aumentou-se para 108 colunas com o OneHotEncoder (Resultante do somatório das quantidades de colunas de todos os códigos gerados para cada categoria de cada atributo)</span>
+</code></pre></small>
+
+            <p><b>6. Escalonamento dos atributos:</b></p>
+<small><pre><code>
+from sklearn.preprocessing import StandardScaler
+
+scaler_census = StandardScaler()
+X_census = scaler_census.fit_transform(X_census)
+X_census[0] <span class="text-muted">#Converterá os atributos numéricos para o mesmo formato de código também</span>
+</code></pre></small>
+
+            <br><h5>Introdução a avaliação de algoritmos</h5>
+            <p id="textoPost">Levando em conta o exemplo da base de dados Risco de Crédito, o algoritmo de IA analisará os atributos previsores, juntamente com seus respectivos dados, gerando assim o <b>Modelo do Algoritmo</b>, como, por exemplo, um algoritmo Naïve Bayes criará uma tabela de probabilidade, para que, quando quiser classificar registros, utilizará estimativa da probabilidade de cada classe (<u>Ex</u>: Probabilidade da classe Risco alto, moderado e baixo). Um algoritmo de Árvore de Decisão, conforme dados analisados, construirá árvore de decisão, que será percorrida cada vez para identificar a decisão, onde tal nó final será a classe.</p>
+            <p id="textoPost">Após isso, para fazer a classificação de novos registros à base de dados, submete-se o mesmo para o Modelo do Algoritmo e gerará, com isso, a resposta da classificação. Para sabe a classe que ao qual o registro será classificado, tem-se a <b>base de dados de treinamento</b> e a <b>base de dados de teste</b>, onde, em ambas, a classe de resultado já está informada e os registros são bem diferentes quando comparados uma a outra (Nunca pode testar o algoritmo com os mesmos registros de seu treinamento). Então, submete-se a base de dados do treinamento ao algoritmo (Base de dados de treinamento sempre é bem maior que a de teste), onde o algoritmo gerará o Modelo. Após isso, testa-se o algoritmo conferindo seus resultados com a base de dados de teste (Base bem diversificada, para a maioria de possibilidades em teste).</p>
+            <p id="textoPost">Com o teste pronto, o supervisor saberá identificar, usando como base os registros de teste, quantos o algoritmo acertou e errou (<u>Ex</u>: O 1º registro está classificado na base de teste como alto, e o algoritmo identificou como Alto (<i>Acerto</i>). O 2º registro está classificado na base de teste como Moderado, e o algoritmo identificou como Baixo (<i>Erro</i>)). Assim, medindo acertos/erros em percentuais, tem-se a medição da eficiência do algoritmo de IA.</p>
+            <p><b>Divisão das bases em Treinamento e Teste:</b></p>
+<small><pre><code>
+from sklearn.model_selection import train_test_split
+
+<span class="text-muted"># Dividir base Risco de Crédito</span>
+X_credit_treinamento, X_credit_teste, y_credit_treinamento, y_credit_teste = train_test_split(X_credit,y_credit,test_size = 0.25,random_state = 0) <span class="text-muted">#X: previsores e Y: classe. Tamanho da base de Teste será 0.25 (75% da base de dados para treinar, 25% para testar), random_state para manter registros de trainamento/teste e consguir compará-los</span>
+X_credit_treinamento.shape <span class="text-muted">#1500 registros previsores para treinamento, 3 colunas (income,age,loan)</span>
+y_credit_treinamento.shape <span class="text-muted">#1500 registros classe, somente coluna default</span>
+X_credit_teste.shape, y_credit_teste.shape <span class="text-muted">#25% dos dados total para cada variável da base teste (X previsores, Y respostas/classe)</span>
+
+<span class="text-muted"># Dividir base Censo</span>
+X_census_treinamento, X_census_teste, y_census_treinamento, y_census_teste = train_test_split(X_census,y_census,test_size = 0.15,random_state = 0) <span class="text-muted">#85% dos registros para base Treinamento, 15% para base Teste</span>
+X_census_treinamento.shape, y_census_treinamento.shape <span class="text-muted">#27676 registros previsores, 108 colunas. 27676 registros de resposta/classe</span>
+X_census_teste.shape, y_census_teste.shape <span class="text-muted">#4855 registros previsores, 108 colunas. 4855 registros de resposta/classe</span>
+</code></pre></small>
+
+            <p><b>Salvar bases:</b></p>
+<small><pre><code>
+import pickle
+
+<span class="text-muted">#Salvar em disco, wb (Write): Criará arquivos 'credit.pkl' e 'census.pkl'</span>
+with open('credit.pkl', mode='wb') as f:
+    pickle.dump([X_credit_treinamento, y_credit_treinamento, X_credit_teste, y_credit_teste], f)
+
+with open('census.pkl', mode='wb') as f:
+    pickle.dump([X_census_treinamento, y_census_treinamento, X_census_teste, y_census_teste], f)
+</code></pre></small>
+
+            <!--VER 32-->
+            <!--Colab: https://colab.research.google.com/drive/1GL4sN3PiqSVCeUHZKctQc4lvAqH3NhiG#scrollTo=h25oSZkQA6Sr -->
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center" id="rodape">
+        <p id="serifada">Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>
+
+
+
+<!-- EXEMPLO TABLE
+<div class="table-responsive">
+    <table class="table table-striped table-sm">
+        <thead>
+            <tr>
+                <th scope="col" class="table-primary">Histórico de crédito</th>
+                <th scope="col" class="table-primary">Dívida</th>
+                <th scope="col" class="table-primary">Garantias</th>
+                <th scope="col" class="table-primary">Renda anual</th>
+                <th scope="col" class="table-warning">Risco</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Ruim</td>
+                <td>Alta</td>
+                <td>Nenhuma</td>
+                <td>Menos de 15 mil</td>
+                <th>Alto</th>
+            </tr>
+        </tbody>
+    </table>
+</div>
+-->
