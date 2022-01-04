@@ -2,37 +2,25 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Ovo&family=Qwitcher+Grypen&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Ovo&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="shortcut icon" href="../.././../anexos/icons/logoTit.png"/>
-    <link rel="stylesheet" href="../estilo2.css">
+    <link rel="shortcut icon" href="../anexos/icons/logoTit.png"/>
+    <link rel="stylesheet" href="estilo2.css">
     <title>UB Social</title>
 </head>
 <body id="fundo">
 <div class="container-fluid">
 
-
-    <div class="row">
-        <div class="col-sm-12" id="menu">
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                <a id="serifada" class="navbar-brand" href="../../../artigos/seguranca/index2.html">UB Social - Voltar</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                </div>
-            </nav>
-        </div>
-    </div>
-
     <div class="row">
         <div class="col-sm-12" id="titulo1">
             <h1 id="serifada">Reconhecimento web e vulnerabilidades</h1>
             <h6><strong>Funcionamento HTTP, diretórios internos, HTTP Headers e vulnerabilidades</strong></h6>
+            <a href="../index.html" class="btn btn-link" id="btnLink">Voltar</a>
         </div>
 
         <div class="col-sm-12">
@@ -44,7 +32,7 @@
 <small><pre id="codigo"><code>
 intitle:”Index of” site:bancocn.com
 </code></pre></small>
-            <img src="../anexos1/posta4/netdiretorios.png" class="img-fluid">
+            <img src="anexos/vulnerabilidadesWeb/netdiretorios.png" class="img-fluid">
             <br><br>
             <h4>Erros padrões</h4>
             <ul>
@@ -73,7 +61,7 @@ intitle:”Index of” site:bancocn.com
                     </ul>
                 </li>
             </ul>
-            <img src="../anexos1/posta4/netheaders.png" class="img-fluid">
+            <img src="anexos/vulnerabilidadesWeb/netheaders.png" class="img-fluid">
             <br><br>
             <p id="textoPost">Para maiores detalhes sobre, pode-se usar o <b>Netcat</b> com os comandos abaixo, que o servidor enviará um Response Header de funcionamento:</p>
 <small><pre id="codigo"><code>
@@ -102,7 +90,7 @@ dirb http://bancocn.com -v (-v mostra procedimento)
 <small><pre id="codigo"><code>
 dirb http://bancocn.com -v -a "Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0" -c "__cfduid=dd1f94e17e11b750771b23f1c4d46c96a1592855093; cf_clearance=9d635dc0e4582faca692baac2be1161c33e6e787-1592998676-0-f107732-150; cf_chl_1=3c8d95637607170" -f
 </code></pre></small>
-            <img src="../anexos1/posta4/dirb.png" class="img-fluid">
+            <img src="anexos/vulnerabilidadesWeb/dirb.png" class="img-fluid">
             <br><br>
             <h4>SQL Injection</h4>
             <p id="textoPost">Enviar dados diferenciais na url, a fim de obter informações sobre o banco de dados.</p>

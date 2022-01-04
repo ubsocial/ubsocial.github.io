@@ -2,43 +2,31 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Ovo&family=Qwitcher+Grypen&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Ovo&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="shortcut icon" href="../.././../anexos/icons/logoTit.png"/>
-    <link rel="stylesheet" href="../estilo2.css">
+    <link rel="shortcut icon" href="../anexos/icons/logoTit.png"/>
+    <link rel="stylesheet" href="estilo2.css">
     <title>UB Social</title>
 </head>
 <body id="fundo">
 <div class="container-fluid">
 
-
-    <div class="row">
-        <div class="col-sm-12" id="menu">
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                <a id="serifada" class="navbar-brand" href="../../../artigos/seguranca/index2.html">UB Social - Voltar</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                </div>
-            </nav>
-        </div>
-    </div>
-
     <div class="row">
         <div class="col-sm-12" id="titulo1">
             <h1 id="serifada">Port Scan com Netcat, NMAP e ZENMAP</h1>
             <h6><strong>Escaneando vulnerabilildades em portas com Netcat, NMAP e ZENMAP</strong></h6>
+            <a href="../index.html" class="btn btn-link" id="btnLink">Voltar</a>
         </div>
 
         <div class="col-sm-12">
             <h4>Enumerar Serviços</h4>
 <small><pre id="codigo"><code>
-No browser: “url:porta”.
+No browser: "url:porta".
 bancocn.com:80
 </code></pre></small>
             <p id="textoPost">Serviços são determinadas aplicações rodando em determinada porta. Quando o Browser encontra o ip, tenta a entrada na porta 80, comum para entrada browser no servidor do site. Cada ip pode possuir milhares de portas (65536 - 1 à 65535). Porta 23 serviço Telnet (Controle remoto do servidor via terminal). Porta 25 de envio de emails. Quando ocorre o erro 400, por exemplo, a porta está funcionando, porém 'fechada', feedback dado pelo servidor por não entender a requisição. Erro 403 é a rejeição da conexão pela segurança do servidor. Há servidores que rodam muitos serviços ao mesmo tempo, como portas Tomcat, FTP, Telnet, SSH, SMTP, IMAP, entre muitos outros. Dependendo do tipo do servidor (Windows, Linux...) existirão determinados tipos de portas.</p>
@@ -72,7 +60,7 @@ ZENMAP é o NMAP GUI, deve ser executado como root
 nmap -sS -sV bancocn.com
 </code></pre></small>
             <p id="textoPost">No caso, muitos firewalls impedem que outras portas abertas sejam amostradas, indicando somente as portas Https<small>(80,443,8080,8443...)</small>. Por isso, quando realizamos Port Scan em ip de firewall, é possível um resultado muito similar à esse. De acordo com o resultado gerado, caso encontra-se uma porta aberta, no qual mostra a determinada versão no firewall, aí deve-se procurar falhas de vulnerabilidade em tal. Por fim, pode-se salvar o Scan em Scan > Save Scan, que será salvo os dados em arquivo xml.</p>
-            <img src="../anexos1/posta2/zenmap.png" class="img-fluid">
+            <img src="anexos/portscan/zenmap.png" class="img-fluid">
             <br><br>
             <h4>Vários Targets</h4>
             <p id="textoPost">Geralmente, tem-se vários ip's para escanear, pois é comum em redes internas, realizar o pentest em todas as máquinas que a compõem. Exemplo escanear um range de ip's:</p>

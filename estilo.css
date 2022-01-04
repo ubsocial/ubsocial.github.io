@@ -2,14 +2,14 @@
 #menu {padding: 0%;}
 #titulo1 {padding: 80px 0% 20px 0%; text-align: center;}
 #serifada {font-family: 'Ovo', serif;}
+#assinatura {font-family: 'Qwitcher Grypen', cursive;}
 #textoPost {text-align: justify;}
 #btnLink {text-decoration: none;}
 #rodape {background-color: black; color: white; padding: 23px 0px 10px 0px;}
 
 /*Modal Inspiração - Contato*/
 #titulo2 {padding: 25px 0% 25px 0%; text-align: center;}
-#modalInspiracao {background-color: black; color: white;  padding: 30px 10px 10px 10px;}
-#assinatura {font-family: 'Qwitcher Grypen', cursive;}
+#modalInspiracao {background-color: black; color: white; padding: 30px 10px 10px 10px;}
 #textoPost2 {text-align: justify; color: rgb(165, 165, 165);}
 
 /*Card Natal*/
