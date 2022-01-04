@@ -203,7 +203,7 @@
                 <li><b>Fase 2</b>: Bart com Skate -&gt; Extração de características -&gt; Modelo aprendido = Bart</li>
             </ul>
 
-            <br>
+            <br><br>
             <h4>===== Pré-processamento de dados =====</h4>
             
             <br><h5>Tipos de variáveis</h5>
@@ -590,7 +590,12 @@ with open('census.pkl', mode='wb') as f:
     pickle.dump([X_census_treinamento, y_census_treinamento, X_census_teste, y_census_teste], f)
 </code></pre></small>
 
-            <!--VER 32-->
+            <br><br>
+            <h4>===== Naïve Bayes =====</h4>
+            <p id="textoPost">O algoritmo de Naïve Bayes é bastante utilizado em mineração de texto, sendo baseado em probabilidade (Teorema de Bayes). Tal algoritmo atua geralmente em filtragem de spam, mineração de emoção (Dada uma frase, concluirá a emoção do narrador) e separação de documentos (Notícias de esportes, notícias de política, etc). Levando em conta a base de dados Risco de Crédito, o algoritmo gerará, com base no treinamento de histórico de dados, uma tabela de probabilidade, conforme imagem abaixo. Nela, o Risco de Crédito é o atributo Classe. A cada nova submissão para descobrir qual o risco de crédito, os atributos previsores deverão ser submetidos à essa tabela</p>
+            <img src="../anexos/ia/bayesResultado.png" width="550px" height="auto">
+
+            <!--VER 34-->
             <!--Colab: https://colab.research.google.com/drive/1GL4sN3PiqSVCeUHZKctQc4lvAqH3NhiG#scrollTo=h25oSZkQA6Sr -->
         </div>
     </div>
