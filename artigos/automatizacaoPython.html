@@ -36,7 +36,7 @@
 
     <div class="row">
         <div class="col-sm-12" id="titulo1">
-            <h1 id="serifada">Automatização Python</h1>
+            <h1 id="serifada">Automatizações com Python</h1>
             <h6><strong>Automatização de ambientes com Python 3</strong></h6>
             <a href="../index.html" class="btn btn-link" id="btnLink">Voltar</a>
         </div>
@@ -63,7 +63,7 @@
         </div>
 
         <div class="col-sm-12">
-            <br><h3>===== AUTOMATIZAÇÃO DE SISTEMAS E PROCESSOS =====</h3>
+            <br><h4>===== AUTOMATIZAÇÃO DE SISTEMAS E PROCESSOS =====</h4>
             <p id="textoPost">Automatizar sistema de vendas, cujo diariamente envia email para diretoria, informando faturamento e quantidade de produtos vendidos no dia anterior. Automaticamente, exportar relatório de vendas e anexá-lo em email para a diretoria, enviando-o.</p>
             <ol>
                 <li>Entrar no sistema da empresa, onde o mesmo disponibilizará (Exportará) relatório base de vendas do dia anterior (<a href="https://drive.google.com/drive/folders/149xknr9JvrlEnhNWO49zPcw0PW5icxga?usp=sharing" target="_blank">Link aqui</a>);</li>
@@ -74,7 +74,7 @@
 
             <br><h5>Importar Libraries</h5>
 <small><pre><code>
-# pyautogui e pyperclip automatizam mouse, display e teclado da máquina
+<span class="text-muted">#pyautogui e pyperclip automatizam mouse, display e teclado da máquina</span>
 !pip install pyautogui
 !pip install pyperclip
 
@@ -82,15 +82,15 @@ import pyautogui
 import pyperclip
 import time
 
-pyautogui.PAUSE = 1 # Pausa, em segundos, entre comandos (Necessário para delay)
+pyautogui.PAUSE = 1 <span class="text-muted">#Delay, em segundos, entre comandos</span>
 </code></pre></small>
             
             <br><h5>Entrar no sistema</h5>
 <small><pre><code>
-pyautogui.hotkey("ctrl","t") # Combinação/Atalho de teclas, abrir nova aba
+pyautogui.hotkey("ctrl","t") <span class="text-muted">#Combinação/Atalho de teclas, abrir nova aba</span>
 pyperclip.copy("https://drive.google.com/drive/folders/149xknr9JvrlEnhNWO49zPcw0PW5icxga?usp=sharing")
 pyautogui.hotkey("ctrl","v")
-pyautogui.press("enter") # Aperta tecla 'enter'. 'click' clica com o mouse em algum ponto da tela. 'write' escreve na tela (Ao mandar python escrever URL, ele não incluirá o '?', pois é caractere especial)
+pyautogui.press("enter") <span class="text-muted">#Aperta tecla 'enter'. 'click' clica com o mouse em algum ponto da tela. 'write' escreve na tela (Ao mandar python escrever URL, ele não incluirá o '?', pois é caractere especial)</span>
 
 time.sleep(5)
 </code></pre></small>
@@ -111,10 +111,10 @@ time.sleep(5)
 
             <br><h5>Calcular indicadores</h5>
 <small><pre><code>
-# pandas é usado para abrir bases de dados com Python
+<span class="text-muted">#pandas é usado para abrir bases de dados com Python</span>
 import pandas as pd
 
-tabela = pd.read_excel(r"C://Users/alonp/Downloads/Vendas - Dez.xlsx") # Confira a URI de acordo com sua máquina
+tabela = pd.read_excel(r"C://Users/alonp/Downloads/Vendas - Dez.xlsx") <span class="text-muted">#Confira a URI de acordo com sua máquina</span>
 display(tabela)
 
 faturamento = tabela["Valor Final"].sum()
@@ -123,26 +123,22 @@ quantidade = tabela["Quantidade"].sum()
 
             <br><h5>Enviar email (Gmail)</h5>
 <small><pre><code>
-# Passo 5: Entrar no email
-pyautogui.hotkey("ctrl", "t")
+<span class="text-muted">#Entrar no email</span>
+pyautogui.hotkey("ctrl","t")
 pyperclip.copy("https://mail.google.com/mail/u/0/#inbox")
-pyautogui.hotkey("ctrl", "v")
+pyautogui.hotkey("ctrl","v")
 pyautogui.press("enter")
 time.sleep(5)
 
-# Passo 6: Enviar por e-mail o resultado
-pyautogui.click(x=109, y=183)
+<span class="text-muted">#Enviar resultado por email</span>
+pyautogui.click(x=109,y=183)
 
-pyautogui.write("pythonimpressionador+diretoria@gmail.com")
-pyautogui.press("tab") # seleciona o email
-# escreve outro email
-# tab
-# escreve outro email
-# tab
-pyautogui.press("tab") # pula pro campo de assunto
+pyautogui.write("ubsocial@gmail.com") <span class="text-muted">#Informar email válido</span>
+pyautogui.press("tab") <span class="text-muted">#Selecionar email</span>
+pyautogui.press("tab") <span class="text-muted">#Pular pro campo assunto</span>
 pyperclip.copy("Relatório de Vendas")
-pyautogui.hotkey("ctrl", "v") # escrever o assunto
-pyautogui.press("tab") #pular pro corpo do email
+pyautogui.hotkey("ctrl", "v") <span class="text-muted">#Escrever assunto</span>
+pyautogui.press("tab") <span class="text-muted">#Pular pro corpo do email</span>
 
 texto = f"""
 Prezados, bom dia
@@ -150,21 +146,19 @@ Prezados, bom dia
 O faturamento de ontem foi de: R${faturamento:,.2f}
 A quantidade de produtos foi de: {quantidade:,}
 
-Abs
-LiraPython"""
+Cordialmente,
+UB Social"""
 
 pyperclip.copy(texto)
-pyautogui.hotkey("ctrl", "v")
+pyautogui.hotkey("ctrl","v")
 
-# clicar no botão enviar
-
-# apertar Ctrl Enter
-pyautogui.hotkey("ctrl", "enter")
+<span class="text-muted">#Clicar no botão enviar (Ou apertar ctrl+enter)</span>
+pyautogui.hotkey("ctrl","enter")
 </code></pre></small>
 
             <br><h5>Descobrir posição de click</h5>
 <small><pre><code>
-# Cada display é específico, portanto pode-se modificar os valores de posição de click nos dados acima
+<span class="text-muted">#Cada display é específico, portanto pode-se modificar os valores de posição de click nos dados acima</span>
 time.sleep(5)
 pyautogui.position()
 </code></pre></small>
