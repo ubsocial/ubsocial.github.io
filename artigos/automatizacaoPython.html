@@ -44,6 +44,7 @@
         <div class="col-sm-12">
             <h4>Ambiente e materiais</h4>
             <a href="https://github.com/ubsocial/automatizacaoPython" class="btn btn-link" id="btnLink" target="_blank">Github do projeto</a>
+            <br><a href="https://pyautogui.readthedocs.io/en/latest/quickstart.html" class="btn btn-link" id="btnLink" target="_blank">Códigos PyAutoGUI</a>
             <p id="textoPost">Instalar editor Jupyter Notebook:</p>
             <ol>
                 <li>sudo apt update && sudo apt upgrade</li>
@@ -92,7 +93,7 @@ pyperclip.copy("https://drive.google.com/drive/folders/149xknr9JvrlEnhNWO49zPcw0
 pyautogui.hotkey("ctrl","v")
 pyautogui.press("enter") <span class="text-muted">#Aperta tecla 'enter'. 'click' clica com o mouse em algum ponto da tela. 'write' escreve na tela (Ao mandar python escrever URL, ele não incluirá o '?', pois é caractere especial)</span>
 
-time.sleep(5)
+time.sleep(5) <span class="text-muted">#Pausa simulada para aguardar sistema carregar</span>
 </code></pre></small>
 
             <br><h5>Navegar até relatório (Entrar na pasta Exportar)</h5>
@@ -161,6 +162,13 @@ pyautogui.hotkey("ctrl","enter")
 <span class="text-muted">#Cada display é específico, portanto pode-se modificar os valores de posição de click nos dados acima</span>
 time.sleep(5)
 pyautogui.position()
+</code></pre></small>
+
+            <br><h5>Exemplo: abrir Chrome (Win10)</h5>
+<small><pre><code>
+pyautogui.press("win")
+pyautogui.write("chrome")
+pyautogui.press("enter")
 </code></pre></small>
         </div>
     </div>
