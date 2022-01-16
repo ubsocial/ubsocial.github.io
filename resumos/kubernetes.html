@@ -39,20 +39,23 @@
             <h1 id="serifada">Kubernetes</h1>
             <h6><strong>Conceitos básicos de Kubernetes</strong><br><br><span class="badge bg-warning text-dark">Resumo em construção</span></h6>
             <a href="../index.html" class="btn btn-link" id="btnLink">Voltar</a><br><br>
-            <a class="btn btn-link" id="btnLink" href="https://github.com/ubsocial/Django" target="_blank">Github do projeto</a>
-            <a class="btn btn-link" id="btnLink" href="https://www.jetbrains.com/pt-br/pycharm/download" target="_blank">Pycharm Community</a>
-            <!--<a class="btn btn-link" id="btnLink" href="https://github.com/mateusschwede/ubsocialIA" target="_blank">Github do projeto</a>-->
+            <a class="btn btn-link" id="btnLink" href="" target="_blank">Github do projeto</a>
         </div>
 
         <div class="col-sm-12">
-            <h4>===== Introdução =====</h4>
-            <br><p><b>Instalação:</b></p>
+            <h4>Problemática</h4>
+            <p id="textoPost">Nos primórdios, para cada serviço em uma aplicação (Apache, MySQL, nginx...) era necessária uma máquina para alocá-lo, resultando-se em vários servidores para rodar um site que necessitasse dessas várias aplicações, resultando em capacidade subutilizada. Com a chegada da Virtualização, tudo fora executado em máquina física única, porém há muito gasto de hardware na alocação e cotidiano. Dessa forma, havia-se a Consolidação do Servidor, onde que os servidores que não estavam sendo utilizados, em alguns momentos de pouco fluxo, eram desligados. Quando a necessidade de carga era maior, os demais servidores eram novamente ligados, alocando novamente as outras VMs que haviam sido movidas para o único servidor no início (Live Migration). Com o surgimento dos Containers, constituiram-se as aplicações isoladas, descartou-se a necessidade de replicar stacks do SO, como duplicação de libraries, a própria infra do SO e trazendo, com isso, maior desempenho, facilidade de manutenção e leveza.</p>
+            
+            <br><h4>Conceito</h4>
+            <p id="textoPost">Kubernetes (K8s) é ferramenta de código aberto para automatizar implantação gerenciamento e escalonamento de aplicações conteinerizadas, automatizando, com isso, toda a infraestrutura de aplicações. A <b>Orquestração</b> gerenciará os containers entre os servidores e os ativará/desativará de acordo com a necessidade de carga no cluster, escalando recursos e corrigindo problemas. O Kubernetes pode ser utilizado em Cluster Single Node (1 só servidor) ou Cluster padrão (1-N Master Node (Máquina Mestre/gerenciadora), N Slaves (Máquinas Escravas/gerenciada))</p>
             <ul>
-                <li>Possuir Python 3 full e Pycharm instalados. Criar novo projeto Python, com environment Virtualenv (Atentar-se a localização do mesmo)</li>
-                <li>Instalar Pip: <i>sudo apt install python3-pip</i></li>
-                <li>Instalar Django: <i>pip install django</i></li>
-                <li>Criar arquivo de lista de dependências: <i>pip freeze &gt; requirements.txt</i></li>
+                <li>Quando um node que aloca recursos tem pane, os containers nele serão perdidos?</li>
+                <li>Se há 10 réplicas da aplicação 1.0 no cluster, e insiro uma réplica da 1.1, como as demais serão atualizadas?</li>
+                <li>Como escalar o software para lidar com o aumento da demana?</li>
             </ul>
+
+            <br><h4>Arquitetura</h4>
+            <!--VER AULA 4-->
         </div>
     </div>
 
