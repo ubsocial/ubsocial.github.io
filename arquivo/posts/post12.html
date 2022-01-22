@@ -18,12 +18,67 @@
     <div class="row">
         <div class="col-sm-12" id="titulo1">
             <h1 id="serifada">XAMPP no Linux</h1>
-            <h6><strong>Instalação, atalho e uso do XAMPP</strong><br><br><span class="badge bg-warning text-dark">Post em construção</span></h6>
+            <h6><strong>Instalação, atalho e uso do XAMPP</strong></h6>
             <a href="../../index.html" class="btn btn-link" id="btnLink">Voltar</a>
         </div>
 
         <div class="col-sm-12">
-            <h1>Texto aqui</h1>
+            <h4>Instalação:</h4>
+            <ol>
+                <li>Acesse o site oficial do Xampp e baixe a versão para Linux: <a href="https://www.apachefriends.org/pt_br/index.html" target="_blank" class="btn btn-link" id="btnLink">Site XAMPP</a>
+                    <ul>
+                        <li class="text-muted">Baixará o LAMPP (Linux,Apache,MySQL,PHP) em arquivo instalador '.run'</li>
+                    </ul>
+                </li>
+                <li>Com o Bash, acesse o diretório em que o arquivo .run encontra-se
+                    <ul>
+                        <li class="text-muted">Exemplo na pasta Downloads 'cd ~/Downloads'</li>
+                    </ul>
+                </li>
+                <li>Torne o arquivo executável 'sudo chmod +x nomeArquivo.run'</li>
+                <li>Execute o arquivo 'sudo ./nomeArquivo.run'
+                    <ul>
+                        <li class="text-muted">Siga o passo a passo do instalador</li>
+                    </ul>
+                </li>
+            </ol>
+            
+            <br><h4>Atalho/Lançador:</h4>
+            <ol>
+                <li>Vá para o diretório de seus atalhos 'cd ~/.local/share/applications/'</li>
+                <li>Crie o arquivo de atalho 'nano xampp.desktop'
+                    <ul>
+                        <li class="text-muted">No editor, insira o seguinte conteúdo no arquivo:</li>
+<small><pre><code>
+[Desktop Entry]
+Name=XAMPP
+Comment=Run XAMPP Control Panel
+Exec=sudo /opt/lampp/manager-linux-x64.run %f
+Terminal=true
+Type=Application
+Icon=/opt/lampp/htdocs/favicon.ico
+StartupNotify=true
+Categories=Development;
+Keywords=xampp;
+</code></pre></small>
+                        <li class="text-muted">Utilize 'ctrl+x' para sair do editor nano, confirmando salvamento do arquivo</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <br><h4>Habilitar login Phpmyadmin:</h4>
+            <p id="textoPost">Por padrão, o Phpmyadmin vem com login de acesso desabilitado. Para habilitá-lo, siga as instruções:</p>
+            <ol>
+                <li>Torne permissão para editar arquivo de configuração 'sudo chmod 777 /opt/lampp/phpmyadmin/config.inc.php'</li>
+                <li>Acesse arquivo de configuração 'sudo nano /opt/lampp/phpmyadmin/config.inc.php'
+                    <ul>
+                        <li class="text-muted">Nele, altere a linha <i>$cfg['Servers'][$i]['auth_type'] = 'config';</i> para <i>$cfg['Servers'][$i]['auth_type'] = 'cookie';</i></li>
+                        <li class="text-muted">Use 'ctrl+x' para sair do editor nano, salvando o arquivo</li>
+                    </ul>
+                </li>
+                <li>Retome às permissões originais do arquivo de configuração 'sudo chmod 644 /opt/lampp/phpmyadmin/config.inc.php'</li>
+                <li>Acesse o Phpmyadmin, via browser 'localhost/phpmyadmin', com usuário 'root' e nenhuma senha</li>
+            </ol>
         </div>
     </div>
 
