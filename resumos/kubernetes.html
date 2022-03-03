@@ -89,9 +89,19 @@
                 <li><b>kube-apiserver</b>: Serve a API do K8s, baseada em REST, requisições via YAML (yml) que serão convertidas em JSON pelo kubectl;</li>
                 <li><b>kube-controller-manager</b>: Pacote com diversos componentes de controle (Executa ações como verificação de funcionamento de Pods e, se houverem erros, criará novos Pods);</li>
                 <li><b>kube-scheduler</b>: Escalona os Pods para serem executados nos nodes (Quando o Pod é criado, será escalonado para o node mais ideal). Pode também ser manipulado via usuário para escalonamento personalizado (Exemplo, escalonar Pods somente para as máquinas com GPU);</li>
-                <li><b>kube-proxy</b>: Trata da comunicação entre nodes, adicionando regras ao firewall.</li>
+                <li><b>kube-proxy</b>: Trata da comunicação entre nodes, adicionando regras ao firewall (Como em iptables, para abertura e redirecionamento de portas, túneis, etc).</li>
             </ul>
             <p id="textoPost">Tem-se também Registry, sendo geralmente em repositório local do Docker e outro remoto, como Dockerhub.</p>
+
+            <br><h4>Rede no K8s</h4>
+            <img src="../anexos/kubernetes/rede.jpg" width="350px" height="auto">
+            <p id="textoPost">O modelo de redes do K8s envolve a criação de redes virtuais (Rede overlay) no cluster. Cada Pod do cluster tem um IP único (Externo ou interno), mesmo aqueles que são executados em outros nodes. Entre os plugins para criação de redes entre nodes, responsáveis por criar túneis seguros de comunicação, tem-se:</p>
+            <ul>
+                <li>Flannel;</li>
+                <li>Weave.</li>
+            </ul>
+
+            <!--VER AULA 4-->
         </div>
     </div>
 
