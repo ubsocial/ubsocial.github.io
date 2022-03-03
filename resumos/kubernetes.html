@@ -54,8 +54,44 @@
                 <li>Como escalar o software para lidar com o aumento da demana?</li>
             </ul>
 
-            <br><h4>Arquitetura</h4>
-            <!--VER AULA 4-->
+            <br><h4>Arquitetura K8s</h4>
+            <img src="../anexos/kubernetes/arquitetura.jpg" width="350px" height="auto">
+            <p id="textoPost">Orquestrar tarefas de gerenciamento. Pode ser instalado em modo single ou cluster. O cluster é formado por nós master e worker, onde o master é node de interação com o usuário. Em grandes estruturas, podem haver mais de 1 master, para o caso de falhas e correção de problemas.</p>
+            <ul>
+                <li><b>Master</b>: Executa os componentes do plano de controle;</li>
+                <li><b>Worker</b>: Geralmente executa os Containers.</li>
+            </ul>
+            <p>Componentes:</p>
+            <ul>
+                <li><b>kubeadm</b>: Automatiza grande parte do processo de criação/instalação do cluster;</li>
+                <li><b>kubelet</b>: Componente essencial do K8s que lida com a execução de Pods. Atua como um agente em cada node, intermediando (interface) as trocas de mensagens entre API server e Docker runtime. Tecnicamente, faz interação com o Docker e kube-apiserver;</li>
+                <li><b>kubectl</b>: CLI de interação com o K8s cluster.</li>
+            </ul>
+            <p><b>Pod</b>:</p>
+            <img src="../anexos/kubernetes/pod.jpg" width="350px" height="auto"><br>
+            <img src="../anexos/kubernetes/pod2.jpg" width="450px" height="auto">
+            <p id="textoPost">Menor e mais básica estrutura do K8s, criada para abstrair o conceito de Container. Consiste de 1 ou mais Containers, recursos de armazenamento (Volumes) e 1 único ID e IP na rede do cluster K8s. Utiliza-se vários Containers dentro de um Pod geralmente em que hajam vários processos, processos em batch (lote) e demais tarefas pesadas (Ex: Um Container Web Service recebe outra Imagem, que deverá ser processada pelo mesmo, ou seja, quando à 'relações' entre Containers em 1 mesmo Pod).</p>
+            <p>Ciclo de Vida:</p>
+            <img src="../anexos/kubernetes/pod3.jpg" width="350px" height="auto">
+            <ul>
+                <li><b>Pending</b>: Pod foi aceito pelo K8s, mas 1 ou mais Containers ainda não foram criados. Isso inclui tempo de escalonamento e tempo de download da Imagem;</li>
+                <li><b>Running</b>: Pod foi alocado em um node e todos os Containers foram criados. Pelo menos 1 Container deve estar em execução, ou no processo de (re)inicialização;</li>
+                <li><b>Succeeded</b>: Containers do Pod terminaram com sucesso;</li>
+                <li><b>Failed</b>: Containers do Pod terminaram, pelo menos 1 deles com falha (status!=zero ou terminado pelo sistema);</li>
+                <li><b>Unknown</b>: Por alguma razão, o estado do Pod não pode ser obtido. Tipicamente por causa de erro de comunicação entre node e Pod.</li>
+            </ul>
+            
+            <p><b>Control Plane</b>:</p>
+            <img src="../anexos/kubernetes/controlPlane.jpg" width="450px" height="auto">
+            <p><small class="text-muted"><u>Legenda</u>: Minion é worker node</small></p>
+            <ul>
+                <li><b>etcd</b>: Provê sistema distribuído e compartilhado para armazenar o estado do cluster, sendo os dados armazenados em formato chave-valor (Informações como status do node master, status dos workers, status de Pods, etc). O etcd é executado, no K8s, como um Pod do mesmo;</li>
+                <li><b>kube-apiserver</b>: Serve a API do K8s, baseada em REST, requisições via YAML (yml) que serão convertidas em JSON pelo kubectl;</li>
+                <li><b>kube-controller-manager</b>: Pacote com diversos componentes de controle (Executa ações como verificação de funcionamento de Pods e, se houverem erros, criará novos Pods);</li>
+                <li><b>kube-scheduler</b>: Escalona os Pods para serem executados nos nodes (Quando o Pod é criado, será escalonado para o node mais ideal). Pode também ser manipulado via usuário para escalonamento personalizado (Exemplo, escalonar Pods somente para as máquinas com GPU);</li>
+                <li><b>kube-proxy</b>: Trata da comunicação entre nodes, adicionando regras ao firewall.</li>
+            </ul>
+            <p id="textoPost">Tem-se também Registry, sendo geralmente em repositório local do Docker e outro remoto, como Dockerhub.</p>
         </div>
     </div>
 
