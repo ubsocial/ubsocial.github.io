@@ -37,9 +37,10 @@
     <div class="row">
         <div class="col-sm-12" id="titulo1">
             <h1 id="serifada">Kubernetes</h1>
-            <h6><strong>Conceitos básicos de Kubernetes</strong><br><br><span class="badge bg-warning text-dark">Resumo em construção</span></h6>
+            <h6><strong>Conceitos básicos de Kubernetes K8s</strong><br><br><span class="badge bg-warning text-dark">Resumo em construção</span></h6>
             <a href="../index.html" class="btn btn-link" id="btnLink">Voltar</a><br><br>
-            <a class="btn btn-link" id="btnLink" href="" target="_blank">Github do projeto</a>
+            <a class="btn btn-link" id="btnLink" href="" target="_blank">Github do projeto</a><br><br>
+            <a class="btn btn-link" id="btnLink" href="https://kubernetes.io/pt-br" target="_blank">Site oficial e documentação</a>
         </div>
 
         <div class="col-sm-12">
@@ -101,7 +102,69 @@
                 <li>Weave.</li>
             </ul>
 
-            <!--VER AULA 4-->
+            <br><h4>Arquivo de Manifesto/Especificação</h4>
+            <p id="textoPost">Podem ser escritos via yml ou json, como modelo abaixo:</p>
+<small><pre><code>
+<b>apiVersion:</b> v1
+<span class="text-muted"># Comentário</span>
+<b>kind:</b> Pod
+<b>metadata:</b>
+    <b>name:</b> kuard
+<b>spec:</b>
+    <b>containers:</b>
+        <b>-image:</b> gcr.io/kuar-demo/kuard-amd64:blue
+        <b>name:</b> kuard
+        <b>ports:</b>
+            <b>-containerPort:</b> 8080
+            <b>name:</b> http
+            <b>protocol:</b> TCP
+</code></pre></small>
+
+            <br><h4>Recursos/Objetos no K8s (Kind)</h4>
+            <ul>
+                <li>Pods;</li>
+                <li>Nodes;</li>
+                <li>Deployment;</li>
+                <li>ReplicaSet;</li>
+                <li>Service.</li>
+            </ul>
+
+            <br><h4>kubectl e maneiras de interação</h4>
+            <p id="textoPost">Há 2 maneiras básicas de interagir com K8s:</p>
+            <ul>
+                <li><b>Imperativa</b>: Através de diversos parâmetros do kubectl;
+                    <ul>
+                        <li>Diz ao K8s o que fazer (Ex: 'Crie 3 Pods com configurações X');</li>
+                        <li>Ideal para aprendizado, visando experimentos interativos ou debugar serviços em produção.</li>
+                    </ul>
+                </li>
+                <li><b>Declarativa</b>: Escrevendo manifestos e os usando com o comando <i>kubectl apply</i>.
+                    <ul>
+                        <li>Diz ao K8s o que você quer (Ex: 'Quero que seja XYZ', então serão feitas, automaticamente, criações e gestão de Pods e afins para alcançar o objetivo solicitado);</li>
+                        <li>Melhor para implantar serviços de maneira a facilitar reprodutibilidade;</li>
+                        <li>Recomendado para gerenciar aplicações K8s em produção.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <br><h5>Comandos de Abordagem Imperativa:</h5>
+            <p id="textoPost">Kubectl <i>get</i>, <i>describe</i> e <i>delete</i> podem ser usados com quaisquer recursos. Além desses, tem-se também <i>create</i>, <i>run</i>, <i>scale</i>, <i>expose</i>, <i>exec</i>, <i>copy</i> e <i>logs</i>. Alguns exemplos abaixo:</p>
+<small><pre><code>
+<span class="text-muted"># Listar</span>
+kubectl get pods
+kubectl get nodes
+kubectl get services
+
+<span class="text-muted"># Ver informações detalhadas</span>
+kubectl describe pod &lt;nome do Pod&gt;
+kubectl describe service &lt;nome do Service&gt;
+
+<span class="text-muted"># Exclusão</span>
+kubectl delete pod &lt;nome do Pod&gt;
+kubectl delete deployment &lt;nome do Deployment&gt;
+</code></pre></small>
+
+<!--Aula 4, parou nos 11:20-->
         </div>
     </div>
 
