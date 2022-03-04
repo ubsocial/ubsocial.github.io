@@ -148,7 +148,7 @@
             </ul>
 
             <br><h5>Comandos de Abordagem Imperativa:</h5>
-            <p id="textoPost">Kubectl <i>get</i>, <i>describe</i> e <i>delete</i> podem ser usados com quaisquer recursos. Além desses, tem-se também <i>create</i>, <i>run</i>, <i>scale</i>, <i>expose</i>, <i>exec</i>, <i>copy</i> e <i>logs</i>. Alguns exemplos abaixo:</p>
+            <p id="textoPost">Kubectl <i>get</i>, <i>describe</i> e <i>delete</i> podem ser usados com quaisquer recursos. Além desses, tem-se também <i>create</i>, <i>run</i>, <i>scale</i>, <i>expose</i>, <i>exec</i>, <i>copy</i> e <i>logs</i>.</p>
 <small><pre><code>
 <span class="text-muted"># Listar</span>
 kubectl get pods
@@ -164,7 +164,31 @@ kubectl delete pod &lt;nome do Pod&gt;
 kubectl delete deployment &lt;nome do Deployment&gt;
 </code></pre></small>
 
-<!--Aula 4, parou nos 11:20-->
+            <br><h5>Comandos de Abordagem Declarativa:</h5>
+            <p id="textoPost">Em caso de mudanças no arquivo, <i>apply</i> atualiza os recursos.</p>
+<small><pre><code>
+kubectl apply -f &lt;arquivo.yaml&gt;
+kubectl apply -f &lt;arquivo1.yaml&gt; -f &lt;arquivo2.yaml&gt;
+kubectl apply -f &lt;folder&gt;/
+</code></pre></small>
+
+            <br><h5>Criando Pod:</h5>
+            <p id="textoPost">Há diversos maneiras, entre as principais, via comando '<i><span class="text-muted">kubectl run nginx --generator=run-pod/v1 --image=nginx</span></i>', ou via arquivo yml:</p>
+<small><pre><code>
+<span class="text-muted">cat &lt;&lt; EOF | kubectl create -f -</span>
+apiVersion: <span class="text-muted">v1</span>
+kind: <span class="text-muted">Pod</span>
+metadata:
+    name: <span class="text-muted">nginx-pod</span>
+spec:
+    containers:
+        -name: <span class="text-muted">nginx-container</span>
+        image: <span class="text-muted">nginx</span>
+EOF
+</code></pre></small>
+
+            <br><h5>Exportar manifesto:</h5>
+            <!--PAROU AULA 4, 17:57-->
         </div>
     </div>
 
