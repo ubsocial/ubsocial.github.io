@@ -172,7 +172,7 @@ kubectl apply -f &lt;arquivo1.yaml&gt; -f &lt;arquivo2.yaml&gt;
 kubectl apply -f &lt;folder&gt;/
 </code></pre></small>
 
-            <br><h5>Criando Pod:</h5>
+            <br><h4>Criar Pod</h4>
             <p id="textoPost">Há diversos maneiras, entre as principais, via comando '<i><span class="text-muted">kubectl run nginx --generator=run-pod/v1 --image=nginx</span></i>', ou via arquivo yml:</p>
 <small><pre><code>
 <span class="text-muted">cat &lt;&lt; EOF | kubectl create -f -</span>
@@ -187,8 +187,35 @@ spec:
 EOF
 </code></pre></small>
 
-            <br><h5>Exportar manifesto:</h5>
-            <!--PAROU AULA 4, 17:57-->
+            <br><h4>Exportar manifesto</h4>
+            <ol>
+                <li>Salvar manifesto de um Pod: <span class="text-muted">kubectl get pod my-pod -o yaml &gt; my-pod.yaml</span></li>
+                <li>Salvar manifesto sem informações específicas do cluster: <span class="text-muted">kubectl get pod my-pod -o yaml --export &gt; my-pod.yaml</span></li>
+            </ol>
+
+            <br><h4>Namespace</h4>
+            <p id="textoPost">K8s usa namespaces para organizar objetos no cluster através de uma divisão lógica (Como se fosse uma pasta). Por padrão, kubectl interage com o namespace padrão (default). Para usar namespace específico (Diferente do padrão), pode-se usar a flag <span class="text-muted">--namespace=&lt;nome&gt;</span>, ou ainda <span class="text-muted">-n &lt;nome&gt;</span>. Para interagir com todos os namespaces, pode-se usar a flag <span class="text-muted">--all-namespaces</span> ao comando.</p>
+<small><pre><code>
+<b>Criar namespace:</b>
+kubectl create namespace dev
+kubectl create namespace prod
+
+<b>Listar namespaces:</b>
+kubectl get namespaces
+
+<b>Remover namespace:</b>
+kubectl delete namespace dev
+
+<b>Filtrar Pods por namespace:</b>
+kubectl get pods --namespace=teste
+kubectl get pods -n teste
+
+<b>Listar Pods de todos namespaces:</b>
+kubectl get pods --all-namespaces
+</code></pre></small>
+
+            <br><h4>Labels</h4>
+            <!--PAROU AULA 4, 20:35-->
         </div>
     </div>
 
