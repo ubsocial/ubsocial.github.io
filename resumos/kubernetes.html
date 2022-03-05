@@ -214,8 +214,75 @@ kubectl get pods -n teste
 kubectl get pods --all-namespaces
 </code></pre></small>
 
-            <br><h4>Labels</h4>
-            <!--PAROU AULA 4, 20:35-->
+            <br><h4>Label</h4>
+            <p id="textoPost">Par de chave-valor String. Todos os recursos/objetos do K8s podem ser rotulados. Ideal para filtragens/classificações. Existem 2 tipos de labels:</p>
+<small><pre><code>
+<b>1. Equality-based requirement (Igualdades/Diferenças):</b>
+environment = production <span class="text-muted"># environment é igual a production</span>
+tier != frontend
+
+<b>2. Set-based requirement (Conjuntos):</b>
+environment in (production, qa) <span class="text-muted"># environment está em production ou qa</span>
+tier notin (frontend, backend)
+
+<u>COMANDOS</u>:
+<b>Mostrar labels dos recursos:</b>
+kubectl get pods --show-labels
+
+<b>Excluir Pods com label <i>run=myapp</i>:</b>
+kubectl delete pods -l environment=production,tier=frontend
+kubectl get pods -l 'environment in (production),tier in (frontend)'
+
+<b>Atribuir label:</b>
+kubectl label deployment nginx-deployment tier=dev
+</code></pre></small>
+
+            <br><h4>Instalação do K8s (Ubuntu)</h4>
+            <p id="textoPost">Pode-se instalar a versão K8s Singlenode, via Microk8s (Para dispositivos embarcados, sendo mais estável) ou Minikube (Para ambientes Singlenode). Tem-se, também, a instalação em cluster (Instruções abaixo), onde precisa-se definir Master(s), Worker Nodes.</p>
+<small><pre><code>
+<b>1. Instalar Docker em todos Nodes:</b>
+sudo apt install curl
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+sudo apt update && sudo sudo apt list docker-ce -a
+
+sudo apt install docker-ce=18.06.1~ce~3-0~ubuntu
+sudo apt-mark hold docker-ce
+cat &gt; /etc/docker/daemon.json &lt;&lt;EOF
+{
+    "exec-opts": ["native.cgroupdriver=systemd"],
+    "log-driver": "json-file"
+    "log-opts": {
+        "max-size": "100m"
+    },
+    "storage-driver": "overlay2"
+}
+EOF
+
+mkdir -p /etc/systemd/system/docker.service.d
+systemctl daemon-reload
+systemctl restart docker
+sudo docker version
+
+<b>2. Instalar K8s em todos Nodes:</b>
+<span class="text-muted"># No final, desabilita-se swap para que o K8s funcione melhor</span>
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+cat &lt;&lt; EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+deb https://apt.kubernetes.io/ kubernetes-xenial main
+EOF
+
+sudo apt update
+sudo apt list kubelet -a
+
+sudo apt install kubelet=1.12.7-00 kubeadm=1.12.7-00 kubectl=1.12.7-00
+sudo apt-mark hold kubelet kubeadm kubectl
+sudo kubeadm version
+
+sudo swapoff -a
+sudo sed -i'/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+</code></pre></small>
+
+            <!--VER AULA 6 - CONFIGURAÇÃO DO K8s-->
         </div>
     </div>
 
