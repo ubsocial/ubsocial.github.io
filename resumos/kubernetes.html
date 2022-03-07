@@ -40,7 +40,9 @@
             <h6><strong>Conceitos básicos de Kubernetes K8s</strong><br><br><span class="badge bg-warning text-dark">Resumo em construção</span></h6>
             <a href="../index.html" class="btn btn-link" id="btnLink">Voltar</a><br><br>
             <a class="btn btn-link" id="btnLink" href="" target="_blank">Github do projeto</a><br><br>
-            <a class="btn btn-link" id="btnLink" href="https://kubernetes.io/pt-br" target="_blank">Site oficial e documentação</a>
+            <a class="btn btn-link" id="btnLink" href="https://kubernetes.io/pt-br" target="_blank">Site oficial e documentação</a><br><br>
+            <a class="btn btn-link" id="btnLink" href="https://labs.play-with-k8s.com" target="_blank">Editor online Play With Kubernetes</a>
+            <a class="btn btn-link" id="btnLink" href="https://www.katacoda.com" target="_blank">Editor online Katacoda</a>
         </div>
 
         <div class="col-sm-12">
@@ -173,7 +175,7 @@ kubectl apply -f &lt;folder&gt;/
 </code></pre></small>
 
             <br><h4>Criar Pod</h4>
-            <p id="textoPost">Há diversos maneiras, entre as principais, via comando '<i><span class="text-muted">kubectl run nginx --generator=run-pod/v1 --image=nginx</span></i>', ou via arquivo yml:</p>
+            <p id="textoPost">Há diversos maneiras, entre as principais, via comando '<i><span class="text-muted">kubectl run nginx --generator=run-pod/v1 --image=nginx</span></i>', ou via arquivo yml (Manifesto):</p>
 <small><pre><code>
 <span class="text-muted">cat &lt;&lt; EOF | kubectl create -f -</span>
 apiVersion: <span class="text-muted">v1</span>
@@ -282,7 +284,45 @@ sudo swapoff -a
 sudo sed -i'/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 </code></pre></small>
 
-            <!--VER AULA 6 - CONFIGURAÇÃO DO K8s-->
+            <br><h4>Minikube em Singlenode</h4>
+<small><pre><code>
+<b>Versão Minikube</b>: minikube version
+<b>Iniciar cluster Minikube</b>: minikube start --wait=false <span class="text-muted">#Instala Imagens e Pods necessários</span>
+
+<b>Ver informações do cluster</b>: kubectl cluster-info
+<b>Ver nodes do cluster</b>: kubectl get nodes
+<b>Ver namespaces do cluster:</b> kubectl get namespaces <span class="text-muted">#Namespace 'kube-system' é onde o K8s está instalado</span>
+<b>Ver Pods do cluster</b>: kubectl get pods <span class="text-muted">#Mostrará Pods do Namespace default</span>
+<b>Ver Pods por namespace</b>: kubectl get pods -n kube-system <span class="text-muted">#De todos namespaces 'get pods --all-namespaces'. Flag '-w' mostra iterativamente (Ctrl+c para sair). Flag '-o wide' mostra informações extras</span>
+<b>Ver informações do Pod</b>: kubectl describe pod etcd-minikube -n kube-system
+
+<b>Criar namespace</b>: kubectl create namespace ubsocial
+<b>Criar Pod</b>: kubectl run nginx --generator=run-pod/v1 --image=nginx -n ubsocial <span class="text-muted">#Criará Pod no Namespace ubsocial. Nesse caso, utilizando 'curl ipPodNginx' acessará a página do nginx</span>
+<b>Criar Pod via arquivo Manifesto diretamente</b>:
+cat &lt;&lt; EOF | kubectl create -f -
+apiVersion: v1
+kind: Pod
+metadata:
+    name: nginx-pod
+spec:
+    containers:
+        -name: nginx-container
+        image: nginx
+EOF
+
+<b>Criar Pod via arquivo Manifesto específico (arquivoManifesto.yaml)</b>: kubectl create -f arquivoManifesto.yaml -n ubsocial
+<b>Exportar Manifesto de Pod</b>: kubectl get pod nginx -o yaml -n ubsocial --export &gt; nginx.yaml <span class="text-muted">#Pode-se não redirecionar ao arquivo, também retirar o --export para ver na tela</span>
+
+<b>Ver labels</b>: kubectl get pods --show-labels -n ubsocial
+<b>Atribuir label ao Pod</b>: kubectl label pod nginx-pod -n ubsocial run=novoNginx
+
+<b>Excluir Pod</b>: kubectl delete pod nginx -n ubsocial <span class="text-muted">#Excluirá Pod 'nginx' do Namespace 'ubsocial'</span>
+<b>Excluir Pods via label</b>: kubectl delete pods -l run=novoNginx --all-namespaces <span class="text-muted">#Flag '-n nomeNamespace' para filtrar por namespace</span>
+
+<b>Editar Manifesto de Pod via label</b>: kubectl edit pod nginx -n ubsocial <span class="text-muted">#Teclas 'Esc', após ':wq' para salvar e sair</span>
+</code></pre></small>
+
+            <!--PAROU AULA 6, 33:30-->
         </div>
     </div>
 
