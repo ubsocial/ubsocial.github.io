@@ -38,7 +38,8 @@
         <div class="col-sm-12" id="titulo1">
             <h1 id="serifada">Docker</h1>
             <h6><strong>Gerenciando Containers</strong></h6>
-            <a href="../index.html" class="btn btn-link" id="btnLink">Voltar</a>
+            <a href="../index.html" class="btn btn-link" id="btnLink">Voltar</a><br>
+            <a href="https://github.com/ubsocial/Docker" target="_blank" class="btn btn-link" id="btnLink">Github do projeto</a>
         </div>
 
         <div class="col-sm-12">
@@ -129,7 +130,7 @@ CMD flask run --host 0.0.0.0
 <b>Excluir container (Parado):</b> docker rm idContainer (Incluir -f para em execução, excluir manterá imagens)
 <b>Excluir todos containers:</b> docker rm -f $(docker ps -qa) (-q é quit, mostra somente id's dos containers)
 
-<b>Construir Imagem:</b> docker build -t nomeImagem -f caminho/nomeDockerFile .
+<b>Construir Imagem:</b> docker build -t nomeImagem:opcionalInfo -f caminho/nomeDockerFile .
     <b>Ex:</b> docker build -t mysql-image -f api/db/Dockerfile .
 <b>Ver imagens:</b> docker image ls
 <b>Somente baixar imagem:</b> docker pull nomeImagem (push sobe imagem)
@@ -137,7 +138,6 @@ Exemplo nome de imagem: <i>docker.io/library/debian:buster-slim</i> (Ou usuario/
 
 <b>Criar apelido para imagem:</b> docker image tag nomeAtual novoAlternativo
 <b>Excluir imagem:</b> docker image rm nomeImagem (-f para imagens com containers existentes)
-<b>Construir imagem, a partir do dockerfile:</b> docker build -t nomeImagem:opcionalInfo diretorioDockerfile
 
 <u>PARÂMETROS</u>:
 idContainer pode também ser substituido pelo nome
