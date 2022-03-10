@@ -163,23 +163,12 @@ idContainer pode também ser substituido pelo nome
         <div class="row">
             <div class="col-sm-12">
                 <br><h4>Volume</h4>
-                <p id="textoPost">Local onde ficam os dados do container, que podem ser transferidos, além do ciclo de vida do container (Ex: Dados de BD, códigos e arquivos, etc) e compartilhados com demais containers (Ao adicionar container, muda-se a porta do host docker. Cada container funciona em uma porta). Pode ser diretório local ou externo.</p>
+                <p id="textoPost">Local onde ficam os dados do container, que podem ser transferidos, além do ciclo de seu vida (Ex: Dados de BD, códigos e arquivos, etc), e compartilhados com demais containers (Ao adicionar container, muda-se a porta do host docker. Cada container funciona em uma porta). Pode ser diretório local ou externo. Um Volume pode ser usado por 1 ou mais Containers.</p>
 <small><pre><code>
-<b>Criar container com volume:</b> docker run -dtiv caminho/absolutoArqExterno:caminho/internoContainer -p portaHostDocker:portaContainer nomeImagem
-    <b>Ex (Container Apache):</b> docker run -dv /root/destino/:/usr/local/apache2/htdocs/ -p 80:80 httpd
-<b>Container com volume padrão (/var/lib/docker/):</b> docker run -d --name banco -e MYSQL_USER=fulano -v nomeVolume:/var/lib/mysql mariadb
-<b>Ver volumes:</b> docker volume ls
-
-<u><b>Exemplos:</b></u>
-<b>Criar Container:</b> docker run -dv caminho1/pastaComp1:caminho2/pastaComp2 --name nomeContainer nomeImagem
-<b>Ex1 (Compartilhar, na pasta do projeto, a pasta com MySQL):</b>
-    -&gt; docker run -dv $(pwd)/pastaProjeto:/var/lib/mysql --name banco mysql-image
-    -&gt; docker exec -i banco mysql -uroot -nomeDB &lt; pastaProjeto/script.sql
-<b>Ex2 (Com porta de roteamento fora do Container, no host docker):</b>
-    -&gt; docker run -dv $(pwd)/pastaProjeto:/var/lib/mysql -p 9001:9001 --name banco mysql-image
-    -&gt; Conferir: No browser, acessar url 'localhost:9001/arquivo'
-<b>Ex3 (Com link de apelido, pode-se trocar o ip do Container por seu apelido, para acesso):</b>
-    -&gt; docker run -dv $(pwd)/pastaProjeto:/var/lib/mysql -p 9001:9001 --link apelidoContainer --name banco mysql-image
+<b>Criar Volume:</b> docker volume create nomeVolume
+<b>Listar Volumes:</b> docekr volume ls
+<b>Referenciar Volume ao Container:</b> docker container run --name nomeContainer -v nomeVolume:/localDeDados/doContainer/ nomeImagem
+<!--VER COMANDOS VOLUME, DEPOIS COLOCAR AQUI EXEMPLO PRÁTICO-->
 </code></pre></small>
             </div>
         </div>
