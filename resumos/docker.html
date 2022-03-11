@@ -230,7 +230,7 @@ idContainer pode também ser substituido pelo nome
         <div class="row">
             <div class="col-sm-12">
                 <br><h4>Docker Compose</h4>
-                <p id="textoPost">Arquivo do tipo <i>yml</i> chamado '<i>docker-compose.yml</i>', contendo composto (infraestrutura IAC) de configurações para automatização docker e comunicação entre containers (via nome estabelecido) e volumes, podendo haver versionamento e, com isso, melhor organização.</p>
+                <p id="textoPost">Arquivo do tipo <i>yaml</i> chamado '<i>docker-compose.yml</i>', contendo composto (infraestrutura IAC) de configurações para automatização docker e comunicação entre containers (via nome estabelecido) e volumes, podendo haver versionamento e, com isso, melhor organização.</p>
                 
                 <p><b>Utilização:</b></p>
                 <p>Caso com 3 container: MySQL, Node e Php.<br>Cada service (container) possui nome à escolha do usuário (<i>db</i>, <i>api</i> e <i>web</i> neste caso). No 1º caso (<i>db</i> e <i>web</i>), simplesmente passa-se imagem e variáveis de ambiente diretamente, deixando assim de utilizar tal arquivo Dockerfile. O restart reinicia o container caso o mesmo caia. No caso do <i>build</i>, se o Dockerfile tiver nome diferente, precisa-se adicionar a pasta na propriedade <i>context</i> e, abaixo, adicionar propriedade <i>dockerfile</i> com nome do arquivo Dockerfile. Conteúdo do <i>docker-compose.yml</i> abaixo.</p>
