@@ -163,12 +163,31 @@ idContainer pode também ser substituido pelo nome
         <div class="row">
             <div class="col-sm-12">
                 <br><h4>Volume</h4>
-                <p id="textoPost">Local onde ficam os dados do container, que podem ser transferidos, além do ciclo de seu vida (Ex: Dados de BD, códigos e arquivos, etc), e compartilhados com demais containers (Ao adicionar container, muda-se a porta do host docker. Cada container funciona em uma porta). Pode ser diretório local ou externo. Um Volume pode ser usado por 1 ou mais Containers.</p>
+                <p id="textoPost">Local onde ficam os dados do container, que podem ser transferidos, além do ciclo de seu vida (Ex: Dados de BD, códigos e arquivos, etc), e compartilhados com demais containers (Ao adicionar container, muda-se a porta do host docker. Cada container funciona em uma porta). Pode ser diretório local ou externo. Um Volume pode ser usado por 1 ou mais Containers. Por padrão, Volumes no Docker ficam em '/var/lib/docker/volumes/'. Para alterar o diretório padrão, basta, ao criar Container, trocar o nome do Volume pelo seu novo diretório (<i>docker container run --name db -v /outro/diretorio/:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=root -d mysql</i>).</p>
 <small><pre><code>
 <b>Criar Volume:</b> docker volume create nomeVolume
-<b>Listar Volumes:</b> docekr volume ls
-<b>Referenciar Volume ao Container:</b> docker container run --name nomeContainer -v nomeVolume:/localDeDados/doContainer/ nomeImagem
-<!--VER COMANDOS VOLUME, DEPOIS COLOCAR AQUI EXEMPLO PRÁTICO-->
+<b>Listar Volumes:</b> docker volume ls
+<b>Inspecionar Volume:</b> docker volume inspect nomeVolume
+<b>Remover Volume:</b> docker volume rm nomeVolume
+<b>Volume em Container:</b> docker run -d --name nomeContainer -v nomeVolume:/localDeDados/dentroDoContainer/ nomeImagem
+<b>Volume personalizado ao host docker:</b> docker run -d --name nomeContainer -v /localDeDados/dentroDoHostDocker:/localDeDados/dentroDoContainer/ nomeImagem (Salvará dados dentro de pasta personalizada)
+
+<u>EXEMPLO 1 (Volume padrão)</u>:
+<b>1. Criar Volume:</b> docker volume create meuVolume
+<b>2. Criar Container com Volume:</b> docker run -dti --name meuContainerComVolume -v meuVolume:/home/ alpine
+<b>3. Entrar no Container:</b> docker exec -ti meuContainerComVolume sh
+<b>4. Dentro do Container, criar coisas em /home/:</b> touch /home/arquivo1 /home/arquivo2 /home/arquivo3
+<b>5. Sair do Container:</b> (Ctrl+d ou exit)
+<b>6. Verificar diretório de Volumes Docker:</b> ls /var/lib/docker/volumes/
+<b>7. Acessar Volume:</b> cd /var/lib/docker/volumes/meuVolume/_data
+<b>8. Ver conteúdo do Volume:</b> ls (Mostrará os arquivos criados anteiormente dentro do Container)
+
+<u>EXEMPLO 2 (Volume personalizado)</u>:
+<b>1. Criar Container com Volume personalizado:</b> docker run -dti --name meuContainerComVolume2 -v /home/:/tmp/ alpine
+<b>3. Entrar no Container:</b> docker exec -ti meuContainerComVolume2 sh
+<b>4. Dentro do Container, criar coisas em /tmp/:</b> touch /tmp/arquivo1 /tmp/arquivo2 /tmp/arquivo3
+<b>5. Sair do Container:</b> (Ctrl+d ou exit)
+<b>6. Verificar diretório de Volume personalizado:</b> ls /tmp/ (Mostrará os arquivos criados anteiormente dentro do Container)
 </code></pre></small>
             </div>
         </div>
