@@ -231,53 +231,84 @@ idContainer pode também ser substituido pelo nome
             <div class="col-sm-12">
                 <br><h4>Docker Compose</h4>
                 <p id="textoPost">Arquivo do tipo <i>yaml</i> chamado '<i>docker-compose.yml</i>', contendo composto (infraestrutura IAC) de configurações para automatização docker e comunicação entre containers (via nome estabelecido) e volumes, podendo haver versionamento e, com isso, melhor organização.</p>
+
+                <p><b>Estrutura:</b></p>
+                <ul>
+                    <li><b>version</b>: Versão do Docker Compose utilizado (Opcional informar no docker-compose.yml);</li>
+                    <li><b>services</b>: Containers que compõem o docker-compose.yml (Cada service possuirá um nome de preferência do usuário, para referenciá-lo);</li>
+                    <li><b>build</b>: Alternativo ao <i>image</i>, mostra o diretório do Dockerfile para construção da Imagem;</li>
+                    <li><b>image</b>: Nome da Imagem a ser construída;</li>
+                    <li><b>container_name</b>: Nome do Container (De preferência do usuário);</li>
+                    <li><b>ports</b>: Indica, respectivamente, portaHost:portaContainer que serão liberadas para requisições entre ambos;</li>
+                    <li><b>expose</b>: Indica porta do Container que será exposta;</li>
+                    <li><b>working_dir</b>: Diretório especificado, que direcionará o usuário ao entrar no Container;</li>
+                    <li><b>deploy</b>: Determina regras de execução do Container, como nodes referenciados, métodos de execução, limitações de hardware, etc;</li>
+                    <li><b>restart</b>: Comportamento em caso de queda do Container;
+                        <ul>
+                            <li><i>no</i>: Quando Container cai, o Compose não o excluirá;</li>
+                            <li><i>always</i>: Quando Container cai, o Compose sempre o reiniciará;</li>
+                            <li><i>on-failure</i>: Em caso de apontamento de falha, executará Container novamente;</li>
+                            <li><i>unless-stopped</i>: Sempre tentará garantir o estado do Container em execução, ao menos que o mesmo seja colocado em <i>stopped</i> manualmente.</li>
+                        </ul>
+                    </li>
+                    <li><b>restart_policy</b>: Usado dentro do <i>deploy</i>, para informar regras de reinicialização e prevenção à falhas, como quantidade de tetnativas para iniciar o Container, tempo de espera para inicialização, etc;</li>
+                    <li><b>networks</b>: Definir redes que serão criadas e relacionadas junto ao Container, informando, respectivamente em cada linha dependente: nomeRede, tipoRede, driverRede e subnet;</li>
+                    <li><b>volumes</b>: Indicar volumes, onde o padrão é: <i>nomeVolume:diretorioInternoContainer/</i> ou personalizado: <i>diretorioInternoHostDocker:diretorioInternoContainer/</i></li>
+                    <li><b>environment</b>: Variáveis de ambiente do Container, na sintaxe <i>NOME_VARIAVEL=valor</i>;</li>
+                    <li><b>env_file</b>: Diretório do arquivo com lista de variáveis de ambiente onde, dentro dele, há uma variável por linha;</li>
+                    <li><b>depends_on</b>: Containers que precisam existir para que o em questão funcione (Informar nome do service para referenciá-lo);</li>
+                    <li><b>links</b>: Mesmo que depends_on, mas que indica também link entre outros Containers;</li>
+                    <li><b>command</b> e <b>entrypoint</b>: Comandos shell personalizados que serão executados durante o up da criação do Container;</li>
+                    <li><b>labels</b>: Para labels personalizadas (tituloLabel: "descricaoLabel");</li>
+                    <li><b>#comentario</b>: Para comentário no arquivo docker-compose.yml (Não entrará em execução no up);</li>
+                    <li class="text-muted">Existem outros componentes de Docker Compose. Para mais detalhes, visite a documentação oficial Docker na última versão.</li>
+                </ul>
                 
                 <p><b>Utilização:</b></p>
                 <p>Caso com 3 container: MySQL, Node e Php.<br>Cada service (container) possui nome à escolha do usuário (<i>db</i>, <i>api</i> e <i>web</i> neste caso). No 1º caso (<i>db</i> e <i>web</i>), simplesmente passa-se imagem e variáveis de ambiente diretamente, deixando assim de utilizar tal arquivo Dockerfile. O restart reinicia o container caso o mesmo caia. No caso do <i>build</i>, se o Dockerfile tiver nome diferente, precisa-se adicionar a pasta na propriedade <i>context</i> e, abaixo, adicionar propriedade <i>dockerfile</i> com nome do arquivo Dockerfile. Conteúdo do <i>docker-compose.yml</i> abaixo.</p>
 <small><pre><code>
-<b>version:</b> "3.7" (Especificar versão do Docker Compose utilizado)
-<b>services:</b> (Especificar containers)
-    <b>db:</b>
-        <b>image:</b> mysql
-        <b>container_name:</b> mysql-container
-        <b>command:</b> (Para comandos shell)
-        <b>environment:</b>
-            MYSQL_ROOT_PASSWORD=<i>senhaBD</i>
-        <b>volumes:</b>
-            - ./pastaProjeto:/var/lib/mysql
-        <b>restart:</b> always
-    <b>api:</b>
-        <b>build:</b> "./pastaComDockerfile"
-        <b>container_name:</b> node-container
-        <b>restart:</b> always
-        <b>volumes:</b>
-            - ./pastaProjeto:/home/node/app
-        <b>ports:</b> "9001:9001" (PortaHost:PortaContainer)
-        <b>depends_on:</b>
-            - db (Pois o link do Container <i>api</i> depende do Container <i>db</i>)
-    <b>web:</b>
-        <b>image:</b> "php:7.2-apache"
-        <b>container_name:</b> php-container
-        <b>restart:</b> always
-        <b>volumes:</b>
-            - ./website:/var/www/html
-        <b>ports:</b>
-            - "8888:80"
-        <b>depends_on:</b>
-            - db
-            - api (No caso, o <i>db</i> não precisa ser informado acima, porque o <i>api</i> já o possui como dependência)
-        <b>cache:</b> (Para dados relacionados à redes)
-        <b>labels:</b> (Para labels personalizadas)
-        <b>#</b>blablabla (Comentário)
-<b>volumes:</b>
-    <b>nomeVolume:</b> {}
+version: "3.7"
+services:
+    app:
+        image: node:12-alpine
+        container_name: containerNode
+        command: sh -c "yarn install && yarn run dev"
+        ports:
+            - 3000:3000
+        working_dir: /app
+        volumes:
+            - ./:/app
+        environment:
+            MYSQL_HOST: mysql
+            MYSQL_USER: root
+            MYSQL_PASSWORD: senhaMySQL
+            MYSQL_DB: nomeBD
+        restart: always
+    mysql:
+        image: mysql:5.7
+        container_name: containerBD
+        volumes:
+            - volumeDockerCompose:/var/lib/mysql
+        environment: 
+            MYSQL_ROOT_PASSWORD: senhaMySQL
+            MYSQL_DATABASE: nomeBD
+        expose:
+            - "5000"
+        restart: always
+        depends_on:
+            - app
+volumes:
+    volumeDockerCompose: {}
+
 
 <u><b>COMANDOS DOCKER-COMPOSE:</b></u>
-<b>Executar containers do docker-compose:</b> docker-compose up (-d executa em background)
-<b>Listar container via docker-compose:</b> docker-compose ps
+<b>Versão docker-compose:</b> docker-compose version
+<b>Executar containers do docker-compose:</b> docker-compose up (-d executa em background, build ao invés de up somente fará build das Imagens, -f seguido do diretório especificará o local e nome de arquivo do docker-compose.yml)
+<b>Listar containers via docker-compose:</b> docker-compose ps
 <b>Listar logs de container no docker-compose:</b> docker-compose logs -f nomeContainer
-<b>Parar docker-compose:</b> docker-compose stop (Ou down, para parar e remover container e componentes)
+<b>Parar docker-compose/containers:</b> docker-compose stop (Ou down, para parar e remover container e componentes, start inicia e restart reinicia
 <b>Entrar em container via docker-compose:</b> docker-compose exec nomeContainer bash
+<b>Aumentar réplicas de container:</b> docker-compose scale
 (Pode-se, dentro, citar outros containers pelos nomes personalizados)
 </code></pre></small>
             </div>
