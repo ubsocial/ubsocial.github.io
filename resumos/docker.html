@@ -264,8 +264,7 @@ idContainer pode também ser substituido pelo nome
                     <li class="text-muted">Existem outros componentes de Docker Compose. Para mais detalhes, visite a documentação oficial Docker na última versão.</li>
                 </ul>
                 
-                <p><b>Utilização:</b></p>
-                <p>Caso com 3 container: MySQL, Node e Php.<br>Cada service (container) possui nome à escolha do usuário (<i>db</i>, <i>api</i> e <i>web</i> neste caso). No 1º caso (<i>db</i> e <i>web</i>), simplesmente passa-se imagem e variáveis de ambiente diretamente, deixando assim de utilizar tal arquivo Dockerfile. O restart reinicia o container caso o mesmo caia. No caso do <i>build</i>, se o Dockerfile tiver nome diferente, precisa-se adicionar a pasta na propriedade <i>context</i> e, abaixo, adicionar propriedade <i>dockerfile</i> com nome do arquivo Dockerfile. Conteúdo do <i>docker-compose.yml</i> abaixo.</p>
+                <p><b>Exemplo docker-compose.yml:</b></p>
 <small><pre><code>
 version: "3.7"
 services:
