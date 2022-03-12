@@ -251,10 +251,10 @@ idContainer pode também ser substituido pelo nome
                             <li><i>unless-stopped</i>: Sempre tentará garantir o estado do Container em execução, ao menos que o mesmo seja colocado em <i>stopped</i> manualmente.</li>
                         </ul>
                     </li>
-                    <li><b>restart_policy</b>: Usado dentro do <i>deploy</i>, para informar regras de reinicialização e prevenção à falhas, como quantidade de tetnativas para iniciar o Container, tempo de espera para inicialização, etc;</li>
+                    <li><b>restart_policy</b>: Usado dentro do <i>deploy</i>, para informar regras de reinicialização e prevenção à falhas, como quantidade de tentativas para iniciar o Container, tempo de espera para inicialização, etc;</li>
                     <li><b>networks</b>: Definir redes que serão criadas e relacionadas junto ao Container, informando, respectivamente em cada linha dependente: nomeRede, tipoRede, driverRede e subnet;</li>
                     <li><b>volumes</b>: Indicar volumes, onde o padrão é: <i>nomeVolume:diretorioInternoContainer/</i> ou personalizado: <i>diretorioInternoHostDocker:diretorioInternoContainer/</i></li>
-                    <li><b>environment</b>: Variáveis de ambiente do Container, na sintaxe <i>NOME_VARIAVEL=valor</i>;</li>
+                    <li><b>environment</b>: Variáveis de ambiente do Container, na sintaxe <i>NOME_VARIAVEL: valor</i>;</li>
                     <li><b>env_file</b>: Diretório do arquivo com lista de variáveis de ambiente onde, dentro dele, há uma variável por linha;</li>
                     <li><b>depends_on</b>: Containers que precisam existir para que o em questão funcione (Informar nome do service para referenciá-lo);</li>
                     <li><b>links</b>: Mesmo que depends_on, mas que indica também link entre outros Containers;</li>
