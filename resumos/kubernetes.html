@@ -239,7 +239,7 @@ kubectl get pods -l 'environment in (production),tier in (frontend)'
 kubectl label deployment nginx-deployment tier=dev
 </code></pre></small>
 
-            <br><h4>Instalação do K8s (Ubuntu)</h4>
+            <br><h4>Instalação Singlenode do K8s (Ubuntu)</h4>
             <p id="textoPost">Pode-se instalar a versão K8s Singlenode, via Microk8s (Para dispositivos embarcados, sendo mais estável) ou Minikube (Para ambientes Singlenode). Tem-se, também, a instalação em cluster (Instruções abaixo), onde precisa-se definir Master(s), Worker Nodes.</p>
 <small><pre><code>
 <b>1. Instalar Docker em todos Nodes:</b>
@@ -319,10 +319,83 @@ EOF
 <b>Excluir Pod</b>: kubectl delete pod nginx -n ubsocial <span class="text-muted">#Excluirá Pod 'nginx' do Namespace 'ubsocial'</span>
 <b>Excluir Pods via label</b>: kubectl delete pods -l run=novoNginx --all-namespaces <span class="text-muted">#Flag '-n nomeNamespace' para filtrar por namespace</span>
 
+<b>Ver Services dos Namespaces:</b> kubectl get services --all-namespaces (Em ports, mostrará, portaHost:portaService)
+
 <b>Editar Manifesto de Pod via label</b>: kubectl edit pod nginx -n ubsocial <span class="text-muted">#Teclas 'Esc', após ':wq' para salvar e sair</span>
 </code></pre></small>
 
-            <!--PAROU AULA 6, 33:30-->
+            <br><h4>Dashboard Minikube</h4>
+            <p id="textoPost">Sistema GUI para gerenciamento Kubernetes (Namespaces, Nodes, Volumes, Pods, etc).</p>
+            <img src="../anexos/kubernetes/dashboardKubernetes.png" width="70%" height="auto">
+<small><pre><code>
+<b>Instalação Dashboard via Minikube:</b> minikube addons enable dashboard
+<b>Arquivo manifesto para executar o Dashboard:</b> cat /opt/kubernetes-dashboard.yaml (Conteúdo abaixo)
+
+apiVersion: v1
+kind: Service
+metadata:
+    labels:
+        app: kubernetes-dashboard
+    name: kubernetes-dashboard-katacoda
+    namespace: kubernetes-dashboard
+spec:
+    ports:
+        - port: 80
+    protocol: TCP
+    targetPort: 9090
+    nodePort: 30000
+selector:
+    k8s-app: kubernetes-dashboard
+type: NodePort
+
+<b>Criar Service Dashboard:</b> kubectl apply -f /opt/kubernetes-dashboard.yaml (apply mesmo que create)
+<i>Service acima habilitará a porta 30000, que dará acesso ao Dashboard (Imagem acima)</i>
+</code></pre></small>
+
+            <br><h4>Configuração multi-node do K8s</h4>
+            <p id="textoPost">Levando em conta que os componentes do K8s Singlenode (kubeadm, kubelet...) já estejam instalados.</p>
+<small><pre><code>
+<span class="text-muted">-- (Master Node) --</span>
+<b>1. Iniciar Master Node (No fim, salvar o comando <i>kubeadm join</i>):</b>
+kubeadm init --apiserver-advertise-address $(hostname -i)
+<span class="text-muted">#Comando acima gerará token de autenticação para acesso junto com o comando para usar nos workers (<i>kubeadm join ipHost:porta --token numToken --discovery-token-ca-cert-hash sha256:numHash</i> (Exemplo 'ipHost:porta': 172.17.0.8:6443))</span>
+
+<b>2. Setar arquivo de configuração para kubectl poder interagir com o cluster:</b>
+sudo cp /etc/kubernetes/admin.conf $HOME/
+sudo chown $(id -u):$(id -g) $HOME/admin.conf
+export KUBECONFIG=$HOME/admin.conf
+
+<b>3. Configurar rede do K8s com Plugin Weave:</b>
+kubectl apply -n kube-system -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 |tr -d '\n')" <span class="text-muted">#Baixará/Executará manifesto e o salvará em '/opt/weave-kube'</span>
+
+<b>4. Testar Node master:</b> kubectl get nodes <span class="text-muted">#Node master possuirá status 'ready'</span>
+<b>5. Verificar Plugin Weave:</b> kubectl get pod -n kube-system <span class="text-muted">#Pod weave-net-rdgfx possuirá 2 Pods ready e status 'running' (1 para casos de falha)</span>
+
+<span class="text-muted">-- (Worker Node 1) --</span>
+<b>6. Adicionar Worker Nodes ao cluster (Usar comando salvo após configurar Master Node):</b>
+kubeadm join ipHost:porta --token numToken --discovery-token-ca-cert-hash sha256:numHash <span class="text-muted">(Exemplo 'ipHost:porta': 172.17.0.8:6443, comando 'kubectl cluster-info' mostra isso)</span>
+
+<span class="text-muted">-- (Master Node) --</span>
+<b>7. Verificar se há Worker Node:</b> kubectl get nodes <span class="text-muted">#Mostrará node01 com status 'ready'</span>
+<b>8. Mostrar detalhes do Master Node:</b> kubectl describe node nomeMaster <span class="text-muted">(Geralmente 'master')</span>
+<b>9. Mostrar detalhes do Worker Node 1:</b> kubectl describe node nomeNode01 <span class="text-muted">(Geralmente 'node01')</span>
+
+<b>10. Listar status dos componentes:</b> kubectl get componentstatuses
+<b>11. Listar Pods de todos Namespaces:</b> kubectl get pod --all-namespaces
+<b>12. Mostrar informações do cluster:</b> kubectl cluster-info
+<b>13. Permitir que Master execute Pods:</b> kubectl taint node nomeMaster node-role.kubernetes.io/master:NoSchedule- <span class="text-muted">#Não é recomendado que Master execute Pods</span>
+
+<b>Outros comandos úteis:</b>
+kubectl logs deployment/myapp
+kubectl -n kube-system logs -f POD_NAME
+kubectl exec POD_NAME -it sh
+kubectl cp POD_NAME:&lt;FILE&gt; &lt;LOCAL FILE&gt;
+kubectl top pod POD_NAME --containers
+kubectl -n my-ns delete pod,svc --all
+kubectl edit svc/docker-registry
+</code></pre></small>
+
+            <!--VER AULA 7: ReplicaSet-->
         </div>
     </div>
 
