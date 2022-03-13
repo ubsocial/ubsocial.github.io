@@ -395,7 +395,64 @@ kubectl -n my-ns delete pod,svc --all
 kubectl edit svc/docker-registry
 </code></pre></small>
 
-            <!--VER AULA 7: ReplicaSet-->
+            <br><h4>ReplicaSet</h4>
+            <p id="textoPost">ReplicaSet é o controller que mantém estável um conjunto de Pods em execução, garantindo disponibilidade de um número específico de Pods idênticos. ReplicaSet é raramente utilizado diretamente, pois existe um conceito mais de alto nível: Deployment, que gerencia ReplicaSets e provê uma maneira de atualizar os Pods, além de outras features.</p>
+<small><pre><code>
+<b><u>Manifesto exemplo</u>:</b>
+apiVersion: extensions/v1beta1
+kind: ReplicaSet
+metadata:
+    name: kuard
+spec:
+    replicas: 1
+    template:
+        metadata:
+            labels:
+                app: kuard
+                version: "2"
+        spec:
+            containers:
+                - name: kuard
+                image: "gcr.io/kuar-demo/kuard-amd64:green"
+</code></pre></small>
+
+            <p><b>Manifesto modelo para ReplicaSet:</b></p>
+            <p id="textoPost">De acordo com o manifesto abaixo, todos os Pods com tier 'busybox' serão replicados, conforme quantidade informada. No próprio manifesto de criação dos Pods, pode ser informado o ReplicaSet, conforme abaixo. ReplicaSet é controller Equality-based, então, no selector, o tier informado pode ser diferente, conforme necessidade, podendo informar múltiplos tiers no selector.</p>
+<small><pre><code>
+<b><u>busybox-rs.yaml:</u></b>
+apiVersion: apps/v1
+kind: ReplicaSet <span class="text-muted">#Tipo ReplicaSet</span>
+metadata:
+    <b>name: busybox</b> <span class="text-muted">#Nome da ReplicaSet</span>
+    labels:
+        app: busybox
+spec:
+    <b>replicas: 2</b> <span class="text-muted">#Quantidade de réplicas</span>
+    <b>selector:</b> <span class="text-muted">#Pods que serão replicados pelo K8s</span>
+        <b>matchLabels:</b>
+            <b>tier: busybox</b> <span class="text-muted">#Nome de acordo com label do Pod à replicar</span>
+    template:
+        metadata:
+            labels:
+                tier: busybox
+        spec:
+            containers:
+                - name: busybox
+                image: radial/busyboxplus:curl
+</code></pre></small>
+
+            <p><b>Comandos ReplicaSet:</b></p>
+<small><pre><code>
+<b>1. Criar ReplicaSet:</b> kubectl create -f busybox-rs.yaml
+<b>2. Listar ReplicaSets:</b> kubectl get rs
+<b>3. Listar Pods relacionados:</b> kubectl get pods -o wide
+<b>4. Mostrar detalhes do ReplicaSet:</b> kubectl describe rs/busybox
+<b>5. Escalar um ReplicaSet:</b> kubectl scale --replicas 3 rs busybox <span class="text-muted">#Alterna para 3 réplicas ao busybox</span>
+<b>6. Deletar um ReplicaSet:</b> kubectl delete rs busybox
+<b>7. Deletar todos Pods e ReplicaSets:</b> kubectl delete pod,rs --all
+</code></pre></small>
+
+            <!--VER AULA 8: DEPLOYMENT-->
         </div>
     </div>
 
