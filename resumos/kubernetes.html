@@ -39,9 +39,9 @@
             <h1 id="serifada">Kubernetes</h1>
             <h6><strong>Conceitos básicos de Kubernetes K8s</strong><br><br><span class="badge bg-warning text-dark">Resumo em construção</span></h6>
             <a href="../index.html" class="btn btn-link" id="btnLink">Voltar</a><br><br>
-            <a class="btn btn-link" id="btnLink" href="" target="_blank">Github do projeto</a><br><br>
-            <a class="btn btn-link" id="btnLink" href="https://kubernetes.io/pt-br" target="_blank">Site oficial e documentação</a><br><br>
-            <a class="btn btn-link" id="btnLink" href="https://labs.play-with-k8s.com" target="_blank">Editor online Play With Kubernetes</a>
+            <a class="btn btn-link" id="btnLink" href="" target="_blank">Github do projeto</a><br>
+            <a class="btn btn-link" id="btnLink" href="https://kubernetes.io/pt-br" target="_blank">Site oficial e documentação</a><br>
+            <a class="btn btn-link" id="btnLink" href="https://labs.play-with-k8s.com" target="_blank">Editor online Play With Kubernetes</a><br>
             <a class="btn btn-link" id="btnLink" href="https://www.katacoda.com" target="_blank">Editor online Katacoda</a>
         </div>
 
@@ -58,7 +58,7 @@
             </ul>
 
             <br><h4>Arquitetura K8s</h4>
-            <img src="../anexos/kubernetes/arquitetura.jpg" width="350px" height="auto">
+            <img src="../anexos/kubernetes/arquitetura.jpg" width="70%" height="auto">
             <p id="textoPost">Orquestrar tarefas de gerenciamento. Pode ser instalado em modo single ou cluster. O cluster é formado por nós master e worker, onde o master é node de interação com o usuário. Em grandes estruturas, podem haver mais de 1 master, para o caso de falhas e correção de problemas.</p>
             <ul>
                 <li><b>Master</b>: Executa os componentes do plano de controle;</li>
@@ -71,11 +71,11 @@
                 <li><b>kubectl</b>: CLI de interação com o K8s cluster.</li>
             </ul>
             <p><b>Pod</b>:</p>
-            <img src="../anexos/kubernetes/pod.jpg" width="350px" height="auto"><br>
-            <img src="../anexos/kubernetes/pod2.jpg" width="450px" height="auto">
+            <img src="../anexos/kubernetes/pod.jpg" width="70%" height="auto"><br>
+            <img src="../anexos/kubernetes/pod2.jpg" width="70%" height="auto">
             <p id="textoPost">Menor e mais básica estrutura do K8s, criada para abstrair o conceito de Container. Consiste de 1 ou mais Containers, recursos de armazenamento (Volumes) e 1 único ID e IP na rede do cluster K8s. Utiliza-se vários Containers dentro de um Pod geralmente em que hajam vários processos, processos em batch (lote) e demais tarefas pesadas (Ex: Um Container Web Service recebe outra Imagem, que deverá ser processada pelo mesmo, ou seja, quando à 'relações' entre Containers em 1 mesmo Pod).</p>
             <p>Ciclo de Vida:</p>
-            <img src="../anexos/kubernetes/pod3.jpg" width="350px" height="auto">
+            <img src="../anexos/kubernetes/pod3.jpg" width="60%" height="auto">
             <ul>
                 <li><b>Pending</b>: Pod foi aceito pelo K8s, mas 1 ou mais Containers ainda não foram criados. Isso inclui tempo de escalonamento e tempo de download da Imagem;</li>
                 <li><b>Running</b>: Pod foi alocado em um node e todos os Containers foram criados. Pelo menos 1 Container deve estar em execução, ou no processo de (re)inicialização;</li>
@@ -85,7 +85,7 @@
             </ul>
             
             <p><b>Control Plane</b>:</p>
-            <img src="../anexos/kubernetes/controlPlane.jpg" width="450px" height="auto">
+            <img src="../anexos/kubernetes/controlPlane.jpg" width="80%" height="auto">
             <p><small class="text-muted"><u>Legenda</u>: Minion é worker node</small></p>
             <ul>
                 <li><b>etcd</b>: Provê sistema distribuído e compartilhado para armazenar o estado do cluster, sendo os dados armazenados em formato chave-valor (Informações como status do node master, status dos workers, status de Pods, etc). O etcd é executado, no K8s, como um Pod do mesmo;</li>
@@ -97,7 +97,7 @@
             <p id="textoPost">Tem-se também Registry, sendo geralmente em repositório local do Docker e outro remoto, como Dockerhub.</p>
 
             <br><h4>Rede no K8s</h4>
-            <img src="../anexos/kubernetes/rede.jpg" width="350px" height="auto">
+            <img src="../anexos/kubernetes/rede.jpg" width="60%" height="auto">
             <p id="textoPost">O modelo de redes do K8s envolve a criação de redes virtuais (Rede overlay) no cluster. Cada Pod do cluster tem um IP único (Externo ou interno), mesmo aqueles que são executados em outros nodes. Entre os plugins para criação de redes entre nodes, responsáveis por criar túneis seguros de comunicação, tem-se:</p>
             <ul>
                 <li>Flannel;</li>
@@ -228,15 +228,13 @@ environment in (production, qa) <span class="text-muted"># environment está em 
 tier notin (frontend, backend)
 
 <u>COMANDOS</u>:
-<b>Mostrar labels dos recursos:</b>
-kubectl get pods --show-labels
+<b>Mostrar labels dos recursos:</b> kubectl get pods --show-labels
 
 <b>Excluir Pods com label <i>run=myapp</i>:</b>
 kubectl delete pods -l environment=production,tier=frontend
 kubectl get pods -l 'environment in (production),tier in (frontend)'
 
-<b>Atribuir label:</b>
-kubectl label deployment nginx-deployment tier=dev
+<b>Atribuir label:</b> kubectl label deployment nginx-deployment tier=dev
 </code></pre></small>
 
             <br><h4>Instalação Singlenode do K8s (Ubuntu)</h4>
@@ -326,7 +324,7 @@ EOF
 
             <br><h4>Dashboard Minikube</h4>
             <p id="textoPost">Sistema GUI para gerenciamento Kubernetes (Namespaces, Nodes, Volumes, Pods, etc).</p>
-            <img src="../anexos/kubernetes/dashboardKubernetes.png" width="70%" height="auto">
+            <img src="../anexos/kubernetes/dashboardKubernetes.png" width="80%" height="auto">
 <small><pre><code>
 <b>Instalação Dashboard via Minikube:</b> minikube addons enable dashboard
 <b>Arquivo manifesto para executar o Dashboard:</b> cat /opt/kubernetes-dashboard.yaml (Conteúdo abaixo)
@@ -488,15 +486,30 @@ spec:
 </code></pre></small>
 
             <p><b>Comandos Deployment:</b></p>
+            <p id="textoPost">Ao atualizar/modificar aplicação envolvida em Deployment, a modificação será gradativa, ou seja, atualizará 1 Pod e, após esse funcionando, atualizará outro e assim sucessivamente.</p>
 <small><pre><code>
 <span class="text-muted">-- (Master Node) --</span>
 <b>1. Criar Deployment (Sem Manifesto):</b>
 kubectl create deployment nomeDeployment --image:nginx <span class="text-muted">#Nome do Deployment à preferência do usuário</span>
-kubectl get pods -o wide<span class="text-muted">#Criou Pod relacionado. Mesmo se o usuário removê-lo, o Deployment criará outro para satisfazer a regra no Manifesto de sua origem</span>
+
+<b>2. Ver informações relacionadas:</b>
+kubectl get pods -o wide <span class="text-muted">#Criou Pod relacionado. Mesmo se o usuário removê-lo, o Deployment criará outro para satisfazer a regra no Manifesto de sua origem</span>
 kubectl get deployments <span class="text-muted">#Criou deployment conforme solicitado</span>
+kubectl describe deployment nomeDeployment <span class="text-muted">#Mostrar detalhes do deployment</span>
 curl ipPodCriado <span class="text-muted">#Acessará página nginx do Pod criado, então está funcionando corretamente</span>
-<b>2.</b>
+
+<b>3. Alterar quantidade de réplicas:</b> kubectl scale --replicas 3 deployment nomeDeployment
+kubectl delete pods -l nomeLabelPodsReplicados
+kubectl get pods -o wide -w <span class="text-muted">#Deployment refará os Pods de acordo com a quantidade de réplicas solicitadas no Manifesto de sua origem</span>
+
+<b>4. Atualizar Deployment com nova versão da aplicação:</b> kubectl set image deployment/nomeDeployment nginx=nginx:1.91 --record <span class="text-muted">#Ficará com status Scaled up</span>
+<b>5. Ver status da atualização:</b> kubectl rollout status deployment.v1.apps/nomeDeployment
+kubectl describe deployment nomeDeployment <span class="text-muted">#De acordo com as atualizações será a versão do Deployment. Caso a versão da Imagem não exista (Como a do nginx acima), mostrará status erro ImagePullBackOff</span>
+<b>6. Desfazer atualização do Deployment:</b> kubectl rollout undo deployment.v1.apps/nomeDeployment <span class="text-muted">#Ficará com status Scaled down</span>
 </code></pre></small>
+
+            <br><h4>Service</h4>
+            <!--VER AULA 9: SERVICE-->
         </div>
     </div>
 
