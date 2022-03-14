@@ -117,7 +117,7 @@
         <b>-image:</b> gcr.io/kuar-demo/kuard-amd64:blue
         <b>name:</b> kuard
         <b>ports:</b>
-            <b>-containerPort:</b> 8080
+            <b>- containerPort:</b> 8080
             <b>name:</b> http
             <b>protocol:</b> TCP
 </code></pre></small>
@@ -443,6 +443,7 @@ spec:
 
             <p><b>Comandos ReplicaSet:</b></p>
 <small><pre><code>
+<span class="text-muted">-- (Master Node) --</span>
 <b>1. Criar ReplicaSet:</b> kubectl create -f busybox-rs.yaml
 <b>2. Listar ReplicaSets:</b> kubectl get rs
 <b>3. Listar Pods relacionados:</b> kubectl get pods -o wide
@@ -452,7 +453,50 @@ spec:
 <b>7. Deletar todos Pods e ReplicaSets:</b> kubectl delete pod,rs --all
 </code></pre></small>
 
-            <!--VER AULA 8: DEPLOYMENT-->
+            <br><h4>Deployment</h4>
+            <p id="textoPost">É uma maneira de automatizar o gerenciamento de Pods. Permite especificar um estado desejado para um conjunto de Pods e o cluster vai constantemente trabalhar para manter o estado desejado. Todo Deployment cria um ReplicaSet. Com o Deployment em funcionamento, descarta-se necessidade de lembrar nomes e ip's de Pods. Entre as vantagens, tem-se:</p>
+            <ul>
+                <li><b>Escalabilidade</b>: Com um Deployment, pode-se especificar o número de réplicas desejado e o Deployment vai criar ou remover Pods até alcançar tal número;</li>
+                <li><b>Atualizações</b>: É possível alterar a Imagem de um Container para uma nova versão (Rollout) e o Deployment vai gradualmente substituir os Containers para a versão nova (Evite downtime);</li>
+                <li><b>Self-healing</b>: Se um dos Pods for acidentalmente destruído, o Deployment vai imediatamente iniciar um novo Pod para substituí-lo.</li>
+            </ul>
+            <p id="textoPost">O Deployment é criado através de Manifesto, conforme exemplo-modelo abaixo (O modelo abaixo executará automaticamente, devido à 1ª linha de execução):</p>
+<small><pre><code>
+<span class="text-muted">cat &lt;&lt;EOF | kubectl create -f -</span>
+apiVersion: apps/v1
+<b>kind: Deployment</b>
+metadata:
+    name: nginx-deployment
+    labels:
+        apps: nginx
+spec:
+    <b>replicas: 2</b>
+    selector:
+        <b>matchLabels:</b>
+            <b>app: nginx</b> <span class="text-muted">#Nome de acordo com label do Pod à replicar</span>
+    template:
+        metadata:
+            <b>labels:</b>
+                <b>app: nginx</b>
+        spec:
+            containers:
+                - name: nginx
+                image: nginx:1.15.4
+                ports:
+                    - containerPort: 80
+<span class="text-muted">EOF</span>
+</code></pre></small>
+
+            <p><b>Comandos Deployment:</b></p>
+<small><pre><code>
+<span class="text-muted">-- (Master Node) --</span>
+<b>1. Criar Deployment (Sem Manifesto):</b>
+kubectl create deployment nomeDeployment --image:nginx <span class="text-muted">#Nome do Deployment à preferência do usuário</span>
+kubectl get pods -o wide<span class="text-muted">#Criou Pod relacionado. Mesmo se o usuário removê-lo, o Deployment criará outro para satisfazer a regra no Manifesto de sua origem</span>
+kubectl get deployments <span class="text-muted">#Criou deployment conforme solicitado</span>
+curl ipPodCriado <span class="text-muted">#Acessará página nginx do Pod criado, então está funcionando corretamente</span>
+<b>2.</b>
+</code></pre></small>
         </div>
     </div>
 
