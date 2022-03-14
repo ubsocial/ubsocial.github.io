@@ -452,7 +452,7 @@ spec:
 </code></pre></small>
 
             <br><h4>Deployment</h4>
-            <p id="textoPost">É uma maneira de automatizar o gerenciamento de Pods. Permite especificar um estado desejado para um conjunto de Pods e o cluster vai constantemente trabalhar para manter o estado desejado. Todo Deployment cria um ReplicaSet. Com o Deployment em funcionamento, descarta-se necessidade de lembrar nomes e ip's de Pods. Entre as vantagens, tem-se:</p>
+            <p id="textoPost">É uma maneira de automatizar o gerenciamento de Pods. Permite especificar um estado desejado para um conjunto de Pods e o cluster vai constantemente trabalhar para manter o estado desejado, dessa forma o Pod permanece 'vivo' e com status congelado em seu ciclo de vida. Todo Deployment cria um ReplicaSet. Com o Deployment em funcionamento, descarta-se necessidade de lembrar nomes e ip's de Pods. Entre as vantagens, tem-se:</p>
             <ul>
                 <li><b>Escalabilidade</b>: Com um Deployment, pode-se especificar o número de réplicas desejado e o Deployment vai criar ou remover Pods até alcançar tal número;</li>
                 <li><b>Atualizações</b>: É possível alterar a Imagem de um Container para uma nova versão (Rollout) e o Deployment vai gradualmente substituir os Containers para a versão nova (Evite downtime);</li>
@@ -509,7 +509,9 @@ kubectl describe deployment nomeDeployment <span class="text-muted">#De acordo c
 </code></pre></small>
 
             <br><h4>Service</h4>
-            <!--VER AULA 9: SERVICE-->
+            <p id="textoPost">Pods podem ser criados e destruídos constantemente por um Deployment. Uma vez que cada Pod recebe um IP diferente, os Pods em execução em um dado momento podem ser diferentes dos Pods em um momento posterior. Como manter o acesso aos serviços providos pelos Pods? <u>Exemplo</u>: Como 'frontend' Pods mantém a informação sobre 'backend' Pods se os IPs dos mesmos mudam repentinamente?</p>
+            <p id="textoPost">O Service cria uma camada de abstração acima do conjunto de Pods réplicas, permitindo acesso dinâmico a um grupo de Pods (Balanceador de Carga). Então, esse Balanceador de Carga vai, dinamicamente, acessar as listas de Pods do Deployment, permitindo acesso aos Pods (Se um Pod sair, ele selecionará outro ao balanceamento, para acesso). Assim, pode-se prover acesso ininterrupto e dinâmico a qualquer réplica, além de balanceamento de carga.</p>
+            <p id="textoPost"><!--PAROU EM AULA 9: 1:42--></p>
         </div>
     </div>
 
