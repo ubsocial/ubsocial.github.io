@@ -511,7 +511,36 @@ kubectl describe deployment nomeDeployment <span class="text-muted">#De acordo c
             <br><h4>Service</h4>
             <p id="textoPost">Pods podem ser criados e destruídos constantemente por um Deployment. Uma vez que cada Pod recebe um IP diferente, os Pods em execução em um dado momento podem ser diferentes dos Pods em um momento posterior. Como manter o acesso aos serviços providos pelos Pods? <u>Exemplo</u>: Como 'frontend' Pods mantém a informação sobre 'backend' Pods se os IPs dos mesmos mudam repentinamente?</p>
             <p id="textoPost">O Service cria uma camada de abstração acima do conjunto de Pods réplicas, permitindo acesso dinâmico a um grupo de Pods (Balanceador de Carga). Então, esse Balanceador de Carga vai, dinamicamente, acessar as listas de Pods do Deployment, permitindo acesso aos Pods (Se um Pod sair, ele selecionará outro ao balanceamento, para acesso). Assim, pode-se prover acesso ininterrupto e dinâmico a qualquer réplica, além de balanceamento de carga.</p>
-            <p id="textoPost"><!--PAROU EM AULA 9: 1:42--></p>
+            <img src="../anexos/kubernetes/serviceConceito.png" width="50%" height="auto">
+            <p id="textoPost">É através das labels referenciadas no selector do arquivo Manifesto. O arquivo de Manifesto de Service é do tipo Equality-based, ou seja, não possui 'matchLabels' em sua composição. Abaixo, segue modelo exemplo de Manifesto com Service:</p>
+<small><pre><code>
+apiVersion: v1
+<b>kind: Service</b>
+metadata:
+    name: meuService
+spec:
+    <b>selector:</b>
+        <b>app: meuApp</b>
+    ports:
+        - protocol: TCP
+        port: 80
+        targetPort: 9376
+</code></pre></small>
+
+            <p><b>Tipos de Services:</b></p>
+            <ul>
+                <li><b>ClusterIP</b>: Expõe o Service apenas para a rede interna do cluster. Esse é o ServiceType padrão (K8s cria um assim para o kube-apiserver, pode-se conferir com 'kubectl get services -n kube-system'). Recomendado para somente acessos internos do cluster;</li>
+                <li><b>NodePort</b>: Expõe o Service em cada Node com uma porta estática (NodePort), permitindo acesso externo através do endereço 'ipNode:NodePort' (Mapeará uma porta à uma porta de todos Containers, para todos os Nodes incluindo o Master). Recomendado para acessos com dispositivos externos, como acesso externo no cluster para BD, serviços web, etc;</li>
+                <li><b>ExternalName</b>: Mapeia o Service para um nome/endereço (e.g.foo.bar.example.com). Recomendado para ambientes de produção, com serviços de DNS, onde descartará IPs e labels, para dar vez a nomes como endereços web;</li>
+                <li><b>LoadBalancer</b>: Expõe o Service externamente através de um balanceador de carga de um provedor de nuvem. Internamente, cria NodePort, pra onde o balanceador de carga externo roteia. Recomendado em situações onde descartará o LoadBalancer do K8s local, trocando-o por outro em cloud, como em Web Services.</li>
+            </ul>
+
+            <p><b>Exemplo prático:</b></p>
+<small><pre><code>
+<span class="text-muted">-- (Master Node) --</span>
+<b>1. Criar 2 Pods com mesmo label:</b>
+<!--PAROU AULA 9: 6:14-->
+</code></pre></small>
         </div>
     </div>
 
