@@ -610,7 +610,33 @@ echo "UB Social" &gt; /usr/share/nginx/html/index.html <span class="text-muted">
 <b>Ext. Trafﬁc P.:</b> Cluster
 <b>Events:</b> &lt;none&gt;
 </code></pre></small>
-            <!--VER AULA 10: Microservices-->
+
+            <br><h4>Microservices</h4>
+            <p id="textoPost">Aplicações monolíticas consistem em única aplicação de software em camadas no qual frontend e backend estão juntos em único programa e plataforma. Porém, dificuldades em escalabilidade e arquitetura difícil de manter e evoluir são desafios que limitam essa abordagem.</p>
+            <img src="../anexos/kubernetes/monolitica1.png" width="80%" height="auto">
+            <img src="../anexos/kubernetes/monolitica2.png" width="80%" height="auto"><br><br>
+
+            <p><b>Arquitetura de Microsserviços:</b></p>
+            <p id="textoPost">Abordagem que desenvolve única aplicação como uma suíte de pequenos serviços, cada uma executando seu próprio processo e comunicando-se via mecanismos leves. Os serviços funcionam via mecanismos de deploy independentes totalmente automatizados. Há o mínimo possível de gerenciamento centralizado dos serviços, que podem ser escritos em diferentes linguagens e usar diferentes tecnologias para armazenamento de dados. Decompõe a aplicação por funções básicas, onde cada função é denominada um serviço e pode ser criada e implantada de maneira independente. Cada serviço individual pode funcionar e falhar sem comprometer os demais. O uso de microsserviços é uma das melhores maneiras de demonstrar o quão valioso é gerenciar Containers via K8s.</p>
+            <img src="../anexos/kubernetes/monolitica3.png" width="80%" height="auto"><br><br>
+            <p id="textoPost">Cada um desses microsserviços pode ser escalonado diferente e independentemente. Assim, se necessário, é possível alocar mais recursos para um determinado microsserviço. Entre as vantagens da utilização de Microservices, tem-se escalabilidade, facilidade na atualização de partes da aplicação, confiabilidade e disponibilidade (Uma parte pode parar, mas as outras continuam de pé), usar tecnologias diversificadas ideias para cada situação específica. Abaixo, exemplo prático de aplicação baseada em Microservices:</p>
+            <img src="../anexos/kubernetes/monolitica4.png" width="60%" height="auto"><br><br>
+
+            <p><b>Deploy de aplicação na prática:</b></p>
+            <p id="textoPost">Aplicação, em Microservices, de carrinho de compras, composta por várias tecnologias. Abaixo, comandos para construção de toda a aplicação. Com poucos comandos, toda a aplicação já estará no ar rapidamente.</p>
+<small><pre><code>
+<span class="text-muted">-- (Master Node) --</span>
+<b>1. Clonar o repositório do Git:</b> git clone https://github.com/linuxacademy/robot-shop.git <span class="text-muted">#Aplicação de carrinho de compras</span>
+
+<b>2. Listar arquivos de descrições dentro do projeto:</b> ls robot-shop/K8s/descriptors/ <span class="text-muted">#Lista de vários Manifestos, entre eles Deployment, que garantirá a execução e gestão dos demais, e Service para acessá-los externamente</span>
+
+<b>2. Criar Namespace e fazer deploy da aplicação:</b>
+kubectl create namespace robot-shop
+kubectl -n robot-shop create -f ~/robot-shop/K8s/descriptors/
+
+<b>3. Acompanhar status dos Pods:</b> kubectl get pods -n robot-shop -w
+<b>4. Acessar frontend da aplicação:</b> http://ipMasterNode:30080
+</code></pre></small>
         </div>
     </div>
 
