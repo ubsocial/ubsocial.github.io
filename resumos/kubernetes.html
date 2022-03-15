@@ -348,6 +348,7 @@ type: NodePort
 
 <b>Criar Service Dashboard:</b> kubectl apply -f /opt/kubernetes-dashboard.yaml (apply mesmo que create)
 <i>Service acima habilitará a porta 30000, que dará acesso ao Dashboard (Imagem acima)</i>
+<b>Acesso via curl:</b> curl localhost:30000 <span class="text-muted">#Mas para acessá-lo, precisa ser via Browser</span>
 </code></pre></small>
 
             <br><h4>Configuração multi-node do K8s</h4>
@@ -510,9 +511,10 @@ kubectl describe deployment nomeDeployment <span class="text-muted">#De acordo c
 
             <br><h4>Service</h4>
             <p id="textoPost">Pods podem ser criados e destruídos constantemente por um Deployment. Uma vez que cada Pod recebe um IP diferente, os Pods em execução em um dado momento podem ser diferentes dos Pods em um momento posterior. Como manter o acesso aos serviços providos pelos Pods? <u>Exemplo</u>: Como 'frontend' Pods mantém a informação sobre 'backend' Pods se os IPs dos mesmos mudam repentinamente?</p>
-            <p id="textoPost">O Service cria uma camada de abstração acima do conjunto de Pods réplicas, permitindo acesso dinâmico a um grupo de Pods (Balanceador de Carga). Então, esse Balanceador de Carga vai, dinamicamente, acessar as listas de Pods do Deployment, permitindo acesso aos Pods (Se um Pod sair, ele selecionará outro ao balanceamento, para acesso). Assim, pode-se prover acesso ininterrupto e dinâmico a qualquer réplica, além de balanceamento de carga.</p>
+            <p id="textoPost">O Service cria uma camada de abstração acima do conjunto de Pods réplicas, permitindo acesso dinâmico a um grupo de Pods (Balanceador de Carga). Então, esse Balanceador de Carga vai, dinamicamente, acessar as listas de Pods do Deployment, permitindo acesso aos Pods (Se um Pod sair, ele selecionará outro ao balanceamento, para acesso. Tanto faz o Pod, o Service K8s escolherá e gerenciará isso de forma automática, sem que o usuário precise se preocupar). Assim, pode-se prover acesso ininterrupto e dinâmico a qualquer réplica, além de balanceamento de carga.</p>
             <img src="../anexos/kubernetes/serviceConceito.png" width="50%" height="auto">
             <p id="textoPost">É através das labels referenciadas no selector do arquivo Manifesto. O arquivo de Manifesto de Service é do tipo Equality-based, ou seja, não possui 'matchLabels' em sua composição. Abaixo, segue modelo exemplo de Manifesto com Service:</p>
+            <p id="textoPost">O ideal no K8s é criar Deployment para criar e gerenciar quantidade de Pods e, após isso, criar Service para acesso.</p>
 <small><pre><code>
 apiVersion: v1
 <b>kind: Service</b>
@@ -539,8 +541,76 @@ spec:
 <small><pre><code>
 <span class="text-muted">-- (Master Node) --</span>
 <b>1. Criar 2 Pods com mesmo label:</b>
-<!--PAROU AULA 9: 6:14-->
+<span class="text-muted">cat &lt;&lt; EOF | kubectl create -f -</span>
+apiVersion: v1
+<b>kind: Pod</b>
+metadata:
+    <b>name: nginx-pod-1</b>
+    <b>labels:</b>
+        <b>app: nginx</b>
+spec:
+    containers:
+        - name: nginx-container
+        image: nginx
+EOF
+
+<span class="text-muted">cat &lt;&lt; EOF | kubectl create -f -</span>
+apiVersion: v1
+<b>kind: Pod</b>
+metadata:
+    <b>name: nginx-pod-2</b>
+    <b>labels:</b>
+        <b>app: nginx</b>
+spec:
+    containers:
+        - name: nginx-container
+        image: nginx
+EOF
+
+<b>2. Listar Pods e acessá-los:</b>
+kubectl get pods -l app=nginx -o wide
+kubectl get pods --selector=app=http-deployment
+curl ipPod1Criado <span class="text-muted">#Acesso somente interno, mostrará HTML da página nginx do Pod 1</span>
+
+<b>3. Criar Service:</b> kubectl create -f nginx-service.yaml <span class="text-muted">#Manifesto 'nginx-service.yaml' abaixo</span>
+<b>kind: Service</b>
+apiVersion: v1
+metadata:
+    name: nginx-service
+spec:
+    <b>selector:</b>
+        <b>app: nginx</b>
+    ports:
+        - protocol: TCP
+        port: 80 <span class="text-muted">#Porta do Service</span>
+        targetPort: 80 <span class="text-muted">#Porta do Pod (Qualquer Pod no Service, o K8s gerencia isso)</span>
+        nodePort: 30080 <span class="text-muted">#Porta do Node (NodePort define limite de portas à serem usadas - 30000 à 32767)</span>
+    type: NodePort
+
+<b>4. Verificar Services em execução:</b> kubectl get svc
+<b>5. Mostrar detalhes do Service:</b> kubectl describe service nginx-service
+<b>5. Acessar Pod 1 para alterar página do nginx:</b> kubectl exec -ti nginx-pod-1 sh
+echo "UB Social" &gt; /usr/share/nginx/html/index.html <span class="text-muted">#Mudar página do nginx para saber qual Pod o Service acessará automaticamente</span>
+<b>6. Acessar Service no Master Node, porta 30080:</b> curl localhost:30080 <span class="text-muted">#Acessar via Browser para verificar página GUI. Pode-se também acessar via Workers</span>
+<span class="text-muted"><i>Recarregar Browser algumas vezes, que algumas vezes mostrará HTML da página do nginx do Pod 2 (HTML padrão) e outras vezes do Pod 1 ('UB Social')</i></span>
+
+<b><u>Estrutura do describe service</u>:</b>
+<b>Name:</b> nginx-service
+<b>Namespace:</b> default
+<b>Labels:</b> &lt;none&gt;
+<b>Annotations:</b> &lt;none&gt;
+<b>Selector:</b> app=nginx
+<b>Type:</b> NodePort
+<b>IP:</b> ipService
+<b>Port:</b>  &lt;unset&gt; 80/TCP
+<b>TargetPort:</b> 80/TCP
+<b>NodePort:</b> &lt;unset&gt; 30080/TCP
+<b>Endpoints:</b> ipPod1:80,ipPod2:80
+<b>Session Afﬁ.:</b> None
+<b>Ext. Trafﬁc P.:</b> Cluster
+<b>Events:</b> &lt;none&gt;
 </code></pre></small>
+            <!--VER AULA 10: Microservices-->
         </div>
     </div>
 
