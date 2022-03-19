@@ -174,7 +174,7 @@ kubectl apply -f &lt;folder&gt;/
 </code></pre></small>
 
             <br><h4>Criar Pod</h4>
-            <p id="textoPost">Há diversos maneiras, entre as principais, via comando '<i><span class="text-muted">kubectl run nginx --generator=run-pod/v1 --image=nginx</span></i>', ou via arquivo YAML (Manifesto):</p>
+            <p id="textoPost">Há diversos maneiras, entre as principais, via comando '<i><span class="text-muted">kubectl run nginx --generator=run-pod/v1 --image=nginx</span></i>', via comando de criação em arquivo manifesto ('<i><span class="text-muted">kubectl create -f diretorio/nomeManifesto.yaml</span></i>') ou neste formato, diretamente:</p>
 <small><pre><code>
 <span class="text-muted">cat &lt;&lt; EOF | kubectl create -f -</span>
 apiVersion: <span class="text-muted">v1</span>
@@ -185,7 +185,7 @@ spec:
     containers:
         -name: <span class="text-muted">nginx-container</span>
         image: <span class="text-muted">nginx</span>
-EOF
+<span class="text-muted">EOF</span>
 </code></pre></small>
 
             <br><h4>Exportar manifesto</h4>
