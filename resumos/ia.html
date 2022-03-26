@@ -794,7 +794,16 @@ with open('census.pkl', mode='wb') as f:
                 <li><b>Probabilidade risco de crédito Baixo (Laplaciana)</b>: 6/15 * 1/6 * 2/6 * 2/6 * 1/6</li>
             </ol>
 
-            <!--VER 37 Bayes Mais Conceitos-->
+            <br><h5>Probabilidades Apriori / Posteori</h5>
+            <p id="textoPost">Supondo-se que hajam 12 ítens (Exemplo dados de histórico de crédito), sendo 5 de classe azul (5/12) e 7 de classe vermelha (7/12) - Probabilidade Apriori. Ao submeter novo ítem em meio aos demais, para descobrir sua provável classe, é realizado, ao seu redor próximo, uma circunferência com um raio traçado (Radius), onde será estimada essa probabilidade inicial do mesmo. Exemplo: Novo ítem dentro de circunferência está entre 3 vermelhas e 1 azul. A probabilidade do ítem ser vermelho é 3/7 e de ser azul é 1/5 (Também Probabilidade Apriori). Neste caso, para verificar a probabilidade final (Probabilidade Posteori):</p>
+            <ul>
+                <li><b>Probabilidade vermelha</b>: 7/12 * 3/7 = 0,25</li>
+                <li><b>Probabilidade azul</b>: 5/12 * 1/5 = 0,08</li>
+            </ul>
+
+            <br><h5>Vantagens e Desvantagens</h5>
+            <p id="textoPost">Entre as vantagens ao escolher o cálculo Bayes ao invés dos demais, tem-se rapidez, simplicidade de interpretação, trabalha com altas dimensões (Muitos atributos), boas previsões em bases pequenas (Bases em torno de 400 registros). Como desvantagem, os casos trabalham com combinação de características (Atributos independentes), onde cada par de características são independentes (Atributos não se relacionam), o que nem sempre é verdade.</p>
+
             <!--Colab: https://colab.research.google.com/drive/1GL4sN3PiqSVCeUHZKctQc4lvAqH3NhiG#scrollTo=h25oSZkQA6Sr -->
         </div>
     </div>
