@@ -234,7 +234,7 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 </code></pre></small>
             
-            <br><h5>Base de Dados (Risco de Crédito)</h5>
+            <br><h5>Base de Dados (Risco de Crédito - Credit Data)</h5>
             <p class="text-muted" id="textoPost">Objetivo da IA é dizer se a pessoa, de acordo com suas condições, pagará ou não o crédito (default 0 ou 1).</p>
             <a class="btn btn-link" id="btnLink" href="https://github.com/mateusschwede/ubsocialIA/blob/main/Bases%20de%20dados.zip" target="_blank">Acessar BD Risco de Crédito (credit_data.csv)</a>
             <div class="table-responsive">
@@ -786,7 +786,7 @@ with open('census.pkl', mode='wb') as f:
                 <li><b>Conclusão</b>: Risco de crédito Baixo</li>
             </ul>
 
-            <br><h5>Correção Laplaciana</h5>
+            <br><p><b>Correção Laplaciana:</b></p>
             <p id="textoPost">Para possibilitar cálculos de probabilidades, como acima, onde possuam fatores 0 para a multiplicação (Exemplo 0/6), adiciona-se 1 ao numerador zerado (1/6), +1 ao total e, portanto, +1 ao denominador em todas as células da tabela com esse caso (0/6 -&gt; 1/7). Além disso, aumenta-se 1 no total do valor do atributo da classe (Antes total de Ruim eram 4, agora Ruim serão 5). Portanto, o ideal nesses casos é realizar a modificação antes da criação da tabela de probabilidades, para facilitação futura dos cálculos. Exemplo de nova submissão de Risco de Crédito (História de Crédito: Ruim, Dívida: Alta, Garantias: Adequada, Renda: &lt; 15000).</p>
             <ol>
                 <li><b>Probabilidade risco de crédito Baixo</b>: 5/14 * 0/5 * 2/5 * 2/5 * 0/5</li>
@@ -794,17 +794,69 @@ with open('census.pkl', mode='wb') as f:
                 <li><b>Probabilidade risco de crédito Baixo (Laplaciana)</b>: 6/15 * 1/6 * 2/6 * 2/6 * 1/6</li>
             </ol>
 
-            <br><h5>Probabilidades Apriori / Posteori</h5>
+            <br><p><b>Probabilidades Apriori / Posteori:</b></p>
             <p id="textoPost">Supondo-se que hajam 12 ítens (Exemplo dados de histórico de crédito), sendo 5 de classe azul (5/12) e 7 de classe vermelha (7/12) - Probabilidade Apriori. Ao submeter novo ítem em meio aos demais, para descobrir sua provável classe, é realizado, ao seu redor próximo, uma circunferência com um raio traçado (Radius), onde será estimada essa probabilidade inicial do mesmo. Exemplo: Novo ítem dentro de circunferência está entre 3 vermelhas e 1 azul. A probabilidade do ítem ser vermelho é 3/7 e de ser azul é 1/5 (Também Probabilidade Apriori). Neste caso, para verificar a probabilidade final (Probabilidade Posteori):</p>
             <ul>
                 <li><b>Probabilidade vermelha</b>: 7/12 * 3/7 = 0,25</li>
                 <li><b>Probabilidade azul</b>: 5/12 * 1/5 = 0,08</li>
             </ul>
 
-            <br><h5>Vantagens e Desvantagens</h5>
+            <br><p><b>Vantagens e Desvantagens:</b></p>
             <p id="textoPost">Entre as vantagens ao escolher o cálculo Bayes ao invés dos demais, tem-se rapidez, simplicidade de interpretação, trabalha com altas dimensões (Muitos atributos), boas previsões em bases pequenas (Bases em torno de 400 registros). Como desvantagem, os casos trabalham com combinação de características (Atributos independentes), onde cada par de características são independentes (Atributos não se relacionam), o que nem sempre é verdade.</p>
 
+            <br><h5>Base de Dados (Risco de Crédito - Pequena)</h5>
+            <p class="text-muted" id="textoPost">Aplicação de Naïve Bayes para classificação de Risco de Crédito - Modelo teste.</p>
+<small><pre><code>
+from sklearn.naive_bayes import GaussianNB <span class="text-muted">#Importar library Naïve Bayes</span>
+<span class="text-muted">A library sklearn deixou de mostrar a tabela de probabilidades construída automaticamente. Mas linguagens como R há a possibilidade.</span>
+
+base_risco_credito = pd.read_csv('/content/risco_credito.csv') <span class="text-muted">#Upload do arquivo CSV com 14 registros de exemplo</span>
+base_risco_credito
+
+X_risco_credito = base_risco_credito.iloc[:, 0:4].values <span class="text-muted">#Armazenará atributos previsores (História, dívida, garantias e renda)</span>
+X_risco_credito
+
+y_risco_credito = base_risco_credito.iloc[:, 4].values <span class="text-muted">#Armazenará a classe (Risco)</span>
+y_risco_credito
+
+<span class="text-muted">#Converter os atributos categóricos String para numéricos:</span>
+from sklearn.preprocessing import LabelEncoder
+label_encoder_historia = LabelEncoder()
+label_encoder_divida = LabelEncoder()
+label_encoder_garantia = LabelEncoder()
+label_encoder_renda = LabelEncoder()
+X_risco_credito[:,0] = label_encoder_historia.fit_transform(X_risco_credito[:,0])
+X_risco_credito[:,1] = label_encoder_divida.fit_transform(X_risco_credito[:,1])
+X_risco_credito[:,2] = label_encoder_garantia.fit_transform(X_risco_credito[:,2])
+X_risco_credito[:,3] = label_encoder_renda.fit_transform(X_risco_credito[:,3])
+X_risco_credito
+<span class="text-muted">#Para essa base específica, a fim de teste, não será aplicado OneHotEncoder</span>
+
+<span class="text-muted">#Salvar dados em arquivo 'risco_credito.pkl':</span>
+import pickle
+with open('risco_credito.pkl', 'wb') as f:
+    pickle.dump([X_risco_credito, y_risco_credito], f)
+
+<span class="text-muted">#Criar e treinar Naïve Bayes para classificação:</span>
+naive_risco_credito = GaussianNB()
+naive_risco_credito.fit(X_risco_credito, y_risco_credito) <span class="text-muted">#Gerará tabela de probabilidades</span>
+
+<span class="text-muted">#Testar previsão com 2 novos dados:</span>
+<span class="text-muted">DADO 1, conforme subtítulo 'Na prática' acima: história boa(0), dívida alta(0), garantias nenhuma(1), renda &gt; 35(2) = Risco de crédito Baixo(79,68 %)</span>
+<span class="text-muted">DADO 2, conforme subtítulo 'Laplaciana' acima: história ruim(2), dívida alta(0), garantias adequada(0), renda &lt; 15(0)</span>
+previsao = naive_risco_credito.predict([[0,0,1,2],[2,0,0,0]])
+previsao <span class="text-muted">#Retornará o resultado das previsões (Baixo e Moderado)</span>
+
+<span class="text-muted">#Informações adicionais:</span>
+naive_risco_credito.classes_ <span class="text-muted">#Mostrar tipos de valores da classe</span>
+naive_risco_credito.class_count_ <span class="text-muted">#Quantidade de cada tipo de valor</span>
+naive_risco_credito.class_prior_ <span class="text-muted">#Mostrar probabilidades Apriori</span>
+</code></pre></small>
+
+            <br><h5>Base de Dados (Risco de Crédito - credit data)</h5>
+            <p class="text-muted" id="textoPost">Aplicação de Naïve Bayes para classificação de Risco de Crédito.</p>
             <!--Colab: https://colab.research.google.com/drive/1GL4sN3PiqSVCeUHZKctQc4lvAqH3NhiG#scrollTo=h25oSZkQA6Sr -->
+            <!--VER 39-->
         </div>
     </div>
 
