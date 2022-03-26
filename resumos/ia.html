@@ -46,7 +46,7 @@
         </div>
 
         <div class="col-sm-12">
-            <h4>Introdução</h4>
+            <h4>===== INTRODUÇÃO =====</h4>
             <p id="textoPost">Inteligência artificial é a área da Ciência da Computação responsável pelo desenvolvimento de sistemas que simulem a capacidade humana de resolver problemas.</p>
             <img src="../anexos/ia/iaMeme.jpg" width="180px" height="auto">
             <p>Exemplos de aplicações com Machine Learning:</p>
@@ -150,7 +150,8 @@
             <p><u>Exemplo</u>: Robô automatizado bate em parede e danifica-se. Dessa forma, concluirá que deve-se evitar bater em parede</p>
 
             <br>
-            <h5>Classificação:</h5>
+            <hr>
+            <h4>===== CLASSIFICAÇÃO =====</h4>
             <p id="textoPost">Levando em consideração o exemplo de análise de risco de crédito. Cada registro pertence a uma classe e possui um conjunto de atributos previsores. Na aprendizagem supervisionada, o valor do atributo meta sempre é conhecido. Com uma base de dados como o exemplo da tabela abaixo, é submetido ao treinamento de algoritmos de Machine Learning, para então prever o risco automaticamente.</p>
             <ul>
                 <li><b>Atributos Previsores</b>: Histórico de crédito (Bom, ruim ou desconhecido), dívida (Baixa ou alta), garantias (Nenhuma ou adequada), renda anual (Menor que 15 mil, entre 15 mil e 35 mil, maior que 35 mil) - <i>Variáveis Independentes</i></li>
@@ -203,8 +204,8 @@
                 <li><b>Fase 2</b>: Bart com Skate -&gt; Extração de características -&gt; Modelo aprendido = Bart</li>
             </ul>
 
-            <br><br>
-            <h4>===== Pré-processamento de dados =====</h4>
+            <br>
+            <h4>----- Pré-processamento de dados -----</h4>
             
             <br><h5>Tipos de variáveis</h5>
             <ul>
@@ -284,7 +285,7 @@ base_credit[base_credit['loan'] &gt;= 1.377] <span class="text-muted">#Mostrar p
             
             <p><b>3. Visualização em gráficos:</b></p>
 <small><pre><code>
-np.unique(base_credit['default']) <span class="text-muted">#Mostrar quais os números presentes nessa classe (0 quando a pessoa não paga o empréstimo, 1 quando paga o empréstimo)</span>
+np.unique(base_credit['default']) <span class="text-muted">#Mostrar quais os números presentes nessa classe (0 quando a pessoa paga o empréstimo, 1 quando não paga o empréstimo)</span>
 np.unique(base_credit['default'], return_counts=True) <span class="text-muted">#Ver quantos registros possui cada classe (Zeros e Uns)</span>
 sns.countplot(x = base_credit['default']); <span class="text-muted">#Mostrar dados acima em gráfico de barras (Gráfico 1)</span>
 plt.hist(x = base_credit['age']); <span class="text-muted">#Gerará gráfico histograma, separados em classes/intervalos de idades (Gráfico 2)</span>
@@ -590,8 +591,8 @@ with open('census.pkl', mode='wb') as f:
     pickle.dump([X_census_treinamento, y_census_treinamento, X_census_teste, y_census_teste], f)
 </code></pre></small>
 
-            <br><br>
-            <h4>===== Naïve Bayes =====</h4>
+            <br>
+            <h4>----- Naïve Bayes -----</h4>
             <p id="textoPost">Algoritmo bastante utilizado em mineração de texto (Filtragem de spam, emoção do narrador com relação à sua frase, separação de documentos, etc), baseado em probabilidade (Teorema de Bayes). Usando o exemplo da Base de Crédito, o algoritmo criará a tabela de probabilidade (Conforme abaixo), baseado no histórico de dados. Na tabela, o Risco de Crédito é o atributo Classe. A cada nova submissão para descobrir qual o risco de crédito, os atributos previsores deverão ser submetidos à essa tabela</p>
             <p><b>Montagem da tabela de probabilidade:</b></p>
             <p id="textoPost">Para tal, precisa-se fazer a contagem do risco, onde a classe (Risco de Crédito) fica à esquerda superior, seguida de seus atributos. Conforme histórico de 14 ítens, tem-se 6 considerados 'Alto' (6/14), 3 'Moderado' e 5 'Baixo'. Baseando-se no Risco de Crédito, tem-se 5 'Boa', 5 'Desconhecida' e 4 'Ruim'. Com isso, intercalando os valores nas intersecções, analisa-se quantas vezes tem-se História de crédito 'Boa' e Risco 'Alto' (1/6, onde 1 é 'Boa' e 'Alto', e 6 o valor total de 'Altos'), seguindo respectivamente, para os demais atributos nessa mesma lógica. Então, a soma de todos os numeradores preenchidos deve ser igual ao valor total no valor da classe na situação em questão (5 'Boa', conforme tabela). Na mesma lógica, a soma dos numeradores para cada valor do atributo da classe, com relação ao seu valor total naquela situação, deve ser a mesma com seu valor total (6 'Alto', conforme tabela).</p>
@@ -661,7 +662,6 @@ with open('census.pkl', mode='wb') as f:
                         </tr>
                     </tbody>
                 </table>
-                
                 <table class="table table-striped table-sm table-bordered text-center">
                     <thead>
                         <tr>
@@ -774,6 +774,7 @@ with open('census.pkl', mode='wb') as f:
                     </tbody>
                 </table>
             </div>
+            
             <p><b>Na prática:</b></p>
             <p id="textoPost">Análise de risco de crédito para novo cliente com os dados (História de crédito: Boa, Dívida: Alta, Garantias: Nenhuma, Renda: &gt; 35000). Nesse caso, usa-se, do histórico na tabela, somente as colunas pertinentes ao exemplo atual (História de crédito somente 'boa' - descarta-se Desconhecida e Ruim, Dívida somente 'alta', Garantias somente 'nenhuma' e Renda Anual somente '&gt; 35000'). Para o cálculo da probabilidade em cada classe, usa-se a fórmula: 'Multiplicar, nas células pertinentes, todas as frações na mesma linha'.</p>
             <ul>
@@ -855,8 +856,46 @@ naive_risco_credito.class_prior_ <span class="text-muted">#Mostrar probabilidade
 
             <br><h5>Base de Dados (Risco de Crédito - credit data)</h5>
             <p class="text-muted" id="textoPost">Aplicação de Naïve Bayes para classificação de Risco de Crédito.</p>
+<small><pre><code>
+<span class="text-muted">#Importar library e fazer upload do arquivo 'credit.pkl' com os dados:</span>
+import pickle
+with open('credit.pkl', 'rb') as f:
+    X_credit_treinamento, y_credit_treinamento, X_credit_teste, y_credit_teste = pickle.load(f)
+
+X_credit_treinamento.shape, y_credit_treinamento.shape <span class="text-muted">#Mostrar registros do histórico</span>
+X_credit_teste.shape, y_credit_teste.shape <span class="text-muted">#Mostrar registros que serão submetidos após treinamento</span>
+
+<span class="text-muted">#Criar e treinar Naïve Bayes para classificação:</span>
+naive_credit_data = GaussianNB()
+naive_credit_data.fit(X_credit_treinamento, y_credit_treinamento)
+
+<span class="text-muted">Testar previsão com valores para teste:</span>
+previsoes = naive_credit_data.predict(X_credit_teste)
+previsoes <span class="text-muted">#Previsões do algoritmo (0 para Pagou e 1 para Não Pagou)</span>
+y_credit_teste <span class="text-muted">#Resposta reais e corretas (Para comparar se as do algoritmo ficarão idênticas, precisão das previsões do algoritmo)</span>
+
+<span class="text-muted">Comparar respostas do algoritmo com reais (Precisão de acertos nas previsões):</span>
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+accuracy_score(y_credit_teste, previsoes) <span class="text-muted">#1º parâmetro são as respostas reais, 2º são as previsões do algoritmo. Mostrará percentual de acertos (0,938 - 93,8%)</span>
+confusion_matrix(y_credit_teste, previsoes) <span class="text-muted">#Mostrará matriz de acertos classe por classe ([Linha zero(clientes que pagam classificados como 0 - corretamente),(clientes que pagam classificados como 1 - incorretamente)].[Linha 1(clientes que não pagam classificados como 0 - incorretamente),(clientes que não pagam classificados como 1 - corretamente)])</span>
+
+<span class="text-muted">#Preparo, treinamento e verificação com outra library:</span>
+from yellowbrick.classifier import ConfusionMatrix
+cm = ConfusionMatrix(naive_credit_data)
+cm.fit(X_credit_treinamento, y_credit_treinamento)
+cm.score(X_credit_teste, y_credit_teste) <span class="text-muted">#Mostrará a mesma matriz de acertos citada acima, mais organizada visualmente</span>
+
+<span class="text-muted">#Mostrar outros detalhes extras:</span>
+print(classification_report(y_credit_teste, previsoes))
+<span class="text-muted">Recall: Percentual de acerto das previsões do algoritmo após dados reais</span>
+<span class="text-muted">Precision: Percentual de acerto das previsões do algoritmo antes das mesmas ocorrerem na realidade</span>
+<span class="text-muted">Como conclusão, teve-se muitos clientes não pagadores classificados, pelo algoritmo, como pagadores (Erroneamente). Os 93,8% de precisão devem-se devido ao alto número de acertos em clientes pagadores classificados como pagadores</span>
+</code></pre></small>
+
+            <br><h5>Base de Dados (Censo)</h5>
+            <p class="text-muted" id="textoPost">Aplicação de Naïve Bayes para classificação de valor salarial.</p>
             <!--Colab: https://colab.research.google.com/drive/1GL4sN3PiqSVCeUHZKctQc4lvAqH3NhiG#scrollTo=h25oSZkQA6Sr -->
-            <!--VER 39-->
+            <!--VER 40-->
         </div>
     </div>
 
