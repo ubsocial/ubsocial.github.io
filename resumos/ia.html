@@ -878,6 +878,7 @@ y_credit_teste <span class="text-muted">#Resposta reais e corretas (Para compara
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 accuracy_score(y_credit_teste, previsoes) <span class="text-muted">#1º parâmetro são as respostas reais, 2º são as previsões do algoritmo. Mostrará percentual de acertos (0,938 - 93,8%)</span>
 confusion_matrix(y_credit_teste, previsoes) <span class="text-muted">#Mostrará matriz de acertos classe por classe ([Linha zero(clientes que pagam classificados como 0 - corretamente),(clientes que pagam classificados como 1 - incorretamente)].[Linha 1(clientes que não pagam classificados como 0 - incorretamente),(clientes que não pagam classificados como 1 - corretamente)])</span>
+<span class="text-muted">Graficamente, a matrix de confusão mostra Eixo Y(vertical) o valor real, e no Eixo X(horizontal) o valor da previsão</span>
 
 <span class="text-muted">#Preparo, treinamento e verificação com outra library:</span>
 from yellowbrick.classifier import ConfusionMatrix
@@ -894,8 +895,34 @@ print(classification_report(y_credit_teste, previsoes))
 
             <br><h5>Base de Dados (Censo)</h5>
             <p class="text-muted" id="textoPost">Aplicação de Naïve Bayes para classificação de valor salarial.</p>
-            <!--Colab: https://colab.research.google.com/drive/1GL4sN3PiqSVCeUHZKctQc4lvAqH3NhiG#scrollTo=h25oSZkQA6Sr -->
-            <!--VER 40-->
+<small><pre><code>
+<span class="text-muted">#Upload do arquivo com dados</span>
+with open('census.pkl', 'rb') as f:
+    X_census_treinamento, y_census_treinamento, X_census_teste, y_census_teste = pickle.load(f)
+
+<span class="text-muted">#Ver qtde de registros e atributos, e respostas (Base treino e teste)</span>
+X_census_treinamento.shape, y_census_treinamento.shape
+X_census_teste.shape, y_census_teste.shape
+
+<span class="text-muted">#Criar e treinar Naïve Bayes para classificação:</span>
+naive_census = GaussianNB()
+naive_census.fit(X_census_treinamento, y_census_treinamento)
+previsoes = naive_census.predict(X_census_teste)
+previsoes
+
+<span class="text-muted">#Comparar previsões com respostas reais:</span>
+y_census_teste <span class="text-muted">#Várias previsões erradas (Accuracy de 47%, pois são somente 2 classes no algoritmo, proporcionando maior probabilidade de erro: 50%-50%)</span>
+accuracy_score(y_census_teste, previsoes)
+cm = ConfusionMatrix(naive_census)
+cm.fit(X_census_treinamento, y_census_treinamento)
+cm.score(X_census_teste, y_census_teste)
+print(classification_report(y_census_teste, previsoes))
+<span class="text-muted">Não executar o escalonamento no início do tratamento dos dados proporcionará, nesse caso, maior accuracy</span>
+</code></pre></small>
+
+            <br>
+            <h4>----- Árvore de Decisão -----</h4>
+            <!--VER 42: Introdução-->
         </div>
     </div>
 
