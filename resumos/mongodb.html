@@ -145,16 +145,16 @@ db.people.insertMany( {user_id:"bcd001",age:45,status:"A"},{user_id:"vvv",age:30
 6.SELECT * FROM people WHERE status != "A"
 7.SELECT * FROM people WHERE status = "A" AND age = 50
 8.SELECT * FROM people WHERE status = "A" OR age = 50
-9.SELECT * FROM people WHERE age > 25
-10.SELECT * FROM people WHERE age < 25
-11.SELECT * FROM people WHERE age > 25 AND age <= 50
+9.SELECT * FROM people WHERE age &gt; 25
+10.SELECT * FROM people WHERE age &lt; 25
+11.SELECT * FROM people WHERE age &gt; 25 AND age &lt;= 50
 12.SELECT * FROM people WHERE user_id like "%bc%"
 13.SELECT * FROM people WHERE user_id like "bc%"
 14.SELECT * FROM people WHERE status = "A" ORDER BY user_id ASC
 15.SELECT * FROM people WHERE status = "A" ORDER BY user_id DESC
 16.SELECT COUNT(*) FROM people
 17.SELECT COUNT(user_id) FROM people
-18.SELECT COUNT(*) FROM people WHERE age > 30
+18.SELECT COUNT(*) FROM people WHERE age &gt; 30
 19.SELECT DISTINCT(status) FROM people
 20.SELECT * FROM people LIMIT 1
 21.SELECT * FROM people LIMIT 5 SKIP 10 EXPLAIN SELECT * FROM people WHERE status = "A"
@@ -187,7 +187,7 @@ db.people.insertMany( {user_id:"bcd001",age:45,status:"A"},{user_id:"vvv",age:30
             <h4>Update</h4>
 <small><pre><code>
 <b>MySQL</b>
-UPDATE people SET status = "C" WHERE age > 25
+UPDATE people SET status = "C" WHERE age &gt; 25
 UPDATE people SET age = age + 3 WHERE status = "A"
 
 <b>MongoDB</b>
@@ -200,7 +200,7 @@ db.tableX.renameCollection("tableY") //renomear collection
 <small><pre><code>
 <b>MySQL</b>
 DELETE FROM people WHERE status = "D"
-DELETE FROM people
+DELETE * FROM people
 
 <b>MongoDB</b>
 <i>deleteOne: Deleta somente o 1º document</i>
