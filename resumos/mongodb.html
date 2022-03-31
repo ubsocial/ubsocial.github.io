@@ -161,7 +161,7 @@ db.people.insertMany( {user_id:"bcd001",age:45,status:"A"},{user_id:"vvv",age:30
 
 <b>MongoDB</b>
 1.db.people.find()
-1.1.db.aluno.find().pretty //em formato json
+1.1.db.aluno.find().pretty() //em formato json
 2.db.people.find({ },{ user_id:1, status:1 })
 3.db.people.find({ },{ user_id:1, status:1, _id:0 })
 4.db.people.find({ status:"A" })
