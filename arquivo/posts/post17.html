@@ -94,8 +94,11 @@
                         <li>No browser, recarregar index e verificar se aparece form de criação de task</li>
                     </ul>
                 </li>
-                <li>Em 'tasks/views.py', incluir if <span class="text-muted">(Incluir 'redirect' no from)</span></li>
-                <li>No Browser, testar inserções de tasks</li>
+                <li>Em 'tasks/views.py', incluir if <span class="text-muted">(Incluir 'redirect' no from)</span>
+                    <ul>
+                        <li>No Browser, testar inserir alguma task</li>
+                    </ul>
+                </li>
                 <br>
                 <b><u>Editar Task</u>:</b>
                 <li>Em 'tasks/templates', criar 'update_task.html'</li>
@@ -117,6 +120,17 @@
                     </ul>
                 </li>
                 <br>
+                <b><u>Ver Task</u>:</b>
+                <li>Em 'tasks/templates', criar 'detail_task.html'</li>
+                <li>Em 'tasks/views.py', criar view detailTask <span class="text-muted">(def detailTask)</span></li>
+                <li>Em 'tasks/urls.py' adicionar rota detail_task <span class="text-muted">(path)</span></li>
+                <li>Em 'tasks/templates/list.html', incluir <span class="text-muted">&lt;a&gt;Detail</span>
+                    <ul>
+                        <li>No browser, testar ver detalhes de alguma task</li>
+                    </ul>
+                </li>
+                
+                <br>
                 <b><u>Marcar Task completa/incompleta</u>:</b>
                 <li>Em 'tasks/templates/list.html', incluir 'if task.complete'</li>
             </ol>
@@ -127,9 +141,9 @@
 <small><pre><code>
 &lt;p&gt;Excluir a task "{{item}}"?&lt;/p&gt;
 &lt;a href="{% url 'list' %}"&gt;Cancelar&lt;/a&gt;
-&lt;form action="" method="POST"&gt;
+&lt;form method="POST"&gt;
     {% csrf_token %}
-    &lt;input type="submit" name="Confirmar"&gt;
+    &lt;input type="submit"&gt;
 &lt;/form&gt;
 </code></pre></small>
 
@@ -138,15 +152,16 @@
 <small><pre><code>
 &lt;h3&gt;To do Django UB Social&lt;/h3&gt;
 
-&lt;form method="POST" action="/"&gt;
+&lt;form method="POST"&gt;
     {% csrf_token %}
     {{form}}
-    &lt;input type="submit" name="Create Task"&gt;
+    &lt;input type="submit"&gt;
 &lt;/form&gt;
 
 {% for task in tasks %}
     &lt;div&gt;
-        &lt;a href="{% url 'update_task' task.id %}"&gt;Update&lt;/a&gt;
+        &lt;a href="{% url 'update' task.id %}"&gt;Update&lt;/a&gt;
+        &lt;a href="{% url 'detail' task.id %}"&gt;Detail&lt;/a&gt;
         &lt;a href="{% url 'delete' task.id %}"&gt;Delete&lt;/a&gt;
         {% if task.complete == True %}
             &lt;s&gt;{{task}}&lt;/s&gt;
@@ -158,13 +173,27 @@
 </code></pre></small>
 
             <br>
-            <p><b>tasks/templates/tasks/update_task.html</b>:</p>
+            <p><b>tasks/templates/tasks/detail.html</b>:</p>
+<small><pre><code>
+&lt;a href="{% url 'list' %}"&gt;Voltar&lt;/a&gt;&lt;br&gt;
+&lt;div class="main"&gt;
+    {{task.id}}&lt;br&gt;
+    {% if task.complete == True %}
+            &lt;s&gt;{{task.title}}&lt;/s&gt;
+        {% else %}
+            &lt;span&gt;{{task.title}}&lt;/span&gt;
+    {% endif %}
+&lt;/div&gt;
+</code></pre></small>
+
+            <br>
+            <p><b>tasks/templates/tasks/update.html</b>:</p>
 <small><pre><code>
 &lt;h3&gt;Update Task&lt;/h3&gt;
-&lt;form method="POST" action=""&gt;
+&lt;form method="POST"&gt;
     {% csrf_token %}
     {{form}}
-    &lt;input type="submit" name="Update Task"&gt;
+    &lt;input type="submit"&gt;
 &lt;/form&gt;
 </code></pre></small>
 
@@ -172,10 +201,8 @@
             <p><b>admin.py</b>:</p>
 <small><pre><code>
 from django.contrib import admin
-
-<span class="text-muted"># Register your models here.</span>
-
 from .models import *
+
 admin.site.register(Task)
 </code></pre></small>
 
@@ -183,7 +210,6 @@ admin.site.register(Task)
             <p><b>apps.py</b>:</p>
 <small><pre><code>
 from django.apps import AppConfig
-
 
 class TasksConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
@@ -208,13 +234,10 @@ class TaskForm(forms.ModelForm):
 <small><pre><code>
 from django.db import models
 
-<span class="text-muted"># Create your models here.</span>
-
 class Task(models.Model):
     title = models.CharField(max_length=200)
     complete = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
-
     def __str__(self):
         return self.title
 </code></pre></small>
@@ -227,7 +250,8 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name="list"),
-    path('update_task/&lt;str:pk&gt;/', views.updateTask, name="update_task"),
+    path('task/&lt;str:pk&gt;/', views.detailTask, name="detail"),
+    path('update/&lt;str:pk&gt;/', views.updateTask, name="update"),
     path('delete/&lt;str:pk&gt;/', views.deleteTask, name="delete"),
 ]
 </code></pre></small>
@@ -240,8 +264,6 @@ from django.http import HttpResponse
 from .models import *
 from .forms import *
 
-<span class="text-muted"># Create your views here.</span>
-
 def index(request):
     tasks = Task.objects.all()
     form = TaskForm()
@@ -253,6 +275,11 @@ def index(request):
     context = {'tasks':tasks, 'form':form}
     return render(request, 'tasks/list.html', context)
 
+def detailTask(request, pk):
+    context = {}
+    context["data"] = Task.objects.get(id=pk)
+    return render(request, 'tasks/detail.html', context)
+
 def updateTask(request, pk):
     task = Task.objects.get(id=pk)
     form = TaskForm(instance=task)
@@ -262,7 +289,7 @@ def updateTask(request, pk):
             form.save()
             return redirect('/')
     context = {'form':form}
-    return render(request, 'tasks/update_task.html', context)
+    return render(request, 'tasks/update.html', context)
 
 def deleteTask(request, pk):
     item = Task.objects.get(id=pk)
