@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ovo&family=Qwitcher+Grypen&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../anexos/icons/logoTit.png">
+    <link rel="stylesheet" href="../../estilo.css">
+    <title>UB Social</title>
+</head>
+<body id="fundo">
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-sm-12" id="titulo1">
+            <h1 id="serifada">API REST Serializers com Django</h1>
+            <h6><strong>API REST Serializers com Django REST Framework</strong></h6>
+            <a href="../../index.html" class="btn btn-link" id="btnLink">Voltar</a><br><br>
+            <a href="https://github.com/ubsocial/Django" class="btn btn-link" target="_blank" id="btnLink">GitHub do projeto</a><br>
+        </div>
+
+        <div class="col-sm-12">
+            <p id="textoPost">O Django REST Framework, ferramenta oficial do Django, possui mecanismos automatizados para criação e gerenciamento de projetos API REST, dispensando serviços terceiros para testes, como o Postman. No projeto em questão, será criada a API REST via código manualmente, juntamente com autenticação Serializer e todas as funções de CRUD, seguindo os padrões oficiais do framework. Entretanto, para casos mais básicos e genéricos, pode-se utilizar Generic Views, favorecendo assim a produtividade do desenvolvimento. Demais informações, relacionadas à conceitos teóricos sobre API REST e instalação do Django, acesse os posts sobre. O nome do projeto em questão será 'todo_drf' e o app criado nele será 'api'.</p>
+            <!--<img src="../../arquivo/anexos/post17/todoApp.png" width="250px" height="auto">-->
+            
+            <br><br>
+            <h4>Passo a passo:</h4>
+            <ol>
+                <br>
+                <b><u>Preparo</u>:</b>
+                <li><b>Instalar Django REST Framework:</b> pip install djangorestframework</li>
+                <li><b>Criar projeto:</b> django-admin startproject todo_drf</li>
+                <li><b>No projeto, criar app:</b> python3 manage.py startapp api</li>
+                <br>
+                <b><u>Testes</u>:</b>
+                <p class="textoPost">Após a criação de todos arquivos abaixo, pode-se realizar a execução do projeto e os testes informados nos seguintes procedimentos:</p>
+                <li><b>Criar Migrations:</b> python3 manage.py makemigrations</li>
+                <li><b>Executar Migrations:</b> python3 manage.py migrate</li>
+                <li><b>Executar projeto:</b> python3 manage.py runserver</li>
+                <li>No browser
+                    <ul>
+                        <li><b>Acessar API:</b> <a href="http://127.0.0.1:8000/api/" target="_blank">http://127.0.0.1:8000/api/</a></li>
+                        <li><b>Listar Tasks:</b> <a href="http://127.0.0.1:8000/api/task-list/" target="_blank">http://127.0.0.1:8000/api/task-list/</a></li>
+                        <li><b>Inserir Task:</b> <a href="http://127.0.0.1:8000/api/task-create/" target="_blank">http://127.0.0.1:8000/api/task-create/</a>
+                            <ul>
+                                <li>Conteúdo para inserir (JSON): <span class="text-muted">{"title":"UB Social 1","description":"Task UB Social 1","completed":"True"}</span></li>
+                            </ul>
+                        </li>
+                        <li><b>Ver Task 1:</b> <a href="http://127.0.0.1:8000/api/task-detail/1/" target="_blank">http://127.0.0.1:8000/api/task-detail/1/</a></li>
+                        <li><b>Editar Task 1:</b> <a href="http://127.0.0.1:8000/api/task-update/1/" target="_blank">http://127.0.0.1:8000/api/task-update/1/</a>
+                            <ul>
+                                <li>Conteúdo para inserir (JSON): <span class="text-muted">{"title":"UB Social 1 atualizada","description":"Task UB Social 1 atualizada","completed":"False"}</span></li>
+                            </ul>
+                        </li>
+                        <li><b>Excluir Task 1:</b> <a href="http://127.0.0.1:8000/api/task-delete/1/" target="_blank">http://127.0.0.1:8000/api/task-delete/1/</a></li>
+                    </ul>
+                </li>
+            </ol>
+
+            <br>
+            <h4>Arquivos:</h4>
+            <br><p><b>api/models.py</b>:</p>
+<small><pre><code>
+from django.db import models
+
+class Task(models.Model):
+    title = models.CharField(max_length=200)
+    completed = models.BooleanField(default=False, blank=True, null=True)      
+    def __str__(self):
+        return self.title
+</code></pre></small>
+
+            <br><p><b><span class="text-muted">(Criar arquivo)</span> api/serializers.py</b>:</p>
+<small><pre><code>
+from rest_framework import serializers
+from .models import Task
+
+class TaskSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task
+        fields ='__all__'
+</code></pre></small>
+
+            <br><p><b><span class="text-muted">(Criar arquivo)</span> api/urls.py</b>:</p>
+<small><pre><code>
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.apiOverview, name="api-overview"),
+    path('task-list/', views.taskList, name="task-list"),
+    path('task-detail/&lt;str:pk&gt;/', views.taskDetail, name="task-detail"),
+    path('task-create/', views.taskCreate, name="task-create"),
+    path('task-update/&lt;str:pk&gt;/', views.taskUpdate, name="task-update"),
+    path('task-delete/&lt;str:pk&gt;/', views.taskDelete, name="task-delete"),
+]
+</code></pre></small>
+
+            <br><p><b>api/views.py</b>:</p>
+<small><pre><code>
+from django.shortcuts import render
+from django.http import JsonResponse
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .serializers import TaskSerializer
+from .models import Task
+
+@api_view(['GET'])
+def apiOverview(request):
+    api_urls = {
+        'List':'/task-list/',
+        'Detail View':'/task-detail/&lt;str:pk&gt;/',
+        'Create':'/task-create/',
+        'Update':'/task-update/&lt;str:pk&gt;/',
+        'Delete':'/task-delete/&lt;str:pk&gt;/',
+    }
+    return Response(api_urls)
+
+@api_view(['GET'])
+def taskList(request):
+    tasks = Task.objects.all().order_by('-id')
+    serializer = TaskSerializer(tasks, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def taskDetail(request, pk):
+    tasks = Task.objects.get(id=pk)
+    serializer = TaskSerializer(tasks, many=False)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def taskCreate(request):
+    serializer = TaskSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def taskUpdate(request, pk):
+    task = Task.objects.get(id=pk)
+    serializer = TaskSerializer(instance=task, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
+
+
+@api_view(['DELETE'])
+def taskDelete(request, pk):
+    task = Task.objects.get(id=pk)
+    task.delete()
+    return Response('Task removida com sucesso!')
+</code></pre></small>
+
+            <br><p><b><span class="text-muted">(Modificar trecho do arquivo)</span> todo_drf/settings.py</b>:</p>
+<small><pre><code>
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    <b>'api.apps.ApiConfig',</b>
+    <b>'rest_framework',</b>
+]
+</code></pre></small>
+
+            <br><p><b>todo_drf/urls.py</b>:</p>
+<small><pre><code>
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('api/', include('api.urls')),
+]
+</code></pre></small>
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center" id="rodape">
+        <p id="serifada">Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>
