@@ -277,7 +277,7 @@ def index(request):
 
 def detailTask(request, pk):
     context = {}
-    context["data"] = Task.objects.get(id=pk)
+    context["task"] = Task.objects.get(id=pk)
     return render(request, 'tasks/detail.html', context)
 
 def updateTask(request, pk):
