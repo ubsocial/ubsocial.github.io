@@ -306,18 +306,18 @@ grafico.show() <span class="text-muted">#Imagem dos gráficos com colorações i
 <small><pre><code>
 base_credit.loc[base_credit['age'] &lt; 0] <span class="text-muted">#Localizar registros (Ou base_credit[base_credit['age'] &lt; 0])</span>
 
-<span class="text-muted"># Apagar coluna inteira do registro inconsistente</span>
+<span class="text-muted">#Apagar coluna inteira do registro inconsistente</span>
 base_credit2 = base_credit.drop('age', axis=1) <span class="text-muted">#Axis 0 é para linha e Axis 1 é para coluna</span>
 base_credit2
 base_credit.index <span class="text-muted">#Index é o nº do registro no BD, conforme tabela acima</span>
 base_credit[base_credit['age'] &lt; 0].index</code>
 
-<span class="text-muted"># Apagar somente células de registros com valores inconsistentes</span>
+<span class="text-muted">#Apagar somente células de registros com valores inconsistentes</span>
 base_credit3 = base_credit.drop(base_credit[base_credit['age'] &lt; 0].index)
 base_credit3
 base_credit3.loc[base_credit3['age'] &lt; 0] <span class="text-muted">#Apagou, então retornará nenhum registro encontrado</span>
 
-<span class="text-muted"></span># Preencher os valores inconsistentes manualmente (Geralmente preencher com média da classe)</span>
+<span class="text-muted"></span>#Preencher os valores inconsistentes manualmente (Geralmente preencher com média da classe)</span>
 base_credit.mean() <span class="text-muted">#Localizar média de valores (Ou base_credit['age'].mean())</span>
 base_credit['age'][base_credit['age'] &gt; 0].mean() <span class="text-muted">#Média não considerando valores negativos</span>
 base_credit.loc[base_credit['age'] &lt; 0, 'age'] = 40.92 <span class="text-muted">#Preencher idades negativas com média de idades</span>
@@ -331,7 +331,7 @@ base_credit.isnull() <span class="text-muted">#Verificar se há dados faltantes 
 base_credit.isnull().sum() <span class="text-muted">#Mostrará quantidade de dados faltantes</span>
 base_credit.loc[pd.isnull(base_credit['age'])] <span class="text-muted">#Ver quais linhas possuem idade faltante</span>
 
-<span class="text-muted"># Preencher valores faltantes com média</span>
+<span class="text-muted">#Preencher valores faltantes com média</span>
 base_credit['age'].fillna(base_credit['age'].mean(), inplace=True) <span class="text-muted">#Preencher automaticamente com média</span>
 base_credit.loc[pd.isnull(base_credit['age'])] <span class="text-muted">#Verificar se existem idades faltantes (Não haverão idades faltantes)</span>
 base_credit.loc[(base_credit['clientid']==29) | (base_credit['clientid']==31) | (base_credit['clientid']==32)]
@@ -567,13 +567,13 @@ X_census[0] <span class="text-muted">#Converterá os atributos numéricos para o
 <small><pre><code>
 from sklearn.model_selection import train_test_split
 
-<span class="text-muted"># Dividir base Risco de Crédito</span>
+<span class="text-muted">#Dividir base Risco de Crédito</span>
 X_credit_treinamento, X_credit_teste, y_credit_treinamento, y_credit_teste = train_test_split(X_credit,y_credit,test_size = 0.25,random_state = 0) <span class="text-muted">#X: previsores e Y: classe. Tamanho da base de Teste será 0.25 (75% da base de dados para treinar, 25% para testar), random_state para manter registros de trainamento/teste e consguir compará-los</span>
 X_credit_treinamento.shape <span class="text-muted">#1500 registros previsores para treinamento, 3 colunas (income,age,loan)</span>
 y_credit_treinamento.shape <span class="text-muted">#1500 registros classe, somente coluna default</span>
 X_credit_teste.shape, y_credit_teste.shape <span class="text-muted">#25% dos dados total para cada variável da base teste (X previsores, Y respostas/classe)</span>
 
-<span class="text-muted"># Dividir base Censo</span>
+<span class="text-muted">#Dividir base Censo</span>
 X_census_treinamento, X_census_teste, y_census_treinamento, y_census_teste = train_test_split(X_census,y_census,test_size = 0.15,random_state = 0) <span class="text-muted">#85% dos registros para base Treinamento, 15% para base Teste</span>
 X_census_treinamento.shape, y_census_treinamento.shape <span class="text-muted">#27676 registros previsores, 108 colunas. 27676 registros de resposta/classe</span>
 X_census_teste.shape, y_census_teste.shape <span class="text-muted">#4855 registros previsores, 108 colunas. 4855 registros de resposta/classe</span>
@@ -922,7 +922,7 @@ print(classification_report(y_census_teste, previsoes))
 
             <br>
             <h4>----- Árvore de Decisão -----</h4>
-            <p id="textoPost">Também conhecida como CART (Classification and Regression Trees), consiste em gerar, recursivamente, árvore de possibilidades (IF's), onde a classificação de submissões traça o caminho na árvore, até chegar à conclusão, ou seja, o atributo classe de resposta previsto. Em alguns casos, o próprio algoritmo dispensa alguns atributos, considerados não pertinentes para a previsão. Serão elencados, ordenadamente, os atributos com maior importância até os de menor importância, sendo esse ordenamento a conclusão gerada através dos treinamentos do algoritmo. Entre as vantagens de utilizar Árvore de Decisão, tem-se a dispensa de normalização e padronização dos atributos. Como desvantagens, tem-se casos de geração de Árvores muito complexas (Ramos muito específicos - overfitting), problema NP-completo (Complexo) para construir a Árvore, e tal algoritmo é bastante antigo (Usado nos anos 90. Com o passar dos anos, foram aplicadas melhorias, como Random Forest (Florestas Randômicas) para melhor desempenho).</p>
+            <p id="textoPost">Também conhecida como CART (Classification and Regression Trees), consiste em gerar, recursivamente, árvore de possibilidades (IF's), onde a classificação de submissões traça o caminho na árvore, até chegar à conclusão (Nó folha), ou seja, o atributo classe de resposta previsto. Em alguns casos, o próprio algoritmo dispensa alguns atributos, considerados não pertinentes para a previsão. Serão elencados, ordenadamente, os atributos com maior importância até os de menor importância, sendo esse ordenamento a conclusão gerada através dos treinamentos do algoritmo. Entre as vantagens de utilizar Árvore de Decisão, tem-se a dispensa de normalização e padronização dos atributos. Como desvantagens, tem-se casos de geração de Árvores muito complexas (Ramos muito específicos - overfitting), problema NP-completo (Complexo) para construir a Árvore, e tal algoritmo é bastante antigo (Usado nos anos 90. Com o passar dos anos, foram aplicadas melhorias, como Random Forest (Florestas Randômicas) para melhor desempenho).</p>
             <img src="../anexos/ia/arvoreDecisao.png" width="70%" height="auto">
             <p id="textoPost">A construção da árvore é baseada nas fórmulas da Entropy (Entropia) e Gain (Ganho de informação), ou seja, é através desses 2 cálculos define-se a pertinência dos atributos para posterior ordenamento na árvore. Utilizando como exemplo os dados da base de risco de crédito (<a href="#tabRiscoCredito">Aqui</a>). Nela tem-se (Alto=6/14), (Moderado=3/14) e (Baixo=5/14). Tais dados são colocados na fórmula da Entropia, a fim de medir o quão organizados/desorganizados os dados estão na sua respectiva base de dados. No caso, a Entropia Geral é de 1,53. Com isso, calcula-se os Ganhos de Informação (G) de todos atributos envolvidos, onde o resultado será o nível de pertinência dos mesmos. Quanto menor o valor da Entropia do atributo, melhor será a distribuição dos dados, ou seja, mais fácil/claro, estatisticamente, para classificar o registro. Atributos com valor de Ganho de Informação baixo tendem a serem excluídos da árvore (Como, no exemplo em questão, a dívida). Abaixo dos cálculos, segue imagem com exemplo visual da construção parcial da árvore.</p>
             <ul>
@@ -977,8 +977,36 @@ print(classification_report(y_census_teste, previsoes))
             <br><h5>Base de Dados (Risco de Crédito - Pequena)</h5>
             <p class="text-muted" id="textoPost">Aplicação de Árvore de Decisão para classificação de Risco de Crédito - Modelo teste.</p>
 <small><pre><code>
+<span class="text-muted">#Importar libraries e upload do arquivo 'credit.pkl' com os dados e LabelEncoder aplicado:</span>
+from sklearn.tree import DecisionTreeClassifier
+import pickle
+with open('risco_credito.pkl', 'rb') as f:
+    X_risco_credito, y_risco_credito = pickle.load(f)
+X_risco_credito
+y_risco_credito
 
+<span class="text-muted">#Criar Árvore de Decisão e treiná-la:</span>
+arvore_risco_credito = DecisionTreeClassifier(criterion='entropy') <span class="text-muted">#Por padrão, o criterion usa Gini (Cálculo de impureza de Gini), mas fora alterado para entropy (Cálculo da Entropia)</span>
+arvore_risco_credito.fit(X_risco_credito, y_risco_credito)
+
+arvore_risco_credito.feature_importances_ <span class="text-muted">#Ver valor do Ganho de Informação de cada atributo da Árvore</span>
+arvore_risco_credito.classes_ <span class="text-muted">#Ver classes</span>
+
+<span class="text-muted">#Visualizar Árvore de Decisão:</span>
+from sklearn import tree
+tree.plot_tree(arvore_risco_credito) <span class="text-muted">#Modo texto</span>
+previsores = ['história', 'dívida', 'garantias', 'renda']
+figura, eixos = plt.subplots(nrows=1, ncols=1, figsize=(10,10))
+tree.plot_tree(arvore_risco_credito, feature_names=previsores, class_names = arvore_risco_credito.classes_, filled=True);tree.plot_tree(arvore_risco_credito) <span class="text-muted">#Modo gráfico (Imagem abaixo)</span>
+
+<span class="text-muted">#Testar previsao com valores para teste:</span>
+<span class="text-muted">#1. história boa, dívida alta, garantias nenhuma, renda &gt; 35</span>
+<span class="text-muted">#2. história ruim, dívida alta, garantias adequada, renda &lt; 15</span>
+previsoes = arvore_risco_credito.predict([[0,0,1,2],[2,0,0,0]])
+previsoes <span class="text-muted">#Retornará, respectivamente, Baixo e Alto</span>
 </code></pre></small>
+            <img src="../anexos/ia/arvoreDecisaoResultadoBaseCreditoBasica.png" width="70%" height="auto">
+            <!--VER 48-->
         </div>
     </div>
 
