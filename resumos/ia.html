@@ -662,7 +662,7 @@ with open('census.pkl', mode='wb') as f:
                         </tr>
                     </tbody>
                 </table>
-                <table class="table table-striped table-sm table-bordered text-center">
+                <table class="table table-striped table-sm table-bordered text-center" id="tabRiscoCredito">
                     <thead>
                         <tr>
                             <th scope="col" class="table-primary">História do Crédito</th>
@@ -922,9 +922,46 @@ print(classification_report(y_census_teste, previsoes))
 
             <br>
             <h4>----- Árvore de Decisão -----</h4>
-            <p id="textoPost">Conciste em gerar árvore de possibilidades (IF's), onde a classificação de submissões traça o caminho na árvore, até chegar à conclusão, o atributo classe de resposta previsto. Em alguns casos, o próprio algoritmo dispensa alguns atributos, considerados não pertinentes, para a previsão. Serão elencados, ordenadamente, os atributos com maior importância até os de menor importância, sendo esse ordenadamento a conclusão gerada através dos treinamentos do algoritmo.</p>
+            <p id="textoPost">Conciste em gerar, recursivamente, árvore de possibilidades (IF's), onde a classificação de submissões traça o caminho na árvore, até chegar à conclusão, ou seja, o atributo classe de resposta previsto. Em alguns casos, o próprio algoritmo dispensa alguns atributos, considerados não pertinentes para a previsão. Serão elencados, ordenadamente, os atributos com maior importância até os de menor importância, sendo esse ordenamento a conclusão gerada através dos treinamentos do algoritmo.</p>
             <img src="../anexos/ia/arvoreDecisao.png" width="70%" height="auto">
-            <!--VER 44-->
+            <p id="textoPost">A construção da árvore é baseada nas fórmulas da Entropy (Entropia) e Gain (Ganho de informação), ou seja, é através desses 2 cálculos define-se a pertinência dos atributos para posterior ordenamento na árvore. Utilizando como exemplo os dados da base de risco de crédito (<a href="#tabRiscoCredito">Aqui</a>). Nela tem-se (Alto=6/14), (Moderado=3/14) e (Baixo=5/14). Tais dados são colocados na fórmula da Entropia, a fim de medir o quão organizados/desorganizados os dados estão na sua respectiva base de dados. No caso, a Entropia Geral é de 1,53. Com isso, calcula-se os Ganhos de Informação (G) de todos atributos envolvidos, onde o resultado será o nível de pertinência dos mesmos. Quanto menor o valor da Entropia do atributo, melhor será a distribuição dos dados, ou seja, mais fácil/claro, estatisticamente, para classificar o registro. Atributos com valor de Ganho de Informação baixo tendem a serem excluídos da árvore (Como, no exemplo em questão, a dívida). Abaixo dos cálculos, segue imagem com exemplo visual da construção parcial da árvore.</p>
+            <ul>
+                <b><u>Entropia</u>:</b>
+                <li><b>Entropia Geral:</b> E(s) = -6/14 * log(6/14;2) -3/14 * log(3/14;2) -5/14 * log(5/14;2) = 1,53
+                    <ul>
+                        <li class="text-muted"><b>História do crédito:</b> 14 é quantidade de registros (Boa=5/14 (Alto=1/5;Moderado=1/5;Baixo=3/5)), (Desconhecida=5/14 (Alto=2/5;Moderado=1/5;Baixo=2/5)), (Ruim=4/14 (Alto=3/4;Moderado=1/4;Baixo=0/4))</li>
+                        <li class="text-muted"><b>Dívida:</b> 14 é a quantidade de registros (Alto=7/14 (Alto=4/7;Moderado=1/7;Baixo=2/7)), (Baixa=7/14 (Alto=2/7;Moderado=2/7;Baixo=3/7))</li>
+                        <li class="text-muted"><b>Garantias:</b> 14 é a quantidade de registros (Nenhuma=11/14 (Alto=6/11;Moderado=2/11;Baixo=3/11)), (Adequada=3/14 (Alto=0/3;Moderado=1/3;Baixo=2/3))</li>
+                        <li class="text-muted"><b>Renda anual:</b> 14 é a quantidade de registros (&lt;15000=3/14 (Alto=3/3;Moderado=0/3;Baixo=0/3)), (&gt;=15000 e &lt;35000=4/14 (Alto=2/4;Moderado=2/4;Baixo=0/4)), (&gt;35000=7/14 (Alto=1/7;Moderado=1/7;Baixo=5/7))</li>
+                    </ul>
+                </li>
+                <li><b>Entropia (História do crédito Boa):</b> E(s) = -1/5 * log(1/5;2) -1/5 * log(1/5;2) -3/5 * log(3/5;2) = 1,37</li>
+                <li><b>Entropia (História do crédito Desconhecida):</b> E(s) = -2/5 * log(2/5;2) -1/5 * log(1/5;2) -2/5 * log(2/5;2) = 1,52</li>
+                <li><b>Entropia (História do crédito Ruim):</b> E(s) = -3/4 * log(3/4;2) -1/4 * log(1/4;2) -0/4 * log(0/4;2) = 0,81</li>
+                <li><b>Entropia (Dívida Alta):</b> E(s) = -4/7 * log(4/7;2) -1/7 * log(1/7;2) -2/7 * log(2/7;2) = 1,38</li>
+                <li><b>Entropia (Dívida Baixa):</b> E(s) = -2/7 * log(2/7;2) -2/7 * log(2/7;2) -3/7 * log(3/7;2) = 1,56</li>
+                <li><b>Entropia (Garantias Nenhuma):</b> E(s) = -6/11 * log(6/11;2) -2/11 * log(2/11;2) -3/11 * log(3/11;2) = 1,44</li>
+                <li><b>Entropia (Garantias Adequada):</b> E(s) = -0/3 * log(0/3;2) -1/3 * log(1/3;2) -2/3 * log(2/3;2) = 0,92</li>
+                <li><b>Entropia (Renda anual &lt;15000):</b> E(s) = -3/3 * log(3/3;2) -0/3 * log(0/3;2) -0/3 * log(0/3;2) = 0,00</li>
+                <li><b>Entropia (Renda anual &gt;=15000 e &lt;35000):</b> E(s) = -2/4 * log(2/4;2) -2/4 * log(2/4;2) -0/4 * log(0/2;2) = 1,00</li>
+                <li><b>Entropia (Renda anual &gt;35000):</b> E(s) = -1/7 * log(1/7;2) -1/7 * log(1/7;2) -5/7 * log(5/7;2) = 1,15</li>
+                
+                <br><b><u>Ganho</u>:</b>
+                <li><b>Ganho (História do crédito):</b> G = 1,53 - (5/14*1,37) - (5/14*1,52) - (4/14*0,81) = 0,26</li>
+                <li><b>Ganho (Dívida):</b> G = 1,53 - (7/14*1,38) - (7/14*1,56) = 0,06</li>
+                <li><b>Ganho (Garantias):</b> G = 1,53 - (11/14*1,44) - (3/14*0,92) = 0,20</li>
+                <li><b>Ganho (Renda anual):</b> G = 1,53 - (3/14*0,00) - (4/14*1,00) - (7/14*1,15) = 0,66</li>
+            </ul>
+            <br><b><u>Conclusão (Prioridades)</u>:</b>
+            <ol>
+                <span class="text-muted">Tal conclusão é mostrada visualmente na imagem acima, no ordenamento visual da Árvore de Decisão.</span>
+                <li>Renda anual (0,66)</li>
+                <li>História de crédito (0,26)</li>
+                <li>Garantias (0,20)</li>
+                <li>Dívida (0,06)</li>
+            </ol>
+            <img src="../anexos/ia/arvoreDecisaoCriacao.png" width="70%" height="auto">
+            <!--VER 46-->
         </div>
     </div>
 
