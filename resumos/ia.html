@@ -1006,7 +1006,80 @@ previsoes = arvore_risco_credito.predict([[0,0,1,2],[2,0,0,0]])
 previsoes <span class="text-muted">#Retornará, respectivamente, Baixo e Alto</span>
 </code></pre></small>
             <img src="../anexos/ia/arvoreDecisaoResultadoBaseCreditoBasica.png" width="70%" height="auto">
-            <!--VER 48-->
+            
+            <br><br><h5>Base de Dados (Risco de Crédito - credit data)</h5>
+            <p class="text-muted" id="textoPost">Aplicação de Árvore de Decisão para classificação de Risco de Crédito.</p>
+<small><pre><code>
+<span class="text-muted">#Upload do arquivo 'credit.pkl' do credit data com dados e padronização aplicada:</span>
+with open('credit.pkl', 'rb') as f:  
+    X_credit_treinamento, y_credit_treinamento, X_credit_teste, y_credit_teste = pickle.load(f)
+
+<span class="text-muted">#Visualizar números de quantidades (Registros, colunas):</span>
+X_credit_treinamento.shape, y_credit_treinamento.shape
+X_credit_teste.shape, y_credit_teste.shape
+
+<span class="text-muted">#Criar Árvore de Decisão e treiná-la:</span>
+arvore_credit = DecisionTreeClassifier(criterion='entropy', random_state = 0) <span class="text-muted">#Random State 0 o algoritmo sempre executará no mesmo ordenamento, facilitando comparações</span>
+arvore_credit.fit(X_credit_treinamento, y_credit_treinamento)
+
+<span class="text-muted">#Testar previsao com base para teste:</span>
+previsoes = arvore_credit.predict(X_credit_teste)
+previsoes <span class="text-muted">#0 indica pagador, 1 indica não pagador</span>
+y_credit_teste <span class="text-muted">#Comparar previsões com respostas reais:</span>
+
+<span class="text-muted">#Visualizar métricas de comparação:</span>
+from sklearn.metrics import accuracy_score, classification_report
+accuracy_score(y_credit_teste, previsoes) <span class="text-muted">#Precisão de 0,982 (98,2%)</span>
+
+<span class="text-muted">#Gerar matriz de confusão (Eixo y (Vertical) é a resposta real, eixo x (Horizontal) é a resposta de previsão):</span>
+from yellowbrick.classifier import ConfusionMatrix
+cm = ConfusionMatrix(arvore_credit)
+cm.fit(X_credit_treinamento, y_credit_treinamento)
+cm.score(X_credit_teste, y_credit_teste)
+
+<span class="text-muted">#Gerar classification_report:</span>
+print(classification_report(y_credit_teste, previsoes)) <span class="text-muted">#Recall: O algoritmo consegue identificar x% corretamente. Precision: Quando o algoritmo acerta a previsão, o mesmo está correto em x% dos casos.</span>
+
+<span class="text-muted">#Visualizar Árvore de Decisão:</span>
+arvore_credit.classes_ <span class="text-muted">#Classes, que serão convertidas em String para a visuazação na Árvore abaixo</span>
+from sklearn import tree
+previsores = ['income', 'age', 'loan']
+fig, axes = plt.subplots(nrows = 1,ncols = 1,figsize = (20,20))
+tree.plot_tree(arvore_credit, feature_names=previsores, class_names=['0','1'], filled=True);
+fig.savefig('arvore_credit.png') <span class="text-muted">#Salvar imagem da Árvore em arquivo</span>
+</code></pre></small>
+
+            <br><h5>Base de Dados (Censo)</h5>
+            <p class="text-muted" id="textoPost">Aplicação de Árvore de Decisão para classificação de valor salarial.</p>
+<small><pre><code>
+<span class="text-muted">#Upload do arquivo 'census.pkl' do credit data com dados e OneHotEncoder aplicado:</span>
+with open('census.pkl', 'rb') as f:  
+    X_census_treinamento, y_census_treinamento, X_census_teste, y_census_teste = pickle.load(f)
+
+<span class="text-muted">#Visualizar números de quantidades (Registros, colunas):</span>
+X_census_treinamento.shape, y_census_treinamento.shape
+X_census_teste.shape, y_census_teste.shape
+
+<span class="text-muted">#Criar Árvore de Decisão e treiná-la:</span>
+arvore_census = DecisionTreeClassifier(criterion='entropy', random_state=0)
+arvore_census.fit(X_census_treinamento, y_census_treinamento)
+previsoes = arvore_census.predict(X_census_teste)
+previsoes
+y_census_teste <span class="text-muted">#Comparar previsões com respostas reais:</span>
+
+<span class="text-muted">#Visualizar métricas de comparação:</span>
+accuracy_score(y_census_teste, previsoes) <span class="text-muted">#Precisão de 0,810 (81%)</span>
+
+<span class="text-muted">#Gerar matriz de confusão:</span>
+from yellowbrick.classifier import ConfusionMatrix
+cm = ConfusionMatrix(arvore_census)
+cm.fit(X_census_treinamento, y_census_treinamento)
+cm.score(X_census_teste, y_census_teste)
+
+<span class="text-muted">#Gerar classification_report:</span>
+print(classification_report(y_census_teste, previsoes))
+</code></pre></small>
+            <!--VER 50-->
         </div>
     </div>
 
