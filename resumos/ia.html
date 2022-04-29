@@ -922,7 +922,7 @@ print(classification_report(y_census_teste, previsoes))
 
             <br>
             <h4>----- Árvore de Decisão -----</h4>
-            <p id="textoPost">Conciste em gerar, recursivamente, árvore de possibilidades (IF's), onde a classificação de submissões traça o caminho na árvore, até chegar à conclusão, ou seja, o atributo classe de resposta previsto. Em alguns casos, o próprio algoritmo dispensa alguns atributos, considerados não pertinentes para a previsão. Serão elencados, ordenadamente, os atributos com maior importância até os de menor importância, sendo esse ordenamento a conclusão gerada através dos treinamentos do algoritmo.</p>
+            <p id="textoPost">Também conhecida como CART (Classification and Regression Trees), consiste em gerar, recursivamente, árvore de possibilidades (IF's), onde a classificação de submissões traça o caminho na árvore, até chegar à conclusão, ou seja, o atributo classe de resposta previsto. Em alguns casos, o próprio algoritmo dispensa alguns atributos, considerados não pertinentes para a previsão. Serão elencados, ordenadamente, os atributos com maior importância até os de menor importância, sendo esse ordenamento a conclusão gerada através dos treinamentos do algoritmo. Entre as vantagens de utilizar Árvore de Decisão, tem-se a dispensa de normalização e padronização dos atributos. Como desvantagens, tem-se casos de geração de Árvores muito complexas (Ramos muito específicos - overfitting), problema NP-completo (Complexo) para construir a Árvore, e tal algoritmo é bastante antigo (Usado nos anos 90. Com o passar dos anos, foram aplicadas melhorias, como Random Forest (Florestas Randômicas) para melhor desempenho).</p>
             <img src="../anexos/ia/arvoreDecisao.png" width="70%" height="auto">
             <p id="textoPost">A construção da árvore é baseada nas fórmulas da Entropy (Entropia) e Gain (Ganho de informação), ou seja, é através desses 2 cálculos define-se a pertinência dos atributos para posterior ordenamento na árvore. Utilizando como exemplo os dados da base de risco de crédito (<a href="#tabRiscoCredito">Aqui</a>). Nela tem-se (Alto=6/14), (Moderado=3/14) e (Baixo=5/14). Tais dados são colocados na fórmula da Entropia, a fim de medir o quão organizados/desorganizados os dados estão na sua respectiva base de dados. No caso, a Entropia Geral é de 1,53. Com isso, calcula-se os Ganhos de Informação (G) de todos atributos envolvidos, onde o resultado será o nível de pertinência dos mesmos. Quanto menor o valor da Entropia do atributo, melhor será a distribuição dos dados, ou seja, mais fácil/claro, estatisticamente, para classificar o registro. Atributos com valor de Ganho de Informação baixo tendem a serem excluídos da árvore (Como, no exemplo em questão, a dívida). Abaixo dos cálculos, segue imagem com exemplo visual da construção parcial da árvore.</p>
             <ul>
@@ -961,7 +961,24 @@ print(classification_report(y_census_teste, previsoes))
                 <li>Dívida (0,06)</li>
             </ol>
             <img src="../anexos/ia/arvoreDecisaoCriacao.png" width="70%" height="auto">
-            <!--VER 46-->
+            
+            <br><br>
+            <p><b>Representação alternativa:</b></p>
+            <p id="textoPost">Outra forma de geração de Árvore de Decisão é através da utilização de Splits (Divisão): Parâmetros ação da Árvore de Decisão, utilizados para dividir conjuntos de registros, a fim de identificar tipos de atributos dos mesmos. Posteriormente, tais Splits tornam-se regras (IF's).</p>
+            <img src="../anexos/ia/arvoreDecisaoCriacaoAlternativa.png" width="70%" height="auto">
+
+            <br><br><h5>Podas</h5>
+            <p id="textoPost">Após a Árvore de Decisão estar completa, pode-se realizar podas em atributos da Árvore de Decisão com pouco ganho de informação. Raramente, em alguns casos, pode-se que, após a poda, o algoritmo da Árvore acabe errando em algumas situações, pois algumas informações foram removidas da mesma. Utiliza-se podas em cenários que encontram-se:</p>
+            <ul>
+                <li><b>Bias (Viés):</b> Erros por classificação errada;</li>
+                <li><b>Variância:</b> Erros por sensibilidade pequena a mudanças na base de treinamento, onde haverão ramos muito específicos/amarrados à determinadas situações no último nível da Árvore. Pode levar a overfitting (Algoritmo se adapta excessivamente aos dados do treinamento, ficando amarrado aos mesmos, ou seja, decorar ao invés de aprender);</li>
+            </ul>
+
+            <br><h5>Base de Dados (Risco de Crédito - Pequena)</h5>
+            <p class="text-muted" id="textoPost">Aplicação de Árvore de Decisão para classificação de Risco de Crédito - Modelo teste.</p>
+<small><pre><code>
+
+</code></pre></small>
         </div>
     </div>
 
