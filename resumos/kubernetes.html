@@ -358,6 +358,7 @@ type: NodePort
 <b>1. Iniciar Master Node (No fim, salvar o comando <i>kubeadm join</i>):</b>
 kubeadm init --apiserver-advertise-address $(hostname -i)
 <span class="text-muted">#Comando acima gerará token de autenticação para acesso junto com o comando para usar nos workers (<i>kubeadm join ipHost:porta --token numToken --discovery-token-ca-cert-hash sha256:numHash</i> (Exemplo 'ipHost:porta': 172.17.0.8:6443))</span>
+<span class="text-muted">#Comando 'kubeadm token list' mostrará os tokens</span>
 
 <b>2. Setar arquivo de configuração para kubectl poder interagir com o cluster:</b>
 sudo cp /etc/kubernetes/admin.conf $HOME/
