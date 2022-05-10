@@ -492,7 +492,7 @@ spec:
 <small><pre><code>
 <span class="text-muted">-- (Master Node) --</span>
 <b>1. Criar Deployment (Sem Manifesto):</b>
-kubectl create deployment nomeDeployment --image:nginx <span class="text-muted">#Nome do Deployment à preferência do usuário</span>
+kubectl create deployment nomeDeployment --image=nginx <span class="text-muted">#Nome do Deployment à preferência do usuário</span>
 
 <b>2. Ver informações relacionadas:</b>
 kubectl get pods -o wide <span class="text-muted">#Criou Pod relacionado. Mesmo se o usuário removê-lo, o Deployment criará outro para satisfazer a regra no Manifesto de sua origem</span>
