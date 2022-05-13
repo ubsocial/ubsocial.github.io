@@ -71,16 +71,41 @@
 
             <br><h4>Skills envolvidas</h4>
             <ul>
-                <li>Cultura e compartilhamento (Metodologias agiles, como Scrum e Spotify Squads. Utilização de OKR para evolução nos conceitos da área);</li>
+                <li>Cultura e compartilhamento (Metodologias agiles, como Scrum e Spotify Squads. Utilização de OKR (Objectives, Key Results) para evolução nos conceitos da área);</li>
                 <li>Programação e instalação de softwares;</li>
                 <li>Gerenciamento de servidores, virtualização (Softwares como Vagrant), containers (Microservices. Softwares como Docker, Kubernetes), redes e segurança;</li>
                 <li>Criação de scripts;</li>
                 <li>Instalação e configuração de middlewares (Programas que fornecem serviços para aplicações de outros programas. Exemplo Apache, nginx);</li>
                 <li>Versionamento e sistemas VCS (Softwares como Git, Github, Gitlab);</li>
-                <li>Automatização de tarefas e gerenciamento de configurações (Cloud como AWS, Azure, GCP. CI/CD. Softwares como Ansible, Chef, Puppet);</li>
+                <li>Automatização de tarefas e gerenciamento de configurações (Cloud como AWS, Azure, GCP. On Premises, infraestrutura local. CI/CD. Softwares como Ansible, Chef, Puppet);</li>
                 <li>Infraestrutura como código;</li>
                 <li>Observabilidade (Monitoramento da infraestrutura e do software. Softwares como Prometheus e Zabbix);</li>
             </ul>
+
+            <br><h4>Pipeline DevOps</h4>
+            <img src="../anexos/devops/pipeline.png" class="img-fluid" width="400px">
+            <p id="textoPost">Pipeline tem como objetivo automatizar o processo de entrega de infraestrutura ou software de forma rápida, garantindo qualidade, testes, estabilidade e escalabilidade. Desenvolvimento agile de software está diretamente ligado a uma pipeline de software. Uma pipeline de entrega de software normalmente constitui-se das etapas:</p>
+            <ul>
+                <li>Planejamento;</li>
+                <li>Análise;</li>
+                <li>Desenho;</li>
+                <li>Implementação;</li>
+                <li>Testes e Integração;</li>
+                <li>Deploy e Revisão.</li>
+            </ul>
+            <p id="textoPost">É um processo em ciclos, onde define-se o entregável que é trabalhado até sua conclusão. Após isso, inicia-se novo ciclo, definindo novamente o entregável e trabalhando até sua conclusão. Pipeline DevOps tem como base uma pipeline agile, diferenciando-se em alguns pontos. Trabalha-se com entregáveis, porém o processo é contínuo (Melhoria contínua). Tem-se 2 ciclos, Dev e Ops, compostos das etapas:</p>
+            <ul>
+                <b><u>Dev:</u></b>
+                <li><b>Planejar</b>: Listagem de requerimentos/requisitos e criação de cards onde serão definidas as atividades da Sprint. Ferramentas utilizadas: Boards Kanban - Jira, Trello, Wekan, Notion;</li>
+                <li><b>Desenvolver ou codificar</b>: Organização do código e da colaboração entre as equipes. Ferramentas utilizadas: Git, Github, Gitlab;</li>
+                <li><b>Construir/Build</b>: Geração do artefato entregável, seja esse uma library ou pacote executável. Ferramentas utilizadas: Gradle, Docker, Maven, Packer;</li>
+                <li><b>Testar</b>: Efetuar diversos testes, garantindo que o entregável funcione como planejado. O QA Engineer (Software quality assurance) é o profissional que os realiza. Ferramentas utilizadas: Selenium, JUnit, pytest, inspec.</li>
+                <br><b><u>Ops:</u></b>
+                <li><b>Lançar/Deploy</b>: Lançamento da aplicação para ambiente de produção. Ferramentas utilizadas: Terraform, Ansible, Chef, Puppet, Powershell;</li>
+                <li><b>Implantar e operar</b>: Garantir que o artefato testado esteja em execução. Ferramentas utilizadas: Docker, rkt, Kubernetes, Nomad, OpenShift, clouds como AWS, Azure, GCP;</li>
+                <li><b>Monitorar</b>: Garantir que o sistema encontra-se saudável, ou seja, de acordo com o planejado para seu funcionamento, dentro dos requisitos com eficiência. Monitora-se IPs, DNS, arquivos de logs, status de APIs. Ferramentas utilizadas: Prometheus, Grafana, Elasticstack, Datadog, Splunk, Nagios.</li>
+            </ul>
+            <img src="../anexos/devops/pipelineTools.png" class="img-fluid" width="800px">
         </div>
     </div>
 
