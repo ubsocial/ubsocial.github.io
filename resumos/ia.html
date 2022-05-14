@@ -48,7 +48,7 @@
         <div class="col-sm-12">
             <h4>===== INTRODUÇÃO =====</h4>
             <p id="textoPost">Inteligência artificial é a área da Ciência da Computação responsável pelo desenvolvimento de sistemas que simulem a capacidade humana de resolver problemas.</p>
-            <img src="../anexos/ia/iaMeme.jpg" width="180px" height="auto">
+            <img src="../anexos/ia/iaMeme.jpg" class="img-fluid" width="180px">
             <p>Exemplos de aplicações com Machine Learning:</p>
             <ul>
                 <li>Sistemas Especialistas (Baseado em profissionais especialistas humanos)</li>
@@ -295,11 +295,11 @@ plt.hist(x = base_credit['loan']); <span class="text-muted">#Gráfico histograma
 grafico = px.scatter_matrix(base_credit, dimensions=['age','income','loan'], color='default') <span class="text-muted">#Gráfico dinâmico scatter (Dispersão) que combina os atributos de acordo com 'default' (Pagou/Devendo)</span>
 grafico.show() <span class="text-muted">#Imagem dos gráficos com colorações internas</span>
 </code></pre></small>
-            <img src="../anexos/ia/snsGrafico1.jpg" title="sns.countplot(x = base_credit['default'])" width="250px" height="auto">
-            <img src="../anexos/ia/pltGrafico1.jpg" title="plt.hist(x = base_credit['age'])" width="250px" height="auto">
-            <img src="../anexos/ia/pltGrafico2.jpg" title="plt.hist(x = base_credit['income'])" width="250px" height="auto">
-            <img src="../anexos/ia/pltGrafico3.jpg" title="plt.hist(x = base_credit['loan'])" width="250px" height="auto">
-            <br><img src="../anexos/ia/pxGrafico1.jpg" title="px.scatter_matrix" width="90%" height="auto">
+            <img src="../anexos/ia/snsGrafico1.jpg" title="sns.countplot(x = base_credit['default'])" class="img-fluid" width="230px">
+            <img src="../anexos/ia/pltGrafico1.jpg" title="plt.hist(x = base_credit['age'])" class="img-fluid" width="230px">
+            <img src="../anexos/ia/pltGrafico2.jpg" title="plt.hist(x = base_credit['income'])" class="img-fluid" width="230px">
+            <img src="../anexos/ia/pltGrafico3.jpg" title="plt.hist(x = base_credit['loan'])" class="img-fluid" width="230px">
+            <br><img src="../anexos/ia/pxGrafico1.jpg" title="px.scatter_matrix" class="img-fluid" width="800px">
 
             <br><br><p><b>4.1. Tratamento de valores inconsistentes:</b></p>
             <p id="textoPost">No gráfico acima, pode-se perceber a existência de idades negativas, significando dados equivocados, ou seja, inconsistentes. Situações como essa geralmente são advindas de imerfeições do sistema, onde há possibilidade do usuário informar determinado valor inconsistente.</p>
@@ -482,15 +482,15 @@ grafico.show() <span class="text-muted">#Ver gráfico dinâmico de categorias pa
 grafico = px.parallel_categories(base_census, dimensions=['education','income'])
 grafico.show() <span class="text-muted">#Ver gráfico dinâmico de categorias paralelas entre educação e renda (Gráfico 9)</span>
 </code></pre></small>
-            <img src="../anexos/ia/snsGrafico2.jpg" title="sns.countplot(x = base_census['income'])" width="250px" height="auto">
-            <img src="../anexos/ia/pltGrafico4.jpg" title="plt.hist(x = base_census['age'])" width="250px" height="auto">
-            <img src="../anexos/ia/pltGrafico5.jpg" title="plt.hist(x = base_census['education-num'])" width="250px" height="auto">
-            <img src="../anexos/ia/pltGrafico6.jpg" title="plt.hist(x = base_census['hour-per-week'])" width="250px" height="auto">
-            <br><img src="../anexos/ia/pxGrafico2.jpg" title="px.treemap(base_census, path=['workclass','age'])" width="90%" height="auto">
-            <br><img src="../anexos/ia/pxGrafico3.jpg" title="px.treemap(base_census, path=['occupation','relationship','age'])" width="90%" height="auto">
-            <br><img src="../anexos/ia/pxGrafico4.jpg" title="px.parallel_categories(base_census, dimensions=['occupation','relationship'])" width="90%" height="auto">
-            <br><img src="../anexos/ia/pxGrafico5.jpg" title="px.parallel_categories(base_census, dimensions=['workclass','occupation','income'])" width="90%" height="auto">
-            <br><img src="../anexos/ia/pxGrafico6.jpg" title="px.parallel_categories(base_census, dimensions=['education','income'])" width="90%" height="auto">
+            <img src="../anexos/ia/snsGrafico2.jpg" title="sns.countplot(x = base_census['income'])" class="img-fluid" width="230px">
+            <img src="../anexos/ia/pltGrafico4.jpg" title="plt.hist(x = base_census['age'])" class="img-fluid" width="230px">
+            <img src="../anexos/ia/pltGrafico5.jpg" title="plt.hist(x = base_census['education-num'])" class="img-fluid" width="230px">
+            <img src="../anexos/ia/pltGrafico6.jpg" title="plt.hist(x = base_census['hour-per-week'])" class="img-fluid" width="230px">
+            <br><img src="../anexos/ia/pxGrafico2.jpg" title="px.treemap(base_census, path=['workclass','age'])" class="img-fluid" width="700px">
+            <br><img src="../anexos/ia/pxGrafico3.jpg" title="px.treemap(base_census, path=['occupation','relationship','age'])" class="img-fluid" width="700px">
+            <br><img src="../anexos/ia/pxGrafico4.jpg" title="px.parallel_categories(base_census, dimensions=['occupation','relationship'])" class="img-fluid" width="700px">
+            <br><img src="../anexos/ia/pxGrafico5.jpg" title="px.parallel_categories(base_census, dimensions=['workclass','occupation','income'])" class="img-fluid" width="600px">
+            <br><img src="../anexos/ia/pxGrafico6.jpg" title="px.parallel_categories(base_census, dimensions=['education','income'])" class="img-fluid" width="600px">
             
             <br><br><p><b>4. Separação entre previsores e classes:</b></p>
 <small><pre><code>
@@ -923,7 +923,7 @@ print(classification_report(y_census_teste, previsoes))
             <br>
             <h4>----- Árvore de Decisão -----</h4>
             <p id="textoPost">Também conhecida como CART (Classification and Regression Trees), consiste em gerar, recursivamente, árvore de possibilidades (IF's), onde a classificação de submissões traça o caminho na árvore, até chegar à conclusão (Nó folha), ou seja, o atributo classe de resposta previsto. Em alguns casos, o próprio algoritmo dispensa alguns atributos, considerados não pertinentes para a previsão. Serão elencados, ordenadamente, os atributos com maior importância até os de menor importância, sendo esse ordenamento a conclusão gerada através dos treinamentos do algoritmo. Entre as vantagens de utilizar Árvore de Decisão, tem-se a dispensa de normalização e padronização dos atributos. Como desvantagens, tem-se casos de geração de Árvores muito complexas (Ramos muito específicos - overfitting), problema NP-completo (Complexo) para construir a Árvore, e tal algoritmo é bastante antigo (Usado nos anos 90. Com o passar dos anos, foram aplicadas melhorias, como Random Forest (Florestas Randômicas) para melhor desempenho).</p>
-            <img src="../anexos/ia/arvoreDecisao.png" width="70%" height="auto">
+            <img src="../anexos/ia/arvoreDecisao.png" class="img-fluid" width="500px">
             <p id="textoPost">A construção da árvore é baseada nas fórmulas da Entropy (Entropia) e Gain (Ganho de informação), ou seja, é através desses 2 cálculos define-se a pertinência dos atributos para posterior ordenamento na árvore. Utilizando como exemplo os dados da base de risco de crédito (<a href="#tabRiscoCredito">Aqui</a>). Nela tem-se (Alto=6/14), (Moderado=3/14) e (Baixo=5/14). Tais dados são colocados na fórmula da Entropia, a fim de medir o quão organizados/desorganizados os dados estão na sua respectiva base de dados. No caso, a Entropia Geral é de 1,53. Com isso, calcula-se os Ganhos de Informação (G) de todos atributos envolvidos, onde o resultado será o nível de pertinência dos mesmos. Quanto menor o valor da Entropia do atributo, melhor será a distribuição dos dados, ou seja, mais fácil/claro, estatisticamente, para classificar o registro. Atributos com valor de Ganho de Informação baixo tendem a serem excluídos da árvore (Como, no exemplo em questão, a dívida). Abaixo dos cálculos, segue imagem com exemplo visual da construção parcial da árvore.</p>
             <ul>
                 <b><u>Entropia</u>:</b>
@@ -960,12 +960,12 @@ print(classification_report(y_census_teste, previsoes))
                 <li>Garantias (0,20)</li>
                 <li>Dívida (0,06)</li>
             </ol>
-            <img src="../anexos/ia/arvoreDecisaoCriacao.png" width="70%" height="auto">
+            <img src="../anexos/ia/arvoreDecisaoCriacao.png" class="img-fluid" width="700px">
             
             <br><br>
             <p><b>Representação alternativa:</b></p>
             <p id="textoPost">Outra forma de geração de Árvore de Decisão é através da utilização de Splits (Divisão): Parâmetros ação da Árvore de Decisão, utilizados para dividir conjuntos de registros, a fim de identificar tipos de atributos dos mesmos. Posteriormente, tais Splits tornam-se regras (IF's).</p>
-            <img src="../anexos/ia/arvoreDecisaoCriacaoAlternativa.png" width="70%" height="auto">
+            <img src="../anexos/ia/arvoreDecisaoCriacaoAlternativa.png" class="img-fluid" width="500px">
 
             <br><br><h5>Podas</h5>
             <p id="textoPost">Após a Árvore de Decisão estar completa, pode-se realizar podas em atributos da Árvore de Decisão com pouco ganho de informação. Raramente, em alguns casos, pode-se que, após a poda, o algoritmo da Árvore acabe errando em algumas situações, pois algumas informações foram removidas da mesma. Utiliza-se podas em cenários que encontram-se:</p>
@@ -1005,7 +1005,7 @@ tree.plot_tree(arvore_risco_credito, feature_names=previsores, class_names = arv
 previsoes = arvore_risco_credito.predict([[0,0,1,2],[2,0,0,0]])
 previsoes <span class="text-muted">#Retornará, respectivamente, Baixo e Alto</span>
 </code></pre></small>
-            <img src="../anexos/ia/arvoreDecisaoResultadoBaseCreditoBasica.png" width="70%" height="auto">
+            <img src="../anexos/ia/arvoreDecisaoResultadoBaseCreditoBasica.png" class="img-fluid" width="350px">
             
             <br><br><h5>Base de Dados (Risco de Crédito - credit data)</h5>
             <p class="text-muted" id="textoPost">Aplicação de Árvore de Decisão para classificação de Risco de Crédito.</p>
