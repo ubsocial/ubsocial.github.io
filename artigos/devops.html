@@ -141,7 +141,7 @@
                         <li>Criar app no Heroku</li>
                         <li>Coletar chave API do Heroku</li>
                         <li>Configurar Secrets no Github</li>
-                        <li>Criar Pipeline no Github Actions</li>
+                        <li>Criar Pipeline do Github Actions</li>
                         <li>Efetuar o primeiro deploy da aplicação</li>
                         <li>Modificar a aplicação e efetuar o deploy</li>
                     </ul>
@@ -162,9 +162,110 @@
                     </ul>
                 </li>
                 <li>Mover card 'Configurar Secrets no Github' para Done</li>
-                <li>Mover card 'Criar Pipeline no Github Actions' para In Progress (<span class="text-muted">Actions é ferramenta de automação de workflow, para implemetar CI/CD diretamente do Github, onde deve-se criar no repositório o diretório e arquivo '.github/workflows/arquivoCI'</span>)</li>
+                <li>Mover card 'Criar Pipeline do Github Actions' para In Progress (<span class="text-muted">Actions é ferramenta de automação de workflow, para implemetar CI/CD diretamente do Github, onde deve-se criar no repositório o diretório e arquivo '.github/workflows/arquivoCI'</span>)</li>
                 <li>No diretório do projeto, criar diretórios com o comando: <span class="text-muted">mkdir -p .github/workflows</span></li>
-                <li></li><!--PAROU EM 7.3 (10:08)-->
+                <li>Copiar arquivo de CI: <span class="text-muted">cp templates/pipeline.yml .github/workflows</span></li>
+<small><pre><code>
+<span class="text-muted">#Conteúdo do arquivo pipeline.yml</span>
+name: CI - Lint / Tests / Deploy
+
+on: [push]
+
+jobs:
+
+  lint:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8
+
+      - name: Lint with flake8
+        run: |
+          # stop the build if there are Python syntax errors or undefined names
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+  tests:
+    needs: lint
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        python-version: [3.6, 3.7, 3.8, 3.9]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8 pytest
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Integrations Test
+        run: | 
+          python test.py
+
+
+  deploy:
+    needs: tests
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: deploy into heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
+          heroku_email: ${{secrets.HEROKU_USER_EMAIL}}
+
+<span class="text-muted"><b>Sintaxe do arquivo:</b></span>
+<b>name</b>: Nome do processo de workflow CI
+<b>on</b>: Condicional (Toda vez que for realizado 'Push', esse CI será ativado)
+<b>job lint</b>: Verifica sintaxe do arquivo, se escrito de forma correta (Informado plataforma que o arquivo é executado e os passos - steps)
+    <b>steps</b>: 1º uses chamará o Actions do Github, após isso é configurado o Python, instala dependências que executarão o lint via flake8
+<b>job tests</b>: Com o Lint executado e concluído (need), executando em determinada plataforma, haverá matriz de estratégia Python (Fará testes em todas versões do Python informadas)
+    <b>steps</b>: Executar o Actions, configurando Python na matriz de estratégia (Cada versão será feito o step), instala dependências e executará o arquivo 'test.py', responsável por testes
+<b>deploy</b>: Com o tests executado e concluído (Implicitamente o lint também), em determinada plataforma, chamará Actions e configurará o Python, executará Action que fará deploy no Heroku, com as chaves cadastradas nos Secrets, 
+</code></pre></small>
+                <li>Mover card 'Efetuar o primeiro deploy da aplicação' para In Progress</li>
+                <li>Fazer commit do arquivo de CI, 'pipeline.yml', para que o mesmo seja executado: <span class="text-muted">git add . && git commit -m "Adicionado pipeline DevOps" && git push origin main</span></li>
+                <li>No Github do projeto, aba 'Actions', mostrará detalhes e passos do workflow CI sendo executado. Clicando sob cada passo serão exibidos os logs de cada processo, em todas as etapas/ambientes (lint - tests - deploy)</li>
+                <img src="../anexos/devops/pipelineActions1.png" class="img-fluid" width="500px">
+                <img src="../anexos/devops/pipelineActions2.png" class="img-fluid" width="500px">
+                <li>Após feito o deploy no Heroku com sucesso, pode-se acessar o Heroku e ver as informações da aplicação. No Browser, acessar aplicação com o link: <span class="text-muted">https://devops-SEUNOMESOBRENOME.herokuapp.com</span></li>
+                <img src="../anexos/devops/pipelineHeroku.png" class="img-fluid" width="500px">
+                <li>Mover card 'Criar Pipeline do Github Actions' para o Done</li>
+                <li>Mover card 'Efetuar o primeiro deploy da aplicação' para Done</li>
+                <li>Mover card 'Modificar a aplicação e efetuar o deploy' para In Progress</li>
+                <li>No código do projeto, alterar arquivo 'templates/index.html', inserir linha <span class="text-muted">&lt;b&gt;UB Social - Linha inserida!&lt;/b&gt;</span></li>
+                <li>No arquivo 'test.py', alterar linha 22 com a mesma mensagem acima</li>
+                <li>Fazer commit e push do projeto: <span class="text-muted">git add . && git commit -m "Mensagem inicial alterada" && git push origin main</span></li>
+                <li>No Github do projeto, aba 'Actions' aparecerá novo workflow CI, juntamente com seus respectivos detalhes</li>
+                <li>Acessar, no Browser, acessar aplicação e conferir modificação</li>
+                <li>Mover card 'Modificar a aplicação e efetuar o deploy' para Done</li>
             </ol>
         </div>
     </div>
