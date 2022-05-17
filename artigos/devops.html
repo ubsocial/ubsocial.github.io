@@ -115,7 +115,7 @@
             <p id="textoPost"><b>ChatOps</b> trabalha com os conceitos de GitOps, sendo a junção das tarefas de automação e colaboração. É delegar a responsabilidade de tarefas e ações para bot interno, que também faz parte da organização e está executando as conversas. É uma metodologia assim como DevOps (ChatOps = Chat + DevOps). O funcionamento se dá por meio de aplicação de chat (Slack, Rocket.Chat, Microsoft Teams), adiciona-se bots para executar as ações da infraestrutura, através de comandos enviados pelas equipes de profissionais DevOps.</p>
             
             <br><h4>Ferramentas DevOps</h4>
-            <p id="textoPost">Uma das características do DevOps é a utilização, geralmente, de ferramentas Open Source, que fornecem melhor personalização às equipes, evitando vendor lock-in (Aprisionamento tecnológico perante a ferramenta). Existem inúmeras ferramentas para automatização em DevOps, inclusive fora criada uma tabela periódica com as principais do mercado. Entre as principais ferramentas para cada estágio, tem-se:</p>
+            <p id="textoPost">Uma das características do DevOps é a utilização, geralmente, de ferramentas Open Source, que fornecem melhor personalização às equipes, evitando vendor lock-in (Aprisionamento tecnológico perante a ferramenta). Existem inúmeras ferramentas para automatização em DevOps, inclusive fora criada uma tabela periódica com as principais do mercado, <a href="https://digital.ai/periodic-table-of-devops-tools" target="_blank">acesse-a aqui</a>. Entre as principais ferramentas para cada estágio, tem-se:</p>
             <ul>
                 <li><b>Plan</b>: Trello, Git e Github/Gitlab, Notion, Draw.io/Diagrams.net;</li>
                 <li><b>Code</b>: Git, editor de texto (VSCode, Sublime Text, Atom, etc);</li>
@@ -124,10 +124,48 @@
                 <li><b>Build/Release/Deploy</b>: Docker, Ansible, Kubernetes, Terraform;</li>
                 <li><b>Monitor/Operate</b>: Prometheus, Grafana, Zabbix, Rocket.chat, Slack, Graylog, Fluentd.</li>
             </ul>
-            <a href="https://digital.ai/periodic-table-of-devops-tools" class="btn btn-link" id="btnLink" target="_blank">Tabela periódica de ferramentas DevOps</a>
 
             <br><h4>Criar pipeline DevOps</h4>
-            <!--VER 7.3-->
+            <p id="textoPost">Para a criação da pipeline DevOps a seguir, será seguido o fluxo de trabalho abaixo. Será utilizado o Github Actions para o processo automatizado de Deploy, que atualizará, no repositório, os status do CI usando o arquivo 'pipeline.yml'. Após a integração concluir, o Github Actions efeturará o deploy da aplicação Heroku, deixando-a disponível publicamente. A aplicação que será feito deploy será uma aplicação web python flask de Hello World, que deverá ser feito 'fork' da mesma, no endereço <a href="https://github.com/4linux/DevOpsLab-
+                HelloWorld/" target="_blank">https://github.com/4linux/DevOpsLab-
+                HelloWorld/</a>. Caso o link acima não abra, <a href="https://github.com/mateusschwede/DevOpsLab-HelloWorld" target="_blank">acesse aqui</a>.</p>
+            <img src="../anexos/devops/fluxoPipelineDevOps.png" class="img-fluid" width="530px">
+            <p><b>Passo a passo:</b></p>
+            <ol>
+                <li>Clonar aplicação na máquina local <span class="text-muted">(Ver post Git e Github para configuração e passo a passo desse processo)</span></li>
+                <li>Acessar diretório do projeto: <span class="text-muted">cd DevOpsLab-HelloWorld</span></li>
+                <img src="../anexos/devops/pipelineEditor.png" class="img-fluid" width="500px">
+                <li>No Github do projeto, aba 'Projects', 'New Project' para inserir o board Kanban, para criar o planejamento da aplicação, informando nome 'Pipeline DevOps' e descrição 'Projeto de Pipeline DevOps para o DevOps Lab Hello World' e template 'Basic Kanban', confirmando criação do projeto</li>
+                <li>Criar Cards To Do
+                    <ul>
+                        <li>Criar app no Heroku</li>
+                        <li>Coletar chave API do Heroku</li>
+                        <li>Configurar Secrets no Github</li>
+                        <li>Criar Pipeline no Github Actions</li>
+                        <li>Efetuar o primeiro deploy da aplicação</li>
+                        <li>Modificar a aplicação e efetuar o deploy</li>
+                    </ul>
+                </li>
+                <img src="../anexos/devops/pipelineKanban.png" class="img-fluid" width="500px">
+                <li>Mover card 'Criar app no Heroku' para In Progress</li>
+                <li>Acessar Heroku, 'Create New App', nome 'devops-SEUNOMESOBRENOME', 'Create app'</li>
+                <li>Voltar ao Kanban e mover o card 'Criar app no Heroku' para Done</li>
+                <li>Mover card 'Coletar chave API do Heroku' para In Progress</li>
+                <li>No Heroku, no perfil do usuário, 'Account settings', API Key, 'Reveal', copiar key</li>
+                <li>Mover card 'Coletar chave API do Heroku' para Done</li>
+                <li>Mover card 'Configurar Secrets no Github' para In Progress</li>
+                <li>No Github do projeto, aba 'Settings', sessão 'Secrets/Actions', 'New repository secret'
+                    <ul>
+                        <li>Name 'HEROKU_API_KEY', Value '<span class="text-muted">Colar chave Heroku</span>', Add secret</li>
+                        <li>Name 'HEROKU_APP_NAME', Value 'devops-SEUNOMESOBRENOME', Add secret</li>
+                        <li>Name 'HEROKU_USER_EMAIL', Value '<span class="text-muted">Seu email do Heroku</span>', Add secret</li>
+                    </ul>
+                </li>
+                <li>Mover card 'Configurar Secrets no Github' para Done</li>
+                <li>Mover card 'Criar Pipeline no Github Actions' para In Progress (<span class="text-muted">Actions é ferramenta de automação de workflow, para implemetar CI/CD diretamente do Github, onde deve-se criar no repositório o diretório e arquivo '.github/workflows/arquivoCI'</span>)</li>
+                <li>No diretório do projeto, criar diretórios com o comando: <span class="text-muted">mkdir -p .github/workflows</span></li>
+                <li></li><!--PAROU EM 7.3 (10:08)-->
+            </ol>
         </div>
     </div>
 
