@@ -24,10 +24,10 @@
 
         <div class="col-sm-12">
             <h4>Passo a passo:</h4>
-            <img src="../../arquivo/anexos/post22/postman.png" width="250px" height="auto"><br><br>
+            <img src="../../arquivo/anexos/post22/postman.png" class="img-fluid" width="250px"><br><br>
             <ol>
                 <li><b>Pré-requisito</b>: wget (sudo apt install wget)</li>
-                <li>wget https://dl.pstmn.io/download/latest/linux64 -O postman-linux-x64.tar.gz</li>
+                <li>cd Downloads/ && wget https://dl.pstmn.io/download/latest/linux64 -O postman-linux-x64.tar.gz</li>
                 <li>sudo tar -xzf postman-linux-x64.tar.gz -C /opt</li>
                 <li>sudo ln -s /opt/Postman/Postman /usr/bin/postman</li>
                 <li>sudo nano ~/.local/share/applications/postman.desktop
@@ -38,6 +38,7 @@ Encoding=UTF-8
 Name=Postman
 Exec=/opt/Postman/app/Postman %U
 Icon=/opt/Postman/app/resources/app/assets/icon.png
+Comment=API platform for building and using APIs
 Terminal=false
 Type=Application
 Categories=Development;
