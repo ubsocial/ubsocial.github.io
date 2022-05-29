@@ -44,34 +44,26 @@
     </div>
 
     <div class="row">
-        <div class="col-sm-12 text-center">
-            <br>
+        <div class="col-sm-12 text-center" style="margin-bottom: 40px; margin-top: 10px;">
             <h3 id="serifada"><span class="badge bg-light text-secondary">75 leituras até então</span></h3>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-sm-6 text-center">
-            <br>
-            <h4 class="card-title" id="serifada">Lendo</h4>
-            <img src="anexos/livros/o melhor de mim.jpg" height="100px"><br>
-            <p class="card-text">O melhor de mim (Nicholas Sparks)</p>
-            <a href="https://ler.amazon.com.br/kp/embed?asin=B00A3CQBPS&preview=newtab&linkCode=kpe&ref_=cm_sw_r_kb_dp_YVPF9K9MB7NHC2XRAF5B" class="btn btn-link" target="_blank" id="btnLink">Leia um trecho</a>
-            <br><br>
-        </div>
-        <div class="col-sm-6 text-center">
-            <br>
-            <h4 class="card-title" id="serifada">Lendo</h4>
-            <img src="anexos/livros/my dream: um amor para a vida.jpg" height="100px"><br>
-            <p class="card-text">My dream: um amor para a vida (Ana Luísa Sousa)</p>
-            <a href="https://ler.amazon.com.br/kp/embed?asin=B07P5ZZWNP&preview=newtab&linkCode=kpe&ref_=cm_sw_r_kb_dp_8PJJMQHDWP9Y9M4VH1DX" class="btn btn-link" target="_blank" id="btnLink">Leia um trecho</a>
-            <br><br>
-        </div>
-    </div>
-
-
     <!--LIVROS LIDOS-->
     <div class="row">
+
+        <div class="col-sm-3">
+            <div class="card shadow" id="contLivro">
+                <div class="card-body text-center">
+                    <img src="anexos/livros/o melhor de mim.jpg" height="120px">
+                    <p style="margin-top: 15px;"><b>O melhor de mim<br><span class="text-muted">Nicholas Sparks</span></b></p>
+                    <div class="progress">
+                        <div class="progress-bar bg-secondary" role="progressbar" style="width: 60%;" aria-valuemin="0" aria-valuemax="100">60% lido</div>
+                    </div>
+                    <div class="d-grid" style="margin-top: 13px;"><button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#LivroLendo">Ver detalhes</button></div>
+                </div>
+            </div><br>
+        </div>
 
         <div class="col-sm-3">
             <div class="card shadow" id="contLivro">
@@ -823,9 +815,7 @@
             </div><br>
         </div>
 
-
     </div>
-    <hr>
 
 
     <!--FRASE-->
@@ -849,39 +839,7 @@
 </html>
 
 
-
-<!--TESTE MODAL-->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Título</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <b>Autor:</b> nomeAutor
-                <br>
-                <b>Gênero:</b> nomeGenero
-                <br>
-                <b>Páginas:</b> 999
-                <br>
-                <b>Lançamento:</b> 11/04/1999
-                <br>
-                <b>Editora:</b> nomeEditora
-                <br><br>
-                <b>Sinopse:</b><br>
-                <p id="textoPost">Descrição aqui</p>
-                <b>Filme (trailer):</b>
-                <div class="d-grid" style="margin-top: 13px;"><a href="" class="btn btn-dark" target="_blank">Ler online</a></div>
-            </div>
-        </div>
-    </div>
-</div>
-<!---->
-
-
 <!-- MODAIS LIVROS -->
-
 <div class="modal fade" id="WilleWill" tabindex="-1" aria-labelledby="WilleWillLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
@@ -2891,6 +2849,34 @@
                 <b>Sinopse:</b><br>
                 <p id="textoPost">Anna Oliphant não está nada entusiasmada com a ideia de se mudar para Paris. Porém, seu pai, um famoso escritor norte-americano, decidiu enviá-la para um colégio interno na Cidade Luz. Anna prefere ficar em Atlanta, onde tem um bom emprego, sua fiel melhor amiga e um namoro prestes a acontecer. Mas, ao chegar a Paris, ela conhece Étienne St. Clair, um rapaz inteligente, charmoso e bonito, que além de muitas qualidades, tem uma namorada... Anna e Étienne se aproximam e as coisas ficam mais complicadas. Será que um ano inteiro de desencontros em Paris terminará com o esperado beijo francês? Ou certas coisas simplesmente não estão destinadas a acontecer?</p>
                 <div class="d-grid" style="margin-top: 13px;"><a href="https://ler.amazon.com.br/kp/embed?asin=B00A3D9YQU&preview=newtab&linkCode=kpe&ref_=cm_sw_r_kb_dp_3M1YHV6AWZZ2ECQRG237" class="btn btn-dark" target="_blank">Ler online</a></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- MODAL LIVRO LENDO -->
+<div class="modal fade" id="LivroLendo" tabindex="-1" aria-labelledby="LivroLendoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="LivroLendoLabel">O melhor de mim</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <b>Autor:</b> Nicholas Sparks
+                <br>
+                <b>Gênero:</b> Romance
+                <br>
+                <b>Páginas:</b> 365
+                <br>
+                <b>Lançamento:</b> 11/06/2012
+                <br>
+                <b>Editora:</b> Arqueiro
+                <br><br>
+                <b>Sinopse:</b><br>
+                <p id="textoPost">Na primavera de 1984, os estudantes Amanda Collier e Dawson Cole se apaixonaram perdidamente. Embora vivessem em mundos muito diferentes, o amor que sentiam um pelo outro parecia forte o bastante para desafiar todas as convenções de Oriental, a pequena cidade em que moravam. Nascido em uma família de criminosos, o solitário Dawson acreditava que seu sentimento por Amanda lhe daria a força necessária para fugir do destino sombrio que parecia traçado para ele. Ela, uma garota bonita e de família tradicional, que sonhava entrar para uma universidade de renome, via no namorado um porto seguro para toda a sua paixão e seu espírito livre. Infelizmente, quando o verão do último ano de escola chegou ao fim, a realidade os separou de maneira cruel e implacável. Vinte e cinco anos depois, eles estão de volta a Oriental para o velório de Tuck Hostetler, o homem que um dia abrigou Dawson, acobertou o namoro do casal e acabou se tornando o melhor amigo dos dois. Seguindo as instruções de cartas deixadas por Tuck, o casal redescobrirá sentimentos sufocados há décadas. Após tanto tempo afastados, Amanda e Dawson irão perceber que não tiveram a vida que esperavam e que nunca conseguiram esquecer o primeiro amor. Um único fim de semana juntos e talvez seus destinos mudem para sempre.</p>
+                <div class="d-grid" style="margin-top: 13px;"><a href="https://ler.amazon.com.br/kp/embed?asin=B00A3CQBPS&preview=newtab&linkCode=kpe&ref_=cm_sw_r_kb_dp_5RBZ0K3Y7KQSPJQZJYZJ" class="btn btn-dark" target="_blank">Ler online</a></div>
             </div>
         </div>
     </div>
