@@ -511,11 +511,12 @@ kubectl describe deployment nomeDeployment <span class="text-muted">#De acordo c
 </code></pre></small>
 
             <br><h4>Service</h4>
+            <img src="../anexos/kubernetes/service.jpg" class="img-fluid" width="500px">
             <p id="textoPost">Pods podem ser criados e destruídos constantemente por um Deployment. Uma vez que cada Pod recebe um IP diferente, os Pods em execução em um dado momento podem ser diferentes dos Pods em um momento posterior. Como manter o acesso aos serviços providos pelos Pods? <u>Exemplo</u>: Como 'frontend' Pods mantém a informação sobre 'backend' Pods se os IPs dos mesmos mudam repentinamente?</p>
             <p id="textoPost">O Service cria uma camada de abstração acima do conjunto de Pods réplicas, permitindo acesso dinâmico a um grupo de Pods (Balanceador de Carga). Então, esse Balanceador de Carga vai, dinamicamente, acessar as listas de Pods do Deployment, permitindo acesso aos Pods (Se um Pod cair, ele selecionará outro ao balanceamento, para acesso. Tanto faz o Pod, o Service K8s escolherá e gerenciará isso de forma automática, sem que o usuário precise se preocupar). Assim, pode-se prover acesso ininterrupto e dinâmico a qualquer réplica, além de balanceamento de carga.</p>
             <img src="../anexos/kubernetes/serviceConceito.png" class="img-fluid" width="270px">
             <p id="textoPost">É através das labels referenciadas no selector do arquivo Manifesto. O arquivo de Manifesto de Service é do tipo Equality-based, ou seja, não possui 'matchLabels' em sua composição. Abaixo, segue modelo exemplo de Manifesto com Service:</p>
-            <p id="textoPost">O ideal no K8s é criar Deployment para criar e gerenciar quantidade de Pods e, após isso, criar Service para acesso.</p>
+            <p id="textoPost" style="color: rgb(101,0,0);">O ideal no K8s é criar Deployment para criar e gerenciar quantidade de Pods e, após isso, criar Service para acesso.</p>
 <small><pre><code>
 apiVersion: v1
 <b>kind: Service</b>
