@@ -532,68 +532,61 @@ spec:
 
             <p><b>Tipos de Services:</b></p>
             <ul>
-                <li><b>ClusterIP</b>: Expõe o Service apenas para a rede interna do cluster. Esse é o ServiceType padrão (K8s cria um assim para o kube-apiserver, pode-se conferir com 'kubectl get services -n kube-system'). Recomendado para somente acessos internos do cluster;</li>
+                <li><b>ClusterIP</b>: Expõe o Service apenas para a rede interna do cluster, fornecendo IP estático para acesso aos Pods. Esse é o ServiceType padrão (K8s cria um assim para o kube-apiserver, pode-se conferir com 'kubectl get services -n kube-system'). Recomendado para somente acessos internos do cluster;</li>
                 <li><b>NodePort</b>: Expõe o Service em cada Node com uma porta estática (NodePort), permitindo acesso externo através do endereço 'ipNode:NodePort' (Mapeará uma porta à uma porta de todos Containers, para todos os Nodes incluindo o Master). Recomendado para acessos com dispositivos externos, como acesso externo no cluster para BD, serviços web, etc;</li>
                 <li><b>ExternalName</b>: Mapeia o Service para um nome/endereço (e.g.foo.bar.example.com). Recomendado para ambientes de produção, com serviços de DNS, onde descartará IPs e labels, para dar vez a nomes como endereços web;</li>
                 <li><b>LoadBalancer</b>: Expõe o Service externamente através de um balanceador de carga de um provedor de nuvem. Internamente, cria NodePort, pra onde o balanceador de carga externo roteia. Recomendado em situações onde descartará o LoadBalancer do K8s local, trocando-o por outro em cloud, como em Web Services.</li>
             </ul>
 
-            <p><b>Exemplo prático:</b></p>
+            <p><b>Exemplo prático (Service ClusterIP):</b></p>
 <small><pre><code>
 <span class="text-muted">-- (Master Node) --</span>
-<b>1. Criar 2 Pods com mesmo label:</b>
-<span class="text-muted">cat &lt;&lt; EOF | kubectl create -f -</span>
-apiVersion: v1
-<b>kind: Pod</b>
+<b>1. Criar Deployment (kubectl create -f nomeArquivo.yaml)</b>
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-    <b>name: nginx-pod-1</b>
-    <b>labels:</b>
-        <b>app: nginx</b>
+  name: my-deployment
 spec:
-    containers:
-        - name: nginx-container
-        image: nginx
-EOF
+  selector:
+    matchLabels:
+      app: metrics
+      department: sales
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: metrics
+        department: sales
+    spec:
+      containers:
+      - name: hello
+        image: "us-docker.pkg.dev/google-samples/containers/gke/hello-app:2.0"
 
-<span class="text-muted">cat &lt;&lt; EOF | kubectl create -f -</span>
+<b>2. Ver Pods criados:</b> kubectl get pods
+<b>3. Criar Service tipo ClusterIP (kubectl create -f nomeArquivo.yaml)</b>
 apiVersion: v1
-<b>kind: Pod</b>
+kind: Service
 metadata:
-    <b>name: nginx-pod-2</b>
-    <b>labels:</b>
-        <b>app: nginx</b>
+  name: my-cip-service
 spec:
-    containers:
-        - name: nginx-container
-        image: nginx
-EOF
+  type: ClusterIP
+  <span class="text-muted"># Uncomment the below line to create a Headless Service</span>
+  <span class="text-muted"># clusterIP: None</span>
+  selector:
+    app: metrics
+    department: sales
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
 
-<b>2. Listar Pods e acessá-los:</b>
-kubectl get pods -l app=nginx -o wide
-kubectl get pods --selector=app=http-deployment
-curl ipPod1Criado <span class="text-muted">#Acesso somente interno, mostrará HTML da página nginx do Pod 1</span>
-
-<b>3. Criar Service:</b> kubectl create -f nginx-service.yaml <span class="text-muted">#Manifesto 'nginx-service.yaml' abaixo</span>
-<b>kind: Service</b>
-apiVersion: v1
-metadata:
-    name: nginx-service
-spec:
-    <b>selector:</b>
-        <b>app: nginx</b>
-    ports:
-        - protocol: TCP
-        port: 80 <span class="text-muted">#Porta do Service</span>
-        targetPort: 80 <span class="text-muted">#Porta do Pod (Qualquer Pod no Service, o K8s gerencia isso)</span>
-        nodePort: 30080 <span class="text-muted">#Porta do Node (NodePort define limite de portas à serem usadas - 30000 à 32767)</span>
-    type: NodePort
-
-<b>4. Verificar Services em execução:</b> kubectl get svc
-<b>5. Mostrar detalhes do Service:</b> kubectl describe service nginx-service
-<b>5. Acessar Pod 1 para alterar página do nginx:</b> kubectl exec -ti nginx-pod-1 sh
-echo "UB Social" &gt; /usr/share/nginx/html/index.html <span class="text-muted">#Mudar página do nginx para saber qual Pod o Service acessará automaticamente</span>
-<b>6. Acessar Service no Master Node, porta 30080:</b> curl localhost:30080 <span class="text-muted">#Acessar via Browser para verificar página GUI. Pode-se também acessar via Workers</span>
-<span class="text-muted"><i>Recarregar Browser algumas vezes, que algumas vezes mostrará HTML da página do nginx do Pod 2 (HTML padrão) e outras vezes do Pod 1 ('UB Social')</i></span>
+<b>4. Listar services em execução:</b> kubectl get svc
+<b>5. Mostrar detalhes do Service:</b> kubectl describe svc nomeService
+<b>6. Acessar Service:</b> kubectl exec -ti nomePod (my-deployment)
+<b>7. No container, solicitar requisição ao Service (Via curl):</b>
+apk add --no-cache curl
+curl ipCluster:80
+<b>8. Deletar Service:</b> kubectl delete svc nomeService
 
 <b><u>Estrutura do describe service</u>:</b>
 <b>Name:</b> nginx-service
@@ -603,7 +596,7 @@ echo "UB Social" &gt; /usr/share/nginx/html/index.html <span class="text-muted">
 <b>Selector:</b> app=nginx
 <b>Type:</b> NodePort
 <b>IP:</b> ipService
-<b>Port:</b>  &lt;unset&gt; 80/TCP
+<b>Port:</b> &lt;unset&gt; 80/TCP
 <b>TargetPort:</b> 80/TCP
 <b>NodePort:</b> &lt;unset&gt; 30080/TCP
 <b>Endpoints:</b> ipPod1:80,ipPod2:80
