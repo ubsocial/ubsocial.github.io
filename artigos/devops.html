@@ -51,6 +51,10 @@
             </ul>
             <p id="textoPost">Entre 2001 e 2002, procuraram-se novos mecanismos para agilizar os processos na entrega do software, envolvendo a Agile Conference. O termo DevOps surgiu em 2009, originado a partir da Agile Conference de 2008, dando origem, futuramente, aos DevOpsDays - Criada e implantada na Bélgica. Entre os materiais que impulsionaram o conceito, tem-se o livro Phoenix Project e o site Reliability Engineering.</p>
             
+            <br><h4>Áreas</h4>
+            <p id="textoPost"><b>Development:</b> A infraestrutura necessária para reunir o desenvolvimento, desde o compartilhamento de ativos até a escrita de código e algoritmos para aplicativos corporativos que podem aproveitar recursos avançados, como IA, containers e funções sem servidor. Além disso, testes, arquivamento, rastreamento de bugs e outras tarefas críticas são realizadas na fase de desenvolvimento, tudo na estrada para o lançamento. Ferramentas como Git e GitHub são usadas nessas etapas.</p>
+            <p id="textoPost"><b>Operations:</b> Com a aplicação implementada, o lado das operações assume o controle com foco em garantir que os desafios de negócios das plataformas em Cloud sejam atendidos. Problemas como segurança do usuário, gerenciamento de BD, escalabilidade para cargas de trabalho de produção e aplicação de patches são todos tratados nesta função. Ferramentas geralmente utilizadas: Terraform, Ansible, Puppet e Chef para gestão de infraestrutura e configurações.</p>
+            
             <br><h4>Objetivos de ambiente DevOps</h4>
             <ul>
                 <li>Melhorar frequência de deploys;</li>
@@ -106,6 +110,16 @@
                 <li><b>Monitorar</b>: Garantir que o sistema encontra-se saudável, ou seja, de acordo com o planejado para seu funcionamento, dentro dos requisitos com eficiência. Monitora-se IPs, DNS, arquivos de logs, status de APIs. Ferramentas utilizadas: Prometheus, Zabbix, Grafana, Elasticstack, Datadog, Splunk, Nagios.</li>
             </ul>
             <img src="../anexos/devops/pipelineTools.png" class="img-fluid" width="800px">
+
+            <br><h4>Práticas DevOps</h4>
+            <ul>
+                <li><b>CI/CD</b>: Automatização das etapas dos ambientes do ciclo de construção da aplicação, reduzindo desvios de configuração;</li>
+                <li><b>Controle de versão</b>: Gerenciamento de código por meio de versões;</li>
+                <li><b>Desenvolvimento agile</b>: Metodologia de desenvolvimento que abrange colaboração dos stakeholders, realizada por meio de curtos ciclos, compondo-se em abstração de features e entrega do essencial nesses períodos;</li>
+                <li><b>Infraestrutura como código</b>: Gerar infraestrutura configurada e pronta por meio de códigos que o farão, diminuindo ruídos de compatibilidade, aumentando a produtividade na implantação das mesmas;</li>
+                <li><b>Gerenciamento de configuração</b>: Gerenciar estados dos recursos de um sistema, assim como infraestrutura do mesmo, permitindos às equipes alterações sistemáticas e controladas;</li>
+                <li><b>Monitoramento contínuo</b>: Visibilidade total e em tempo real sobre o desempenho e integridade da aplicação, juntamente com sua infraestrutura, coletando telemetria e metadados, captação de logs, além de definição de alertas para determinadas condições.</li>
+            </ul>
 
             <br><h4>CI/CD</h4>
             <p id="textoPost">Para realizar a integração de todos os passos de uma pipeline DevOps, precisa-se seguir estruturas CI (Continuous Integration - Integração contínua) e CD (Continuous Delivery/Deployment - Entrega contínua). CI é responsável por ligar todas as partes do processo, ou gatilho que faz com que o processo ou ferramenta A conecte-se ao processo ou ferramenta B, trabalhando para garantir integração contínua entre cada elo do processo. CD é o processo de entrega do produto final. No Deployment, essa entrega final é totalmente automatizada, sem necessidade de intervenção humana. No Delivery, o produto é entregue a um usuário final, que decide se o produto será lançado, e em que momento. A escolha entre ambas dependerá do modelo de negócios utilizado. Juntas, as práticas de CI/CD geralmente são chamadas de Pipeline de CI/CD.</p>
