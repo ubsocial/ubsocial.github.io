@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ovo&family=Qwitcher+Grypen&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../anexos/icons/logoTit.png">
+    <link rel="stylesheet" href="../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12" id="menu">
+            <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a id="serifada" class="navbar-brand" href="../index.html"><img src="../anexos/icons/logo.png" id="logo"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../contato.html">Contato</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12" id="titulo1">
+            <h1 id="serifada">Deploy no Heroku</h1>
+            <h6><strong>Deploy de aplicação Django no Heroku</strong></h6>
+            <a href="../index.html" class="btn btn-link" id="btnLink">Voltar</a><br><br>
+            <a class="btn btn-link" id="btnLink" href="https://github.com/mateusschwede/EPets" target="_blank">GitHub projeto exemplo</a>
+        </div>
+
+        <div class="col-sm-12">
+            <h4>Instruções</h4>
+            <p id="textoPost">Partindo do princípio que você possua uma aplicação Django pronta e que deseja publicá-la, então pode-se fazer pelo Heroku.</p>
+            <img src="../anexos/heroku/heroku_dashboard.png" class="img-fluid" width="600px">
+            
+            <br><br><h4>Pré-requisitos:</h4>
+            <ul>
+                <li>Git (Instalado e configurado)
+<small><pre><code>
+sudo apt install git
+git config --global user.name "seuusuariogit"
+git config --global user.email "seuemailgit"
+</code></pre></small>
+                </li>
+                <li>Conta no Heroku</li>
+                <li>Heroku CLI (Instalado e configurado)
+<small><pre><code>
+curl https://cli-assets.heroku.com/install.sh | sh
+heroku login <span class="text-muted">#Redirecionará para login via Browser</span>
+</code></pre></small>
+                </li>
+                <li>Projeto Django (Exemplo modelo no link acima)</li>
+                <li>Library environ (pip3 install django-environ)</li>
+                <li>WhiteNoise (pip3 install whitenoise)</li>
+            </ul>
+
+            <br><h4>Preparo</h4>
+            <ol>
+                <li>Entrar na pasta raíz do projeto Django (Mesmo local do arquivo 'manage.py')</li>
+                <li>Em 'pastaProj', a mesma que possui o arquivo 'settings.py', criar pasta 'settings', mover o arquivo 'settings.py' para dentro dela, renomeando-o para 'base.py'</li>
+                <li>No arquivo 'base.py', modificar linha BASE_DIR (3 parent no fim): <i>BASE_DIR = Path(__file__).resolve().parent.parent.parent</i></li>
+                <li>Nessa pasta 'settings', criar arquivo 'heroku.py', com o seguinte conteúdo:
+<small><pre><code>
+import environ
+from NOMEPASTAPROJETO.settings.base import *
+env = environ.Env()
+DEBUG = env.bool("DEBUG", False)
+SECRET_KEY = env("SECRET_KEY")
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
+DATABASES = {
+    "default": env.db(),
+}
+</code></pre></small>
+                </li>
+                <li>Em 'pastaProj', modificar linha do arquivo 'wsgi.py': <i>os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'NOMEPASTAPROJETO.base')</i></li>
+                <li>Modificar linha do arquivo 'manage.py': <i>os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'NOMEPASTAPROJETO.base')</i></li>
+                
+                <br><b>WhiteNoise</b>
+                <li>Em 'base.py', inserir trecho no final do arquivo:
+<small><pre><code>
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+</code></pre></small>
+                </li>
+                <li>Em 'base.py', array MIDDLEWARE, inserir como 2º elemento do array: <i>"whitenoise.middleware.WhiteNoiseMiddleware",</i></li>
+                
+                <br><b>Requirements</b>
+                <li>Inserir, na pasta raíz do projeto (Pasta onde está o 'manage.py'), conteúdo no 'requirements.txt' com o comando: <i>pip3 freeze &gt; requirements.txt</i>
+                    <ul>
+                        <li>Observação: Pode-se manter somente no arquivo: <i>Django==3.2.12, django-environ==0.8.1, gunicorn==20.0.4, psycopg2==2.9.2, whitenoise==6.2.0</i> <span class="text-muted">#Modificar nºs de versões conforme seu ambiente</span></li>
+                    </ul>
+                </li>
+                <li>Inserir, nessa mesma pasta raíz do projeto, arquivo 'runtime.txt', com o conteúdo: <i>python-3.8.5</i></li>
+                <li>Inserir, nessa mesma pasta raíz do projeto, arquivo 'Procfile', com o seguinte conteúdo:
+<small><pre><code>
+release: python3 manage.py migrate
+web: gunicorn tutorialdjango.wsgi --preload --log-file –
+</code></pre></small>
+                </li>
+                
+                <br><b>Heroku CLI</b>
+                <li>Na pasta raíz do proejto, criar app do projeto no Heroku CLI com o comando: <i>heroku create</i> <span class="text-muted">#Gerará url do projeto '.herokuapp.com', exemplo: <i>https://boiling-meadow-14806.herokuapp.com/</i></span></li>
+                <li>Ver nome do app criado: <i>heroku apps</i></li>
+                <li>Criar variáveis de ambiente e BD, nesse mesmo diretório, com o comando:
+<small><pre><code>
+<span class="text-muted">(Exemplo: heroku config:set ALLOWED_HOSTS=boiling-meadow-14806.herokuapp.com -a boiling-meadow-14806)</span>
+heroku config:set ALLOWED_HOSTS=urlProjeto -a nomeAppCriado
+heroku config:set DJANGO_SETTINGS_MODULE=nomePastaProjeto.settings.heroku -a nomeAppCriado
+heroku config:set SECRET_KEY=informarSenhaDesejada -a nomeAppCriado
+heroku config:set DEBUG=False -a nomeAppCriado
+heroku addons:create heroku-postgresql:hobby-dev -a nomeAppCriado
+</code></pre></small>
+                </li>
+                
+                <br><b>Push aplicação</b>
+                <li>Criar repositório Git e fazer Push via Git Heroku, com o código:
+<small><pre><code>
+git init
+git add .
+git commit -m "Arquivos iniciais inseridos"
+git push heroku master
+</code></pre></small>
+                </li>
+                
+                <br><b>Acessar aplicação</b>
+                <li>Na mesma pasta raíz do projeto, abri-lo com o comando, que abrirá o Browser com a página inicial do projeto: <i>heroku open</i></li>
+                <li><span class="text-muted">(Opcional)</span> Criar usuário para Dashboard Django Admin, com o comando: <i>heroku run python3 manage.py createsuperuser</i></li>
+                <li><span class="text-muted">(Opcional)</span> Conectar-se ao Bash do heroku, com o comando: <i>heroku run bash</i></li>
+            </ol>
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center" id="rodape">
+        <p id="serifada">Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>
