@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ovo&family=Qwitcher+Grypen&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../anexos/icons/logoTit.png">
+    <link rel="stylesheet" href="../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12" id="menu">
+            <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a id="serifada" class="navbar-brand" href="../index.html"><img src="../anexos/icons/logo.png" id="logo"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../contato.html">Contato</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12" id="titulo1">
+            <h1 id="serifada">Vagrant</h1>
+            <h6><strong>Gerenciamento automatizado de VM</strong><br><br><span class="badge bg-warning text-dark">Resumo em construção</span></h6>
+            <a href="../index.html" class="btn btn-link" id="btnLink">Voltar</a><br><br>
+        </div>
+
+        <div class="col-sm-12">
+            <h4>Introdução</h4>
+            <p id="textoPost">Solução de gerenciamento automatizado e construção de máquinas virtuais (VMs), via arquivo único ('Vagranfile'), descartando todas etapas de interações com SO e suas necessidades, conectado a um Provider. Pode ser conectado localmente ou até mesmo em Clouds (AWS, Azure, GCP, Digital Ocean, etc). Para utilizar o Vagrant, é necessário possuir VirtualBox.</p>
+
+            <h4>Conceitos</h4>
+            <ul>
+                <li><b>Box</b>: SO definido no início do projeto, que terá sua imagem baixada pelo Vagrant na VM. O VagrantUp é o repositório oficial dos Boxes: <a href="https://app.vagrantup.com" target="_blank">Acesse</a>;</li>
+                <li><b>Host</b> e <b>Guest</b>: Host é o sistema que está executando o Vagrant (SO da máquina local). Guest é o SO da VM;</li>
+                <li><b>Provider</b>: Hypervisor responsável pela virtualização (VirtualBox-<i>default</i>, VMWare, KVM, Docker, Hyper-V);</li>
+                <li><b>Plugins</b>: Extensões do Vagrant, que podem ser baixadas, como conexão Clod;</li>
+                <li><b>Provisioner</b>: Software orquestrador que irá automatizar as tarefas executadas na VM (Chef, Puppet, Ansible, Salt, arquivos, Shell Script manualmente, etc). Consiste em scripts e arquivos com códigos de automação do processo de criação da VM;</li>
+                <li><b>Synced Folders</b>: Diretórios usados para compartilhar conteúdo entre Host e Guest;</li>
+                <li><b>Vagrantfile</b>: Arquivo de configuração do Vagrant, onde são definidas configurações da VM, versão do SO, memória, ip, etc;</li>
+            </ul>
+
+            <br><h4>Comandos básicos</h4>
+<small><pre><code>
+<b>Instalação (Debian):</b> sudo apt install vagrant
+<b>vagrant init</b>: Gerar novo Vagranfile baseado em uma Box
+<b>vagrant up</b>: Iniciar VM e executadar Provisioner (Subir ambiente)
+<b>vagrant reload</b>: Reiniciar VM
+<b>vagrant provision</b>: Executar Provisioner
+<b>vagrant halt</b>: Desligar VM (<i>destroy</i> excluir VM)
+<b>vagrant suspend</b>: Pausar VM (<i>resume</i> retomar VM)
+<b>vagrant ssh</b>: Acessar ssh da VM
+</code></pre></small>
+
+            <br><h4>Vagranfile</h4>
+            <p id="textoPost">Estrutura do arquivo Vagranfile e exemplo passo a passo de sua construção:</p>
+<small><pre><code>
+<b>1.<u>Estrutura básica</u>:</b>
+<b>Vagrant.configure("2") do |config|</b>
+    <span class="text-muted">Conteúdo aqui</span>
+<b>end</b>
+
+<b>2.<u>Boxes</u>:</b> (Executar <i>vagrant up</i> para criar, depois <i>vagrant ssh</i> para acessar)
+<b>Vagrant.configure("2") do |config|</b>
+    <span class="text-muted">Conteúdo aqui, exemplos abaixo:</span>
+    config.vm.box = "ubuntu/xenial64" <span class="text-muted">#Definir Box (SO e versão opcional)</span>
+<b>end</b>
+
+<b>3.<u>Provisioner</u>:</b> (Executar <i>vagrant provision</i> para atualizar)
+<b>Vagrant.configure("2") do |config|</b>
+    config.vm.box = "ubuntu/xenial64"
+
+    config.vm.provision "shell",
+    inline: "apt update"
+
+    config.vm.provision "shell", inline:&lt;&lt;-SHELL
+        apt install -y cowsay
+        apt install -y links
+        apt install -y apache2
+    SHELL
+<b>end</b>
+<!--PAROU AQUI https://blog.4linux.com.br/virtualizacao-com-vagrant/-->
+</code></pre></small>
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center" id="rodape">
+        <p id="serifada">Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>
