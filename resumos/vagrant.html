@@ -43,7 +43,7 @@
 
         <div class="col-sm-12">
             <h4>Introdução</h4>
-            <p id="textoPost">Solução de gerenciamento automatizado e construção de máquinas virtuais (VMs), via arquivo único ('Vagranfile'), descartando todas etapas de interações com SO e suas necessidades, conectado a um Provider. Pode ser conectado localmente ou até mesmo em Clouds (AWS, Azure, GCP, Digital Ocean, etc). Para utilizar o Vagrant, é necessário possuir VirtualBox.</p>
+            <p id="textoPost">Solução de gerenciamento automatizado e construção de laboratórios de máquinas virtuais (VMs), via arquivo único ('Vagranfile'), descartando todas etapas de interações com SO e suas necessidades, conectado a um Provider. Pode ser conectado localmente ou até mesmo em Clouds (AWS, Azure, GCP, Digital Ocean, etc). Para utilizar o Vagrant, é necessário possuir VirtualBox.</p>
 
             <h4>Conceitos</h4>
             <ul>
@@ -85,17 +85,27 @@
 <b>3.<u>Provisioner</u>:</b> (Executar <i>vagrant provision</i> para atualizar)
 <b>Vagrant.configure("2") do |config|</b>
     config.vm.box = "ubuntu/xenial64"
-
     config.vm.provision "shell",
     inline: "apt update"
-
     config.vm.provision "shell", inline:&lt;&lt;-SHELL
         apt install -y cowsay
         apt install -y links
         apt install -y apache2
     SHELL
 <b>end</b>
-<!--PAROU AQUI https://blog.4linux.com.br/virtualizacao-com-vagrant/-->
+
+<b>4.<u> Especifiar porta de acesso</u>:</b> (Executar <i>vagrant reload</i> para reiniciar. Após, acessar porta 8080 da VM o apache2)
+<b>Vagrant.configure("2") do |config|</b>
+    config.vm.box = "ubuntu/xenial64"
+    config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+    config.vm.provision "shell",
+    inline: "apt update"
+    config.vm.provision "shell", inline:&lt;&lt;-SHELL
+        apt install -y cowsay
+        apt install -y links
+        apt install -y apache2
+    SHELL
+<b>end</b>
 </code></pre></small>
         </div>
     </div>
