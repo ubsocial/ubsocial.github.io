@@ -43,7 +43,7 @@
 
         <div class="col-sm-12">
             <h4>Introdução</h4>
-            <p id="textoPost">Solução de gerenciamento automatizado e construção de laboratórios de máquinas virtuais (VMs), via arquivo único ('Vagranfile'), descartando todas etapas de interações com SO e suas necessidades, conectado a um Provider. Pode ser conectado localmente ou até mesmo em Clouds (AWS, Azure, GCP, Digital Ocean, etc). Para utilizar o Vagrant, é necessário possuir VirtualBox.</p>
+            <p id="textoPost">Solução de gerenciamento automatizado e construção de laboratórios de máquinas virtuais (VMs), via arquivo único ('Vagranfile'), descartando todas etapas de interações com SO e suas necessidades, conectado a um Provider. Pode ser conectado localmente ou até mesmo em Clouds (AWS, Azure, GCP, Digital Ocean, etc). Para utilizar o Vagrant, é necessário possuir VirtualBox. Códigos conforme documentação oficial: <a href="https://www.vagrantup.com" target="_blank">Site oficial</a>.</p>
 
             <h4>Conceitos</h4>
             <ul>
@@ -66,6 +66,8 @@
 <b>vagrant halt</b>: Desligar VM (<i>destroy</i> excluir VM)
 <b>vagrant suspend</b>: Pausar VM (<i>resume</i> retomar VM)
 <b>vagrant ssh</b>: Acessar ssh da VM
+<b>vagrant box list</b>: Listar Boxes
+<b>vagrant box remove hashicorp/bionic64</b>: Remover Box específico <span class="text-muted">#No caso, removeria o hashicorp/bionic64</span>
 </code></pre></small>
 
             <br><h4>Vagranfile</h4>
@@ -88,24 +90,47 @@
     config.vm.provision "shell",
     inline: "apt update"
     config.vm.provision "shell", inline:&lt;&lt;-SHELL
-        apt install -y cowsay
-        apt install -y links
         apt install -y apache2
     SHELL
 <b>end</b>
 
-<b>4.<u> Especifiar porta de acesso</u>:</b> (Executar <i>vagrant reload</i> para reiniciar. Após, acessar porta 8080 da VM o apache2)
+<b>4.<u>Especifiar porta de acesso</u>:</b> (Executar <i>vagrant reload</i> para reiniciar. Após, acessar porta 8080 da VM o apache2)
 <b>Vagrant.configure("2") do |config|</b>
     config.vm.box = "ubuntu/xenial64"
     config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
     config.vm.provision "shell",
     inline: "apt update"
     config.vm.provision "shell", inline:&lt;&lt;-SHELL
-        apt install -y cowsay
-        apt install -y links
         apt install -y apache2
     SHELL
 <b>end</b>
+</code></pre></small>
+
+            <br><h4>Synced Folders</h4>
+            <p id="textoPost">Os diretórios '/home/vagrant' (Host) e o diretório '/vagrant' (Guest) são sincronizados. Para testar, crie, na VM, algo dentro do '/vagrant', saia da VM e vá ao '/home/vagrant' do Host para verificar se sua criação também encontra-se lá.</p>
+
+            <br><h4>Exemplo prático</h4>
+            <p id="textoPost">Através do Vagrant, criar VM Ubuntu com servidor web nginx e acessá-lo com o Host. No caso, o Vagranfile será criado manualmente no Host, dispensando 'vagrant init'.</p>
+<small><pre><code>
+<b>1.<u>Criar diretório do projeto e Vagranfile</u></b>: mkdir testeVagrant && cd testeVagrant && touch Vagranfile
+
+<b>2.<u>Inserir conteúdo abaixo dentro do Vagranfile</u></b>:
+Vagrant.configure("2") do |config|
+    config.vm.box = "ubuntu/xenial64"
+    config.vm.network "forwarded_port", guest: 80, host: 85, host_ip: "127.0.0.1"
+    config.vm.provision "shell",
+    inline: "apt update"
+    config.vm.provision "shell", inline:&lt;&lt;-SHELL
+        apt install -y nginx
+        systemctl enable nginx --now
+        touch /var/www/html/ubsocial.html
+        echo "ubsocial nginx funcionando" &gt; /var/www/html/ubsocial.html
+    SHELL
+end
+
+<b>3.<u>Criar Box</u></b>: vagrant up
+
+<b>3.<u>Acessar nginx via Host</u></b>: Na máquina local (Host), acessar no browser url '<a href="localhost:85/ubsocial.html" target="_blank">localhost:85/ubsocial.html</a>'
 </code></pre></small>
         </div>
     </div>
