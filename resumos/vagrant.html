@@ -266,6 +266,59 @@ end
 vagrant push staging <span class="text-muted">#Se não especificar o nome acima ('staging') no Vagrantfile, não precisará especificá-lo no comando (Somente <i>vagrant push</i>)</span>
 </code></pre></small>
 
+            <br><h4>Triggers:</h4>
+            <p id="textoPost">Comandos gatilhos que são ativados/executados após determinadas condições, especificadas no cabeçalho do trecho específico no Vagrantfile, conforme trechos de comandos abaixo. Pode-se especificar o type da Tigger, onde tem-se:</p>
+            <ul>
+                <li>'type: :action': Executa antes/depois de Vagrant Action;</li>
+                <li>'type: :command': Executar antes/depois de Vagrant Command;</li>
+                <li>'type: :hook': Executar antes/depois de Vagrant Hook.</li>
+            </ul>
+<small><pre><code>
+<b>Executar comando após 'up':</b>
+config.trigger.after :up do |trigger|
+    <span class="text-muted">Comandos aqui</span>
+end
+
+<b>Outros modelos:</b>
+config.trigger.before [:up, :destroy, :halt, :package] do |trigger|
+    <span class="text-muted">Comandos aqui</span>
+end
+
+config.trigger.after :up, :destroy, :halt, :package do |trigger|
+    <span class="text-muted">Comandos aqui</span>
+end
+
+<b>Sempre executar:</b>
+config.trigger.before :all do |myTrigger|
+    myTrigger.name = "Run Trigger"
+    myTrigger.info = "Running a before trigger!"
+    myTrigger.ignore = [:destroy, :halt]
+end
+
+<b>Em escopo Guest:</b>
+config.vm.define "ubuntu" do |ubuntu|
+    ubuntu.vm.box = "ubuntu"
+    ubuntu.trigger.before :destroy do |trigger|
+        trigger.warn = "Dumping database to /vagrant/outfile"
+        trigger.run_remote = {inline: "pg_dump dbname &gt; /vagrant/outfile"}
+    end
+end
+
+<b>Inlcuindo type:</b>
+config.trigger.after :destroy, type: :command do |t|
+    t.warn = "Destroy command completed"
+end
+
+<b>Ordem de execução:</b>
+Vagrantfile
+    global trigger 1
+    global trigger 2
+    machine defined
+        machine trigger 3
+    global trigger 4
+end
+</code></pre></small>
+
             <br><h4>Exemplo prático</h4>
             <p id="textoPost">Através do Vagrant, criar VM Ubuntu com servidor web nginx e acessá-lo com o Host. No caso, o Vagrantfile será criado manualmente no Host, dispensando 'vagrant init'.</p>
 <small><pre><code>
