@@ -228,6 +228,44 @@ vagrant snapshot delete [vm-name] NAME <span class="text-muted">#Deletar Snapsho
 vagrant snapshot list <span class="text-muted">#Listar Snapshots</span>
 </code></pre></small>
 
+            <br><h4>Push</h4>
+            <p id="textoPost">Publicar aplicação em determinado servidor. Primeiro, define-se o servidor e suas respectivas configurações, para então executar comando Push, conforme códigos abaixo:</p>
+<small><pre><code>
+<b>1. Configurar Server:</b>
+config.push.define "staging", strategy: "ftp" do |push|
+    push.host = "ftp.example.com"
+    push.username = "nome"
+    push.password = "senha"
+end
+
+<b>1.2. Configurar Server Heroku:</b>
+config.push.define "heroku" do |push|
+    push.app = "my_application"
+end
+
+<b>1.3.1. Local (Path Remoto):</b>
+config.push.define "local-exec" do |push|
+    push.inline = &lt;&lt;-SCRIPT
+        scp -r . server:/var/www/website
+    SCRIPT
+end
+
+<b>1.3.2. Local (Path Local):</b>
+config.push.define "local-exec" do |push|
+    push.inline = &lt;&lt;-SCRIPT
+        cp -r . /var/www/website
+    SCRIPT
+end
+
+<b>1.4. Via Shell Script:</b>
+config.push.define "local-exec" do |push|
+    push.script = "my-script.sh"
+end
+
+<b>2. Executar Push:</b>
+vagrant push staging <span class="text-muted">#Se não especificar o nome acima ('staging') no Vagrantfile, não precisará especificá-lo no comando (Somente <i>vagrant push</i>)</span>
+</code></pre></small>
+
             <br><h4>Exemplo prático</h4>
             <p id="textoPost">Através do Vagrant, criar VM Ubuntu com servidor web nginx e acessá-lo com o Host. No caso, o Vagrantfile será criado manualmente no Host, dispensando 'vagrant init'.</p>
 <small><pre><code>
