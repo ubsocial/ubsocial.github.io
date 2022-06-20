@@ -47,10 +47,10 @@
 
             <h4>Conceitos</h4>
             <ul>
-                <li><b>Box</b>: SO definido no início do projeto, que terá sua imagem baixada pelo Vagrant na VM. O VagrantUp é o repositório oficial dos Boxes: <a href="https://app.vagrantup.com" target="_blank">Acesse</a>;</li>
+                <li><b>Box</b>: SO definido no início do projeto, que terá sua imagem baixada pelo Vagrant na VM. O VagrantUp é o repositório oficial dos Boxes (Vagrant Cloud): <a href="https://app.vagrantup.com" target="_blank">Acesse</a>;</li>
                 <li><b>Host</b> e <b>Guest</b>: Host é o sistema que está executando o Vagrant (SO da máquina local). Guest é o SO da VM;</li>
                 <li><b>Provider</b>: Hypervisor responsável pela virtualização (VirtualBox-<i>default</i>, VMWare, KVM, Docker, Hyper-V);</li>
-                <li><b>Plugins</b>: Extensões do Vagrant, que podem ser baixadas, como conexão Clod;</li>
+                <li><b>Plugins</b>: Extensões do Vagrant, que podem ser baixadas, como conexão Cloud. Packages podem ser utilizados como mecanismos compartilhados entre Boxes;</li>
                 <li><b>Provisioner</b>: Software orquestrador que irá automatizar as tarefas executadas na VM (Chef, Puppet, Ansible, Salt, arquivos, Shell Script manualmente, etc). Consiste em scripts e arquivos com códigos de automação do processo de criação da VM;</li>
                 <li><b>Synced Folders</b>: Diretórios usados para compartilhar conteúdo entre Host e Guest;</li>
                 <li><b>Vagrantfile</b>: Arquivo de configuração do Vagrant, onde são definidas configurações da VM, versão do SO, memória, ip, etc;</li>
@@ -58,20 +58,24 @@
 
             <br><h4>Comandos básicos</h4>
 <small><pre><code>
-<b>Instalação (Debian):</b> sudo apt install vagrant
-<b>vagrant init</b>: Gerar novo Vagrantfile baseado em uma Box
-<b>vagrant up</b>: Iniciar VM e executadar Provisioner (Subir ambiente)
+<b>Instalação (Debian):</b> sudo apt install vagrant <span class="text-muted">#Comando '<i>vagrant version</i>' para verificar instalação, ou 'vagrant -h' para ajuda</span>
+<b>vagrant init</b>: Gerar novo Vagrantfile baseado em uma Box ('-m' após init especifica criação mínima. '-f' para sobrescrever criação.)
+<b>vagrant up</b>: Iniciar VM e executadar Provisioner (Subir ambiente. Pode-se relacionar com Provider, como '<i>vagrant up --provider=vmware_fusion</i>')
 <b>vagrant reload</b>: Reiniciar VM
 <b>vagrant provision</b>: Executar Provisioner
 <b>vagrant halt</b>: Desligar VM (<i>destroy</i> excluir VM)
 <b>vagrant suspend</b>: Pausar VM (<i>resume</i> retomar VM)
 <b>vagrant ssh</b>: Acessar ssh da VM
+<b>vagrant powershell</b>: Abrir PowerShell de Box que possua suporte
 <b>vagrant box list</b>: Listar Boxes
+<b>vagrant box add USER/BOX</b>: Somente adicionar Box
 <b>vagrant box remove hashicorp/bionic64</b>: Remover Box específico <span class="text-muted">#No caso, removeria o hashicorp/bionic64</span>
+<b>vagrant global-status</b>: Ver status dos ambientes de Boxes
+<b>vagrant port [name|id]</b>: Listar portas disponíveis/abertas das Boxes
 </code></pre></small>
 
             <br><h4>Vagrantfile</h4>
-            <p id="textoPost">Estrutura do arquivo Vagrantfile e exemplo passo a passo de sua construção:</p>
+            <p id="textoPost">Estrutura do arquivo Vagrantfile e exemplo passo a passo de sua construção (Comando '<i>vagrant validate</i>' valida o Vagrantfile):</p>
 <small><pre><code>
 <b>1.<u>Estrutura básica</u>:</b>
 <b>Vagrant.configure("2") do |config|</b>
@@ -85,6 +89,7 @@
 <b>end</b>
 
 <b>3.<u>Provisioner</u>:</b> (Executar <i>vagrant provision</i> para atualizar)
+<span class="text-muted">Existem várias possibilidades de Provisioners, como Shell, Ansible, Chef, Docker, Podman, Puppet, Salt, entre outros.</span>
 <b>Vagrant.configure("2") do |config|</b>
     config.vm.box = "ubuntu/xenial64"
     config.vm.provision "shell",
@@ -94,10 +99,12 @@
     SHELL
 <b>end</b>
 
-<b>4.<u>Especifiar porta de acesso</u>:</b> (Executar <i>vagrant reload</i> para reiniciar. Após, acessar porta 8080 da VM o apache2)
+<b>4.<u>Especifiar porta de acesso e plugins</u>:</b> (Executar <i>vagrant reload</i> para reiniciar. Após, acessar porta 8080 da VM o apache2)
+<span class="text-muted">Podem ser redes privadas ou públicas, incluir hosts personalizados, protocolos personalizados, IP estático, entre outras configurações pormenores.</span>
 <b>Vagrant.configure("2") do |config|</b>
     config.vm.box = "ubuntu/xenial64"
     config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+    config.vagrant.plugins = ["vagrant-plugin", "vagrant-other-plugin"]
     config.vm.provision "shell",
     inline: "apt update"
     config.vm.provision "shell", inline:&lt;&lt;-SHELL
@@ -107,11 +114,118 @@
 </code></pre></small>
 
             <br><h4>Synced Folders</h4>
-            <p id="textoPost">O diretório do Vagrantfile (Host) e o diretório '/vagrant' (Guest) são sincronizados por padrão. Para testar, crie, na VM, algo dentro do '/vagrant', saia da VM e vá ao diretório do Vagrantfile do Host para verificar se sua criação também encontra-se lá. Para modificar os padrões, segue linha de código no Vagrantfile:</p>
+            <p id="textoPost">O diretório do Vagrantfile (Host) e o diretório '/vagrant' (Guest) são sincronizados por padrão. Para testar, crie, na VM, algo dentro do '/vagrant', saia da VM e vá ao diretório do Vagrantfile do Host para verificar se sua criação também encontra-se lá. Pode-se usar tipos personalizados, como NFS, RSync, SMB e via VirtualBox diretamente. Para modificar os padrões, segue linha de código no Vagrantfile:</p>
 <small><pre><code>
 <b>Vagrant.configure("2") do |config|</b>
     config.vm.synced_folder "src/", "/srv/website" <span class="text-muted">#Diretório Host, diretório Guest</span>
 <b>end</b>
+
+<b>Upload:</b>
+<span class="text-muted">Enviar arquivos do Host para o Guest</span>
+vagrant upload source [destination] [name|id]
+</code></pre></small>
+
+            <br><h4>Vagrant Cloud</h4>
+            <p id="textoPost">Pode-se interagir com o Vagrant Cloud, hospedando novos Boxes diretamente do mesmo. Para isso, precisa-se cadastro no Vagrant Cloud, conforme links acima. Pode-se interagir, inclusive, usando comandos 'cloud_init' no Vagrantfile. Os comandos abaixo entre colchetes são parâmetros opcionais. Os comandos abaixo possuem outros parâmetros de refinamento, que podem ser acessados na documentação oficial.</p>
+<small><pre><code>
+<b>Autenticação:</b>
+vagrant cloud auth login <span class="text-muted">#Informe dados conforme cadastro Vagrant Cloud. Use '<b>logout</b>' ao invés de login para fazer logout</span>
+vagrant cloud auth login --token ABCD1234 <span class="text-muted">#Mesmo comando, usando token de autenticação (Gerado nas configurações do site Vagrant Cloud)</span>
+
+<b>Gestão de Boxes:</b>
+vagrant cloud box create ORGANIZATION/BOX-NAME <span class="text-muted">#Criar Box</span>
+vagrant cloud box delete ORGANIZATION/BOX-NAME <span class="text-muted">#Deletar Box</span>
+vagrant cloud box show ORGANIZATION/BOX-NAME <span class="text-muted">#Ver Box</span>
+vagrant cloud box update ORGANIZATION/BOX-NAME <span class="text-muted">#Editar Box</span>
+vagrant cloud search TERMO <span class="text-muted">#Pesquisar no Vagrant Cloud (Exemplo: <i>vagrant cloud search hashicorp --limit 5</i>)</span>
+
+<b>Gestão de Providers:</b>
+vagrant cloud provider create ORGANIZATION/BOX-NAME PROVIDER-NAME VERSION [URL] <span class="text-muted">#Criar Provider</span>
+vagrant cloud provider delete ORGANIZATION/BOX-NAME PROVIDER-NAME VERSION <span class="text-muted">#Deletar Provider</span>
+vagrant cloud provider update ORGANIZATION/BOX-NAME PROVIDER-NAME VERSION [URL] <span class="text-muted">#Editar Provider</span>
+vagrant cloud provider upload ORGANIZATION/BOX-NAME PROVIDER-NAME VERSION BOX-FILE <span class="text-muted">#Upload arquivo de Box para Vagrant Cloud</span>
+vagrant cloud publish ORGANIZATION/BOX-NAME VERSION PROVIDER-NAME [PROVIDER-FILE] <span class="text-muted">#Publicar no Vagrant Cloud</span>
+
+<b>Gestão de Versões:</b>
+vagrant cloud version create ORGANIZATION/BOX-NAME VERSION
+vagrant cloud version delete ORGANIZATION/BOX-NAME VERSION
+vagrant cloud version release ORGANIZATION/BOX-NAME VERSION
+vagrant cloud version revoke ORGANIZATION/BOX-NAME VERSION
+vagrant cloud version update ORGANIZATION/BOX-NAME VERSION
+
+<b>Exemplo:</b>
+<span class="text-muted">Publicar Box no Vagrant Cloud</span>
+vagrant cloud publish briancain/supertest 1.0.0 virtualbox boxes/my/virtualbox.box -d "Descrição aqui" --version-description "Versão 1" --release --short-description "Download me!"
+</code></pre></small>
+
+            <br><h4>Vagrant Share</h4>
+            <p id="textoPost">Compartilhar ambiente Vagrant, via padrão/http/ssh.</p>
+<small><pre><code>
+<b>Instalação:</b>
+vagrant plugin install vagrant-share
+
+<b>Via HTTP:</b>
+vagrant share <span class="text-muted">#Incluir '--https' para casos de HTTPS</span>
+
+<b>Via SSH:</b>
+vagrant share --ssh
+vagrant share --full <span class="text-muted">#Ver todas portas possíveis para conexão</span>
+
+<b>Conectar:</b>
+vagrant connect --ssh NAME <span class="text-muted">#Criará IP estático para conexões</span>
+</code></pre></small>
+
+            <br><h4>Plugins</h4>
+            <p id="textoPost">Complementos personalizados para Boxes Vagrant</p>
+<small><pre><code>
+<b>Instalar:</b>
+vagrant plugin install &lt;name&gt;
+vagrant plugin install /path/to/my-plugin.gem
+
+<b>Desinstalar/Reparar:</b>
+vagrant plugin expunge my-plugin <span class="text-muted">#Incluir --reinstall para reinstalar. Incluir --force para remover forçadamente. </span>
+vagrant plugin uninstall &lt;name&gt; [&lt;name2&gt; &lt;name3&gt; ...]
+
+<b>Editar:</b>
+vagrant plugin update [&lt;name&gt;]
+
+<b>Listar</b>
+vagrant plugin list
+</code></pre></small>
+
+            <br><h4>Discos</h4>
+            <p id="textoPost">Pode-se configurar discos das Boxes, particionando-os e configurando-os de forma personalizada, via Vagrantfile, conforme trechos de comandos abaixo. Entre os tipos de discos, tem-se 'disk', 'dvd' e 'floppy'. Para remover o disco, precisa-se remover a linha no Vagrantfile e executar '<i>vagrant reload</i>'. Pode-se relacionar os discos com Providers, como VirtualBox, Hyper-V e VMWare.</p>
+<small><pre><code>
+<b>Definir discos:</b>
+config.vm.disk: disk, name: "backup", size: "10GB"
+config.vm.disk: disk, size: "100GB", primary: true
+config.vm.disk: dvd, name: "installer", file: "./installer.iso"
+config.vm.disk: floppy, name: "cool_files"
+</code></pre></small>
+
+            <br><h4>Múltiplos Boxes</h4>
+            <p id="textoPost">Criar ambiente com múltiplas máquinas, conforme exemplo abaixo:</p>
+<small><pre><code>
+<b>Vagrant.configure("2") do |config|</b>
+    config.vm.provision "shell", inline: "echo Hello"
+
+    config.vm.define "web" do |web|
+        web.vm.box = "apache"
+    end
+
+    config.vm.define "db" do |db|
+        db.vm.box = "mysql"
+    end
+<b>end</b>
+</code></pre></small>
+
+            <br><h4>Snapshots</h4>
+            <p id="textoPost">Snapshots preservam a VM em determinado estado/condições, assim como seus dados nela.</p>
+<small><pre><code>
+vagrant snapshot save [vm-name] NAME <span class="text-muted">#Criar Snapshot (Similar: <i>vagrant snapshot push</i>)</span>
+vagrant snapshot restore [vm-name] NAME <span class="text-muted">#Restaurar Snapshot (Similar: <i>vagrant snapshot pop</i>)</span>
+vagrant snapshot delete [vm-name] NAME <span class="text-muted">#Deletar Snapshot</span>
+vagrant snapshot list <span class="text-muted">#Listar Snapshots</span>
 </code></pre></small>
 
             <br><h4>Exemplo prático</h4>
