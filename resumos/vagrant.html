@@ -65,11 +65,12 @@
 <b>vagrant provision</b>: Executar Provisioner
 <b>vagrant halt</b>: Desligar VM (<i>destroy</i> excluir VM)
 <b>vagrant suspend</b>: Pausar VM (<i>resume</i> retomar VM)
-<b>vagrant ssh</b>: Acessar ssh da VM
+<b>vagrant ssh</b>: Acessar ssh da VM (Sintaxe: 'vagrant ssh [name|id] [-- extra_ssh_args]')
 <b>vagrant powershell</b>: Abrir PowerShell de Box que possua suporte
 <b>vagrant box list</b>: Listar Boxes
 <b>vagrant box add USER/BOX</b>: Somente adicionar Box
 <b>vagrant box remove hashicorp/bionic64</b>: Remover Box específico <span class="text-muted">#No caso, removeria o hashicorp/bionic64</span>
+<b>vagrant status</b>: Ver status de Box
 <b>vagrant global-status</b>: Ver status dos ambientes de Boxes
 <b>vagrant port [name|id]</b>: Listar portas disponíveis/abertas das Boxes
 </code></pre></small>
@@ -225,6 +226,9 @@ config.vm.disk: floppy, name: "cool_files"
         db.vm.box = "mysql"
     end
 <b>end</b>
+
+<b>Acessar:</b>
+vagrant ssh apache
 </code></pre></small>
 
             <br><h4>Snapshots</h4>
