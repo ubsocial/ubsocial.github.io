@@ -43,22 +43,22 @@
 
         <div class="col-sm-12">
             <h4>Introdução</h4>
-            <p id="textoPost">Solução de gerenciamento automatizado e construção de laboratórios de máquinas virtuais (VMs), via arquivo único ('Vagrantfile'), descartando todas etapas de interações com SO e suas necessidades, conectado a um Provider. Pode ser conectado localmente ou até mesmo em Clouds (AWS, Azure, GCP, Digital Ocean, etc). Para utilizar o Vagrant, é necessário possuir VirtualBox. Códigos conforme documentação oficial: <a href="https://www.vagrantup.com" target="_blank">Site oficial</a>.</p>
+            <p id="textoPost">Solução de gerenciamento automatizado e construção de laboratórios de máquinas virtuais (VMs), via arquivo único ('Vagrantfile'), descartando todas etapas de interações com SO e suas necessidades, conectado a um Provider (Hypervisor como VirtualBox). Pode ser conectado localmente ou até mesmo em Clouds (AWS, Azure, GCP, Digital Ocean, etc). Utiliza linguagem HCL (Hashicorp Configuration Language), baseada em Ruby. Para a criação de Boxes, recomenda-se o software Packer, ao invés dos Boxes na Vagrant, pois os mesmos tendem a possuir vulnerabilidades. Códigos conforme documentação oficial: <a href="https://www.vagrantup.com" target="_blank">Site oficial</a>.</p>
 
             <h4>Conceitos</h4>
             <ul>
-                <li><b>Box</b>: SO definido no início do projeto, que terá sua imagem baixada pelo Vagrant na VM. O VagrantUp é o repositório oficial dos Boxes (Vagrant Cloud): <a href="https://app.vagrantup.com" target="_blank">Acesse</a>;</li>
-                <li><b>Host</b> e <b>Guest</b>: Host é o sistema que está executando o Vagrant (SO da máquina local). Guest é o SO da VM;</li>
+                <li><b>Box</b>: Componente com SO definido no início do projeto, juntamente com suas configurações, que terá sua imagem baixada pelo Vagrant na VM. O VagrantUp é o repositório oficial dos Boxes (Vagrant Cloud), também há o Vagrantbox.es, que armazena vários Boxes: <a href="https://app.vagrantup.com" target="_blank">Vagrant Cloud</a>, <a href="https://www.vagrantbox.es/" target="_blank">Vagrantbox.es</a>;</li>
+                <li><b>Host</b> e <b>Guest</b>: Host é o SO que está executando o Vagrant (SO da máquina local). Guest é o SO da VM;</li>
                 <li><b>Provider</b>: Hypervisor responsável pela virtualização (VirtualBox-<i>default</i>, VMWare, KVM, Docker, Hyper-V);</li>
-                <li><b>Plugins</b>: Extensões do Vagrant, que podem ser baixadas, como conexão Cloud. Packages podem ser utilizados como mecanismos compartilhados entre Boxes;</li>
                 <li><b>Provisioner</b>: Software orquestrador que irá automatizar as tarefas executadas na VM (Chef, Puppet, Ansible, Salt, arquivos, Shell Script manualmente, etc). Consiste em scripts e arquivos com códigos de automação do processo de criação da VM;</li>
+                <li><b>Plugins</b>: Extensões do Vagrant, que podem ser baixadas;</li>
                 <li><b>Synced Folders</b>: Diretórios usados para compartilhar conteúdo entre Host e Guest;</li>
                 <li><b>Vagrantfile</b>: Arquivo de configuração do Vagrant, onde são definidas configurações da VM, versão do SO, memória, ip, etc;</li>
             </ul>
 
             <br><h4>Comandos básicos</h4>
 <small><pre><code>
-<b>Instalação (Debian):</b> sudo apt install vagrant <span class="text-muted">#Comando '<i>vagrant version</i>' para verificar instalação, ou 'vagrant -h' para ajuda</span>
+<b>Instalação (Debian):</b> sudo apt install vagrant <span class="text-muted">#Comando '<i>vagrant version</i>' para verificar instalação, ou 'vagrant -h' para ajuda. Também opção de Download na página oficial.</span>
 <b>vagrant init</b>: Gerar novo Vagrantfile baseado em uma Box ('-m' após init especifica criação mínima. '-f' para sobrescrever criação.)
 <b>vagrant up</b>: Iniciar VM e executadar Provisioner (Subir ambiente. Pode-se relacionar com Provider, como '<i>vagrant up --provider=vmware_fusion</i>')
 <b>vagrant reload</b>: Reiniciar VM
@@ -203,14 +203,20 @@ vagrant plugin update [&lt;name&gt;]
 vagrant plugin list
 </code></pre></small>
 
-            <br><h4>Discos</h4>
-            <p id="textoPost">Pode-se configurar discos das Boxes, particionando-os e configurando-os de forma personalizada, via Vagrantfile, conforme trechos de comandos abaixo. Entre os tipos de discos, tem-se 'disk', 'dvd' e 'floppy'. Para remover o disco, precisa-se remover a linha no Vagrantfile e executar '<i>vagrant reload</i>'. Pode-se relacionar os discos com Providers, como VirtualBox, Hyper-V e VMWare.</p>
+            <br><h4>Hardware</h4>
+            <p id="textoPost">Pode-se configurar discos, memória, CPUs das Boxes, particionando-os e configurando-os de forma personalizada, via Vagrantfile, conforme trechos de comandos abaixo. Entre os tipos de discos, tem-se 'disk', 'dvd' e 'floppy'. Para remover o disco, precisa-se remover a linha no Vagrantfile e executar '<i>vagrant reload</i>'. Pode-se relacionar os discos com Providers, como VirtualBox, Hyper-V e VMWare.</p>
 <small><pre><code>
 <b>Definir discos:</b>
 config.vm.disk: disk, name: "backup", size: "10GB"
 config.vm.disk: disk, size: "100GB", primary: true
 config.vm.disk: dvd, name: "installer", file: "./installer.iso"
 config.vm.disk: floppy, name: "cool_files"
+
+<b>Memória (MB), CPUs:</b>
+config.vm.provider "virtualbox" do |vb|
+    vb.memory = "1024"
+    vb.cpus   = "2"
+end
 </code></pre></small>
 
             <br><h4>Múltiplos Boxes</h4>
@@ -333,36 +339,105 @@ end
 </code></pre></small>
 
             <br><h4>Exemplo prático</h4>
-            <p id="textoPost">Através do Vagrant, criar VM Ubuntu com servidor web nginx e acessá-lo com o Host. No caso, o Vagrantfile será criado manualmente no Host, dispensando 'vagrant init'.</p>
 <small><pre><code>
-<b>1.<u>Criar diretório do projeto e Vagrantfile</u></b>: mkdir testeVagrant && cd testeVagrant && touch Vagrantfile
+<b>1. Criar Vagrantfile</b>:
+vagrant init -m ubuntu/bionic64
 
-<b>2.<u>Inserir conteúdo abaixo dentro do Vagrantfile</u></b>:
+<b>2. Complementar Vagrantfile com o seguinte código</b>:
+$script = &lt;&lt;-EOF
+sudo apt-get update
+sudo apt-get install -y nginx
+EOF
+
 Vagrant.configure("2") do |config|
-    config.vm.box = "ubuntu/xenial64"
-    config.vm.network "forwarded_port", guest: 80, host: 85
-    config.vm.provision "shell",
-    inline: "apt update"
-    config.vm.provision "shell", inline:&lt;&lt;-SHELL
-        apt install -y nginx
-        service nginx start
-        touch /var/www/html/ubsocial.html
-        echo "ubsocial nginx funcionando" &gt; /var/www/html/ubsocial.html
-    SHELL
+    config.vm.define "server1" do |server1|
+        server1.vm.box = "ubuntu/bionic64"
+        server1.memory = "1000"
+        server1.cpus = "1"
+        server1.vm.network "private_network", ip: "10.10.10.11" <span class="text-muted">#Comando do Provider VirtualBox (Outros Providers trazem comandos diferentes)</span>
+        config.vm.provision "shell", inline: $script
+    end
+    config.vm.define "server2" do |server2|
+        server2.vm.box = "centos/7"
+        server2.vm.network "private_network", ip: "10.10.10.12"
+    end
 end
 
-<b>3.<u>Criar Box</u></b>: vagrant up
+<b>3. Criar Boxes</b>:
+vagrant up
+vagrant status
 
-<b>4.<u>Acessar nginx via Host</u></b>: Na máquina local (Host), acessar no browser url '<a href="localhost:85/ubsocial.html" target="_blank">localhost:85/ubsocial.html</a>'
-
+<b>4. Acessar máquinas</b>:
+vagrant ssh server1
+vagrant ssh server1 -c "cat /etc/*release" <span class="text-muted">#Realizar comando na Box via ssh</span>
+vagrant ssh server1 -c "ip -c a show enp0s8" <span class="text-muted">#Mostrar IP configurado da máquina Ubuntu</span>
+vagrant ssh server2 -c "ip -c a show eth1" <span class="text-muted">#Mostrar IP configurado da máquina CentOS</span>
+curl 10.10.10.11 <span class="text-muted">#Acessará nginx da máquina Ubuntu. No Browser da máquina Host, acessar url '<a href="10.10.10.11" target="_blank">10.10.10.11</a>'</span>
 <!--EXEMPLOS PRÁTICOS VER
 https://acervolima.com/o-que-e-vagrant/
 https://dicasdeprogramacao.com.br/padronizando-ambiente-de-desenvolvimento-com-vagrant/
 
 LINKS UTEIS
-https://www.vagrantbox.es/
 https://www.youtube.com/watch?v=PX6OmeIbjC4
 -->
+</code></pre></small>
+
+            <br><h4>Laboratório modelo</h4>
+            <p id="textoPost">Criação de Cluster Docker Swarm através do Vagrant.</p>
+<small><pre><code>
+<b>1.CRIAR ARQUIVOS</b>
+<b><u>Arquivo 'Vagrantfile'</u></b>
+# -*- mode: ruby -*-
+# vi: set ft=ruby  :
+
+machines = {
+    "master" =&gt; {"memory" =&gt; "1024", "cpu" =&gt; "2", "ip" =&gt; "100", "image" =&gt; "ubuntu/bionic64"},
+    "node01" =&gt; {"memory" =&gt; "1024", "cpu" =&gt; "2", "ip" =&gt; "101", "image" =&gt; "ubuntu/bionic64"},
+    "node02" =&gt; {"memory" =&gt; "1024", "cpu" =&gt; "2", "ip" =&gt; "102", "image" =&gt; "centos/7"}
+}
+
+Vagrant.configure("2") do |config|
+    machines.each do |name, conf|
+        config.vm.define "#{name}" do |machine|
+            machine.vm.box = "#{conf["image"]}"
+            machine.vm.hostname = "#{name}.caiodelgado.dev"
+            machine.vm.network "private_network", ip: "10.10.10.#{conf["ip"]}"
+            machine.vm.provider "virtualbox" do |vb|
+                vb.name = "#{name}"
+                vb.memory = conf["memory"]
+                vb.cpus = conf["cpu"]
+                vb.customize ["modifyvm", :id, "--groups", "/Docker-Lab"]
+            end
+            machine.vm.provision "shell", path: "docker.sh"
+            if "#{conf["image"]}" == "centos/7"
+                machine.vm.provision "shell", inline: "sudo systemctl start docker && sudo systemctl enable docker"
+            end
+            if "#{name}" == "master"
+                machine.vm.provision "shell", path: "master.sh"
+            else
+                machine.vm.provision "shell", path: "worker.sh"
+            end
+        end
+    end
+end
+
+<b><u>Arquivo 'docker.sh'</u></b>
+#!/bin/bash
+curl -fsSL https://get.docker.com | sudo bash
+sudo curl -fsSL "https://github.com/docker/compose/releases/download/1.25.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+sudo usermod -aG docker vagrant
+
+<b><u>Arquivo 'master.sh'</u></b>
+#!/bin/bash
+sudo docker swarm init --advertise-addr=10.10.10.100
+sudo docker swarm join-token worker | grep docker &gt; /vagrant/worker.sh
+
+<b><u>Arquivo 'worker.sh'</u></b> <span class="text-muted">#Criá-lo em branco, pois o mesmo será incrementado automaticamente</span>
+
+<b>2. SUBIR E ACESSAR INFRAESTRUTURA</b>
+vagrant up
+vagrant ssh master -c "docker node ls" <span class="text-muted">#Mostrar Nodes(Máquinas) do Cluster</span>
 </code></pre></small>
         </div>
     </div>
