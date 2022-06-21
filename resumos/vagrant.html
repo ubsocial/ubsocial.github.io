@@ -59,13 +59,13 @@
             <br><h4>Comandos básicos</h4>
 <small><pre><code>
 <b>Instalação (Debian):</b> sudo apt install vagrant <span class="text-muted">#Comando '<i>vagrant version</i>' para verificar instalação, ou 'vagrant -h' para ajuda. Também opção de Download na página oficial.</span>
-<b>vagrant init</b>: Gerar novo Vagrantfile baseado em uma Box ('-m' após init especifica criação mínima. '-f' para sobrescrever criação.)
+<b>vagrant init</b>: Gerar novo Vagrantfile baseado em uma Box ('-m' após init especifica criação mínima. '-f' para sobrescrever criação)
 <b>vagrant up</b>: Iniciar VM e executadar Provisioner (Subir ambiente. Pode-se relacionar com Provider, como '<i>vagrant up --provider=vmware_fusion</i>')
 <b>vagrant reload</b>: Reiniciar VM
 <b>vagrant provision</b>: Executar Provisioner
 <b>vagrant halt</b>: Desligar VM (<i>destroy</i> excluir VM)
 <b>vagrant suspend</b>: Pausar VM (<i>resume</i> retomar VM)
-<b>vagrant ssh</b>: Acessar ssh da VM (Sintaxe: 'vagrant ssh [name|id] [-- extra_ssh_args]')
+<b>vagrant ssh</b>: Acessar ssh da VM (Sintaxe: 'vagrant ssh [name|id] [--extra_ssh_args]')
 <b>vagrant powershell</b>: Abrir PowerShell de Box que possua suporte
 <b>vagrant box list</b>: Listar Boxes
 <b>vagrant box add USER/BOX</b>: Somente adicionar Box
@@ -115,7 +115,7 @@
 </code></pre></small>
 
             <br><h4>Synced Folders</h4>
-            <p id="textoPost">O diretório do Vagrantfile (Host) e o diretório '/vagrant' (Guest) são sincronizados por padrão. Para testar, crie, na VM, algo dentro do '/vagrant', saia da VM e vá ao diretório do Vagrantfile do Host para verificar se sua criação também encontra-se lá. Pode-se usar tipos personalizados, como NFS, RSync, SMB e via VirtualBox diretamente. Para modificar os padrões, segue linha de código no Vagrantfile:</p>
+            <p id="textoPost">O diretório em que encontra-se o Vagrantfile (Host), e o diretório '/vagrant' (Guest) são sincronizados por padrão. Para testar, crie, na VM, algo dentro do '/vagrant', saia da VM e vá ao diretório do Vagrantfile do Host para verificar se sua criação também encontra-se lá. Pode-se usar tipos personalizados, como NFS, RSync, SMB e via VirtualBox diretamente. Para modificar os padrões, segue linha de código no Vagrantfile:</p>
 <small><pre><code>
 <b>Vagrant.configure("2") do |config|</b>
     config.vm.synced_folder "src/", "/srv/website" <span class="text-muted">#Diretório Host, diretório Guest</span>
@@ -151,7 +151,7 @@ vagrant cloud publish ORGANIZATION/BOX-NAME VERSION PROVIDER-NAME [PROVIDER-FILE
 vagrant cloud version create ORGANIZATION/BOX-NAME VERSION
 vagrant cloud version delete ORGANIZATION/BOX-NAME VERSION
 vagrant cloud version release ORGANIZATION/BOX-NAME VERSION
-vagrant cloud version revoke ORGANIZATION/BOX-NAME VERSION
+vagrant cloud version revoke ORGANIZATION/BOX-NAME VERSION <span class="text-muted">#Desfazer alteração</span>
 vagrant cloud version update ORGANIZATION/BOX-NAME VERSION
 
 <b>Exemplo:</b>
