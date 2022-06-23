@@ -354,12 +354,12 @@ Vagrant.configure("2") do |config|
         server1.vm.box = "ubuntu/bionic64"
         server1.memory = "1000"
         server1.cpus = "1"
-        server1.vm.network "private_network", ip: "10.10.10.11" <span class="text-muted">#Comando do Provider VirtualBox (Outros Providers trazem comandos diferentes)</span>
+        server1.vm.network "private_network", ip: "192.168.56.2" <span class="text-muted">#Comando do Provider VirtualBox (Outros Providers trazem comandos diferentes)</span>
         config.vm.provision "shell", inline: $script
     end
     config.vm.define "server2" do |server2|
         server2.vm.box = "centos/7"
-        server2.vm.network "private_network", ip: "10.10.10.12"
+        server2.vm.network "private_network", ip: "192.168.56.3"
     end
 end
 
@@ -372,72 +372,7 @@ vagrant ssh server1
 vagrant ssh server1 -c "cat /etc/*release" <span class="text-muted">#Realizar comando na Box via ssh</span>
 vagrant ssh server1 -c "ip -c a show enp0s8" <span class="text-muted">#Mostrar IP configurado da máquina Ubuntu</span>
 vagrant ssh server2 -c "ip -c a show eth1" <span class="text-muted">#Mostrar IP configurado da máquina CentOS</span>
-curl 10.10.10.11 <span class="text-muted">#Acessará nginx da máquina Ubuntu. No Browser da máquina Host, acessar url '<a href="10.10.10.11" target="_blank">10.10.10.11</a>'</span>
-<!--EXEMPLOS PRÁTICOS VER
-https://acervolima.com/o-que-e-vagrant/
-https://dicasdeprogramacao.com.br/padronizando-ambiente-de-desenvolvimento-com-vagrant/
-
-LINKS UTEIS
-https://www.youtube.com/watch?v=PX6OmeIbjC4
--->
-</code></pre></small>
-
-            <br><h4>Laboratório modelo</h4>
-            <p id="textoPost">Criação de Cluster Docker Swarm através do Vagrant.</p>
-<small><pre><code>
-<b>1.CRIAR ARQUIVOS</b>
-<b><u>Arquivo 'Vagrantfile'</u></b>
-# -*- mode: ruby -*-
-# vi: set ft=ruby  :
-
-machines = {
-    "master" =&gt; {"memory" =&gt; "1024", "cpu" =&gt; "2", "ip" =&gt; "100", "image" =&gt; "ubuntu/bionic64"},
-    "node01" =&gt; {"memory" =&gt; "1024", "cpu" =&gt; "2", "ip" =&gt; "101", "image" =&gt; "ubuntu/bionic64"},
-    "node02" =&gt; {"memory" =&gt; "1024", "cpu" =&gt; "2", "ip" =&gt; "102", "image" =&gt; "centos/7"}
-}
-
-Vagrant.configure("2") do |config|
-    machines.each do |name, conf|
-        config.vm.define "#{name}" do |machine|
-            machine.vm.box = "#{conf["image"]}"
-            machine.vm.hostname = "#{name}.caiodelgado.dev"
-            machine.vm.network "private_network", ip: "10.10.10.#{conf["ip"]}"
-            machine.vm.provider "virtualbox" do |vb|
-                vb.name = "#{name}"
-                vb.memory = conf["memory"]
-                vb.cpus = conf["cpu"]
-                vb.customize ["modifyvm", :id, "--groups", "/Docker-Lab"]
-            end
-            machine.vm.provision "shell", path: "docker.sh"
-            if "#{conf["image"]}" == "centos/7"
-                machine.vm.provision "shell", inline: "sudo systemctl start docker && sudo systemctl enable docker"
-            end
-            if "#{name}" == "master"
-                machine.vm.provision "shell", path: "master.sh"
-            else
-                machine.vm.provision "shell", path: "worker.sh"
-            end
-        end
-    end
-end
-
-<b><u>Arquivo 'docker.sh'</u></b>
-#!/bin/bash
-curl -fsSL https://get.docker.com | sudo bash
-sudo curl -fsSL "https://github.com/docker/compose/releases/download/1.25.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
-sudo usermod -aG docker vagrant
-
-<b><u>Arquivo 'master.sh'</u></b>
-#!/bin/bash
-sudo docker swarm init --advertise-addr=10.10.10.100
-sudo docker swarm join-token worker | grep docker &gt; /vagrant/worker.sh
-
-<b><u>Arquivo 'worker.sh'</u></b> <span class="text-muted">#Criá-lo em branco, pois o mesmo será incrementado automaticamente</span>
-
-<b>2.SUBIR E ACESSAR INFRAESTRUTURA</b>
-vagrant up
-vagrant ssh master -c "docker node ls" <span class="text-muted">#Mostrar Nodes(Máquinas) do Cluster</span>
+curl 192.168.56.2 <span class="text-muted">#Acessará nginx da máquina Ubuntu. No Browser da máquina Host, acessar url '<a href="192.168.56.2" target="_blank">192.168.56.2</a>'</span>
 </code></pre></small>
         </div>
     </div>
