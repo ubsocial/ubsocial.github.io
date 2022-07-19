@@ -24,18 +24,17 @@
 
         <div class="col-sm-12">
             <h4>Passo a passo:</h4>
-            <img src="../../arquivo/anexos/post19/eclipse.png" class="img-fluid" width="250px"><br><br>
+            <img src="../../arquivo/anexos/post19/eclipse.png" class="img-fluid" width="500px"><br><br>
             <ol>
-                <li><b>Pré-requisito</b>: OpenJDK (sudo apt install default-jdk)</li>
-                <li>Baixar, na pasta Downloads, Eclipse Java oficial (Arquivo .tar.gz): <a href="https://www.eclipse.org/downloads/packages" target="_blank">Acesse</a></li>
-                <li>Extrair arquivo e mover pasta extraída ('eclipse') para a pasta Home de seu usuário (<b>~</b>)</li>
+                <li><b>Pré-requisito</b>: OpenJDK (<i>sudo apt install default-jdk</i>)</li>
+                <li>Baixar, na pasta Downloads, Eclipse Java oficial (Arquivo .tar.gz) e extraí-la: <a href="https://www.eclipse.org/downloads/packages" target="_blank">Acesse</a></li>
                 <li><b>Criar atalho</b>: sudo nano /usr/share/applications/eclipse-java.desktop
                     <small><pre><code>
 <span class="text-muted">Inserir o seguinte conteúdo no arquivo. Ctrl+k para fechar, e salvá-lo</span>
 [Desktop Entry]
 Encoding=UTF-8
-Exec=/home/<b>SEUUSUARIO</b>/eclipse/eclipse
-Icon=/home/<b>SEUUSUARIO</b>/eclipse/icon.xpm
+Exec=/home/<b>SEUUSUARIO</b>/Downloads/eclipse/eclipse
+Icon=/home/<b>SEUUSUARIO</b>/Downloads/eclipse/icon.xpm
 Type=Application
 Terminal=false
 Comment=Eclipse Integrated Development Environment
