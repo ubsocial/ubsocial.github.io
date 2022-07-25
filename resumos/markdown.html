@@ -6,28 +6,44 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="../anexos/icons/logoTit.png">
-    <link rel="stylesheet" href="../../estilo.css">
+    <link rel="stylesheet" href="../estilo.css">
     <title>UB Social</title>
 </head>
 <body>
 <div class="container-fluid">
 
+
+    <div class="row">
+        <div class="col-sm-12" id="menu">
+            <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="../index.html"><img src="../anexos/icons/logo.png" class="d-inline-block align-text-top" id="logo"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../contato.html">Contato</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-sm-12" id="titulo">
             <h1>Markdown</h1>
             <h6><strong>Conceitos e sintaxe da linguagem Markdown</strong></h6>
-            <a href="../../index.html" class="btn btn-link" id="btnLink">Voltar</a>
+            <a href="../index.html" class="btn btn-link" id="btnLink">Voltar</a><br><br>
+            <a href="https://www.markdownguide.org" id="btnLink" target="_blank" class="btn btn-link">Site Oficial</a>
         </div>
 
         <div class="col-sm-12">
             <h4>O que é?</h4>
             <p id="textoPost">Linguagem de marcação, convertida pra HTML, muito utilizada para escrever documentação web. Devido à sintaxe 'populosa' do HTML e sua difícil interpretação quando aplicada à escrita de documentação web, fora necessária a criação de uma linguagem de marcação com sintaxe mais limpa e focada ao texto, dando origem à Markdown. Você encontrará Markdown principalmente nos arquivos '<strong>readme.md</strong>', utilizados como um breve manual para determinado software/projeto. Toda a documentação online da Microsoft também é escrita com auxílio da linguagem. Arquivos Markdown possuem extensão '<strong>.md</strong>'. Mais informações e resumo de sintaxe, acesse abaixo.</p>
-            <a href="https://www.markdownguide.org" id="btnLink" target="_blank" class="btn btn-link">Markdown Oficial</a>
-            
-            <br><br><p id="textoPost">Segue opção de download de uma oficina que ministrei sobre Markdown, através do IFRS Campus Feliz, no projeto de extensão Informática Fácil - Promovendo a Inclusão Digital no Vale do Caí. A oficina é prática, tratando o uso da Markdown na construção de um arquivo 'readme.md', onde, ao mesmo tempo, serão discutidos os conceitos e sintaxe da linguagem e arquivos 'readme.md'.</p>
-            <a href="https://mega.nz/folder/PJoX2S5A#jLUfuZYiApl2uojMD_MbfQ" id="btnLink" target="_blank" class="btn btn-link">Oficina Markdown</a>
-            
-            <br><br><h4>Títulos</h4>
+
+            <br><h4>Títulos</h4>
 <small><pre><code>
 # H1
 ## H2

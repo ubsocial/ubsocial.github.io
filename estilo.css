@@ -4,3 +4,7 @@
 #textoPost {text-align: justify;}
 #btnLink {text-decoration: none;}
 #rodape {background-color: black; color: white; padding: 23px 0px 10px 0px;}
+
+/*Segurança*/
+#fundo {background-color: rgb(37, 37, 37); color: white;}
+#codigo {color: white;}
