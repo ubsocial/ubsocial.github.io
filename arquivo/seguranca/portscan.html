@@ -2,8 +2,6 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Ovo&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -20,7 +18,7 @@
         <div class="col-sm-12" id="titulo">
             <h1>Port Scan com Netcat, NMAP e ZENMAP</h1>
             <h6><strong>Escaneando vulnerabilildades em portas com Netcat, NMAP e ZENMAP</strong></h6>
-            <a href="../../index.html" class="btn btn-link" id="btnLink">Voltar</a>
+            <a href="../../resumos/seguranca.html" class="btn btn-link" id="btnLink">Voltar</a>
         </div>
 
         <div class="col-sm-12">
@@ -60,7 +58,7 @@ ZENMAP é o NMAP GUI, deve ser executado como root
 nmap -sS -sV bancocn.com
 </code></pre></small>
             <p id="textoPost">No caso, muitos firewalls impedem que outras portas abertas sejam amostradas, indicando somente as portas Https<small>(80,443,8080,8443...)</small>. Por isso, quando realizamos Port Scan em ip de firewall, é possível um resultado muito similar à esse. De acordo com o resultado gerado, caso encontra-se uma porta aberta, no qual mostra a determinada versão no firewall, aí deve-se procurar falhas de vulnerabilidade em tal. Por fim, pode-se salvar o Scan em Scan > Save Scan, que será salvo os dados em arquivo xml.</p>
-            <img src="anexos/portscan/zenmap.png" class="img-fluid">
+            <img src="anexos/portscan/zenmap.png" width="600px" class="img-fluid">
             <br><br>
             <h4>Vários Targets</h4>
             <p id="textoPost">Geralmente, tem-se vários ip's para escanear, pois é comum em redes internas, realizar o pentest em todas as máquinas que a compõem. Exemplo escanear um range de ip's:</p>

