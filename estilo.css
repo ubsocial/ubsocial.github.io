@@ -6,5 +6,16 @@
 #rodape {background-color: black; color: white; padding: 23px 0px 10px 0px;}
 
 /*Segurança*/
-#fundo {background-color: rgb(37, 37, 37); color: white;}
-#codigo {color: white;}
+#fundo {background-color: #000000; color: rgb(242, 242, 247);}
+#codigo {color: rgb(242, 242, 247);}
+
+
+/* DARK MODE:
+PALETA DE CORES DARK (APPLE): https://developer.apple.com/design/human-interface-guidelines/foundations/color
+
+
+FUNDO: #000000
+TEXTO: #F5F5F7
+VERDE BORDA: #3DDD00
+CINZA BORDAS: #B2B2B2
+*/
