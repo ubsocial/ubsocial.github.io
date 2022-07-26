@@ -74,7 +74,7 @@ Simplificar grupos complexos de dados, evitando redundâncias e possibilitar mai
 
 REGRAS:
 Primeira forma normal (1FN):
-se os valores de seus atributos são atômicos (simples, indivisíveis) e monovalorados. FN1 não permite “relações dentro de relações” ou “relações como atributos de tuplas”. Uma tabela está na primeira forma normal quando seus atributos não contêm grupos de repetição, ou seja, multivalorados.
+se os valores de seus atributos são atômicos (simples, indivisíveis) e monovalorados. FN1 não permite "relações dentro de relações" ou "relações como atributos de tuplas". Uma tabela está na primeira forma normal quando seus atributos não contêm grupos de repetição, ou seja, multivalorados.
 Ex: tabela Cliente, com idCliente,nome,telefone: cria-se uma tabela Cliente(idCliente,nome) e uma Telefone(idCliente,telefone).
 
 Segunda forma normal (2FN):
@@ -363,7 +363,7 @@ DELETE FROM medicos WHERE especialidade = 'cardiologia' OR cidade &lt;&gt; 'Feli
 TRUNCATE TABLE cursos; OU TRUNCATE cursos;
 
 <b>SELECT COM APELIDOS</b>
-SELECT siape AS “Matricula do Servidor” FROM pessoal;
+SELECT siape AS "Matricula do Servidor" FROM pessoal;
 SELECT pessoal.siape, pessoal.senha, locacoes.lotacao FROM pessoal, lotacoes WHERE pessoal.siape = lotacoes.siape ORDER BY lotacoes.lotacao;
 
 <b>SELECT MAIÚSCULO</b>
