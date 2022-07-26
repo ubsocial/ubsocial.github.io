@@ -79,7 +79,7 @@
     <div class="row">
         <div class="col sm-12">
             <br><h4>Anotações</h4>
-<small><pre><code>
+<small><pre id="codigo"><code>
 ========== ATALHOS ==========
 F12: Tela / Editor de código
 SHIFT+F12: Abre janela forms
@@ -149,7 +149,7 @@ begin
 End;
 </code></pre></small><br>
             <h4>Operadores</h4>
-<small><pre><code>
+<small><pre id="codigo"><code>
 ========== ARITMÉTICOS ==========
 Adição +
 Subtração -
@@ -173,7 +173,7 @@ Acréscimo And
 Escolha Or
 </code></pre></small><br>
             <h4>Condição</h4>
-<small><pre><code>
+<small><pre id="codigo"><code>
 ========== IF ==========
 If (x &lt; 0) Then
 begin
@@ -195,7 +195,7 @@ begin
 end;
 </code></pre></small><br>
             <h4>Repetição</h4>
-<small><pre><code>
+<small><pre id="codigo"><code>
 ========== FOR ==========
 //Regressivo: for cont := num downto 1 do
 for c := 1 to StrToInt(edtVal.Text) do
@@ -222,7 +222,7 @@ end;
 until (v&gt;9);
 </code></pre></small><br>
             <h4>Function e Procedure</h4>
-<small><pre><code>
+<small><pre id="codigo"><code>
 implementation
 {$R *.dfm}
     //Funções globais aqui
@@ -248,7 +248,7 @@ procedure TForm1.btnCalcClick(Sender: TObject); //Procedures não possuem retorn
     end;
 </code></pre></small><br>
             <h4>Arrays</h4>
-<small><pre><code>
+<small><pre id="codigo"><code>
 (Array gráfico inverte ordem coluna/linha que codificável)
 StringGrid[coluna,linha]
 ArrayCodificavel[liha,coluna]
@@ -299,7 +299,7 @@ begin
 end;
 </code></pre></small><br>
             <h4>Records(Registros)</h4>
-<small><pre><code>
+<small><pre id="codigo"><code>
 Pontos = Record
     X,Y: Integer;
     Cor: string;
@@ -383,7 +383,7 @@ begin
 End;
 </code></pre></small><br>
             <h4>Database Firebird</h4>
-<small><pre><code>
+<small><pre id="codigo"><code>
 1- Instalar Firebird 2.5 32bits, e selecionar opção "mover fpclient.dll para pasta System"
 2- Instalar FlameRobin 32bits, configurar BD com User(SYSDBA) Senha(masterkey), Charset(Win1252) e demais parâmetros pessoais
 </code></pre></small>

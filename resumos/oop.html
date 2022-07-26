@@ -87,7 +87,7 @@
             </ul>
             <h5>Como o polimorfismo "acontece"</h5>
                 <p id="textoPost">O mecanismo de ligação tardia entende que p1 é instância(criação) de Brasileiro, mesmo sendo "armazenado" dentro de Pessoa.</p>
-<small><pre><code>
+<small><pre id="codigo"><code>
 public class Main {
     public static void main (String[] args) {
         Pessoa p = new Pessoa("Ana");
@@ -141,18 +141,18 @@ b.comer(); //resultado TRIÂNGULO
             <br>
             <h4>Atributo de Objeto</h4>
             <p id="textoPost">É aquele no qual cada objeto encapsula o valor do atributo (quando um atributo é do tipo de outra classe que criamos).<br><b>Tipo Objeto:</b> Quando um atributo é do tipo de outra classe criada.</p>
-            <small><pre><code><b>Ex:</b> private Cachorro[] listac; public void addCachorro(){}</code></pre></small>
+            <small><pre id="codigo"><code><b>Ex:</b> private Cachorro[] listac; public void addCachorro(){}</code></pre></small>
             <br>
             <h4>Assinatura do método</h4>
             <p id="textoPost">Constitui o nome e tipo do método. Isso, além do tipo, quantidade e ordem dos parâmetros do mesmo (O nome dos parâmetros não faz parte da assinatura, nem o tipo do retorno do método).</p>
             <br>
             <h4>Método com valor de retorno</h4>
             <p id="textoPost">Precisa de return, devendo ser do mesmo tipo que o valor de retorno do método.</p>
-            <small><pre><code><b>Ex:</b> public int fazerAniver(...) {return ... -> int}</code></pre></small>
+            <small><pre id="codigo"><code><b>Ex:</b> public int fazerAniver(...) {return ... -> int}</code></pre></small>
             <br>
             <h4>Método Void <small>(Sem valor de retorno)</small></h4>
             <p id="textoPost">Não possui return, mas pode ter parâmetros também.</p>
-            <small><pre><code><b>Ex:</b> setNome()</code></pre></small>
+            <small><pre id="codigo"><code><b>Ex:</b> setNome()</code></pre></small>
             <br>
             <h4>Métodos Especiais</h4>
             <p id="textoPost">Métodos com operações individuais, diferentes dos demais(comuns). São eles: <i>Get</i>(acessor), <i>Set</i>(modificador), <i>Construct</i>(criador).</p>
@@ -192,7 +192,7 @@ b.comer(); //resultado TRIÂNGULO
             <br>
             <h4>Associação</h4>
             <p id="textoPost">Um Canil tem um ou mais Cachorros(1..*), não muda código.</p>
-<small><pre><code>
+<small><pre id="codigo"><code>
 public class Canil {
     private Cachorro[];
     ArrayList&lt;Cachorro&gt; listac;

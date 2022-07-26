@@ -7,6 +7,7 @@
 #codigo {color: rgb(209, 209, 214);}
 #btnLink {text-decoration: none;}
 #rodape {padding: 23px 0px 10px 0px; border-radius: 20px 20px 0px 0px;}
+#cardLinux {background-color: #000000; color: rgb(242, 242, 247); border-style: solid; border-width: 5px; border-color: #212529;}
 
 /* DARK MODE:
 PALETA DE CORES DARK (APPLE): https://developer.apple.com/design/human-interface-guidelines/foundations/color

@@ -23,7 +23,7 @@
             <h4>Pré-requisitos</h4>
             <p id="textoPost">XAMPP instalado e executando, criar um diretório no <i>htdocs</i> para inserir os arquivos abaixo. 1º executar o arquivo .sql no <i>Phpmyadmin</i>.</p>
             <h4>banco.sql</h4>
-<small><pre><code>
+<small><pre id="codigo"><code>
 CREATE DATABASE agenda;
 CREATE TABLE pessoa (
     id INTEGER AUTO_INCREMENT PRIMARY KEY,
@@ -31,7 +31,7 @@ CREATE TABLE pessoa (
 );
 </code></pre></small><br>
             <h4>add.php</h4>
-<small><pre><code>
+<small><pre id="codigo"><code>
 &lt;?php
 $db = new PDO('mysql:host=localhost;dbname=agenda;charset=utf8','root','');
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -43,7 +43,7 @@ if(!empty($_POST['nome'])) {
 header("location: index.php");
 </code></pre></small><br>
             <h4>ed.php</h4>
-<small><pre><code>
+<small><pre id="codigo"><code>
 &lt;?php
 $db = new PDO('mysql:host=localhost;dbname=agenda;charset=utf8','root','');
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -67,7 +67,7 @@ if ((!empty($_GET['idVelho'])) and (!empty($_POST['nome']))) {
 &lt;/form&gt;
 </code></pre></small><br>
             <h4>rem.php</h4>
-<small><pre><code>
+<small><pre id="codigo"><code>
 &lt;?php
 $db = new PDO('mysql:host=localhost;dbname=agenda;charset=utf8','root','');
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -77,7 +77,7 @@ $r->execute(array($_GET['id']));
 header("location: index.php");
 </code></pre></small><br>
             <h4>index.php</h4>
-<small><pre><code>
+<small><pre id="codigo"><code>
 &lt;?php
 $db = new PDO('mysql:host=localhost;dbname=agenda;charset=utf8','root','');
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

@@ -139,7 +139,7 @@
                 <li>notifempty (Não fará roticionamento de arquivo vazio)</li>
             </ul>
             <p>Criar rotate para arquivo criado acima, cron.log, Criando, em /etc/logrotate.d/, arquivo 'cron', com o conteúdo:</p>
-<small><pre><code>
+<small><pre id="codigo"><code>
 /var/log/cron.log {
     daily
     rotate 4
@@ -299,14 +299,14 @@
             <p><b>Máquina Servidor (Debian):</b></p>
             <p id="textoPost">Ativar recebimento de requisições de logs externos, em <i>/etc/rsyslog.conf</i>, Modules descomentar linhas 17, 18, 21 e 22 (<i>#module... e #input(type...</i>), após isso reiniciar rsyslog (<i>sudo systemctl restart rsyslog</i>). Para testar se o servidor está atendendo à essa porta, usa-se <i>ss -nlptu | grep 514</i>. Verificar ip da máquina servidor com <i>ip a</i> na parte eth1 inet.</p>
             <p id="textoPost">Configurar template para separar os logs de cada máquina: Criar diretório <i>sudo mkdir /srv/log/ && sudo chown syslog:syslog -R /srv/log</i>. Em <i>/etc/rsyslog.conf.d/</i>, criar arquivo chamado 'template.conf', inserindo o seguinte conteúdo:</p>
-<small><pre><code>
+<small><pre id="codigo"><code>
 template (name="LogRemoto" type="string" string="/srv/log/%HOSTNAME%/%PROGRAMNAME%.log")
 *.* ?LogRemoto
 </code></pre></small>
             <p id="textoPost">Após finalizado o arquivo, reiniciar rsyslogs <i>sudo systemctl restart rsyslog</i>. Conferir também se o rsyslog está operando com sucesso <i>sudo systemctl status rsyslog</i>. A 1ª linha especifica que todos os logs serão enviados para o diretório destino informado, sendo-os separados pelo nome de cada máquina e seu respectivo programa que está enviando o log. A 2ª linha epecifica os logs da própria máquina servidor, sendo respectivamente 'facility.nivel', onde os mesmos serão enviados para o local LogRemoto, definido no template.</p>
             <p><b>Máquina Cliente (CentOS):</b></p>
             <p id="textoPost">Em <i>/etc/rsyslog.conf</i>, inserir no final:</p>
-<small><pre><code>
+<small><pre id="codigo"><code>
 # *.* @@NomeOuIpServidor:514 (@ é UDP. @@ é TCP)
 *.* @@graylog:514 (O nome do servidor é graylog)
 
@@ -497,7 +497,7 @@ template (name="LogRemoto" type="string" string="/srv/log/%HOSTNAME%/%PROGRAMNAM
             </ul>
             <p><b>Agendamento de backups:</b></p>
             <p id="textoPost">Criar, em <i>/opt/</i>, script de backup (<i>bkp-banco.sh</i>):</p>
-<small><pre><code>
+<small><pre id="codigo"><code>
 #!/bin/bash
 mysqldump --user="rsysloguser" --password="rsyslogpw" "$@" "Syslog" &gt; "/opt/backup/syslog-$(date '+%d-%n-%Y')".sql 2&gt; /dev/null
 </code></pre></small>
@@ -681,7 +681,7 @@ mysqldump --user="rsysloguser" --password="rsyslogpw" "$@" "Syslog" &gt; "/opt/b
             </ul>
             <p><b>Configurar Docker (Máquina Cliente (CentOS / webserver)):</b></p>
             <p id="textoPost">Diretório do usuário, criar diretório <i>wordpress-deploy</i> com o arquivo <i>docker-compose.yaml</i> com o seguinte conteúdo abaixo. Entrar no diretório do arquivo, e utilizar o comando para subí-lo "docker-compose up -d". Para verificar se os containers estão de pé, basta utilizar o comando "docker-compose ps" e verificar o State dos ambientes.</p>
-<small><pre><code>
+<small><pre id="codigo"><code>
 services:
     traefik:
         image: traefik:1.7
@@ -988,7 +988,7 @@ networks:
             <ul>
                 <li>Criar diretório ~/rocketchat-deploy/docker-compose.yaml, com o seguinte conteúdo:</li>
             </ul>
-<small><pre><code>
+<small><pre id="codigo"><code>
 version: '3'
 
 services:
@@ -1097,7 +1097,7 @@ networks:
                     </ul>
                 </li>
             </ul>
-<small><pre><code>
+<small><pre id="codigo"><code>
 /* exported Script */
 /* globals console, _, s */
 
@@ -1253,7 +1253,7 @@ class Script {
                 <li>sudo apt install logstash-oss=7.10.2</li>
                 <li>Criar arquivo de entrada de dados recebidos por Beats, /etc/logstash/conf.d/filebeat-input.conf, com o seguinte conteúdo:</li>
             </ul>
-<small><pre><code>
+<small><pre id="codigo"><code>
 input {
     beats {
         port =&gt; 5044
@@ -1264,7 +1264,7 @@ input {
             <ul>
                 <li>Criar arquivo de tratamento de dados, /etc/logstash/conf.d/syslog-filter.conf, com o seguinte conteúdo:</li>
             </ul>
-<small><pre><code>
+<small><pre id="codigo"><code>
 filter {
     if [type] == "syslog" {
         grok {
@@ -1281,7 +1281,7 @@ filter {
             <ul>
                 <li>Criar arquivo de saída de dados para o Elasticsearch, /etc/logstash/conf.d/output-elasticsearch.conf, com o seguinte conteúdo:</li>
             </ul>
-<small><pre><code>
+<small><pre id="codigo"><code>
 output {
     elasticsearch {
         hosts =&gt; ["172.16.0.13:9200"] (ipMaquinaKibana)
@@ -1319,7 +1319,7 @@ output {
                 <li>sudo systemctl start kibana && sudo systemctl enable kibana</li>
                 <li>Criar arquivo de parametrização para login nginx acoplado ao kibana (Que não fornece login nativamente) /etc/nginx/sites-avaliable/kibana.4labs.example, com o seguinte conteúdo:</li>
             </ul>
-<small><pre><code>
+<small><pre id="codigo"><code>
 server {
     listen 80;
     server_name kibana.4labs.example;
@@ -1393,7 +1393,7 @@ server {
                     </ul>
                 </li>
             </ul>
-<small><pre><code>
+<small><pre id="codigo"><code>
 filebeat.inputs:
     - type: log
     enabled: true
@@ -1439,7 +1439,7 @@ processors:
                 <li>sudo apt install metricbeat=7.10.2</li>
                 <li>Criar arquivo de configuração do Metricbeat /etc/metricbeat/metricbeat.yml, com o seguinte conteúdo:</li>
             </ul>
-<small><pre><code>
+<small><pre id="codigo"><code>
 metricbeat.config.modules:
     path: ${path.config}/modules.d/*.yml
     reload.enabled: false
@@ -1664,7 +1664,7 @@ logging.files:
                     </ul>
                 </li>
             </ul>
-<small><pre><code>
+<small><pre id="codigo"><code>
 [/var/log/httpd/access_log]
 datetime_format = %b %d %H:%M:%S
 file = /var/log/httpd/access_log
