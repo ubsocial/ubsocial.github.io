@@ -155,7 +155,7 @@
                 <li><b>Atributos Meta / Classe</b>: Risco (Baixo, moderado ou alto) - <i>Variáveis Dependentes</i></li>
             </ul>
             <div class="table-responsive">
-                <table class="table table-striped table-sm">
+                <table class="table table-dark table-striped table-sm">
                     <thead>
                         <tr>
                             <th scope="col" class="table-primary">Histórico de crédito</th>
@@ -236,7 +236,7 @@ import plotly.express as px
             <p class="text-muted" id="textoPost">Objetivo da IA é dizer se a pessoa, de acordo com suas condições, pagará ou não o crédito (default 0 ou 1).</p>
             <a class="btn btn-link" id="btnLink" href="https://github.com/mateusschwede/ubsocialIA/blob/main/Bases%20de%20dados.zip" target="_blank">Acessar BD Risco de Crédito (credit_data.csv)</a>
             <div class="table-responsive">
-                <table class="table table-bordered table-sm">
+                <table class="table table-dark table-bordered table-sm">
                     <thead>
                         <tr>
                             <th scope="col" class="table-secondary"></th>
@@ -346,8 +346,8 @@ X_credit <span class="text-muted">#Ver conteúdo da variável ('y_credit' ver va
             <p><b>6. Escalonamento dos atributos:</b></p>
             <p id="textoPost">Deixar valores na mesma escala: Selecionando os valores mínimos/máximos, tem-se valores muito distantes entre si, o que pode ser problemático para algoritmos de IA baseados em distância. Portanto, deve-se realizar a padronização entre tais valores, para que os mesmos fiquem na mesma escala, pois a ordem de importância que o algoritmo dará aos valores maiores, onde valores maiores possuem peso maior, será inconsistente nesse caso (<u>Ex</u>: loan mais importante que age, por razão de possuir valores maiores). A <b>padronização</b> é mais indicada quando há outliers no dataset (Registros muito fora do padrão): Nesse caso, utilizaremos padronização para o exemplo em questão. Abaixo, seguem fórmulas para solucionar tais problemas.</p>
             <ul>
-                <li>Padronização(Standardisation): <span style="color: rgb(77, 0, 0);">x = ((x-media(x)) / desvioPadrao(x))</span></li>
-                <li>Normalização(Normalization): <span style="color: rgb(77, 0, 0);">x = ((x-min(x)) / (max(x)-min(x)))</span></li>
+                <li>Padronização(Standardisation): <span style="color: rgb(210, 93, 93);">x = ((x-media(x)) / desvioPadrao(x))</span></li>
+                <li>Normalização(Normalization): <span style="color: rgb(210, 93, 93);">x = ((x-min(x)) / (max(x)-min(x)))</span></li>
             </ul>
 <small><pre id="codigo"><code>
 X_credit[:,0].min(), X_credit[:,1].min(), X_credit[:,2].min() <span class="text-muted">#Selecionar valores mínimos de cada atributo</span>
@@ -367,7 +367,7 @@ X_credit
             <p class="text-muted" id="textoPost">Objetivo da IA é dizer se a pessoa, de acordo com suas condições, ganhará ou não mais que 50mil por ano (income &lt;=50K ou &gt;50K).</p>
             <a class="btn btn-link" id="btnLink" href="https://github.com/mateusschwede/ubsocialIA/blob/main/Bases%20de%20dados.zip" target="_blank">Acessar BD Censo (census.csv)</a>
             <div class="table-responsive">
-                <table class="table table-bordered table-sm">
+                <table class="table table-dark table-bordered table-sm">
                     <thead>
                         <tr>
                             <th scope="col" class="table-secondary"></th>
@@ -594,7 +594,7 @@ with open('census.pkl', mode='wb') as f:
             <p><b>Montagem da tabela de probabilidade:</b></p>
             <p id="textoPost">Para tal, precisa-se fazer a contagem do risco, onde a classe (Risco de Crédito) fica à esquerda superior, seguida de seus atributos. Conforme histórico de 14 ítens, tem-se 6 considerados 'Alto' (6/14), 3 'Moderado' e 5 'Baixo'. Baseando-se no Risco de Crédito, tem-se 5 'Boa', 5 'Desconhecida' e 4 'Ruim'. Com isso, intercalando os valores nas intersecções, analisa-se quantas vezes tem-se História de crédito 'Boa' e Risco 'Alto' (1/6, onde 1 é 'Boa' e 'Alto', e 6 o valor total de 'Altos'), seguindo respectivamente, para os demais atributos nessa mesma lógica. Então, a soma de todos os numeradores preenchidos deve ser igual ao valor total no valor da classe na situação em questão (5 'Boa', conforme tabela). Na mesma lógica, a soma dos numeradores para cada valor do atributo da classe, com relação ao seu valor total naquela situação, deve ser a mesma com seu valor total (6 'Alto', conforme tabela).</p>
             <div class="table-responsive">
-                <table class="table table-striped table-sm table-bordered text-center align-middle">
+                <table class="table table-dark table-striped table-sm table-bordered text-center align-middle">
                     <thead>
                         <tr>
                             <th scope="col" class="table-primary"></th>
@@ -659,7 +659,7 @@ with open('census.pkl', mode='wb') as f:
                         </tr>
                     </tbody>
                 </table>
-                <table class="table table-striped table-sm table-bordered text-center" id="tabRiscoCredito">
+                <table class="table table-dark table-striped table-sm table-bordered text-center" id="tabRiscoCredito">
                     <thead>
                         <tr>
                             <th scope="col" class="table-primary">História do Crédito</th>
@@ -1076,7 +1076,31 @@ cm.score(X_census_teste, y_census_teste)
 <span class="text-muted">#Gerar classification_report:</span>
 print(classification_report(y_census_teste, previsoes))
 </code></pre></small>
-            <!--VER 50-->
+
+            <br><p><b>Random Forest:</b></p>
+            <p id="textoPost">São melhorias no processo de Árvore de Decisão, para adquirir melhor desempenho. Neste processo, utilizam-se várias Árvores de Decisão (Ensemble learning), escolhendo aleatoriamente K atributos para comparação da métrica pureza/impureza (impureza de gini/entropia), combinando cada conclusão final de Árvore de acordo com a média (Regressão) ou votos da maioria (Classificação) a fim de chegar em conclusão geral final. A quantidade de K atributos pode ser escolhida manualmente ou automaticamente (Algoritmo faz raíz quadrada do total de atributos da base). Supondo que hajam 3 Árvores para calcular Risco de Crédito e 3 atributos (K=3) diferentes entre si: a 1ª conclui 'Alto', a 2ª 'Baixo' e a 3ª 'Baixo'. Então, prevalece a conclusão 'Baixo'. Entretanto, quanto mais Árvores haverem no algoritmo, mais provável sera a chance de overfitting.</p>
+
+            <br><br><h5>Base de Dados (Risco de Crédito - credit data)</h5>
+<small><pre id="codigo"><code>
+<span class="text-muted">#Importar libraries</span>
+from sklearn.ensemble import RandomForestClassifier
+import pickle
+
+<span class="text-muted">#Upload do arquivo 'credit.pkl' do credit data com dados e padronização aplicada:</span>
+with open('credit.pkl', 'rb') as f:
+    X_credit_treinamento, y_credit_treinamento, X_credit_teste, y_credit_teste = pickle.load(f)
+
+<span class="text-muted">#Visualizar números de quantidades (Registros, colunas):</span>
+X_credit_treinamento.shape, y_credit_treinamento.shape
+X_credit_teste.shape, y_credit_teste.shape
+
+<span class="text-muted">#Criar treinamento Random Forest (40 Árvores), gerar previsões</span>
+random_forest_credit = RandomForestClassifier(n_estimators=40, criterion='entropy', random_state = 0)
+random_forest_credit.fit(X_credit_treinamento, y_credit_treinamento)
+previsoes = random_forest_credit.predict(X_credit_teste)
+previsoes
+y_credit_teste <span class="text-muted">#Comparar 'previsoes' com respostas reais (0 paga, 1 não paga empréstimo)</span>
+</code></pre></small>
         </div>
     </div>
 
@@ -1094,7 +1118,7 @@ print(classification_report(y_census_teste, previsoes))
 
 <!-- EXEMPLO TABLE
 <div class="table-responsive">
-    <table class="table table-striped table-sm table-bordered text-center align-middle">
+    <table class="table table-dark table-striped table-sm table-bordered text-center align-middle">
         <thead>
             <tr>
                 <th scope="col" class="table-primary"></th>
