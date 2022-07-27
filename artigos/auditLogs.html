@@ -519,7 +519,7 @@ mysqldump --user="rsysloguser" --password="rsyslogpw" "$@" "Syslog" &gt; "/opt/b
 
             <br>
             <h4>Centralização de logs com Graylog</h4>
-            <img src="../anexos/auditLogs/graylog.png" width="70%" height="auto">
+            <img src="../anexos/auditLogs/graylog.png" width="70%">
             <p id="textoPost">Graylog é software de gerenciamento de logs, funcionando em conjunto com MongoDB e Elasticsearch, viabilizando criação de filtros, alertas, dashboards e aumentando a velocidade de pesquisa de mensagens. Pode ser utilizado em cluster, via master e slaves. MongoDB armazenará as configurações do Graylog e o Elasticsearch o armazenamento dos logs.</p>
             <p><b>Pré-requisitos:</b></p>
             <ul>
@@ -624,7 +624,7 @@ mysqldump --user="rsysloguser" --password="rsyslogpw" "$@" "Syslog" &gt; "/opt/b
             
             <br>
             <h5>Inputs:</h5>
-            <img src="../anexos/auditLogs/graylogInputs.png" width="70%" height="auto">
+            <img src="../anexos/auditLogs/graylogInputs.png" width="70%">
             <p id="textoPost">Inputs de mensagens são responsáveis por levar os logs ao Graylog (Inputs para TCP, UDP, AWS, GCP, Containers...).</p>
             <p><b>Maquina Server (Ubuntu / graylog):</b></p>
             <p id="textoPost">Criar Input UDP: Objetivo é criar Input UDP para coletar logs das máquinas clients (Webserver/CentOS e Kibana/Debian). No graylog, aba System/Inputs, selecionar Syslog UDP e clicar em Launch New Input.</p>
@@ -819,7 +819,7 @@ networks:
 
             <br>
             <h5>Dashboards estatísticos:</h5>
-            <img src="../anexos/auditLogs/graylogDashboards.png" width="70%" height="auto">
+            <img src="../anexos/auditLogs/graylogDashboards.png" width="70%">
             <p id="textoPost">No Graylog, um Dashboard é a composição de painéis gráficos advindos de lógicas estatísticas dos logs coletados Ordenadamente, primeiro cria-se Dashboard vazio, após isso gerar logs de interesse e, por fim, modificar painel de apresentação de tais logs. Para realização de testes com estatísticas nos painéis do Dashboard abaixo, pode-se replicar os códigos for cont na máquina kibana, como expressado acima.</p>
             <p><b>Criar Dashboard para acoplar painéis:</b></p>
             <ul>
@@ -983,7 +983,7 @@ networks:
 
             <br>
             <h5>Alerta via mensagens Rocket Chat</h5>
-            <img src="../anexos/auditLogs/graylogRocketChat.png" width="70%" height="auto">
+            <img src="../anexos/auditLogs/graylogRocketChat.png" width="70%">
             <p><b>Máquina Cliente (CentOS / webserver), instalar Rocket Chat via docker:</b></p>
             <ul>
                 <li>Criar diretório ~/rocketchat-deploy/docker-compose.yaml, com o seguinte conteúdo:</li>
@@ -1220,7 +1220,7 @@ class Script {
             <p id="textoPost"><u>OBS</u>: <i>Os componentes abaixo deverão ser instalados na máquina cliente Debian Kibana. Quando outra máquina envolver-se no processo, a mesma será referenciada</i>.</p>
             
             <p><b>Elasticsearch, instalação e configuração:</b></p>
-            <img src="../anexos/auditLogs/elkElasticsearch.png" width="70%" height="auto">
+            <img src="../anexos/auditLogs/elkElasticsearch.png" width="70%">
             <ul>
                 <li>sudo apt update && sudo apt install openjdk-11-jre wget apt-transport-https curl</li>
                 <li>wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -</li>
@@ -1306,7 +1306,7 @@ output {
             </ul>
 
             <p><b>Kibana, instalação e configuração:</b></p>
-            <img src="../anexos/auditLogs/elkKibana.png" width="70%" height="auto">
+            <img src="../anexos/auditLogs/elkKibana.png" width="70%">
             <ul>
                 <li>sudo apt install kibana-oss nginx</li>
                 <li>Editar arquivo de configuração do Kibana, /etc/kibana/kibana.yml
@@ -1488,7 +1488,7 @@ logging.files:
             <p><b>Dashboards no Kibana:</b></p>
             <p id="textoPost">Filebeat enviará os logs do /var/log/, enviando-os ao Logstash que, por sua vez, os filtrará (Formatação e organização) e, por fim, será armazenado no Elasticsearch. Com isso, o Kibana conseguirá visualizar tais logs de forma organizada e personalizada. Acessar Elastic / kibana: http://kibana.4labs.example, usuário 'Admin' e senha 'ubsocial'.</p>
             <p>Visualizar dashboards de Logs (Filebeat):</p>
-            <img src="../anexos/auditLogs/kibanaDashboard.png" width="70%" height="auto">
+            <img src="../anexos/auditLogs/kibanaDashboard.png" width="70%">
             <ul>
                 <li>Acessar tela Home do Kibana, clicar em Manage</li>
                 <li>Na tela de Manager, clicar em Index Patterns / Create Index Pattern
@@ -1510,7 +1510,7 @@ logging.files:
                 </li>
             </ul>
             <p>Visualizar gráficos de métricas de máquina (Metricbeat):</p>
-            <img src="../anexos/auditLogs/kibanaGraficos.png" width="70%" height="auto">
+            <img src="../anexos/auditLogs/kibanaGraficos.png" width="70%">
             <ul>
                 <li class="text-muted">Metric Server já fora instalado e configurado na máquina cliente Kibana Debian</li>
                 <li>Menu lateral, acessar Management / Stack Management, clicar em Index Patterns / Create Index Pattern
@@ -1560,7 +1560,7 @@ logging.files:
             </ul>
 
             <p><b>Gerenciar Instâncias na AWS:</b></p>
-            <img src="../anexos/auditLogs/awsShell.png" width="70%" height="auto">
+            <img src="../anexos/auditLogs/awsShell.png" width="70%">
             <ol>
                 <li>Criar Instância:</li>
             </ol>
@@ -1610,7 +1610,7 @@ logging.files:
             </ul>
 
             <p><b>Visualizar logs da Instância do shell CloudWatch:</b></p>
-            <img src="../anexos/auditLogs/awsLogs.png" width="70%" height="auto">
+            <img src="../anexos/auditLogs/awsLogs.png" width="70%">
             <ul>
                 <li>Conectar ao shell do Amazon Linux da Instância, como realizado acima</li>
                 <li>sudo yum install awslogs</li>
@@ -1735,7 +1735,7 @@ log_group_name = /var/log/httpd/access_log
             </ul>
 
             <p><b>Visualizar logs do shell da GCP:</b></p>
-            <img src="../anexos/auditLogs/gcpLogs.png" width="70%" height="auto">
+            <img src="../anexos/auditLogs/gcpLogs.png" width="70%">
             <ul>
                 <li>Conectar ao shell da Instância Ubuntu, conforme acima</li>
                 <li>sudo su -</li>
