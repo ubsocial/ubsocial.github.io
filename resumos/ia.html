@@ -1080,7 +1080,8 @@ print(classification_report(y_census_teste, previsoes))
             <br><p><b>Random Forest:</b></p>
             <p id="textoPost">São melhorias no processo de Árvore de Decisão, para adquirir melhor desempenho. Neste processo, utilizam-se várias Árvores de Decisão (Ensemble learning), escolhendo aleatoriamente K atributos para comparação da métrica pureza/impureza (impureza de gini/entropia), combinando cada conclusão final de Árvore de acordo com a média (Regressão) ou votos da maioria (Classificação) a fim de chegar em conclusão geral final. A quantidade de K atributos pode ser escolhida manualmente ou automaticamente (Algoritmo faz raíz quadrada do total de atributos da base). Supondo que hajam 3 Árvores para calcular Risco de Crédito e 3 atributos (K=3) diferentes entre si: a 1ª conclui 'Alto', a 2ª 'Baixo' e a 3ª 'Baixo'. Então, prevalece a conclusão 'Baixo'. Entretanto, quanto mais Árvores haverem no algoritmo, mais provável sera a chance de overfitting.</p>
 
-            <br><br><h5>Base de Dados (Risco de Crédito - credit data)</h5>
+            <br><h5>Base de Dados (Risco de Crédito - credit data)</h5>
+            <p class="text-muted" id="textoPost">Aplicação de Árvore de Decisão, com Random Forest, para classificação de Risco de Crédito.</p>
 <small><pre id="codigo"><code>
 <span class="text-muted">#Importar libraries</span>
 from sklearn.ensemble import RandomForestClassifier
@@ -1100,7 +1101,61 @@ random_forest_credit.fit(X_credit_treinamento, y_credit_treinamento)
 previsoes = random_forest_credit.predict(X_credit_teste)
 previsoes
 y_credit_teste <span class="text-muted">#Comparar 'previsoes' com respostas reais (0 paga, 1 não paga empréstimo)</span>
+
+<span class="text-muted">#Visualizar métricas de comparação:</span>
+from sklearn.metrics import accuracy_score, classification_report
+accuracy_score(y_credit_teste, previsoes) <span class="text-muted">#Precisão de 0,984 (98,4%)</span>
+
+<span class="text-muted">#Gerar matriz de confusão:</span>
+from yellowbrick.classifier import ConfusionMatrix
+cm = ConfusionMatrix(random_forest_credit)
+cm.fit(X_credit_treinamento, y_credit_treinamento)
+cm.score(X_credit_teste, y_credit_teste)
+
+<span class="text-muted">#Gerar classification_report:</span>
+print(classification_report(y_credit_teste, previsoes)) <span class="text-muted">#O algoritmo consegue identificar corretamente 99% dos elementos da classe 0 (Recall). Quando identifica, 99% das vezes está correto (Precision)</span>
 </code></pre></small>
+
+            <br><h5>Base de Dados (Censo)</h5>
+            <p class="text-muted" id="textoPost">Aplicação de Árvore de Decisão, com Random Forest, para classificação de valor salarial.</p>
+<small><pre id="codigo"><code>
+<span class="text-muted">#Importar libraries</span>
+from sklearn.ensemble import RandomForestClassifier
+import pickle
+
+<span class="text-muted">#Upload do arquivo 'census.pkl' do credit data com dados e OneHotEncoder aplicado:</span>
+with open('census.pkl', 'rb') as f:
+    X_census_treinamento, y_census_treinamento, X_census_teste, y_census_teste = pickle.load(f)
+
+<span class="text-muted">#Visualizar números de quantidades (Registros, colunas):</span>
+X_census_treinamento.shape, y_census_treinamento.shape
+X_census_teste.shape, y_census_teste.shape
+y_census_treinamento <span class="text-muted">#Ver classes</span>
+
+<span class="text-muted">#Criar treinamento Random Forest (100 Árvores - padrão), gerar previsões</span>
+random_forest_census = RandomForestClassifier(n_estimators=100, criterion='entropy', random_state = 0)
+random_forest_census.fit(X_census_treinamento, y_census_treinamento)
+previsoes = random_forest_census.predict(X_census_teste)
+previsoes
+y_census_teste <span class="text-muted">#Comparar 'previsoes' com respostas reais</span>
+
+<span class="text-muted">Verificar accuracy:</span>
+from sklearn.metrics import accuracy_score, classification_report
+accuracy_score(y_census_teste, previsoes) <span class="text-muted">#0.8507676560900717 (85%)</span>
+
+<span class="text-muted">#Gerar matriz de confusão:</span>
+from yellowbrick.classifier import ConfusionMatrix
+cm = ConfusionMatrix(random_forest_census)
+cm.fit(X_census_treinamento, y_census_treinamento)
+cm.score(X_census_teste, y_census_teste)
+
+<span class="text-muted">#Gerar classification_report:</span>
+print(classification_report(y_census_teste, previsoes))
+</code></pre></small>
+
+            <br>
+            <h4>----- Aprendizagem por Regras -----</h4>
+            <!--VER 55-->
         </div>
     </div>
 
