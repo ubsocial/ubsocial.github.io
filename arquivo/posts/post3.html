@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../../estilo.css">
     <title>UB Social</title>
 </head>
-<body id="fundo">
+<body>
 <div class="container-fluid">
 
     <div class="row">
@@ -26,7 +26,7 @@
             <h4>Consumir API na prática</h4>
             <p id="textoPost">Agora, faremos a comunicação e consumo, em PHP, com um sistema de API que envia dados em código JSON sobre a previsão do tempo. Além disso, o próprio sistema pega a geolocalização via IP da máquina receptora, na própria URL. Basta inserir o código do arquivo abaixo no <i>htdocs</i> do seu XAMPP executando, ou no diretório do seu usuário para PHP estrutural executando, em localhost. Esse pequeno trecho de código faz toda a mágica acontecer, sempre de forma atualizada. Este é o link da Api, que possui também dados financeiros (Moeda) e de geolocalização (Leia a documentação para maiores instruções quanto à URL compartilhada pela API):</p>
             <a href="https://hgbrasil.com/status/weather" id="btnLink" target="_blank" class="btn btn-link">Api HG Brasil</a>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <h6><b>Modo Estrutural</b></h6>
 &lt;?php
 $url = "https://api.hgbrasil.com/weather?key=651bb186&user_ip=remote";
@@ -132,7 +132,7 @@ class HG_API {
 
 <!--Rodapé-->
 <div class="row">
-    <div class="col-sm-12 text-center bg-dark" id="rodape">
+    <div class="col-sm-12 text-center" id="rodape">
         <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
     </div>
 </div>

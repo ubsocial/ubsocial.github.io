@@ -9,15 +9,15 @@
     <link rel="stylesheet" href="../estilo.css">
     <title>UB Social</title>
 </head>
-<body id="fundo">
+<body>
 <div class="container-fluid">
 
 
     <div class="row">
         <div class="col-sm-12" id="menu">
-            <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark shadow" id="navMenu">
+            <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="../index.html"><img src="../anexos/icons/logoBranco.png" class="d-inline-block align-text-top" id="logo"> UB Social</a>
+                    <a class="navbar-brand" href="../index.html"><img src="../anexos/icons/logo.png" class="d-inline-block align-text-top" id="logo"> UB Social</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav">
@@ -68,7 +68,7 @@
             <p id="textoPost">Sistema de recomendações, análises em tempo real, construir um modelo de série de análises temporais, prever o preço de um produto de sua empresa daqui a um mês/ano, prever o resultado de uma campanha de marketing, prever o turnover(se o funcionário vai sair ou não da empresa).</p>
             <br>
             <h4>Apache Hadoop</h4>
-            <img src="../anexos/bigData/hadoop.png" width="250px" >
+            <img src="../anexos/bigData/hadoop.png" width="130px" class="img-fluid">
             <p id="textoPost">Framework livre, com função de armazenamento e processamento compartilhado e distribuído em larga escala de conjunto de dados, com foco em criação de clusters de baixo custo. Em síntese, é um conjunto de softwares que gerencia um cluster(várias máquinas atuando na mesma função) para leitura e escrita de grande conjunto de dados, com baixo custo. O Hadoop permite que os computadores(nodes) executam aplicações em sistemas distribuídos envolvendo Petabytes de dados. Logo Hadoop surgiu por razão do nome do elefante de pelúcia da filha de um dos desenvolvedores. Hadoop não é um BD. Seu objetivo é gerenciar dados e armazená-los em forma de arquivo, através do HDFS. O Hadoop compõe-se de 3 módulos:</p>
             <ol>
                 <li><b>Hadoop Distributed File System(HDFS):</b> Gerenciamento de arquivos(armazenamento) de várias máquinas como um individual, como um grande HD;</li>
@@ -213,7 +213,7 @@
             <p id="textoPost">Distributed Cache é uma funcionalidade do Hadoop que permite cache dos arquivos usados pelas aplicações. Isso permite performance quando tarefas de Map e Reduce precisam acessar dados em comum. Permite também que um node do cluster acesse os arquivos no filesystem local, ao invés de solicitar o arquivo em outro node. É possível de fazer cache de zip e tar.gz. O Hadoop utiliza o Kerberos, mecanismo de autenticação usado, por exemplo, no sistema de diretórios dos servidores Windows e Linux. Por padrão, o Hadoop é executado no modo não-seguro, em que não é necessário autenticação. Após configurado, o Hadoop é executado em modo de segurança e cada usuário e serviço precisa ser autenticado pelo Kerberos. Apó Kerberos configurado, a autenticação Kerberos é usada para validar as credenciais do lado cliente, devendo solicitar uma aplicação de serviço válido para o Hadoop.</p>
             <br>
             <h4>Ecossistema Hadoop</h4>
-            <img src="../anexos/bigData/ecossistema.png" width="70%" >
+            <img src="../anexos/bigData/ecossistema.png" width="450px" class="img-fluid">
             <p id="textoPost">São o conjunto de ferramentas que compõem as funcionalidades que rodam sob o HDFS. Muito similar os Apps rodando sob um SO. Os Apps servem para aprimorar a capacidade do SO.</p>
             <h5>Apache Zookeeper (Guardião do Zoo)</h5>
             <p id="textoPost">Solução de alta performance para coordenação de serviços em aplicações distribuídas. É um serviço de coordenação distribuída para gerenciar grandes conjuntos de hosts(clusters). Isso permite que os desenvolvedores se preocupem apenas com a lógica do aplicativo, ignorando sua natureza distribuída. Por exemplo, o HBbase(BD NoSQL) usa o Zookeeper para acompanhar o estado de dados distribuídos através do cluster. O Zookeeper proporciona um ponto comum de acesso a uma ampla variedade de objetos utilizados em ambientes de cluster.</p>
@@ -318,7 +318,7 @@
             <p id="textoPost">Distribuição Apache Hadoop distribuída em cloud Azure. Azure HDInsight lida com Big Data, possibilitando a inclusão de nodes, sob demanda, ao cluster. Por ser 100% Hadoop, pode processar dados Estruturados, Semi-Estruturados e Não-Estruturados, dos mais variados modelos. Possui extensões para programação em C#, Java e .NET, para gestão de jobs Hadoop. É integrado ao Excel para gestão de dados.</p>
             <br>
             <h4>Apache Spark</h4>
-            <img src="../anexos/bigData/spark.png" width="250px" >
+            <img src="../anexos/bigData/spark.png" width="130px" class="img-fluid">
             <p id="textoPost">É um engine rápido de uso geral para processamento de Big Data ao longo de um cluster, desenvolvido com Scala. É similar ao Hadoop MapReduce, usando Hadoop HDFS como base, mas pode ser usado com Cassandra, HBase e MongoDB, podendo, também, ser usado com Python, R, Scala e Java. Surgiu para suprir, com mais desempenho no processamento de queries e algoritmos, além permitir processamento em memória e recuperação de falhas, o Apache MapReduce com a computação iterativa.</p>
             <ul>
                 <li><b>Velocidade:</b> Velocidade de execução 100x mais rápido, em memória, que o Hadoop MapReduce e 10x em disco;</li>
@@ -454,7 +454,7 @@
                 <li><b>Mover para pasta:</b> sudo mv arquivogerado /opt/spark</li>
                 <li><b>Configurar variáveis de ambiente:</b> No diretório home:</li>
             </ol>
-<small><pre id="codigo"><code>
+<small><pre><code>
 sudo nano .bashrc
 <b>(dentro do arquivo, no final):</b>
 <span class="text-muted"># Variaveis ambientes do Spark</span>
@@ -478,7 +478,7 @@ Na linha do comando do Pyspark, testar: print(sc)
 
 <!--Rodapé-->
 <div class="row">
-    <div class="col-sm-12 text-center bg-dark" id="rodape">
+    <div class="col-sm-12 text-center" id="rodape">
         <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
     </div>
 </div>

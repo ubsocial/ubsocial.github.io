@@ -9,15 +9,15 @@
     <link rel="stylesheet" href="../estilo.css">
     <title>UB Social</title>
 </head>
-<body id="fundo">
+<body>
 <div class="container-fluid">
 
 
     <div class="row">
         <div class="col-sm-12" id="menu">
-            <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark shadow" id="navMenu">
+            <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="../index.html"><img src="../anexos/icons/logoBranco.png" class="d-inline-block align-text-top" id="logo"> UB Social</a>
+                    <a class="navbar-brand" href="../index.html"><img src="../anexos/icons/logo.png" class="d-inline-block align-text-top" id="logo"> UB Social</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav">
@@ -48,7 +48,7 @@
             <a href="https://www.mongodb.com/download-center/compass" id="btnLink" target="_blank" class="btn btn-link">MongoDB Compass Community</a>
             
             <br><br><h4>Exemplo de document</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 {
     _id: ObjectId("509a8fb2f3f4948bd2f983a0"),
     nome: "fulano",
@@ -57,7 +57,7 @@
 }
 </code></pre></small><br>
             <h4>Comandos do MongoDB</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>Start:</b> sudo systemctl start mongod
 <b>Status:</b> sudo systemctl status mongod / sudo systemctl enable mongod
 <b>Stop:</b> sudo systemctl stop mongod
@@ -65,7 +65,7 @@
 <b>Shell/Status:</b> mongo
 </code></pre></small><br>
             <h4>Comandos Shell MongoDB</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>show dbs:</b> ver dbs existentes
 <b>use nomeDB:</b> criar/acessar BD
 <b>show collections:</b> ver collections do db em questão
@@ -77,7 +77,7 @@
 <b>db.dropUser("nomUser"):</b> Deleta user
 </code></pre></small><br>
             <h4>Create Table</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>MySQL</b>
 CREATE DATABASE teste
 
@@ -100,7 +100,7 @@ db.people.insertOne({
 })
 </code></pre></small><br>
             <h4>Alter Table</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>MySQL</b>
 ALTER TABLE people ADD join_date DATETIME
 ALTER TABLE people DROP COLUMN join_date
@@ -114,7 +114,7 @@ db.people.createIndex( {user_id:1} )
 db.people.createIndex( {user_id:1,age:-1} )
 </code></pre></small><br>
             <h4>Drop Table</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>MySQL</b>
 DROP TABLE people
 DROP DATABASE teste
@@ -124,7 +124,7 @@ db.people.drop()
 use teste; db.dropDatabase()
 </code></pre></small><br>
             <h4>Insert Into</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>MySQL</b>
 INSERT INTO people(user_id,age,status) VALUES ("bcd001",45,"A")
 INSERT INTO people(user_id,age,status) VALUES ("bcd001",45,"A"),("vvv",30,"B")
@@ -134,7 +134,7 @@ db.people.insertOne({ user_id:"bcd001", age:45, status:"A" })
 db.people.insertMany( {user_id:"bcd001",age:45,status:"A"},{user_id:"vvv",age:30,status:"B"} )
 </code></pre></small><br>
             <h4>Select</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>MySQL</b>
 1.SELECT * FROM people
 2.SELECT id,user_id,status FROM people
@@ -184,7 +184,7 @@ db.people.insertMany( {user_id:"bcd001",age:45,status:"A"},{user_id:"vvv",age:30
 21.2.db.people.find( {status:"A"} ).explain()
 </code></pre></small><br>
             <h4>Update</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>MySQL</b>
 UPDATE people SET status = "C" WHERE age &gt; 25
 UPDATE people SET age = age + 3 WHERE status = "A"
@@ -196,7 +196,7 @@ db.people.updateMany({ status:"A" } ,{ $inc: {age:3} })
 db.tableX.renameCollection("tableY") //renomear collection
 </code></pre></small><br>
             <h4>Delete</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>MySQL</b>
 DELETE FROM people WHERE status = "D"
 DELETE * FROM people
@@ -207,7 +207,7 @@ db.people.deleteMany( {status:"D"} )
 db.people.deleteMany({})
 </code></pre></small><br>
             <h4>Bulk (Transação)</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <i>Ou faz tudo, ou não faz nada</i>
 try {db.characters.bulkWrite([
     {insertOne: {"document": {"_id":4, "char":"Dithras", "class":"barbarian", "lvl":4}}},
@@ -218,7 +218,7 @@ try {db.characters.bulkWrite([
 }catch(e) {print(e);}
 </code></pre></small><br>
             <h4>Cursor (Variável)</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 var myCursor = db.users.find( {type:2} );
 myCursor
 
@@ -243,7 +243,7 @@ var myFirstDocument = myCursor.hasNext() ? myCursor.next() : null;
 myCursor.objsLeftInBatch(); //com if's
 </code></pre></small><br>
             <h4>Import de dados CSV(Excel)</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <i>Importa arquivo para determinada collection de db. Headerline pega os títulos das colunas e transforma em nome de parâmetros nos documents.<br>'ubs.csv' baixado de http://www.dados.gov.br/dataset/pac_ubs</i>
 mongoimport -d dbNome -c nomeCollection --type csv --file arquivo.csv --headerline
 </code></pre></small>
@@ -253,7 +253,7 @@ mongoimport -d dbNome -c nomeCollection --type csv --file arquivo.csv --headerli
 
 <!--Rodapé-->
 <div class="row">
-    <div class="col-sm-12 text-center bg-dark" id="rodape">
+    <div class="col-sm-12 text-center" id="rodape">
         <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
     </div>
 </div>

@@ -9,15 +9,15 @@
     <link rel="stylesheet" href="../estilo.css">
     <title>UB Social</title>
 </head>
-<body id="fundo">
+<body>
 <div class="container-fluid">
 
 
     <div class="row">
         <div class="col-sm-12" id="menu">
-            <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark shadow" id="navMenu">
+            <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="../index.html"><img src="../anexos/icons/logoBranco.png" class="d-inline-block align-text-top" id="logo"> UB Social</a>
+                    <a class="navbar-brand" href="../index.html"><img src="../anexos/icons/logo.png" class="d-inline-block align-text-top" id="logo"> UB Social</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav">
@@ -77,7 +77,7 @@
             <div class="col-sm-12">
                 <br><h4>Dockerfile</h4>
                 Arquivo texto de nome <i>Dockerfile</i>, com configurações da Imagem, para sua construção. Tais comandos precisam ser inseridos dentro do mesmo. Facilmente compartilhado e pode ser registrado no Docker Hub. Registry é um repositório de imagens (Ex: Portus (SUSE), Harbor, Nexus, Docker Hub (Público)). Para subir imagens (Push), é necessário login no docker hub, com comando <i>docker login</i>.
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>MODELO:</b>
 FROM nomeImagens:versaoImagens
 ENV variaveisAmbiente=valor
@@ -104,7 +104,7 @@ CMD flask run --host 0.0.0.0
             <div class="col-sm-12">
                 <br><h4>Comandos Docker</h4>
                 Executar comandos no diretório raíz do projeto.
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>Criar Container:</b> docker run -d --name nomeContainer nomeImagem (Também acessa e baixa, se não há na máquina)
     <b>Ex:</b> docker run -d --rm --name meuUbuntu ubuntu
 <b>Criar e entrar no container:</b> docker run -ti nomeImagem (Ctrl+p+q sai do shell sem matar container)
@@ -163,7 +163,7 @@ idContainer pode também ser substituido pelo nome
             <div class="col-sm-12">
                 <br><h4>Volume</h4>
                 <p id="textoPost">Local/pasta onde ficam os dados do container, que podem ser transferidos, além do ciclo de seu vida (Ex: Dados de BD, códigos e arquivos, etc), e compartilhados com demais containers (Ao adicionar container, muda-se a porta do host docker. Cada container funciona em uma porta). Pode ser diretório local ou externo. Um Volume pode ser usado por 1 ou mais Containers. Por padrão, Volumes no Docker ficam em '/var/lib/docker/volumes/'. Para alterar o diretório padrão, basta, ao criar Container, trocar o nome do Volume pelo seu novo diretório (<i>docker container run --name db -v /outro/diretorio/:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=root -d mysql</i>).</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>Criar Volume:</b> docker volume create nomeVolume
 <b>Listar Volumes:</b> docker volume ls
 <b>Inspecionar Volume:</b> docker volume inspect nomeVolume
@@ -217,7 +217,7 @@ idContainer pode também ser substituido pelo nome
             <div class="col-sm-12">
                 <br><h4>Limitar recursos de hardware</h4>
                 <p id="textoPost">O uso de CPU será proporcional à quantidade de containers presentes, com relação ao percentual da soma de CPU entre os mesmos. Ex: 3 containers, abc com 1024 (50%), def com 512 (25%) e ghi com 512 (50%). Cada unitário desses valores será 1 cpu-shares. Ex: container abc possui 1024 cpu-shares.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>Alterar limite de memória do container (parado):</b> docker run -ti -m 512m --name nomeContainer debian (512 MegaBytes)
 <b>Alterar limite de memória do container (execução):</b> docker update -m 256m idContainer
 <b>Alterar limite de CPU do container (parado):</b> docker run -ti --cpu-shares 1024 --name nomeContainer debian
@@ -264,7 +264,7 @@ idContainer pode também ser substituido pelo nome
                 </ul>
                 
                 <p><b>Exemplo docker-compose.yml:</b></p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 version: "3.7"
 services:
     app:
@@ -315,7 +315,7 @@ volumes:
 
 <!--Rodapé-->
 <div class="row">
-    <div class="col-sm-12 text-center bg-dark" id="rodape">
+    <div class="col-sm-12 text-center" id="rodape">
         <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
     </div>
 </div>

@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../../estilo.css">
     <title>UB Social</title>
 </head>
-<body id="fundo">
+<body>
 <div class="container-fluid">
 
     <div class="row">
@@ -24,7 +24,7 @@
             <p id="textoPost">Necessário ter o XAMPP executando, criar diretório no <i>htdocs</i> para armazenar os códigos. Após, crie, neste diretório, a pasta <b>uploads</b>, onde os arquivos de upload ficarão armazenados. Em seguida, execute o arquivo SQL no <i>phpmyadmin</i>. Por fim, execute os códigos abaixo. Mantenha a atenção com o tamanho do arquivo em upload, pois, em alguns casos, pode ser necessária realocação de maior espaço no banco de dados.</p>
             <br>
             <h4>banco.sql</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 CREATE DATABASE phpimg;
 CREATE TABLE arquivo (
     id INTEGER AUTO_INCREMENT PRIMARY KEY,
@@ -33,7 +33,7 @@ CREATE TABLE arquivo (
 );
 </code></pre></small><br>
             <h4>upload.php</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 &lt;?php
     $db = new PDO('mysql:host=localhost;dbname=phpimg;charset=utf8','root','');
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -56,7 +56,7 @@ CREATE TABLE arquivo (
 </code></pre></small><br>
             <h4>Upload sem conexão com BD</h4>
             <p id="textoPost">Caso precise somente realizar upload, sem a necessidade de gravar em base de dados, segue outro exemplo de código, <b>upload.php</b>, envolvendo a mesma arquitetura de diretórios.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 &lt;?php
     $name = $_FILES['arquivo']['name'];
     $size = $_FILES['arquivo']['size'];
@@ -83,7 +83,7 @@ CREATE TABLE arquivo (
 
 <!--Rodapé-->
 <div class="row">
-    <div class="col-sm-12 text-center bg-dark" id="rodape">
+    <div class="col-sm-12 text-center" id="rodape">
         <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
     </div>
 </div>

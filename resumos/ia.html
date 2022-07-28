@@ -9,15 +9,15 @@
     <link rel="stylesheet" href="../estilo.css">
     <title>UB Social</title>
 </head>
-<body id="fundo">
+<body>
 <div class="container-fluid">
 
 
     <div class="row">
         <div class="col-sm-12" id="menu">
-            <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark shadow" id="navMenu">
+            <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="../index.html"><img src="../anexos/icons/logoBranco.png" class="d-inline-block align-text-top" id="logo"> UB Social</a>
+                    <a class="navbar-brand" href="../index.html"><img src="../anexos/icons/logo.png" class="d-inline-block align-text-top" id="logo"> UB Social</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav">
@@ -155,7 +155,7 @@
                 <li><b>Atributos Meta / Classe</b>: Risco (Baixo, moderado ou alto) - <i>Variáveis Dependentes</i></li>
             </ul>
             <div class="table-responsive">
-                <table class="table table-dark table-striped table-sm">
+                <table class="table table-striped table-sm">
                     <thead>
                         <tr>
                             <th scope="col" class="table-primary">Histórico de crédito</th>
@@ -223,7 +223,7 @@
 
             <p><b>1. Importar libraries:</b></p>
             <p id="textoPost">Importar libraries plotly (Geração de gráficos dinâmicos), pandas (Gerenciamento de arquivos CSV), numpy, seaborn e matplotlib.pyplot (Visualização de gráficos), plotly.express (Chamará a library plotly).</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 !pip install plotly --upgrade
 import pandas as pd
 import numpy as np
@@ -236,7 +236,7 @@ import plotly.express as px
             <p class="text-muted" id="textoPost">Objetivo da IA é dizer se a pessoa, de acordo com suas condições, pagará ou não o crédito (default 0 ou 1).</p>
             <a class="btn btn-link" id="btnLink" href="https://github.com/mateusschwede/ubsocialIA/blob/main/Bases%20de%20dados.zip" target="_blank">Acessar BD Risco de Crédito (credit_data.csv)</a>
             <div class="table-responsive">
-                <table class="table table-dark table-bordered table-sm">
+                <table class="table table-bordered table-sm">
                     <thead>
                         <tr>
                             <th scope="col" class="table-secondary"></th>
@@ -270,7 +270,7 @@ import plotly.express as px
             <small class="text-muted">index (Número do registro no dataframe)<br>clientid - <i>Variável categórica nominal</i><br>income (Renda anual) - <i>Variável numérica contínua</i><br>age - <i>Variável numérica contínua</i><br>loan (Dívida) - <i>Variável numérica contínua</i><br>Default 0: Pagou o empréstimo - <i>Variável numérica discreta</i><br>Default 1 (Devendo): Não pagou o empréstimo - <i>Variável numérica discreta</i></small>
             
             <br><br><p><b>2. Exploração dos dados:</b></p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 base_credit = pd.read_csv('/content/credit_data.csv') <span class="text-muted">#Upload no Colab do CSV com dados (Atente-se ao local do upload '/content/')</span>
 base_credit <span class="text-muted">#Ver dados</span>
 base_credit_head(10) <span class="text-muted">#Ver 10 primeiros dados</span>
@@ -281,7 +281,7 @@ base_credit[base_credit['loan'] &gt;= 1.377] <span class="text-muted">#Mostrar p
 </code></pre></small>
             
             <p><b>3. Visualização em gráficos:</b></p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 np.unique(base_credit['default']) <span class="text-muted">#Mostrar quais os números presentes nessa classe (0 quando a pessoa paga o empréstimo, 1 quando não paga o empréstimo)</span>
 np.unique(base_credit['default'], return_counts=True) <span class="text-muted">#Ver quantos registros possui cada classe (Zeros e Uns)</span>
 sns.countplot(x = base_credit['default']); <span class="text-muted">#Mostrar dados acima em gráfico de barras (Gráfico 1)</span>
@@ -300,7 +300,7 @@ grafico.show() <span class="text-muted">#Imagem dos gráficos com colorações i
 
             <br><br><p><b>4.1. Tratamento de valores inconsistentes:</b></p>
             <p id="textoPost">No gráfico acima, pode-se perceber a existência de idades negativas, significando dados equivocados, ou seja, inconsistentes. Situações como essa geralmente são advindas de imerfeições do sistema, onde há possibilidade do usuário informar determinado valor inconsistente.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 base_credit.loc[base_credit['age'] &lt; 0] <span class="text-muted">#Localizar registros (Ou base_credit[base_credit['age'] &lt; 0])</span>
 
 <span class="text-muted">#Apagar coluna inteira do registro inconsistente</span>
@@ -323,7 +323,7 @@ base_credit.loc[base_credit['age'] &lt; 0] <span class="text-muted">#Verificar s
 
             <p><b>4.2. Tratamento de valores faltantes</b></p>
             <p id="textoPost">No dataframe há registros de clientes que não informaram a idade.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 base_credit.isnull() <span class="text-muted">#Verificar se há dados faltantes (True é faltante)</span>
 base_credit.isnull().sum() <span class="text-muted">#Mostrará quantidade de dados faltantes</span>
 base_credit.loc[pd.isnull(base_credit['age'])] <span class="text-muted">#Ver quais linhas possuem idade faltante</span>
@@ -337,7 +337,7 @@ base_credit.loc[base_credit['clientid'].isin([29,31,32])]
 
             <p><b>5. Separação entre previsores e classes:</b></p>
             <p id="textoPost">Variável <b>x</b> armazenará somente atributos previsores (income, age e loan) e outra variável <b>y</b> para armazenar somente a classe. Geralmente atributos únicos, como id's, são descartados nessa etapa.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 X_credit = base_credit.iloc[:,1:4].values <span class="text-muted">#':' Indica selecionar todas as linhas do dataframe, '1:4' indica selecionar da coluna 1 até a 3</span>
 y_credit = base_credit.iloc[:, 4].values <span class="text-muted">#Indica somente coluna 4</span>
 X_credit <span class="text-muted">#Ver conteúdo da variável ('y_credit' ver variável y, 'type(X_credit)' para ver o tipo)</span>
@@ -349,7 +349,7 @@ X_credit <span class="text-muted">#Ver conteúdo da variável ('y_credit' ver va
                 <li>Padronização(Standardisation): <span style="color: rgb(210, 93, 93);">x = ((x-media(x)) / desvioPadrao(x))</span></li>
                 <li>Normalização(Normalization): <span style="color: rgb(210, 93, 93);">x = ((x-min(x)) / (max(x)-min(x)))</span></li>
             </ul>
-<small><pre id="codigo"><code>
+<small><pre><code>
 X_credit[:,0].min(), X_credit[:,1].min(), X_credit[:,2].min() <span class="text-muted">#Selecionar valores mínimos de cada atributo</span>
 X_credit[:,0].max(), X_credit[:,1].max(), X_credit[:,2].max() <span class="text-muted">#Seelcionar valores máximos de cada atributo</span>
 
@@ -367,7 +367,7 @@ X_credit
             <p class="text-muted" id="textoPost">Objetivo da IA é dizer se a pessoa, de acordo com suas condições, ganhará ou não mais que 50mil por ano (income &lt;=50K ou &gt;50K).</p>
             <a class="btn btn-link" id="btnLink" href="https://github.com/mateusschwede/ubsocialIA/blob/main/Bases%20de%20dados.zip" target="_blank">Acessar BD Censo (census.csv)</a>
             <div class="table-responsive">
-                <table class="table table-dark table-bordered table-sm">
+                <table class="table table-bordered table-sm">
                     <thead>
                         <tr>
                             <th scope="col" class="table-secondary"></th>
@@ -449,7 +449,7 @@ X_credit
             <small class="text-muted">age - <i>Variável numérica discreta</i><br>workclass (Classe de trabalho) - <i>Variável categórica nominal</i><br>final-weight (Pontuação segundo censo) - <i>Variável numérica contínua</i><br>education - <i>Variável categórica ordinal</i><br>education-num (Nº de anos de estudo) - <i>Variável numérica discreta</i><br>marital-status, relationship, race, sex - <i>Variáveis categóricas nominais</i><br>capital-gain, capital-loos (Ganho/perda de capital) - <i>Variáveis numéricas contínuas</i><br>hour-per-week (Horas trabalhadas por semana) - <i>Variável numérica discreta</i><br>native-country - <i>Variável categórica nominal</i><br>income (Renda/Ganho por ano) - <i>Variável categórica ordinal</i></small>
             
             <br><br><p><b>2. Exploração dos dados:</b></p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 base_census = pd.read_csv('/content/census.csv')
 base_census48.000000
 base_census.describe()
@@ -457,7 +457,7 @@ base_census.isnull().sum() <span class="text-muted">#Verificar se há registros 
 </code></pre></small>
 
             <p><b>3. Visualização em gráficos:</b></p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 np.unique(base_census['income'], return_counts=True) <span class="text-muted">#Ver contagem de dados para cada classe</span>
 sns.countplot(x = base_census['income']); <span class="text-muted">#Ver em gráfico de barras (Gráfico 1)</span>
 plt.hist(x = base_census['age']); <span class="text-muted">#Ver em histograma de idades (Gráfico 2)</span>
@@ -490,7 +490,7 @@ grafico.show() <span class="text-muted">#Ver gráfico dinâmico de categorias pa
             <br><img src="../anexos/ia/pxGrafico6.jpg" title="px.parallel_categories(base_census, dimensions=['education','income'])" class="img-fluid" width="600px">
             
             <br><br><p><b>4. Separação entre previsores e classes:</b></p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 base_census.columns
 X_census = base_census.iloc[:,0:14].values <span class="text-muted">#Criar variável de previsores (Todas linhas, da coluna 0 à 14 - age à native-country)</span>
 X_census <span class="text-muted">#X_census[0]</span>
@@ -500,7 +500,7 @@ y_census
 
             <p><b>5.1. Tratamento de atributos categóricos (LabelEncoder):</b></p>
             <p id="textoPost">Neste caso, como há atributos categóricos (String), será necessário convertê-los em dados numéricos: Em LabelEncoder, cada tipo de valor no registro será transformado em um número de referência.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 from sklearn.preprocessing import LabelEncoder
 label_encoder_teste = LabelEncoder()
 X_census[:,1]
@@ -534,7 +534,7 @@ X_census
 
             <p><b>5.2. Tratamento de atributos categóricos (OneHotEncoder):</b></p>
             <p id="textoPost">Um dos problemas de somente utilizar LabelEncoder são as inúmeras categorias e valores muito amplos (Algoritmo de IA considerará atributo 20 mais importante que o 3, somente por razão do nº 20 ser maior). No OneHotEncoder, cada tipo de registro (Categoria) receberá um número/código identificador (Do tipo Dummy), de acordo com a quantidade de tipos de registros neste atributo (<u>Ex</u>: Carros Gol, Pálio e Uno: São 3 tipos de registros do atributo 'Carro', então Gol será 100, Pálio será 010 e Uno será 001).</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 len(np.unique(base_census['workclass'])) <span class="text-muted">#9 categorias diferentes: Códigos de 9 colunas (<u>Ex:</u> State-gov 10000000)</span>
 len(np.unique(base_census['occupation'])) <span class="text-muted">#15 categorias diferentes: Códigos de 10 colunas</span>
 
@@ -548,7 +548,7 @@ X_census.shape <span class="text-muted">#Aumentou-se para 108 colunas com o OneH
 </code></pre></small>
 
             <p><b>6. Escalonamento dos atributos:</b></p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 from sklearn.preprocessing import StandardScaler
 
 scaler_census = StandardScaler()
@@ -561,7 +561,7 @@ X_census[0] <span class="text-muted">#Converterá os atributos numéricos para o
             <p id="textoPost">Após isso, para fazer a classificação de novos registros à base de dados, submete-se o mesmo para o Modelo do Algoritmo e gerará, com isso, a resposta da classificação. Para sabe a classe que ao qual o registro será classificado, tem-se a <b>base de dados de treinamento</b> e a <b>base de dados de teste</b>, onde, em ambas, a classe de resultado já está informada e os registros são bem diferentes quando comparados uma a outra (Nunca pode testar o algoritmo com os mesmos registros de seu treinamento). Então, submete-se a base de dados do treinamento ao algoritmo (Base de dados de treinamento sempre é bem maior que a de teste), onde o algoritmo gerará o Modelo. Após isso, testa-se o algoritmo conferindo seus resultados com a base de dados de teste (Base bem diversificada, para a maioria de possibilidades em teste).</p>
             <p id="textoPost">Com o teste pronto, o supervisor saberá identificar, usando como base os registros de teste, quantos o algoritmo acertou e errou (<u>Ex</u>: O 1º registro está classificado na base de teste como alto, e o algoritmo identificou como Alto (<i>Acerto</i>). O 2º registro está classificado na base de teste como Moderado, e o algoritmo identificou como Baixo (<i>Erro</i>)). Assim, medindo acertos/erros em percentuais, tem-se a medição da eficiência do algoritmo de IA.</p>
             <p><b>Divisão das bases em Treinamento e Teste:</b></p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 from sklearn.model_selection import train_test_split
 
 <span class="text-muted">#Dividir base Risco de Crédito</span>
@@ -577,7 +577,7 @@ X_census_teste.shape, y_census_teste.shape <span class="text-muted">#4855 regist
 </code></pre></small>
 
             <p><b>Salvar bases:</b></p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 import pickle
 
 <span class="text-muted">#Salvar em disco, wb (Write): Criará arquivos 'credit.pkl' e 'census.pkl'</span>
@@ -594,7 +594,7 @@ with open('census.pkl', mode='wb') as f:
             <p><b>Montagem da tabela de probabilidade:</b></p>
             <p id="textoPost">Para tal, precisa-se fazer a contagem do risco, onde a classe (Risco de Crédito) fica à esquerda superior, seguida de seus atributos. Conforme histórico de 14 ítens, tem-se 6 considerados 'Alto' (6/14), 3 'Moderado' e 5 'Baixo'. Baseando-se no Risco de Crédito, tem-se 5 'Boa', 5 'Desconhecida' e 4 'Ruim'. Com isso, intercalando os valores nas intersecções, analisa-se quantas vezes tem-se História de crédito 'Boa' e Risco 'Alto' (1/6, onde 1 é 'Boa' e 'Alto', e 6 o valor total de 'Altos'), seguindo respectivamente, para os demais atributos nessa mesma lógica. Então, a soma de todos os numeradores preenchidos deve ser igual ao valor total no valor da classe na situação em questão (5 'Boa', conforme tabela). Na mesma lógica, a soma dos numeradores para cada valor do atributo da classe, com relação ao seu valor total naquela situação, deve ser a mesma com seu valor total (6 'Alto', conforme tabela).</p>
             <div class="table-responsive">
-                <table class="table table-dark table-striped table-sm table-bordered text-center align-middle">
+                <table class="table table-striped table-sm table-bordered text-center align-middle">
                     <thead>
                         <tr>
                             <th scope="col" class="table-primary"></th>
@@ -659,7 +659,7 @@ with open('census.pkl', mode='wb') as f:
                         </tr>
                     </tbody>
                 </table>
-                <table class="table table-dark table-striped table-sm table-bordered text-center" id="tabRiscoCredito">
+                <table class="table table-striped table-sm table-bordered text-center" id="tabRiscoCredito">
                     <thead>
                         <tr>
                             <th scope="col" class="table-primary">História do Crédito</th>
@@ -804,7 +804,7 @@ with open('census.pkl', mode='wb') as f:
 
             <br><h5>Base de Dados (Risco de Crédito - Pequena)</h5>
             <p class="text-muted" id="textoPost">Aplicação de Naïve Bayes para classificação de Risco de Crédito - Modelo teste.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 from sklearn.naive_bayes import GaussianNB <span class="text-muted">#Importar library Naïve Bayes</span>
 <span class="text-muted">A library sklearn deixou de mostrar a tabela de probabilidades construída automaticamente. Mas linguagens como R há a possibilidade.</span>
 
@@ -853,7 +853,7 @@ naive_risco_credito.class_prior_ <span class="text-muted">#Mostrar probabilidade
 
             <br><h5>Base de Dados (Risco de Crédito - credit data)</h5>
             <p class="text-muted" id="textoPost">Aplicação de Naïve Bayes para classificação de Risco de Crédito.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <span class="text-muted">#Importar library e fazer upload do arquivo 'credit.pkl' com os dados:</span>
 import pickle
 with open('credit.pkl', 'rb') as f:
@@ -892,7 +892,7 @@ print(classification_report(y_credit_teste, previsoes))
 
             <br><h5>Base de Dados (Censo)</h5>
             <p class="text-muted" id="textoPost">Aplicação de Naïve Bayes para classificação de valor salarial.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <span class="text-muted">#Upload do arquivo com dados</span>
 with open('census.pkl', 'rb') as f:
     X_census_treinamento, y_census_treinamento, X_census_teste, y_census_teste = pickle.load(f)
@@ -973,7 +973,7 @@ print(classification_report(y_census_teste, previsoes))
 
             <br><h5>Base de Dados (Risco de Crédito - Pequena)</h5>
             <p class="text-muted" id="textoPost">Aplicação de Árvore de Decisão para classificação de Risco de Crédito - Modelo teste.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <span class="text-muted">#Importar libraries e upload do arquivo 'credit.pkl' com os dados e LabelEncoder aplicado:</span>
 from sklearn.tree import DecisionTreeClassifier
 import pickle
@@ -1006,7 +1006,7 @@ previsoes <span class="text-muted">#Retornará, respectivamente, Baixo e Alto</s
             
             <br><br><h5>Base de Dados (Risco de Crédito - credit data)</h5>
             <p class="text-muted" id="textoPost">Aplicação de Árvore de Decisão para classificação de Risco de Crédito.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <span class="text-muted">#Upload do arquivo 'credit.pkl' do credit data com dados e padronização aplicada:</span>
 with open('credit.pkl', 'rb') as f:  
     X_credit_treinamento, y_credit_treinamento, X_credit_teste, y_credit_teste = pickle.load(f)
@@ -1048,7 +1048,7 @@ fig.savefig('arvore_credit.png') <span class="text-muted">#Salvar imagem da Árv
 
             <br><h5>Base de Dados (Censo)</h5>
             <p class="text-muted" id="textoPost">Aplicação de Árvore de Decisão para classificação de valor salarial.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <span class="text-muted">#Upload do arquivo 'census.pkl' do credit data com dados e OneHotEncoder aplicado:</span>
 with open('census.pkl', 'rb') as f:  
     X_census_treinamento, y_census_treinamento, X_census_teste, y_census_teste = pickle.load(f)
@@ -1082,7 +1082,7 @@ print(classification_report(y_census_teste, previsoes))
 
             <br><h5>Base de Dados (Risco de Crédito - credit data)</h5>
             <p class="text-muted" id="textoPost">Aplicação de Árvore de Decisão, com Random Forest, para classificação de Risco de Crédito.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <span class="text-muted">#Importar libraries</span>
 from sklearn.ensemble import RandomForestClassifier
 import pickle
@@ -1118,7 +1118,7 @@ print(classification_report(y_credit_teste, previsoes)) <span class="text-muted"
 
             <br><h5>Base de Dados (Censo)</h5>
             <p class="text-muted" id="textoPost">Aplicação de Árvore de Decisão, com Random Forest, para classificação de valor salarial.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <span class="text-muted">#Importar libraries</span>
 from sklearn.ensemble import RandomForestClassifier
 import pickle
@@ -1165,7 +1165,7 @@ print(classification_report(y_census_teste, previsoes))
             <br><h5>OneR</h5>
             <p id="textoPost">OneRules, gerará 1 regra baseada em 1 atributo mais importante. Submetendo tal algoritmo na base Risco de Crédito, utilizando como exemplo os dados da base de risco de crédito (<a href="#tabRiscoCredito">Aqui</a>), gerará a seguinte tabela, onde o atributo 'Renda' foi escolhido como principal, pois há menor chance de erro:</p>
             <div class="table-responsive">
-                <table class="table table-dark table-striped table-sm table-bordered text-center align-middle">
+                <table class="table table-striped table-sm table-bordered text-center align-middle">
                     <thead>
                         <tr>
                             <th scope="col" class="table-primary">Atributo</th>
@@ -1261,7 +1261,7 @@ print(classification_report(y_census_teste, previsoes))
 
 <!--Rodapé-->
 <div class="row">
-    <div class="col-sm-12 text-center bg-dark" id="rodape">
+    <div class="col-sm-12 text-center" id="rodape">
         <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
     </div>
 </div>
@@ -1272,7 +1272,7 @@ print(classification_report(y_census_teste, previsoes))
 
 <!-- EXEMPLO TABLE
 <div class="table-responsive">
-    <table class="table table-dark table-striped table-sm table-bordered text-center align-middle">
+    <table class="table table-striped table-sm table-bordered text-center align-middle">
         <thead>
             <tr>
                 <th scope="col" class="table-primary"></th>

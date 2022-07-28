@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../../estilo.css">
     <title>UB Social</title>
 </head>
-<body id="fundo">
+<body>
 <div class="container-fluid">
 
     <div class="row">
@@ -35,7 +35,7 @@
             
             <br>
             <p><b><span class="text-muted">(Editar array e inserir trechos)</span> blog/settings.py</b>:</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -52,7 +52,7 @@ LOGOUT_REDIRECT_URL='login'
 
             <br>
             <p><b>blog/urls.py</b>:</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 from django.contrib import admin
 from django.urls import path, include
 
@@ -65,7 +65,7 @@ urlpatterns = [
 
             <br>
             <p><b>main/templates/registration/login.html</b>:</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 &lt;h1&gt;Login&lt;/h1&gt;
 {% if messages %}
     {% for message in messages %}
@@ -83,7 +83,7 @@ urlpatterns = [
 
             <br>
             <p><b>main/templates/registration/register.html</b>:</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 &lt;h1&gt;Registrar&lt;/h1&gt;
 {% if messages %}
     {% for message in messages %}
@@ -101,7 +101,7 @@ urlpatterns = [
 
             <br>
             <p><b>main/templates/home.html</b>:</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 &lt;h1&gt;UB Social&lt;/h1&gt;
 
 {% if user.is_authenticated %}
@@ -116,7 +116,7 @@ urlpatterns = [
 
             <br>
             <p><b>main/urls.py</b>:</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 from django.urls import path
 from . import views
 
@@ -128,7 +128,7 @@ urlpatterns=[
 
             <br>
             <p><b>main/views.py</b>:</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 from django.shortcuts import render
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
@@ -151,7 +151,7 @@ def register(request):
 
 <!--Rodapé-->
 <div class="row">
-    <div class="col-sm-12 text-center bg-dark" id="rodape">
+    <div class="col-sm-12 text-center" id="rodape">
         <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
     </div>
 </div>

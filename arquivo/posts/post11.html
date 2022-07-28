@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../../estilo.css">
     <title>UB Social</title>
 </head>
-<body id="fundo">
+<body>
 <div class="container-fluid">
 
     <div class="row">
@@ -39,7 +39,7 @@
             <a href="https://github.com/mateusschwede/api_rest_php" class="btn btn-link" id="btnLink" target="_blank">Github projeto</a>
 
             <br><br><h4>banco.sql</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 CREATE DATABASE serie_login;
 CREATE TABLE user (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -51,7 +51,7 @@ INSERT INTO user(email,password,name) VALUES ("ubsocial@gmail","123","ubsocial")
 </code></pre></small>
 
             <br><h4>App/Models/User.php</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 &lt;?php
 namespace App\Models;
 
@@ -96,7 +96,7 @@ class User {
 </code></pre></small>
 
             <br><h4>App/Services/UserService.php</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 &lt;?php
 namespace App\Services;
 use App\Models\User;
@@ -127,7 +127,7 @@ class UserService {
 </code></pre></small>
 
             <br><h4>public_html/.htaccess</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
@@ -135,7 +135,7 @@ RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
 </code></pre></small>
 
             <br><h4>public_html/client.php</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 &lt;?php
 $url = 'http://localhost/projetos/api_rest_php/public_html/api'; //Edite conforme diretório do projeto
 $class = '/user';
@@ -157,7 +157,7 @@ var_dump($response['data'][1]['email']); //Mostra email do usuário index 1
 </code></pre></small>
 
             <br><h4>public_html/index.php</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 &lt;?php
 header('Content-Type: application/json');
 require_once '../vendor/autoload.php';
@@ -187,7 +187,7 @@ if ($_GET['url']) {
 </code></pre></small>
 
             <br><h4>composer.json</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 {
     "autoload": {
         "psr-4": {
@@ -202,7 +202,7 @@ if ($_GET['url']) {
 </code></pre></small>
 
             <br><h4>config.php</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 &lt;?php
 const DBDRIVE = 'mysql';
 const DBHOST = 'localhost';
@@ -217,7 +217,7 @@ const DBPASS = '';
 
 <!--Rodapé-->
 <div class="row">
-    <div class="col-sm-12 text-center bg-dark" id="rodape">
+    <div class="col-sm-12 text-center" id="rodape">
         <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
     </div>
 </div>

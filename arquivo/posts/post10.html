@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../../estilo.css">
     <title>UB Social</title>
 </head>
-<body id="fundo">
+<body>
 <div class="container-fluid">
 
     <div class="row">
@@ -24,7 +24,7 @@
             <a href="https://github.com/mateusschwede/InvistAi" class="btn btn-link" id="btnLink" target="_blank">Login avançado</a>
 
             <br><br><h4>banco.sql</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 CREATE DATABASE loginphp;
 USE loginphp;
 CREATE TABLE cliente (
@@ -36,7 +36,7 @@ INSERT INTO cliente(nome,senha) VALUES ("fulano",MD5(123));
 </code></pre></small>
 
             <br><h4>conexao.php</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 &lt;?php
     try {
         $db = new PDO('mysql:host=localhost;dbname=loginphp;charset=utf8','root','');
@@ -46,14 +46,14 @@ INSERT INTO cliente(nome,senha) VALUES ("fulano",MD5(123));
 </code></pre></small>
 
             <br><h4>offline.php</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 &lt;h1&gt;Erro ao conectar-se com a base de dados&lt;/h1&gt;
 &lt;p&gt;Verifique sua conexão com o banco de dados e tente novamente&lt;/p&gt;
 &lt;a href="index.php"&gt;Recarregar&lt;/a&gt;
 </code></pre></small>
 
             <br><h4>index.php</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 &lt;?php
     require_once 'conexao.php';
 
@@ -84,7 +84,7 @@ INSERT INTO cliente(nome,senha) VALUES ("fulano",MD5(123));
 </code></pre></small>
 
             <br><h4>acessoNegado.php</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 &lt;?php
     session_start();
     session_unset();
@@ -96,7 +96,7 @@ INSERT INTO cliente(nome,senha) VALUES ("fulano",MD5(123));
 </code></pre></small>
 
             <br><h4>logado.php</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 &lt;?php
     require_once 'conexao.php';
     session_start();
@@ -109,7 +109,7 @@ INSERT INTO cliente(nome,senha) VALUES ("fulano",MD5(123));
 </code></pre></small>
 
             <br><h4>logout.php</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 &lt;?php
     session_start();
     unset($_SESSION['nome']);
@@ -127,7 +127,7 @@ INSERT INTO cliente(nome,senha) VALUES ("fulano",MD5(123));
 
 <!--Rodapé-->
 <div class="row">
-    <div class="col-sm-12 text-center bg-dark" id="rodape">
+    <div class="col-sm-12 text-center" id="rodape">
         <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
     </div>
 </div>

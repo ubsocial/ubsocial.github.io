@@ -9,15 +9,15 @@
     <link rel="stylesheet" href="../estilo.css">
     <title>UB Social</title>
 </head>
-<body id="fundo">
+<body>
 <div class="container-fluid">
 
 
     <div class="row">
         <div class="col-sm-12" id="menu">
-            <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark shadow" id="navMenu">
+            <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="../index.html"><img src="../anexos/icons/logoBranco.png" class="d-inline-block align-text-top" id="logo"> UB Social</a>
+                    <a class="navbar-brand" href="../index.html"><img src="../anexos/icons/logo.png" class="d-inline-block align-text-top" id="logo"> UB Social</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav">
@@ -54,7 +54,7 @@
             </ul>
 
             <br><h4>Comandos básicos</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>Instalação (Debian):</b> sudo apt install vagrant <span class="text-muted">#Comando '<i>vagrant version</i>' para verificar instalação, ou 'vagrant -h' para ajuda. Também opção de Download na página oficial.</span>
 <b>vagrant init</b>: Gerar novo Vagrantfile baseado em uma Box ('-m' após init especifica criação mínima. '-f' para sobrescrever criação)
 <b>vagrant up</b>: Iniciar VM e executadar Provisioner (Subir ambiente. Pode-se relacionar com Provider, como '<i>vagrant up --provider=vmware_fusion</i>')
@@ -74,7 +74,7 @@
 
             <br><h4>Vagrantfile</h4>
             <p id="textoPost">Estrutura do arquivo Vagrantfile e exemplo passo a passo de sua construção (Comando '<i>vagrant validate</i>' valida o Vagrantfile):</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>1.<u>Estrutura básica</u>:</b>
 <b>Vagrant.configure("2") do |config|</b>
     <span class="text-muted">Conteúdo aqui</span>
@@ -113,7 +113,7 @@
 
             <br><h4>Synced Folders</h4>
             <p id="textoPost">O diretório em que encontra-se o Vagrantfile (Host), e o diretório '/vagrant' (Guest) são sincronizados por padrão. Para testar, crie, na VM, algo dentro do '/vagrant', saia da VM e vá ao diretório do Vagrantfile do Host para verificar se sua criação também encontra-se lá. Pode-se usar tipos personalizados, como NFS, RSync, SMB e via VirtualBox diretamente. Para modificar os padrões, segue linha de código no Vagrantfile:</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>Vagrant.configure("2") do |config|</b>
     config.vm.synced_folder "src/", "/srv/website" <span class="text-muted">#Diretório Host, diretório Guest</span>
 <b>end</b>
@@ -125,7 +125,7 @@ vagrant upload source [destination] [name|id]
 
             <br><h4>Vagrant Cloud</h4>
             <p id="textoPost">Pode-se interagir com o Vagrant Cloud, hospedando novos Boxes diretamente do mesmo. Para isso, precisa-se cadastro no Vagrant Cloud, conforme links acima. Pode-se interagir, inclusive, usando comandos 'cloud_init' no Vagrantfile. Os comandos abaixo entre colchetes são parâmetros opcionais. Os comandos abaixo possuem outros parâmetros de refinamento, que podem ser acessados na documentação oficial.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>Autenticação:</b>
 vagrant cloud auth login <span class="text-muted">#Informe dados conforme cadastro Vagrant Cloud. Use '<b>logout</b>' ao invés de login para fazer logout</span>
 vagrant cloud auth login --token ABCD1234 <span class="text-muted">#Mesmo comando, usando token de autenticação (Gerado nas configurações do site Vagrant Cloud)</span>
@@ -158,7 +158,7 @@ vagrant cloud publish briancain/supertest 1.0.0 virtualbox boxes/my/virtualbox.b
 
             <br><h4>Vagrant Share</h4>
             <p id="textoPost">Compartilhar ambiente Vagrant, via padrão/http/ssh.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>Instalação:</b>
 vagrant plugin install vagrant-share
 
@@ -175,7 +175,7 @@ vagrant connect --ssh NAME <span class="text-muted">#Criará IP estático para c
 
             <br><h4>Packages</h4>
             <p id="textoPost">Após criar o Vagrantfile, pode-se empacotá-lo para futuro compartilhamento, conforme códigos abaixo:</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>Empacotar Vagrantfile:</b>
 vagrant package [name|id]
 vagrant package --base idBox <span class="text-muted">#Gerará arquivo 'package.box', que poderá ser aberto com 'vagrant box add nomePacote.box'</span>
@@ -184,7 +184,7 @@ vagrant package --vagrantfile Vagrantfile.pkg <span class="text-muted">#Pacote d
 
             <br><h4>Plugins</h4>
             <p id="textoPost">Complementos personalizados para Boxes Vagrant</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>Instalar:</b>
 vagrant plugin install &lt;name&gt;
 vagrant plugin install /path/to/my-plugin.gem
@@ -202,7 +202,7 @@ vagrant plugin list
 
             <br><h4>Hardware</h4>
             <p id="textoPost">Pode-se configurar discos, memória, CPUs das Boxes, particionando-os e configurando-os de forma personalizada, via Vagrantfile, conforme trechos de comandos abaixo. Entre os tipos de discos, tem-se 'disk', 'dvd' e 'floppy'. Para remover o disco, precisa-se remover a linha no Vagrantfile e executar '<i>vagrant reload</i>'. Pode-se relacionar os discos com Providers, como VirtualBox, Hyper-V e VMWare.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>Definir discos:</b>
 config.vm.disk: disk, name: "backup", size: "10GB"
 config.vm.disk: disk, size: "100GB", primary: true
@@ -218,7 +218,7 @@ end
 
             <br><h4>Múltiplos Boxes</h4>
             <p id="textoPost">Criar ambiente com múltiplas máquinas, conforme exemplo abaixo:</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>Vagrant.configure("2") do |config|</b>
     config.vm.provision "shell", inline: "echo Hello"
 
@@ -237,7 +237,7 @@ vagrant ssh apache
 
             <br><h4>Snapshots</h4>
             <p id="textoPost">Snapshots preservam a VM em determinado estado/condições, assim como seus dados nela.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 vagrant snapshot save [vm-name] NAME <span class="text-muted">#Criar Snapshot (Similar: <i>vagrant snapshot push</i>)</span>
 vagrant snapshot restore [vm-name] NAME <span class="text-muted">#Restaurar Snapshot (Similar: <i>vagrant snapshot pop</i>)</span>
 vagrant snapshot delete [vm-name] NAME <span class="text-muted">#Deletar Snapshot</span>
@@ -246,7 +246,7 @@ vagrant snapshot list <span class="text-muted">#Listar Snapshots</span>
 
             <br><h4>Push</h4>
             <p id="textoPost">Publicar aplicação em determinado servidor. Primeiro, define-se o servidor e suas respectivas configurações, para então executar comando Push, conforme códigos abaixo:</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>1. Configurar Server:</b>
 config.push.define "staging", strategy: "ftp" do |push|
     push.host = "ftp.example.com"
@@ -289,7 +289,7 @@ vagrant push staging <span class="text-muted">#Se não especificar o nome acima 
                 <li>'type: :command': Executar antes/depois de Vagrant Command;</li>
                 <li>'type: :hook': Executar antes/depois de Vagrant Hook.</li>
             </ul>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>Executar comando após 'up':</b>
 config.trigger.after :up do |trigger|
     <span class="text-muted">Comandos aqui</span>
@@ -336,7 +336,7 @@ end
 </code></pre></small>
 
             <br><h4>Exemplo prático</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>1. Criar Vagrantfile</b>:
 vagrant init -m ubuntu/bionic64
 
@@ -377,7 +377,7 @@ curl 192.168.56.2 <span class="text-muted">#Acessará nginx da máquina Ubuntu. 
 
 <!--Rodapé-->
 <div class="row">
-    <div class="col-sm-12 text-center bg-dark" id="rodape">
+    <div class="col-sm-12 text-center" id="rodape">
         <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
     </div>
 </div>
