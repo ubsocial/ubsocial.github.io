@@ -1155,7 +1155,106 @@ print(classification_report(y_census_teste, previsoes))
 
             <br>
             <h4>----- Aprendizagem por Regras -----</h4>
-            <!--VER 55-->
+            <p id="texto-post">Funcionamento se dá por meio de geração de regras (Exemplos abaixo) e, após isso, novos registros serão submetido às mesmas.</p>
+            <ul>
+                <li>Se renda =&gt; 35000 E história de crédito = boa, ENTÃO risco = baixo</li>
+                <li>Se renda =&gt; 35000 E história de crédito = desconhecida, ENTÃO risco = baixo</li>
+                <li>Default (Padrão), ENTÃO risco = alto</li>
+            </ul>
+
+            <br><h5>OneR</h5>
+            <p id="textoPost">OneRules, gerará 1 regra baseada em 1 atributo mais importante. Submetendo tal algoritmo na base Risco de Crédito, utilizando como exemplo os dados da base de risco de crédito (<a href="#tabRiscoCredito">Aqui</a>), gerará a seguinte tabela, onde o atributo 'Renda' foi escolhido como principal, pois há menor chance de erro:</p>
+            <div class="table-responsive">
+                <table class="table table-dark table-striped table-sm table-bordered text-center align-middle">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="table-primary">Atributo</th>
+                            <th scope="col" class="table-primary">Quantidade</th>
+                            <th scope="col" class="table-primary">Regras</th>
+                            <th scope="col" class="table-primary">Erro</th>
+                            <th scope="col" class="table-primary">Total erro</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="table-primary" rowspan="3">História de Crédito</td>
+                            <td>Boa <span class="text-muted">5</span></td>
+                            <td>SE boa ENTÃO baixo</td>
+                            <td>2/5</td>
+                            <td rowspan="3">6/14</td>
+                        </tr>
+                        <tr>
+                            <td>Desconhecida <span class="text-muted">5</span></td>
+                            <td>SE desconhecida ENTÃO alto</td>
+                            <td>3/5</td>
+                        </tr>
+                        <tr>
+                            <td>Ruim <span class="text-muted">4</span></td>
+                            <td>SE ruim ENTÃO alto</td>
+                            <td>1/4</td>
+                        </tr>
+                        <tr>
+                            <td class="table-primary" rowspan="2">Dívida</td>
+                            <td>Alta <span class="text-muted">7</span></td>
+                            <td>SE alta ENTÃO alto</td>
+                            <td>3/7</td>
+                            <td rowspan="2">7/14</td>
+                        </tr>
+                        <tr>
+                            <td>Baixa <span class="text-muted">7</span></td>
+                            <td>SE baixa ENTÃO baixo</td>
+                            <td>4/7</td>
+                        </tr>
+                        <tr>
+                            <td class="table-warning" rowspan="3"><b>Renda</b></td>
+                            <td>&lt; 15000 <span class="text-muted">3</span></td>
+                            <td>SE &lt; 15000 ENTÃO alto</td>
+                            <td>0</td>
+                            <td rowspan="3">4/14</td>
+                        </tr>
+                        <tr>
+                            <td>&gt;= 15000 &lt;=35000 <span class="text-muted">4</span></td>
+                            <td>SE &gt;= 15000 &lt;=35000 ENTÃO alto</td>
+                            <td>2/4</td>
+                        </tr>
+                        <tr>
+                            <td>&gt; 35000 <span class="text-muted">7</span></td>
+                            <td>SE &gt; 35000 ENTÃO baixo</td>
+                            <td>2/7</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p id="textoPost">Para a montagem das regras acima, contabilizam-se as possibilidades de cada regra:</p>
+            <ul>
+                <li>SE boa ENTÃO alto <span class="text-muted">(1)</span></li>
+                <li>SE boa ENTÃO moderado <span class="text-muted">(1)</span></li>
+                <li>SE boa ENTÃO baixo <span class="text-muted">(3) - Escolhida</span>
+                    <ul>
+                        <li>ERRO: Para cada 5 <span class="text-muted">(Total)</span>, 2 podem ser errados <span class="text-muted">(2 fora da regra escolhida)</span> = 2/5</li>
+                    </ul>
+                </li>
+                <br>
+                <li>SE desconhecida ENTÃO alto <span class="text-muted">(2) - Escolhida (Não há critério em empates, aparece primeiro)</span>
+                    <ul>
+                        <li>ERRO: Para cada 5, 3 podem ser errados = 3/5</li>
+                    </ul>
+                </li>
+                <li>SE desconhecida ENTÃO moderado <span class="text-muted">(1)</span></li>
+                <li>SE desconhecida ENTÃO baixo <span class="text-muted">(2)</span></li>
+                <br>
+                <li>SE ruim ENTÃO alto <span class="text-muted">(3) - Escolhida</span>
+                    <ul>
+                        <li>ERRO: Para cada 4, 1 pode ser errado = 1/4</li>
+                    </ul>
+                </li>
+                <li>SE ruim ENTÃO moderado <span class="text-muted">(1)</span></li>
+                <li>SE ruim ENTÃO baixo <span class="text-muted">(0)</span></li>
+                <br>
+                <li>TOTAL ERRO: (2+3+1)/(5+5+4) = 6/14</li>
+            </ul>
+            <!--VER 57-->
         </div>
     </div>
 
