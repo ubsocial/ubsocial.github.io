@@ -1163,7 +1163,7 @@ print(classification_report(y_census_teste, previsoes))
             </ul>
 
             <br><h5>OneR</h5>
-            <p id="textoPost">OneRules, gerará 1 regra baseada em 1 atributo mais importante. Submetendo tal algoritmo na base Risco de Crédito, utilizando como exemplo os dados da base de risco de crédito (<a href="#tabRiscoCredito">Aqui</a>), gerará a seguinte tabela, onde o atributo 'Renda' foi escolhido como principal, pois há menor chance de erro:</p>
+            <p id="textoPost">OneRules, gerará 1 regra baseada em 1 atributo mais importante. Submetendo tal algoritmo na base Risco de Crédito, utilizando como exemplo os dados da base de risco de crédito (<a href="#tabRiscoCredito">Aqui</a>), gerará a seguinte tabela, onde o atributo 'Renda' foi escolhido como principal, pois há menor chance de erro (Total erro). Esse mesmo algoritmo pode ser testado no software Weka.</p>
             <div class="table-responsive">
                 <table class="table table-striped table-sm table-bordered text-center align-middle">
                     <thead>
@@ -1206,6 +1206,18 @@ print(classification_report(y_census_teste, previsoes))
                             <td>4/7</td>
                         </tr>
                         <tr>
+                            <td class="table-primary" rowspan="2">Garantias</td>
+                            <td>Nenhuma <span class="text-muted">11</span></td>
+                            <td>SE nenhuma ENTÃO alto</td>
+                            <td>5/11</td>
+                            <td rowspan="2">6/14</td>
+                        </tr>
+                        <tr>
+                            <td>Adequada <span class="text-muted">3</span></td>
+                            <td>SE adequada ENTÃO baixo</td>
+                            <td>1/3</td>
+                        </tr>
+                        <tr>
                             <td class="table-warning" rowspan="3"><b>Renda</b></td>
                             <td>&lt; 15000 <span class="text-muted">3</span></td>
                             <td>SE &lt; 15000 ENTÃO alto</td>
@@ -1226,8 +1238,9 @@ print(classification_report(y_census_teste, previsoes))
                 </table>
             </div>
 
-            <p id="textoPost">Para a montagem das regras acima, contabilizam-se as possibilidades de cada regra:</p>
+            <p id="textoPost">Para a montagem das regras acima, contabilizam-se as possibilidades de cada regra/atributo. O exemplo abaixo fora utilizado somente 'História de Crédito' (Deve ser feito com todos), pois para as demais segue a mesma lógica:</p>
             <ul>
+                <b><u>História de Crédito</u>:</b>
                 <li>SE boa ENTÃO alto <span class="text-muted">(1)</span></li>
                 <li>SE boa ENTÃO moderado <span class="text-muted">(1)</span></li>
                 <li>SE boa ENTÃO baixo <span class="text-muted">(3) - Escolhida</span>
@@ -1254,7 +1267,9 @@ print(classification_report(y_census_teste, previsoes))
                 <br>
                 <li>TOTAL ERRO: (2+3+1)/(5+5+4) = 6/14</li>
             </ul>
-            <!--VER 57-->
+            <img src="../anexos/ia/weka.png" class="img-fluid" width="900px">
+            <br><small>*Weka (Arquivo risco_credito.arff submetido ao OneR)</small>
+            <!--VER 58-->
         </div>
     </div>
 
