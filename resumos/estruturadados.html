@@ -73,15 +73,27 @@
                     <b>Multigrafo:</b> Quando há autoloop (Autoloop é aresta do vértice com ele mesmo) e/ou mais de uma aresta em um mesmo par de vértices.
                     <br><img src="../anexos/estruturadados/multigrafo.png" class="img-fluid" width="250px">
                 </li>
-            </ul>
-
-            <br><br>
-            <ul>
+                <br>
                 <li>
-                    <b>Grafo denso</b>:
+                    <b>Grafo denso</b>: Quando a quantidade de arestas é o quadrado da quantidade de vértices (Exemplo: Grafo com 3 vértices e 9 arestas). Utilizam-se estruturas básicas, como arrays, para representá-los na prática, pois tendem a serem grafos grandes e, portanto, pesados.
+                    <br><img src="../anexos/estruturadados/grafoDenso.png" class="img-fluid" width="150px">
+                </li>
+                <br>
+                <li>
+                    <b>Grafo esparso</b>: Quando não é grafo denso.
+                    <br><img src="../anexos/estruturadados/grafoEsparso.png" class="img-fluid" width="130px">
                 </li>
             </ul>
-            <!--PAROU EM 6:26 (https://youtu.be/Drd8rzVTUVo)-->
+
+            <p id="textoPost"><b>Caminho</b>: Conjunto de arestas que conecta vértices. Quando há caminho entre vértices, denomina-se <b>vértices conexos</b> (Abaixo, A e B são conexos. B e C são desconexos).</p>
+            <p id="textoPost"><b>Ciclo</b>: Quando há outro caminho de volta para o vértice de origem, que não retorne pelo mesmo caminho de ida, ou seja, sem repetir vértices utilizados previamente (Abaixo, A e B tem um caminho para ida, e outro de B e A para volta, sem realizar a mesma passagem da ida).</p>
+            <img src="../anexos/estruturadados/grafoCaminho.png" class="img-fluid" width="140px">
+            <br><small class="text-muted">* A linha vermelha acima, sob o grafo, é referente ao print da imagem, não tendo relações com o grafo em si.</small>
+
+            <br><br>
+            <p id="textoPost"><b><u>Exemplo</u></b>:<br>Implementação, em Java, de criação e busca em grafos, via algoritmo DFS (Deep First Search - Busca em profundidade) e BFS (Breadth First Search - Busca em largura).</p>
+            <img src="../anexos/estruturadados/grafoImplementacao.png" class="img-fluid" width="250px">
+            <br><small class="text-muted">* A linha vermelha acima, sob o grafo, é referente ao print da imagem, não tendo relações com o grafo em si.</small>
         </div>
     </div>
 
