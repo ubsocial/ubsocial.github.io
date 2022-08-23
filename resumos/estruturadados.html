@@ -94,6 +94,160 @@
             <p id="textoPost"><b><u>Exemplo</u></b>:<br>Implementação, em Java, de criação e busca em grafos, via algoritmo DFS (Deep First Search - Busca em profundidade) e BFS (Breadth First Search - Busca em largura).</p>
             <img src="../anexos/estruturadados/grafoImplementacao.png" class="img-fluid" width="250px">
             <br><small class="text-muted">* A linha vermelha acima, sob o grafo, é referente ao print da imagem, não tendo relações com o grafo em si.</small>
+<small><pre><code>
+<b><u>Amigo.java</u> (Classe)</b>:
+<span class="text-muted"># O método 'fazerAmizade' relacionará os elementos (Objetos Amigo)</span>
+package prod;
+import java.util.ArrayList;
+
+public class Amigo {
+
+    private String nome;
+    private int grau;
+    private ArrayList&lt;Amigo&gt; amigos = new ArrayList&lt;Amigo&gt;();
+
+    public Amigo(String nome) {
+        this.nome = nome;
+    }
+
+    public void fazerAmizade (Amigo a) {
+        if(!isAmigo(a)) {
+            amigos.add(a);
+            grau += 1;
+        }
+    }
+
+    public boolean isAmigo (Amigo a) {
+        for (Amigo amigo : this.amigos) {
+            if (amigo == a)
+                return true;
+        }
+        return false;
+    }
+
+    public ArrayList&lt;Amigo&gt; getAmigos(){return this.amigos;}
+    public String toString(){return this.nome;}
+}
+
+
+<b><u>GrafoDeAmigos.java</u> (Classe)</b>:
+<span class="text-muted"># Onde adiciona as adjacências ao vértice, criando suas arestas (criarAmizadeEntre) e estão os métodos de busca</span>
+package prod;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+
+public class GrafoDeAmigos {
+
+    ArrayList&lt;Amigo&gt; visitados;
+
+    public void criarAmizadeEntre(Amigo n, Amigo m) {
+        n.fazerAmizade(m);
+        m.fazerAmizade(n);
+    }
+
+    public void DFS (Amigo a) {
+        System.out.println("&gt; Busca em Profundidade");
+        visitados = new ArrayList&lt;Amigo&gt;();
+        realDFS(a);
+    }
+
+    public void realDFS (Amigo a) {
+        if (!visitados.contains(a)) {
+            System.out.println(a.toString());
+            visitados.add(a);
+            for(Amigo amigo : a.getAmigos()) {
+                realDFS(amigo);
+            }
+        }
+    }
+
+    public void BFS (Amigo a) {
+        System.out.println("&gt; Busca em Largura");
+        ArrayDeque&lt;Amigo&gt; fila = new ArrayDeque&lt;Amigo&gt;();
+        visitados = new ArrayList&lt;Amigo&gt;();
+        visitados.add(a);
+        fila.addFirst(a);
+        while(!fila.isEmpty()) {
+            Amigo amigo = fila.removeLast();
+            for (Amigo iterator : amigo.getAmigos()) {
+                if(!visitados.contains(iterator)) {
+                    System.out.println(iterator.toString());
+                    fila.push(iterator);
+                    visitados.add(iterator);
+                }
+            }
+        }
+    }
+}
+
+
+<b><u>Faculdade.java</u> (Classe Main)</b>:
+<span class="text-muted"># Criação do grafo e, bem abaixo, as duas buscas</span>
+package prod;
+import javax.management.loading.ClassLoaderRepository;
+import java.util.ArrayList;
+
+public class Faculdade {
+    public static void main(String[] args) {
+
+        ArrayList&lt;Amigo&gt; amigos = new ArrayList&lt;Amigo&gt;();
+        amigos.add(new Amigo("João"));  // 0
+        amigos.add(new Amigo("Clarisse"));
+        amigos.add(new Amigo("Edivaldo"));
+        amigos.add(new Amigo("Maria"));
+        amigos.add(new Amigo("Pedro"));
+        amigos.add(new Amigo("Gabriella")); // 5
+        amigos.add(new Amigo("Marcos"));
+        amigos.add(new Amigo("Benedita"));
+        amigos.add(new Amigo("Sara"));
+        amigos.add(new Amigo("Fernando")); // 9
+
+        GrafoDeAmigos gda = new GrafoDeAmigos();
+        gda.criarAmizadeEntre(amigos.get(0), amigos.get(5));
+        gda.criarAmizadeEntre(amigos.get(0), amigos.get(1));
+        gda.criarAmizadeEntre(amigos.get(5), amigos.get(9));
+        gda.criarAmizadeEntre(amigos.get(5), amigos.get(4));
+        gda.criarAmizadeEntre(amigos.get(1), amigos.get(4));
+        gda.criarAmizadeEntre(amigos.get(1), amigos.get(2));
+        gda.criarAmizadeEntre(amigos.get(9), amigos.get(6));
+        gda.criarAmizadeEntre(amigos.get(2), amigos.get(8));
+        gda.criarAmizadeEntre(amigos.get(8), amigos.get(7));
+        gda.criarAmizadeEntre(amigos.get(8), amigos.get(3));
+        
+        gda.DFS(amigos.get(0));
+        gda.BFS(amigos.get(0));
+    }
+}
+
+
+<b><u>Conclusão</u>:</b>
+Percorrendo, a partir da aresta 0, listará os objetos conforme seus vértices vão sendo percorridos. Utilizando a aresta Edivaldo(2) como destaque de destino, os algoritmos apresentam a ordem de busca de formas diferentes.
+
+&gt; Busca em Profundidade (DFS)
+<span class="text-muted">Nesse método, entrará profundamente nos vértices, alcançado primeiramente as arestas nas pontas do grafo.</span>
+João
+Gabriella
+Fernando
+Marcos
+Pedro
+Clarisse
+<i>- Edivaldo</i>
+Sara
+Benedita
+Maria
+
+&gt; Busca em Largura (BFS)
+<span class="text-muted">Nesse método, geralmente é alcançada a aresta mais próxima do vértice percorrido, onde a busca ocorre por meio de camadas, onde as arestas próximas ao ponto de origem tendem a serem encontradas antes.</span>
+Gabriella
+Clarisse
+Fernando
+Pedro
+<i>- Edivaldo</i>
+Marcos
+Sara
+Benedita
+Maria
+</code></pre></small>
         </div>
     </div>
 
