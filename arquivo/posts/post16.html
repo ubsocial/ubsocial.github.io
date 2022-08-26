@@ -25,12 +25,12 @@
                 <li><b>Pré-requisitos:</b> sudo apt install gnupg wget</li>
                 <li><b>Adicionar key:</b> wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | sudo apt-key add -
                     <ul>
-                        <span class="text-muted"><li>MongoDB 5.0 acima (Ver o nº da última versão no link <a href="https://pgp.mongodb.com" target="_blank">https://pgp.mongodb.com</a>)</span></li>
+                        <li><span class="text-muted"><small>MongoDB 5.0 acima (Ver o nº da última versão no link <a href="https://pgp.mongodb.com" id="btnLink" target="_blank">https://pgp.mongodb.com</a>)</small></span></li>
                     </ul>
                 </li>
                 <li><b>Adicionar repositório:</b> echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/5.0 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-5.0.list
                     <ul>
-                        <span class="text-muted"><li>MongoDB em Debian 'buster' acima (Ver codinome da sua versão do Debian com <i>lsb_release -sc</i>)</span></li>
+                        <li><span class="text-muted"><small>MongoDB em Debian 'buster' acima (Ver codinome da sua versão do Debian com <i>lsb_release -sc</i>)</small></span></li>
                     </ul>
                 </li>
                 <li><b>Atualizar lista de repositórios:</b> sudo apt update</li>

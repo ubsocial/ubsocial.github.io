@@ -42,7 +42,7 @@
         </div>
 
         <div class="col-sm-12">
-            <p id="textoPost">Laravel é o maior framework PHP do mundo, usando como princípio MVC. Possui motor administrado pelo Composer, automatização com php artisan e BD (PDO), views padronizadas Blade e estilização Bootstrap, estruturação Hash de segurança, entre outros recursos tecnológicos. Possui, além disso, o maior ecossistema de soluções extensíveis, atendendo à todo tipo de necessidade de software moderno, como ServerLess e Server, Deployment, Queue Monitoring, Admin Panel, Realtime, Micro, Pre-Packaged, SaaS, Mac, Webpack, Billing Integration, Testing e Automation, Painless OAuth2, Search, Debug, Scaffolding e muito mais.</p>
+            <p id="textoPost">Maior framework PHP do mundo, usando como princípio MVC. Possui motor administrado pelo Composer, automatização com PHP artisan e BD (PDO), views padronizadas Blade e estilização Bootstrap, estruturação Hash de segurança, entre outros recursos tecnológicos. Possui, além disso, o maior ecossistema de soluções extensíveis, atendendo à todo tipo de necessidade de software moderno.</p>
         </div>
     </div>
 
@@ -51,31 +51,17 @@
             <br>
             <h4>Instalação</h4>
             <ol>
-                <li>Instalar e executar XAMPP</li>
-                <li>Instalar Composer: Baixe o arquivo em composer.org, e enviá-lo para pasta de var referência global (no Windows somente executar)</li>
-                <li>Testar Composer: No terminal, execute o comando <i>'composer'</i> para ver informações do mesmo</li>
-                <li>Instalar Laravel 8: Via composer Create-Project: No diretório dos projetos, executar o comando(criar projeto): <i>composer create-project --prefer-dist laravel/laravel nomeProjeto</i></li>
-                <li>Criar BD 'laravel' padrão, com comando, no diretório do projeto <i>php artisan migrate</i> (1º criar BD no Phpmyadmin, depois o comando gerará as tables)</li>
-                <li>Opcional: Instalar Laravel Installer (composer global require laravel/installer), então criar projeto (laravel new nomeProjeto)</li>
-            </ol>
-            <p>NOVO PROJETO LARAVEL (passo4):<br>No diretório desejado, executar o comando: <i>composer create-project --prefer-dist laravel/laravel nomeProjeto</i></p>
-            <h5>Linux Debian</h5>
-            <ol>
-                <b>Baixar XAMPP</b>
-                <li>Baixar arquivo (https://www.apachefriends.org/pt_br/index.html)</li>
-                <li>(diretório do download)Torná-lo executável: <i>sudo chmod +x nomeArquivoXampp.run</i></li>
-                <li>Instalar arquivo: <i>sudo ./nomeArquivoXampp.run</i> (next procedimentos até finish)</li>
-                <li>(Diretório Desktop) Iniciar xampp: <i>sudo ../../opt/lampp/lampp start</i> (stop para encerrar, status para verificar)</li>
-                <b>Baixar Composer</b>
-                <li>Com XAMPP PHP executando, instalar curl: <i>sudo apt install curl</i></li>
-                <li>Instalar Composer: <i>sudo apt install composer</i></li>
-                <li>Vincular Composer com PHP XAMPP: <i>sudo curl -s https://getcomposer.org/installer | /opt/lampp/bin/php</i></li>
-                <li>Mover arquivo composer.phar para torná-lo de uso Global: <i>sudo mv composer.phar /usr/local/bin/composer</i></li>
-                <li>Vincular PHP com uso Global: <i>sudo ln -s /opt/lampp/bin/php /usr/local/bin/php</i></li>
-                <b>Instalar Nodejs e npm</b>
-                <li><i>sudo apt install nodejs && sudo apt install npm</i></li>
-                <b>Baixar projeto Laravel:</b>
-                <li>(Diretório que desejar) <i>composer create-project --prefer-dist laravel/laravel nomeProjeto</i></li>
+                <li>Baixar e iniciar XAMPP: <a href="../arquivo/posts/post12.html" id="btnLink" target="_blank">Tutorial</a></li>
+                <li>
+                    Baixar dependências e vinculá-las ao XAMPP
+                    <ul>
+                        <li><i>sudo apt install curl composer nodejs npm</i></li>
+                        <li><i>sudo curl -s https://getcomposer.org/installer | /opt/lampp/bin/php</i></li>
+                        <li><i>sudo mv composer.phar /usr/local/bin/composer</i></li>
+                        <li><i>sudo ln -s /opt/lampp/bin/php /usr/local/bin/php</i></li>
+                    </ul>
+                </li>
+                <li><span class="text-muted">(Diretório que desejar)</span> Criar projeto Laravel: <i>composer create-project --prefer-dist laravel/laravel nomeProjeto</i></li>
             </ol>
         </div>
 
@@ -90,7 +76,7 @@
                 <li>Feeback do BD (falha/sucesso) volta ao Model, esse repassa ao Controller</li>
                 <li>Controller chama View dinâmica (Blade), que enviará o resultado via Browser (HTML) para User</li>
             </ol>
-            <p>NA PRÁTICA<br> <small>(Atente-se com os 'use' e 'namespace', para checar se os mesmos encontram-se e correspondem à árvore de diretórios)</small></p>
+            <p>NA PRÁTICA<br> <small class="text-muted">(Atente-se com os 'use' e 'namespace', para checar se os mesmos encontram-se e correspondem à árvore de diretórios)</small></p>
             <ol>
                 <li>Criar route no 'web.php', comentá-la para criar o Controller</li>
                 <li>Criar controller, com artisan, e criar metodo que será lido na route</li>
@@ -156,150 +142,51 @@
                     </ul>
                 </li>
             </ul>
-        </div>
-
-        <div class="col-sm-12">
             <br>
-            <h4>Deploy ambiente compartilhado</h4>
-<small><pre><code>
-<i>(Instalar o Laravel no servidor compartilhado)</i>
-
-Pré-Requisitos:
-&gt; Php recente instalado
-
-No terminal do cPanel do serviço de hospedagem:
-1- Instalar Composer, no diretório do usuário(~):
-&gt; wget https://getcomposer.org/installer
-&gt; php installer
-&gt; rm -rf installer
-2- Instalar Laravel:
-&gt; composer create-project --prefer-dist laravel/laravel nomeProjeto
-
-Tornar o Public do Laravel acessível ao servidor(public_html):
-&gt; mv public_html public_html_bkp (Ou tbm pode remover o arquivo caso não queira deixá-lo como forma de backup)
-&gt; ln -s nomeProjeto/public public_html (Pasta www do servidor agora apontará ao public.html, que agora vincula o Public do Laravel, mesmo assim apontará erro 500: sem permissão ao cPanel, necessárias permissões diretórios(755), arquivos(644))
-&gt; cd nomeProjeto
-&gt; find * -type d -exec chmod 755 {} \;
-&gt; find * -type f -exec chmod 644 {} \;
-&gt; cd ..
-&gt; chmod 755 nomeProjeto
-(Testar, no Browser, domínio/url do site, verificar se o welcome do Laravel está apresentado)
-<i>(Arquivos, como .env, podem ser acessados via terminal com editor de texto nano)</i>
-<i>(Pode parametrizar a IDE para trabalhar diretamente com FTP de dentro do cPanel)</i>
-</code></pre></small>
-            <br>
-            <h4>Deploy em ambiente privado</h4>
-<small><pre><code>
-<i>(Quando não possui-se serviços já prontos fornecidos pelo provedor de hospedagem, como o cPanel e terminal parametrizado, somente o acesso ao servidor, como um Ubuntu Server, com acesso à ip interno)</i>
-
-Acesso via SSH ao servidor(Exemplo utilizado Linux CentOS):
-&gt; ssh root@198.50.205.96 -p 1140 (ip e porta devem ser fornecidos pelo provedor, geralmente a porta padrão é 22)
-(Informar senha do servidor)
-&gt; Instalar kit de programas e configurações: https://github.com/teddysun/lamp
-
-Instalação Lamp CentOS:
-&gt; yum -y install wget git (Debian: apt-get -y install wget git)
-&gt; git clone https://github.com/teddysun/lamp.git
-&gt; cd lamp
-(Diretório lamp)&gt; chmod 755 *.sh
-&gt; ./lamp.sh
-
-Instalador:
-&gt; Instalar Apache: opção 1
-&gt; Não instalar módulos do Apache: opção 4
-&gt; Instalar MariaDB última versão: ver opção
-&gt; Caminho do MariaDB, somente 'enter' pra confirmar caminho padrão(/usr/local/mariadb/data)
-&gt; Senha do MariaDB: Informe a senha que desejar
-&gt; Instalar Php última versão: ver opção
-&gt; Módulos Php necessários: xdebug(Ver opção)
-&gt; Instalar Phpmyadmin: opção 1
-&gt; Não instalar kodexplorer: ver opção
-&gt; Verificar resumo e anotar caminhos de cada módulo, após informe 'enter' pra finalizar, senão 'cntrl+c' pra cancelar
-&gt;&gt; Após tudo instalado, testar, no Browser, se página home abre no ip do servidor informado
-(Ex: ip/phpmyadmin abrirá o Phpmyadmin, testar login com senha que informou)
-(Nesse caso, o diretório pra home do sistema será data/www/default/index.html)
-
-Instalar Composer:
-&gt; cd www
-(Diretório www)&gt; wget https://getcomposer.org/installer
-&gt; php installer
-
-No arquivo php.ini(Nesse caso, user/local/php/php.ini), remover linha proc_open:
-&gt; nano user/local/php/php.ini
-(No arquivo, linha 'disable_functions' remover 'proc_open' e 'proc_get_status')(cntr+o e cntrl+x pra salvar e sair)
-
-Reiniciar serviços:
-&gt; /etc/init.d/httpd restart
-
-Instalar projeto Laravel:
-&gt; php composer.phar create-project --prefer-dist laravel/laravel nomeProjeto (Se necessário, em caso de erro, remover diretório installer e pasta do projeto já existente)
-
-Apontar public do Laravel para acesso à página home:
-&gt; mv default/ default_bkp
-&gt; ln -s nomeProjeto/public default
-&gt;&gt; Testar, no Browser, se página home abre no ip do servidor informado(provável que informe erro Laravel de permissão)
-
-Permitir root:
-&gt; chown apache:apache nomeProjeto
-&gt; chown apache:apache default
-&gt; cd nomeProjeto
-(Diretório nomeProjeto)&gt; find * -type d -exec chmod 755 {} \;
-&gt; find * -type f -exec chmod 644 {} \;
-&gt; cd ..
-(Diretório www)&gt; chmod 755 nomeProjeto
-&gt; chown -R apache:apache nomeProjeto
-&gt;&gt; Testar, no Browser, se página home abre no ip do servidor informado
-
-Colocar composer.phar no diretório do projeto Laravel:
-&gt; mv composer.phar nomeProjeto/composer.phar
-<i>(Agora, tudo que será instalado via composer no projeto, ao invés de só 'composer ...', deverá ser 'php composer.phar ...')</i>
-
-Instalar npm:
-&gt; CentOS: yum install npm
-</code></pre></small>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-sm-12">
-            <br>
-            <h4>Projetos</h4>
-            <ol>
-                <b>Base e estruturação</b>
-                <li>Conceitos base de Laravel, routes e conexão com BD: <a href="https://github.com/mateusschwede/laravel/tree/main/projeto1" target="_blank">Ver Github</a></li>
-                <li>CRUD Laravel com verbalização rest e injeção de dependências: <a href="https://github.com/mateusschwede/laravel/tree/main/projeto2" target="_blank">Ver Github</a></li>
-                <li>Automatização com artisan e resource, baseado no projeto2: <a href="https://github.com/mateusschwede/laravel/tree/main/projeto3" target="_blank">Ver Github</a></li>
-                <li>Versionando BD com Migrations, gestão de BD automatizada com php: <a href="https://github.com/mateusschwede/laravel/tree/main/projeto4" target="_blank">Ver Github</a></li>
-                <li>Criando regra de negócio e configurando Model, manual e automatizado: <a href="https://github.com/mateusschwede/laravel/tree/main/projeto5" target="_blank">Ver Github</a></li>
-                <li>Relacionamentos entre Models: <a href="https://github.com/mateusschwede/laravel/tree/main/projeto6" target="_blank">Ver Github</a></li>
-                <li>Laravel login e Authentication com artisan e hardcode: <a href="https://github.com/mateusschwede/laravel/tree/main/projeto7" target="_blank">Ver Github</a></li>
-                <li>Laravel login e Authentication(Protótipo versão8): <a href="https://github.com/mateusschwede/laravel/tree/main/projeto7.8" target="_blank">Ver Github</a></li>
-                <br><b>Frontend</b>
-                <li>Laravel frontend com Blade: <a href="https://github.com/mateusschwede/laravel/tree/main/projeto8" target="_blank">Ver Github</a></li>
-                <li>Gerenciando Assets com Laravel Mix: <a href="https://github.com/mateusschwede/laravel/tree/main/projeto9" target="_blank">Ver Github</a></li>
-                <li>Bootstrap local no Laravel: <a href="https://github.com/mateusschwede/laravel/tree/main/projeto10" target="_blank">Ver Github</a></li>
-                <br><b>Extras</b>
-                <li>Uploads automatizados no Laravel: <a href="https://github.com/mateusschwede/laravel/tree/main/projeto11" target="_blank">Ver Github</a></li>
-                <li>Ajax no Laravel: <a href="https://github.com/mateusschwede/laravel/tree/main/projeto12" target="_blank">Ver Github</a></li>
-                <li>Enviando emails no Laravel: <a href="https://github.com/mateusschwede/laravel/tree/main/projeto13" target="_blank">Ver Github</a></li>
-                <li>Fila e Processamento Assíncrono no Laravel: <a href="https://github.com/mateusschwede/laravel/tree/main/projeto14" target="_blank">Ver Github</a></li>
-                <li>Autenticação com Socialite(Google,Facebook) no Laravel: <a href="https://github.com/mateusschwede/laravel/tree/main/projeto15" target="_blank">Ver Github</a></li>
-                <li>Sessões com Helper e Facade no Laravel: <a href="https://github.com/mateusschwede/laravel/tree/main/projeto16" target="_blank">Ver Github</a></li>
-                <li>Autenticação em API Rest com JWT: <a href="https://github.com/mateusschwede/laravel/tree/main/projeto17" target="_blank">Ver Github</a></li>
-            </ol>
+        <br><h4>Projetos</h4>
+        <div class="col-sm-4">
+            <b>Base e estruturação</b>
+            <div class="list-group list-group">
+                <a href="https://github.com/mateusschwede/laravel/tree/main/projeto1" class="list-group-item list-group-item-action" target="_blank">1. Conceitos básicos, routes e conexão com BD</a>
+                <a href="https://github.com/mateusschwede/laravel/tree/main/projeto2" class="list-group-item list-group-item-action" target="_blank">2. CRUD REST e injeção de dependências</a>
+                <a href="https://github.com/mateusschwede/laravel/tree/main/projeto3" class="list-group-item list-group-item-action" target="_blank">3. Automatização com artisan e resource, baseado no projeto2</a>
+                <a href="https://github.com/mateusschwede/laravel/tree/main/projeto4" class="list-group-item list-group-item-action" target="_blank">4. Versionando BD com Migrations</a>
+                <a href="https://github.com/mateusschwede/laravel/tree/main/projeto5" class="list-group-item list-group-item-action" target="_blank">5. Criar regra de negócio e configurar Model, manual e automatizado</a>
+                <a href="https://github.com/mateusschwede/laravel/tree/main/projeto6" class="list-group-item list-group-item-action" target="_blank">6. Relacionamentos entre Models</a>
+                <a href="https://github.com/mateusschwede/laravel/tree/main/projeto7" class="list-group-item list-group-item-action" target="_blank">7. Login e Authentication com artisan e hardcode</a>
+                <a href="https://github.com/mateusschwede/laravel/tree/main/projeto7.8" class="list-group-item list-group-item-action" target="_blank">8. Login e Authentication (Protótipo versão8)</a>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <b>Frontend</b>
+            <div class="list-group list-group">
+                <a href="https://github.com/mateusschwede/laravel/tree/main/projeto8" class="list-group-item list-group-item-action" target="_blank">9. Frontend com Blade</a>
+                <a href="https://github.com/mateusschwede/laravel/tree/main/projeto9" class="list-group-item list-group-item-action" target="_blank">10. Gerenciar assets com Laravel Mix</a>
+                <a href="https://github.com/mateusschwede/laravel/tree/main/projeto10" class="list-group-item list-group-item-action" target="_blank">11. Bootstrap local no Laravel</a>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <b>Outros</b>
+            <a href="https://github.com/mateusschwede/laravel/tree/main/projeto11" class="list-group-item list-group-item-action" target="_blank">12. Uploads automatizados</a>
+            <a href="https://github.com/mateusschwede/laravel/tree/main/projeto12" class="list-group-item list-group-item-action" target="_blank">13. Ajax no Laravel</a>
+            <a href="https://github.com/mateusschwede/laravel/tree/main/projeto13" class="list-group-item list-group-item-action" target="_blank">14. Enviar emails automaticamente</a>
+            <a href="https://github.com/mateusschwede/laravel/tree/main/projeto14" class="list-group-item list-group-item-action" target="_blank">15. Fila e processamento assíncrono</a>
+            <a href="https://github.com/mateusschwede/laravel/tree/main/projeto15" class="list-group-item list-group-item-action" target="_blank">16. Autenticação com Socialite (Google,Facebook)</a>
+            <a href="https://github.com/mateusschwede/laravel/tree/main/projeto16" class="list-group-item list-group-item-action" target="_blank">17. Sessões com Helper e Facade</a>
+            <a href="https://github.com/mateusschwede/laravel/tree/main/projeto17" class="list-group-item list-group-item-action" target="_blank">18. Autenticação JWT em API REST</a>
         </div>
     </div>
+    <br>
 
     <div class="row">
         <div class="col sm-12">
-            <br>
-            <h4>Anotações</h4>
+            <br><h4>Anotações</h4>
 <small><pre><code>
-<h6><b>Iniciando projeto Laravel</b></h6>
-<i>Pré-Requisitos</i>
-- Xampp Apache e MySQL executando
-- Composer e npm instalados
-
+<h6><b>Iniciar projeto Laravel</b></h6>
 1. Instalação do projeto
 2. Configuração BD no '.env'
 3. Criar model, migration e controller simples(php artisan make:model nomeModel -mcr)
@@ -311,7 +198,7 @@ Instalar npm:
 9. Testar acesso com Browser
 
 
-<h6><b>Projeto3: Automatizando com artisan e resource</b></h6>
+<h6><b>3.Automatizar com artisan e resource</b></h6>
 &gt; Criar controller com metodos à determinada view automaticamente:
 php artisan make:controller Form\TestController --resource --model=User
 (--resource cria todos os métodos do controller: verbalização rest e injeções de dependência automaticamente)
@@ -337,9 +224,8 @@ public function boot() {
 3- Alimentar views e, ao mesmo tempo, alimentação dos métodos do controller relacionados às mesmas, conforme parâmetros e BD
 
 
-<h6><b>Projeto4: Versionando BD com Migrations</b></h6>
-<i>Ver anotações relacionadas no último arquivo do diretório migrations</i>
-
+<h6><b>4.Versionando BD com Migrations</b></h6>
+<i class="text-muted">Ver anotações relacionadas no último arquivo do diretório migrations</i>
 Migrations:
 Comandos de gestão de BD de dentro do Laravel, usando php
 &gt; Up: Comando de envio ao BD (ex: Create table)
@@ -364,7 +250,7 @@ php artisan migrate:rollback --step=2 (No caso, desfazer os últimos 2 passos, e
 <i>No final, em ambiente empresarial, faço commit de tudo, e a pessoa que trabalhará com o prjeto somente executa o 'php artisan migrate', e todo o BD será gerado/atualizado automaticamente</i>
 
 
-<h6><b>Projeto5: Criando regra de negócio e configurando Model, manual e automatizado</b></h6>
+<h6><b>5.Criar regra de negócio e configurar Model, manual e automatizado</b></h6>
 Para criar Model, primeiro precisa de uma table do mesmo no BD sobre a mesma, criando nova Migration
 &gt; Atualizar/Resetar BD com projeto:
 php artisan migrate:fresh (exlui tds as tables e recria com base nas Migrations do projeto)
@@ -416,7 +302,7 @@ Após isso, será necessário somente:
 (Atente-se em informar e verificar os 'use' e 'namespace' corretos para os recursos em cada arquivo)
 
 
-<h6><b>Projeto6: Relacionamentos entre Models</b></h6>
+<h6><b>6.Relacionamentos entre Models</b></h6>
 &gt; Criar Models, com Controllers e Migrations:
 php artisan make:model Address -mcr
 php artisan make:model Category -mcr
@@ -533,7 +419,7 @@ Quais Categories são determinados Posts(Volta)
 &gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/categoria/3)
 
 
-<h6><b>Projeto7: Laravel login com artisan e hardcode</b></h6>
+<h6><b>7.Login com artisan e hardcode</b></h6>
 <i>LARAVEL8:</i>
 //Criar projeto Projeto7.8 e, dentro do projeto, instalar dependências:
 &gt; Com Laravel Installer(laravel new nomeProjeto --jet) Escolher opção de dependência que melhor convém-lhe
@@ -649,7 +535,7 @@ Exemplo:
 &gt; View 'layout', em nav-item do navbar, informar condição ternária {{Route...}}
 
 
-<h6><b>Projeto9: Gerenciando Assets com Laravel Mix</b></h6>
+<h6><b>9.Gerenciar assets com Laravel Mix</b></h6>
 <b>Laravel Mix:</b> Ferramenta do ecossistema Laravel para gestão de webpacks
 
 <b>Codificação diretório site:</b>
@@ -729,7 +615,7 @@ npm run watch (Lê arquivos e assite-os. Qualquer modificação nos arquivos, o 
 &gt;&gt; Testar, no Browser, nova url admin de entrada (http://localhost/projetos/laravel/projeto9/public/painel)
 
 
-<h6><b>Projeto10: Bootstrap local no Laravel</b></h6>
+<h6><b>10.Bootstrap local no Laravel</b></h6>
 &gt; Criar view 'home'
 &gt; Em routes 'web.php', alterar route 'welcome' para 'home'
 
@@ -775,7 +661,7 @@ npm run watch (Lê arquivos e assite-os. Qualquer modificação nos arquivos, o 
 &gt;&gt; Testar, no Browser, informando url padrão(http://localhost/projetos/laravel/projeto10/public/)
 
 
-<h6><b>Projeto11: Uploads automatizados no Laravel</b></h6>
+<h6><b>11.Uploads automatizados</b></h6>
 <i>Pré-Requisitos:</i>
 &gt; Criar Migration CreateProductsTable: php artisan make:migration create_products_table --create=products (Informar dados tbm)
 &gt; Criar Migration CreateProductsImagesTable: php artisan make:migration create_products_images_table --create=products_images (Informar dados tbm)
@@ -832,8 +718,8 @@ npm run watch (Lê arquivos e assite-os. Qualquer modificação nos arquivos, o 
 &gt;&gt; Testar, no Browser, url(http://localhost/projetos/laravel/projeto11/public/produtos/4)
 
 
-<h6><b>Projeto12: Ajax no Laravel</b></h6>
-<i>(Baseado no Projeto7, Laravel6 login)</i>
+<h6><b>12.Ajax no Laravel</b></h6>
+<i class="text-muted">(Baseado no Projeto7, Laravel6 login)</i>
 
 Pré-Requisitos:
 &gt; Resetar BD: php artisan migrate:fresh
@@ -858,7 +744,7 @@ Pré-Requisitos:
 &gt;&gt; Testar, no Browser, informando dados corretos(verificar se será redirecionado)
 
 
-<h6><b>Projeto13: Enviando emails no Laravel</b></h6>
+<h6><b>13.Enviar emails automaticamente</b></h6>
 Pré-Requisitos:
 &gt; Arquivo .env, parte de mail, configurar autenticação com servidor(Recomendável servidor de hospedagem/compartilhado premium para que o email não caia em span)
 &gt; Se seu remetente for Gmail, ative a opção de segurança 'Acesso a app menos seguro', nas configurações de sua conta Gmail
@@ -899,8 +785,8 @@ Disparar email pronto:
 <i>(Verificar na caixa de email/span do email destinatário)</i>
 
 
-<h6><b>Projeto14: Fila e Processamento Assíncrono no Laravel</b></h6>
-<i>(Replica do projeto13)</i>
+<h6><b>14.Fila e processamento assíncrono</b></h6>
+<i class="text-muted">(Replica do projeto13)</i>
 
 Ideia é enviar requisições ao BD, para depois executá-las, ao invés de executar tudo no momento
 
@@ -926,8 +812,7 @@ Criar agendamentos/programações de tarefas(Jobs):
 <i>(Após delay, no caso 15seg, jobs são processados e, se der falha, tenta, no caso, faz até 3 tentativas no total)</i>
 
 
-<h6><b>Projeto15: Autenticação com Socialite(Google,Facebook) no Laravel</b></h6>
-
+<h6><b>15.Autenticação com Socialite (Google,Facebook)</b></h6>
 Pacote para autenticação com outros servidores(Google, Facebook...). Os processos tendem a ser iguais, com excessão das nomeoclaturas
 O ideal, além disso, é criar, após isso, uma regra de negócios para salvar a autenticação em BD, para então não depender somente dos dados terceiros e sessões fictícias
 
@@ -966,7 +851,7 @@ Credenciais / Criar Credenciais / ID do Cliente OAuth / Tipo de Aplicativo(App d
 &gt;&gt; Testar login, no Browser, informando url(http://localhost/projetos/laravel/projeto15/public/login/google)
 
 
-<h6><b>Projeto16: Sessões com Helper e Facade no Laravel</b></h6>
+<h6><b>16.Sessões com Helper e Facade</b></h6>
 Configurar sessão:
 &gt; Em config/session.php e .env alterar SESSION_DRIVER de 'file' para 'cookie'
 
@@ -981,9 +866,8 @@ Gravar dados na sessão:
 (1ª vez confira flash, comente a Session::flash, depois recarregue a página novamente(ainda à exibirá), depois novamente(sumirá))
 
 
-<h6><b>Projeto17: Autenticação em API Rest com JWT</b></h6>
-<i>(JWT Json Web Token)</i>
-
+<h6><b>17.Autenticação JWT em API REST</b></h6>
+<i class="text-muted">(JWT Json Web Token)</i>
 A diferença é que as routes serão criadas no arquivo 'api.php'
 Visar reuso das Models, tanto pra aplicação, quanto pra API
 
@@ -1278,8 +1162,8 @@ return new class extends Migration {
 </code></pre></small>
 
             <br><h5>Nova interface Query Builder</h5>
-            <p id="textoPost">Essa feature inclui 'lluminate\Contracts\Database\QueryBuilder', 'Illuminate\Database\Eloquent\Concerns\DecoratesQueryBuilder' no lugar da implementação '_call'</p>
 <small><pre><code>
+<span class="text-muted"># Essa feature inclui 'lluminate\Contracts\Database\QueryBuilder', 'Illuminate\Database\Eloquent\Concerns\DecoratesQueryBuilder' no lugar da implementação '_call'</span>
 return Model::query()
     -&gt;whereNotExists(function($query) {
         <span class="text-muted">//$query via Query\Builder</span>

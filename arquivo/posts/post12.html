@@ -22,27 +22,26 @@
         <div class="col-sm-12">
             <h4>Instalação:</h4>
             <ol>
-                <li>Acesse o site oficial do Xampp e baixe a versão para Linux: <a href="https://www.apachefriends.org/pt_br/index.html" target="_blank" >Site XAMPP</a>
+                <li>Acesse o site oficial do Xampp e baixe a versão para Linux: <a href="https://www.apachefriends.org/pt_br/index.html" id="btnLink" target="_blank" >Site XAMPP</a>
                     <ul>
-                        <li class="text-muted">Baixará o LAMPP (Linux,Apache,MySQL,PHP) em arquivo instalador '.run'</li>
+                        <li class="text-muted"><small>Baixará o LAMPP (Linux,Apache,MySQL,PHP) em arquivo instalador '.run'</small></li>
                     </ul>
                 </li>
                 <li>Com o Bash, acesse o diretório em que o arquivo .run encontra-se
                     <ul>
-                        <li class="text-muted">Exemplo na pasta Downloads 'cd ~/Downloads'</li>
+                        <li class="text-muted"><small>Exemplo na pasta Downloads 'cd ~/Downloads'</small></li>
                     </ul>
                 </li>
                 <li>Torne o arquivo executável 'sudo chmod +x nomeArquivo.run'</li>
                 <li>Execute o arquivo 'sudo ./nomeArquivo.run'
                     <ul>
-                        <li class="text-muted">Siga o passo a passo do instalador</li>
+                        <li class="text-muted"><small>Siga o passo a passo do instalador</small></li>
                     </ul>
                 </li>
             </ol>
             
             <br><h4>Atalho/Lançador:</h4>
             <p id="textoPost">Criar arquivo de atalho 'sudo nano /usr/share/applications/xampp.desktop'</p>
-            <p id="textoPost" class="text-muted">Ou localmente 'nano .local/share/applications/xampp.desktop'</p>
             <ul>
                 <li class="text-muted">No editor, insira o seguinte conteúdo no arquivo:</li>
 <small><pre><code>
@@ -66,8 +65,8 @@ Keywords=xampp;
                 <li>Torne permissão para editar arquivo de configuração 'sudo chmod 777 /opt/lampp/phpmyadmin/config.inc.php'</li>
                 <li>Acesse arquivo de configuração 'sudo nano /opt/lampp/phpmyadmin/config.inc.php'
                     <ul>
-                        <li class="text-muted">Nele, altere a linha <i>$cfg['Servers'][$i]['auth_type'] = 'config';</i> para <i>$cfg['Servers'][$i]['auth_type'] = 'cookie';</i></li>
-                        <li class="text-muted">Use 'ctrl+x' para sair do editor nano, salvando o arquivo</li>
+                        <li class="text-muted"><small>Nele, altere a linha <i>$cfg['Servers'][$i]['auth_type'] = 'config';</i> para <i>$cfg['Servers'][$i]['auth_type'] = 'cookie';</i></small></li>
+                        <li class="text-muted"><small>Use 'ctrl+x' para sair do editor nano, salvando o arquivo</small></li>
                     </ul>
                 </li>
                 <li>Retome às permissões originais do arquivo de configuração 'sudo chmod 644 /opt/lampp/phpmyadmin/config.inc.php'</li>

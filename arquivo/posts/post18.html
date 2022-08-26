@@ -16,12 +16,12 @@
         <div class="col-sm-12" id="titulo">
             <h1>API REST Serializers com Django</h1>
             <h6><strong>API REST Serializers com Django REST Framework</strong></h6>
-            <a href="../../index.html" class="btn btn-link" id="btnLink">Voltar</a><br><br>
-            <a href="https://github.com/ubsocial/Django" class="btn btn-link" target="_blank" id="btnLink">GitHub do projeto</a><br>
+            <a href="../../resumos/django.html" class="btn btn-link" id="btnLink">Voltar</a><br><br>
+            <a href="https://github.com/ubsocial/Django" class="btn btn-link" id="btnLink" target="_blank">GitHub do projeto</a><br>
         </div>
 
         <div class="col-sm-12">
-            <p id="textoPost">O Django REST Framework, ferramenta oficial do Django, possui mecanismos automatizados para criação e gerenciamento de projetos API REST, dispensando serviços terceiros para testes, como o Postman. No projeto em questão, será criada a API REST via código manualmente, juntamente com autenticação Serializer e todas as funções de CRUD, seguindo os padrões oficiais do framework. Entretanto, para casos mais básicos e genéricos, pode-se utilizar <a href="#genericViews">Generic Views</a> (Código no final do post), favorecendo assim a produtividade do desenvolvimento. Demais informações, relacionadas à conceitos teóricos sobre API REST e instalação do Django, acesse os posts sobre. O nome do projeto em questão será 'todo_drf' e o app criado nele será 'api'.</p>
+            <p id="textoPost">O Django REST Framework, ferramenta oficial do Django, possui mecanismos automatizados para criação e gerenciamento de projetos API REST, dispensando serviços terceiros para testes, como o Postman. No projeto em questão, será criada a API REST via código manualmente, juntamente com autenticação Serializer e todas as funções de CRUD, seguindo os padrões oficiais do framework. Entretanto, para casos mais básicos e genéricos, pode-se utilizar <a href="#genericViews" id="btnLink">Generic Views</a> (Código no final do post), favorecendo assim a produtividade do desenvolvimento. Demais informações, relacionadas à conceitos teóricos sobre API REST e instalação do Django, acesse os posts sobre. O nome do projeto em questão será 'todo_drf' e o app criado nele será 'api'.</p>
             <img src="../../arquivo/anexos/post18/restapi.png" class="img-fluid" width="400px">
             
             <br><br>
@@ -41,20 +41,20 @@
                 <li><b>Executar projeto:</b> python3 manage.py runserver</li>
                 <li>No browser
                     <ul>
-                        <li><b>Acessar API:</b> <a href="http://127.0.0.1:8000/api/" target="_blank">http://127.0.0.1:8000/api/</a></li>
-                        <li><b>Listar Tasks:</b> <a href="http://127.0.0.1:8000/api/task-list/" target="_blank">http://127.0.0.1:8000/api/task-list/</a></li>
-                        <li><b>Inserir Task:</b> <a href="http://127.0.0.1:8000/api/task-create/" target="_blank">http://127.0.0.1:8000/api/task-create/</a>
+                        <li><b>Acessar API:</b> <a href="http://127.0.0.1:8000/api/" id="btnLink" target="_blank">http://127.0.0.1:8000/api/</a></li>
+                        <li><b>Listar Tasks:</b> <a href="http://127.0.0.1:8000/api/task-list/" id="btnLink" target="_blank">http://127.0.0.1:8000/api/task-list/</a></li>
+                        <li><b>Inserir Task:</b> <a href="http://127.0.0.1:8000/api/task-create/" id="btnLink" target="_blank">http://127.0.0.1:8000/api/task-create/</a>
                             <ul>
                                 <li>Conteúdo para inserir (JSON): <span class="text-muted">{"title":"UB Social 1","description":"Task UB Social 1","completed":"True"}</span></li>
                             </ul>
                         </li>
-                        <li><b>Ver Task 1:</b> <a href="http://127.0.0.1:8000/api/task-detail/1/" target="_blank">http://127.0.0.1:8000/api/task-detail/1/</a></li>
-                        <li><b>Editar Task 1:</b> <a href="http://127.0.0.1:8000/api/task-update/1/" target="_blank">http://127.0.0.1:8000/api/task-update/1/</a>
+                        <li><b>Ver Task 1:</b> <a href="http://127.0.0.1:8000/api/task-detail/1/" id="btnLink" target="_blank">http://127.0.0.1:8000/api/task-detail/1/</a></li>
+                        <li><b>Editar Task 1:</b> <a href="http://127.0.0.1:8000/api/task-update/1/" id="btnLink" target="_blank">http://127.0.0.1:8000/api/task-update/1/</a>
                             <ul>
                                 <li>Conteúdo para inserir (JSON): <span class="text-muted">{"title":"UB Social 1 atualizada","description":"Task UB Social 1 atualizada","completed":"False"}</span></li>
                             </ul>
                         </li>
-                        <li><b>Excluir Task 1:</b> <a href="http://127.0.0.1:8000/api/task-delete/1/" target="_blank">http://127.0.0.1:8000/api/task-delete/1/</a></li>
+                        <li><b>Excluir Task 1:</b> <a href="http://127.0.0.1:8000/api/task-delete/1/" id="btnLink" target="_blank">http://127.0.0.1:8000/api/task-delete/1/</a></li>
                     </ul>
                 </li>
             </ol>
@@ -207,8 +207,8 @@ urlpatterns = [
                 <li><b>Executar projeto:</b> python3 manage.py runserver</li>
                 <li>No browser:
                     <ul>
-                        <li><b>Listar e inserir Books:</b> <a href="https://127.0.0.1:8000/api/books" target="_blank">https://127.0.0.1:8000/api/books</a></li>
-                        <li><b>Ver, editar e excluir Book 1:</b> <a href="https://127.0.0.1:8000/api/books/1" target="_blank">https://127.0.0.1:8000/api/books/1</a></li>
+                        <li><b>Listar e inserir Books:</b> <a href="https://127.0.0.1:8000/api/books" id="btnLink" target="_blank">https://127.0.0.1:8000/api/books</a></li>
+                        <li><b>Ver, editar e excluir Book 1:</b> <a href="https://127.0.0.1:8000/api/books/1" id="btnLink" target="_blank">https://127.0.0.1:8000/api/books/1</a></li>
                     </ul>
                 </li>
             </ol>
