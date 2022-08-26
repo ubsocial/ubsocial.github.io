@@ -42,7 +42,7 @@
         </div>
 
         <div class="col-sm-12">
-            <p id="textoPost">Maior framework PHP do mundo, usando como princípio MVC. Possui motor administrado pelo Composer, automatização com PHP artisan e BD (PDO), views padronizadas Blade e estilização Bootstrap, estruturação Hash de segurança, entre outros recursos tecnológicos. Possui, além disso, o maior ecossistema de soluções extensíveis, atendendo à todo tipo de necessidade de software moderno.</p>
+            <p id="textoPost">Maior framework PHP do mundo, usando como princípio MVC. Possui motor administrado pelo Composer, automatização com PHP artisan e BD (PDO), views padronizadas Blade e estilização Bootstrap, estruturação Hash de segurança, entre outros recursos tecnológicos. Possui, além disso, o maior ecossistema de extensões, atendendo à todo tipo de necessidade de software moderno.</p>
         </div>
     </div>
 
@@ -80,7 +80,7 @@
             <ol>
                 <li>Criar route no 'web.php', comentá-la para criar o Controller</li>
                 <li>Criar controller, com artisan, e criar metodo que será lido na route</li>
-                <li>Testar, informando uri, se o método do controller e route funcionam(sem erros)</li>
+                <li>Testar, informando uri, se o método do controller e route funcionam</li>
                 <li>Criar view com Html</li>
                 <li>No controller, criar o metodo de return view, com parâmetros var visão e var controller</li>
                 <li>Na view, informar as vars dinâmicas {{$user->name}} do informadas como parâmetros do método no controller</li>
@@ -149,12 +149,12 @@
     <div class="row">
         <br><h4>Projetos</h4>
         <div class="col-sm-4">
-            <b>Base e estruturação</b>
+            <br><b>Base e estruturação</b>
             <div class="list-group list-group">
                 <a href="https://github.com/mateusschwede/laravel/tree/main/projeto1" class="list-group-item list-group-item-action" target="_blank">1. Conceitos básicos, routes e conexão com BD</a>
                 <a href="https://github.com/mateusschwede/laravel/tree/main/projeto2" class="list-group-item list-group-item-action" target="_blank">2. CRUD REST e injeção de dependências</a>
                 <a href="https://github.com/mateusschwede/laravel/tree/main/projeto3" class="list-group-item list-group-item-action" target="_blank">3. Automatização com artisan e resource, baseado no projeto2</a>
-                <a href="https://github.com/mateusschwede/laravel/tree/main/projeto4" class="list-group-item list-group-item-action" target="_blank">4. Versionando BD com Migrations</a>
+                <a href="https://github.com/mateusschwede/laravel/tree/main/projeto4" class="list-group-item list-group-item-action" target="_blank">4. Versionar BD com Migrations</a>
                 <a href="https://github.com/mateusschwede/laravel/tree/main/projeto5" class="list-group-item list-group-item-action" target="_blank">5. Criar regra de negócio e configurar Model, manual e automatizado</a>
                 <a href="https://github.com/mateusschwede/laravel/tree/main/projeto6" class="list-group-item list-group-item-action" target="_blank">6. Relacionamentos entre Models</a>
                 <a href="https://github.com/mateusschwede/laravel/tree/main/projeto7" class="list-group-item list-group-item-action" target="_blank">7. Login e Authentication com artisan e hardcode</a>
@@ -162,7 +162,7 @@
             </div>
         </div>
         <div class="col-sm-4">
-            <b>Frontend</b>
+            <br><b>Frontend</b>
             <div class="list-group list-group">
                 <a href="https://github.com/mateusschwede/laravel/tree/main/projeto8" class="list-group-item list-group-item-action" target="_blank">9. Frontend com Blade</a>
                 <a href="https://github.com/mateusschwede/laravel/tree/main/projeto9" class="list-group-item list-group-item-action" target="_blank">10. Gerenciar assets com Laravel Mix</a>
@@ -170,7 +170,7 @@
             </div>
         </div>
         <div class="col-sm-4">
-            <b>Outros</b>
+            <br><b>Outros</b>
             <a href="https://github.com/mateusschwede/laravel/tree/main/projeto11" class="list-group-item list-group-item-action" target="_blank">12. Uploads automatizados</a>
             <a href="https://github.com/mateusschwede/laravel/tree/main/projeto12" class="list-group-item list-group-item-action" target="_blank">13. Ajax no Laravel</a>
             <a href="https://github.com/mateusschwede/laravel/tree/main/projeto13" class="list-group-item list-group-item-action" target="_blank">14. Enviar emails automaticamente</a>
@@ -199,17 +199,17 @@
 
 
 <h6><b>3.Automatizar com artisan e resource</b></h6>
-&gt; Criar controller com metodos à determinada view automaticamente:
+1.Criar controller com metodos:
 php artisan make:controller Form\TestController --resource --model=User
-(--resource cria todos os métodos do controller: verbalização rest e injeções de dependência automaticamente)
-(--model=User criará automaticamente toda injeção de dependências dos demais parâmetros relacionados à model User)
+<span class="text-muted">(--resource cria todos os métodos do controller automaticamente)</span>
+<span class="text-muted">(--model=User criará automaticamente parâmetros relacionados à model User)</span>
 
-&gt; Criar view automatizada universal métodos CRUD
-//Criador universal de rotas padrões para o controller TestController(get,post,put/patch,delete), altera o nome da route de 'usuario' para 'user', e altera os parâmetros de uri 'usuarios' para 'user'
+2.Criar view automatizada com métodos CRUD
+<span class="text-muted">//Criador de rotas padrões para o controller (get,post,put/patch,delete), altera o nome da route de 'usuario' para 'user', e altera os parâmetros de uri 'usuarios' para 'user'</span>
 Route::resource('usuarios',TestController::class)-&gt;names('user')-&gt;parameters(['usuarios'=&gt;'user']);
 
-&gt; Alterar nome de trechos da uri para personalizados('original'=&gt;'personalizado')
-//Providers &gt; AppServiceProvider.php, método boot()
+3.Alterar nome de trechos da uri para personalizados('original'=&gt;'personalizado')
+<span class="text-muted">//Providers &gt; AppServiceProvider.php, método boot()</span>
 use Illuminate\Support\Facades\Route;
 public function boot() {
     Route::resourceVerbs([
@@ -218,195 +218,148 @@ public function boot() {
     ]);
 }
 
-<b>CheckList aula4:</b>
-1- Criação automatizada do controller
-2- Criação, no routes 'web.php', da route automatizada resources. Tradução dos parâmetros uri na própria route
-3- Alimentar views e, ao mesmo tempo, alimentação dos métodos do controller relacionados às mesmas, conforme parâmetros e BD
 
+<h6><b>4.Versionar BD com Migrations</b></h6>
+Comandos de gestão de BD de dentro do Laravel
+Up: Comando de envio ao BD (Ex: Create table)
+Down: Contrário de Up, comando de retorno/desfazer ao BD (Ex: Drop table)
 
-<h6><b>4.Versionando BD com Migrations</b></h6>
-<i class="text-muted">Ver anotações relacionadas no último arquivo do diretório migrations</i>
-Migrations:
-Comandos de gestão de BD de dentro do Laravel, usando php
-&gt; Up: Comando de envio ao BD (ex: Create table)
-&gt; Down: Exatamente o contrário de Up, comando de retorno/desfazer ao BD (ex: Drop table). Down é o método, criado automaticamente, contrário ao criado no Up
-Importante que as Migrations sejam criadas em ordem, de acordo com o BD, com relação às tables dependentes. Migrations são executadas em ordem crescente por criação.
+1.Criar Migration (create table):
+<span class="text-muted">php artisan make:migration comando_nomeTable_table(ex: create_users_table) --create=nomeTable</span>
 
-Criar Migration:
-Comando, no diretório do projeto, via terminal.
-Criar nova table(Create Table):
-php artisan make:migration comando_nomeTable_table(ex: create_users_table) --create=nomeTable(sintaxe de criação(create) à table nomeTable)
+2.Adicionar novo campo à table existente (Alter Table):
+<span class="text-muted">php artisan make:migration comando_nomeTable_table --table=nomeTable</span>
 
-Adicionar novo campo à table existente(Alter Table):
-php artisan make:migration comando_nomeTable_table --table=nomeTable
-
-Criar BD após criadas as Migrations:
-php artisan migrate (executa todos os arquivos de migrate criados pendentes)
+3.Criar BD:
+<span class="text-muted">php artisan migrate (executa todos os arquivos de migrate criados pendentes)</span>
 
 Desfazer criação no BD:
-php artisan migrate:rollback (desfaz todas as alterações no BD)
-php artisan migrate:rollback --step=2 (No caso, desfazer os últimos 2 passos, ex: desfazer as últimas 2 migrations criadas no BD)
-
-<i>No final, em ambiente empresarial, faço commit de tudo, e a pessoa que trabalhará com o prjeto somente executa o 'php artisan migrate', e todo o BD será gerado/atualizado automaticamente</i>
+<span class="text-muted">php artisan migrate:rollback (desfaz todas as alterações no BD)</span>
+<span class="text-muted">php artisan migrate:rollback --step=2 (No caso, desfazer os últimos 2 passos)</span>
 
 
 <h6><b>5.Criar regra de negócio e configurar Model, manual e automatizado</b></h6>
 Para criar Model, primeiro precisa de uma table do mesmo no BD sobre a mesma, criando nova Migration
-&gt; Atualizar/Resetar BD com projeto:
-php artisan migrate:fresh (exlui tds as tables e recria com base nas Migrations do projeto)
-
-&gt; Criar Migration: php artisan make:migration create_posts_table
-&gt;&gt; Após codificar Migration, resetar BD com Migration pendente: php artisan migrate
-
-&gt; Criar Controller: php artisan make:controller PostController
-&gt;&gt; Modificar o método welcome em routes 'web.php', com o controller PostController, com método de execução 'showForm'
-
-&gt; Criar método 'showForm' no PostController, em branco
-&gt; Criar view de return do 'showForm', chamada 'form.blade.php', e populá-la com Html básico e @csrf
-&gt; Criar nova route em 'web.php', do tipo post, com nome e método chamados 'debug'
-
-&gt; No Controller 'PostController', criar método debug só com o inicial, e concluir o 'showForm'
-&gt; Inserir action como {{route}} na view 'form.blade.php'
-&gt; Popular método 'debug' no controller PostController
-
-&gt; Testar submissão do formulário Hmtl com 'dd($request-&gt;al());'
+1.Resetar BD com projeto: <span class="text-muted">php artisan migrate:fresh</span>
+2.Criar Migration: <span class="text-muted">php artisan make:migration create_posts_table</span>
+3.Após codificar Migration, atualizar BD: <span class="text-muted">php artisan migrate</span>
+4.Criar Controller: <span class="text-muted">php artisan make:controller PostController</span>
+4.1.Modificar o método welcome em routes 'web.php', com o controller PostController, com método de execução 'showForm'
+5.Criar método 'showForm' no PostController, em branco
+6.Criar view de return do 'showForm', chamada 'form.blade.php', e populá-la com Html básico e @csrf
+7.Criar nova route em 'web.php', do tipo post, com nome e método chamados 'debug'
+8.No Controller 'PostController', criar método debug só com o inicial, e concluir o 'showForm'
+9.Inserir action como {{route}} na view 'form.blade.php'
+10.Popular método 'debug' no controller PostController
+11.Testar submissão do formulário Hmtl com 'dd($request-&gt;al());'
 
 Para inserir os dados do form Html no BD, precisa-se criar a respectiva Model antes.
+12.Criar Model 'Post': <span class="text-muted">php artisan make:model Post</span>
+12.1.Popular Model 'Post'
 
-&gt; Criar Model 'Post':
-php artisan make:model Post
-
-&gt; Popular Model 'Post'
 Laravel converte tudo para minúsculo e plural ao BD, ou seja, a table relacionada precisa ser 'posts'
-1- Informar somente dados relacionados com BD no Controller 'PostController', no método 'debug'(remover o _token...)
-2- Informar dados que serão enviados ao Model 'Post' para que possa serem persistidos ao BD(informar no método 'debug' do 'PostController')
-Da forma acima, dará erro pq o slug precisa ser não null. Para contornar isso, segue:
-&gt; Na Model 'Post', informar e popular o método setPropriedadeAttribute($valorPassadoAtributo) (ex setTitleAttribute($value))
-Com isso, automaticamente ao informar o title, ele informará o mesmo como slug, já formatado no formato url, gerados pelo método Str, já informado
+13.Informar somente dados relacionados com BD no Controller 'PostController', no método 'debug'(remover o _token...)
+13.1.Informar dados que serão enviados ao Model 'Post' para que possa serem persistidos ao BD(informar no método 'debug' do 'PostController')
 
-&gt; Testar, no formulário Html, a inserção de valores no BD
+Da forma acima ocorrerá erro, pois o slug precisa ser não null. Para contornar isso, segue:
+14.Na Model 'Post', informar e popular o método setPropriedadeAttribute($valorPassadoAtributo) (ex setTitleAttribute($value))
+<span class="text-muted">Com isso, automaticamente ao informar o title, ele informará o mesmo como slug, já formatado no formato url, gerados pelo método Str, já informado</span>
 
-&gt; (Não recomendável) Pode-se fazer o tratamento de erro de campos e slug de forma mais simples, criando, na Model 'Post', a propriedade fillable
-&gt; (Não recomendável) Caso queira remover os campos timestamp() do BD, precisa-se:
-1- Remover o atributo na Migration
-2- Na Model, inserir atributo 'public timestamps = false;'
-3- Atualizar/Resetar BD com comando 'php artisan migrate:fresh'
+15.Testar, no formulário Html, a inserção de valores no BD
 
 <b>AUTOMATIZADO</b>
-&gt; Criar Model, com Migration e Controller:
-php artisan make:model nomeModel -mcr (ex: php artisan make:model Product -mcr)
-Após isso, será necessário somente:
-1- Preencher campos na migration, de acordo com a respectiva table no DB
-2- Informar atributos na Model
-3- Informar as routes 'web.php' e programar os métodos no Controller
-(Atente-se em informar e verificar os 'use' e 'namespace' corretos para os recursos em cada arquivo)
+1.Criar Model, com Migration e Controller: <span class="text-muted">php artisan make:model nomeModel -mcr</span>
+2.Preencher campos na migration, de acordo com a respectiva table no DB
+3.Informar atributos na Model
+4.Informar as routes 'web.php' e programar os métodos no Controller
 
 
 <h6><b>6.Relacionamentos entre Models</b></h6>
-&gt; Criar Models, com Controllers e Migrations:
-php artisan make:model Address -mcr
-php artisan make:model Category -mcr
-php artisan make:model Post -mcr
-php artisan make:controller UserController --resource
-(Popular Migrations com atributos)
+1.Criar Models, com Controllers e Migrations:
+<span class="text-muted">php artisan make:model Address -mcr</span>
+<span class="text-muted">php artisan make:model Category -mcr</span>
+<span class="text-muted">php artisan make:model Post -mcr</span>
+<span class="text-muted">php artisan make:controller UserController --resource</span>
 
-&gt; Atualizar/Resetar BD: php artisan migrate:fresh
+2.Popular Migrations com atributos
+3.Resetar BD: <span class="text-muted">php artisan migrate:fresh</span>
 
-&gt; Inserir, manualmente, alguns Users no BD.
-INSERT INTO users(name,email,password,created_at,updated_at) VALUES ('mateus','mateus@gmail',123,now(),now()),('mateus2','mateus@hotmail',456,now(),now());
+4.Inserir dados no BD:
+<span class="text-muted">INSERT INTO users(name,email,password,created_at,updated_at) VALUES ('ubsocial','ubsocial@gmail',123,now(),now()),('ubsocial2','ubsocial@gmail',456,now(),now());</span>
 
-&gt; Add route usuario/{id} para UserController@show em 'web.php' (informar 'use' tbm)
-&gt; Popular método show em UserController (informar 'use' tbm), com $user = User::where('id',$id)-&gt;first(); dd($user);
-&gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/public/usuario/1)
+5.Adicionar route usuario/{id} para UserController@show em 'web.php' (Informar 'use' também)
+6.Popular método show em UserController (informar 'use' tbm), com $user = User::where('id',$id)-&gt;first(); dd($user);
+7.Testar no Browser: <a href="http://localhost/projetos/laravel/projeto6/public/usuario/1" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto6/public/usuario/1</a>
 
-&gt; Inserir, manualmente, alguns Addressess no BD.
-INSERT INTO addresses(user,street,number,city,state,created_at,updated_at) VALUES (1,'rua x',33,'cidade','rs',now(),now());
+8.Inserir, manualmente, alguns Addressess no BD:
+<span class="text-muted">INSERT INTO addresses(user,street,number,city,state,created_at,updated_at) VALUES (1,'rua x',33,'cidade','rs',now(),now());</span>
 
-&gt; Popular Model Address
-(Não serão criadas views com forms, será colocado diretamente via controller(NÃO RECOMENDADO))
-
-
-<b><i>Relacionamentos:</i></b>
-<b>1-1:</b> 1 User possui 1 Address
-<b>1-N:</b> 1 User possui N Posts
-<b>N-N:</b> N Categories possui(em) N Posts
+9.Popular Model Address
+<span class="text-muted">(Nesse caso, não foram criadas views com forms, foram colocado diretamente via controller - não recomendado)</span>
 
 
 <b>RELACIONAMENTO 1-1 (1User possui 1Address)</b>
 <i>Parte-se da table de origem da informação(User, pois User possui Address, Address é dependente de User)</i>
 
-Para saber de qual Address é determinado User (Caminho de ida)
-&gt; Em Model User, criar método de relacionamento 'address', que retornará o relacionamento com as keys relacionáveis
+Para saber de qual Address é determinado User <span class="text-muted">(Caminho de ida)</span>
+1.Em Model User, criar método de relacionamento 'address', que retornará o relacionamento com as keys relacionáveis
+2.Em UserController, no método show, adicionar método $address
+3.Testar: <a href="http://localhost/projetos/laravel/projeto6/public/usuario/1" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto6/public/usuario/1</a>
 
-&gt; Em UserController, no método show, adicionar método $address
-&gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/public/usuario/1)
+Para saber de qual User é determinado Address <span class="text-muted">(Caminho de volta)</span>
+4.Em route 'web.php', inserir route /endereco/{address} <span class="text-muted">//Informar 'use' também</span>
+5.Em AddressController, popular metodo show
+6.Testar: <a href="http://localhost/projetos/laravel/projeto6/public/endereco/1" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto6/public/endereco/1</a>
 
-Para saber de qual User é determinado Address (Caminho de volta)
-&gt; Em route 'web.php', inserir route /endereco/{address}
-(Informe 'use' tbm)
-
-&gt; Em AddressController, popular metodo show
-&gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/public/endereco/1)
-
-&gt; Em Model Address, adicionar método user
-&gt; Em AddressController, no método show, adicionar método $user
-&gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/public/endereco/1)
+7.Em Model Address, adicionar método user
+8.Em AddressController, no método show, adicionar método $user
+9.Testar: <a href="http://localhost/projetos/laravel/projeto6/public/endereco/1" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto6/public/endereco/1</a>
 
 
 <b>RELACIONAMENTO 1-N (1User escreve NPosts)</b>
 <i>Processo similar ao acima, só muda o nome do método de relacionamento de keys</i>
 
-Para saber de quais Posts é determinado User (Caminho de ida)
-&gt; Inserir, manualmente, alguns Posts no BD
-INSERT INTO posts(author,title,slug,content,created_at,updated_at) VALUES (1,'titulo','titulo','testeContent',now(),now()),(1,'titulo2','titulo2','testeContent2',now(),now()),(2,'titulo3','titulo3','testeContent3',now(),now());
+Para saber de quais Posts é determinado User <span class="text-muted">(Caminho de ida)</span>
+1.Inserir dados no BD:
+<span class="text-muted">INSERT INTO posts(author,title,slug,content,created_at,updated_at) VALUES (1,'titulo','titulo','testeContent',now(),now()),(1,'titulo2','titulo2','testeContent2',now(),now()),(2,'titulo3','titulo3','testeContent3',now(),now());</span>
 
-&gt; Em Model User, criar método de relacionamento 'posts'
+2.Em Model User, criar método de relacionamento 'posts'
+3.Em UserController, no método show, adicionar método $posts
+4.Testar: <a href="http://localhost/projetos/laravel/projeto6/public/usuario/2" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto6/public/usuario/2</a>
 
-&gt; Em UserController, no método show, adicionar método $posts
-&gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/public/usuario/1)
-&gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/public/usuario/2)
+Para saber de qual User são determinados Posts <span class="text-muted">(Caminho de volta)</span>
+5.Em Model Post, propriedade $table e método de relacionamento 'author'
+6.Em PostController, no método show, echo de volta, somente a linha
+7.Em route 'web.php', inserir route /artigo/{post}
+8.Testar: <a href="http://localhost/projetos/laravel/projeto6/artigo/1" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto6/artigo/1</a>
 
-Para saber de qual User são determinados Posts (Caminho de volta)
-&gt; Em Model Post, propriedade $table e método de relacionamento 'author'
-
-&gt; Em PostController, no método show, echo de volta, somente a linha
-
-&gt; Em route 'web.php', inserir route /artigo/{post}
-&gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/artigo/1)
-
-&gt; Em PostController, método show, informar $user e listagem
-&gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/artigo/1)
-&gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/artigo/2)
-&gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/artigo/3)
+9.Em PostController, método show, informar $user e listagem
+10.Testar: <a href="http://localhost/projetos/laravel/projeto6/artigo/3" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto6/artigo/3</a>
 
 
 <b>RELACIONAMENTO N-N (NPosts possuem NCategories)</b>
-<i>Precisa-se de table pivô para fazer a união dos registros(Ex: table posts_categories).</i>
+<i>Precisa-se de table pivô para fazer a união dos registros (Ex: table posts_categories).</i>
 
-Criar Migration
-php artisan make:migration create_posts_categories_table --create=posts_categories
-php artisan migrate
-(Popular migration tbm)
+1.Criar Migration
+<span class="text-muted">php artisan make:migration create_posts_categories_table --create=posts_categories</span>
+<span class="text-muted">php artisan migrate</span>
+2.Popular migrations
 
-&gt; Inserir, manualmente, algumas Categories no BD:
-INSERT INTO categories(title,description,created_at,updated_at) VALUES ('cat1','descCat1',now(),now()),('cat','descCat2',now(),now());
+3.Inserir dados no BD:
+<span class="text-muted">INSERT INTO categories(title,description,created_at,updated_at) VALUES ('cat1','descCat1',now(),now()),('cat','descCat2',now(),now());</span>
 
-&gt; Inserir, manualmente, relações entre tables Posts e Categories no BD:
-INSERT INTO posts_categories(post,category) VALUES (1,1),(1,2),(2,1),(3,2);
+4.Inserir dados de relações no BD:
+<span class="text-muted">INSERT INTO posts_categories(post,category) VALUES (1,1),(1,2),(2,1),(3,2);</span>
 
-Quais Posts são determinadas Categories(Ida)
-&gt; Em Model Category, informar $table
-&gt; Em Model Post, informar método de relacionamento categories
+Quais Posts são determinadas Categories <span class="text-muted">(Ida)</span>
+5.Em Model Category, informar $table
+6.Em Model Post, informar método de relacionamento categories
+7.Em PostController, no método show, informar $categories e listagem
+8.Testar: <a href="http://localhost/projetos/laravel/projeto6/artigo/3" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto6/artigo/3</a>
 
-Em PostController, no método show, informar $categories e listagem
-&gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/artigo/1)
-&gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/artigo/2)
-&gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/artigo/3)
-
-Quais Categories são determinados Posts(Volta)
-&gt; Em route 'web.php', inserir route /categoria/{category}
-(Informar 'use' tbm)
-
+Quais Categories são determinados Posts <span class="text-muted">(Volta)</span>
+9.Em route 'web.php', inserir route /categoria/{category} <span class="text-muted">//Informar 'use' também</span>
+<!--PAROU AQUI-->
 &gt; No CategoryController, no método show, informar Html Categories
 &gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/categoria/1)
 &gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/categoria/2)
@@ -425,7 +378,7 @@ Quais Categories são determinados Posts(Volta)
 &gt; Com Laravel Installer(laravel new nomeProjeto --jet) Escolher opção de dependência que melhor convém-lhe
 &gt; php artisan migrate
 &gt; Verificar arquivos e inserir código faltando
-&gt; INSERIR BD MANUALMENTE: INSERT INTO user(name,email,password) VALUES ('mateus','mateus@gmail',123);
+&gt; INSERIR BD MANUALMENTE: INSERT INTO user(name,email,password) VALUES ('ubsocial','ubsocial@gmail',123);
 <i>(O Doc Projeto7.8 mostra o projeto de autenticação incializado, utilizado Laravel8)</i>
 
 Com o lançamento do Laravel8, novas maneiras de autenticação foram desenvolvidas. Elas funcionam por meio do Laravel Jetstream e Fortify, juntamente com serviços de autenticação token API Laravel Livewire e Inertia.js, além de pacotes de autenticação como o Passport Sanctum, ambas libraries baseadas em cookies embutidos no Laravel, onde uma delas deverá ser escolhida para criação do projeto. No entanto, como tudo ainda encontra-se muito novo, instável e pouco padronizado, utilizaremos o meio mais utilizado na versão 6, através do Laravel UI, de uma forma simples com Bootstrap, ao invés do Vue. Isso, além do fato de que desenvolveremos toda a estrutura de login para maior entendimento. Por fim, o processo é bastante similar entre as versões, desde que conheça-se a estrutura e funcionamento da mesma.
