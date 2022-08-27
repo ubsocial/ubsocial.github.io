@@ -187,15 +187,15 @@
             <br><h4>Anotações</h4>
 <small><pre><code>
 <h6><b>Iniciar projeto Laravel</b></h6>
-1. Instalação do projeto
-2. Configuração BD no '.env'
-3. Criar model, migration e controller simples(php artisan make:model nomeModel -mcr)
-4. Parametrizar migration, então model
-5. Resetar BD e executar migrations(php artisan migrate:fresh)
-6. Definir route
-7. Programar método(s) do controller vinculado à route
-8. Criar e programar view, com Html dinâmico, vinculada ao método do controller
-9. Testar acesso com Browser
+1.Instalação do projeto
+2.Configuração BD no '.env'
+3.Criar model, migration e controller simples(php artisan make:model nomeModel -mcr)
+4.Parametrizar migration, então model
+5.Resetar BD e executar migrations(php artisan migrate:fresh)
+6.Definir route
+7.Programar método(s) do controller vinculado à route
+8.Criar e programar view, com Html dinâmico, vinculada ao método do controller
+9.Testar acesso com Browser
 
 
 <h6><b>3.Automatizar com artisan e resource</b></h6>
@@ -359,261 +359,228 @@ Quais Posts são determinadas Categories <span class="text-muted">(Ida)</span>
 
 Quais Categories são determinados Posts <span class="text-muted">(Volta)</span>
 9.Em route 'web.php', inserir route /categoria/{category} <span class="text-muted">//Informar 'use' também</span>
-<!--PAROU AQUI-->
-&gt; No CategoryController, no método show, informar Html Categories
-&gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/categoria/1)
-&gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/categoria/2)
-&gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/categoria/3)
-
-&gt; Em Model Category, informar método de relacionamento posts
-&gt; No CategoryController, no método show, informar Html de Posts
-&gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/categoria/1)
-&gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/categoria/2)
-&gt; Testar, informando url no Browser (http://localhost/projetos/laravel/projeto6/categoria/3)
+10.No CategoryController, no método show, informar Html Categories
+11.Testar: <a href="http://localhost/projetos/laravel/projeto6/categoria/2" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto6/categoria/2</a>
+12.Em Model Category, informar método de relacionamento posts
+13.No CategoryController, no método show, informar Html de Posts
+14.Testar: <a href="http://localhost/projetos/laravel/projeto6/categoria/2" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto6/categoria/2</a>
 
 
 <h6><b>7.Login com artisan e hardcode</b></h6>
-<i>LARAVEL8:</i>
-//Criar projeto Projeto7.8 e, dentro do projeto, instalar dependências:
-&gt; Com Laravel Installer(laravel new nomeProjeto --jet) Escolher opção de dependência que melhor convém-lhe
-&gt; php artisan migrate
-&gt; Verificar arquivos e inserir código faltando
-&gt; INSERIR BD MANUALMENTE: INSERT INTO user(name,email,password) VALUES ('ubsocial','ubsocial@gmail',123);
-<i>(O Doc Projeto7.8 mostra o projeto de autenticação incializado, utilizado Laravel8)</i>
+No Laravel 8, há novas maneiras de autenticação. Elas funcionam por meio do Laravel Jetstream e Fortify, juntamente com serviços de autenticação token API Laravel Livewire e Inertia.js, além de pacotes de autenticação como o Passport Sanctum, ambas libraries baseadas em cookies embutidos no Laravel, onde uma delas deverá ser escolhida para criação do projeto. No entanto, como tudo ainda encontra-se muito novo, instável e pouco padronizado, utilizaremos o meio mais utilizado na versão 6, através do Laravel UI, de uma forma simples com Bootstrap, ao invés do Vue. Isso, além do fato de que desenvolveremos toda a estrutura de login para maior entendimento. Por fim, o processo é bastante similar entre as versões, desde que conheça-se a estrutura e funcionamento da mesma.
 
-Com o lançamento do Laravel8, novas maneiras de autenticação foram desenvolvidas. Elas funcionam por meio do Laravel Jetstream e Fortify, juntamente com serviços de autenticação token API Laravel Livewire e Inertia.js, além de pacotes de autenticação como o Passport Sanctum, ambas libraries baseadas em cookies embutidos no Laravel, onde uma delas deverá ser escolhida para criação do projeto. No entanto, como tudo ainda encontra-se muito novo, instável e pouco padronizado, utilizaremos o meio mais utilizado na versão 6, através do Laravel UI, de uma forma simples com Bootstrap, ao invés do Vue. Isso, além do fato de que desenvolveremos toda a estrutura de login para maior entendimento. Por fim, o processo é bastante similar entre as versões, desde que conheça-se a estrutura e funcionamento da mesma.
+<span class="text-muted">//Criar projeto Projeto7.8 e, dentro do projeto, instalar dependências:</span>
+1.Com Laravel Installer (<i>laravel new nomeProjeto --jet</i>)
+2.php artisan migrate
+3.Verificar arquivos e inserir código faltando
+4.Inserir BD: <span class="text-muted">INSERT INTO user(name,email,password) VALUES ('ubsocial','ubsocial@gmail',123);</span>
+5.Resetar BD: <span class="text-muted">php artisan migrate:fresh</span>
 
-&gt; Resetar BD: php artisan migrate:fresh
-
-<b>Instalação Clássica Laravel6 Authentication:</b>
-&gt; composer require laravel/ui --dev
-&gt; php artisan ui bootstrap --auth
-&gt; npm install && npm run dev (necessário Node.js instalado!)
+<b>Instalação Clássica Laravel 6 Authentication:</b>
+<span class="text-muted">composer require laravel/ui --dev</span>
+<span class="text-muted">php artisan ui bootstrap --auth</span>
+<span class="text-muted">npm install && npm run dev</span>
 (Serão geradas migrations, route, controllers e views específicas para authentication)
+Testar registro: <a href="http://localhost/projetos/laravel/projeto7/public" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto7/public</a>
 
-&gt; Testar no Browser se a página possui botões de Login/Register (http://localhost/projetos/laravel/projeto7/public)
-(Entrar na página 'Register' e registrar novo User, senha de pelo menos 8 caracteres, Testar login com os mesmos dados)
+<b>Criar Painel de Administração Manualmente:</b>
+1.Em routes 'web.php', adicionar route comentada /admin <span class="text-muted">(Descomentar após feitos respectivos Controller e método envolvidos)</span>
+2.Criar controller AuthController: <span class="text-muted">php artisan make:controller AuthController</span>
+3.Criar método dashboard no AuthController
+4.Criar, em views, diretório admin
+5.Em views/admin criar View dashboard
+6.Testar: <a href="http://localhost/projetos/laravel/projeto7/public/admin" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto7/public/admin</a>
 
-<b>Criando Painel de Administração Manualmente:</b>
-&gt; Em routes 'web.php', adicionar route comentada /admin (Descomentar após feitos respectivos Controller e método envolvidos)
-
-&gt; Criar controller AuthController: php artisan make:controller AuthController
-&gt; Criar método dashboard no AuthController
-
-&gt; Criar, em views, diretório admin
-&gt; Em views/admin criar View dashboard
-&gt; Testar no Browser (http://localhost/projetos/laravel/projeto7/public/admin)
-
-&gt; Inserir, dentro do método dashboard do AuthController, condição if da facade Auth
-(Insira os 'use' tbm)
-&gt; Em routes 'web.php', adicionar route /admin/login
-&gt; Em AuthController, inserir método showLoginForm
-&gt; Em views/admin, adicionar view formLogin
-&gt; Em AuthController, informar return redirect
-&gt; Testar no Browser (http://localhost/projetos/laravel/projeto7/public/admin) será redirecionado à /login
+7.Inserir, dentro do método dashboard do AuthController, condição if da facade Auth
+8.Em routes 'web.php', adicionar route /admin/login
+9.Em AuthController, inserir método showLoginForm
+10.Em views/admin, adicionar view formLogin
+11.Em AuthController, informar return redirect
+12.Testar: <a href="http://localhost/projetos/laravel/projeto7/public/admin" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto7/public/admin</a> será redirecionado à /login
 
 <b>Validar iserção dos dados e exibir dashboard:</b>
-&gt; Em routes 'web.php', informar route '/admin/login/do'
-&gt; Em AuthController, informar método login com somente dd()
-&gt; Testar formulário no Browser F5
-
-&gt; Em AuthController, método login, informar $credentials e Auth::attempt()
-&gt; Testar login, conforme BD, no Browser (http://localhost/projetos/laravel/projeto7/public/admin/login) e, após isso voltar para /admin, encontrarei o painel de admin
-
-&gt; Em AuthController, informar no if dd(Auth::user)
+13.Em routes 'web.php', informar route '/admin/login/do'
+14.Em AuthController, informar método login com somente dd()
+15.Testar formulário no Browser
+16.Em AuthController, método login, informar $credentials e Auth::attempt()
+17.Testar: <a href="http://localhost/projetos/laravel/projeto7/public/admin/login" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto7/public/admin/login</a> e, após isso voltar para /admin, encontrarei o painel de admin
+18.Em AuthController, informar no if dd(Auth::user)
 
 <b>Logout:</b>
-&gt; Em routes 'web.php', informar route '/admin/logout'
-&gt; Em AuthController, informar método logout
-&gt; Em view dashboard, informar link com route logouts
-&gt; Testar login, conforme BD, no Browser (http://localhost/projetos/laravel/projeto7/public/admin/login) e, após isso clicar em 'logout'(voltará ao form de login)
+19.Em routes 'web.php', informar route '/admin/logout'
+20.Em AuthController, informar método logout
+21.Em view dashboard, informar link com route logouts
+22.Testar: <a href="http://localhost/projetos/laravel/projeto7/public/admin/login" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto7/public/admin/login</a>
 
 <b>Validar Erros:</b>
-&gt; AuthController, informar if Auth::attempt e return redirect back
-&gt; Em view formLogin, informar @if
-&gt; Testar login incorreto no Browser (http://localhost/projetos/laravel/projeto7/public/admin/login)
+23.AuthController, informar if Auth::attempt e return redirect back
+24.Em view formLogin, informar @if
+25.Testar login incorreto: <a href="http://localhost/projetos/laravel/projeto7/public/admin/login" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto7/public/admin/login</a>
 
 <b>Validar email:</b>
-&gt; Em view formLogin, trocar a propriedade email para text no input email
-&gt; AuthController, método login, informar if filter_var $request-&gt;email
-&gt; Testar email login incorreto no Browser (http://localhost/projetos/laravel/projeto7/public/admin/login)
+26.Em view formLogin, trocar a propriedade email para text no input email
+27.AuthController, método login, informar if filter_var $request-&gt;email
+28.Testar email login incorreto: <a href="http://localhost/projetos/laravel/projeto7/public/admin/login" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto7/public/admin/login</a>
 
 
-<h6><b>Projeto8: Laravel Frontend com Blade</b></h6>
-- Diretivas sintáticas específicas do Blade(if, foreach, while...)
-- Caracteres de interpolação(interpolation, misturar Html com Php de forma mais simples)
-- Assets: Ativos do site(js, css...)
-
-&gt; Em routes 'web.php' criar routes /cursos e /contato, inserindo name() nas routes, e alterar view 'welcome' para 'site.home'
-&gt; Em views, criar diretório 'site' e, dentro dele, criar view home
-&gt; Acessar site do Bootstrap &gt; Examples &gt; Carousel, acessar código fonte, copiar todo o &lt;body&gt; até o &lt;/main&gt;, colar o código na view 'home' e fechar o &lt;/body&gt;
-&gt; No Browser, página 'public', recarregar página e testar site
+<h6><b>8.Laravel Frontend com Blade</b></h6>
+1.Em routes 'web.php' criar routes /cursos e /contato, inserindo name() nas routes, e alterar view 'welcome' para 'site.home'
+2.Em views, criar diretório 'site' e, dentro dele, criar view home
+3.Acessar site do Bootstrap &gt; Examples &gt; Carousel, acessar código fonte, copiar todo o &lt;body&gt; até o &lt;/main&gt;, colar o código na view 'home' e fechar o &lt;/body&gt;
+4.No Browser, página 'public', recarregar página e testar site
 
 <b>Interpolation (Mesclar Php com Html usando o Blade):</b>
-&gt; Em view 'home', alterar, no footer, o ano para Php {{date('Y')}}
+5.Em view 'home', alterar, no footer, o ano para Php {{date('Y')}}
 
 <b>Diretivas (@if, @foreach, @while...):</b>
-&gt; Em view 'home', inserir if de condição bom dia, boa tarde, boa noite (Aprox linha 47) e foreach modelo
-&gt; Em Config/app.php, alterar timezone para 'America/Sao_Paulo' (UTC é o padrão do Laravel, 3 hrs a mais...)
-&gt; No Browser, página 'public', recarregar página e testar site
+6.Em view 'home', inserir if de condição bom dia, boa tarde, boa noite (Aprox linha 47) e foreach modelo
+7.Em Config/app.php, alterar timezone para 'America/Sao_Paulo' (UTC é o padrão do Laravel, 3 hrs a mais...)
+8.No Browser, página 'public', recarregar página e testar site
 Exemplo:
-<i>@foreach()
+<span class="text-muted">@foreach()
     &lt;p&gt;Código aqui&lt;/p&gt;
-@endforeach</i>
+@endforeach</span>
 
 <b>Criar página de contato:</b>
-&gt; No navbar, criar links de routes para os itens home, cursos e contato(retirar 'disable' do contato)
-&gt; Criar views, no diretório site, 'contact' e 'courses'
+9.No navbar, criar links de routes para os itens home, cursos e contato (Retirar 'disable' do contato)
+10.Criar views, no diretório site, 'contact' e 'courses'
 
 <b>Herança (@extends: Layout Filho herda de Layout Master):</b>
-&gt; No diretório 'site', criar diretório 'master'
-&gt; Em 'master', criar view 'layout'(Layout Master). Recortar todo conteúdo da view 'home' na view 'layout'
-&gt; Em view 'home' informar @extends
-
-&gt; Em view 'layout', informar links de routes nos itens do navbar
-&gt; Em routes 'web.php', alterar routes /cursos e /contato de view 'welcome' para suas respectivas views
-
-&gt; Em view 'layout' recortar conteúdo de &lt;main&gt; até &lt;/main&gt; (Mas manter o footer, tag main deve ser mantida)
-&gt;&gt; Dentro da tag main informar @yield('content')
-&gt; View 'home', informar @section('content'), colar conteúdo recortado de layout abaixo da section, após informar @endsection
-&gt;&gt; Testar, no Browser, página home e verificar se o conteúdo interno fora acoplada à mesma(Páginas courses e contact possuem somente conteúdos extendidos de 'layout')
-
-&gt; View 'contact', informar @section('content') e @endsection e conteúdo interno à ela
-&gt;&gt; Testar, no Browser, página contact e verificar se o conteúdo interno fora acoplada à mesma
-
-&gt; View 'courses', informar @section('content') e @endsection e conteúdo interno à ela
-&gt;&gt; Testar, no Browser, página courses e verificar se o conteúdo interno fora acoplada à mesma
+11.No diretório 'site', criar diretório 'master'
+12.Em 'master', criar view 'layout' (Layout Master). Recortar todo conteúdo da view 'home' na view 'layout'
+13.Em view 'home' informar @extends
+14.Em view 'layout', informar links de routes nos itens do navbar
+15.Em routes 'web.php', alterar routes /cursos e /contato de view 'welcome' para suas respectivas views
+16.Em view 'layout' recortar conteúdo de &lt;main&gt; até &lt;/main&gt; <span class="text-muted">(Mas manter o footer, tag main deve ser mantida)</span>
+17.Dentro da tag main informar @yield('content')
+18.View 'home', informar @section('content'), colar conteúdo recortado de layout abaixo da section, após informar @endsection
+19.Testar, no Browser, página home
+20.View 'contact', informar @section('content') e @endsection e conteúdo interno à ela
+21.Testar, no Browser, página contact
+22.View 'courses', informar @section('content') e @endsection e conteúdo interno à ela
+23.Testar, no Browser, página courses
 
 <b>Menu itens ativos/selecionados:</b>
-&gt; View 'layout', em nav-item do navbar, informar condição ternária {{Route...}}
+24.View 'layout', em nav-item do navbar, informar condição ternária {{Route...}}
 
 
 <h6><b>9.Gerenciar assets com Laravel Mix</b></h6>
-<b>Laravel Mix:</b> Ferramenta do ecossistema Laravel para gestão de webpacks
+<span class="text-muted"><b>Laravel Mix</b>: Ferramenta do ecossistema Laravel para gestão de webpacks</span>
 
 <b>Codificação diretório site:</b>
-&gt; Diretório 'views', criar novo diretório 'site', criando dentro desse uma view 'home'
-&gt;&gt; Diretório 'site', criar novos diretórios 'css' e 'js'
-&gt;&gt;&gt; Diretório 'css', criar arquivo 'style.css'
-&gt;&gt;&gt; Diretório 'js', criar arquivo 'script.js'
+1.Diretório 'views', criar novo diretório 'site', criando dentro desse uma view 'home'
+2.Diretório 'site', criar novos diretórios 'css' e 'js'
+3.Diretório 'css', criar arquivo 'style.css'
+4.Diretório 'js', criar arquivo 'script.js'
 
 <b>Instalar dependências de acesso à arquivos que não estão no diretório public:</b>
-&gt; npm install (Instalará todas dependências presentes no arquivo package.json) - Necessário Nodejs com NPM instalados
-(Criará diretório 'node_modules', contendo todas dependências js)
+<span class="text-muted">npm install</span> (Instalará dependências presentes no arquivo package.json. Criará diretório 'node_modules', com dependências js)
 
 <b>Parametrizar arquivos css que serão vinculados ao diretório 'public':</b>
-&gt; Arquivo 'webpack.mix.js', comentar entradas e informar mix styles
-&gt;&gt; npm run dev (Atualizar arquivos com mix, gera arquivo de destino no diretório 'public')
-
-&gt; Em 'views/site/css/style.css', inserir estilos para *
-<i>(Sempre alterar arquivos no 'resources', os de 'public' serão gerados automaticamente à partir destes)</i>
-&gt;&gt; Atualizar arquivos mix: npm run dev (npm run produtcion mimifica tbm)
+1.Arquivo 'webpack.mix.js', comentar entradas e informar mix styles
+2.<span class="text-muted">npm run dev</span> (Atualizar arquivos com mix, gera arquivo de destino no diretório 'public')
+3.Em 'views/site/css/style.css', inserir estilos para * <span class="text-muted">(Sempre alterar arquivos no 'resources', os de 'public' serão gerados automaticamente à partir destes)</span>
+4.Atualizar arquivos mix: <span class="text-muted">npm run dev</span>
 
 <b>Inserir novo arquivo de css para parametrizar:</b>
-&gt; Em views/site/css criar novo arquivo 'reset.css', recortar conteúdo do 'style.css' e colar no 'reset.css'
-&gt;&gt; Em views/site/css/style.css, informar estilos de h1
-&gt;&gt; Em 'webpack.mix.js' informar, no caminho de origem, arquivo 'reset.css'
-&gt;&gt; Atualizar arquivos mix: npm run dev (npm run produtcion mimifica tbm)
-(npm run dev resultará em 1 único arquivo no public, com todos código concatenados, em ordem, dos arquivos origem)
-(npm run produtcion fará o mesmo que npm run dev, mas colocará o código, no arquivo destino, em única linha)
+5.Em views/site/css criar novo arquivo 'reset.css', recortar conteúdo do 'style.css' e colar no 'reset.css'
+6.Em views/site/css/style.css, informar estilos de h1
+7.Em 'webpack.mix.js' informar, no caminho de origem, arquivo 'reset.css'
+8.Atualizar arquivos mix: <span class="text-muted">npm run dev</span>
 
 <b>Vincular arquivos css com view home:</b>
-&gt; View 'home', informar &lt;link&gt; com asset, que linkará arquivos no diretório 'public'
-&gt; Em routes 'web.php', alterar route '/'
-&gt;&gt; Testar, no Browser, url padrão de entrada (http://localhost/projetos/laravel/projeto9/public)
+9.View 'home', informar &lt;link&gt; com asset, que linkará arquivos no diretório 'public'
+10.Em routes 'web.php', alterar route '/'
+11.Testar: <a href="http://localhost/projetos/laravel/projeto9/public" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto9/public</a>
 
-<b>Otimizar chamada de arquivos origem/destino, para melhor compatibilidade com futuras atualizações de versões css e js:</b>
-&gt; Em 'webpack.mix.js', informar .version() no mix.styles
-&gt;&gt; Atualizar arquivos mix: npm run produtcion (Gerará, em public, arquivo 'mix-manifest.json', com link Hash de versão do css e js)
-&gt;&gt; Linkar Hash na view home: View 'home', alterar link asset por url(mix)
+<b>Otimizar chamada de arquivos origem/destino, para melhor compatibilidade com futuras versões css e js:</b>
+12.Em 'webpack.mix.js', informar .version() no mix.styles
+13.Atualizar arquivos mix: <span class="text-muted">npm run produtcion</span> (Gerará, em public, arquivo 'mix-manifest.json', com link Hash de versão do css e js)
+14.Linkar Hash na view home: View 'home', alterar link asset por url(mix)
 
 <b>Parametrizar arquivos js que serão vinculados ao diretório 'public':</b>
-&gt; Em 'views/site/js/script.js' popular arquivo com alert
-&gt; Em 'webpack.mix.js', criar mix.scripts e informar caminhos
-&gt;&gt; Atualizar arquivos mix: npm run produtcion
+15.Em 'views/site/js/script.js' popular arquivo com alert
+16.Em 'webpack.mix.js', criar mix.scripts e informar caminhos
+17.Atualizar arquivos mix: <span class="text-muted">npm run produtcion</span>
 
 <b>Vincular arquivos js com view site home:</b>
-&gt; View 'site.home', informar &lt;script&gt; com url(mix)
-&gt;&gt; Testar, no Browser, url padrão de entrada (http://localhost/projetos/laravel/projeto9/public)
+18.View 'site.home', informar &lt;script&gt; com url(mix)
+19.Testar: <a href="http://localhost/projetos/laravel/projeto9/public" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto9/public</a>
 
 <b>Automatizar atualização dos arquivos mix:</b>
-npm run watch (Lê arquivos e assite-os. Qualquer modificação nos arquivos, o npm fará a atualização automaticamente)
+<span class="text-muted">npm run watch</span> (Lê arquivos e assite-os. Qualquer modificação nos arquivos, o npm fará a atualização automaticamente)
 
-&gt; Em views/site/css/style.css, alterar tamanho de fonte
-&gt;&gt; Testar, no Browser, url padrão de entrada (http://localhost/projetos/laravel/projeto9/public)
+20.Em views/site/css/style.css, alterar tamanho de fonte
+21.Testar: <a href="http://localhost/projetos/laravel/projeto9/public" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto9/public</a>
 
 <b>Codificação diretório admin:</b>
-&gt; Em diretório views, criar novo diretório 'admin'
-&gt;&gt; Diretório admin, criar novos diretórios 'css' e 'js'
-&gt;&gt; Diretório admin, criar view 'home'
-&gt;&gt;&gt; Em routes 'web.php', criar route '/admin'
-&gt;&gt;&gt;&gt; Testar, no Browser, url admin de entrada (http://localhost/projetos/laravel/projeto9/public/admin)
+22.Em diretório views, criar novo diretório 'admin'
+23.Diretório admin, criar novos diretórios 'css' e 'js'
+24.Diretório admin, criar view 'home'
+25.Em routes 'web.php', criar route '/admin'
+26.Testar: <a href="http://localhost/projetos/laravel/projeto9/public/admin" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto9/public/admin</a>
 
 <b>Criar css do admin:</b>
-&gt; Em 'views/admin/css' criar arquivo 'style.css'
-&gt; Em 'views/admin/js' criar arquivo 'script.js'
+27.Em 'views/admin/css' criar arquivo 'style.css'
+28.Em 'views/admin/js' criar arquivo 'script.js'
 
 <b>Vincular arquivos com diretório public:</b>
-&gt; Em 'webpack.mix.js', acrescentar novos mix.styles() e mix.scripts()
-&gt;&gt; Matar processo de watch: cntrl+c no terminal
-&gt;&gt; Rodar watch novamente para sincronizar: npm run watch
+29.Em 'webpack.mix.js', acrescentar novos mix.styles() e mix.scripts()
+30.Matar processo de watch: <i>ctrl+c</i> no terminal
+31.Rodar watch novamente para sincronizar: <span class="text-muted">npm run watch</span>
 
 <b>Vincular css e js com view admin home:</b>
-&gt;&gt; View 'admin.home', informar &lt;link css&gt; e &lt;script&gt; com url(mix)
-&gt;&gt;&gt;&gt; Testar, no Browser, url admin de entrada (http://localhost/projetos/laravel/projeto9/public/admin)
-(Proibirá o acesso - conflito entre routes e diretórios (Caminho da route e diretório com mesmo nome))
+32.View 'admin.home', informar &lt;link css&gt; e &lt;script&gt; com url(mix)
+33.Testar: <a href="http://localhost/projetos/laravel/projeto9/public/admin" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto9/public/admin</a>
+<span class="text-muted">(Proibirá acesso: Conflito entre routes e diretórios - caminho da route e diretório com mesmo nome)</span>
 
-<i>(Resolver alterando o caminho da route, ou nome do diretório)</i>
-&gt; Mudar nome do caminho da route '/admin' para '/painel'
-&gt;&gt; Testar, no Browser, nova url admin de entrada (http://localhost/projetos/laravel/projeto9/public/painel)
+<span class="text-muted">(Resolver alterando o caminho da route, ou nome do diretório)</span>
+34.Mudar nome do caminho da route '/admin' para '/painel'
+35.Testar: <a href="http://localhost/projetos/laravel/projeto9/public/painel" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto9/public/painel</a>
 
 
 <h6><b>10.Bootstrap local no Laravel</b></h6>
-&gt; Criar view 'home'
-&gt; Em routes 'web.php', alterar route 'welcome' para 'home'
+1.Criar view 'home'
+2.Em routes 'web.php', alterar route 'welcome' para 'home'
 
-<b>Instalação das dependências:</b>
-&gt; Instalar, no diretório do projeto, jQuery via terminal usando npm: npm install jquery
-<i>(Diretório node_modules será criado com dependências js)</i>
+<b>Instar dependências:</b>
+3.Instalar, no diretório do projeto, jQuery via terminal usando npm: <span class="text-muted">npm install jquery</span> (Diretório node_modules será criado com dependências js)
 
 <b>Vincular jQuery com o public do projeto:</b>
-&gt; Arquivo 'webpack.mix.js', apagar/comentar mix padrão e criar novo mix.scripts
-&gt; Vincular com public: npm run dev
+4.Arquivo 'webpack.mix.js', apagar/comentar mix padrão e criar novo mix.scripts
+5.Vincular com public: <span class="text-muted">npm run dev</span>
 
 <b>Implementar jquery dentro da view 'home':</b>
-&gt; View 'home', informar &lt;script&gt; com asset
-
-&gt; Instalar Bootstrap no projeto: npm install bootstrap
-<i>(Diretório bootstrap será criado em node_modules)</i>
-&gt; Arquivo 'webpack.mix.js', criar mix.scripts do bootstrap
-&gt; Vincular com public: npm run dev
-
-&gt; Arquivo 'webpack.mix.js', criar mix.sass do bootstrap acima do mix.scripts
-<i>(Poderia-se vincular somente os arquivos .css no dist do Bootstrap para usar o framework comum, mas não poderia-se criar estilos próprios)</i>
-&gt; Vincular com public: npm run dev (2x se necessário para instalação de outras dependências)
+6.View 'home', informar &lt;script&gt; com asset
+7.Instalar Bootstrap no projeto: <span class="text-muted">npm install bootstrap</span> (Diretório bootstrap será criado em node_modules)
+8.Arquivo 'webpack.mix.js', criar mix.scripts do bootstrap
+9.Vincular com public: <span class="text-muted">npm run dev</span>
+10.Arquivo 'webpack.mix.js', criar mix.sass do bootstrap acima do mix.scripts <span class="text-muted">(Poderia-se vincular somente os arquivos .css no dist do Bootstrap para usar o framework comum, mas não poderia-se criar estilos próprios)</span>
+11.Vincular com public: <span class="text-muted">npm run dev</span>
 
 <b>Implementar bootstrap dentro da view 'home':</b>
-&gt; View 'home', informar &lt;script&gt; do Bootstrap, e &lt;link css&gt; do Bootstrap(Acima dos &lt;script&gt;) e conteúdo Html de teste
-&gt;&gt; Testar, no Browser, informando url padrão(http://localhost/projetos/laravel/projeto10/public/)
+12.View 'home', informar &lt;script&gt; do Bootstrap, e &lt;link css&gt; do Bootstrap (Acima dos &lt;script&gt;) e conteúdo Html de teste
+13.Testar, no Browser: <a href="http://localhost/projetos/laravel/projeto10/public/" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto10/public/</a>
 
 <b>Alterar propriedades do Bootstrap (Personalização):</b>
-&gt; Diretório 'views', criar novo diretório 'scss' e, dentro desse, criar arquivo 'style.scss'
-&gt;&gt; Em 'webpack.mix.js', recortar caminho de origem do mix.sass, e colar dentro de um @import do style.scss
-&gt; Em 'webpack.mix.js', em mix.sass, informar novo caminho de origem com relação ao arquivo style.scss em views. Modificar o nome dor arquivo de saída de bootstrap para style.css
-&gt; Vincular com public: npm run dev
-(Apagar arquivo antigo public/site/bootstrap.css)
+14.Diretório 'views', criar novo diretório 'scss' e, dentro desse, criar arquivo 'style.scss'
+15.Em 'webpack.mix.js', recortar caminho de origem do mix.sass, e colar dentro de um @import do style.scss
+16.Em 'webpack.mix.js', em mix.sass, informar novo caminho de origem com relação ao arquivo style.scss em views. Modificar nome do arquivo de saída de bootstrap para style.css
+17.Vincular com public: <span class="text-muted">npm run dev</span>
+<span class="text-muted">(Apagar arquivo antigo public/site/bootstrap.css)</span>
 
 <b>Atualizar vinculação com view 'home':</b>
-&gt; Em view 'home', alterar &lt;link css&gt; do bootstrap para novo arquivo(style.css)
+18.Em view 'home', alterar &lt;link css&gt; do bootstrap para novo arquivo (style.css)
 
-<b>Alterar o Theming(Vars de Personalização) do Bootstrap:</b>
-&gt; Adicionar novo padrão de cor(Theme Colors)
-&gt; Em 'resources/views/scss/style.scss', informar Theme Colors informando cores personalizadas
-&gt; Vincular com public: npm run dev
-&gt; Na view 'home', informar button de class danger
-&gt;&gt; Testar, no Browser, informando url padrão(http://localhost/projetos/laravel/projeto10/public/)
+<b>Alterar o Theming (Vars de Personalização) do Bootstrap:</b>
+19.Adicionar novo padrão de cor (Theme Colors)
+20.Em 'resources/views/scss/style.scss', informar Theme Colors informando cores personalizadas
+21.Vincular com public: <span class="text-muted">npm run dev</span>
+22.Na view 'home', informar button de class danger
+23.Testar: <a href="http://localhost/projetos/laravel/projeto10/public/" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto10/public/</a>
 
 
+<!--PAROU AQUI-->
 <h6><b>11.Uploads automatizados</b></h6>
 <i>Pré-Requisitos:</i>
 &gt; Criar Migration CreateProductsTable: php artisan make:migration create_products_table --create=products (Informar dados tbm)
