@@ -150,7 +150,7 @@
             <p id="textoPost"><b>ChatOps</b> trabalha com os conceitos de GitOps, sendo a junção das tarefas de automação e colaboração. É delegar a responsabilidade de tarefas e ações para bot interno, que também faz parte da organização e está executando as conversas. É uma metodologia assim como DevOps (ChatOps = Chat + DevOps). O funcionamento se dá por meio de aplicação de chat (Slack, Rocket.Chat, Microsoft Teams), adiciona-se bots para executar as ações da infraestrutura, através de comandos enviados pelas equipes de profissionais DevOps.</p>
             
             <br><h4>Ferramentas DevOps</h4>
-            <p id="textoPost">Uma das características do DevOps é a utilização, geralmente, de ferramentas Open Source, que fornecem melhor personalização às equipes, evitando vendor lock-in (Aprisionamento tecnológico perante a ferramenta). Existem inúmeras ferramentas para automatização em DevOps, inclusive fora criada uma tabela periódica com as principais do mercado, <a href="https://digital.ai/periodic-table-of-devops-tools" target="_blank">acesse-a aqui</a>. Entre as principais ferramentas para cada estágio, tem-se:</p>
+            <p id="textoPost">Uma das características do DevOps é a utilização, geralmente, de ferramentas Open Source, que fornecem melhor personalização às equipes, evitando vendor lock-in (Aprisionamento tecnológico perante a ferramenta). Existem inúmeras ferramentas para automatização em DevOps, inclusive fora criada uma tabela periódica com as principais do mercado (<a href="https://digital.ai/periodic-table-of-devops-tools" target="_blank" id="btnLink">Acesse</a>). Entre as principais ferramentas para cada estágio, tem-se:</p>
             <ul>
                 <li><b>Plan</b>: Trello, Git e Github/Gitlab, Notion, Draw.io/Diagrams.net;</li>
                 <li><b>Code</b>: Git, editor de texto (VSCode, Sublime Text, Atom, etc);</li>
@@ -161,9 +161,7 @@
             </ul>
 
             <br><h4>Criar pipeline DevOps</h4>
-            <p id="textoPost">Para a criação da pipeline DevOps a seguir, será seguido o fluxo de trabalho abaixo. Será utilizado o Github Actions para o processo automatizado de Deploy, que atualizará, no repositório, os status do CI usando o arquivo 'pipeline.yml'. Após a integração concluir, o Github Actions efeturará o deploy da aplicação Heroku, deixando-a disponível publicamente. A aplicação que será feito deploy será uma aplicação web python flask de Hello World, que deverá ser feito 'fork' da mesma, no endereço <a href="https://github.com/4linux/DevOpsLab-
-                HelloWorld/" target="_blank">https://github.com/4linux/DevOpsLab-
-                HelloWorld/</a>. Caso o link acima não abra, <a href="https://github.com/mateusschwede/DevOpsLab-HelloWorld" target="_blank">acesse aqui</a>.</p>
+            <p id="textoPost">Para a criação da pipeline DevOps a seguir, será seguido o fluxo de trabalho abaixo. Será utilizado o Github Actions para o processo automatizado de Deploy, que atualizará, no repositório, os status do CI usando o arquivo 'pipeline.yml'. Após a integração concluir, o Github Actions efeturará o deploy da aplicação Heroku, deixando-a disponível publicamente. A aplicação que será feito deploy será uma aplicação web python flask de Hello World, que deverá ser feito 'fork' da mesma (<a href="https://github.com/mateusschwede/DevOpsLab-HelloWorld" target="_blank" id="btnLink">Acesse</a>).</p>
             <img src="../anexos/devops/fluxoPipelineDevOps.png" class="img-fluid" width="530px">
             <p><b>Passo a passo:</b></p>
             <ol>
