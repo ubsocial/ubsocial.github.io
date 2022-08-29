@@ -508,7 +508,7 @@ Exemplo:
 19.Testar: <a href="http://localhost/projetos/laravel/projeto9/public" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto9/public</a>
 
 <b>Automatizar atualização dos arquivos mix:</b>
-<span class="text-muted">npm run watch</span> (Lê arquivos e assite-os. Qualquer modificação nos arquivos, o npm fará a atualização automaticamente)
+<span class="text-muted">npm run watch</span> (Lê arquivos e assiste-os. Qualquer modificação nos arquivos, o npm fará a atualização automaticamente)
 
 20.Em views/site/css/style.css, alterar tamanho de fonte
 21.Testar: <a href="http://localhost/projetos/laravel/projeto9/public" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto9/public</a>
@@ -580,245 +580,209 @@ Exemplo:
 23.Testar: <a href="http://localhost/projetos/laravel/projeto10/public/" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto10/public/</a>
 
 
-<!--PAROU AQUI-->
 <h6><b>11.Uploads automatizados</b></h6>
-<i>Pré-Requisitos:</i>
-&gt; Criar Migration CreateProductsTable: php artisan make:migration create_products_table --create=products (Informar dados tbm)
-&gt; Criar Migration CreateProductsImagesTable: php artisan make:migration create_products_images_table --create=products_images (Informar dados tbm)
-&gt;&gt; Resetar BD: php artisan migrate:fresh
-&gt; Criar Models Product e ProductImage
+1.Criar Migrations (Informar dados também):
+<span class="text-muted">php artisan make:migration create_products_table --create=products</span>
+<span class="text-muted">php artisan make:migration create_products_images_table --create=products_images</span>
+2.Resetar BD: <span class="text-muted">php artisan migrate:fresh</span>
+3.Criar Models Product e ProductImage
 
 <b>UPLOAD SIMPLES</b>
-&gt; Em 'views', criar diretórios 'upload' e 'products', em 'upload' criar view 'form'
-&gt; 'web.php' criar route 'form'
-&gt;&gt; Testar, no Browser, url (http://localhost/projetos/laravel/projeto11/public/form)
+1.Em 'views', criar diretórios 'upload' e 'products', em 'upload' criar view 'form', em web.php' criar route 'form'
+2.Testar: <a href="http://localhost/projetos/laravel/projeto11/public/form" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto11/public/form</a>
 
-&gt; Cria controller UploadConttroller: php artisan make:controller UploadConttroller
-&gt;&gt; UploadConttroller, criar método upload, em branco(informar 'use' tbm)
-&gt;&gt; 'web.php', criar route 'upload'
-&gt;&gt; View 'form', informar action 'route()'
-&gt;&gt; UploadConttroller, popular método upload com 'dd()'
-&gt;&gt;&gt; Testar, no Browser, uma submissão
+3.Criar controller: <span class="text-muted">php artisan make:controller UploadConttroller</span>
+4.UploadConttroller, criar método upload, em branco
+5.'web.php', criar route 'upload'
+6.View 'form', informar action 'route()'
+7.UploadConttroller, popular método upload com 'dd()'
+8.Testar, no Browser, uma submissão
 
-&gt; UploadConttroller, método upload, informar $request-&gt;file()-&gt;store(), comentar 'dd()'
-<i>(No Laravel, arquivos são salvos na pasta 'storage', gerenciado pelo arquivo config&gt;filesystems.php, 'default'. A filesystem_driver está configurada, ou não, no arquivo .env. Se não existir, utilizará a 'local', configurada em 'disks', abaixo no mesmo arquivo)</i>
+9.UploadConttroller, método upload, informar $request-&gt;file()-&gt;store(), comentar 'dd()'
+<span class="text-muted">(No Laravel, arquivos são salvos na pasta 'storage', gerenciado pelo arquivo config/filesystems.php, 'default'. A filesystem_driver está configurada, ou não, no arquivo .env. Se não existir, utilizará a 'local', configurada em 'disks', abaixo no mesmo arquivo)</span>
 
 <b>Criar filesystem_driver como public, para ser acessada:</b>
-&gt; Em .env, abaixo de LOG_CHANNEL, informar FILESYSTEM_DRIVER=public
-(Agora, de acordo com filesystems.php, os arquivos upload serão salvos em 'storage/app/public')
-(De acordo com UploadConttroller, método store, ao fazer upload, o arquivos será salvo em 'storage/app/public/pastaTeste')
-&gt;&gt; Testar, no Browser, uma submissão(Verificar se diretório e upload fora feito)
+1.Em .env, abaixo de LOG_CHANNEL, informar FILESYSTEM_DRIVER=public
+2.Testar, no Browser, uma submissão (Verificar se diretório e upload fora feito)
+<span class="text-muted">(Agora, conforme filesystems.php, os arquivos upload serão salvos em 'storage/app/public')</span>
+<span class="text-muted">(Conforme UploadConttroller, método store, ao fazer upload, arquivo será salvo em 'storage/app/public/pastaTeste')</span>
 
 <b>UPLOAD MÚLTIPLO e BD</b>
-&gt; Criar controller ProductController: php artisan make:controller ProductController --resource
+1.Criar controller: <span class="text-muted">php artisan make:controller ProductController --resource</span>
+2.Em views/products criar views create e show
+3.ProductController, popular método create
+4.'web.php', criar route resource ('produtos')
+5.Verificar se traduziu names: <span class="text-muted">php artisan route:list</span>
+6.Testar: <a href="http://localhost/projetos/laravel/projeto11/public/produtos/create" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto11/public/produtos/create</a>
 
-&gt; Em views/products criar views create e show
-&gt;&gt; ProductController, popular método create
+7.ProductController, popular método store com 'dd()'
+8.Testar, no Browser, submissão de 2 arquivos
+9.ProductController, popular método store parte de Add Product, comentar 'dd()'
+10.Testar, no Browser, submissão de 2 arquivos <span class="text-muted">(Verificar se gravou no BD)</span>
 
-&gt; 'web.php', criar route resource('produtos')(informar 'use' tbm)
-&gt; Verificar se traduziu names: php artisan route:list
-&gt;&gt; Testar, no Browser, url(http://localhost/projetos/laravel/projeto11/public/produtos/create)
+11.ProductController, popular método store parte de Add Image(s), com 'var_dump()' no for e no início
+12.Testar, no Browser, submissão de 2 arquivos
 
-&gt; ProductController, popular método store com 'dd()'
-&gt;&gt; Testar, no Browser, submissão de 2 arquivos
-&gt; ProductController, popular método store parte de Add Product, comentar 'dd()'(Informar 'use' tbm)
-&gt;&gt; Testar, no Browser, submissão de 2 arquivos(Verificar se gravou no BD)
+13.ProductController, popular método store parte de Add Image(s), comentar var_dumps
+14.Testar, no Browser, submissão de 2 arquivos <span class="text-muted">(Verificar se gravou no BD)</span>
 
-&gt; ProductController, popular método store parte de Add Image(s), com 'var_dump()' no for e no início
-&gt;&gt; Testar, no Browser, submissão de 2 arquivos
+15.ProductController, popular método show
+16.Testar: <a href="http://localhost/projetos/laravel/projeto11/public/produtos/4" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto11/public/produtos/4</a>
 
-&gt; ProductController, popular método store parte de Add Image(s), comentar var_dumps(Informar 'use' tbm)
-&gt;&gt; Testar, no Browser, submissão de 2 arquivos(Verificar se gravou no BD)
-
-&gt; ProductController, popular método show
-&gt;&gt; Testar, no Browser, url(http://localhost/projetos/laravel/projeto11/public/produtos/4)
-
-&gt; Em .env, APP_URL, informar url do projeto(http://localhost/projetos/laravel/projeto11/public)
-&gt; Atualizar Laravel url de storage à Public: php artisan storage:link
-&gt;&gt; Testar, no Browser, url(http://localhost/projetos/laravel/projeto11/public/produtos/4)
+17.Em .env, APP_URL, informar url do projeto (<span class="text-muted">http://localhost/projetos/laravel/projeto11/public</span>)
+18.Atualizar Laravel url de storage à Public: <span class="text-muted">php artisan storage:link</span>
+19.Testar: <a href="http://localhost/projetos/laravel/projeto11/public/produtos/4" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto11/public/produtos/4</a>
 
 
 <h6><b>12.Ajax no Laravel</b></h6>
-<i class="text-muted">(Baseado no Projeto7, Laravel6 login)</i>
+<span class="text-muted">(Baseado no Projeto7, Laravel6 login)</span>
+1.Resetar BD: <span class="text-muted">php artisan migrate:fresh</span>
+2.Inserir user no Register
 
-Pré-Requisitos:
-&gt; Resetar BD: php artisan migrate:fresh
-&gt; Inserir user no Register
+1.Atualizar jQuery, informando link na view 'formLogin', inserir também arquivo Ajax (<span class="text-muted">https://github.com/jquery-form/form</span>), informando link CDN
+2.No final do código, informar área de código (&lt;script&gt;) com função Ajax, com alert teste
+3.Testar: <span class="text-muted">http://localhost/projetos/laravel/projeto12/public/admin/login</span>
+4.Remover method e action do form, e informar name no &lt;form&gt;
+5.Inserir função de submissão, com alert teste2 e testar, no Browser, submissão
+6.Inserir vars do form e testar, no Browser, submissões com os alerts
+7.Comentar vars, inserir função $.ajax
 
-&gt; Atualizar jQuery, informando link na view 'formLogin', inserir tbm arquivo Ajax(https://github.com/jquery-form/form), informando link CDN
-&gt; No final do código, informar área de código(&lt;script&gt;) com função Ajax, com alert teste
-&gt; Testar no Browser(http://localhost/projetos/laravel/projeto12/public/admin/login)
-&gt; Remover method e action do form, e informar name no &lt;form&gt;
-&gt; Inserir função de submissão, com alert teste2 e testar, no Browser, submissão
-&gt; Inserir vars do form e testar, no Browser, submissões com os alerts
-&gt; Comentar vars, inserir função $.ajax
+8.Controller AuthController, alterar if de feedback de validação de email
+9.Da mesma forma, informar no if Auth::attempt e abaixo, fora, dele
+10.Testar, no Browser, informando email inválido e dados inválidos <span class="text-muted">(Verificar console se json fora informado)</span>
 
-&gt; Controller AuthController, alterar if de feedback de validação de email
-&gt; Da mesma forma, informar no if Auth::attempt e abaixo, fora, dele
-&gt;&gt; Testar, no Browser, informando email inválido e dados inválidos(Verificar console se json fora informado)
-
-&gt; View formLogin, alterar, na $.ajax, console por resposta
-&gt; Remover blocos @if e @foreach, bloco {{$error}} também. Alterar class da &lt;div&gt;
-&gt; Função $.ajax, abaixo do else para erro, informar messageBox
-&gt;&gt; Testar, no Browser, informando dados inválidos(verificar se mensagem &lt;div&gt; aparecerá)
-&gt;&gt; Testar, no Browser, informando dados corretos(verificar se será redirecionado)
+11.View formLogin, alterar, na $.ajax, console por resposta
+12.Remover blocos @if e @foreach, bloco {{$error}} também. Alterar class da &lt;div&gt;
+13.Função $.ajax, abaixo do else para erro, informar messageBox
+14.Testar, no Browser, informando dados inválidos <span class="text-muted">(Verificar se mensagem &lt;div&gt; aparecerá)</span>
+15.Testar, no Browser, informando dados corretos <span class="text-muted">(Verificar se será redirecionado)</span>
 
 
 <h6><b>13.Enviar emails automaticamente</b></h6>
-Pré-Requisitos:
-&gt; Arquivo .env, parte de mail, configurar autenticação com servidor(Recomendável servidor de hospedagem/compartilhado premium para que o email não caia em span)
-&gt; Se seu remetente for Gmail, ative a opção de segurança 'Acesso a app menos seguro', nas configurações de sua conta Gmail
+1.Arquivo .env, parte de mail, configurar autenticação com servidor
+2.Se o remetente for Gmail, ative a opção de segurança 'Acesso a app menos seguro', nas configurações de sua conta Gmail
+3.Criar objeto de email: <span class="text-muted">php artisan make:mail laravelUBSocial</span> (No diretório app, cria-se diretório Mail)
+4.Em routes 'web.php', informar route 'envio-email'
 
-&gt; Criar objeto de email: php artisan make:mail newLaravelTips(nomeClasse)(No diretório app, cria-se diretório Mail)
-&gt; Em routes 'web.php', informar route 'envio-email'
+5.Em 'views', criar diretório 'mail', com view 'laravelUBSocial' e populá-la
+6.Em classe laravelUBSocial, método build, alterar nome da view de retorno
+7.Testar: <a href="http://localhost/projetos/laravel/projeto13/public/envio-email" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto13/public/envio-email</a>
 
-Criar views de teste template de email:
-&gt; Em 'views', criar diretório 'mail', com view 'newLaravelTips' e populá-la
-&gt; Em classe newLaravelTips, método build, alterar nome da view de retorno
-&gt;&gt; Testar, no Browser, url (http://localhost/projetos/laravel/projeto13/public/envio-email)
+8.Classe laravelUBSocial, popular método build com parâmetros
+9.Views 'web.php' popular view 'envio-email' com objeto std e parâmetros
+10.Classe laravelUBSocial, informar parâmetro $user no método construct, populá-lo, e atributos acima dele
 
-&gt; Classe newLaravelTips, popular método build com parâmetros
-&gt; Views 'web.php' popular view 'envio-email' com objeto std e parâmetros
-&gt; Classe newLaravelTips, informar parâmetro $user no método construct, populá-lo, e atributos acima dele
+<b>Disparar email teste</b>:
+11.View laravelUBSocial, informar vars{{}}
+12.Testar se variáveis foram informadas: <a href="http://localhost/projetos/laravel/projeto13/public/envio-email" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto13/public/envio-email</a>
+13.web.php, comentar return new, e informar Facade Mail
+14.Testar se variáveis foram informadas: <a href="http://localhost/projetos/laravel/projeto13/public/envio-email" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto13/public/envio-email</a>
+<span class="text-muted">(Verificar caixa de email do destinatário)</span>
 
-Disparar email teste:
-&gt; View newLaravelTips, informar vars{{}}
-&gt;&gt; Testar, no Browser, se variáveis foram informadas, url(http://localhost/projetos/laravel/projeto13/public/envio-email)
-&gt; web.php, comentar return new, e informar Facade Mail
-&gt;&gt; Testar, no Browser, se variáveis foram informadas, url(http://localhost/projetos/laravel/projeto13/public/envio-email)
-<i>(Verificar caixa de entrada e span no email destinatário)</i>
+<b>Criar template markdown de Email</b>:
+15.Importar templates markdown personalizáveis de email do Laravel: <span class="text-muted">php artisan vendor:publish --tag=laravel-mail</span> (Em resources/views cria-se diretório 'vendor/mail' com temas e configuráveis)
+16.web.php, comentar linha de Mail send() e descomentar linha acima, de return
+17.Testar: <a href="http://localhost/projetos/laravel/projeto13/public/envio-email" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto13/public/envio-email</a>
 
-Criar template markdown de Email:
-Importar templates markdown personalizáveis de email do Laravel: php artisan vendor:publish --tag=laravel-mail
-<i>(Em resources/views cria-se diretório 'vendor/mail' com temas e configuráveis)</i>
-&gt; web.php, comentar linha de Mail send() e descomentar linha acima, de return
-&gt;&gt; Testar, no Browser, recarregar págnina, se view é mostrada novamente(http://localhost/projetos/laravel/projeto13/public/envio-email)
+18.Classe laravelUBSocial, alterar return this-&gt;view para markdown
+21.View laravelUBSocial, informar @component e @endcomponent
+22.Testar: <a href="http://localhost/projetos/laravel/projeto13/public/envio-email" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto13/public/envio-email</a>
 
-&gt; Classe newLaravelTips, alterar return this-&gt;view para markdown(Comentei linha antiga e informei nova abaixo)
-&gt;&gt; Testar, no Browser, se layout mudou(http://localhost/projetos/laravel/projeto13/public/envio-email)
-&gt; View newLaravelTips, informar @component e @endcomponent
-&gt;&gt; Testar, no Browser, se layout mudou(http://localhost/projetos/laravel/projeto13/public/envio-email)
-
-Disparar email pronto:
-&gt; web.php, comentar return e descomentar Mail send()
-&gt;&gt; Testar, no Browser, envio do email(http://localhost/projetos/laravel/projeto13/public/envio-email)
-<i>(Verificar na caixa de email/span do email destinatário)</i>
+<b>Disparar email</b>:
+23.web.php, comentar return e descomentar Mail send()
+24.Testar: <a href="http://localhost/projetos/laravel/projeto13/public/envio-email" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto13/public/envio-email</a>
+<span class="text-muted">(Verificar caixa de email do destinatário)</span>
 
 
 <h6><b>14.Fila e processamento assíncrono</b></h6>
-<i class="text-muted">(Replica do projeto13)</i>
+<span class="text-muted">(Replica do projeto 13)</span>
+Enviar requisições ao BD, para depois executá-las, ao invés de executar tudo no momento
 
-Ideia é enviar requisições ao BD, para depois executá-las, ao invés de executar tudo no momento
+1.web.php, alterar método send() para queue()
+2.Em .env, alterar QUEUE_CONNECTION para modo 'database'
+3.Adicionar table específica no BD: <span class="text-muted">php artisan queue:table</span> (Cria migrations específicas: jobs e failed_jobs)
+4.Atualizar BD: <span class="text-muted">php artisan migrate:fresh</span>
+5.Testar se carregamento da página ficou mais rápido: <a href="http://localhost/projetos/laravel/projeto14/public/envio-email" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto14/public/envio-email</a> <span class="text-muted">(Ctrl+c para parar)</span>
+6.Executar queue: <span class="text-muted">php artisan queue:work</span>
 
-Parametrizar o projeto para trabalhar com fias:
-&gt; web.php, alterar método send() para queue()
-&gt; Em .env, alterar QUEUE_CONNECTION para modo 'database'
-
-Parametrizar BD para queue:
-&gt; Adicionar table específica no BD: php artisan queue:table (Cria migrations específicas: jobs e failed_jobs)
-&gt; Atualizar BD: php artisan migrate:fresh
-&gt;&gt; Testar, no Browser, se carregamento da página ficou mais rápido(http://localhost/projetos/laravel/projeto14/public/envio-email) (Cntrl+c para parar)
-<i>(Execuções de emails salvos na table jobs)</i>
-&gt; Executar fila: php artisan queue:work
-
-Criar agendamentos/programações de tarefas(Jobs):
-&gt; Criar objeto job: php artisan make:job newLaravelTips
-<i>(Em app, cria-se diretório 'jobs', com classes dentro)</i>
-&gt; web.php, alterar método queue por send() novamente, e recortar linha da classe job newLaravelTips, método handle
-&gt; web.php, informar dispatch()
-&gt; Classe job newLaravelTips, popular método construct, criar atributo acima
-&gt; Executar fila: php artisan queue:work
-&gt;&gt; Testar, no Browser, submissão(http://localhost/projetos/laravel/projeto14/public/envio-email)
-<i>(Após delay, no caso 15seg, jobs são processados e, se der falha, tenta, no caso, faz até 3 tentativas no total)</i>
+<b>Criar tarefas programadas (Jobs)</b>:
+1.Criar job: <span class="text-muted">php artisan make:job laravelUBSocial</span>
+<span class="text-muted">(Em app, cria-se diretório 'jobs', com classes dentro)</span>
+2.web.php, alterar método queue por send() novamente, e recortar linha da classe job laravelUBSocial, método handle
+3.web.php, informar dispatch()
+4.Classe job laravelUBSocial, popular método construct, criar atributo acima
+5.Executar queue: <span class="text-muted">php artisan queue:work</span>
+6.Testar: <a href="http://localhost/projetos/laravel/projeto14/public/envio-email" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto14/public/envio-email</a>
+<span class="text-muted">(Após delay 15seg, jobs são processados e, se houver falha, fará até 3 tentativas)</span>
 
 
 <h6><b>15.Autenticação com Socialite (Google,Facebook)</b></h6>
-Pacote para autenticação com outros servidores(Google, Facebook...). Os processos tendem a ser iguais, com excessão das nomeoclaturas
-O ideal, além disso, é criar, após isso, uma regra de negócios para salvar a autenticação em BD, para então não depender somente dos dados terceiros e sessões fictícias
+1.Instalar Socialite: <span class="text-muted">composer require laravel/socialite</span>
+2.Diretório config, services.php, inserir trecho de configuração 'facebook'
+3.Arquivo .env, informar todas as chaves do trecho de configuração 'facebook', no final do arquivo (Valores serão informados em breve)
 
-Pré-Requisitos:
-&gt; Pesquisar na documentação o Laravel Socialite
-&gt; Facebook for Developers
-&gt; Google Integrating
-&gt; Instalar componente Socialite: composer require laravel/socialite
+<b>FACEBOOK</b>:
+<span class="text-muted">(Página Facebook Developers)</span>
+1.Meus Apps/Criar novo: Pegar id do app gerado e colá-lo no FACEBOOK_CLIENT_ID
+2.Configurar, na página, em Facebook Login/Web, infrmar url (<span class="text-muted">http://localhost/projetos/laravel/projeto15/public/</span>), avançar até finalizar
+3.Em configurações/basico, copiar key e colá-la no FACEBOOK_CLIENT_SECRET, informar domínio (<span class="text-muted">localhost</span>) e urls de privacidade e termos de uso (Da aplicação/github como exemplo), tipo de uso comercial (Apoia minha própria empresa) e salvar alterações
 
-Configurar Socialite:
-&gt; Diretório config, services.php, inserir trecho de configuração 'facebook'
-&gt; Arquivo .env, informar todas as chaves do trecho de configuração 'facebook', no final do arquivo(Valores serão informados em breve)
+<b>Criar routes</b>:
+4.Criar controller SocialiteController: <span class="text-muted">php artisan make:controller SocialiteController</span>
+5.Em SocialiteController, informar métodos
+6.Em routes 'web.php', informar routes
+7.Testar login: <a href="http://localhost/projetos/laravel/projeto15/public/login/facebook" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto15/public/login/facebook</a>, clicar em 'continuar', e um erro 404 de feedback aparecerá
+8.Em .env, alterar APP_URL com url informada (<span class="text-muted">http://localhost/projetos/laravel/projeto15/public</span>)
+9.Testar login (<span class="text-muted">http://localhost/projetos/laravel/projeto15/public/login/facebook</span>), cairá em uma página em branco
 
-<i>FACEBOOK</i>
-Página Facebook Developers:
-&gt; Meus Apps / Criar novo: Pegar id do app gerado e colá-lo no FACEBOOK_CLIENT_ID
-&gt; Configurar, na página, em Facebook Login / Web, infrmar url(http://localhost/projetos/laravel/projeto15/public/), avançar até finalizar as etapas(Nada mais será necessário, somente avançar)
-&gt; Em configurações/basico, copiar chave secreta e colá-la no FACEBOOK_CLIENT_SECRET, informar domínio(localhost) e url's de privacidade e termos de uso(da sua aplicação/github como exemplo), tipo de uso comercial(Apoia minha própria empresa) e salvar alterações
+<b>GOOGLE</b>:
+1.Diretório config, services.php, inserir trecho de configuração 'google'
+2.Arquivo .env, informar todas as chaves do trecho de configuração 'google', no final do arquivo (Valores serão informados em breve)
+3.Em SocialiteController, informar métodos Google
+4.web.php, informar routes google
 
-Criar routes:
-&gt; Criar controller SocialiteController: php artisan make:controller SocialiteController
-&gt; Em SocialiteController, informar métodos(Informar 'use' tbm)
-&gt; Em routes 'web.php', informar routes(Informar 'use' tbm)
-&gt;&gt; Testar login, no Browser, informando url(http://localhost/projetos/laravel/projeto15/public/login/facebook), clicar em 'continuar', e um erro 404 de feedback aparecerá
-&gt; Em .env, alterar APP_URL com url informada(http://localhost/projetos/laravel/projeto15/public)
-&gt;&gt; Testar login, no Browser, novamente(http://localhost/projetos/laravel/projeto15/public/login/facebook), cairá em uma página em branco
-
-<i>GOOGLE</i>
-&gt; Diretório config, services.php, inserir trecho de configuração 'google'
-&gt; Arquivo .env, informar todas as chaves do trecho de configuração 'google', no final do arquivo(Valores serão informados em breve)
-&gt; Em SocialiteController, informar métodos Google
-&gt; web.php, informar routes google
-Página Google Developers Console:
-Credenciais / Criar Credenciais / ID do Cliente OAuth / Tipo de Aplicativo(App da web) / Nome(Laravel Socialite) / Origens JS autorizadas(http://localhost) / URLs de Redirecionamento Autorizados(http://localhost/projetos/laravel/projeto15/public/login/google)(http://localhost/projetos/laravel/projeto15/public/login/google/callback) / Create
-&gt; Copiar id e chave, colá-los no .env do Google
-&gt;&gt; Testar login, no Browser, informando url(http://localhost/projetos/laravel/projeto15/public/login/google)
+<b>Página Google Developers Console</b>:
+<span class="text-muted">Credenciais / Criar Credenciais / ID do Cliente OAuth / Tipo de Aplicativo(App da web) / Nome(Laravel Socialite) / Origens JS autorizadas(http://localhost) / URLs de Redirecionamento Autorizados(http://localhost/projetos/laravel/projeto15/public/login/google)(http://localhost/projetos/laravel/projeto15/public/login/google/callback) / Create</span>
+1.Copiar id e chave, colá-los no .env do Google
+2.Testar login: <a href="http://localhost/projetos/laravel/projeto15/public/login/google" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto15/public/login/google</a>
 
 
 <h6><b>16.Sessões com Helper e Facade</b></h6>
-Configurar sessão:
-&gt; Em config/session.php e .env alterar SESSION_DRIVER de 'file' para 'cookie'
+1.Em config/session.php e .env alterar SESSION_DRIVER de 'file' para 'cookie'
+2.Criar controller SessionController: <span class="text-muted">php artisan make:controller SessionController</span>
+3.SessionController, criar método session com somente dd()
+4.Em routes 'web.php', criar route session
+5.Testar: <a href="http://localhost/projetos/laravel/projeto16/public/session" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto16/public/session</a>
 
-&gt; Criar controller SessionController: php artisan make:controller SessionController
-&gt; SessionController, criar método session(Informar 'use' tbm) com somente dd()
-&gt; Em routes 'web.php', criar route session(Informar 'use' tbm)
-&gt;&gt; Testar, no Browser, se route funciona(http://localhost/projetos/laravel/projeto16/public/session)
-
-Gravar dados na sessão:
-&gt; SessionController, método session, popular método e testar, no Browser, mesma url
-&gt;&gt; Testar, no Browser, echos de sessão(http://localhost/projetos/laravel/projeto16/public/session)
-(1ª vez confira flash, comente a Session::flash, depois recarregue a página novamente(ainda à exibirá), depois novamente(sumirá))
+<b>Gravar dados na sessão</b>:
+6.SessionController, método session, popular método e testar, no Browser, mesma url
+7.Testar: <a href="http://localhost/projetos/laravel/projeto16/public/session" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto16/public/session</a>
+<span class="text-muted">(1ª vez confira flash, comente a Session::flash, depois recarregue a página novamente (Ainda à exibirá), depois novamente (sumirá))</span>
 
 
 <h6><b>17.Autenticação JWT em API REST</b></h6>
-<i class="text-muted">(JWT Json Web Token)</i>
-A diferença é que as routes serão criadas no arquivo 'api.php'
-Visar reuso das Models, tanto pra aplicação, quanto pra API
+1.Resetar BD: <span class="text-muted">php artisan migrate:fresh</span>
+2.Inserir 1 user na table Users
+3.Criar controller Api\UserController: <span class="text-muted">php artisan make:controller Api\UserController --api</span>
+4.Controller UserController, popular méotodo index
+5.Em routes 'api.php', comentar primeira route, criar route 'users'
+6.Testar se retornará json: <a href="http://localhost/projetos/laravel/projeto17/public/api/users" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto17/public/api/users</a>
 
-Pré-Requisitos:
-&gt; Resetar BD: php artisan migrate:fresh
-&gt;&gt; Inserir 1 user na table Users
-
-Criar exemplo de saída em json:
-&gt; Criar controller Api\UserController: php artisan make:controller Api\UserController --api(Cria métodos de Api)
-&gt; Controller UserController, popular méotodo index(Informar 'use' tbm)
-
-&gt; Em routes 'api.php', comentar primeira route, criar route 'users'(Informar 'use' tbm)
-&gt;&gt; Testar, no Browser, se route funciona e retornar json(http://localhost/projetos/laravel/projeto17/public/api/users)
-
-EndPoint é público, precisa autentacá-lo para protegê-lo(Proteção de routes):
-&gt; Instalar componente JWT-Auth: composer require tymon/jwt-auth 1.0.1
-&gt; Em config/app.php, inserir linha em 'providers'
-&gt; Publicar configurações: php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"
-&gt; Gerar Secret Key: php artisan jwt:secret (Key estará no final do .env)
-&gt; Atualizar Mode User, informando 'implements'(Informar 'use' tbm) e métodos
-&gt; Em config/auth.php, inserir 'defaults' e 'guards'
-&gt; Criar controller AuthController(Populá-lo após criá-lo): php artisan make:controller Api\AuthController
-&gt; Em routes 'api.php', informar route 'login'(Informar 'use' tbm)
-
-&gt; Em routes 'api.php', informar route '/home'
-&gt; Criar view 'home'
-&gt; Criar middleware apiProtectedRoute(pouplá-lo tbm, informar 'use'): php artisan make:middleware apiProtectedRoute
-&gt; Em Controllers/kernel.php, informar apelido do middleware
-&gt; Em routes 'api.php', informar route group, colocar route 'users' dentro dela
-&gt;&gt; Testar, no Browser, se route funciona e retornar json(http://localhost/projetos/laravel/projeto17/public/api/users), informando token bear, que será válido por 1hora(3600seg)
-<i>(Nos casos de Laravel8, será necessário adaptar o código conforme pesquisas...)</i>
+<b>Proteger EndPoint público</b>:
+7.Instalar JWT-Auth: <span class="text-muted">composer require tymon/jwt-auth 1.0.1</span>
+8.Em config/app.php, inserir linha em 'providers'
+9.Publicar configurações: <span class="text-muted">php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"</span>
+10.Gerar Key: <span class="text-muted">php artisan jwt:secret</span> (Key estará no final do .env)
+11.Atualizar Mode User, informando 'implements' e métodos
+12.Em config/auth.php, inserir 'defaults' e 'guards'
+13.Criar controller AuthController (Populá-lo após criá-lo): <span class="text-muted">php artisan make:controller Api\AuthController</span>
+14.Em routes 'api.php', informar route 'login'
+15.Em routes 'api.php', informar route '/home'
+16.Criar view 'home'
+17.Criar middleware apiProtectedRoute (Populá-lo após criá-lo): <span class="text-muted">php artisan make:middleware apiProtectedRoute</span>
+18.Em Controllers/kernel.php, informar apelido do middleware
+19.Em routes 'api.php', informar route group, colocar route 'users' dentro dela
+20.Testar se retornará json: <a href="http://localhost/projetos/laravel/projeto17/public/api/users" target="_blank" id="btnLink">http://localhost/projetos/laravel/projeto17/public/api/users</a>, informando token bear, válido por 3600 segundos
 </code></pre></small>
         </div>
     </div>
