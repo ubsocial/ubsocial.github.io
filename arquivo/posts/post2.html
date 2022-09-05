@@ -15,13 +15,13 @@
     <div class="row">
         <div class="col-sm-12" id="titulo">
             <h1>CRUD PHP MySQL MYSQLi</h1>
-            <h6><strong>CRUD simples com PHP MYSQLi e MySQL</strong></h6>
+            <h6><strong>CRUD com PHP MYSQLi e MySQL</strong></h6>
             <a href="../../index.html" class="btn btn-link" id="btnLink">Voltar</a>
         </div>
 
         <div class="col-sm-12">
             <h4>Pré-requisitos</h4>
-            <p id="textoPost">XAMPP instalado e executando, criar um diretório no <i>htdocs</i> para inserir os arquivos abaixo. 1º executar o arquivo bd.sql no <i>Phpmyadmin</i>.</p>
+            <p id="textoPost">XAMPP instalado e executando, criar um diretório no <i>htdocs</i> para inserir os arquivos abaixo. 1º executar o arquivo <b>bd.sql</b> no <i>Phpmyadmin</i>.</p>
             <br>
             <h4>bd.sql</h4>
 <small><pre><code>
@@ -31,7 +31,7 @@ CREATE TABLE pessoa (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(50) NOT NULL
 );
-INSERT INTO pessoa(nome) VALUES ("mateus"),("mateusa");
+INSERT INTO pessoa(nome) VALUES ("ubsocial1"),("ubsocial2");
 </code></pre></small><br>
             <h4>con.php</h4>
 <small><pre><code>
@@ -90,7 +90,7 @@ require 'con.php';
 ?&gt;
 &lt;form action="add.php" method="post"&gt;
     &lt;input type="text" name="nome" placeholder="Nome" required&gt;
-    &lt;input type="submit" value="Inserir"&gt;
+    &lt;input type="submit" value="Adicionar"&gt;
 &lt;/form&gt;
 </code></pre></small>
         </div>

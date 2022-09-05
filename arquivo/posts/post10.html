@@ -20,7 +20,7 @@
         </div>
 
         <div class="col-sm-12">
-            <p id="textoPost">No código abaixo, execute 1º o <i>banco.sql</i> em sua base de dados, verificando se os parâmetros de conexão coincidem com seu projeto. Caso desejar estrutura de login mais complexa, com validações de cpf, clientes inativados e tipos de clientes, confira abaixo. Para logar neste exemplo, use as credenciais nome <b>fulano</b> e senha <b>123</b>.</p>
+            <p id="textoPost">No código abaixo, execute 1º o <i>banco.sql</i> em sua base de dados, verificando se os parâmetros de conexão coincidem com seu projeto. Caso desejar estrutura de login mais complexa, com validações de cpf, clientes inativados e tipos de clientes, confira abaixo. Para logar neste exemplo, use as credenciais nome <b>ubsocial</b> e senha <b>123</b>.</p>
             <a href="https://github.com/mateusschwede/InvistAi" class="btn btn-link" id="btnLink" target="_blank">Login avançado</a>
 
             <br><br><h4>banco.sql</h4>
@@ -32,7 +32,7 @@ CREATE TABLE cliente (
     nome VARCHAR(50) NOT NULL,
     senha VARCHAR(100) NOT NULL
 );
-INSERT INTO cliente(nome,senha) VALUES ("fulano",MD5(123));
+INSERT INTO cliente(nome,senha) VALUES ("ubsocial",MD5(123));
 </code></pre></small>
 
             <br><h4>conexao.php</h4>

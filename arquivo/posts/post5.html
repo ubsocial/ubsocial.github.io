@@ -21,7 +21,7 @@
 
         <div class="col-sm-12">
             <h4>Pré-requisitos</h4>
-            <p id="textoPost">Necessário ter o XAMPP executando, criar diretório no <i>htdocs</i> para armazenar os códigos. Após, crie, neste diretório, a pasta <b>uploads</b>, onde os arquivos de upload ficarão armazenados. Em seguida, execute o arquivo SQL no <i>phpmyadmin</i>. Por fim, execute os códigos abaixo. Mantenha a atenção com o tamanho do arquivo em upload, pois, em alguns casos, pode ser necessária realocação de maior espaço no banco de dados.</p>
+            <p id="textoPost">Necessário ter o XAMPP executando, criar diretório no <i>htdocs</i> para armazenar os códigos. Após, crie, neste diretório, a pasta <b>uploads</b>, onde os arquivos de upload ficarão armazenados. Em seguida, execute o arquivo SQL no <i>Phpmyadmin</i>. Por fim, execute os códigos abaixo. Conforme tamanho do arquivo em upload, em alguns casos, será necessária realocação de maior espaço no banco de dados.</p>
             <br>
             <h4>banco.sql</h4>
 <small><pre><code>
@@ -55,7 +55,7 @@ CREATE TABLE arquivo (
 &lt;/form&gt;
 </code></pre></small><br>
             <h4>Upload sem conexão com BD</h4>
-            <p id="textoPost">Caso precise somente realizar upload, sem a necessidade de gravar em base de dados, segue outro exemplo de código, <b>upload.php</b>, envolvendo a mesma arquitetura de diretórios.</p>
+            <p id="textoPost">Para uploads sem necessidade de gravar em base de dados, segue outro exemplo de código, <b>upload.php</b>, envolvendo a mesma arquitetura de diretórios.</p>
 <small><pre><code>
 &lt;?php
     $name = $_FILES['arquivo']['name'];
@@ -67,7 +67,7 @@ CREATE TABLE arquivo (
     if ((!empty($name)) && (!empty($name))) {
     	$nNome = uniqid($name).'.'.$ext;
     	$dir = 'uploads/'.$nNome;
-    	if (move_uploaded_file($temp,$dir)) {echo 'Upload  concluido.';}
+    	if (move_uploaded_file($temp,$dir)) {echo 'Upload  concluido!';}
     	else {echo 'Erro no upload.';}
     }
 

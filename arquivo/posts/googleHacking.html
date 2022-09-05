@@ -37,12 +37,12 @@
         <div class="col-sm-12" id="titulo">
             <h1>Google Hacking</h1>
             <h6><strong>Information Gathering usando Google</strong></h6>
-            <a href="../../resumos/seguranca.html" class="btn btn-link" id="btnLink">Voltar</a>
+            <a href="../../index.html" class="btn btn-link" id="btnLink">Voltar</a>
         </div>
 
         <div class="col-sm-12">
             <p id="textoPost">Também chamado de <i>Google Dorking</i>, é uma técnica de Information Gathering, realizada através do buscador Google, que utiliza caracteres coringa (<b>dorks</b>) para pesquisa avançada e específica. Dork é o conjunto de caracteres em expressão para busca avançada.</p>
-            <h4>Operadores:</h4>
+            <br><h4>Operadores:</h4>
             <ul>
                 <li><b>site</b>: Busca um site específico (<i>site:wikipedia.org</i>)</li>
                 <li><b>related</b>: Busca sites relacionados (<i>related:wikipedia.org</i>)</li>
@@ -78,7 +78,7 @@
                 <li><b>phonebook</b>: Busca por telefone (<i>phonebook:(510) 555-2222 ou nomePessoa</i>)</li>
                 <li><b>feed / hasfeed:[url]</b>: Busca por feed RSS</li>
                 <li><b>ip</b>: Busca por endereço IP (<i>ip:192.158.1.38.</i>)</li>
-                <br><p>Operadores lógicos:</p>
+                <br><b><u>Operadores lógicos</u>:</b>
                 <li><b>" "</b>: Busca padrão exato (<i>"wikipedia"</i>)</li>
                 <li><b>NOT ou -</b>: Exclui termo da busca (<i>ubsocial site -windows</i>)</li>
                 <li><b>OR ou |</b>: Combina termos na busca, ou um ou outro (<i>ubsocial OU youtube</i>)</li>
@@ -93,14 +93,14 @@
                 <li><b>.</b>: Substitui por qualquer caracter (<i>.eb aplicação</i>)</li>
                 <li><b>..</b>: Busca entre faixas mínimo/máximo (<i>smartphone $2800..$5800</i>)</li>
             </ul>
-            <h4>Links:</h4>
+            <br><h4>Links:</h4>
             <ul>
                 <li><b>GHDB</b>: Google Hacking Database, no Exploit Database, é um arsenal open source com milhares de dorks previamente prontas: <a href="https://www.exploit-db.com/google-hacking-database" target="_blank">Acesse</a></li>
                 <li><b>uDork</b>: Shell Script que realiza Google Hacking automaticamente: <a href="https://github.com/m3n0sd0n4ld/uDork" target="_blank">Acesse</a></li>
                 <li><b>Google Hacking Tool</b>: Automatizador online de Google Hacking: <a href="https://pentest-tools.com/information-gathering/google-hacking" target="_blank">Acesse</a></li>
                 <li><b>Tabela de operadores Google Hacking</b>: Tabela para cola: <a href="https://github.com/ubsocial/ubsocial.github.io/blob/main/artigos/seguranca/anenos/posta6/TabelaDorksOperadores.pdf" target="_blank">Acesse</a></li>
             </ul>
-            <h4>Exemplos:</h4>
+            <br><h4>Exemplos:</h4>
             <ul>
                 <li><b>Câmeras:</b> <i>intitle:"webcamXP 5"</i> ou <i>inurl:top.htm inurl:currenttime</i></li>
                 <li><b>Câmeras ao vivo:</b> <i>inurl:"lvappl.htm"</i></li>
@@ -127,7 +127,7 @@
                 <li><b>Arquivos de banco de dados:</b> Geralmente relacionados a backups e despejos (<i>intitle:"index of" "dump.sql"</i>)</li>
                 <li><b>robots.txt:</b> Arquivos removidos da indexação do Google, informar campo na url do browser (<i>url/robots.txt</i>)</li>
             </ul>
-            <h4>Formulário busca Google:</h4>
+            <br><h4>Formulário busca Google:</h4>
 <small><pre><code>
 &lt;!--Formulário customizado de pesquisa no Google--&gt;
 &lt;form method="get" action="http://www.google.com/search"&gt;

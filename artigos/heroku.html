@@ -69,7 +69,11 @@ heroku login <span class="text-muted">#Redirecionará para login via Browser</sp
             <ol>
                 <li>Entrar na pasta raíz do projeto Django (Mesmo local do arquivo 'manage.py')</li>
                 <li>Em 'pastaProj', a mesma que possui o arquivo 'settings.py', criar pasta 'settings', mover o arquivo 'settings.py' para dentro dela, renomeando-o para 'base.py'</li>
-                <li>No arquivo 'base.py', modificar linha BASE_DIR (3 parent no fim): <i>BASE_DIR = Path(__file__).resolve().parent.parent.parent</i></li>
+                <li>No arquivo 'base.py', modificar linha BASE_DIR (3 parent no fim):
+<small><pre><code>
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+</code></pre></small>
+                </li>
                 <li>Nessa pasta 'settings', criar arquivo 'heroku.py', com o seguinte conteúdo:
 <small><pre><code>
 import environ
@@ -83,8 +87,16 @@ DATABASES = {
 }
 </code></pre></small>
                 </li>
-                <li>Em 'pastaProj', modificar linha do arquivo 'wsgi.py': <i>os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'NOMEPASTAPROJETO.base')</i></li>
-                <li>Modificar linha do arquivo 'manage.py': <i>os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'NOMEPASTAPROJETO.base')</i></li>
+                <li>Em 'pastaProj', modificar linha do arquivo 'wsgi.py':
+<small><pre><code>
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'NOMEPASTAPROJETO.base')
+</code></pre></small>
+                </li>
+                <li>Modificar linha do arquivo 'manage.py':
+<small><pre><code>
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'NOMEPASTAPROJETO.base')
+</code></pre></small>
+                </li>
                 
                 <br><b>WhiteNoise</b>
                 <li>Em 'base.py', inserir trecho no final do arquivo:
@@ -94,7 +106,11 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 </code></pre></small>
                 </li>
-                <li>Em 'base.py', array MIDDLEWARE, inserir como 2º elemento do array: <i>"whitenoise.middleware.WhiteNoiseMiddleware",</i></li>
+                <li>Em 'base.py', array MIDDLEWARE, inserir como 2º elemento do array:
+<small><pre><code>
+"whitenoise.middleware.WhiteNoiseMiddleware",
+</code></pre></small>
+                </li>
                 
                 <br><b>Requirements</b>
                 <li>Inserir, na pasta raíz do projeto (Pasta onde está o 'manage.py'), conteúdo no 'requirements.txt' com o comando: <i>pip3 freeze &gt; requirements.txt</i>
@@ -111,7 +127,7 @@ web: gunicorn tutorialdjango.wsgi --preload --log-file –
                 </li>
                 
                 <br><b>Heroku CLI</b>
-                <li>Na pasta raíz do proejto, criar app do projeto no Heroku CLI com o comando: <i>heroku create</i> <span class="text-muted">#Gerará url do projeto '.herokuapp.com', exemplo: <i>https://boiling-meadow-14806.herokuapp.com/</i></span></li>
+                <li>Na pasta raíz do proejto, criar app do projeto no Heroku CLI com o comando: <i>heroku create</i> <span class="text-muted">#Gerará url do projeto '.herokuapp.com'</span></li>
                 <li>Ver nome do app criado: <i>heroku apps</i></li>
                 <li>Criar variáveis de ambiente e BD, nesse mesmo diretório, com o comando:
 <small><pre><code>

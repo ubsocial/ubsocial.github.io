@@ -16,16 +16,16 @@
         <div class="col-sm-12" id="titulo">
             <h1>Instalar PyCharm no Debian</h1>
             <h6><strong>Instalação do PyCharm Community no Debian</strong></h6>
-            <a href="../arquivo.html" class="btn btn-link" id="btnLink">Voltar</a><br><br>
+            <a href="../../index.html" class="btn btn-link" id="btnLink">Voltar</a><br><br>
         </div>
 
         <div class="col-sm-12">
             <h4>Passo a passo:</h4>
             <img src="../../arquivo/anexos/post21/pycharm.jpg" class="img-fluid" width="500px"><br><br>
             <ol>
-                <li><b>Pré-requisitos</b>: <i class="text-muted">sudo apt install python3-dev python3-venv</i></li>
-                <li>Baixar, na pasta Downloads, PyCharm Community oficial (.tar.gz): <a href="https://www.jetbrains.com/pt-br/pycharm/download/#section=linux" id="btnLink" target="_blank">Acesse</a></li>
-                <li>cd Downloads && tar xvzf pycharm-community*.tar.gz && mv pycharm-community*/ pycharm-community</li>
+                <li><b>Pré-requisitos</b>: <i class="text-muted">sudo apt install python3-dev python3-venv wget</i></li>
+                <li>cd Downloads && wget https://download.jetbrains.com/python/pycharm-community-2022.2.1.tar.gz</li>
+                <li>tar xvzf pycharm-community*.tar.gz && mv pycharm-community*/ pycharm-community</li>
                 <li>sudo mv pycharm-community /opt</li>
                 <li>sudo ln -s /opt/pycharm-community/bin/pycharm.sh /usr/bin/pycharm</li>
                 <li><b>Atalho</b>: sudo nano /usr/share/applications/jetbrains-pycharm-ce.desktop
