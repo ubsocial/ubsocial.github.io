@@ -21,7 +21,7 @@
 
         <div class="col-sm-12">
             <h4>Passo a passo:</h4>
-            <img src="../../arquivo/anexos/post20/intellij.jpg" class="img-fluid" width="500px"><br><br>
+            <img src="../../arquivo/anexos/post20/intellij.png" class="img-fluid" width="500px"><br><br>
             <ol>
                 <li><b>Pré-requisito</b>: <i class="text-muted">sudo apt install default-jdk wget</i></li>
                 <li>cd Downloads && wget https://download.jetbrains.com/python/pycharm-community-2022.2.1.tar.gz</li>
@@ -29,7 +29,7 @@
                 <li>sudo mv idea-community /opt</li>
                 <li>sudo ln -s /opt/idea-community/bin/idea.sh /usr/bin/idea</li>
                 <li><b>Criar atalho</b>: sudo nano /usr/share/applications/jetbrains-idea-ce.desktop
-                    <small><pre><code>
+                    <small><pre id="codigo"><code>
 <span class="text-muted">Inserir o seguinte conteúdo no arquivo. Ctrl+k para fechar, e salvá-lo</span>
 [Desktop Entry]
 Version=1.0

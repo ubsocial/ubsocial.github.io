@@ -62,7 +62,7 @@
             <br>
             <h4>Arquivos:</h4>
             <br><p><b>api/models.py</b>:</p>
-<small><pre><code>
+<small><pre id="codigo"><code>
 from django.db import models
 
 class Task(models.Model):
@@ -73,7 +73,7 @@ class Task(models.Model):
 </code></pre></small>
 
             <br><p><b>api/admin.py</b>:</p>
-<small><pre><code>
+<small><pre id="codigo"><code>
 from django.contrib import admin
 from .models import Task
 
@@ -81,7 +81,7 @@ admin.site.register(Task)
 </code></pre></small>
 
             <br><p><b><span class="text-muted">(Criar arquivo)</span> api/serializers.py</b>:</p>
-<small><pre><code>
+<small><pre id="codigo"><code>
 from rest_framework import serializers
 from .models import Task
 
@@ -92,7 +92,7 @@ class TaskSerializer(serializers.ModelSerializer):
 </code></pre></small>
 
             <br><p><b><span class="text-muted">(Criar arquivo)</span> api/urls.py</b>:</p>
-<small><pre><code>
+<small><pre id="codigo"><code>
 from django.urls import path
 from . import views
 
@@ -107,7 +107,7 @@ urlpatterns = [
 </code></pre></small>
 
             <br><p><b>api/views.py</b>:</p>
-<small><pre><code>
+<small><pre id="codigo"><code>
 from django.shortcuts import render
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
@@ -162,7 +162,7 @@ def taskDelete(request, pk):
 </code></pre></small>
 
             <br><p><b><span class="text-muted">(Modificar trecho do arquivo)</span> todo_drf/settings.py</b>:</p>
-<small><pre><code>
+<small><pre id="codigo"><code>
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -176,7 +176,7 @@ INSTALLED_APPS = [
 </code></pre></small>
 
             <br><p><b>todo_drf/urls.py</b>:</p>
-<small><pre><code>
+<small><pre id="codigo"><code>
 from django.contrib import admin
 from django.urls import path, include
 
@@ -216,7 +216,7 @@ urlpatterns = [
             <br>
             <h4>Arquivos:</h4>
             <br><p><b><span class="text-muted">(Modificar trecho do arquivo)</span> crudapi/settings.py</b>:</p>
-<small><pre><code>
+<small><pre id="codigo"><code>
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -230,7 +230,7 @@ INSTALLED_APPS = [
 </code></pre></small>
 
             <br><p><b>crudapi/urls.py</b>:</p>
-<small><pre><code>
+<small><pre id="codigo"><code>
 from django.contrib import admin
 from django.urls import path
 from library.views import BookList, BookDetail
@@ -243,7 +243,7 @@ urlpatterns = [
 </code></pre></small>
 
             <br><p><b>library/models.py</b>:</p>
-<small><pre><code>
+<small><pre id="codigo"><code>
 from django.db import models
 
 class Book(models.Model):
@@ -256,7 +256,7 @@ class Book(models.Model):
 </code></pre></small>
 
             <br><p><b><span class="text-muted">(Criar arquivo)</span> library/serializers.py</b>:</p>
-<small><pre><code>
+<small><pre id="codigo"><code>
 from rest_framework import serializers
 from library.models import Book
 
@@ -267,7 +267,7 @@ class BookSerializer(serializers.ModelSerializer):
 </code></pre></small>
 
             <br><p><b>library/views.py</b>:</p>
-<small><pre><code>
+<small><pre id="codigo"><code>
 from django.shortcuts import render
 from rest_framework import generics
 from library.models import Book

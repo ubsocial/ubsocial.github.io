@@ -42,7 +42,7 @@
 
             <br><br><h4>Arquivos</h4>
             <br><b>banco.sql</b>
-<small><pre><code>
+<small><pre id="codigo"><code>
 CREATE DATABASE serie_login;
 CREATE TABLE user (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -54,7 +54,7 @@ INSERT INTO user(email,password,name) VALUES ("ubsocial@gmail","123","ubsocial")
 </code></pre></small>
 
             <br><b>App/Models/User.php</b>
-<small><pre><code>
+<small><pre id="codigo"><code>
 &lt;?php
 namespace App\Models;
 
@@ -99,7 +99,7 @@ class User {
 </code></pre></small>
 
             <br><b>App/Services/UserService.php</b>
-<small><pre><code>
+<small><pre id="codigo"><code>
 &lt;?php
 namespace App\Services;
 use App\Models\User;
@@ -130,7 +130,7 @@ class UserService {
 </code></pre></small>
 
             <br><b>public_html/.htaccess</b>
-<small><pre><code>
+<small><pre id="codigo"><code>
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
@@ -138,7 +138,7 @@ RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
 </code></pre></small>
 
             <br><b>public_html/client.php</b>
-<small><pre><code>
+<small><pre id="codigo"><code>
 &lt;?php
 $url = 'http://localhost/projetos/api_rest_php/public_html/api'; //Edite conforme diretório do projeto
 $class = '/user';
@@ -160,7 +160,7 @@ var_dump($response['data'][1]['email']); //Mostra email do usuário index 1
 </code></pre></small>
 
             <br><b>public_html/index.php</b>
-<small><pre><code>
+<small><pre id="codigo"><code>
 &lt;?php
 header('Content-Type: application/json');
 require_once '../vendor/autoload.php';
@@ -190,7 +190,7 @@ if ($_GET['url']) {
 </code></pre></small>
 
             <br><b>composer.json</b>
-<small><pre><code>
+<small><pre id="codigo"><code>
 {
     "autoload": {
         "psr-4": {
@@ -205,7 +205,7 @@ if ($_GET['url']) {
 </code></pre></small>
 
             <br><b>config.php</b>
-<small><pre><code>
+<small><pre id="codigo"><code>
 &lt;?php
 const DBDRIVE = 'mysql';
 const DBHOST = 'localhost';

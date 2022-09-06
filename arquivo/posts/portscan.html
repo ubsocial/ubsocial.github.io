@@ -17,9 +17,9 @@
 
     <div class="row">
         <div class="col-sm-12" id="menu">
-            <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow">
+            <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark shadow">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="../../index.html"><img src="../../anexos/icons/logo.png" class="d-inline-block align-text-top" id="logo"> UB Social</a>
+                    <a class="navbar-brand" href="../../index.html"><img src="../../anexos/icons/logoBranco.png" class="d-inline-block align-text-top" id="logo"> UB Social</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav">
@@ -42,14 +42,14 @@
 
         <div class="col-sm-12">
             <h4>Enumerar Serviços</h4>
-<small><pre><code>
+<small><pre id="codigo"><code>
 No browser: "url:porta".
 bancocn.com:80
 </code></pre></small>
             <p id="textoPost">Serviços são determinadas aplicações rodando em determinada porta. Quando o Browser encontra o ip, tenta a entrada na porta 80, comum para entrada browser no servidor do site. Cada ip pode possuir milhares de portas (65536 - 1 à 65535). Porta 23 serviço Telnet (Controle remoto do servidor via terminal). Porta 25 de envio de emails. Quando ocorre o erro 400, por exemplo, a porta está funcionando, porém 'fechada', feedback dado pelo servidor por não entender a requisição. Erro 403 é a rejeição da conexão pela segurança do servidor. Há servidores que rodam muitos serviços ao mesmo tempo, como portas Tomcat, FTP, Telnet, SSH, SMTP, IMAP, entre muitos outros. Dependendo do tipo do servidor (Windows, Linux...) existirão determinados tipos de portas.</p>
             <br>
             <h4>Netcat</h4>
-<small><pre><code>
+<small><pre id="codigo"><code>
 nc url porta (porta opcional) ou netcat url porta
 nc bancocn.com 80
 GET / HTTP/1.0
@@ -59,7 +59,7 @@ nc -lvp 21 (comando para abrir porta 21 da máquina)
             <p id="textoPost">Faz requisições de rede. Procura portas abertas para conexão. Caso a porta estiver aberta, tudo o que for escrito, no terminal, seguido do comando, será interpretado pelo servidor.</p>
             <br>
             <h4>NMAP e ZENMAP</h4>
-<small><pre><code>
+<small><pre id="codigo"><code>
 nmap ip (ou url)
 ZENMAP é o NMAP GUI, deve ser executado como root
 </code></pre></small>
@@ -73,7 +73,7 @@ ZENMAP é o NMAP GUI, deve ser executado como root
             <p id="textoPost">Aba 'Ping', ativar 'Don't ping before scanning (<b>-Pn</b>)', para não fazer scan prévio se o host está conectado, pois existem muitos servidores que não respondem à ping.</p>
             <p id="textoPost">Aba 'Target', pode-se, ativando 'Ports to scan (<b>-p</b>)', selecionar as portas que deseja escanear<small>(ex: 21,23,80)</small>. Selecionando esta opção somente com um '-', levando o comando à '<b>-p-</b>', faria o scanner de todas as portas. A opção desmarcada faz com que o Nmap escaneie as principais 1000 portas.</p>
             <h5>Código gerado para Scan:</h5>
-<small><pre><code>
+<small><pre id="codigo"><code>
 nmap -sS -sV bancocn.com
 </code></pre></small>
             <p id="textoPost">No caso, muitos firewalls impedem que outras portas abertas sejam amostradas, indicando somente as portas Https<small>(80,443,8080,8443...)</small>. Por isso, quando realizamos Port Scan em ip de firewall, é possível um resultado muito similar à esse. De acordo com o resultado gerado, caso encontra-se uma porta aberta, no qual mostra a determinada versão no firewall, aí deve-se procurar falhas de vulnerabilidade em tal. Por fim, pode-se salvar o Scan em Scan > Save Scan, que será salvo os dados em arquivo xml.</p>
@@ -86,7 +86,7 @@ nmap -sS -sV bancocn.com
             <p id="textoPost">Aba 'Ping': ativar 'ICMP Ping (<b>-PE</b>)'</p>
             <p id="textoPost">Aba 'Other': desativar 'Extra options defined by user'</p>
             <h5>Código gerado para Scan:</h5>
-<small><pre><code>
+<small><pre id="codigo"><code>
 nmap -T4 -PE 200.200.200.0/24
 </code></pre></small>
             <p id="textoPost">O ideal para o caso é fazer o Scan acima e, após os resultados, fazer o Scan detalhado de cada um desses ip's.</p>

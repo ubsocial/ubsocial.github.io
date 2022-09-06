@@ -15,9 +15,9 @@
 
     <div class="row">
         <div class="col-sm-12" id="menu">
-            <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow">
+            <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark shadow">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="../index.html"><img src="../anexos/icons/logo.png" class="d-inline-block align-text-top" id="logo"> UB Social</a>
+                    <a class="navbar-brand" href="../index.html"><img src="../anexos/icons/logoBranco.png" class="d-inline-block align-text-top" id="logo"> UB Social</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav">
@@ -65,7 +65,7 @@
                         <li>No diretório do Postman, realizar os comandos: <i>sudo mv Postman /opt && sudo ln -s /opt/Postman/Postman /usr/local/bin/postman</i>
                         </li>
                         <li>Criar lançador desktop para fácil acesso: sudo nano /usr/share/applications/postman.desktop:</li>
-<small><pre><code>
+<small><pre id="codigo"><code>
 (Conteúdo dentro de poastman.desktop)
 [Desktop Entry]
 Type=Application
@@ -88,7 +88,7 @@ Categories=Development;Code;
             <ol>
                 <li>Criar Model, migration e Controller: <i>php artisan make:model Artigo -m php artisan make:controller ArtigoController --resource</i></li>
                 <li>Configurar Migration create_artigos_table.php (Após código, realizar comando '<i>php artisan migrate</i>')</li>
-<small><pre><code>
+<small><pre id="codigo"><code>
 &lt;?php
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -111,7 +111,7 @@ class CreateArtigosTable extends Migration {
 }
 </code></pre></small>
                 <li>Definir Controller ArtigoController</li>
-<small><pre><code>
+<small><pre id="codigo"><code>
 &lt;?php
 namespace App\Http\Controllers;
 use App\Models\Artigo as Artigo;
@@ -159,7 +159,7 @@ class ArtigoController extends Controller {
 }
 </code></pre></small>
                 <li>Criar Routes em routes/api.php</li>
-<small><pre><code>
+<small><pre id="codigo"><code>
 &lt;?php
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -176,7 +176,7 @@ Route::put('artigo/{id}',[ArtigoController::class,'update']); //Editar artigo
 Route::delete('artigo/{id}',[ArtigoController::class,'destroy']); //Excluir artigo
 </code></pre></small>
                 <li>Criar Resource em app/Http/Resources/Artigo.php: '<i>php artisan make:resource Artigo</i>'</li>
-<small><pre><code>
+<small><pre id="codigo"><code>
 &lt;?php
 namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -205,7 +205,7 @@ class Artigo extends JsonResource {
                 <br><h5>Testes no Postman</h5>
                 <img src="../anexos/apiRest/postman.png" class="img-fluid" width="500px">
                 <li>No Postman, testar API para inserir artigo: (Deverá retornar JSON e inserir no BD)<span class="text-muted"><br>POST: <a href="http://127.0.0.1:8000/api/artigo" target="_blank" id="btnLink">http://127.0.0.1:8000/api/artigo</a><br>(Headers)<br>Key: Content-Type<br>Value: application/json<br>(Body raw) (Enviar 1 bloco de chaves por vez)</span></li>
-<small><pre><code>
+<small><pre id="codigo"><code>
 {
     "titulo": "Primeiro artigo pelo Postman",
     "conteudo": "Descrição desse artigo de número um."
@@ -224,7 +224,7 @@ class Artigo extends JsonResource {
                 <li>No Postman, testar API para listar artigos: (Mostrará em data no JSON)<br><span class="text-muted">GET: <a href="http://127.0.0.1:8000/api/artigos" target="_blank" id="btnLink">http://127.0.0.1:8000/api/artigos</a></span></li>
                 <li>No Postman, testar API para ver somente o 1º artigo:<br><span class="text-muted">GET: <a href="http://127.0.0.1:8000/api/artigo/1" target="_blank" id="btnLink">http://127.0.0.1:8000/api/artigo/1</a></span></li>
                 <li>No Postman, testar API para editar o artigo 1:<br><span class="text-muted">PUT: <a href="http://127.0.0.1:8000/api/artigo/1" target="_blank" id="btnLink">http://127.0.0.1:8000/api/artigo/1</a><br>(Headers)<br>Key: Content-Type<br>Value: application/json<br>(Body raw)</span></li>
-<small><pre><code>
+<small><pre id="codigo"><code>
 {
     "titulo": "ATUALIZANDO Primeiro artigo pelo Postman",
     "conteudo": "Descrição desse artigo de número um sendo ATUALIZADO."

@@ -22,7 +22,7 @@
         <div class="col-sm-12">
             <h4>Pré-requisitos</h4>
             <p id="textoPost">Necessário XAMPP executando, criar diretório no <i>htdocs</i> para armazenar os arquivos de código e CSV. Após, baixe o arquivo <i>.csv</i>, nomeando-o <b>planilha.csv</b> no mesmo diretório do <i>.php</i>. Caso pretendes modificar o nome do '.csv', atualize-o também no '.php'. Portal de dados públicos do governo federal: <a href="https://dados.gov.br/dataset" id="btnLink" target="_blank">Acesse</a></p>
-<small><pre><code>
+<small><pre id="codigo"><code>
 &lt;?php
 function csvToJson($file) {
     if (!($fp = fopen($file,'r'))) {die("Não abriu");}

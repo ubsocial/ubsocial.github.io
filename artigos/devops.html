@@ -15,9 +15,9 @@
 
     <div class="row">
         <div class="col-sm-12" id="menu">
-            <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow">
+            <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark shadow">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="../index.html"><img src="../anexos/icons/logo.png" class="d-inline-block align-text-top" id="logo"> UB Social</a>
+                    <a class="navbar-brand" href="../index.html"><img src="../anexos/icons/logoBranco.png" class="d-inline-block align-text-top" id="logo"> UB Social</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav">
@@ -198,7 +198,7 @@
                 <li>Mover card 'Criar Pipeline do Github Actions' para In Progress (<span class="text-muted">Actions é ferramenta de automação de workflow, para implemetar CI/CD diretamente do Github, onde deve-se criar no repositório o diretório e arquivo '.github/workflows/arquivoCI'</span>)</li>
                 <li>No diretório do projeto, criar diretórios com o comando: <span class="text-muted">mkdir -p .github/workflows</span></li>
                 <li>Copiar arquivo de CI: <span class="text-muted">cp templates/pipeline.yml .github/workflows</span></li>
-<small><pre><code>
+<small><pre id="codigo"><code>
 <span class="text-muted">#Conteúdo do arquivo pipeline.yml</span>
 name: CI - Lint / Tests / Deploy
 

@@ -26,7 +26,7 @@
             <a href="https://github.com/mateusschwede/Desenvolvimento" class="btn btn-link" id="btnLink" target="_blank">Github do Projeto</a>
             
             <br><br><h4>Código PHP</h4>
-<small><pre><code>
+<small><pre id="codigo"><code>
 <b>1- Importar, no &lt;head&gt;, API Google Charts:</b>
 &lt;script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"&gt;&lt;/script&gt;
 
@@ -89,7 +89,7 @@
                         ['Médio', 2],
                         ['Ruim', 1]
                     ]);
-                    var options = {title: 'Avaliação UB Social', pieHole: 0.4};
+                    var options = {title: 'Avaliação UB Social', backgroundColor: 'none', legend: {textStyle: {color: 'white'}}, pieHole: 0.4};
                     var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
                     chart.draw(data, options);
                 }

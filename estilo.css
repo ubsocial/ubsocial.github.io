@@ -3,4 +3,15 @@
 #titulo {padding: 80px 0% 20px 0%; text-align: center;}
 #textoPost {text-align: justify;}
 #btnLink {text-decoration: none;}
-#rodape {padding: 23px 0px 10px 0px; background-color: black; color: white;}
+#rodape {padding: 23px 0px 10px 0px; border-radius: 20px 20px 0px 0px;}
+body,#lista {background-color: #000000; color: rgb(239, 239, 239);}
+#codigo {color: rgb(220, 220, 220);}
+#cardLinux {background-color: #000000; color: rgb(239, 239, 239); border-style: solid; border-width: 3px; border-color: #212529;}
+
+/* DARK MODE:
+PALETA DE CORES DARK (APPLE): https://developer.apple.com/design/human-interface-guidelines/foundations/color
+FUNDO: #000000
+TEXTO: #F5F5F7
+VERDE BORDA: #3DDD00
+CINZA BORDAS: #B2B2B2
+*/

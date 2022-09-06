@@ -25,7 +25,7 @@
             <small class="text-muted">Neste caso, simplifiquei os códigos sql e alguns casos PHP, com o objetivo de trazer um código mais limpo e focado. Entretanto, SEMPRE utilize das boas práticas de programação: Nos casos SQL, utilize chaves primárias e estrangeiras, assim como a limitação dos tipos primitivos. A relação entre os dados e a organização do código são pontos fundamentais para a integridade do sistema!</small>
             <br><br>
             <h4>banco.sql</h4>
-<small><pre><code>
+<small><pre id="codigo"><code>
 CREATE DATABASE carrinho;
 CREATE TABLE item (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -48,13 +48,13 @@ CREATE TABLE item_pedido (
 INSERT INTO item(nome,preco) VALUES ("item1",29.90),("item2",90),("item3",10.65);
 </code></pre></small><br>
             <h4>conect.php</h4>
-<small><pre><code>
+<small><pre id="codigo"><code>
 &lt;?php
 $db = new PDO('mysql:host=localhost;dbname=carrinho;charset=utf8','root','');
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 </code></pre></small><br>
             <h4>itensPedido.php</h4>
-<small><pre><code>
+<small><pre id="codigo"><code>
 &lt;a href="addItem.php"&gt;Adicionar item&lt;/a&gt;
 &lt;?php
     require_once 'conect.php';
@@ -101,7 +101,7 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 &lt;/form&gt;
 </code></pre></small><br>
             <h4>addItem.php</h4>
-<small><pre><code>
+<small><pre id="codigo"><code>
 &lt;?php
     require_once 'conect.php';
     session_start();
@@ -132,7 +132,7 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 &lt;/form&gt;
 </code></pre></small><br>
             <h4>remItem.php</h4>
-<small><pre><code>
+<small><pre id="codigo"><code>
 &lt;?php
 require_once 'conect.php';
 session_start();
@@ -141,7 +141,7 @@ $r->execute(array($_GET['item'],$_SESSION['id']));
 header("location: itensPedido.php");
 </code></pre></small><br>
             <h4>edItem.php</h4>
-<small><pre><code>
+<small><pre id="codigo"><code>
 &lt;?php
     require_once 'conect.php';
     session_start();
@@ -172,7 +172,7 @@ header("location: itensPedido.php");
 &lt;/form&gt;
 </code></pre></small><br>
             <h4>canPedido.php</h4>
-<small><pre><code>
+<small><pre id="codigo"><code>
 &lt;?php
 require_once 'conect.php';
 session_start();
@@ -186,7 +186,7 @@ unset($_SESSION['totPedido']);
 header("location: index.php");
 </code></pre></small><br>
             <h4>fimPedido.php</h4>
-<small><pre><code>
+<small><pre id="codigo"><code>
 &lt;?php
 require_once 'conect.php';
 session_start();
@@ -206,7 +206,7 @@ foreach($linhas as $l) {
 }
 </code></pre></small><br>
             <h4>index.php</h4>
-<small><pre><code>
+<small><pre id="codigo"><code>
 &lt;?php
     require_once 'conect.php';
     session_start();
