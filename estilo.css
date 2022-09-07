@@ -1,23 +1,12 @@
 #logo {height: 24px;}
 #menu {padding: 0%;}
-#menuNav {border-radius: 0px 0px 5px 5px;}
+#menuNav {border-radius: 0px 0px 6px 6px;}
 #serifada {font-family: 'Ovo', serif;}
 #titulo {padding: 80px 0% 20px 0%; text-align: center;}
 #textoPost {text-align: justify;}
 #btnLink {text-decoration: none;}
-#rodape {padding: 23px 0px 10px 0px; border-radius: 20px 20px 0px 0px;}
-body,#lista {background-color: #000000; color: rgb(239, 239, 239);}
-#codigo {color: rgb(220, 220, 220);}
-#cardLinux {background-color: #000000; color: rgb(239, 239, 239); border-style: solid; border-width: 3px; border-color: #212529;}
+#rodape {background-color: black; color: white; padding: 23px 0px 10px 0px;}
 
 /*Scrollbar*/
 body::-webkit-scrollbar {width: 8px;}
-body::-webkit-scrollbar-thumb {background-color: #212529; border-radius: 5px;}
-
-/* DARK MODE:
-PALETA DE CORES DARK (APPLE): https://developer.apple.com/design/human-interface-guidelines/foundations/color
-FUNDO: #000000
-TEXTO: #F5F5F7
-VERDE BORDA: #3DDD00
-CINZA BORDAS: #B2B2B2
-*/
+body::-webkit-scrollbar-thumb {background-color: gray; border-radius: 5px;}
