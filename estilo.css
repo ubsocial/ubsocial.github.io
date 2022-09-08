@@ -1,6 +1,4 @@
 #logo {height: 24px;}
-#menu {padding: 0%;}
-#menuNav {border-radius: 0px 0px 6px 6px;}
 #serifada {font-family: 'Ovo', serif;}
 #titulo {padding: 80px 0% 20px 0%; text-align: center;}
 #textoPost {text-align: justify;}
@@ -10,3 +8,5 @@
 /*Scrollbar*/
 body::-webkit-scrollbar {width: 8px;}
 body::-webkit-scrollbar-thumb {background-color: gray; border-radius: 5px;}
+
+/*Ícones (icons8): <img src="https://img.icons8.com/ios/50/000000/mind-map--v1.png">, iOS, tamanho 25*/
