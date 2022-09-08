@@ -36,7 +36,7 @@
             <h1>Estrutura de dados</h1>
             <h6><strong>Modelos e exemplos de estruturas de dados<br><br><span class="badge bg-warning text-dark">Resumo em construção</span></strong><br><br>
             <a href="../index.html" class="btn btn-link text-decoration-none">Voltar</a><br><br>
-            <a class="btn btn-link" id="btnLink" href="https://github.com/mateusschwede/EstruturaDados" target="_blank">Github do projeto</a>
+            <a class="btn btn-link text-decoration-none" href="https://github.com/mateusschwede/EstruturaDados" target="_blank">Github do projeto</a>
         </div>
 
         <div class="col-sm-12">
@@ -52,7 +52,7 @@
                 <li><b>Vetor</b>: Array de estrutura unidimencional</li>
                 <li><b>Matriz</b>: Array de estrutura multidimencional</li>
             </ul>
-<small><pre id="codigo"><code>
+<small><pre><code>
 exemploVetor = ["leão","gato","zebra"]
 exemploMatriz = [['Pedro',25],['Maria',19],['João',32]] <span class="text-muted">#Array tridimencional, pois tem 3 dimensões/colunas</span>
 
@@ -65,8 +65,8 @@ print(exemploMatriz[1][0]) <span class="text-muted">#Maria - Linha 1, coluna 0</
             <hr>
             <h4>Pilha (Stack)</h4>
             <p id="textoPost">Coleção ordenada de dados (Estrutura linear), baseada em LIFO (Last In First Out), onde o último elemento que entra (Push) na pilha será o 1º a sair (Pop) do topo. Elementos na base serão os últimos a serem retirados. No exemplo Python abaixo, utilizou-se array para representação.</p>
-            <img src="../anexos/estruturadados/stack.png" class="img-fluid" width="250px">
-<small><pre id="codigo"><code>
+            <img src="../anexos/estruturadados/stack.png" class="img-fluid rounded" width="250px">
+<small><pre><code>
 stack = []
 
 <span class="text-muted">#Simular Push</span>
@@ -94,59 +94,59 @@ print(stack)
             <hr>
             <h4>Grafos</h4>
             <p id="textoPost">Estrutura de dados que visa trabalhar com relações entre elementos. Um exemplo de grafo, onde há conexão entre elementos, é um mapa de estações de metrô. Grafos consistem em <b>Vértice (nó)</b>, que são os pontos, e <b>Aresta (associação)</b>, que são os traços que ligam os nós. A notação matemática é <b>G = (V,A)</b>, onde G representa o grafo, V os vértices e A as arestas. A segunda imagem abaixo representa uma matriz de adjacência, no qual também pode-se representar, graficamente, um grafo: Os cabeçalhos das linhas e colunas representam os vértices, e as arestas representadas pelos índices internos na matriz (1 reprensenta que há aresta, 0 reprensenta que não há aresta).</p>
-            <img src="../anexos/estruturadados/grafo1.png" class="img-fluid" width="350px">
-            <img src="../anexos/estruturadados/grafo2.png" class="img-fluid" width="168px">
+            <img src="../anexos/estruturadados/grafo1.png" class="img-fluid rounded" width="350px">
+            <img src="../anexos/estruturadados/grafo2.png" class="img-fluid rounded" width="168px">
 
             <br><br>
             <ul>
                 <li>
                     <b>Grafo direcionado/dirigido (dígrafo)</b>: Onde há direcionamento específico nas arestas, influenciando no conhecimento/acesso dos vértices (Aresta entre vértices 0 e 1, onde o 0 possui conhecimento/acesso ao 1, mas não o contrário).
-                    <br><img src="../anexos/estruturadados/grafoDirecionado.png" class="img-fluid" width="100px">
+                    <br><img src="../anexos/estruturadados/grafoDirecionado.png" class="img-fluid rounded" width="100px">
                 </li>
                 <br>
                 <li>
                     <b>Grafo não direcionado</b>: Onde não há direcionamento específico nas arestas, ou seja, há conhecimento/acesso de ambos os vértices relacionados (Aresta entre vértices 0 e 1, onde ambos relacionam-se, ou seja, podem ser acessados).
-                    <br><img src="../anexos/estruturadados/grafoNaoDirecionado.png" class="img-fluid" width="100px">
+                    <br><img src="../anexos/estruturadados/grafoNaoDirecionado.png" class="img-fluid rounded" width="100px">
                 </li>
             </ul>
 
             <p id="textoPost"><b>Grau</b>: Quantidade de arestas que saem de um vértice (No grafo não direcionado acima, todos os vértices têm grau 2). Dígrafos diferenciam grau de saída (Arestas que saem do vértice) e grau de entrada (Arestas que chegam no vértice), onde o grau total é a soma de ambos.</p>
             <p id="textoPost"><b>Simetria (Dígrafos simétricos)</b>: Acontece em dígrafos onde, para cada aresta de entrada tem-se uma aresta de saída, além de não possuir autoloop. Ainda, todo grafo não direcionado é simétrico.</p>
-            <img src="../anexos/estruturadados/grafoSimetrico.png" class="img-fluid" width="130px">
+            <img src="../anexos/estruturadados/grafoSimetrico.png" class="img-fluid rounded" width="130px">
 
             <br><br>
             <ul>
                 <li>
                     <b>Grafo simples</b>: Há somente 1 aresta para o mesmo par de vértices.
-                    <br><img src="../anexos/estruturadados/grafoSimples.png" class="img-fluid" width="100px">
+                    <br><img src="../anexos/estruturadados/grafoSimples.png" class="img-fluid rounded" width="100px">
                 </li>
                 <br>
                 <li>
                     <b>Multigrafo:</b> Quando há autoloop (Autoloop é aresta do vértice com ele mesmo) e/ou mais de uma aresta em um mesmo par de vértices.
-                    <br><img src="../anexos/estruturadados/multigrafo.png" class="img-fluid" width="250px">
+                    <br><img src="../anexos/estruturadados/multigrafo.png" class="img-fluid rounded" width="250px">
                 </li>
                 <br>
                 <li>
                     <b>Grafo denso</b>: Quando a quantidade de arestas é o quadrado da quantidade de vértices (Exemplo: Grafo com 3 vértices e 9 arestas). Utilizam-se estruturas básicas, como arrays, para representá-los na prática, pois tendem a serem grafos grandes e, portanto, pesados.
-                    <br><img src="../anexos/estruturadados/grafoDenso.png" class="img-fluid" width="150px">
+                    <br><img src="../anexos/estruturadados/grafoDenso.png" class="img-fluid rounded" width="150px">
                 </li>
                 <br>
                 <li>
                     <b>Grafo esparso</b>: Quando não é grafo denso.
-                    <br><img src="../anexos/estruturadados/grafoEsparso.png" class="img-fluid" width="130px">
+                    <br><img src="../anexos/estruturadados/grafoEsparso.png" class="img-fluid rounded" width="130px">
                 </li>
             </ul>
 
             <p id="textoPost"><b>Caminho</b>: Conjunto de arestas que conecta vértices. Quando há caminho entre vértices, denomina-se <b>vértices conexos</b> (Abaixo, A e B são conexos. B e C são desconexos).</p>
             <p id="textoPost"><b>Ciclo</b>: Quando há outro caminho de volta para o vértice de origem, que não retorne pelo mesmo caminho de ida, ou seja, sem repetir vértices utilizados previamente (Abaixo, A e B tem um caminho para ida, e outro de B e A para volta, sem realizar a mesma passagem da ida).</p>
-            <img src="../anexos/estruturadados/grafoCaminho.png" class="img-fluid" width="140px">
+            <img src="../anexos/estruturadados/grafoCaminho.png" class="img-fluid rounded" width="140px">
             <br><small class="text-muted">* A linha vermelha acima, sob o grafo, é referente ao print da imagem, não tendo relações com o grafo em si.</small>
 
             <br><br>
             <p id="textoPost"><b><u>Exemplo</u></b>:<br>Implementação, em Java, de criação e busca/percorrimento em grafos, via algoritmo DFS (Deep First Search - Busca em profundidade) e BFS (Breadth First Search - Busca em largura).</p>
-            <img src="../anexos/estruturadados/grafoImplementacao.png" class="img-fluid" width="250px">
+            <img src="../anexos/estruturadados/grafoImplementacao.png" class="img-fluid rounded" width="250px">
             <br><small class="text-muted">* A linha vermelha acima, sob o grafo, é referente ao print da imagem, não tendo relações com o grafo em si.</small>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b><u>Amigo.java</u> (Classe)</b>:
 <span class="text-muted"># O método 'fazerAmizade' relacionará os elementos (Objetos Amigo)</span>
 package prod;

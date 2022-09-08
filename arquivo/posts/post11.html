@@ -20,13 +20,13 @@
         </div>
 
         <div class="col-sm-12">
-            <p id="textoPost">Criação e consumo de API REST com PHP, padrão PSR-4. A API tem função de intermediar a comunicação do banco de dados com o sistema, utilizando protocolo de comunicação HTTP (XML/JSON). O exemplo foi desenvolvido sem utilização de routes e o conceito de services, ao invés de controller (Somente nomeclatura difrente). Mais informações sobre conceitos teóricos, acesso o Post API REST com Laravel (<a href="https://ubsocial.github.io/artigos/apiRest.html" target="_blank" id="btnLink">Acesse</a>).</p>
+            <p id="textoPost">Criação e consumo de API REST com PHP, padrão PSR-4. A API tem função de intermediar a comunicação do banco de dados com o sistema, utilizando protocolo de comunicação HTTP (XML/JSON). O exemplo foi desenvolvido sem utilização de routes e o conceito de services, ao invés de controller (Somente nomeclatura difrente). Mais informações sobre conceitos teóricos, acesso o Post API REST com Laravel (<a href="https://ubsocial.github.io/artigos/apiRest.html" class="text-decoration-none" target="_blank">Acesse</a>).</p>
             
             <br><h4>Pré-requisitos:</h4>
             <ul>
                 <li>XAMPP executando</li>
-                <li>Composer: <a href="https://getcomposer.org/download" target="_blank" id="btnLink">Download</a></li>
-                <li>Módulo Apache Rewrite (Ver se ativado): <a href="http://devfuria.com.br/linux/apache-habilitar-mod_rewrite-no-apache-mod" target="_blank" id="btnLink">Tutorial</a></li>
+                <li>Composer: <a href="https://getcomposer.org/download" class="text-decoration-none" target="_blank">Download</a></li>
+                <li>Módulo Apache Rewrite (Ver se ativado): <a href="http://devfuria.com.br/linux/apache-habilitar-mod_rewrite-no-apache-mod" class="text-decoration-none" target="_blank">Tutorial</a></li>
             </ul>
             
             <br><h4>Passo a passo:</h4>
@@ -38,11 +38,11 @@
                 <li>Informando, no browser, '<i>urlProjeto/api/user/1</i>' mostrará dados do usuário 1</li>
                 <li>urlProjeto/client.php é alusivo a outra aplicação, que consome a API</li>
             </ul>
-            <a href="https://github.com/mateusschwede/api_rest_php" class="btn btn-link" id="btnLink" target="_blank">Github projeto</a>
+            <a href="https://github.com/mateusschwede/api_rest_php" class="btn btn-link text-decoration-none" target="_blank">Github projeto</a>
 
             <br><br><h4>Arquivos</h4>
             <br><b>banco.sql</b>
-<small><pre id="codigo"><code>
+<small><pre><code>
 CREATE DATABASE serie_login;
 CREATE TABLE user (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -54,7 +54,7 @@ INSERT INTO user(email,password,name) VALUES ("ubsocial@gmail","123","ubsocial")
 </code></pre></small>
 
             <br><b>App/Models/User.php</b>
-<small><pre id="codigo"><code>
+<small><pre><code>
 &lt;?php
 namespace App\Models;
 
@@ -99,7 +99,7 @@ class User {
 </code></pre></small>
 
             <br><b>App/Services/UserService.php</b>
-<small><pre id="codigo"><code>
+<small><pre><code>
 &lt;?php
 namespace App\Services;
 use App\Models\User;
@@ -130,7 +130,7 @@ class UserService {
 </code></pre></small>
 
             <br><b>public_html/.htaccess</b>
-<small><pre id="codigo"><code>
+<small><pre><code>
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
@@ -138,7 +138,7 @@ RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
 </code></pre></small>
 
             <br><b>public_html/client.php</b>
-<small><pre id="codigo"><code>
+<small><pre><code>
 &lt;?php
 $url = 'http://localhost/projetos/api_rest_php/public_html/api'; //Edite conforme diretório do projeto
 $class = '/user';
@@ -160,7 +160,7 @@ var_dump($response['data'][1]['email']); //Mostra email do usuário index 1
 </code></pre></small>
 
             <br><b>public_html/index.php</b>
-<small><pre id="codigo"><code>
+<small><pre><code>
 &lt;?php
 header('Content-Type: application/json');
 require_once '../vendor/autoload.php';
@@ -190,7 +190,7 @@ if ($_GET['url']) {
 </code></pre></small>
 
             <br><b>composer.json</b>
-<small><pre id="codigo"><code>
+<small><pre><code>
 {
     "autoload": {
         "psr-4": {
@@ -205,7 +205,7 @@ if ($_GET['url']) {
 </code></pre></small>
 
             <br><b>config.php</b>
-<small><pre id="codigo"><code>
+<small><pre><code>
 &lt;?php
 const DBDRIVE = 'mysql';
 const DBHOST = 'localhost';

@@ -36,18 +36,18 @@
             <h1>Deploy no Heroku</h1>
             <h6><strong>Deploy de aplicação Django no Heroku</strong></h6>
             <a href="../index.html" class="btn btn-link text-decoration-none">Voltar</a><br><br>
-            <a class="btn btn-link" id="btnLink" href="https://github.com/mateusschwede/EPets" target="_blank">GitHub projeto exemplo</a>
+            <a class="btn btn-link text-decoration-none" href="https://github.com/mateusschwede/EPets" target="_blank">GitHub projeto exemplo</a>
         </div>
 
         <div class="col-sm-12">
             <h4>Instruções</h4>
             <p id="textoPost">Partindo do princípio que você possua uma aplicação Django pronta e que deseja publicá-la, então pode-se fazer pelo Heroku.</p>
-            <img src="../anexos/heroku/heroku_dashboard.png" class="img-fluid" width="600px">
+            <img src="../anexos/heroku/heroku_dashboard.png" class="img-fluid rounded" width="600px">
             
             <br><br><h4>Pré-requisitos:</h4>
             <ul>
                 <li>Git (Instalado e configurado)
-<small><pre id="codigo"><code>
+<small><pre><code>
 sudo apt install git
 git config --global user.name "seuusuariogit"
 git config --global user.email "seuemailgit"
@@ -55,7 +55,7 @@ git config --global user.email "seuemailgit"
                 </li>
                 <li>Conta no Heroku</li>
                 <li>Heroku CLI (Instalado e configurado)
-<small><pre id="codigo"><code>
+<small><pre><code>
 curl https://cli-assets.heroku.com/install.sh | sh
 heroku login <span class="text-muted">#Redirecionará para login via Browser</span>
 </code></pre></small>
@@ -70,12 +70,12 @@ heroku login <span class="text-muted">#Redirecionará para login via Browser</sp
                 <li>Entrar na pasta raíz do projeto Django (Mesmo local do arquivo 'manage.py')</li>
                 <li>Em 'pastaProj', a mesma que possui o arquivo 'settings.py', criar pasta 'settings', mover o arquivo 'settings.py' para dentro dela, renomeando-o para 'base.py'</li>
                 <li>No arquivo 'base.py', modificar linha BASE_DIR (3 parent no fim):
-<small><pre id="codigo"><code>
+<small><pre><code>
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 </code></pre></small>
                 </li>
                 <li>Nessa pasta 'settings', criar arquivo 'heroku.py', com o seguinte conteúdo:
-<small><pre id="codigo"><code>
+<small><pre><code>
 import environ
 from NOMEPASTAPROJETO.settings.base import *
 env = environ.Env()
@@ -88,26 +88,26 @@ DATABASES = {
 </code></pre></small>
                 </li>
                 <li>Em 'pastaProj', modificar linha do arquivo 'wsgi.py':
-<small><pre id="codigo"><code>
+<small><pre><code>
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'NOMEPASTAPROJETO.base')
 </code></pre></small>
                 </li>
                 <li>Modificar linha do arquivo 'manage.py':
-<small><pre id="codigo"><code>
+<small><pre><code>
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'NOMEPASTAPROJETO.base')
 </code></pre></small>
                 </li>
                 
                 <br><b>WhiteNoise</b>
                 <li>Em 'base.py', inserir trecho no final do arquivo:
-<small><pre id="codigo"><code>
+<small><pre><code>
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 </code></pre></small>
                 </li>
                 <li>Em 'base.py', array MIDDLEWARE, inserir como 2º elemento do array:
-<small><pre id="codigo"><code>
+<small><pre><code>
 "whitenoise.middleware.WhiteNoiseMiddleware",
 </code></pre></small>
                 </li>
@@ -120,7 +120,7 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
                 </li>
                 <li>Inserir, nessa mesma pasta raíz do projeto, arquivo 'runtime.txt', com o conteúdo: <i>python-3.8.5</i></li>
                 <li>Inserir, nessa mesma pasta raíz do projeto, arquivo 'Procfile', com o seguinte conteúdo:
-<small><pre id="codigo"><code>
+<small><pre><code>
 release: python3 manage.py migrate
 web: gunicorn tutorialdjango.wsgi --preload --log-file –
 </code></pre></small>
@@ -130,7 +130,7 @@ web: gunicorn tutorialdjango.wsgi --preload --log-file –
                 <li>Na pasta raíz do proejto, criar app do projeto no Heroku CLI com o comando: <i>heroku create</i> <span class="text-muted">#Gerará url do projeto '.herokuapp.com'</span></li>
                 <li>Ver nome do app criado: <i>heroku apps</i></li>
                 <li>Criar variáveis de ambiente e BD, nesse mesmo diretório, com o comando:
-<small><pre id="codigo"><code>
+<small><pre><code>
 <span class="text-muted">(Exemplo: heroku config:set ALLOWED_HOSTS=boiling-meadow-14806.herokuapp.com -a boiling-meadow-14806)</span>
 heroku config:set ALLOWED_HOSTS=urlProjeto -a nomeAppCriado
 heroku config:set DJANGO_SETTINGS_MODULE=nomePastaProjeto.settings.heroku -a nomeAppCriado
@@ -142,7 +142,7 @@ heroku addons:create heroku-postgresql:hobby-dev -a nomeAppCriado
                 
                 <br><b>Push aplicação</b>
                 <li>Criar repositório Git e fazer Push via Git Heroku, com o código:
-<small><pre id="codigo"><code>
+<small><pre><code>
 git init
 git add .
 git commit -m "Arquivos iniciais inseridos"

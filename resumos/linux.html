@@ -401,7 +401,7 @@
                         <li><b>Ctrl+-</b>: Desfazer</li>
                     </ul>
                     <h4>Comandos gerais</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>Ver qual shell padrão:</b> echo $SHELL (echo $0)
 <b>Filme Star Wars modo Terminal:</b> telnet towel.blinkenlights.nl
 <b>Relógio analógico:</b> oclock
@@ -463,20 +463,20 @@ Tempo: <i>dia_da_semana mês dia hora:minuto:segundo ano UTC</i>
                 <h4 class="card-header">19. Bash 2: Arquivos</h4>
                 <div class="card-body">
                     <h4>Criar</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>Criar pasta:</b> mkdir nomepasta1 nomepasta2 nomepasta3
 <b>Criar pasta com subpasta:</b> mkdir -p pasta1/pasta2/pasta\ 3/ (o '\' representa não interpretar o próximo espaço em branco como um comando, pode-se trocar o nome do arquivo com espaços por seu nome por extenso entre aspas duplas. O -p não sobrescreve, caso o nome já exista)
 <b>Criar arquivo:</b> touch nomearquivo.tipo (O comando touch nasceu com o intuito de modificar a data de criação e modificação de um arquivo)
 <b>Comando mais direto:</b> touch Documents/Cursos/Linux/Modulo\ 1/aula1.txt
 </code></pre></small>
                     <h4>Editar</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>Editar arquivo com o editor bash 'nano':</b> nano nomearquivo.tipo
 (Comandos nano: 'ctrl+o(salvar)', 'ctrl+x(sair)', o 'M' representa o 'alt')
 (Ver card completo 'Editor Nano')
 </code></pre></small>
                     <h4>Remover</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>Remover pasta/arquivo(cuidado):</b> rm nomepasta/ ('rm' remove definitivamente, não move à lixeira)
 <b>Remover arquivox na pasta Documents:</b> rm Documents/arquivox
 <b>Remover pasta:</b> rmdir nomepasta/ (Diretórios com conteúdo precisam ser removidos de forma recursiva, pois seu conteúdo também será removido)
@@ -485,13 +485,13 @@ Tempo: <i>dia_da_semana mês dia hora:minuto:segundo ano UTC</i>
 <b>Remover sob confirmação com mais de 4 arquivos:</b> rm -I
 </code></pre></small>
                     <h4>Apelidos (Alias)</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 Durabilidade somente enquanto o terminal estiver aberto
 <b>Mostrar todos os apelidos:</b> alias
 <b>Criar apelido:</b> alias rm="rm -I" (Com isso, todo o comando 'rm' será seu conteúdo alias, ou seja, 'rm -I')
 </code></pre></small>
                     <h4>Listar</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>Listar conteúdos dentro da pasta atual:</b> ls
 <b>Listar pastas e subpastas:</b> ls -R
 <b>Listar conteúdos dentro da pasta atual com informações:</b> ls -l
@@ -508,7 +508,7 @@ Durabilidade somente enquanto o terminal estiver aberto
 <b>Listar conteúdo de pasta:</b> ls nomepasta/
 </code></pre></small>
                     <p>Conceitos ls -l:</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 [tipoArquivo] [permissões(proprietário/grupo/outros)] [contagem linksFisicos] [proprietárioDoUsuario] [proprietárioDoGrupo] [tamanhoArquivoBouKB] [dthrRegistro] [nomeArquivo.extensao]
 <i><b>Exemplo (Arquivo):</b> -rw-r--r-- 1 root root 18047 Dec 20 2021 alternatives.log</i>
 <i><b>Exemplo (Diretório):</b> drwxr-x--- 2 root adm 4096 Dec 20 2021 apache2</i>
@@ -523,7 +523,7 @@ Durabilidade somente enquanto o terminal estiver aberto
 <b>u:</b> O mesmo que <i>c</i>
 </code></pre></small>
                     <h4>Impressão (Básica)</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>Instalação CUPS:</b></u>
     sudo apt install  cups cups-client foomatic-db
     service cups restart (Ou <i>start</i> para iniciar, <i>stop</i> para encerrar)
@@ -541,7 +541,7 @@ Durabilidade somente enquanto o terminal estiver aberto
                 <h4 class="card-header">20. Bash 3: Manipulações</h4>
                 <div class="card-body">
                     <h4>Movimentar-se nas pastas</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>Entrar em pasta na pasta atual:</b> cd nomepasta/ (Change Directory)
 <b>Entrar em arquivo na pasta atual:</b> cd arquivo.tipo
 <b>Entrar na pasta x:</b> cd ~/pastax/
@@ -552,7 +552,7 @@ Durabilidade somente enquanto o terminal estiver aberto
 </code></pre></small>
                     <h4>Caracteres globais (Globbing)</h4>
                     <p>Também conhecidos como <b>Expressões Regulares</b> (Regular Expressions), Globbing Files, quando caracteres Regex são utilizados em conjunto. Seguem abaixo os metacaracteres.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>.</b> Referência a qualquer caractere único
 <b>*</b> Referência a conjunto de caracteres (presente no prompt do Windows)
 <b>?</b> Referência a apenas 1 caractere / O padrão anterior é opcional(Quando usado de forma composta) (presente no prompt do Windows)
@@ -597,7 +597,7 @@ Durabilidade somente enquanto o terminal estiver aberto
 <b>Procurar em 'arquivo.txt' termos que terminam com 'teste':</b> grep '$teste' arquivo.txt
 </code></pre></small>
                     <h4>Manipulação de arquivos</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>Copiar e colar arquivo:</b> cp nomearquivo.tipo diretorioDestino/
 <b>Copiar e colar recursivamente:</b> cp -r diretorioOrigem diretorioDestino
 <b>Copiar e colar, mantendo metadados:</b> cp -p diretorioOrigem diretorioDestino (Mantém usuárioCriador, datas, horas, de criação intactas)
@@ -622,7 +622,7 @@ Comando de copiar <b>dd</b>, diferente do cp, faz cópia bit a bit, muito mais p
                 <h4 class="card-header">21. Bash 4: Aplicações</h4>
                 <div class="card-body">
                     <h4>Instalar</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 (Maiores detalhes, ver card completo 'Pacotes')
 <b>Procurar pacotes apt para instalação:</b> sudo apt search
 <b>Pacote com apt:</b> sudo apt install nomearquivo
@@ -643,7 +643,7 @@ to-rpm -> Converte arquivo para .rpm
 to-tgz -> Converte arquivo para .tgz 
 </code></pre></small>
                     <h4>Desinstalar / Limpar</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>Remover 'lixo':</b> sudo apt autoremove (bibliotecas) //ou apt clean (cache)
 <b>Reconstruir dependências faltando/corrompidas:</b> sudo apt --fix-broken install
 <b>Desinstalar somente software:</b> sudo apt remove nomesoftware
@@ -651,7 +651,7 @@ to-tgz -> Converte arquivo para .tgz
 <b>Desinstalar software e bibliotecas (cuidado!):</b> sudo apt purge nomesoftware //ou sudo apt purge --auto-remove nomesoftware
 </code></pre></small>
                     <h4>Atualizar</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>Atualizar bibliotecas:</b> sudo apt update
 <b>Atualizar programas:</b> sudo apt upgrade
 <b>Atualizar bibliotecas e programas(comando único):</b> sudo apt update && sudo apt upgrade
@@ -666,7 +666,7 @@ to-tgz -> Converte arquivo para .tgz
                 <div class="card-body">
                     <h4>Permissões de acesso (chmod)</h4>
                     <p>De forma nativa, no Linux nada pode ser executado por padrão. Precisa-se aplicar permissão para tal.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>Exemplo:</b> -rw-r--r-- 1 sysadmin sysadmin 647 Dec 20 2017 hello.sh
 <b>Ordenação:</b>
 1. (<b>rw-</b>) <b>Proprietário</b>, no caso o primeiro sysadmin
@@ -706,7 +706,7 @@ to-tgz -> Converte arquivo para .tgz
 <u>Ex2</u>: sudo chmod 40 teste (Da direita pra esquerda, permissão à outros usuários(0) nenhuma, grupo(4) somente leitura e dono não foi modificada)
 </code></pre></small>
                     <h4>Criar lançador (atalho)</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>Conteúdo do arquivo do lançador (nomedoprograma.desktop)</b>
 [Desktop Entry]
 Type=Application
@@ -751,7 +751,7 @@ Lançadores locais: ls ~/.local/share/applications
                         <li><b>Prioridade</b>: Quando o processo está em execução, o mesmo possui prioridades. Tecnicamente, é a quantidade de disponibilidade de recursos fornecidos ao mesmo, com relação aos demais processos. Geralmente, ao lado da sigla do stat (estado), tem-se <b>&lt;</b> ou <b>N</b> (processo atuando com prioridade menor que o normal) ou <b>&gt;</b> (processo atuando com prioridade maior que o normal). Pode-se também possuir <b>s</b> (Processo líder da sessão) e <b>+</b> (processo executando em 1º plano). O <i>NI</i> (nice/renice) é o valor de prioridade definido na criação/alteração do processo, respectivamente.</li>
                         <li><b>Nº de identificação (PID, PPID)</b>: Cada processo possui um nº único para sua identificação.</li>
                     </ul>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>Ver discos:</b> df -h / df -i (Inodes: buracos de memória no hardware de cada partição, arquivos em branco tbm ocupam)
 <b>Discos e uso:</b> du -sh *(Ver tudo no diretório, do maior pro menor)
 <b>Ver processos:</b> ps -ef / ps -aux / ps -r (-r para somente processos em execução)
@@ -782,7 +782,7 @@ Lançadores locais: ls ~/.local/share/applications
 </code></pre></small>
                     <h4>Shell Script</h4>
                     <p>Script de execução em Shell Linux, seguindo determinada codificação de linguagem Shell, onde os arquivos terminam com extensão '.sh'. Atuam na automatização de tarefas em rotinas Linux, como instalação e personalização de ambientes de desenvolvimento, realizando, por exemplo, criação de arquivos e diretórios com conteúdos personalizados, abertura automatizada e pré-configurada de pacotes, instalação de libraries e modo administrador, entre outros recursos. Para a execução de arquivos shell script, deve-se aplicar permissão de execução (Abaixo permissão pode ser 777). Abaixo, exemplo de shell script (<b>teste.sh</b>), que cria 3 pastas (pasta1, pasta2, pasta3). Para executá-lo, após conceder permissão chmod 777, executar <i>./teste.sh</i> no diretório de criação do arquivo.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 #!/bin/bash
 x=1
 while [ $x -le 3 ];
@@ -801,7 +801,7 @@ echo "Concluído!"
                 <h4 class="card-header">23. Nano editor</h4>
                 <div class="card-body">
                     <p>Editor CLI de texto simples padrão do Debian, baseado no Joe. Para alterar o editor de textos padrão, basta informar no comando <i>update-alternatives --config editor</i>. É carregado automaticamente no modo de edição. Para utilizar o editor basta digitar o comando nano, podendo juntamente com o nome do arquivo que deseja criar/editar. Para abrir arquivo somente leitura, basta informar <i>nano -v arquivo</i>. Na legenda <b>^</b> é <i>Ctrl</i> e <b>M</b> é <i>alt</i>. Além dos atalhos típicos, o nano possui outros atalhos:</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>Ctrl+g</b>: Ajuda
 <b>Ctrl+k</b>: Recorta a linha
 <b>Ctrl+u</b>: Cola linha copiada
@@ -841,7 +841,7 @@ O nano possibilita a abertura de diversos arquivos ao mesmo tempo.
                     <ul>
                         <li>Lista de comandos Vim: <a href="../anexos/linux/vimComandos.png" class="text-decoration-none" target="_blank">Acesse</a></li>
                     </ul>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>:i</b> - Entrar no modo Inserção
 <b>:w</b> - Salvar o arquivo atual no sistema de arquivos
 <b>:w nome_arquivo</b> - Salvar uma cópia do arquivo atual como nome_arquivo
@@ -859,7 +859,7 @@ O nano possibilita a abertura de diversos arquivos ao mesmo tempo.
 </small></pre></code>            
                     <h5>Movimentações</h5>
                     <p>O Vim possibilita, além das teclas abaixo, movimentações por meio das setas direcionáveis.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>gg</b> - Ir para início do arquivo
 <b>G</b> - Ir para final do arquivo
 <b>36G</b> - Ir para a 36ª linha
@@ -885,7 +885,7 @@ O nano possibilita a abertura de diversos arquivos ao mesmo tempo.
 <u>Ex2:</u> <b>5h</b> moverá o cursor 5 caracteres para a esquerda
 </small></pre></code>
                     <h5>Manipulações</h5>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>u</b> - Desfazer modificação (Undo)
 <b>s</b> - Deletar caractere atual e Colar linha
 <b>S</b> - Deletar linha atual e Colar linha
@@ -905,7 +905,7 @@ O nano possibilita a abertura de diversos arquivos ao mesmo tempo.
 <u>Ex:</u> <b>3y</b> copia as 3 letras em frente (cursor + 2 letras seguintes). <b>p</b> colará, após o cursor
 </small></pre></code>
                     <h5>Exclusões</h5>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>x</b> - Excluir caractere sob cursor
 <b>dd</b> - Excluir linha atual
 <b>3dd</b> - Excluir as próximas 3 linhas
@@ -914,7 +914,7 @@ O nano possibilita a abertura de diversos arquivos ao mesmo tempo.
 <b>d4h</b> - Excluir 4 caracteres à esquerda
 </small></pre></code>
                     <h5>Modificações</h5>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>cc</b> - Mudar linha atual
 <b>cw</b> - Mudar palavra atual
 <b>c3w</b> - Mudar as próximas 3 palavras (Apaga para mudar)
@@ -922,7 +922,7 @@ O nano possibilita a abertura de diversos arquivos ao mesmo tempo.
 </small></pre></code>
                     <h5>Arrancar (Yank)</h5>
                     <p>Yank coloca conteúdo no buffer sem excluí-lo (Copiar).</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>yy</b> - Arranque a linha atual
 <b>3yy</b> - Arranque as próximas 3 linhas
 <b>yw</b> - Arranque as próximas 3 linhas
@@ -931,7 +931,7 @@ O nano possibilita a abertura de diversos arquivos ao mesmo tempo.
                     <p>O Vi aceita termos e expressões regulares para pesquisa. Pesquise, no Ex Mode, a partir da posição atual do cursor, usando <b>/</b> para iniciar a pesquisa, digite o termo de pesquisa e pressione 'Enter' para pesquisar. O cursor se moverá para a 1ª correspondência que for encontrada. Use 'n' para seguir para as próximas correspondências, usando 'N' para retroceder (Pesquisa <b>?</b>). No Ex mode, para substituir todas as palavras 'Caza' por 'Casa' utilize '<i>:%s/Caza/Casa/g</i>'.</p>
                     <h4>Modo de Inserção (i)</h4>
                     <p>Neste modo, o usuário poderá modificar o conteúdo interno do arquivo. Neste modo, utilize 'delete' para apagar conteúdo. Use 'esc' para sair do modo e voltar a utilizar o Ex Mode. O modo de Inserção, por padrão, faz a inserção de texto à esquerda do cursor. Caso desejar o contrário, informe a tecla <b>a</b> para inserção de texto à direita do cursor, ou seguindo as demais ações abaixo.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>Teclas de ações no Ex Mode:</b>
 <b>a</b> - Entrar no modo de inserção logo após o cursor
 <b>A</b> - Entrar no modo de inserção no final da linha
@@ -950,7 +950,7 @@ O nano possibilita a abertura de diversos arquivos ao mesmo tempo.
                 <div class="card-body">
                     <h4>Comando find:</h4>
                     <p>Utilizado para encontrar arquivos no sistema. Sintaxe: <i>find [diretório] [opção/expressão]</i></p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>Procurar arquivos pela 'extensão':</b> find /etc/ -name *.conf
 <b>Limitar recursividade em diretórios:</b> find /etc/ -maxdepth 1 -name *.conf (Apenas 1 diretório, ou seja, o atual)
 <b>Procurar arquivos acessados minutos atrás:</b> find / -amin -5 (Últimos 5min)
@@ -1042,7 +1042,7 @@ O nano possibilita a abertura de diversos arquivos ao mesmo tempo.
                 <h4 class="card-header">27. Usuários</h4>
                 <div class="card-body">
                     <p>O <b>administrador (sudo)</b> possui permissão total de utilização do sistema, como gerenciar arquivos e diretórios, além de executar aplicações, instalá-las e removê-las. Também pode executar qualquer comando do terminal. O <b>usuário comum ($)</b> é aquele padrão no Linux, para seu uso, possuindo algumas restrições em terminal e sistema. Entretanto, o usuário comum que instalou o Linux tem permissão para executar comandos/programas no modo administrador, utilizando o comando "sudo". O <b>usuário de sistema</b> é um usuário fictício criado durante a instalação de algum programa, a fim de executar tarefas específicas do mesmo. Não possui capacidade de login no sistema. Por fim, tem-se o <b>root (#, id 0)</b> (sudo su), como sendo um "super-usuário", capaz de fazer absolutamente TUDO no Linux. O que difere o root de outros usuários é o fato dele ser o único capaz de gerenciar coisas fora de seu diretório pessoal. Por essa razão, priva-se a utilização com este usuário. Todo usuário possiu cotas de disco, espaços em disco para seu uso (<i>quota</i> mostra informações sobre).</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>whoami</b>: Ver usuário atual
 <b>w</b>: Ver detalhes de usuários conectados
 <b>su - nomeUsuario</b>: Sai do root e vai para usuário descrito
@@ -1100,7 +1100,7 @@ O nano possibilita a abertura de diversos arquivos ao mesmo tempo.
                         <li><b>Variáveis Locais:</b> Disponíveis somente para o shell atual, ou seja, são voláteis, possuindo assim visibilidade restrita ao ambiente ao qual foi definida. Sintaxe: <i>nome=valor</i></li>
                         <li><b>Variáveis Globais (De ambiente / environment)</b>: Não possuem restrição de ambiente, sendo visíveis e utilizáveis a todo o restante do sistema, como subprocessos, outros shells e demais ambientes em que não foi definida. Sintaxe: <i>export nome=valor</i></li>
                     </ul>
-<small><pre id="codigo"><code>
+<small><pre><code>
 Mostrar variaveis de ambiente: <i>env</i>
 <b>Exemplo:</b>
 idade=22
@@ -1129,7 +1129,7 @@ Variável global HOME (echo $HOME)
                     <h4>Arquivos de configuração shell:</h4>
                     <h5>Arquivos de variáveis:</h5>
                     <p>Arquivos que contém variáveis, alias e demais comandos do sistema. Alias é um apelido que pode ser dado à determinada rotina, para que haja maior facilidade no momento de sua chamada.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>Exemplo Alias:</b>
 alias j="ls -l"
 j (ao digitar j será executado seu valor, no caso, o comando descrito)
@@ -1178,7 +1178,7 @@ unalias j (descarta o alias)
                     <p>Identificador dos componentes físicos de rede do dispositivo (Geralmente HWaddr ou HW no Linux), seguindo padrão 'xx:xx:xx:xx:xx:xx', pode ser encontrado através de comando personalizado, com utilização de expressão regular:<br>ifconfig nomePlaca | grep -Ewo '([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2}'<br><u>Ex</u>: <i>ifconfig wlan0 | grep -Ewo '([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2}'</i></p>
                     <h4>Máscara de Rede (netmask):</h4>
                     <p>Todo IP possui uma máscara correspondente. Nela é informado qual parte do IP faz parte da rede e qual faz parte do host. Tecnicamente, define quantos IPs serão destinados e quantos IPs serão definidos ao host (máquina local). O endereço IP sempre é um nº de 4 octetos, onde cada octeto é representado por um bloco numérico separado por ponto. Existem vários tipos de netmask, como Classe A, Classe B, Classe C e Classe D.<br><u>Classe C (Mais popular):</u> Representada por /24, e 255.255.255.0, onde o IP inicia-se com 192.168.0.X</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>CÁLCULO DE NETMASK:</b>
 Cada octeto representa essa tabela. Na Classe C, tem-se 24 bits setados para 1 (/24), sendo 1 true e 0 false.
 
@@ -1216,7 +1216,7 @@ EXEMPLO: <b>1  | 1  | 1  | 0  | 0 | 0 | 0 | 0</b>, onde a soma dos true, <i>128+
                         <li><b>-z</b> ou <b>--gzip</b>: Indica que o pacote será compactado no momento do empacotamento, utilizando gzip.</li>
                         <li><b>-x</b> ou <b>--extract</b>: Para desempacotar arquivo empacotado tar.</li>
                     </ul>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b><u>Exemplos:</u></b>
 <b>Empacotar:</b> tar -cf arquivoPronto.tar arquivoEmpacotar
 <b>Desempacotar:</b> tar -xf arquivoPronto.tar
@@ -1234,7 +1234,7 @@ EXEMPLO: <b>1  | 1  | 1  | 0  | 0 | 0 | 0 | 0</b>, onde a soma dos true, <i>128+
                         <li><b>-v</b> ou <b>--verbose</b>: Exibe o processo de compactação/descompactação em detalhes.</li>
                         <li><b>-&lt;nivel&gt;</b> ou <b>--fast</b> ou <b>--best</b>: Gerenciar grau de compactação. Nível (1-9), quanto menor o nível, menor a compactação (mais simples), sendo menor o tempo do processo. A mesma lógica do contrário. O fast é mesmo que nível 1, o best é mesmo que nível 9.</li>
                     </ul>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b><u>Exemplos:</u></b>
 <b>Ver arquivo compactado <i>.gz</i>, sem descompactá-lo</b>: zcat arquivoCompactado.tar.gz (Há outros comandos, como <i>zgrep</i>, <i>zless</i>, <i>zmore</i>, pode-se utilizar também comando <i>| grep</i>)
 <b>Compactar</b>: gzip nomeArquivo
@@ -1247,7 +1247,7 @@ EXEMPLO: <b>1  | 1  | 1  | 0  | 0 | 0 | 0 | 0</b>, onde a soma dos true, <i>128+
 </small></pre></code>
                     <h4>bzip2</h4>
                     <p>Compactador/descompactador de arquivos similar ao gzip. Os arquivos compactados possuirão final <i>.bz2</i>. As flags são as mesmas do gzip, com exceção da compressão de arquivos via tar. Sintaxe: <i>bzip2 [opções] &lt;arquivo&gt;</i></p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b><u>Exemplos:</u></b>
 <b>Compactar tar</b>: bzip2 pastaEmpacotada.tar (Gerará <i>pastaEmpacotada.tar.bz2</i>)
 <b>Descompactar</b>: bzip2 -d pastaEmpacotada.tar.bz2
@@ -1256,7 +1256,7 @@ EXEMPLO: <b>1  | 1  | 1  | 0  | 0 | 0 | 0 | 0</b>, onde a soma dos true, <i>128+
 </small></pre></code>
                     <h4>xz</h4>
                     <p>O utilitário xz também é utilizado para compactar/descompactar arquivos. Arquivos compactados com xz possuem final <i>.xz</i>. As flags são as mesmas dos utilitários acima. Sintaxe: <i>xz [opções] &lt;arquivo&gt;</i></p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b><u>Exemplos:</u></b>
 <b>Compactar diretório teste:</b> xz -c teste > testinho.xz
 <b>Descompactar:</b> xz -d teste.xz
@@ -1340,7 +1340,7 @@ EXEMPLO: <b>1  | 1  | 1  | 0  | 0 | 0 | 0 | 0</b>, onde a soma dos true, <i>128+
                     <ul>
                         <li>Linux.org: <a href="https://www.linux.org" class="text-decoration-none" target="_blank">Acesse</a></li>
                         <li>Linux.com: <a href="https://www.linux.com" class="text-decoration-none" target="_blank">Acesse</a></li>
-                        <li>The Linux Foundation: <a href="https://www.linuxfoundation.org">Acesse</a></li>
+                        <li>The Linux Foundation: <a href="https://www.linuxfoundation.org" class="text-decoration-none" target="_blank">Acesse</a></li>
                         <li>Eventos de Linux e Software Livre: <a href="https://www.lpi.org/pt/events" class="text-decoration-none" target="_blank">Acesse</a></li>
                         <li>Free Software Foundation (FSF): <a href="https://www.fsf.org" class="text-decoration-none" target="_blank">Acesse</a></li>
                         <li>Open Source Initiative: <a href="https://opensource.org" class="text-decoration-none" target="_blank">Acesse</a></li>

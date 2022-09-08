@@ -26,7 +26,7 @@
 
             <br><br><h3 class="text-muted">Diretório 'ajax'</h3>
             <h4>addRecord.php</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 &lt;?php
 if(!empty($_POST['first_name'])) {
     include("db_connection.php");
@@ -35,13 +35,13 @@ if(!empty($_POST['first_name'])) {
 }
 </code></pre></small><br>
             <h4>db_connection.php</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 &lt;?php
 $db = new PDO('mysql:host=localhost;dbname=test;charset=utf8', 'root', '');
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 </code></pre></small><br>
             <h4>deleteUser.php</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 &lt;?php
 if(!empty($_POST['id'])) {
     include("db_connection.php");
@@ -50,7 +50,7 @@ if(!empty($_POST['id'])) {
 }
 </code></pre></small><br>
             <h4>readRecords.php</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 &lt;?php
 include("db_connection.php");
 $r = $db->query("SELECT * FROM users");
@@ -58,7 +58,7 @@ $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
 foreach($linhas as $l) {echo $l['id']." ".$l['first_name']." &lt;a onclick='GetUserDetails(".$l['id'].")'&gt;Editar&lt;/a&gt; &lt;a onclick='DeleteUser(".$l['id'].")'&gt;Excluir&lt;/a&gt;&lt;br&gt;";}
 </code></pre></small><br>
             <h4>readUserDetails.php</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 &lt;?php
 include("db_connection.php");
 if(!empty($_POST['id'])) {
@@ -78,7 +78,7 @@ if(!empty($_POST['id'])) {
 }
 </code></pre></small><br>
             <h4>updateUserDetails.php</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 &lt;?php
 include("db_connection.php");
 if(!empty($_POST)) {
@@ -88,7 +88,7 @@ if(!empty($_POST)) {
 </code></pre></small><br>
             <h3 class="text-muted">Diretório 'js'</h3>
             <h4>script.js</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 function addRecord() {
     var first_name = $("#first_name").val();
     $.post("ajax/addRecord.php", {first_name: first_name}, function(data,status){$("#addModal").modal("hide"); readRecords(); $("#first_name").val("");});
@@ -117,7 +117,7 @@ $(document).ready(function(){readRecords();});
             <br>
             <h3 class="text-muted">Diretório principal</h3>
             <h4>banco.sql</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 CREATE DATABASE test CHARSET=utf8;
 USE test;
 CREATE TABLE users(
@@ -127,7 +127,7 @@ CREATE TABLE users(
 INSERT INTO users(first_name) VALUES ("ubsocial1"),("ubsocial2");
 </code></pre></small><br>
             <h4>index.php</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 &lt;script type="text/javascript" src="js/jquery-1.11.3.min.js"&gt;&lt;/script&gt;
 &lt;script type="text/javascript" src="js/script.js"&gt;&lt;/script&gt;
 &lt;link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"&gt;

@@ -36,8 +36,8 @@
             <h1>Kubernetes</h1>
             <h6><strong>Conceitos básicos de Kubernetes K8s</strong></h6>
             <a href="../index.html" class="btn btn-link text-decoration-none">Voltar</a><br><br>
-            <a href="https://youtube.com/playlist?list=PLnPZ9TE1Tj4CpbmTsTgqVpRG0hIgHXsaX" class="btn btn-link" id="btnLink" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="1.3em" height="1.3em" fill="currentColor" class="bi bi-youtube text-danger" viewBox="0 0 16 16"><path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.007 2.007 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.007 2.007 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31.4 31.4 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.007 2.007 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A99.788 99.788 0 0 1 7.858 2h.193zM6.4 5.209v4.818l4.157-2.408L6.4 5.209z"/></svg> Conteúdo disponível</a><br>
-            <a class="btn btn-link" id="btnLink" href="https://labs.play-with-k8s.com" target="_blank">Editor online Play With Kubernetes</a>
+            <a href="https://youtube.com/playlist?list=PLnPZ9TE1Tj4CpbmTsTgqVpRG0hIgHXsaX" class="btn btn-link text-decoration-none" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="1.3em" height="1.3em" fill="currentColor" class="bi bi-youtube text-danger" viewBox="0 0 16 16"><path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.007 2.007 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.007 2.007 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31.4 31.4 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.007 2.007 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A99.788 99.788 0 0 1 7.858 2h.193zM6.4 5.209v4.818l4.157-2.408L6.4 5.209z"/></svg> Conteúdo disponível</a><br>
+            <a class="btn btn-link text-decoration-none" href="https://labs.play-with-k8s.com" target="_blank">Editor online Play With Kubernetes</a>
         </div>
 
         <div class="col-sm-12">
@@ -53,7 +53,7 @@
             </ul>
 
             <br><h4>Arquitetura K8s</h4>
-            <img src="../anexos/kubernetes/arquitetura.jpg" class="img-fluid" width="350px">
+            <img src="../anexos/kubernetes/arquitetura.jpg" class="img-fluid rounded" width="350px">
             <p id="textoPost">Orquestrar tarefas de gerenciamento. Pode ser instalado em modo single ou cluster. O cluster é formado por nós master e worker, onde o master é node de interação com o usuário. Em grandes estruturas, podem haver mais de 1 master, para o caso de falhas e correção de problemas.</p>
             <ul>
                 <li><b>Master</b>: Executa os componentes do plano de controle;</li>
@@ -66,7 +66,7 @@
                 <li><b>kubectl</b>: CLI de interação com o K8s cluster.</li>
             </ul>
             <p><b>Pod</b>:</p>
-            <img src="../anexos/kubernetes/pod.jpg" class="img-fluid" width="350px">
+            <img src="../anexos/kubernetes/pod.jpg" class="img-fluid rounded" width="350px">
             <img src="../anexos/kubernetes/pod2.jpg" class="img-fluid" width="380px">
             <p id="textoPost">Menor e mais básica estrutura do K8s, criada para abstrair o conceito de Container. Consiste de 1 ou mais Containers, recursos de armazenamento (Volumes) e 1 único ID e IP na rede do cluster K8s. Utiliza-se vários Containers dentro de um Pod, raramente, geralmente em que hajam vários processos, processos em batch (lote) e demais tarefas pesadas (Ex: Um Container Web Service recebe outra Imagem, que deverá ser processada pelo mesmo, ou seja, quando à 'relações' entre Containers em 1 mesmo Pod).</p>
             <p>Ciclo de Vida:</p>
@@ -101,7 +101,7 @@
 
             <br><h4>Arquivo de Manifesto/Especificação</h4>
             <p id="textoPost">Pode ser escritos via YAML ou JSON, como modelo abaixo:</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b><u>arquivoTeste.yaml</u>:</b>
 <b>apiVersion:</b> v1
 <span class="text-muted"># Comentário</span>
@@ -147,7 +147,7 @@
 
             <br><h5>Comandos de Abordagem Imperativa:</h5>
             <p id="textoPost">Kubectl <i>get</i>, <i>describe</i> e <i>delete</i> podem ser usados com quaisquer recursos. Além desses, tem-se também <i>create</i>, <i>run</i>, <i>scale</i>, <i>expose</i>, <i>exec</i>, <i>copy</i> e <i>logs</i>.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <span class="text-muted"># Listar</span>
 kubectl get pods
 kubectl get nodes
@@ -164,7 +164,7 @@ kubectl delete deployment &lt;nome do Deployment&gt;
 
             <br><h5>Comandos de Abordagem Declarativa:</h5>
             <p id="textoPost">Em caso de mudanças no arquivo, <i>apply</i> atualiza os recursos.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 kubectl apply -f &lt;arquivo.yaml&gt;
 kubectl apply -f &lt;arquivo1.yaml&gt; -f &lt;arquivo2.yaml&gt;
 kubectl apply -f &lt;folder&gt;/
@@ -172,7 +172,7 @@ kubectl apply -f &lt;folder&gt;/
 
             <br><h4>Criar Pod</h4>
             <p id="textoPost">Há diversos maneiras, entre as principais, via comando '<i><span class="text-muted">kubectl run nginx --generator=run-pod/v1 --image=nginx</span></i>', via comando de criação em arquivo manifesto ('<i><span class="text-muted">kubectl create -f diretorio/nomeManifesto.yaml</span></i>') ou neste formato, diretamente:</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <span class="text-muted">cat &lt;&lt; EOF | kubectl create -f -</span>
 apiVersion: <span class="text-muted">v1</span>
 kind: <span class="text-muted">Pod</span>
@@ -193,7 +193,7 @@ spec:
 
             <br><h4>Namespace</h4>
             <p id="textoPost">K8s usa namespaces para organizar objetos no cluster através de uma divisão lógica (Como se fosse uma pasta). Por padrão, kubectl interage com o namespace padrão (default). Para usar namespace específico (Diferente do padrão), pode-se usar a flag <span class="text-muted">--namespace=&lt;nome&gt;</span>, ou ainda <span class="text-muted">-n &lt;nome&gt;</span>. Para interagir com todos os namespaces, pode-se usar a flag <span class="text-muted">--all-namespaces</span> ao comando.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>Criar namespace:</b>
 kubectl create namespace dev
 kubectl create namespace prod
@@ -214,7 +214,7 @@ kubectl get pods --all-namespaces
 
             <br><h4>Label</h4>
             <p id="textoPost">Par de chave-valor String. Todos os recursos/objetos do K8s podem ser rotulados. Ideal para filtragens/classificações. Existem 2 tipos de labels:</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>1. Equality-based requirement (Igualdades/Diferenças):</b>
 environment = production <span class="text-muted"># environment é igual a production</span>
 tier != frontend
@@ -235,7 +235,7 @@ kubectl get pods -l 'environment in (production),tier in (frontend)'
 
             <br><h4>Instalação Singlenode do K8s (Ubuntu)</h4>
             <p id="textoPost">Pode-se instalar a versão K8s Singlenode, via Microk8s (Para dispositivos embarcados, sendo mais estável) ou Minikube (Para ambientes Singlenode). Tem-se, também, a instalação em cluster (Instruções abaixo), onde precisa-se definir Master(s), Worker Nodes.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>1. Instalar Docker em todos Nodes:</b>
 sudo apt install curl
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -279,7 +279,7 @@ sudo sed -i'/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 </code></pre></small>
 
             <br><h4>Minikube em Singlenode</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>Versão Minikube</b>: minikube version
 <b>Iniciar cluster Minikube</b>: minikube start --wait=false <span class="text-muted">#Instala Imagens e Pods necessários</span>
 
@@ -320,8 +320,8 @@ EOF
 
             <br><h4>Dashboard Minikube</h4>
             <p id="textoPost">Sistema GUI para gerenciamento Kubernetes (Namespaces, Nodes, Volumes, Pods, etc).</p>
-            <img src="../anexos/kubernetes/dashboardKubernetes.png" class="img-fluid" width="500px">
-<small><pre id="codigo"><code>
+            <img src="../anexos/kubernetes/dashboardKubernetes.png" class="img-fluid rounded" width="500px">
+<small><pre><code>
 <b>Instalação Dashboard via Minikube:</b> minikube addons enable dashboard
 <b>Arquivo manifesto para executar o Dashboard:</b> cat /opt/kubernetes-dashboard.yaml (Conteúdo abaixo)
 
@@ -349,7 +349,7 @@ type: NodePort
 
             <br><h4>Configuração multi-node do K8s</h4>
             <p id="textoPost">Levando em conta que os componentes do K8s Singlenode (kubeadm, kubelet...) já estejam instalados.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <span class="text-muted">-- (Master Node) --</span>
 <b>1. Iniciar Master Node (No fim, salvar o comando <i>kubeadm join</i>):</b>
 kubeadm init --apiserver-advertise-address $(hostname -i)
@@ -393,7 +393,7 @@ kubectl edit svc/docker-registry
 
             <br><h4>ReplicaSet</h4>
             <p id="textoPost">ReplicaSet é o controller que mantém estável um conjunto de Pods em execução, garantindo disponibilidade de um número específico de Pods idênticos. ReplicaSet é raramente utilizado diretamente, pois existe um conceito de mais alto nível: Deployment, que gerencia ReplicaSets e provê uma maneira de atualizar os Pods, além de outras features.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b><u>Manifesto exemplo</u>:</b>
 apiVersion: extensions/v1beta1
 kind: ReplicaSet
@@ -414,7 +414,7 @@ spec:
 
             <p><b>Manifesto modelo para ReplicaSet:</b></p>
             <p id="textoPost">De acordo com o manifesto abaixo, todos os Pods com tier 'busybox' serão replicados, conforme quantidade informada. No próprio manifesto de criação dos Pods, pode ser informado o ReplicaSet, conforme abaixo. ReplicaSet é controller Equality-based, então, no selector, o tier informado pode ser diferente, conforme necessidade, podendo informar múltiplos tiers no selector.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b><u>busybox-rs.yaml:</u></b>
 apiVersion: apps/v1
 kind: ReplicaSet <span class="text-muted">#Tipo ReplicaSet</span>
@@ -438,7 +438,7 @@ spec:
 </code></pre></small>
 
             <p><b>Comandos ReplicaSet:</b></p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <span class="text-muted">-- (Master Node) --</span>
 <b>1. Criar ReplicaSet:</b> kubectl create -f busybox-rs.yaml
 <b>2. Listar ReplicaSets:</b> kubectl get rs
@@ -457,7 +457,7 @@ spec:
                 <li><b>Self-healing</b>: Se um dos Pods for acidentalmente destruído, o Deployment vai imediatamente iniciar um novo Pod para substituí-lo.</li>
             </ul>
             <p id="textoPost">O Deployment é criado através de Manifesto, conforme exemplo-modelo abaixo (O modelo abaixo executará automaticamente, devido à 1ª linha de execução):</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <span class="text-muted">cat &lt;&lt;EOF | kubectl create -f -</span>
 apiVersion: apps/v1
 <b>kind: Deployment</b>
@@ -485,7 +485,7 @@ spec:
 
             <p><b>Comandos Deployment:</b></p>
             <p id="textoPost">Ao atualizar/modificar aplicação envolvida em Deployment, a modificação será gradativa, ou seja, atualizará 1 Pod e, após esse funcionando, atualizará outro e assim sucessivamente.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <span class="text-muted">-- (Master Node) --</span>
 <b>1. Criar Deployment (Sem Manifesto):</b>
 kubectl create deployment nomeDeployment --image=nginx <span class="text-muted">#Nome do Deployment à preferência do usuário</span>
@@ -512,8 +512,8 @@ kubectl describe deployment nomeDeployment <span class="text-muted">#De acordo c
             <p id="textoPost">O Service cria uma camada de abstração acima do conjunto de Pods réplicas, permitindo acesso dinâmico a um grupo de Pods (Balanceador de Carga). Então, esse Balanceador de Carga vai, dinamicamente, acessar as listas de Pods do Deployment, permitindo acesso aos Pods (Se um Pod cair, ele selecionará outro ao balanceamento, para acesso. Tanto faz o Pod, o Service K8s escolherá e gerenciará isso de forma automática, sem que o usuário precise se preocupar). Assim, pode-se prover acesso ininterrupto e dinâmico a qualquer réplica, além de balanceamento de carga.</p>
             <img src="../anexos/kubernetes/serviceConceito.png" class="img-fluid" width="270px">
             <p id="textoPost">É através das labels referenciadas no selector do arquivo Manifesto. O arquivo de Manifesto de Service é do tipo Equality-based, ou seja, não possui 'matchLabels' em sua composição. Abaixo, segue modelo exemplo de Manifesto com Service:</p>
-            <p id="textoPost" style="color: rgb(255, 108, 108);">O ideal no K8s é criar Deployment para criar e gerenciar quantidade de Pods e, após isso, criar Service para acesso.</p>
-<small><pre id="codigo"><code>
+            <p id="textoPost" style="color: red;">O ideal no K8s é criar Deployment para criar e gerenciar quantidade de Pods e, após isso, criar Service para acesso.</p>
+<small><pre><code>
 apiVersion: v1
 <b>kind: Service</b>
 metadata:
@@ -536,7 +536,7 @@ spec:
             </ul>
 
             <p><b>Exemplo prático (Service ClusterIP):</b></p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <span class="text-muted">-- (Master Node) --</span>
 <b>1. Criar Deployment (kubectl create -f nomeArquivo.yaml)</b>
 apiVersion: apps/v1
@@ -615,7 +615,7 @@ curl ipCluster:80
 
             <p><b>Deploy de aplicação na prática:</b></p>
             <p id="textoPost">Aplicação, em Microservices, de carrinho de compras, composta por várias tecnologias. Abaixo, comandos para construção de toda a aplicação. Com poucos comandos, toda a aplicação já estará no ar rapidamente.</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <span class="text-muted">-- (Master Node) --</span>
 <b>1. Clonar o repositório do Git:</b> git clone https://github.com/linuxacademy/robot-shop.git <span class="text-muted">#Aplicação de carrinho de compras</span>
 

@@ -188,7 +188,7 @@
             </ul>
             <h5>Funcionamento(Hadoop e Spark)</h5>
             <p><b>Passo 1</b></p>
-            <p id="textoPost">Pc cliente -> Dados -> <MasterNode(Storage com HDFS e NameNode / Armazenamento com MapReduce e JobTracker) -> SlaveNodes(Storage com HDFS e DataNode / Processamento com MapReduce e TaskTracker)
+            <p id="textoPost">Pc cliente -&gt; Dados -&gt; MasterNode(Storage com HDFS e NameNode / Armazenamento com MapReduce e JobTracker) -&gt; SlaveNodes(Storage com HDFS e DataNode / Processamento com MapReduce e TaskTracker)
             <small id="textoPost">* Pc do cliente envia os dados/arquivos/etc ao Master através de uma carga ETL com o software Scope, advindos de um BD ou qualquer outro meio.</small></p>
             <p><b>Passo 2</b></p>
             <p id="textoPost">Enviar algoritmo de mapeamento e redução (Python, R, Scala...), que será interpretado pelo MapReduce. Pc cientista -> Algoritmo -> Armazenará o job no MasterNode(Storage com HDFS e NameNode / Processamento com MapReduce e JobTracker) -> SlaveNode(Armazenamento dos blocos de dados com HDFS e DataNode / Processamento com MapReduce e TaskTracker)
@@ -213,7 +213,7 @@
             <p id="textoPost">Distributed Cache é uma funcionalidade do Hadoop que permite cache dos arquivos usados pelas aplicações. Isso permite performance quando tarefas de Map e Reduce precisam acessar dados em comum. Permite também que um node do cluster acesse os arquivos no filesystem local, ao invés de solicitar o arquivo em outro node. É possível de fazer cache de zip e tar.gz. O Hadoop utiliza o Kerberos, mecanismo de autenticação usado, por exemplo, no sistema de diretórios dos servidores Windows e Linux. Por padrão, o Hadoop é executado no modo não-seguro, em que não é necessário autenticação. Após configurado, o Hadoop é executado em modo de segurança e cada usuário e serviço precisa ser autenticado pelo Kerberos. Apó Kerberos configurado, a autenticação Kerberos é usada para validar as credenciais do lado cliente, devendo solicitar uma aplicação de serviço válido para o Hadoop.</p>
             <br>
             <h4>Ecossistema Hadoop</h4>
-            <img src="../anexos/bigData/ecossistema.png" width="450px" class="img-fluid">
+            <img src="../anexos/bigData/ecossistema.png" width="450px" class="img-fluid rounded">
             <p id="textoPost">São o conjunto de ferramentas que compõem as funcionalidades que rodam sob o HDFS. Muito similar os Apps rodando sob um SO. Os Apps servem para aprimorar a capacidade do SO.</p>
             <h5>Apache Zookeeper (Guardião do Zoo)</h5>
             <p id="textoPost">Solução de alta performance para coordenação de serviços em aplicações distribuídas. É um serviço de coordenação distribuída para gerenciar grandes conjuntos de hosts(clusters). Isso permite que os desenvolvedores se preocupem apenas com a lógica do aplicativo, ignorando sua natureza distribuída. Por exemplo, o HBbase(BD NoSQL) usa o Zookeeper para acompanhar o estado de dados distribuídos através do cluster. O Zookeeper proporciona um ponto comum de acesso a uma ampla variedade de objetos utilizados em ambientes de cluster.</p>
@@ -222,7 +222,7 @@
             <h5>Apache Hive ('Plugin' de Data Warehouse)</h5>
             <p id="textoPost">Data Warehouse(sistema de gerenciamento de dados projetado para ativar e fornecer suporte às atividade de BI) que funciona com Hadoop e MapReduce. É um sistema de armazenamento de dados para Hadoop, que facilita a agregação dos dados para análises e relatórios com Big Data. Permite queries usando uma linguagem SQL-Like, denominada HiveQL(HQL). Provê a capacidade de tolerância a falha para armazenamento de dados e depende do MapReduce para execução. Permite conexões JDBC/ODBC, facilmente integrado com outras ferramentas de BI como Tableau, Microstrategy, Microsoft Power BI, etc. O Hive é orientado a Batch. Assim como o Pig, gera jobs MapReduce que executam no cluster Hadoop. É um sistema para gestão de query de dados não estruturados, em formato estruturado. O Hive utiliza MapReduce para execução e HDFS para armazenamento e pesquisa de dados. Exemplo de query HQL: "SELECT * FROM tabela;".</p>
             <h5>Apache Sqoop (SQL-to-Hadoop)</h5>
-            <p id="textoPost">Projeto com função de importar/exportar dados de BD’s Relacionais, permitindo mover dados como Microsoft SQL Server ou Oracle para o Hadoop. O desenvolvedor pode escolher para importar, banco inteiro, determinadas tabelas e até determinadas colunas ou linhas. O Sqoop também gera classes Java de fácil interação com os dados importados, usando conexão JDBC para conectar com BD’s Relacionais. Pode também criar tabelas no Hive e suporta importação incremental. Exemplo de código para importar dados de MySQL para o HDFS Hadoop: "sqoop list-tables-username nome -password senha \ --connect jdbc:mysql//dbname".</p>
+            <p id="textoPost">Projeto com função de importar/exportar dados de BD's Relacionais, permitindo mover dados como Microsoft SQL Server ou Oracle para o Hadoop. O desenvolvedor pode escolher para importar, banco inteiro, determinadas tabelas e até determinadas colunas ou linhas. O Sqoop também gera classes Java de fácil interação com os dados importados, usando conexão JDBC para conectar com BD's Relacionais. Pode também criar tabelas no Hive e suporta importação incremental. Exemplo de código para importar dados de MySQL para o HDFS Hadoop: "sqoop list-tables-username nome -password senha \ --connect jdbc:mysql//dbname".</p>
             <h5>Apache Pig (Análise)</h5>
             <p id="textoPost">Ferramentas usada para analisar grandes conjuntos de dados, que representam fluxos de dados. Todas as manipulações de dados no Hadoop podem ser feitas com o Pig. Para escrever programas de análise de dados, Pig oferece uma linguagem chamada Pig Latin, que fornece vários operadores para uso nas próprias funções de leitura, escrita e processamento de dados. Para essa análise, com o Pig, devem ser criados scripts com Pig Latin, que serão convertidos, internamente, para jobs MapReduce, com o componente denominado Pig Engine.</p>
             <ul>
@@ -322,7 +322,7 @@
             <p id="textoPost">É um engine rápido de uso geral para processamento de Big Data ao longo de um cluster, desenvolvido com Scala. É similar ao Hadoop MapReduce, usando Hadoop HDFS como base, mas pode ser usado com Cassandra, HBase e MongoDB, podendo, também, ser usado com Python, R, Scala e Java. Surgiu para suprir, com mais desempenho no processamento de queries e algoritmos, além permitir processamento em memória e recuperação de falhas, o Apache MapReduce com a computação iterativa.</p>
             <ul>
                 <li><b>Velocidade:</b> Velocidade de execução 100x mais rápido, em memória, que o Hadoop MapReduce e 10x em disco;</li>
-                <li><b>Facilidade de uso:</b> Aplicações escritas em diferentes linguagens de programação para desenvolvimento de API’s de alto nível;</li>
+                <li><b>Facilidade de uso:</b> Aplicações escritas em diferentes linguagens de programação para desenvolvimento de API's de alto nível;</li>
                 <li><b>Generalidade:</b> Combina SQL Streaming e análise complexa, além do uso de ferramentas como Spark SQL(processamento SQL), MLlib(processamento Machine Learning), GraphX(processamento de grafos) e Spark Streaming.</li>
                 <li><b>Integração com Hadoop:</b> Executa sobre o Yarn cluster manager e permite leitura/escrita de dados no HDFS.</li>
             </ul>
@@ -391,7 +391,7 @@
                 <li>Escalabilidade.</li>
             </ul>
             <h5>MongoDB</h5>
-            <p id="textoPost">MongoDB é um BD NoSQL Orientado a Documento. Um BD NoSQL Orientado a Documento substitui o conceito de ‘linha’ dos BDs Relacionais, por um modelo mais flexível, o ‘documento’. São algumas das características do MongoDB:</p>
+            <p id="textoPost">MongoDB é um BD NoSQL Orientado a Documento. Um BD NoSQL Orientado a Documento substitui o conceito de 'linha' dos BDs Relacionais, por um modelo mais flexível, o 'documento'. São algumas das características do MongoDB:</p>
             <ul>
                 <li><b>Indexação:</b> Suporta índices secundários, permitindo a construção de queries mais velozes;</li>
                 <li><b>Agregação:</b> Permite a construção de agregações complexas de dados, otimizando o desempenho;</li>
@@ -454,7 +454,7 @@
                 <li><b>Mover para pasta:</b> sudo mv arquivogerado /opt/spark</li>
                 <li><b>Configurar variáveis de ambiente:</b> No diretório home:</li>
             </ol>
-<small><pre id="codigo"><code>
+<small><pre><code>
 sudo nano .bashrc
 <b>(dentro do arquivo, no final):</b>
 <span class="text-muted"># Variaveis ambientes do Spark</span>
@@ -469,7 +469,7 @@ source .bashrc
 pyspark (abrirá no browser)
 
 <b>Criar Novo notebook:</b>
-No Pyspark, botão ‘new’ > Python(default)
+No Pyspark, botão 'new' > Python(default)
 Na linha do comando do Pyspark, testar: print(sc)
 </code></pre></small>
         </div>

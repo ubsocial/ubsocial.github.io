@@ -40,13 +40,13 @@
 
         <div class="col-sm-12">
             <h4>Base</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>===== VARIÁVEIS =====</b>
 nome = "mateus"
 peso = 75.8
 print(nome, peso)
 print("Exibir nome %s" % (nome))
-frase = ‘ola, tudo bem’
+frase = 'ola, tudo bem'
 print(frase[0]) #print 1º caractere
 print(frase[0:8:2]) #print caracteres do 0 ao 8, pulando a cada 2
 print(frase[::-1]) #de trás pra frente, invertido
@@ -254,8 +254,8 @@ dic.values() #(['apple','berry','cherry'])
 
 <b>===== CONJUNTOS =====</b>
 #lista misturada com dicionário. Conjunto ñ tem itens repetidos, ñ tem indíces(ñ é ordenado). Mais ágil para percorrer, pesquisas...
-conjunto = {‘Gui’,’João’}
-conjunto.remove(‘João’)
+conjunto = {'Gui','João'}
+conjunto.remove('João')
 
 <b>===== LAMBDAS =====</b>
 g = lambda x: x * 2
@@ -272,7 +272,7 @@ ex: pacote 'uteis' tem arquivo 'numeros.py','cores.py'
 import uteis
 from uteis import cores #pra módulo específico
 from arquivo2 import * #pra import tudo
-defDoArquivo2() //função no arquivo 2 que printa ‘ola’
+defDoArquivo2() //função no arquivo 2 que printa 'ola'
 
 Pacote dentro de pacote:
 fazer, dentro de cada pacote um módulo '___init___.py' colocamos o código python desejado e importamos no código principal
@@ -422,7 +422,7 @@ if argumentos:
 #informe no terminal(linux): 'python arquivo.py sexta feira'(concatenará 'sexta' com 'feira')
 </code></pre></small><br>
             <h4>Python URI</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>===== MULTIPLAS ENTRADAS =====</b>
 x,y = list(map(int,unput().split()))
 
@@ -752,7 +752,7 @@ for linha in matriz:
             pares = pares + 1
 for i in range(3):
     print(matriz[i])
-print('A matriz contém', pares, 'números pares’)
+print('A matriz contém', pares, 'números pares')
 
 
 DIMENSÃO DA MATRIZ:
@@ -810,7 +810,7 @@ else:
 # só que 0 e 1 não são primos!
 </code></pre></small><br>
             <h4>OOP</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>===== Criação Classe =====</b>
 class Carro(object): #object(padrão): classe herdada
     pass #indica classe vazia
@@ -873,7 +873,7 @@ from carro import Carro
 # Instanciando objetos abaixo
 </code></pre></small><br>
             <h4>PDO</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <b>===== BANCO DE DADOS =====</b>
 CREATE DATABASE agenda;
 USE agenda;

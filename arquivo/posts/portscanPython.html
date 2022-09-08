@@ -45,7 +45,7 @@
             <p id="textoPost">Os códigos de erros em portas 'fechadas' podem variar dependendo do SO. Porém o código 0 é o padrão universal para a conexão bem sucedida. Esses códigos 'caseiros' são importantes para uma 'pós entrada' em um servidor alvo, onde não há NMAP ou qualquer outro software do gênero instalado, sendo que você precise da utilização do mesmo para procurar outros dados em servidores internos àquele. Salve os códigos abaixo em arquivos <i>.py</i>. Para executá-lo, em terminal Linux, basta digitar, no diretório correspondente ao arquivo, "python nomearquivo.py". Remova os comentário de linha '#' para o código funcionar.</p>
             <br>
             <h4>Várias Portas</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 import socket
 portas = [21, 23, 80, 443, 8080]
 for porta in portas:
@@ -56,7 +56,7 @@ for porta in portas:
         print porta, "OPEN"
 </code></pre></small><br>
             <h4>Porta Específica <small>(Similar ao Netcat)</small></h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 import socket
 cliente = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 cliente.connect(('bancocn.com',80)) #pode ser colocado o domínio ou ip

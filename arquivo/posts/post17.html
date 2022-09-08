@@ -17,12 +17,12 @@
             <h1>ToDoList com Django</h1>
             <h6><strong>Software ToDoList com Django 4</strong></h6>
             <a href="../../index.html" class="btn btn-link text-decoration-none">Voltar</a><br><br>
-            <a href="https://github.com/ubsocial/Django" class="btn btn-link" target="_blank" id="btnLink">GitHub do projeto</a><br>
+            <a href="https://github.com/ubsocial/Django" class="btn btn-link text-decoration-none" target="_blank">GitHub do projeto</a><br>
         </div>
 
         <div class="col-sm-12">
             <p id="textoPost">O ToDoList é um desafio muito comum solicitado por empresas, com objetivo de verificar a capacitação de possíveis candidatos à vagas em atuação na área de desenvolvimento de sistemas. O sistema ToDoList é, basicamente, um programa onde tem-se uma lista de tarefas, das quais pode-se marcar como 'completa' ou 'incompleta', além das operações tradicionais de CRUD.</p>
-            <img src="../../arquivo/anexos/post17/todoApp.png" class="img-fluid" width="250px">
+            <img src="../../arquivo/anexos/post17/todoApp.png" class="img-fluid rounded" width="250px">
             
             <br><br>
             <h4>Passo a passo:</h4>
@@ -34,9 +34,9 @@
                 <li><b>Criar projeto:</b> django-admin startproject nomePastaProjeto <span class="text-muted">(Informado, nesse caso, 'todo')</span></li>
                 <li><b>Criar migrations:</b> python3 manage.py migrate</li>
                 <li><b>Criar usuário:</b> python3 manage.py createsuperuser <span class="text-muted">(Informar dados)</span></li>
-                <li><b>Executar projeto:</b> python3 manage.py runserver <span class="text-muted">(Acessar em <a href="http://127.0.0.1:8000" id="btnLink" target="_blank">http://127.0.0.1:8000</a> - Pode simplesmente trocar o ip por 'localhost')</span>
+                <li><b>Executar projeto:</b> python3 manage.py runserver <span class="text-muted">(Acessar em <a href="http://127.0.0.1:8000" class="text-decoration-none" target="_blank">http://127.0.0.1:8000</a> - Pode simplesmente trocar o ip por 'localhost')</span>
                     <ul>
-                        <li>Pode-se acessar painel admin com credenciais informadas acima <span class="text-muted">(<a href="http://127.0.0.1:8000/admin" id="btnLink" target="_blank">http://127.0.0.1:8000/admin</a>)</span></li>
+                        <li>Pode-se acessar painel admin com credenciais informadas acima <span class="text-muted">(<a href="http://127.0.0.1:8000/admin" class="text-decoration-none" target="_blank">http://127.0.0.1:8000/admin</a>)</span></li>
                     </ul>
                 </li>
                 <li><b>No projeto, criar app:</b> python3 manage.py startapp nomeApp <span class="text-muted">(Informado, nesse caso, 'tasks')</span></li>
@@ -62,7 +62,7 @@
                 <li><b>Executar projeto:</b> python3 manage.py runserver</li>
                 <li>Em 'tasks/admin.py', informar 'from .models' e 'admin.site.register'
                     <ul>
-                        <li>No browser, acessar painel admin (<a href="http://127.0.0.1:8000/admin" id="btnLink" target="_blank">http://127.0.0.1:8000/admin</a>), mostrará novo grupo 'Tasks'</li>
+                        <li>No browser, acessar painel admin (<a href="http://127.0.0.1:8000/admin" class="text-decoration-none" target="_blank">http://127.0.0.1:8000/admin</a>), mostrará novo grupo 'Tasks'</li>
                         <li>Acessar e, após, clicar em 'add task':
                             <ul>
                                 <li>Title: Projeto de ToDo UB Social (Clicar em Save)</li>
@@ -76,7 +76,7 @@
                 <li>Em 'tasks/views.py', informar 'from .models' e aprimorar view index</li>
                 <li>Em 'tasks/templates/list.html', preencher template
                     <ul>
-                        <li>No browser, recarregar index (<a href="http://127.0.0.1:8000" id="btnLink" target="_blank">http://127.0.0.1:8000</a>) e verificar se lista de tasks adicionadas no admin serão mostradas</li>
+                        <li>No browser, recarregar index (<a href="http://127.0.0.1:8000" class="text-decoration-none" target="_blank">http://127.0.0.1:8000</a>) e verificar se lista de tasks adicionadas no admin serão mostradas</li>
                     </ul>
                 </li>
                 <br>
@@ -135,7 +135,7 @@
             <br>
             <h4>Arquivos:</h4>
             <br><p><b>tasks/templates/tasks/delete.html</b>:</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 &lt;p&gt;Excluir a task "{{item}}"?&lt;/p&gt;
 &lt;a href="{% url 'list' %}"&gt;Cancelar&lt;/a&gt;
 &lt;form method="POST"&gt;
@@ -146,7 +146,7 @@
 
             <br>
             <p><b>tasks/templates/tasks/list.html</b>:</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 &lt;h3&gt;To do Django UB Social&lt;/h3&gt;
 
 &lt;form method="POST"&gt;
@@ -171,7 +171,7 @@
 
             <br>
             <p><b>tasks/templates/tasks/detail.html</b>:</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 &lt;a href="{% url 'list' %}"&gt;Voltar&lt;/a&gt;&lt;br&gt;
 &lt;div class="main"&gt;
     {{task.id}}&lt;br&gt;
@@ -185,7 +185,7 @@
 
             <br>
             <p><b>tasks/templates/tasks/update.html</b>:</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 &lt;h3&gt;Update Task&lt;/h3&gt;
 &lt;form method="POST"&gt;
     {% csrf_token %}
@@ -196,7 +196,7 @@
 
             <br>
             <p><b>admin.py</b>:</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 from django.contrib import admin
 from .models import *
 
@@ -205,7 +205,7 @@ admin.site.register(Task)
 
             <br>
             <p><b>apps.py</b>:</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 from django.apps import AppConfig
 
 class TasksConfig(AppConfig):
@@ -215,7 +215,7 @@ class TasksConfig(AppConfig):
 
             <br>
             <p><b>forms.py</b>:</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 from django import forms
 from django.forms import ModelForm
 from .models import *
@@ -228,7 +228,7 @@ class TaskForm(forms.ModelForm):
 
             <br>
             <p><b>models.py</b>:</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 from django.db import models
 
 class Task(models.Model):
@@ -241,7 +241,7 @@ class Task(models.Model):
 
             <br>
             <p><b>urls.py</b>:</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 from django.urls import path
 from . import views
 
@@ -255,7 +255,7 @@ urlpatterns = [
 
             <br>
             <p><b>views.py</b>:</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import *
@@ -299,7 +299,7 @@ def deleteTask(request, pk):
 
             <br>
             <p><b>todo/settings.py</b>:<br><small><span class="text-muted">Modificar, no arquivo original, com o trecho de código abaixo</span></small></p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -313,7 +313,7 @@ INSTALLED_APPS = [
 
             <br>
             <p><b>todo/urls.py</b>:</p>
-<small><pre id="codigo"><code>
+<small><pre><code>
 from django.contrib import admin
 from django.urls import path, include
 

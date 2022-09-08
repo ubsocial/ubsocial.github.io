@@ -150,7 +150,7 @@
             <p id="textoPost"><b>ChatOps</b> trabalha com os conceitos de GitOps, sendo a junção das tarefas de automação e colaboração. É delegar a responsabilidade de tarefas e ações para bot interno, que também faz parte da organização e está executando as conversas. É uma metodologia assim como DevOps (ChatOps = Chat + DevOps). O funcionamento se dá por meio de aplicação de chat (Slack, Rocket.Chat, Microsoft Teams), adiciona-se bots para executar as ações da infraestrutura, através de comandos enviados pelas equipes de profissionais DevOps.</p>
             
             <br><h4>Ferramentas DevOps</h4>
-            <p id="textoPost">Uma das características do DevOps é a utilização, geralmente, de ferramentas Open Source, que fornecem melhor personalização às equipes, evitando vendor lock-in (Aprisionamento tecnológico perante a ferramenta). Existem inúmeras ferramentas para automatização em DevOps, inclusive fora criada uma tabela periódica com as principais do mercado (<a href="https://digital.ai/periodic-table-of-devops-tools" target="_blank" id="btnLink">Acesse</a>). Entre as principais ferramentas para cada estágio, tem-se:</p>
+            <p id="textoPost">Uma das características do DevOps é a utilização, geralmente, de ferramentas Open Source, que fornecem melhor personalização às equipes, evitando vendor lock-in (Aprisionamento tecnológico perante a ferramenta). Existem inúmeras ferramentas para automatização em DevOps, inclusive fora criada uma tabela periódica com as principais do mercado (<a href="https://digital.ai/periodic-table-of-devops-tools" class="text-decoration-none" target="_blank">Acesse</a>). Entre as principais ferramentas para cada estágio, tem-se:</p>
             <ul>
                 <li><b>Plan</b>: Trello, Git e Github/Gitlab, Notion, Draw.io/Diagrams.net;</li>
                 <li><b>Code</b>: Git, editor de texto (VSCode, Sublime Text, Atom, etc);</li>
@@ -161,13 +161,13 @@
             </ul>
 
             <br><h4>Criar pipeline DevOps</h4>
-            <p id="textoPost">Para a criação da pipeline DevOps a seguir, será seguido o fluxo de trabalho abaixo. Será utilizado o Github Actions para o processo automatizado de Deploy, que atualizará, no repositório, os status do CI usando o arquivo 'pipeline.yml'. Após a integração concluir, o Github Actions efeturará o deploy da aplicação Heroku, deixando-a disponível publicamente. A aplicação que será feito deploy será uma aplicação web python flask de Hello World, que deverá ser feito 'fork' da mesma (<a href="https://github.com/mateusschwede/DevOpsLab-HelloWorld" target="_blank" id="btnLink">Acesse</a>).</p>
+            <p id="textoPost">Para a criação da pipeline DevOps a seguir, será seguido o fluxo de trabalho abaixo. Será utilizado o Github Actions para o processo automatizado de Deploy, que atualizará, no repositório, os status do CI usando o arquivo 'pipeline.yml'. Após a integração concluir, o Github Actions efeturará o deploy da aplicação Heroku, deixando-a disponível publicamente. A aplicação que será feito deploy será uma aplicação web python flask de Hello World, que deverá ser feito 'fork' da mesma (<a href="https://github.com/mateusschwede/DevOpsLab-HelloWorld" class="text-decoration-none" target="_blank">Acesse</a>).</p>
             <img src="../anexos/devops/fluxoPipelineDevOps.png" class="img-fluid" width="530px">
             <p><b>Passo a passo:</b></p>
             <ol>
                 <li>Clonar aplicação na máquina local <span class="text-muted">(Ver post Git e Github para configuração e passo a passo desse processo)</span></li>
                 <li>Acessar diretório do projeto: <span class="text-muted">cd DevOpsLab-HelloWorld</span></li>
-                <img src="../anexos/devops/pipelineEditor.png" class="img-fluid" width="500px">
+                <img src="../anexos/devops/pipelineEditor.png" class="img-fluid rounded" width="500px">
                 <li>No Github do projeto, aba 'Projects', 'New Project' para inserir o board Kanban, para criar o planejamento da aplicação, informando nome 'Pipeline DevOps' e descrição 'Projeto de Pipeline DevOps para o DevOps Lab Hello World' e template 'Basic Kanban', confirmando criação do projeto</li>
                 <li>Criar Cards To Do
                     <ul>
@@ -179,7 +179,7 @@
                         <li>Modificar a aplicação e efetuar o deploy</li>
                     </ul>
                 </li>
-                <img src="../anexos/devops/pipelineKanban.png" class="img-fluid" width="500px">
+                <img src="../anexos/devops/pipelineKanban.png" class="img-fluid rounded" width="500px">
                 <li>Mover card 'Criar app no Heroku' para In Progress</li>
                 <li>Acessar Heroku, 'Create New App', nome 'devops-SEUNOMESOBRENOME', 'Create app'</li>
                 <li>Voltar ao Kanban e mover o card 'Criar app no Heroku' para Done</li>
@@ -198,7 +198,7 @@
                 <li>Mover card 'Criar Pipeline do Github Actions' para In Progress (<span class="text-muted">Actions é ferramenta de automação de workflow, para implemetar CI/CD diretamente do Github, onde deve-se criar no repositório o diretório e arquivo '.github/workflows/arquivoCI'</span>)</li>
                 <li>No diretório do projeto, criar diretórios com o comando: <span class="text-muted">mkdir -p .github/workflows</span></li>
                 <li>Copiar arquivo de CI: <span class="text-muted">cp templates/pipeline.yml .github/workflows</span></li>
-<small><pre id="codigo"><code>
+<small><pre><code>
 <span class="text-muted">#Conteúdo do arquivo pipeline.yml</span>
 name: CI - Lint / Tests / Deploy
 
@@ -286,10 +286,10 @@ jobs:
                 <li>Mover card 'Efetuar o primeiro deploy da aplicação' para In Progress</li>
                 <li>Fazer commit do arquivo de CI, 'pipeline.yml', para que o mesmo seja executado: <span class="text-muted">git add . && git commit -m "Adicionado pipeline DevOps" && git push origin main</span></li>
                 <li>No Github do projeto, aba 'Actions', mostrará detalhes e passos do workflow CI sendo executado. Clicando sob cada passo serão exibidos os logs de cada processo, em todas as etapas/ambientes (lint - tests - deploy)</li>
-                <img src="../anexos/devops/pipelineActions1.png" class="img-fluid" width="500px">
-                <img src="../anexos/devops/pipelineActions2.png" class="img-fluid" width="500px">
+                <img src="../anexos/devops/pipelineActions1.png" class="img-fluid rounded" width="500px">
+                <img src="../anexos/devops/pipelineActions2.png" class="img-fluid rounded" width="500px">
                 <li>Após feito o deploy no Heroku com sucesso, pode-se acessar o Heroku e ver as informações da aplicação. No Browser, acessar aplicação com o link: <span class="text-muted">https://devops-SEUNOMESOBRENOME.herokuapp.com</span></li>
-                <img src="../anexos/devops/pipelineHeroku.png" class="img-fluid" width="500px">
+                <img src="../anexos/devops/pipelineHeroku.png" class="img-fluid rounded" width="500px">
                 <li>Mover card 'Criar Pipeline do Github Actions' para o Done</li>
                 <li>Mover card 'Efetuar o primeiro deploy da aplicação' para Done</li>
                 <li>Mover card 'Modificar a aplicação e efetuar o deploy' para In Progress</li>

@@ -36,7 +36,7 @@
             <h1>Markdown</h1>
             <h6><strong>Conceitos e sintaxe da linguagem Markdown</strong></h6>
             <a href="../index.html" class="btn btn-link text-decoration-none">Voltar</a><br><br>
-            <a href="https://www.markdownguide.org" id="btnLink" target="_blank" class="btn btn-link">Site Oficial</a>
+            <a href="https://www.markdownguide.org" target="_blank" class="btn btn-link text-decoration-none">Site Oficial</a>
         </div>
 
         <div class="col-sm-12">
@@ -44,7 +44,7 @@
             <p id="textoPost">Linguagem de marcação, convertida pra HTML, muito utilizada para escrever documentação web. Devido à sintaxe 'populosa' do HTML e sua difícil interpretação quando aplicada à escrita de documentação web, fora necessária a criação de uma linguagem de marcação com sintaxe mais limpa e focada ao texto, dando origem à Markdown. Você encontrará Markdown principalmente nos arquivos '<strong>readme.md</strong>', utilizados como um breve manual para determinado software/projeto. Toda a documentação online da Microsoft também é escrita com auxílio da linguagem. Arquivos Markdown possuem extensão '<strong>.md</strong>'. Mais informações e resumo de sintaxe, acesse abaixo.</p>
 
             <br><h4>Títulos</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 # H1
 ## H2
 ### H3
@@ -55,7 +55,7 @@ quebra de linha(deixa-se 1 linha em branco)
 paragrafo comum
 </code></pre></small><br>
             <h4>Texto</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 **negrito**
 *italico*
 ***negrito e italico***
@@ -63,35 +63,35 @@ paragrafo comum
 :joy: (emoji 'joy')
 </code></pre></small><br>
             <h4>Bloco de Citação</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 &gt; blockquote(bloco de citação)
 &gt;&gt; bloco aninhado
 </code></pre></small><br>
             <h4>Lista Ordenada</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 1. First item
     1.1 First.first item
 2. Second item
 3. Third item
 </code></pre></small><br>
             <h4>Lista Não Ordenada</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 - First item
     - First.first item
 - Second item
 - Third item
 </code></pre></small><br>
             <h4>Código Inline</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 `code`(entre tags &lt;code&gt;)
 ``Use `code` in your Markdown file.``(caso precise usar a pontuação como texto)
 </code></pre></small><br>
             <h4>Linha Horizontal</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 ---
 </code></pre></small><br>
             <h4>Link</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 [title](https://www.example.com)
 [Duck Duck Go](https://duckduckgo.com "The best search engine for privacy") (link com texto 'alt')
 &lt;fake@example.com&gt; (link de email)
@@ -99,17 +99,17 @@ http://www.example.com (url comum)
 `http://www.example.com` (url desativada)
 </code></pre></small><br>
             <h4>Imagem</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 ![alt text](image.jpg)
 ![Philadelphia's Magic Gardens.](/assets/images/philly-magic-gardens.jpg "Philadelphia's Magic Gardens")
 [![Pedra no deserto](/assets/images/shiprock.jpg "Shiprock, New Mexico")](https://google.com) (img com link)
 </code></pre></small><br>
             <h4>Mostrar caracter de função como texto</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 \* Mostra o asterisco, sem a barra representaria itálico
 </code></pre></small><br>
             <h4>Tabela</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 | Syntax | Description |
 | ----------- | ----------- |
 | Header | Title |
@@ -122,7 +122,7 @@ http://www.example.com (url comum)
 | Paragraph   | Text        | And more      |
 </code></pre></small><br>
             <h4>Bloco de Código</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 (informe a linguagem pra colorir conforme)
 ```json
 {
@@ -133,22 +133,22 @@ http://www.example.com (url comum)
 ```
 </code></pre></small><br>
             <h4>Footnote <small>(Nota de rodapé)</small></h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 Here's a sentence with a footnote. [^1]
 
 [^1]: This is the footnote.
 </code></pre></small><br>
             <h4>Heading ID <small>(Id de cabeçalho)</small></h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 ### My Great Heading {#custom-id}
 </code></pre></small><br>
             <h4>Definição de Termo</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 term
 : definition
 </code></pre></small><br>
             <h4>Lista de Tarefas</h4>
-<small><pre id="codigo"><code>
+<small><pre><code>
 - [x] Item pré-selecionado
 - [ ] Item
 - [ ] Item2
