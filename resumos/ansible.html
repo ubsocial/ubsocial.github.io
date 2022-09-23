@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../anexos/icons/logoTit.png">
+    <link rel="stylesheet" href="../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <nav class="navbar rounded-bottom fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="../index.html"><img src="../anexos/icons/logo.png" class="d-inline-block align-text-top" id="logo"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../sobre.html">Sobre</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12" id="titulo">
+            <h1>Ansible</h1>
+            <h6><strong>Automatização simplificada de SOs</strong><br><br><span class="badge bg-warning text-dark">Resumo em construção</span></h6>
+            <a href="../index.html" class="btn btn-link text-decoration-none">Voltar</a>
+        </div>
+
+        <div class="col-sm-12">
+            <h4>Conceito:</h4>
+            <p id="textoPost">Ferramenta Agentless com objetivo de automatizar a gestão (Instalações, configurações, provisionamento, etc) em diferentes SOs servidores simultaneamente (Linux, Windows, etc). Entre vários nodes (Nós-Máquinas), tem-se o <i>Master node</i> (Controlador), onde são informados os demais nodes e respectivas credenciais. Para isso, recomenda-se SSH ativo nos demais nodes (<i>Workers</i> ou <i>Slaves</i> - Controlados). O Ansible possui vários Módulos, que exercem funções específicas.</p>
+
+            <br><h4>Instalação (Debian):</h4>
+            <ul>
+                <li>Pré-requisito: <span class="text-muted">sudo apt install python3-pip</span></li>
+                <li>
+                    Instalação: <span class="text-muted">pip3 install ansible</span>
+                    <ul>
+                        <li>Verificar: <span class="text-muted">ansible --version</span></li>
+                    </ul>
+                </li>
+                <li>Após instalado, gerará em '/etc/ansible':
+                    <ul>
+                        <li>ansible.cfg: <span class="text-muted">Arquivo de configurações</span></li>
+                        <li>hosts: <span class="text-muted">Arquivo de inventário, onde serão declarados os nodes</span></li>
+                        <li>roles: <span class="text-muted">''''''''</span></li>
+                    </ul>
+                </li>
+                <li>VSCodes extensão oficial Ansible</li>
+            </ul>
+
+            <br><h4>Lab Cloud:</h4>
+            <ul>
+                <li>Mater node - CentOS 7</li>
+                <li>Worker node1 - Debian 11</li>
+                <li>Worker node2 - Ubuntu Server 22.04 LTS</li>
+            </ul>
+
+            <br><h4>Configuração:</h4>
+            <p id="textoPost">Na máquina local, acessar Master node via SSH (Supondo que há chave de autenticação cadastrada no Master node): '<i>ssh nomeUsuario@nomeMasterNode</i>'.</p>
+<small><pre><code>
+<b><u>Em 'hosts', informar</u>:</b>
+[distros]
+172.104.18.126 <span class="text-muted"># IP do Debian, Worker 1</span>
+172.104.18.156 <span class="text-muted"># IP do Ubuntu, Worker 2</span>
+
+[distros:vars]
+ansible_user=root <span class="text-muted"># User e Password dos Workers. O ideal é criar usuário específico para tal, e utilizar chave de autenticação ao invés de senha simples. Como fora dessa forma, deve-se autorizar no 'ansible.cfg'</span>
+ansible_password=123
+
+<b><u>Em 'ansible.cfg', descomentar linha</u>:</b>
+host_key_checking = False
+
+<b><u>Testar conexão geral</u>:</b>
+ansible distros -m ping
+</code></pre></small>
+
+            <br><h4>Dicas</h4>
+            <p id="textoPost">Para executar comandos em diferentes distros, o ideal é criar grupos de distros similares (Ex: Distros Debian, Distros Arch), ou arquivos de inventário diferentes. Após, executar o comando específico (Ex: sudo apt update) e direcioná-lo para o grupo de distros alvo. Exemplo:</p>
+<small><pre><code>
+ansible distros -a "sudo apt update"
+ansible distros -a "uptime"
+</code></pre></small>
+
+            <br><h4>Playbook</h4>
+            <p id="textoPost">Arquivo YAML (playbook.yml) com informações para a gestão automatizada do Ansible nos nodes. Após criado o arquivo, executa-se o comando 'ansible-playbook playbook.yml' para criar a gestão. Exemplo de sintaxe, instalar nginx nos workers (Após executado, pode-se testar com 'curl ipWorker' e mostrará o código nginx):</p>
+<small><pre><code>
+---
+- name: Instalar o nginx
+  hosts: distros
+  become: yes
+  tasks:
+  - name: Instalar servidor web
+     package:
+      name: nginx
+      state: present <span class="text-muted"># present: Instalado, absent: Não deseja no servidor, latest: Instalar última versão</span>
+</code></pre></small>
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center" id="rodape">
+        <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>
