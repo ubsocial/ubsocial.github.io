@@ -76,6 +76,15 @@
 ansible_user=root <span class="text-muted"># User e Password dos Workers. O ideal é criar usuário específico para tal, e utilizar chave de autenticação ao invés de senha simples. Como fora dessa forma, deve-se autorizar no 'ansible.cfg'</span>
 ansible_password=123
 
+<b>Dicas</b>:
+servidor ansible_host=172.104.18.126 <span class="text-muted"># Criar variáveis</span>
+<span class="text-muted"># Criar sub-grupos:</span>
+[prod:children]
+distros
+debian
+
+<!--PAROU EM https://youtu.be/RVtxW-i7L1c (14min)-->
+
 <b><u>Em 'ansible.cfg', descomentar linha</u>:</b>
 host_key_checking = False
 
@@ -86,6 +95,7 @@ ansible distros -m ping
             <br><b>Dicas</b>
             <p id="textoPost">Para executar comandos em diferentes distros, o ideal é criar grupos de distros similares (Ex: Distros Debian, Distros Arch), ou arquivos de inventário diferentes. Após, executar o comando específico (Ex: sudo apt update) e direcioná-lo para o grupo de distros alvo. Exemplo:</p>
 <small><pre><code>
+ansible -i nomeInventario -u user all -a "date" <span class="text-muted"># Executar o ansible em ad-hoc, ou seja, pontualmente</span>
 ansible distros -m ping
 ansible distros -m shell -a "sudo apt update"
 ansible distros -m shell -a "uptime"

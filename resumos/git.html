@@ -126,6 +126,12 @@ Deletar branch: git branch -d nomebranch
 <b>MERGE:</b> Passar coisas do branch x ao master
 git merge branchAntigo (Branch que estou será o destino)
 
+<b>SUBMODULE:</b> Repositório dentro de outro repositório
+Adicionar submodule: git submodule add &lt;url-repositorio&gt; diretorio-destino
+Iniciar submodule: git submodule init
+Atualizar submodule (Carregar configurações necessárias): git submodule update
+Atualizar dependência: Acessar diretório do submodule e, após isso, executar 'git pull remote your_branch' (Ex: git pull origin master)
+
 
 <h6><b>========== GITWEB ==========</b></h6>
 Ferramenta Web GUI para gerenciamento do Git local
