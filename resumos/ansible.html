@@ -118,7 +118,6 @@ machine02.ubsocial
             <br><h4>Playbook</h4>
             <p id="textoPost">Arquivo YAML (playbook.yml) com informações para a gestão automatizada do Ansible nos nodes. Após criado o arquivo, executa-se o comando 'ansible-playbook playbook.yml' para criar a gestão. Exemplo de sintaxe, instalar nginx nos workers (Após executado, pode-se testar com 'curl ipWorker' e mostrará o código nginx):</p>
 <small><pre><code>
----
 - name: Instalar o nginx
   hosts: distros
   become: yes
@@ -218,7 +217,6 @@ ansible debian -m setup -a "filter=ansible_distribution" <span class="text-muted
             <br><h4>Condicionais (when)</h4>
             <p id="textoPost">Pode-se utilizar condicionais 'when' para aplicar filtros em playbooks, conforme abaixo.</p>
 <small><pre><code>
-<b><u>playbook4.yml</u>:</b>
 - name: Instalando lista de pacotes
   hosts: all
   tasks:
