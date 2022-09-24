@@ -39,7 +39,7 @@
         </div>
 
         <div class="col-sm-12">
-            <p id="textoPost">Ferramenta Agentless com objetivo de automatizar a gestão (Instalações, configurações, provisionamento, etc) em diferentes SOs servidores simultaneamente (Linux, Windows, etc). Entre vários nodes (Nós-Máquinas), tem-se o <i>Master node</i> (Controlador), onde o Ansible é usado, informando os demais nodes e respectivas credenciais. Para isso, recomenda-se SSH ativo nos demais nodes (<i>Workers</i> ou <i>Slaves</i> - Controlados). O Ansible possui vários Módulos, que exercem funções específicas.</p>
+            <p id="textoPost">Ferramenta Agentless com objetivo de automatizar a gestão (Instalações, configurações, provisionamento, etc) em diferentes SOs servidores simultaneamente (Linux, Windows, etc). Entre vários nodes (Nós-Máquinas), tem-se o <i>Master node</i> (Controlador), onde o Ansible é usado, informando os demais nodes e respectivas credenciais/configurações. Para isso, recomenda-se SSH ativo nos demais nodes (<i>Workers</i> ou <i>Slaves</i> - Controlados). O Ansible possui vários Módulos, que exercem funções específicas, com todas informações a respeito encontradas na documentação oficial.<br><u>Sintaxe</u>: 'ansible -m &lt;MODULO&gt; -a &lt;PARAMETROS&gt; &lt;HOSTS&gt;'.</p>
 
             <br><h4>Instalação (Debian):</h4>
             <ul>
@@ -54,17 +54,17 @@
                     <ul>
                         <li>ansible.cfg: <span class="text-muted">Arquivo de configurações</span></li>
                         <li>hosts: <span class="text-muted">Arquivo de inventário, onde serão declarados os nodes</span></li>
-                        <li>roles: <span class="text-muted">''''''''</span></li>
+                        <li>roles: <span class="text-muted">Arquivo com configurações de tasks pré-configuradas</span></li>
                     </ul>
                 </li>
-                <li>VSCodes extensão oficial Ansible</li>
-                <li>Github dos materiais: <a href="" target="_blank" class="text-decoration-none">Acesse</a></li>
+                <li>VSCode extensão oficial Ansible</li>
+                <li>Github dos materiais: <a href="https://github.com/mateusschwede/ansible" target="_blank" class="text-decoration-none">Acesse</a></li>
             </ul>
 
             <br><hr><h4>Lab 1 (Cloud):</h4>
             <p id="textoPost">Máquinas em cloud, compostas por Master node (CentOS), e 2 Workers (Debian e Ubuntu Server).</p>
 
-            <br><h4>Configuração:</h4>
+            <br><b>Configuração</b>
             <p id="textoPost">Na máquina local, acessar Master node via SSH (Supondo que há chave de autenticação cadastrada no Master node): '<i>ssh nomeUsuario@nomeMasterNode</i>'.</p>
 <small><pre><code>
 <b><u>Em 'hosts', informar</u>:</b>
@@ -83,16 +83,37 @@ host_key_checking = False
 ansible distros -m ping
 </code></pre></small>
 
-            <br><h4>Dicas</h4>
+            <br><b>Dicas</b>
             <p id="textoPost">Para executar comandos em diferentes distros, o ideal é criar grupos de distros similares (Ex: Distros Debian, Distros Arch), ou arquivos de inventário diferentes. Após, executar o comando específico (Ex: sudo apt update) e direcioná-lo para o grupo de distros alvo. Exemplo:</p>
 <small><pre><code>
-<b>Sintaxe</b>: ansible -m &lt;MODULO&gt; -a &lt;PARAMETROS&gt; &lt;HOSTS&gt;
 ansible distros -m ping
 ansible distros -m shell -a "sudo apt update"
 ansible distros -m shell -a "uptime"
 ansible distros -m apt -a "name=ncdu state=present update_cache=yes" --become <span class="text-muted"># Instalará o ncdu. O 'become' realizará o comando como sudo</span>
 ansible distros -m service -a "name=crond state=restarted enabled=yes" --become <span class="text-muted"># Reiniciará e habilitará o serviço 'crond'</span>
 </code></pre></small>
+
+            <br><h4>Lab 2 (Vagrant):</h4>
+            <p id="textoPost">Ambiente Vagrant composto por Master node (Ubuntu - 'ansible') e 2 Workers (Debian e CentOS - 'machine 1 e 2'). Esse caso requer o Vagrant instalado (sudo apt install virtualbox vagrant), baixar o arquivo 'Vagrantfile' do Github acima e, por fim, executá-lo com 'vagrant up'. Para verificar a infraestrutura criada (Detalhes, SOs, IPs, etc), use 'cat Vagrantfile'.</p>
+            
+            <br><b>Configuração</b>
+            <p id="textoPost">Acessar Master node com 'vagrant ssh ansible' e, dentro desta, executar 'sudo apt update && sudo apt -y install wget curl ansible'. Após isso, configurar Workers com 'sudo nano /etc/ansible/hosts' apagando todo o conteúdo do arquivo e informando:</p>
+<small><pre><code>
+[all:vars]
+ansible_python_interpreter=/usr/bin/python
+
+[debian]
+machine01.ubsocial
+
+[centos]
+machine02.ubsocial
+
+[linuxservers]
+machine01.ubsocial
+machine02.ubsocial
+</code></pre></small>
+            <p id="textoPost">Em '/etc/ansible/ansible.cfg', descomentar linha '<i>host_key_checking = False</i>' e alterar linha 'private_key_file = /vagrant/key'. Após isso, sair do arquivo e criar chave de autenticação com 'ssh-keygen -q -t rsa -f /vagrant/key -N '' '. Com isso, copiar o conteúdo de 'vagrant/key.pub', acessar os Workers (vagrant ssh machine01...), usar 'nano .ssh/authorized_keys' e colar a chave na última linha. Para verificar a conexão, usa-se no Master node 'ansible all -m ping'.</p>
+            <hr>
 
             <br><h4>Playbook</h4>
             <p id="textoPost">Arquivo YAML (playbook.yml) com informações para a gestão automatizada do Ansible nos nodes. Após criado o arquivo, executa-se o comando 'ansible-playbook playbook.yml' para criar a gestão. Exemplo de sintaxe, instalar nginx nos workers (Após executado, pode-se testar com 'curl ipWorker' e mostrará o código nginx):</p>
@@ -211,27 +232,6 @@ ansible debian -m setup -a "filter=ansible_distribution" <span class="text-muted
         - figlet
       when: ansible_distribution == "Debian"
 </code></pre></small>
-
-            <br><hr><h4>Lab 2 (Vagrant):</h4>
-            <p id="textoPost">Ambiente Vagrant composto por Master node (Ubuntu - 'ansible') e 2 Workers (Debian e CentOS - 'machine 1 e 2'). Esse caso requer o Vagrant instalado (sudo apt install virtualbox vagrant), baixar o arquivo 'Vagrantfile' do Github acima e, por fim, executá-lo com 'vagrant up'. Para verificar a infraestrutura criada (Detalhes, SOs, IPs, etc), use 'cat Vagrantfile'.</p>
-            
-            <br><h4>Configuração</h4>
-            <p id="textoPost">Acessar Master node com 'vagrant ssh ansible' e, dentro desta, executar 'sudo apt update && sudo apt -y install wget curl ansible'. Após isso, configurar Workers com 'sudo nano /etc/ansible/hosts' apagando todo o conteúdo do arquivo e informando:</p>
-<small><pre><code>
-[all:vars]
-ansible_python_interpreter=/usr/bin/python
-
-[debian]
-machine01.ubsocial
-
-[centos]
-machine02.ubsocial
-
-[linuxservers]
-machine01.ubsocial
-machine02.ubsocial
-</code></pre></small>
-            <p id="textoPost">Em '/etc/ansible/ansible.cfg', descomentar linha '<i>host_key_checking = False</i>' e alterar linha 'private_key_file = /vagrant/key'. Após isso, sair do arquivo e criar chave de autenticação com 'ssh-keygen -q -t rsa -f /vagrant/key -N '' '. Com isso, copiar o conteúdo de 'vagrant/key.pub', acessar os Workers (vagrant ssh machine01...), usar 'nano .ssh/authorized_keys' e colar a chave na última linha. Para verificar a conexão, usa-se no Master node 'ansible all -m ping'.</p>
         </div>
     </div>
 
