@@ -39,7 +39,6 @@
         </div>
 
         <div class="col-sm-12">
-            <h4>Conceito:</h4>
             <p id="textoPost">Ferramenta Agentless com objetivo de automatizar a gestão (Instalações, configurações, provisionamento, etc) em diferentes SOs servidores simultaneamente (Linux, Windows, etc). Entre vários nodes (Nós-Máquinas), tem-se o <i>Master node</i> (Controlador), onde o Ansible é usado, informando os demais nodes e respectivas credenciais. Para isso, recomenda-se SSH ativo nos demais nodes (<i>Workers</i> ou <i>Slaves</i> - Controlados). O Ansible possui vários Módulos, que exercem funções específicas.</p>
 
             <br><h4>Instalação (Debian):</h4>
@@ -109,11 +108,108 @@ ansible distros -m service -a "name=crond state=restarted enabled=yes" --become 
       state: present <span class="text-muted"># present: Instalado, absent: Não deseja no servidor, latest: Instalar última versão</span>
 </code></pre></small>
 
+            <br><p><b>Playbook para transferir arquivos:</b></p>
+            <p id="textoPost">Via módulo copy, copiar arquivo do Matser para Worker(s). Criar arquivo 'teste.txt' no Master node e, após isso, criar arquivo 'playbook1.yml', com o seguinte conteúdo abaixo. Após criado o arquivo, executá-lo com 'ansible playbook playbook1.yml'. Pode-se conferir se o arquivo encontra-se nos Workers com 'ansible all -m shell -a "cat /etc/teste.txt" '.</p>
+<small><pre><code>
+- name: Playbook de transferir arquivos
+  hosts: all
+  tasks:
+  - name: Atualizar arquivo 'teste.txt'
+    become: true
+    copy:
+      src: teste.txt
+      dest: /etc/teste.txt
+</code></pre></small>
+
+            <br><b>Playbook para criar usuários:</b>
+            <p id="textoPost">Via módulo user. Criar arquivo playbook2.yml, com o seguinte conteúdo abaixo. Após criado o arquivo, executá-lo com 'ansible playbook playbook2.yml'. Pode-se verificar se o usuário fora criado com 'ansible all -m shell -a "getent passwd ubsocial" '.</p>
+<small><pre><code>
+- name: Playbook para criação de usuários
+  hosts: all
+  vars:
+    - server_name: servidor01
+    - user_name: ubsocial
+    - conf_file: /opt/app/app.conf
+  tasks:
+    - name: Criando o usuário
+      become: true
+      user:
+        name: {{ user_name }}
+</code></pre></small>
+
+            <br><b>Playbook com variáveis externas:</b>
+            <p id="textoPost">O playbook anterior possuia variáveis internas. Para utilizar variáveis externas, criaremos arquivo 'config.yml', com o seguinte conteúdo abaixo. Pode-se, também, criar variáveis diretamente via comando, exemplo 'ansible-playbook nomePlaybook.yml -e username=ubsocial'.</p>
+<small><pre><code>
+<b><u>config.yml</u>:</b>
+server_name: servidor01
+username: ubsocial
+
+<b><u>playbook2b.yml</u>:</b>
+- name: Playbook 2 para criação de usuários
+  hosts: all
+  vars_files:
+    - config.yml
+  tasks:
+    - name: Criando o usuário
+      become: true
+      user:
+        name: {{ username }}
+</code></pre></small>
+
             <br><h4>Facts</h4>
             <p id="textoPost">Informações coletadas pelo Ansible quando executado em Workers. Com isso, pode-se refinar comandos (Ex: Verificar se o Worker é Ubuntu e, se sim, execute o 'apt update').</p>
 <small><pre><code>
 ansible debian -m setup <span class="text-muted"># Mostrará informações de todas máquinas do grupo</span>
 ansible debian -m setup -a "filter=ansible_distribution" <span class="text-muted"># Com filtragem de informações</span>
+</code></pre></small>
+
+            <br><h4>Loops</h4>
+            <p id="textoPost">Utilizar loops em playbooks para repetição de tasks (Playbook 3b). Após criado o arquivo, executá-lo com 'ansible-playbook playbook3.yml'. Pode-se verificar a instalação dos pacotes no CentOS com 'ansible centos -m shell -a "rpm -qa | egrep 'wget|vim|tree'" '. No Debian, pode-se verificar com 'ansible debian -m shell -a "dpkg -l | egrep 'wget|git|figlet'" '.</p>
+<small><pre><code>
+<b><u>playbook3.yml</u>:</b>
+- name: Instalando lista de pacotes para CentOS
+  hosts: centos
+  vars:
+    - packages:
+        - wget
+        - vim
+        - tree
+  tasks:
+    - name: Instalando pacotes
+      become: true
+      yum:
+        name: "{{ packages }}"
+
+<b><u>playbook3b.yml</u>:</b>
+- name: Instalando lista de pacotes para Debian
+  hosts: debian
+  tasks:
+    - name: Instalando pacotes Debian
+      become: true
+      apt:
+        name: "{{ item }}"
+      loop:
+        - wget
+        - git
+        - figlet
+</code></pre></small>
+
+            <br><h4>Condicionais (when)</h4>
+            <p id="textoPost">Pode-se utilizar condicionais 'when' para aplicar filtros em playbooks, conforme abaixo.</p>
+<small><pre><code>
+<b><u>playbook4.yml</u>:</b>
+- name: Instalando lista de pacotes
+  hosts: all
+  tasks:
+    - name: Instalando pacotes
+      become: true
+      apt:
+        name: "{{ item }}"
+      loop:
+        - wget
+        - git
+        - figlet
+      when: ansible_distribution == "Debian"
 </code></pre></small>
 
             <br><hr><h4>Lab 2 (Vagrant):</h4>
