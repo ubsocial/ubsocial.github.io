@@ -1083,7 +1083,7 @@ print(classification_report(y_census_teste, previsoes))
             <br><h5>Base de Dados (Risco de Crédito - credit data)</h5>
             <p class="text-muted" id="textoPost">Aplicação de Árvore de Decisão, com Random Forest, para classificação de Risco de Crédito.</p>
 <small><pre><code>
-<span class="text-muted">#Importar libraries</span>
+<span class="text-muted">#Importar libraries:</span>
 from sklearn.ensemble import RandomForestClassifier
 import pickle
 
@@ -1095,7 +1095,7 @@ with open('credit.pkl', 'rb') as f:
 X_credit_treinamento.shape, y_credit_treinamento.shape
 X_credit_teste.shape, y_credit_teste.shape
 
-<span class="text-muted">#Criar treinamento Random Forest (40 Árvores), gerar previsões</span>
+<span class="text-muted">#Criar treinamento Random Forest (40 Árvores), gerar previsões:</span>
 random_forest_credit = RandomForestClassifier(n_estimators=40, criterion='entropy', random_state = 0)
 random_forest_credit.fit(X_credit_treinamento, y_credit_treinamento)
 previsoes = random_forest_credit.predict(X_credit_teste)
@@ -1119,7 +1119,7 @@ print(classification_report(y_credit_teste, previsoes)) <span class="text-muted"
             <br><h5>Base de Dados (Censo)</h5>
             <p class="text-muted" id="textoPost">Aplicação de Árvore de Decisão, com Random Forest, para classificação de valor salarial.</p>
 <small><pre><code>
-<span class="text-muted">#Importar libraries</span>
+<span class="text-muted">#Importar libraries:</span>
 from sklearn.ensemble import RandomForestClassifier
 import pickle
 
@@ -1132,7 +1132,7 @@ X_census_treinamento.shape, y_census_treinamento.shape
 X_census_teste.shape, y_census_teste.shape
 y_census_treinamento <span class="text-muted">#Ver classes</span>
 
-<span class="text-muted">#Criar treinamento Random Forest (100 Árvores - padrão), gerar previsões</span>
+<span class="text-muted">#Criar treinamento Random Forest (100 Árvores - padrão), gerar previsões:</span>
 random_forest_census = RandomForestClassifier(n_estimators=100, criterion='entropy', random_state = 0)
 random_forest_census.fit(X_census_treinamento, y_census_treinamento)
 previsoes = random_forest_census.predict(X_census_teste)
@@ -1155,7 +1155,7 @@ print(classification_report(y_census_teste, previsoes))
 
             <br>
             <h4>----- Aprendizagem por Regras -----</h4>
-            <p id="texto-post">Funcionamento se dá por meio de geração de regras e, após isso, novos registros serão submetido às mesmas. No geral, algoritmos de regras tendem a serem mais lentos do que de Árvores, não havendo diferença de melhores resultados de previsões quando ambos comparados. Utilizou-se, como exemplo, os dados da base de risco de crédito (<a href="#tabRiscoCredito">Aqui</a>).</p>
+            <p id="texto-post">Geração de regras (IF..THEN) e, após isso, novos registros serão submetido às mesmas (Todos atributos envolvidos True, então usa-se tal regra e tem-se a previsão). No geral, algoritmos de regras tendem a serem mais lentos do que de Árvores, não havendo diferença de melhores resultados de previsões quando ambos comparados. Utilizou-se, como exemplo, os dados da base de risco de crédito (<a href="#tabRiscoCredito" class="text-decoration-none">Aqui</a>).</p>
             <ul>
                 <li>Se renda =&gt;35000 E história de crédito = boa, ENTÃO risco = baixo</li>
                 <li>Se renda =&gt;35000 E história de crédito = desconhecida, ENTÃO risco = baixo</li>
@@ -1460,7 +1460,65 @@ print(classification_report(y_census_teste, previsoes))
                 <li>Após isso, o mesmo deverá ser feito para 'risco = médio' e 'risco = baixo'</li>
             </ol>
             <p id="textoPost"><u>OBSERVAÇÃO</u>: Como os registros acima foram bastante específicos (Ex: 1/1), pode-se ocorrer overfitting! Para evitar isso, pode-se utilizar 'poda' de tais atributos muito específicos, ou seja, com poucos dados envolvidos.</p>
-            <!--VER 59-->
+            
+            <br><h5>Base de Dados (Risco de Crédito - Pequena)</h5>
+            <p class="text-muted" id="textoPost">Aplicação de Indução de Regras para classificação de Risco de Crédito - Modelo teste.</p>
+<small><pre><code>
+<span class="text-muted">#Importar libraries e upload do arquivo com dados, LabelEncoder aplicado e organizado para Orange, com 'c#risco' para atributo classe:</span>
+!pip install Orange3
+import Orange
+
+base_risco_credito = Orange.data.Table('risco_credito_regras.csv')
+base_risco_credito
+base_risco_credito.domain <span class="text-muted">#Mostrar cabeçalho/domínio</span>
+
+<span class="text-muted">#(Treinamento) Criar regras, submetendo os dados ao algoritmo de regras 'cn2':</span>
+cn2 = Orange.classification.rules.CN2Learner()
+regras_risco_credito = cn2(base_risco_credito)
+
+for regras in regras_risco_credito.rule_list:
+    print(regras)
+
+<span class="text-muted">#Testar previsão com valores para teste:</span>
+previsoes = regras_risco_credito([['boa', 'alta', 'nenhuma', 'acima_35'], ['ruim', 'alta', 'adequada', '0_15']])
+previsoes <span class="text-muted">#Obteve-se 1 e 0</span>
+base_risco_credito.domain.class_var.values <span class="text-muted">#0 é alto, 1 é baixo, 2 é moderado</span>
+for i in previsoes:
+    #print(i)
+    print(base_risco_credito.domain.class_var.values[i])
+</code></pre></small>
+
+            <br><h5>Base de Dados (Risco de Crédito - credit data)</h5>
+            <p class="text-muted" id="textoPost">Aplicação de Indução de Regras para classificação de Risco de Crédito.</p>
+<small><pre><code>
+<span class="text-muted">#Importar libraries e upload do arquivo com dados e padronização aplicada, com 'i#clientid' para ser ignorado, e 'c#default' para atributo classe:</span>
+!pip install Orange3
+import Orange
+base_credit.domain <span class="text-muted">#Mostrar cabeçalho/domínio</span>
+
+<span class="text-muted">Dividir base de dados treinamento-teste:</span>
+base_dividida = Orange.evaluation.testing.sample(base_credit, n = 0.25) <span class="text-muted">#25% para teste, 75% para treino</span>
+base_dividida
+base_dividida[0]
+base_dividida[1]
+base_teste = base_dividida[0]
+base_treinamento = base_dividida[1]
+len(base_teste), len(base_treinamento)
+
+<span class="text-muted">#(Treinamento) Criar regras, submetendo os dados ao algoritmo de regras 'cn2':</span>
+cn2 = Orange.classification.rules.CN2Learner()
+regras_credit = cn2(base_treinamento)
+for regras in regras_credit.rule_list:
+    print(regras)
+
+<span class="text-muted">#Testar previsão com valores para teste:</span>
+previsoes = Orange.evaluation.testing.TestOnTestData(base_treinamento, base_teste, [lambda testdata: regras_credit])
+Orange.evaluation.CA(previsoes) <span class="text-muted">#(97,4%) CA para 'Classification Accuracy', ou F1 para 'F1 Score'</span>
+</code></pre></small>
+
+            <br><h5>Base de Dados (Censo) - Orange GUI</h5>
+            <p class="text-muted" id="textoPost">Aplicação de Indução de Regras, via Orange GUI, para classificação de valor salarial. Instalar Orange via '<i>pip3 install orange3</i>'.</p>
+            <!--VER 62-->
         </div>
     </div>
 
