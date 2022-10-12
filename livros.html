@@ -41,12 +41,25 @@
 
     <div class="row">
         <div class="col-sm-12 text-center" style="margin-bottom: 40px; margin-top: 10px;">
-            <h4><span class="badge bg-secondary">81 leituras até então</span></h4>
+            <h4><span class="badge bg-secondary">82 leituras até então</span></h4>
         </div>
     </div>
 
     <!--LIVROS LIDOS-->
     <div class="row">
+
+        <div class="col-sm-3">
+            <div class="card shadow" id="contLivro">
+                <div class="card-body text-center">
+                    <img src="anexos/livros/imagens/amores verdadeiros.jpg" class="rounded" height="120px">
+                    <p style="margin-top: 15px;"><b>Amor(es) Verdadeiro(s)<br><span class="text-muted">Taylor Jenkins Reid</span></b></p>
+                    <div class="progress">
+                        <div class="progress-bar bg-secondary" role="progressbar" style="width: 100%;" aria-valuemin="0" aria-valuemax="100">Lendo atualmente</div>
+                    </div>
+                    <div class="d-grid" style="margin-top: 13px;"><button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#AmoresVerdadeiros">Ver detalhes</button></div>
+                </div>
+            </div><br>
+        </div>
 
         <div class="col-sm-3">
             <div class="card shadow" id="contLivro">
@@ -57,19 +70,6 @@
                         <div class="progress-bar bg-secondary" role="progressbar" style="width: 100%;" aria-valuemin="0" aria-valuemax="100">Lendo atualmente</div>
                     </div>
                     <div class="d-grid" style="margin-top: 13px;"><button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#MeiaNoiteNaTiffanys">Ver detalhes</button></div>
-                </div>
-            </div><br>
-        </div>
-
-        <div class="col-sm-3">
-            <div class="card shadow" id="contLivro">
-                <div class="card-body text-center">
-                    <img src="anexos/livros/imagens/queria que voce me visse.jpg" class="rounded" height="120px">
-                    <p style="margin-top: 15px;"><b>Queria que Você me Visse<br><span class="text-muted">Emery Lord</span></b></p>
-                    <div class="progress">
-                        <div class="progress-bar bg-secondary" role="progressbar" style="width: 100%;" aria-valuemin="0" aria-valuemax="100">Lendo atualmente</div>
-                    </div>
-                    <div class="d-grid" style="margin-top: 13px;"><button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#QueriaQueVoceMeVisse">Ver detalhes</button></div>
                 </div>
             </div><br>
         </div>
@@ -710,6 +710,16 @@
                     <img src="anexos/livros/imagens/quem e voce alasca.jpg" class="rounded" height="120px">
                     <p style="margin-top: 15px;"><b>Quem é você, Alasca?<br><span class="text-muted">John Green</span></b></p>
                     <div class="d-grid" style="margin-top: 13px;"><button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#QuemEVoceAlasca">Ver detalhes</button></div>
+                </div>
+            </div><br>
+        </div>
+
+        <div class="col-sm-3">
+            <div class="card shadow" id="contLivro">
+                <div class="card-body text-center">
+                    <img src="anexos/livros/imagens/queria que voce me visse.jpg" class="rounded" height="120px">
+                    <p style="margin-top: 15px;"><b>Queria que Você me Visse<br><span class="text-muted">Emery Lord</span></b></p>
+                    <div class="d-grid" style="margin-top: 13px;"><button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#QueriaQueVoceMeVisse">Ver detalhes</button></div>
                 </div>
             </div><br>
         </div>
@@ -3027,6 +3037,32 @@
                 <b>Sinopse:</b><br>
                 <p id="textoPost">Anna Oliphant não está nada entusiasmada com a ideia de se mudar para Paris. Porém, seu pai, um famoso escritor norte-americano, decidiu enviá-la para um colégio interno na Cidade Luz. Anna prefere ficar em Atlanta, onde tem um bom emprego, sua fiel melhor amiga e um namoro prestes a acontecer. Mas, ao chegar a Paris, ela conhece Étienne St. Clair, um rapaz inteligente, charmoso e bonito, que além de muitas qualidades, tem uma namorada... Anna e Étienne se aproximam e as coisas ficam mais complicadas. Será que um ano inteiro de desencontros em Paris terminará com o esperado beijo francês? Ou certas coisas simplesmente não estão destinadas a acontecer?</p>
                 <div class="d-grid" style="margin-top: 13px;"><a href="anexos/livros/ebooks/anna e o beijo frances.epub" class="btn btn-dark" target="_blank">Baixar ebook</a></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="AmoresVerdadeiros" tabindex="-1" aria-labelledby="AmoresVerdadeirosLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="AmoresVerdadeirosLabel">Amor(es) Verdadeiro(s)</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <b>Autora:</b> Taylor Jenkins Reid
+                <br>
+                <b>Gênero:</b> Romance
+                <br>
+                <b>Páginas:</b> 352
+                <br>
+                <b>Lançamento:</b> 24/04/2020
+                <br>
+                <b>Editora:</b> Paralela
+                <br><br>
+                <b>Sinopse:</b><br>
+                <p id="textoPost">Emma Blair casou com seu namorado do colegial, Jesse, quando tinha vinte anos. Juntos, eles construíram uma vida diferente das expectativas de seus pais e das pessoas de sua cidade natal, Massachusetts. Sem perder nenhuma oportunidade de viver novas aventuras, eles viajam o mundo todo, curtindo a vida ao máximo. Mas, em vez do tradicional "e viveram felizes para sempre", uma tragédia separa os dois, no dia do seu aniversário de um ano de casamento. O helicóptero com o qual Jesse sobrevoava o Pacífico desaparece e, simples assim, o amor da vida de Emma se vai para sempre. Emma volta para sua cidade natal em uma tentativa de reconstruir a vida e, depois de anos de luto, reencontra um velho amigo, Sam, que lhe mostra ser, sim, possível se apaixonar novamente. E quando os dois ficam noivos? Emma sente que a vida lhe deu uma segunda chance de ser feliz. Pelo menos é o que parece - até que Jesse é encontrado. Ele está vivo e tentou voltar para casa, para Emma, todos esses anos que passou desaparecido. Agora, com um marido e um noivo, Emma precisa descobrir quem ela é e o que quer, enquanto tenta proteger todos que ama Emma sabe que precisa escutar seu coração, ela só não tem certeza se sabe o que ele está querendo dizer.</p>
+                <div class="d-grid" style="margin-top: 13px;"><a href="anexos/livros/ebooks/amores verdadeiros.epub" class="btn btn-dark" target="_blank">Baixar ebook</a></div>
             </div>
         </div>
     </div>
