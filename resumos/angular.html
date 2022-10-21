@@ -34,7 +34,7 @@
     <div class="row">
         <!--
             REPOSITÓRIO: https://github.com/matheusbattisti/curso_angular_yt
-            VER AULA #3
+            VER AULA #4
         -->
         <div class="col-sm-12" id="titulo">
             <h1>Angular</h1>
@@ -48,6 +48,27 @@
                 <li>Instalação: <span class="text-muted">sudo apt install nodejs npm && sudo npm install -g @angular/cli</span></li>
                 <li>Criar projeto: <span class="text-muted">ng new nomeProjeto</span></li>
                 <li>Executar projeto: <span class="text-muted">ng serve</span></li>
+            </ul>
+
+            <br><h4>Estrutura:</h4>
+            <ul>
+                <li>node_modules: <span class="text-muted">Dependências do projeto</span></li>
+                <li>src: <span class="text-muted">Códigos da aplicação</span>
+                    <ul>
+                        <li>app: <span class="text-muted">Onde ficam componentes (Compostos por <i>.ts</i> (Controller e Model), <i>.html</i> (View), <i>.css</i> e testes (<i>.spec.ts</i>)), services, etc</span>
+                            <ul>
+                                <li>app.component.ts: <span class="text-muted">Configurações/programação do componente</span></li>
+                                <li>app.component.spec.ts: <span class="text-muted">Testes do componente</span></li>
+                                <li>app.component.html: <span class="text-muted">Templates visuais</span></li>
+                                <li>app.component.css: <span class="text-muted">Estilo do componente específico</span></li>
+                            </ul>
+                        </li>
+                        <li>index.html: <span class="text-muted">Html inicial, que redirecionará o home público</span></li>
+                        <li>styles.css: <span class="text-muted">Estilo global, para todos os formulários</span></li>
+                        <li>assets: <span class="text-muted">Onde ficam imagens estáticas e demais anexos</span></li>
+                        <li>environments: <span class="text-muted">Ambientes da aplicação (Desenvolvimento, produção, etc)</span></li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>
