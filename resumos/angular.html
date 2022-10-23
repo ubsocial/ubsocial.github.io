@@ -34,7 +34,7 @@
     <div class="row">
         <!--
             REPOSITÓRIO: https://github.com/matheusbattisti/curso_angular_yt
-            VER AULA #4
+            VER AULA #8
         -->
         <div class="col-sm-12" id="titulo">
             <h1>Angular</h1>
@@ -76,6 +76,16 @@
 
             <br><h4>Interpolação de dados:</h4>
             <p id="textoPost">Imprimir variáveis do '.ts' no '.html'. Isso ocorre via <span class="text-muted">{{ nomeVariavel }}</span>.</p>
+
+            <br><h4>Compartilhar dados:</h4>
+            <p id="textoPost">O <span class="text-muted">input</span> receberá, no componente filho, variável do componente pai.
+            <ol>
+                <li>Cria-se a variável, em 'app.component.ts', na class 'AppComponent'</li>
+                <li>Cria-se a variável em '.ts' do componente, no 'OnInit'</li>
+                <li>A mesma, em 'app.component.html', será referenciada com <span class="text-muted">&lt;app-nomeSelectorComponente [nomeVariavel]="nomeVariavel"&gt;&lt;/app-nomeSelectorComponente&gt;</span></li>
+                <li>Inserir o 'Input' no import em '.ts' do componente</li>
+                <li>Em '.html' do componente, a mesma pode ser referenciada por <span class="text-muted">{{ nomeVariavel }}</span></li>
+            </ol>
 
             <hr>
             <br><h4>Projetos:</h4>
