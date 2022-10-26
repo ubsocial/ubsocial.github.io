@@ -82,23 +82,23 @@
             </ol>
 
             <br><h4>Interpolação de dados:</h4>
-            <p id="textoPost">Imprimir variáveis do '.ts' no '.html'. Isso ocorre via <span class="text-muted">{{ nomeVariavel }}</span>.</p>
+            <p id="textoPost">Imprimir variáveis do 'ts' no 'html'. Isso ocorre via <span class="text-muted">{{ nomeVariavel }}</span>.</p>
 
             <br><h4>Compartilhar dados:</h4>
             <p id="textoPost">O <span class="text-muted">input</span> receberá, no componente filho, variável do componente pai.
             <ol>
                 <li>Criar a variável, em 'app.component.ts', na class 'AppComponent'</li>
-                <li>Criar a variável em '.ts' do componente, no 'OnInit'</li>
+                <li>Criar a variável em 'ts' do componente, no 'OnInit'</li>
                 <li>Referenciá-la, em 'app.component.html', com <span class="text-muted">&lt;app-nomeSelectorComponente [nomeVariavel]="nomeVariavel"&gt;&lt;/app-nomeSelectorComponente&gt;</span></li>
-                <li>Inserir o 'Input' no import em '.ts' do componente</li>
-                <li>Em '.html' do componente, a mesma pode ser referenciada por <span class="text-muted">{{ nomeVariavel }}</span></li>
+                <li>Inserir o 'Input' no import em 'ts' do componente</li>
+                <li>Em 'html' do componente, a mesma pode ser referenciada por <span class="text-muted">{{ nomeVariavel }}</span></li>
             </ol>
 
             <br><h4>Diretivas:</h4>
-            <p id="textoPost">Responsáveis por realizar ações diversas ao '.html' do componente, cuja sintaxe é <span class="text-muted">[ngNomeDiretiva]</span>. Entre muitas, tem-se a <i>ngStyle</i> (Estilos inline), <i>ngClass</i> (Atribui classes ao html).</p>
+            <p id="textoPost">Responsáveis por realizar ações diversas ao 'html' do componente, cuja sintaxe é <span class="text-muted">[ngNomeDiretiva]</span>. Entre muitas, tem-se a <i>ngStyle</i> (Estilos inline), <i>ngClass</i> (Atribui classes ao html).</p>
 
             <br><h4>Condicionais:</h4>
-            <p id="textoPost">if-else no '.html', cuja sintaxe é <span class="text-muted">*ngIf</span>.</p>
+            <p id="textoPost">if-else no 'html', cuja sintaxe é <span class="text-muted">*ngIf</span>.</p>
 
             <br><h4>Eventos:</h4>
             <p id="textoPost">Gatilhos, como 'click', para execução de métodos advindos da classe, cuja sintaxe é <span class="text-muted">(click)="algumaFuncao()"</span>.</p>
@@ -111,7 +111,7 @@
                         <li>Chamá-lo no 'html' do componente filho</li>
                     </ul>
                 </li>
-                <li>Inserir o 'Output' e 'EventEmitter' no import em '.ts' do componente filho (EventEmitter também, pois é evento, não somente o dado em si)</li>
+                <li>Inserir o 'Output' e 'EventEmitter' no import em 'ts' do componente filho (EventEmitter também, pois é evento, não somente o dado em si)</li>
                 <li>Inserir evento no componente filho, referenciando-o acima com inicialização do mesmo em '@Output()' e após, no mesmo arquivo, criar função de chamada do mesmo</li>
                 <li>Criar, no 'html' do componente pai, chamada do evento @Output() do filho
                     <ul>
@@ -120,11 +120,14 @@
                 </li>
             </ol>
 
+            <br><h4>Loops:</h4>
+            <p id="textoPost">for no 'html', cuja sintaxe é <span class="text-muted">*ngFor="let item of items"</span>, para renderização de listas.</p>
+
             <hr>
             <br><h4>Projetos:</h4>
             <ol>
                 <li>Introdução, componente, interpolação de dados, compartilhar(input) dados: <a href="https://github.com/mateusschwede/angular/tree/master/projeto1" class="text-decoration-none" target="_blank">Acesse</a></li>
-                <li>Diretivas, conficionais, eventos, emitir(output) eventos: <a href="https://github.com/mateusschwede/angular/tree/master/projeto2" class="text-decoration-none" target="_blank">Acesse</a></li>
+                <li>Diretivas, conficionais, eventos, emitir(output) eventos, loops: <a href="https://github.com/mateusschwede/angular/tree/master/projeto2" class="text-decoration-none" target="_blank">Acesse</a></li>
             </ol>
         </div>
     </div>
