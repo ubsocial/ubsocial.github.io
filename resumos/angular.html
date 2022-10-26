@@ -103,11 +103,28 @@
             <br><h4>Eventos:</h4>
             <p id="textoPost">Gatilhos, como 'click', para execução de métodos advindos da classe, cuja sintaxe é <span class="text-muted">(click)="algumaFuncao()"</span>.</p>
 
+            <br><h4>Emitir eventos:</h4>
+            <p id="textoPost">O <span class="text-muted">output</span> receberá, no componente pai, evento do componente filho. Exemplo <span class="text-muted">(emit)="onEmit()"</span>.</p>
+            <ol>
+                <li>Criar, no 'ts' do componente filho, evento
+                    <ul>
+                        <li>Chamá-lo no 'html' do componente filho</li>
+                    </ul>
+                </li>
+                <li>Inserir o 'Output' e 'EventEmitter' no import em '.ts' do componente filho (EventEmitter também, pois é evento, não somente o dado em si)</li>
+                <li>Inserir evento no componente filho, referenciando-o acima com inicialização do mesmo em '@Output()' e após, no mesmo arquivo, criar função de chamada do mesmo</li>
+                <li>Criar, no 'html' do componente pai, chamada do evento @Output() do filho
+                    <ul>
+                        <li>Criar, no 'ts' do componente pai, função de chamada do seu 'html'</li>
+                    </ul>
+                </li>
+            </ol>
+
             <hr>
             <br><h4>Projetos:</h4>
             <ol>
-                <li>Introdução, componente, interpolação de dados, compartilhar(input) de dados: <a href="https://github.com/mateusschwede/angular/tree/master/projeto1" class="text-decoration-none" target="_blank">Acesse</a></li>
-                <li>Diretivas, conficionais, eventos: <a href="https://github.com/mateusschwede/angular/tree/master/projeto2" class="text-decoration-none" target="_blank">Acesse</a></li>
+                <li>Introdução, componente, interpolação de dados, compartilhar(input) dados: <a href="https://github.com/mateusschwede/angular/tree/master/projeto1" class="text-decoration-none" target="_blank">Acesse</a></li>
+                <li>Diretivas, conficionais, eventos, emitir(output) eventos: <a href="https://github.com/mateusschwede/angular/tree/master/projeto2" class="text-decoration-none" target="_blank">Acesse</a></li>
             </ol>
         </div>
     </div>
