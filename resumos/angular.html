@@ -34,7 +34,7 @@
     <div class="row">
         <!--
             REPOSITÓRIO: https://github.com/matheusbattisti/curso_angular_yt
-            VER AULA #17
+            VER AULA #19
         -->
         <div class="col-sm-12" id="titulo">
             <h1>Angular</h1>
@@ -162,6 +162,28 @@
                 <li>No Browser, seguindo o <i>projeto5</i> abaixo, informando 'url/list', mostrará o componente da listagem</li>
             </ol>
 
+            <br><h4>Requisições HTTP:</h4>
+            <p id="textoPost">Realizar requisições HTTP nos services. No <i>projeto6</i> será realizada simulação com API genérica <i>json-server</i>.</p>
+            <ol>
+                <li>Instalar json-server para simular API backend: <span class="text-muted">npm i json-server</span></li>
+                <li>Na pasta raíz, criar arquivo 'db.json'</li>
+                <li>Em 'package.json', parte de 'scripts', informar "server"</li>
+                <li>Executar json-server: <span class="text-muted">npm run server</span>
+                    <ul>
+                        <li>Conforme <i>projeto6</i>, pode-se acessar API json-server em 'localhost:3000/animals'</li>
+                    </ul>
+                </li>
+                <br>
+                <li>Importar (import) HttpClientModule em 'app.module.ts'</li>
+                <li>Conforme <i>projeto6</i>:
+                    <ol>
+                        <li>Fora trabalhado no componente 'list-render.component' (Requisição do component passar pelo service)</li>
+                        <li>No 'ts' do component, informar método no constructor e 'getAnimals()'</li>
+                        <li>No service 'list.service.ts', informar imports 'HttpClient', 'HttpHeaders' e 'Observable', e método 'getAll()'</li>
+                    </ol>
+                </li>
+            </ol>
+
             <hr>
             <br><h4>Projetos:</h4>
             <ol>
@@ -170,6 +192,7 @@
                 <li>Interfaces, Pipe operators, Two way data biding: <a href="https://github.com/mateusschwede/angular/tree/master/projeto3" class="text-decoration-none" target="_blank">Acesse</a></li>
                 <li>Services: <a href="https://github.com/mateusschwede/angular/tree/master/projeto4" class="text-decoration-none" target="_blank">Acesse</a></li>
                 <li>Angular Router: <a href="https://github.com/mateusschwede/angular/tree/master/projeto5" class="text-decoration-none" target="_blank">Acesse</a></li>
+                <li>Requisições HTTP: <a href="https://github.com/mateusschwede/angular/tree/master/projeto6" class="text-decoration-none" target="_blank">Acesse</a></li>
             </ol>
         </div>
     </div>
