@@ -34,7 +34,7 @@
     <div class="row">
         <!--
             REPOSITÓRIO: https://github.com/matheusbattisti/curso_angular_yt
-            VER AULA #21
+            VER AULA #23
         -->
         <div class="col-sm-12" id="titulo">
             <h1>Angular</h1>
@@ -219,6 +219,38 @@
                 <li>Services: <a href="https://github.com/mateusschwede/angular/tree/master/projeto4" class="text-decoration-none" target="_blank">Acesse</a></li>
                 <li>Angular Router: <a href="https://github.com/mateusschwede/angular/tree/master/projeto5" class="text-decoration-none" target="_blank">Acesse</a></li>
                 <li>Requisições HTTP, Dynamic routes, Exclusão de dados HTTP: <a href="https://github.com/mateusschwede/angular/tree/master/projeto6" class="text-decoration-none" target="_blank">Acesse</a></li>
+                <br>
+                <li>Projeto prático (Moments): <a href="https://github.com/mateusschwede/angular/tree/master/projeto7" class="text-decoration-none" target="_blank">Acesse</a></li>
+            </ol>
+
+            <br><h4>Projeto prático (Moments):</h4>
+            <ol>
+                <b>API Backend:</b>
+                <li>Baixar a pasta da apiBackend e, dentro dela, instalar dependências: <span class="text-muted">npm install</span></li>
+                <li>Gerar key: <span class="text-muted">node ace generate:key</span>
+                    <ul>
+                        <li>Criar cópia do arquivo '.env.example', depois renomeá-la em '.env'</li>
+                        <li>Informar nova key neste arquivo</li>
+                    </ul>
+                </li>
+                <li>Executar migrations: <span class="text-muted">node ace migration:run</span></li>
+                <li>Executar API: <span class="text-muted">node ace serve</span></li>
+                <li>Testar funcionamento, 'localhost:3333/api/moments', que deverá mostrar array 'data'</li>
+                <li>No Postman, criar nova request para testar inserção:
+                    <ul>
+                        <li>Tipo 'Post'</li>
+                        <li>URL: {{URL}}/moments <span class="text-muted">(Criar variável URL, sendo 'localhost:3333/api')</span></li>
+                        <li>Em 'body', selecionar 'form-data', informar campos:
+                            <ul>
+                                <li>Key: <i>title</i>, Value: <i>para deletar</i></li>
+                                <li>Key: <i>description</i>, Value: <i>alguma descricao</i></li>
+                                <li>Key: <i>image</i> (Tipo 'file'), Value <i>1_intro.png</i></li>
+                            </ul>
+                        </li>
+                        <li>Enviar requisição (Send), deverá retornar JSON com mensagem de sucesso</li>
+                    </ul>
+                </li>
+                <li>Verificar, no browser, 'localhost:3333/api/moments' deverá retornar JSON com moment inserido</li>
             </ol>
         </div>
     </div>
