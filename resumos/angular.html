@@ -34,7 +34,7 @@
     <div class="row">
         <!--
             REPOSITÓRIO: https://github.com/matheusbattisti/curso_angular_yt
-            VER AULA #23
+            VER AULA #28
         -->
         <div class="col-sm-12" id="titulo">
             <h1>Angular</h1>
@@ -136,7 +136,7 @@
             <br><h4>Two way data biding:</h4>
             <p id="textoPost">Alterar propriedades (props) do 'html' om preenchimento de inputs, cuja sintaxe é <span class="text-muted">[(ngMode)]="nomeImput"</span>, seguido da prop 'name' e seu mesmo valor.</p>
             <ol>
-                <li>Importar (import) 'FormsModel' e em 'imports', em app.module.ts</li>
+                <li>Importar (import) 'FormsModule' e em 'imports', em app.module.ts</li>
                 <li>Informar ngModel nos inputs</li>
                 <li>Informar props no 'ts' do componente</li>
             </ol>
@@ -269,11 +269,24 @@
                         <li>Formulário moment-form: <span class="text-muted">ng generate component components/moment-form</span></li>
                     </ul>
                 </li>
-                <li>Preencher 'html' dos componentes header, footer, new-moment e moment-form</li>
-                <li>Programar 'ts' do moment-form e new-moment</li>
-                <li>Preencher CSS dos componentes header, footer e new-moment</li>
-                <li>Preencher CSS geral, em styles.css e em app.component.css</li>
+                <li>Esqueleto e estilização:
+                    <ol>
+                        <li>Preencher 'html' dos componentes header, footer, new-moment e moment-form</li>
+                        <li>Programar 'ts' do moment-form e new-moment</li>
+                        <li>Preencher CSS dos componentes header, footer e new-moment</li>
+                        <li>Preencher CSS geral, em styles.css e em app.component.css</li>
+                    </ol>
+                </li>
                 <li>Configurar routes em 'app-routing.ts'</li>
+                <li>Criar interfaces, services e configurar módulos:
+                    <ol>
+                        <li>Em 'app.module.ts', importar módulos HttpClientModule, FormsModule e ReactiveFormsModule</li>
+                        <li>Em 'app/' criar interfaces 'Moment.ts', 'Comment.ts' e 'Response.ts' com seus códigos</li>
+                        <li>Criar Service moment: <span class="text-muted">ng generate service services/moment</span></li>
+                        <li>Criar Service comment: <span class="text-muted">ng generate service services/comment</span></li>
+                        <li>Criar Service messages: <span class="text-muted">ng generate service services/messages</span></li>
+                    </ol>
+                </li>
             </ol>
         </div>
     </div>
