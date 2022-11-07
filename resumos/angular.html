@@ -34,7 +34,7 @@
     <div class="row">
         <!--
             REPOSITÓRIO: https://github.com/matheusbattisti/curso_angular_yt
-            VER AULA #30
+            VER AULA #32
         -->
         <div class="col-sm-12" id="titulo">
             <h1>Angular</h1>
@@ -267,6 +267,11 @@
                         <li>Página home: <span class="text-muted">ng generate component components/pages/home</span></li>
                         <li>Página new-moment: <span class="text-muted">ng generate component components/pages/new-moment</span></li>
                         <li>Formulário moment-form: <span class="text-muted">ng generate component components/moment-form</span></li>
+                        <li>Mensagens de feedback: <span class="text-muted">ng generate component components/messages</span>
+                            <ul>
+                                <li>Biblioteca de ícones 'fontawesome': <span class="text-muted">ng add @fortawesome/angular-fontawesome (Selecionar os 3 pacotes basic)</span></li>
+                            </ul>
+                        </li>
                     </ul>
                 </li>
                 <li>Esqueleto e estilização:
@@ -287,8 +292,17 @@
                         <li>Criar Service messages: <span class="text-muted">ng generate service services/messages</span></li>
                     </ol>
                 </li>
+                <li>Criar mensagens de feedback:
+                    <ol>
+                        <li>No 'html' do app.component, informar app-messages</li>
+                        <li>No 'html' do componente messages, informar conteúdo</li>
+                        <li>No 'ts' do componente messages, fazer imports e informar código restante</li>
+                        <li>No 'css' do componente messages, informar códigos</li>
+                        <li>No 'ts' do service messages, informar código restante</li>
+                    </ol>
+                </li>
                 <li>Implementar ReactiveForms no moment-form ('html' e 'ts')</li>
-                <li>Envio de dados (Add):
+                <li><span class="text-muted">(Add)</span> Envio de dados:
                     <ol>
                         <li>No 'html' do componente pai, new-moment, informar 'onSubmit'</li>
                         <li>No 'ts' do new-moment, informar 'onSubmit()', imports e restante</li>
