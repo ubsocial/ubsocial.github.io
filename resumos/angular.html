@@ -34,7 +34,7 @@
     <div class="row">
         <!--
             REPOSITÓRIO: https://github.com/matheusbattisti/curso_angular_yt
-            VER AULA #29
+            VER AULA #30
         -->
         <div class="col-sm-12" id="titulo">
             <h1>Angular</h1>
@@ -288,6 +288,24 @@
                     </ol>
                 </li>
                 <li>Implementar ReactiveForms no moment-form ('html' e 'ts')</li>
+                <li>Envio de dados (Add):
+                    <ol>
+                        <li>No 'html' do componente pai, new-moment, informar 'onSubmit'</li>
+                        <li>No 'ts' do new-moment, informar 'onSubmit()', imports e restante</li>
+                        <li>No 'ts' do moment-form, informar @Output, imports, informar método 'submit()'</li>
+                        <li>Em 'environments.ts', informar URLs da API</li>
+                        <li>Enviar dados para o Service 'moment', para após, inserir no BD:
+                            <ol>
+                                <li>No 'ts' do momment.service, fazer imports e restante do conteúdo
+                                    <ul>
+                                        <li><span class="text-muted">Pois no 'ts' do new-moment, criou-se método async que enviará os dados para esse método no service, que os enviará para a API Backend</span></li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </li>
+                        <li>Fazer teste de submissão e verificar em 'Network', em 'Fetch/XHR' se a requisição ocorreu com sucesso</li>
+                    </ol>
+                </li>
             </ol>
         </div>
     </div>
