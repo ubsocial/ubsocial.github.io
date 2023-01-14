@@ -34,7 +34,7 @@
     <div class="row">
         <!--
             REPOSITÓRIO: https://github.com/matheusbattisti/curso_angular_yt
-            VER AULA #35
+            VER AULA #36
         -->
         <div class="col-sm-12" id="titulo">
             <h1>Angular</h1>
@@ -266,6 +266,7 @@
                         <li>Página about: <span class="text-muted">ng generate component components/pages/about</span></li>
                         <li>Página home: <span class="text-muted">ng generate component components/pages/home</span></li>
                         <li>Página new-moment: <span class="text-muted">ng generate component components/pages/new-moment</span></li>
+                        <li>Página moment: <span class="text-muted">ng generate component components/pages/moment</span></li>
                         <li>Formulário moment-form: <span class="text-muted">ng generate component components/moment-form</span></li>
                         <li>Mensagens de feedback: <span class="text-muted">ng generate component components/messages</span>
                             <ul>
@@ -276,13 +277,13 @@
                 </li>
                 <li>Esqueleto e estilização:
                     <ol>
-                        <li>Preencher 'html' dos componentes header, footer, new-moment e moment-form</li>
+                        <li>Preencher 'html' dos componentes header, footer, new-moment, moment-form e pages/moment</li>
                         <li>Programar 'ts' do moment-form e new-moment</li>
                         <li>Preencher CSS dos componentes header, footer e new-moment</li>
                         <li>Preencher CSS geral, em styles.css e em app.component.css</li>
                     </ol>
                 </li>
-                <li>Configurar routes em 'app-routing.ts'</li>
+                <li>Configurar routes em 'app-routing.module.ts'</li>
                 <li>Criar interfaces, services e configurar módulos:
                     <ol>
                         <li>Em 'app.module.ts', importar módulos HttpClientModule, FormsModule e ReactiveFormsModule</li>
@@ -330,6 +331,12 @@
                     <ol>
                         <li>No 'html' do componente home, informar form de busca</li>
                         <li>No 'ts' do componente home, informar método 'search()'</li>
+                    </ol>
+                </li>
+                <li><span class="text-muted">(Detail)</span> Visualizar dado específico:
+                    <ol>
+                        <li>No 'ts' do componente pages/moment, iniciar constructor e ngOnInit</li>
+                        <li>No 'ts' do service pages/moment, criar método que pegará dado da API Backend</li>
                     </ol>
                 </li>
             </ol>
