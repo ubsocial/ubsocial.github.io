@@ -32,10 +32,7 @@
     </div>
 
     <div class="row">
-        <!--
-            REPOSITÓRIO: https://github.com/matheusbattisti/curso_angular_yt
-            VER AULA #39
-        -->
+        <!-- REPOSITÓRIO OFICIAL: https://github.com/matheusbattisti/curso_angular_yt -->
         <div class="col-sm-12" id="titulo">
             <h1>Angular</h1>
             <h6><strong>Framework Angular, teoria e prática</strong><br><br><span class="badge bg-warning text-dark">Resumo em construção</span></h6>
@@ -125,10 +122,10 @@
 
             <br><h4>Interfaces:</h4>
             <p id="textoPost">Toda entidade possui interface, onde todas as propriedades do BD da entidade serão refletidas na interface, simbolizando assim as entidades no sistema. Ficam geralmente dentro de 'app/'. Cria-se manualmente, cujo padrão é '<span class="text-muted">NomeClasse.ts</span>'.</p>
-            <ul>
+            <ol>
                 <li>Cria-se a interface</li>
                 <li>Importá-la (import) no 'ts' do componente</li>
-            </ul>
+            </ol>
 
             <br><h4>Pipe operators:</h4>
             <p id="textoPost">Possibilita modificar strings no próprio 'html' do componente, dispensando códigos no 'ts' e 'css' do mesmo, cuja sintaxe é <span class="text-muted">{{ dado | algumPipeOperator }}</span>.</p>
@@ -229,10 +226,10 @@
                 <b>API Backend:</b>
                 <li>Baixar a pasta da apiBackend e, dentro dela, instalar dependências: <span class="text-muted">npm install</span></li>
                 <li>Gerar key: <span class="text-muted">node ace generate:key</span>
-                    <ul>
+                    <ol>
                         <li>Criar cópia do arquivo '.env.example', depois renomeá-la em '.env'</li>
                         <li>Informar nova key neste arquivo</li>
-                    </ul>
+                    </ol>
                 </li>
                 <li>Executar migrations: <span class="text-muted">node ace migration:run</span></li>
                 <li>Executar API: <span class="text-muted">node ace serve</span></li>
@@ -351,6 +348,12 @@
                     <ol>
                         <li>No 'ts' do componente pages/edit-moment, preencher método ngOnInit, demais pormenores e criar método editHandler</li>
                         <li>No 'ts' do service moment, criar método updateMoment</li>
+                    </ol>
+                </li>
+                <li><span class="text-muted">(Other)</span> Add comentários:
+                    <ol>
+                        <li>No 'ts' do componente moment, criar método onSubmit e pormenores</li>
+                        <li>No 'ts' do service comment, criar método createComment e pormenores</li>
                     </ol>
                 </li>
             </ol>
