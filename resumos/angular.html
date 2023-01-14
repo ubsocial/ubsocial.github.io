@@ -224,6 +224,7 @@
             </ol>
 
             <br><h4>Projeto prático (Moments):</h4>
+            <p class="text-muted"><b>Ex funcionamento com API (Remove)</b>: No 'html' do component o usuário clica no botão Excluir. Isso levará ao método no 'ts' do mesmo component, que se comunicará com o método no 'ts' de seu Service. Esse se comunica diretamente com a API Backend.</p>
             <ol>
                 <b>API Backend:</b>
                 <li>Baixar a pasta da apiBackend e, dentro dela, instalar dependências: <span class="text-muted">npm install</span></li>
@@ -303,7 +304,7 @@
                     </ol>
                 </li>
                 <li>Implementar ReactiveForms no moment-form ('html' e 'ts')</li>
-                <li><span class="text-muted">(Add)</span> Envio de dados:
+                <li><span class="text-muted">(Add)</span> Enviar dados:
                     <ol>
                         <li>No 'html' do componente pai, new-moment, informar 'onSubmit'</li>
                         <li>No 'ts' do new-moment, informar 'onSubmit()', imports e restante</li>
@@ -327,7 +328,7 @@
                         <li>No 'ts' do service moment, criar método que pegará dados da API Backend</li>
                     </ol>
                 </li>
-                <li><span class="text-muted">(Search)</span> Busca de dados frontend:
+                <li><span class="text-muted">(Search)</span> Pesquisar dados frontend:
                     <ol>
                         <li>No 'html' do componente home, informar form de busca</li>
                         <li>No 'ts' do componente home, informar método 'search()'</li>
@@ -337,6 +338,12 @@
                     <ol>
                         <li>No 'ts' do componente pages/moment, iniciar constructor e ngOnInit</li>
                         <li>No 'ts' do service pages/moment, criar método que pegará dado da API Backend</li>
+                    </ol>
+                </li>
+                <li><span class="text-muted">(Remove)</span> Remover dados:
+                    <ol>
+                        <li>No 'ts' do componente pages/moment, criar método removeHandler</li>
+                        <li>No 'ts' do service moment, criar método removeMoment</li>
                     </ol>
                 </li>
             </ol>
