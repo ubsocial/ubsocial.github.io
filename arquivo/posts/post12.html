@@ -91,6 +91,10 @@ Keywords=xampp;
                 <li>Retome às permissões originais do arquivo de configuração 'sudo chmod 644 /opt/lampp/phpmyadmin/config.inc.php'</li>
                 <li>Acesse o Phpmyadmin, via browser 'localhost/phpmyadmin', com usuário 'root' e nenhuma senha</li>
             </ol>
+
+            <br><h4>MySQL do XAMPP no Bash:</h4>
+            <p id="textoPost">Caso você possua o XAMPP instalado em sua distro e deseja utilizar o MySQL do mesmo diretamente no Bash, basta iniciar os recursos XAMPP (sudo /opt/lampp/lampp start) e utilizar o seguinte comando para logar-se ao MySQL: '<i><span class="text-muted">/opt/lampp/bin/mysql -h localhost -u root -p</i></span>'.</p>
+            <p id="textoPost">A flag 'h' indica o host, 'u' o user e 'p' a password. Para o caso, utilizou-se os valores padrões do MySQL XAMPP (Host localhost, User root e Password nenhum). Caso você os tenha modificado, precisará informar o respectivo valor após sua respectiva flag.</p>
         </div>
     </div>
 

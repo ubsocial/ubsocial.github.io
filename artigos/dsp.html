@@ -33,7 +33,7 @@
 
     <div class="row">
         <div class="col-sm-12" id="titulo">
-            <h1>DSP (Development, Staging, Production)</h1>
+            <h1>DSP Environments</h1>
             <h6><strong>Ambientes para Desenvolvimento de Software</strong></h6>
             <a href="../index.html" class="btn btn-link text-decoration-none">Voltar</a><br>
         </div>
@@ -42,7 +42,8 @@
             <h4>O que é</h4>
             <p id="textoPost">Modelo de workflow para desenvolvimento de software, onde há ambientes separados para cada fase de desenvolvimento da aplicação. Entre as vantgens da utilização de tal modelo, tem-se a evolução paralela de cada ambiente, onde cada etapa é realizada na sua velocidade (Feature sendo desenvolvida, que levará meses para ser colocada em teste. Ambiente de teste usa esse momento para seguir testando outras features), aumento de organização e produtividade. Tal modelo possui grande diversificação, não seguindo somente tais 3 etapas tradicionais. Entre alternativas, tem-se, no ambiente Staging, camadas específicas como testes, então pré-produção. Outro cenário comum é ter ambiente de Desenvolvimento, Teste, Performance, Homologação, Canary (Usado para testar a solução final) e Produção. Tem-se, também, as fases de modelo do IRUP (IBM Rational Unified Process), ilustradas pelo gráfico de baleias. O modelo a ser adotado dependerá da estratégia da empresa, tamanho da aplicação, e equipes envolvidas. Quanto maior o número de ambientes para desenvolvimento de aplicação, maior será a complexidade para gerir e manter. Conteinerização são abordagem excelente para a criação prática de tais ambientes. Ferramentas com Jenkins permite a criação automatizada de tais ambientes (CI/CD).</p>
             <ol>
-                <b>Estrutura tradicional:</b>
+                <b>Estrutura tradicional:</b><br>
+                <i class="text-muted">(Development, Staging, Production)</i>
                 <li><b>Desenvolvimento</b>: Ambiente onde é desenvolvida a aplicação. Totalmente interno, destina-se à livre criação do software, resolução de problemas tradicionais, refatoração, implementação prática de novos códigos e tecnologias. Após a finalização do código, a aplicação é repassada ao próximo ambiente;</li>
                 <li><b>Homologação/Testes/Stage/Pre-Prod</b>: 'Encenar ambiente de produção', testando todas as possibilidades e cenários em que a aplicação será utilizada, em busca de bugs e demais problemas. Tal ambiente deve ser o mais similar possível com o ambiente de produção, nos quuesitos software, hardware, libraries, etc. Entre os testes, tem-se performance, vulnerabilidades, segurança e análise de risco, integração (Código e acesso à base de dados). Além disso, o ambiente também é utilizado para terceiros (Gerentes, demais equipes, clientes) avaliarem o software, em busca de melhorias, features, UAT (User Acceptance Testing - Determinado número de usuários diferentes testam e avaliam a aplicação, informando feedback à equipe de desenvolvimento). Em alguns casos, tal ambiente também pode ser usado para treinamento com o cliente. Features com bugs encontrados no Staging serão desenvolvidas para o Development;</li>
                 <li><b>Produção</b>: Ambiente de utilização real da aplicação, onde não são tolerados erros/falhas na mesma. Falhas na aplicação podem quebrá-la, gerando vazamento de dados, perdas financeiras e até de vidas (Sistemas críticos). Dessa forma, nesse ambiente permanecem somente aplicação com features finalizadas, efetivamente disponíveis para uso (Descartam-se, desse ambiente, versões alfa, beta e dados de teste).</li>
