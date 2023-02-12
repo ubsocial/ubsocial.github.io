@@ -1176,7 +1176,7 @@ unalias j (descarta o alias)
                         <li><b>eth1</b>: Placa cabeada ou Placa com chipset Intel</li>
                     </ul>
                     <h4>MacAddress:</h4>
-                    <p>Identificador dos componentes físicos de rede do dispositivo (Geralmente HWaddr ou HW no Linux), seguindo padrão 'xx:xx:xx:xx:xx:xx', pode ser encontrado através de comando personalizado, com utilização de expressão regular:<br>ifconfig nomePlaca | grep -Ewo '([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2}'<br><u>Ex</u>: <i>ifconfig wlan0 | grep -Ewo '([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2}'</i></p>
+                    <p>Identificador dos componentes físicos de rede do dispositivo (Geralmente link/ether, HWaddr ou HW no Linux), seguindo padrão 'xx:xx:xx:xx:xx:xx', pode ser encontrado através de comando personalizado, com utilização de expressão regular:<br>ifconfig nomePlaca | grep -Ewo '([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2}'<br><u>Ex</u>: <i>ifconfig wlan0 | grep -Ewo '([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2}'</i><br><u>Ex 2</u>: <i>ip link</i> (Mostrará, em wlan0 ou wlo1, 'link/ether 5z:ca:5g:36:ah:87')</p>
                     <h4>Máscara de Rede (netmask):</h4>
                     <p>Todo IP possui uma máscara correspondente. Nela é informado qual parte do IP faz parte da rede e qual faz parte do host. Tecnicamente, define quantos IPs serão destinados e quantos IPs serão definidos ao host (máquina local). O endereço IP sempre é um nº de 4 octetos, onde cada octeto é representado por um bloco numérico separado por ponto. Existem vários tipos de netmask, como Classe A, Classe B, Classe C e Classe D.<br><u>Classe C (Mais popular):</u> Representada por /24, e 255.255.255.0, onde o IP inicia-se com 192.168.0.X</p>
 <small><pre><code>
