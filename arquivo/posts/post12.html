@@ -33,37 +33,58 @@
 
     <div class="row">
         <div class="col-sm-12" id="titulo">
-            <h1>Instalar XAMPP no Debian</h1>
-            <h6><strong>Instalação, atalho e uso do XAMPP</strong></h6>
-            <a href="../../index.html" class="btn btn-link text-decoration-none">Voltar</a>
+            <h1>XAMPP no Linux</h1>
+            <h6><strong>Instalação, configuração e uso do XAMPP</strong></h6>
+            <a href="../../index.html" class="btn btn-link text-decoration-none">Voltar</a><br><br>
+            <a href="https://youtu.be/39ASkna8G-8" class="btn btn-link text-decoration-none mb-3" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="1.3em" height="1.3em" fill="currentColor" class="bi bi-youtube text-danger" viewBox="0 0 16 16"><path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.007 2.007 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.007 2.007 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31.4 31.4 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.007 2.007 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A99.788 99.788 0 0 1 7.858 2h.193zM6.4 5.209v4.818l4.157-2.408L6.4 5.209z"/></svg> Conteúdo disponível</a>
         </div>
 
         <div class="col-sm-12">
-            <h4>Instalação:</h4>
+            <h4>Conceito:</h4>
+            <p>XAMPP, LAMPP (Linux), WAMPP (Windows), MAMPP (MacOS)</p>
+            <ul>
+                <li><b>x</b>: Vários SOs</li>
+                <li><b>a</b>: Apache HTTP Server (ProFTPD)</li>
+                <li><b>m</b>: MySQL</li>
+                <li><b>p</b>: PHP</li>
+                <li><b>p</b>: Pearl</li>
+            </ul>
+            
+            <br><h4>Instalar XAMPP (deb, rpm, arch...):</h4>
             <ol>
-                <li>Acesse o site oficial do Xampp e baixe a versão para Linux: <a href="https://www.apachefriends.org/pt_br/index.html" class="text-decoration-none" target="_blank" >Site XAMPP</a>
+                <li>Acesse o site oficial do Xampp e baixe a versão para Linux: <a href="https://www.apachefriends.org/pt_br/index.html" class="text-decoration-none" target="_blank">Acesse</a>
                     <ul>
-                        <li class="text-muted"><small>Baixará o LAMPP (Linux,Apache,MySQL,PHP) em arquivo instalador '.run'</small></li>
+                        <li class="text-muted">Baixe o XAMPP, arquivo executável '.run'</li>
                     </ul>
                 </li>
                 <li>Com o Bash, acesse o diretório em que o arquivo .run encontra-se
                     <ul>
-                        <li class="text-muted"><small>Exemplo na pasta Downloads 'cd ~/Downloads'</small></li>
+                        <li class="text-muted">Exemplo na pasta Downloads 'cd ~/Downloads'</li>
                     </ul>
                 </li>
-                <li>Torne o arquivo executável 'sudo chmod +x nomeArquivo.run'</li>
-                <li>Execute o arquivo 'sudo ./nomeArquivo.run'
+                <li>Permita execução do arquivo: 'sudo chmod +x nomeArquivo.run'</li>
+                <li>Execute o arquivo: 'sudo ./nomeArquivo.run'
                     <ul>
-                        <li class="text-muted"><small>Siga o passo a passo do instalador</small></li>
+                        <li class="text-muted">Siga o passo a passo do instalador</li>
                     </ul>
                 </li>
             </ol>
+
+            <br><h4>Comandos XAMPP no Bash:</h4>
+            <ul>
+                <li><b>Iniciar XAMPP</b>: sudo /opt/lampp/lampp start [serviço]</li>
+                <li><b>Status XAMPP</b>: sudo /opt/lampp/lampp status</li>
+                <li><b>Parar XAMPP</b>: sudo /opt/lampp/lampp stop</li>
+                <li><b>Control Plane</b>: sudo /opt/lampp/manager-linux-x64.run</li>
+                <li><b>Acessar Apache</b>: http://localhost <span class="text-muted">(Ou http://localhost:80) (Ou http://localhost:8080)</span></li>
+                <li><b>Acessar Phpmyadmin</b>: http://localhost/phpmyadmin <span class="text-muted">(Ou http://localhost:80/phpmyadmin) (Ou http://localhost:8080/phpmyadmin)</span></li>
+            </ul>
             
             <br><h4>Atalho/Lançador:</h4>
             <p id="textoPost">Criar arquivo de atalho 'sudo nano /usr/share/applications/xampp.desktop'</p>
             <ul>
                 <li class="text-muted">No editor, insira o seguinte conteúdo no arquivo:</li>
-<small><pre><code>
+<pre><code>
 [Desktop Entry]
 Name=XAMPP
 Comment=Run XAMPP Control Panel
@@ -74,8 +95,19 @@ Icon=/opt/lampp/htdocs/favicon.ico
 StartupNotify=true
 Categories=Development;
 Keywords=xampp;
-</code></pre></small>
+</code></pre>
                 <li class="text-muted">Utilize 'ctrl+x' para sair do editor nano, confirmando salvamento do arquivo</li>
+            </ul>
+
+            <br><h4>Criar pasta projetos no Apache:</h4>
+            <ul>
+                <li>Criar diretório 'projetos' dentro de 'htdocs'
+                    <ol>
+                        <li>sudo mkdir /opt/lampp/htdocs/projetos</li>
+                        <li>sudo chmod 777 /opt/lampp/htdocs/projetos</li>
+                    </ol>
+                </li>
+                <li>Acessar diretório: http://localhost/projetos <span class="text-muted">(Ou http://localhost:80/projetos) (Ou http://localhost:8080/projetos)</span></li>
             </ul>
 
             <br><h4>Habilitar login Phpmyadmin:</h4>
@@ -84,8 +116,8 @@ Keywords=xampp;
                 <li>Torne permissão para editar arquivo de configuração 'sudo chmod 777 /opt/lampp/phpmyadmin/config.inc.php'</li>
                 <li>Acesse arquivo de configuração 'sudo nano /opt/lampp/phpmyadmin/config.inc.php'
                     <ul>
-                        <li class="text-muted"><small>Nele, altere a linha <i>$cfg['Servers'][$i]['auth_type'] = 'config';</i> para <i>$cfg['Servers'][$i]['auth_type'] = 'cookie';</i></small></li>
-                        <li class="text-muted"><small>Use 'ctrl+x' para sair do editor nano, salvando o arquivo</small></li>
+                        <li class="text-muted">Nele, altere a linha <i>$cfg['Servers'][$i]['auth_type'] = 'config';</i> para <i>$cfg['Servers'][$i]['auth_type'] = 'cookie';</i></li>
+                        <li class="text-muted">Use 'ctrl+x' para sair do editor nano, salvando o arquivo</li>
                     </ul>
                 </li>
                 <li>Retome às permissões originais do arquivo de configuração 'sudo chmod 644 /opt/lampp/phpmyadmin/config.inc.php'</li>
@@ -95,6 +127,12 @@ Keywords=xampp;
             <br><h4>MySQL do XAMPP no Bash:</h4>
             <p id="textoPost">Caso você possua o XAMPP instalado em sua distro e deseja utilizar o MySQL do mesmo diretamente no Bash, basta iniciar os recursos XAMPP (sudo /opt/lampp/lampp start) e utilizar o seguinte comando para logar-se ao MySQL: '<i><span class="text-muted">/opt/lampp/bin/mysql -h localhost -u root -p</i></span>'.</p>
             <p id="textoPost">A flag 'h' indica o host, 'u' o user e 'p' a password. Para o caso, utilizou-se os valores padrões do MySQL XAMPP (Host localhost, User root e Password nenhum). Caso você os tenha modificado, precisará informar o respectivo valor após sua respectiva flag.</p>
+
+            <br><h4>Desinstalar XAMPP:</h4>
+            <ol>
+                <li><b>Desinstalar XAMPP</b>: sudo /opt/lampp/uninstall</li>
+                <li><b>Remover diretório</b>: sudo rm -r /opt/lampp</li>
+            </ol>
         </div>
     </div>
 
@@ -102,7 +140,7 @@ Keywords=xampp;
 <!--Rodapé-->
 <div class="row">
     <div class="col-sm-12 text-center bg-black text-light pt-4 pb-3">
-        <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+        <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</p>
     </div>
 </div>
 
