@@ -40,22 +40,67 @@
 
         <div class="col-sm-12">
             <h4>Ambiente e materiais</h4>
-            <a href="https://github.com/4linux/516" class="btn btn-link text-decoration-none" target="_blank">Github do projeto</a>
-            <a href="../anexos/auditLogs/Apostila Auditoria de Logs.pdf" class="btn btn-link text-decoration-none" target="_blank">Apostila</a>
+            <a href="https://github.com/ubsocial/auditoria-de-logs" class="btn btn-link text-decoration-none" target="_blank">Github do projeto</a>
             <ol>
                 <li>Instalar Virtualbox, com extension pack</li>
-                <li>Instalar Ansible: Orquestrador de máquinas/infraestrutura, controlando-as de forma geral, via código
-                    <ul class="text-muted">
-                        <li>sudo apt update && sudo apt install software-properties-common</li>
-                        <li>sudo apt install ansible</li>
-                    </ul>
-                </li>
-                <li>Instalar Git: <span class="text-muted">sudo apt install git</span> (Configurar user e email do git)</li>
+                <li>Instalar Ansible, Git e Vagrant: <pre><code>sudo apt update && sudo apt install software-properties-common ansible git vagrant</code></pre></li>
                 <li>Instalar Vagrant: Automação de VMs através de arquivos de código em repositório
                     <ul>
                         <li>Baixar .deb;</li>
                         <li>No diretório das VMs, usar comando 'vagrant status' para verificar VMs para uso;</li>
                         <li>Comando 'vagrant up' iniciará todas as VMs, 'vagrant halt' desligará VMs. Arquivo 'environment.yaml' possuirá detalhes das VMs. Usuário padrão do Vagrant é 'vagrant'.</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h4>Laboratório:</h4>
+            <p>Serão criadas 3 VMs CLI através do Vagrant:</p>
+            <table class="table table-responsive table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">vCPUs</th>
+                        <th scope="col">Memória RAM</th>
+                        <th scope="col">IP</th>
+                        <th scope="col">SO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">webserver-audit</th>
+                        <td>1</td>
+                        <td>2048MB</td>
+                        <td>172.16.0.11</td>
+                        <td>centos-7.3-x86_64</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">graylog-audit</th>
+                        <td>1</td>
+                        <td>2560MB</td>
+                        <td>172.16.0.12</td>
+                        <td>ubuntu-18.04-amd64</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">kibana-audit</th>
+                        <td>1</td>
+                        <td>2560MB</td>
+                        <td>172.16.0.13</td>
+                        <td>debian-10-amd64</td>
+                    </tr>
+                </tbody>
+            </table>
+            <ol>
+                <li>Baixe o repositório no link acima e o extraia</li>
+                <li>Acesse a pasta '516-master' e execute o comando: vagrant up</li>
+                <li>Alguns comandos Vagrant:
+                    <ul>
+                        <li>Subir ambiente: vagrant up</li>
+                        <li>Ver VMs: vagrant box list</li>
+                        <li>Ver ambiente geral: vagrant global-status</li>
+                        <li>Suspender VMs: vagrant suspend <span class="text-muted">('resume' para retomar)</span></li>
+                        <li>Reiniciar VM: vagrant reload nomeVM</li>
+                        <li>Desligar VMs: vagrant halt</li>
+                        <li>Acessar VM: vagrant ssh nomeVM <span class="text-muted">(Use ctrl+d para sair)</span></li>
                     </ul>
                 </li>
             </ol>
