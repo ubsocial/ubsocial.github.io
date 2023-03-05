@@ -47,7 +47,7 @@
 
     <div class="row">
         <div class="col-sm-12 text-center mb-4">
-            <h4><span class="badge rounded bg-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="1.7em" height="1.7em" fill="currentColor" class="bi bi-eyeglasses me-1" viewBox="0 0 16 16"><path d="M4 6a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm2.625.547a3 3 0 0 0-5.584.953H.5a.5.5 0 0 0 0 1h.541A3 3 0 0 0 7 8a1 1 0 0 1 2 0 3 3 0 0 0 5.959.5h.541a.5.5 0 0 0 0-1h-.541a3 3 0 0 0-5.584-.953A1.993 1.993 0 0 0 8 6c-.532 0-1.016.208-1.375.547zM14 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0z"/></svg><br>90 livros concluídos</span></h4>
+            <h4><span class="badge rounded bg-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="1.7em" height="1.7em" fill="currentColor" class="bi bi-eyeglasses me-1" viewBox="0 0 16 16"><path d="M4 6a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm2.625.547a3 3 0 0 0-5.584.953H.5a.5.5 0 0 0 0 1h.541A3 3 0 0 0 7 8a1 1 0 0 1 2 0 3 3 0 0 0 5.959.5h.541a.5.5 0 0 0 0-1h-.541a3 3 0 0 0-5.584-.953A1.993 1.993 0 0 0 8 6c-.532 0-1.016.208-1.375.547zM14 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0z"/></svg><br>91 livros concluídos</span></h4>
         </div>
     </div>
 
@@ -57,12 +57,12 @@
         <div class="col-sm-3">
             <div class="card shadow mb-4" id="contLivro">
                 <div class="card-body text-center">
-                    <img src="anexos/livros/imagens/o acordo.jpg" class="rounded" height="120px">
-                    <p class="mt-3"><b>O Acordo<br><span class="text-muted">Elle Kennedy</span></b></p>
+                    <img src="anexos/livros/imagens/luzes do leste.jpg" class="rounded" height="120px">
+                    <p class="mt-3"><b>Luzes do Leste<br><span class="text-muted">Brittainy Cherry</span></b></p>
                     <div class="progress">
                         <div class="progress-bar bg-secondary" role="progressbar" style="width: 100%;" aria-valuemin="0" aria-valuemax="100">Lendo atualmente</div>
                     </div>
-                    <div class="d-grid mt-2"><button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#OAcordo">Ver detalhes</button></div>
+                    <div class="d-grid mt-2"><button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#LuzesDoLeste">Ver detalhes</button></div>
                 </div>
             </div>
         </div>
@@ -562,6 +562,16 @@
                     <img src="anexos/livros/imagens/no seu olhar.jpg" class="rounded" height="120px">
                     <p class="mt-3"><b>No seu olhar<br><span class="text-muted">Nicholas Sparks</span></b></p>
                     <div class="d-grid mt-2"><button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#NoSeuOlhar">Ver detalhes</button></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-3">
+            <div class="card shadow mb-4" id="contLivro">
+                <div class="card-body text-center">
+                    <img src="anexos/livros/imagens/o acordo.jpg" class="rounded" height="120px">
+                    <p class="mt-3"><b>O Acordo<br><span class="text-muted">Elle Kennedy</span></b></p>
+                    <div class="d-grid mt-2"><button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#OAcordo">Ver detalhes</button></div>
                 </div>
             </div>
         </div>
@@ -2358,6 +2368,36 @@
     </div>
 </div>
 
+<div class="modal fade" id="LuzesDoLeste" tabindex="-1" aria-labelledby="LuzesDoLesteLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="LuzesDoLesteLabel">Luzes do Leste</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <img src="anexos/livros/imagens/luzes do leste.jpg" width="180px" class="img-fluid rounded mx-auto d-block">
+                <br>
+                <b>Sequência:</b> Vol 2 <span class="text-muted">(Trilogia Série Bússola)</span>
+                <br>
+                <b>Autora:</b> Brittainy Cherry
+                <br>
+                <b>Gêneros:</b> Romance
+                <br>
+                <b>Páginas:</b> 485
+                <br>
+                <b>Lançamento:</b> 18/07/2022
+                <br>
+                <b>Editora:</b> Record
+                <br><br>
+                <b>Sinopse:</b><br>
+                <p id="textoPost">É noite de Halloween em Nova York, e Chapeuzinho Vermelho, que acabou de descobrir que estava sendo traída pelo namorado, resolve curar as mágoas numa festa com uma amiga. Mas logo se vê sozinha naquele mar de gente e é resgatada pelo Capitão América. O cara tem talento para super-herói: parece se importar mais com os outros do que com ele mesmo e percebe que Chapeuzinho precisa de uma forcinha. Juntos, os dois vivem experiências inesquecíveis em vários pontos da cidade. Mas é em um terraço, sob as luzes do leste, que eles abrem o coração um para o outro - sem revelar seus nomes. Tudo o que Capitão sabe sobre Chapeuzinho é que ela foi abandonada pela mãe ainda bebê e que seu sonho é ter uma família e se tornar uma jornalista bem-sucedida. O que Chapeuzinho descobre sobre Capitão é que ele passou muitos anos acompanhando a mãe em consultas e tratamentos, até que um dia recebeu a notícia de que ela estava curada do câncer. Então jurou que ia trabalhar duro para vencer na vida e ajudar os menos favorecidos. Quando aquela noite mágica chega ao fim, os dois combinam de nunca mais voltar aos lugares aonde foram juntos, deixando que o universo os conecte de novo - se isso tiver de acontecer. Dois anos depois, Connor Roe deixou para trás a roupa de Capitão América e, aos 28 anos, é um dos homens mais ricos da cidade. Muito reservado, ele se recusa a dar entrevistas. Aaliyah Winters ainda tem sua fantasia de Chapeuzinho Vermelho, mas está focada na realidade. Ela é editora-assistente em uma grande revista e está de casamento marcado com Jason, um executivo bem-sucedido que acabou de ser transferido para a Califórnia. Para celebrar sua promoção, a empresa dá uma festa, na qual Aaliyah finalmente vai conhecer os colegas de trabalho do noivo. Ela só não imaginava que o sócio dele seria Connor Roe: o homem mais poderoso de Nova York e que tanto tocou seu coração naquela noite de Halloween.</p>
+                <div class="d-grid mt-3"><a href="anexos/livros/ebooks/luzes do leste.epub" class="btn btn-dark" target="_blank">Baixar ebook</a></div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="Livre" tabindex="-1" aria-labelledby="LivreLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
@@ -2747,7 +2787,7 @@
             <div class="modal-body">
                 <img src="anexos/livros/imagens/cinquenta tons mais escuros.jpg" width="180px" class="img-fluid rounded mx-auto d-block">
                 <br>
-                <b>Sequência:</b> Vol 2 <span class="text-muted">(Cinquenta Tons, 6 volumes)</span>
+                <b>Sequência:</b> Vol 2 <span class="text-muted">(Série Cinquenta Tons, 6 volumes)</span>
                 <br>
                 <b>Autora:</b> E L James
                 <br>
@@ -2778,7 +2818,7 @@
             <div class="modal-body">
                 <img src="anexos/livros/imagens/cinquenta tons de liberdade.jpg" width="180px" class="img-fluid rounded mx-auto d-block">
                 <br>
-                <b>Sequência:</b> Vol 3 <span class="text-muted">(Cinquenta Tons, 6 volumes)</span>
+                <b>Sequência:</b> Vol 3 <span class="text-muted">(Série Cinquenta Tons, 6 volumes)</span>
                 <br>
                 <b>Autora:</b> E L James
                 <br>
@@ -2809,7 +2849,7 @@
             <div class="modal-body">
                 <img src="anexos/livros/imagens/cinquenta tons de cinza.jpg" width="180px" class="img-fluid rounded mx-auto d-block">
                 <br>
-                <b>Sequência:</b> Vol 1 <span class="text-muted">(Cinquenta Tons, 6 volumes)</span>
+                <b>Sequência:</b> Vol 1 <span class="text-muted">(Série Cinquenta Tons, 6 volumes)</span>
                 <br>
                 <b>Autora:</b> E L James
                 <br>
