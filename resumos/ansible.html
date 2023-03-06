@@ -50,7 +50,7 @@
                     </ul>
                 </li>
                 <li>VSCode extensão oficial Ansible</li>
-                <li>Github dos materiais: <a href="" target="_blank" class="text-decoration-none">Acesse</a></li>
+                <li>Github dos materiais: <a href="https://github.com/mateusschwede/ansible" target="_blank" class="text-decoration-none">Acesse</a></li>
             </ul>
 
             <br><h4>Comandos</h4>
@@ -393,7 +393,7 @@ PORT={{ backend_bind_port }}
 </code></pre></small>
 
             <br><hr><h4>Laboratório prático</h4>
-            <p id="textoPost">Ambiente Vagrant composto por master node (Ubuntu - 'ansible') e 2 workers (Debian e CentOS - 'machine 1 e 2').</p>
+            <p id="textoPost">Ambiente Vagrant composto por master node (Ubuntu - 'ansible') e 2 workers (Debian e CentOS - 'machine01 e machine02').</p>
             <ol><b><u>Preparo</u></b>
                 <li>Instalar requisitos com 'sudo apt install virtualbox vagrant'</li>
                 <li>Baixe o arquivo 'Vagrantfile' do Github acima</li>
@@ -402,6 +402,7 @@ PORT={{ backend_bind_port }}
             <ol><b><u>Configuração</u></b>
                 <li>Acessar master node com 'vagrant ssh ansible'</li>
                 <li>Executar 'sudo apt update && sudo apt -y install wget curl ansible'</li>
+                <li>Se não existir, criar pasta '/etc/ansible', com os arquivos 'hosts', 'ansible.cfg' e pasta 'roles'</li>
                 <li>Configurar workers com 'sudo nano /etc/ansible/hosts', apagar todo conteúdo e informar:
 <small><pre><code>
 [all:vars]
@@ -417,14 +418,14 @@ machine02.ubsocial
 machine01.ubsocial
 machine02.ubsocial
 </code></pre></small></li>
-                <li>Em '/etc/ansible/ansible.cfg'
-                    <ul>
-                        <li>Descomentar linha '<i>host_key_checking = False</i>'</li>
-                        <li>Alterar linha 'private_key_file = /vagrant/key'</li>
-                    </ul>
-                </li>
+                <li>Em '/etc/ansible/ansible.cfg', informar:
+<small><pre><code>
+inventory = /etc/ansible/hosts
+host_key_checking = False <span class="text-muted">#Não recomendado para ambiente de produção</span>
+private_key_file = /vagrant/key
+</code></pre></small></li>
                 <li>Sair do arquivo e criar chave de autenticação com 'ssh-keygen -q -t rsa -f /vagrant/key -N '' '</li>
-                <li>Copiar conteúdo de 'vagrant/key.pub', acessar os Workers (vagrant ssh machine01...), usar 'nano .ssh/authorized_keys' e colar a chave na última linha</li>
+                <li>Copiar conteúdo de '/vagrant/key.pub', acessar os Workers (vagrant ssh machine01...), usar 'nano .ssh/authorized_keys' e colar a chave na última linha</li>
                 <li>Para verificar a conexão, usa-se no Master node 'ansible all -m ping'</li>
                 <!--Finalizar esse!-->
             </ol>
