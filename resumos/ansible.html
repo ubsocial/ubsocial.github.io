@@ -39,130 +39,61 @@
         </div>
 
         <div class="col-sm-12">
-            <p id="textoPost">Ferramenta Agentless com objetivo de automatizar a gestão (Instalações, configurações, provisionamento, etc) em diferentes SOs servidores simultaneamente (Linux, Windows, etc), proporcionando CD (Continuous Delivery), de forma simples, quando utilizado em ambientes de desenvolvimento. Entre vários nodes (Nós-Máquinas), tem-se o <i>Master node</i> (Controlador), onde o Ansible é usado, informando os demais nodes e respectivas credenciais/configurações. Para isso, recomenda-se SSH ativo nos demais nodes (<i>Workers</i> ou <i>Slaves</i> - Controlados). O Ansible possui vários Módulos, que exercem funções específicas, com todas informações a respeito encontradas na documentação oficial. Ansible Automation Controller, contendo o Ansible Tower, é a ferramenta oficial GUI do Ansible, recurso premium (AWX é a versão community).<br><u>Sintaxe</u>: 'ansible -m &lt;MODULO&gt; -a &lt;PARAMETROS&gt; &lt;HOSTS&gt;'.</p>
-
-            <br><h4>Instalação (Debian):</h4>
+            <p id="textoPost">Ferramenta Agentless para automatizar a gestão (Instalações, configurações, provisionamento, etc) de CD (Continuous Delivery) em diferentes SOs simultaneamente. Entre vários nodes (Nós-Máquinas), tem-se o <i>Master node</i> (Controlador), onde o Ansible é usado, informando os demais nodes e respectivas credenciais/configurações. Para isso, recomenda-se SSH ativo nos demais nodes (<i>Workers</i> ou <i>Slaves</i> - Controlados). O Ansible possui vários Módulos, que exercem funções específicas. Ansible Automation Controller, contendo o Ansible Tower, é a ferramenta oficial GUI do Ansible, recurso premium (AWX é a versão community).</p>
+            <p>Sintaxe: <span style="color: brown;">ansible -m &lt;MODULO&gt; -a &lt;PARAMETROS&gt; &lt;HOSTS&gt;</span></p>
             <ul>
-                <li>Pré-requisito: <span class="text-muted">sudo apt install python3-pip</span></li>
-                <li>
-                    Instalação: <span class="text-muted">pip3 install ansible</span>
-                    <ul>
-                        <li>Verificar: <span class="text-muted">ansible --version</span></li>
-                    </ul>
-                </li>
+                <li>Instalação: <span class="text-muted">sudo apt install ansible</span></li>
                 <li>Após instalado, gerará em '/etc/ansible':
                     <ul>
-                        <li>ansible.cfg: <span class="text-muted">Arquivo de configurações</span></li>
-                        <li>hosts: <span class="text-muted">Arquivo de inventário, onde serão declarados os nodes</span></li>
+                        <li>ansible.cfg: <span class="text-muted">Configurações</span></li>
+                        <li>hosts: <span class="text-muted">Inventário, onde serão declarados os nodes</span></li>
                         <li>roles: <span class="text-muted">Arquivo com configurações de tasks, templates, handlers e defaults (Variáveis padrão) pré-configuradas. Diretório composto dos diretórios citados e, dentro desses, arquivos .yml dos componentes</span></li>
                     </ul>
                 </li>
                 <li>VSCode extensão oficial Ansible</li>
-                <li>Github dos materiais: <a href="https://github.com/mateusschwede/ansible" target="_blank" class="text-decoration-none">Acesse</a></li>
+                <li>Github dos materiais: <a href="" target="_blank" class="text-decoration-none">Acesse</a></li>
             </ul>
 
-            <br><hr><h4>Lab 1 (Cloud):</h4>
-            <p id="textoPost">Máquinas em cloud, compostas por Master node (CentOS), e 2 Workers (Debian e Ubuntu Server).</p>
-
-            <br><b>Configuração</b>
-            <p id="textoPost">Na máquina local, acessar Master node via SSH (Supondo que há chave de autenticação cadastrada no Master node): '<i>ssh nomeUsuario@nomeMasterNode</i>'.</p>
-<small><pre><code>
-<b><u>Em 'hosts', informar</u>:</b>
-[distros]
-172.104.18.126 <span class="text-muted"># IP do Debian, Worker 1</span>
-172.104.18.156 <span class="text-muted"># IP do Ubuntu, Worker 2</span>
-
-[distros:vars]
-ansible_user=root <span class="text-muted"># User e Password dos Workers. O ideal é criar usuário específico para tal, e utilizar chave de autenticação ao invés de senha simples. Como fora dessa forma, deve-se autorizar no 'ansible.cfg'</span>
-ansible_password=123
-
-<b>Dicas</b>:
-servidor ansible_host=172.104.18.126 <span class="text-muted"># Criar variáveis</span>
-<span class="text-muted"># Criar sub-grupos:</span>
-[prod:children]
-distros
-debian
-
-<b><u>Em 'ansible.cfg', descomentar linha</u>:</b>
-host_key_checking = False
-
-<b><u>Testar conexão geral</u>:</b>
-ansible distros -m ping
-</code></pre></small>
-
-            <br><b>Dicas</b>
-            <p id="textoPost">Para executar comandos em diferentes distros, o ideal é criar grupos de distros similares (Ex: Distros Debian, Distros Arch), ou arquivos de inventário diferentes. Após, executar o comando específico (Ex: sudo apt update) e direcioná-lo para o grupo de distros alvo. Exemplo:</p>
-<small><pre><code>
-ansible -i nomeInventario -u user all -a "date" <span class="text-muted"># Executar o ansible em ad-hoc, ou seja, pontualmente</span>
-ansible distros -m ping
-ansible distros -m shell -a "sudo apt update"
-ansible distros -m shell -a "uptime"
-ansible distros -m apt -a "name=ncdu state=present update_cache=yes" --become <span class="text-muted"># Instalará o ncdu. O 'become' realizará o comando como sudo</span>
-ansible distros -m service -a "name=crond state=restarted enabled=yes" --become <span class="text-muted"># Reiniciará e habilitará o serviço 'crond'</span>
-</code></pre></small>
-
-            <br><h4>Lab 2 (Vagrant):</h4>
-            <p id="textoPost">Ambiente Vagrant composto por Master node (Ubuntu - 'ansible') e 2 Workers (Debian e CentOS - 'machine 1 e 2'). Esse caso requer o Vagrant instalado (sudo apt install virtualbox vagrant), baixar o arquivo 'Vagrantfile' do Github acima e, por fim, executá-lo com 'vagrant up'. Para verificar a infraestrutura criada (Detalhes, SOs, IPs, etc), use 'cat Vagrantfile'.</p>
-            
-            <br><b>Configuração</b>
-            <p id="textoPost">Acessar Master node com 'vagrant ssh ansible' e, dentro desta, executar 'sudo apt update && sudo apt -y install wget curl ansible'. Após isso, configurar Workers com 'sudo nano /etc/ansible/hosts' apagando todo o conteúdo do arquivo e informando:</p>
-<small><pre><code>
-[all:vars]
-ansible_python_interpreter=/usr/bin/python
-
-[debian]
-machine01.ubsocial
-
-[centos]
-machine02.ubsocial
-
-[linuxservers]
-machine01.ubsocial
-machine02.ubsocial
-</code></pre></small>
-            <p id="textoPost">Em '/etc/ansible/ansible.cfg', descomentar linha '<i>host_key_checking = False</i>' e alterar linha 'private_key_file = /vagrant/key'. Após isso, sair do arquivo e criar chave de autenticação com 'ssh-keygen -q -t rsa -f /vagrant/key -N '' '. Com isso, copiar o conteúdo de 'vagrant/key.pub', acessar os Workers (vagrant ssh machine01...), usar 'nano .ssh/authorized_keys' e colar a chave na última linha. Para verificar a conexão, usa-se no Master node 'ansible all -m ping'.</p>
-            <hr>
-
             <br><h4>Playbook</h4>
-            <p id="textoPost">Arquivo YAML (nomePlaybook.yml) com informações para a gestão automatizada do Ansible nos nodes. Após criado o arquivo, executa-se o comando 'ansible-playbook nomePlaybook.yml'. Ansible utiliza idempotência nos playbooks, com exceção dos commands. Pode-se colocar vários códigos de playbooks dentro de um mesmo arquivo de playbook (O exemplo abaixo possui somente 1 código).<br>Exemplo de sintaxe abaixo: Instalar, via módulo 'package' (Ver todos os módulos na documentação oficial), nginx nos workers (Após executado, pode-se testar com 'curl ipWorker' e mostrará o código nginx):</p>
+            <p id="textoPost">Arquivo YAML (nomePlaybook.yml) com informações para a gestão do Ansible nos nodes. Após criado o arquivo, executa-se o comando 'ansible-playbook nomePlaybook.yml'. Pode-se colocar vários códigos de playbooks dentro de um mesmo arquivo de playbook (O exemplo abaixo possui somente 1 código). O código abaixo instalará, via módulo 'package', o nginx nos workers (Após executado, pode-se testar com 'curl ipWorker'):</p>
 <small><pre><code>
 - name: Instalar o nginx
-  hosts: distros
-  become: yes
-  tasks:
-  - name: Instalar servidor web
-     package:
-      name: nginx
-      state: present <span class="text-muted"># present: Instalado, absent: Não deseja no servidor, latest: Instalar última versão</span>
+    hosts: distros
+    become: yes <span class="text-muted">#executar como sudo</span>
+    tasks:
+    - name: Instalar servidor web
+        package:
+        name: nginx
+        state: present <span class="text-muted">#present: Instalado, absent: Não deseja no servidor, latest: Instalar última versão</span>
 </code></pre></small>
 
             <br><p><b>Playbook para transferir arquivos:</b></p>
-            <p id="textoPost">Via módulo copy, copiar arquivo do Matser para Worker(s). Criar arquivo 'teste.txt' no Master node e, após isso, criar arquivo 'playbook1.yml', com o seguinte conteúdo abaixo. Após criado o arquivo, executá-lo com 'ansible playbook playbook1.yml'. Pode-se conferir se o arquivo encontra-se nos Workers com 'ansible all -m shell -a "cat /etc/teste.txt" '.</p>
+            <p id="textoPost">Via módulo copy, copiar arquivo do Master para Worker(s). Criar arquivo 'teste.txt' no Master node e, após isso, criar arquivo 'playbook1.yml', com o seguinte conteúdo abaixo. Após criado o arquivo, executá-lo com 'ansible playbook playbook1.yml'. Pode-se conferir se o arquivo encontra-se nos Workers com 'ansible all -m shell -a "cat /etc/teste.txt" '.</p>
 <small><pre><code>
 - name: Playbook de transferir arquivos
-  hosts: all
-  tasks:
-  - name: Atualizar arquivo 'teste.txt'
-    become: true
-    copy:
-      src: teste.txt
-      dest: /etc/teste.txt
+hosts: all
+tasks:
+- name: Atualizar arquivo 'teste.txt'
+become: true
+copy:
+src: teste.txt
+dest: /etc/teste.txt
 </code></pre></small>
 
             <br><b>Playbook para criar usuários:</b>
             <p id="textoPost">Via módulo user. Criar arquivo playbook2.yml, com o seguinte conteúdo abaixo. Após criado o arquivo, executá-lo com 'ansible playbook playbook2.yml'. Pode-se verificar se o usuário fora criado com 'ansible all -m shell -a "getent passwd ubsocial" '.</p>
 <small><pre><code>
 - name: Playbook para criação de usuários
-  hosts: all
-  vars:
-    - server_name: servidor01
-    - user_name: ubsocial
-    - conf_file: /opt/app/app.conf
-  tasks:
-    - name: Criando o usuário
-      become: true
-      user:
-        name: {{ user_name }}
+hosts: all
+vars:
+- server_name: servidor01
+- user_name: ubsocial
+- conf_file: /opt/app/app.conf
+tasks:
+- name: Criando o usuário
+become: true
+user:
+name: {{ user_name }}
 </code></pre></small>
 
             <br><b>Playbook com variáveis externas:</b>
@@ -174,280 +105,17 @@ username: ubsocial
 
 <b><u>playbook2b.yml</u>:</b>
 - name: Playbook 2 para criação de usuários
-  hosts: all
-  vars_files:
-    - config.yml
-  tasks:
-    - name: Criando o usuário
-      become: true
-      user:
-        name: {{ username }}
+hosts: all
+vars_files:
+- config.yml
+tasks:
+- name: Criando o usuário
+become: true
+user:
+name: {{ username }}
 </code></pre></small>
 
-            <br><h4>Facts</h4>
-            <p id="textoPost">Informações coletadas pelo Ansible quando executado em Workers. Com isso, pode-se refinar comandos (Ex: Verificar se o Worker é Ubuntu e, se sim, execute o 'apt update').</p>
-<small><pre><code>
-ansible debian -m setup <span class="text-muted"># Mostrará informações de todas máquinas do grupo</span>
-ansible debian -m setup -a "filter=ansible_distribution" <span class="text-muted"># Com filtragem de informações</span>
-</code></pre></small>
-
-            <br><h4>Templates</h4>
-            <ul>
-              <li><b>Job template</b>: Conjunto definido pelo arquivo de inventário, projeto de aplicação e plybook relacionada;</li>
-              <li><b>Workflow template</b>: Agrupamento de job templates, organizados de forma ordenada, possibilitando, com isso, execução de vários templates, ordenadamente, via único workflow template.</li>
-            </ul>
-
-            <br><h4>Loops</h4>
-            <p id="textoPost">Utilizar loops em playbooks para repetição de tasks (Playbook 3b). Após criado o arquivo, executá-lo com 'ansible-playbook playbook3.yml'. Pode-se verificar a instalação dos pacotes no CentOS com 'ansible centos -m shell -a "rpm -qa | egrep 'wget|vim|tree'" '. No Debian, pode-se verificar com 'ansible debian -m shell -a "dpkg -l | egrep 'wget|git|figlet'" '.</p>
-<small><pre><code>
-<b><u>playbook3.yml</u>:</b>
-- name: Instalando lista de pacotes para CentOS
-  hosts: centos
-  vars:
-    - packages:
-        - wget
-        - vim
-        - tree
-  tasks:
-    - name: Instalando pacotes
-      become: true
-      yum:
-        name: "{{ packages }}"
-
-<b><u>playbook3b.yml</u>:</b>
-- name: Instalando lista de pacotes para Debian
-  hosts: debian
-  tasks:
-    - name: Instalando pacotes Debian
-      become: true
-      apt:
-        name: "{{ item }}"
-      loop:
-        - wget
-        - git
-        - figlet
-</code></pre></small>
-
-            <br><h4>Condicionais (when)</h4>
-            <p id="textoPost">Pode-se utilizar condicionais 'when' para aplicar filtros em playbooks, conforme abaixo.</p>
-<small><pre><code>
-- name: Instalando lista de pacotes
-  hosts: all
-  tasks:
-    - name: Instalando pacotes
-      become: true
-      apt:
-        name: "{{ item }}"
-      loop:
-        - wget
-        - git
-        - figlet
-      when: ansible_distribution == "Debian"
-</code></pre></small>
-
-          <br><hr><h4>Exemplos de Playbooks</h4>
-<small><pre><code>
-<b><u>frontend.yml</u>:</b>
----
-- name: Implantar frontend
-  hosts: frontend
-  become: yes
-  vars:
-    frontend_deploy_dest: /srv/frontend/
-  tasks:
-  - name: Instalar servidor web Nginx
-    package:
-      name: nginx
-      state: present
-  - name: Copiar os artefatos de frontend
-    copy:
-      src: app-src/public/
-      dest: "{{ frontend_deploy_dest }}"
-      setype: httpd_sys_content_t
-    notify:
-    - Reiniciar o serviço do Nginx
-  - name: Serviço do Nginx deve estar habilitado
-    service:
-      name: nginx
-      enabled: yes
-      state: started
-  - name: Configura o Nginx para o frontend
-    template: <span class="text-muted"># Pegar arquivo de template e enviá-lo ao destino</span>
-      src: nginx.conf.j2
-      dest: /etc/nginx/nginx.conf
-      owner: root
-      group: root
-    notify:
-    - Reiniciar o serviço do Nginx
-  handlers:
-  - name: Reiniciar o serviço do Nginx <span class="text-muted"># O name do handlers precisa ser idêntico ao notify</span>
-    service:
-      name: nginx
-      state: restarted
-
-<b><u>backend.yml</u>:</b>
----
-- name: Implantar backend
-  hosts: backend
-  become: yes
-  roles: <span class="text-muted"># Importar roles abaixo</span>
-  - backend
-
-<b><u>Exemplo de conteúdo em 'roles'</u>:</b>
-<b>roles/backend/defaults/main.yml:</b>
----
-backend_deno_version: v1.2.0
-backend_required_packages:
-- unzip
-backend_deploy_dest: /srv/backend
-backend_src_path: app-src/api/
-backend_entrypoint: app.ts
-backend_runtime_args: --allow-read --allow-net
-backend_bind_address: 0.0.0.0
-backend_bind_port: 8080
-
-<b>roles/backend/handlers/main.yml:</b>
----
-- name: Reiniciar serviço de backend
-  systemd:
-    name: deno-backend.service
-    state: restarted
-    daemon_reload: yes
-
-<b>roles/backend/tasks/main.yml:</b>
----
-- name: Instalando dependências (pacotes)
-  package:
-    name: "{{ backend_required_packages }}"
-    state: present
-- name: Instalando ambiente de execução Deno (binário)
-  unarchive:
-    src: "https://github.com/denoland/deno/releases/download/{{ backend_deno_version }}/deno-x86_64-unknown-linux-gnu.zip"
-    dest: /usr/local/bin
-    remote_src: yes
-  notify:
-  - Reiniciar serviço de backend
-- name: Copiar artefatos de backend para diretório de final
-  copy:
-    src: "{{ backend_src_path }}"
-    dest: "{{ backend_deploy_dest }}"
-  notify:
-  - Reiniciar serviço de backend
-- name: Configurar backend para ambiente produtivo
-  template:
-    src: env.j2
-    dest: "{{ backend_deploy_dest }}/.env"
-  notify:
-  - Reiniciar serviço de backend
-- name: Configurar systemd como supervisor do backend
-  template:
-    src: systemd-unit.j2
-    dest: /etc/systemd/system/deno-backend.service
-    owner: root
-    group: root
-  notify:
-  - Reiniciar serviço de backend
-- name: Serviço precisa estar ativo e inicializado
-  systemd:
-    name: deno-backend.service
-    enabled: yes
-    daemon_reload: yes
-
-<b>roles/backend/templates/systemd-unit.js:</b>
-# {{ ansible_managed }}
-
-[Unit]
-Description=Deno Backend Service
-
-[Service]
-WorkingDirectory={{ backend_deploy_dest }}
-ExecStart=/usr/local/bin/deno run {{ backend_runtime_args }} {{ backend_entrypoint }}
-Restart=always
-
-[Install]
-WantedBy=multi-user.target
-
-<b>roles/backend/templates/env.j2:</b>
-# {{ ansible_managed }}
-
-HOST={{ backend_bind_address }}
-PORT={{ backend_bind_port }}
-
-
-<b><u>playbook_remove.yml</u>:</b>
----
-- name: Remover componentes
-  hosts: all
-  become: yes
-  gather_facts: no
-  tasks:
-  - name: Parar os serviços
-    service:
-      name: "{{ item }}"
-      state: stopped
-      enabled: no
-    loop:
-    - deno-backend
-    - nginx
-    ignore_errors: yes
-  - name: Remover dependências (pacotes)
-    package:
-      name:
-      - nginx
-      - unzip
-      state: absent
-  - name: Remover dependências (binarios)
-    file: <span class="text-muted"># Forma para remover arquivo</span>
-      path: /usr/local/bin/deno
-      state: absent
-  - name: Remove vestígios do Nginx
-    file:
-      path: /etc/nginx
-      state: absent
-  - name: Remover configuração systemd
-    file:
-      path: /etc/systemd/system/deno-backend.service
-      state: absent
-  - name: Remover diretórios de implantação
-    file:
-      path: "{{ item }}"
-      state: absent
-    loop:
-    - /srv/frontend
-    - /srv/backend
-
-<b><u>playbook_validate.yml</u>:</b>
----
-- name: Verifica componente frontend
-  hosts: frontend
-  gather_facts: no
-  vars:
-    frontend_bind_port: 80
-  tasks:
-  - name: Executando requisição HTTP
-    uri: <span class="text-muted"># Verificar se frontend subiu, e retornar o h1 em caso de falha</span>
-      url: "http://{{ ansible_host }}:{{ frontend_bind_port }}"
-      return_content: yes
-    register: response
-    failed_when: "'&lt;h1&gt;Youtube Chapter Extractor&lt;/h1&gt;' not in response.content"
-    retries: 3
-    delay: 3
-    until: response.status == 200
-
-- name: Verifica componente backend
-  hosts: backend
-  vars:
-    backend_bind_port: 8080
-  gather_facts: no
-  tasks:
-  - name: Executando requisição HTTP
-    uri:
-      url: "http://{{ ansible_host }}:{{ backend_bind_port }}/api/v1/video-chapters/notreal"
-    register: response
-    retries: 3
-    delay: 3
-    until: response.status == 200
-</code></pre></small>
+            <!--Facts aqui-->
         </div>
     </div>
 
