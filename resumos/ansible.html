@@ -39,8 +39,7 @@
         </div>
 
         <div class="col-sm-12">
-            <p id="textoPost">Ferramenta Agentless para automatizar a gestão (Instalações, configurações, provisionamento, etc) de CD (Continuous Delivery) em diferentes SOs simultaneamente. Entre vários nodes (Nós-Máquinas), tem-se o <i>Master node</i> (Controlador), onde o Ansible é usado, informando os demais nodes e respectivas credenciais/configurações. Para isso, recomenda-se SSH ativo nos demais nodes (<i>Workers</i> ou <i>Slaves</i> - Controlados). O Ansible possui vários Módulos, que exercem funções específicas. Ansible Automation Controller, contendo o Ansible Tower, é a ferramenta oficial GUI do Ansible, recurso premium (AWX é a versão community).</p>
-            <p>Sintaxe: <span style="color: brown;">ansible -m &lt;MODULO&gt; -a &lt;PARAMETROS&gt; &lt;HOSTS&gt;</span></p>
+            <p id="textoPost">Ferramenta Agentless para automatizar a gestão (Instalações, configurações, provisionamento, etc) de CD (Continuous Delivery) em diferentes SOs simultaneamente. Entre vários nodes (Nós-Máquinas), tem-se o <i>master node</i> (Controlador), onde o Ansible é usado, informando os demais nodes e respectivas credenciais/configurações. Para isso, recomenda-se SSH ativo nos demais nodes (<i>workers</i> ou <i>Slaves</i> - Controlados). O Ansible possui vários Módulos, que exercem funções específicas. Ansible Automation Controller, contendo o Ansible Tower, é a ferramenta oficial GUI do Ansible, recurso premium (AWX é a versão community).</p>
             <ul>
                 <li>Instalação: <span class="text-muted">sudo apt install ansible</span></li>
                 <li>Após instalado, gerará em '/etc/ansible':
@@ -52,6 +51,19 @@
                 </li>
                 <li>VSCode extensão oficial Ansible</li>
                 <li>Github dos materiais: <a href="" target="_blank" class="text-decoration-none">Acesse</a></li>
+            </ul>
+
+            <br><h4>Comandos</h4>
+            <ul>
+                <b>Sintaxes</b>
+                <li>Executar módulo em um host: <span class="text-muted">ansible -m [module] -a [argumentos] [host]</span></li>
+                <li>Executar playbook: <span class="text-muted">ansible-playbook -i [inventory_file] [playbook_file]</span></li>
+                <li>Listar hosts em determinado inventário: <span class="text-muted">ansible-inventory -i [inventory_file] --list</span></li>
+                <br><b>Exemplos</b>
+                <li>Executar tarefas em host específico: <span class="text-muted">ansible-playbook -i ansible-inventory -l hostname -vvv ansible-playbook.yml</span></li>
+                <li>Executar tarefas em playbook com tag específica: <span class="text-muted">ansible-playbook -i ansible-inventory -l hostname -vvv –tags=”tag_name” ansible-playbook.yml</span></li>
+                <li>Pular tarefas em playbook com tag específica: <span class="text-muted">ansible-playbook -i ansible-inventory -l hostname -vvv –skip-tags=”tag_name” ansible-playbook.yml</span></li>
+                <li>Executar tarefas em playbook a partir de tarefa específica: <span class="text-muted">ansible-playbook -i ansible-inventory -l hostname -vvv –start-at-task=”task_name” ansible-playbook.yml</span></li>
             </ul>
 
             <br><h4>Playbook</h4>
@@ -68,7 +80,7 @@
 </code></pre></small>
 
             <br><p><b>Playbook para transferir arquivos:</b></p>
-            <p id="textoPost">Via módulo copy, copiar arquivo do Master para Worker(s). Criar arquivo 'teste.txt' no Master node e, após isso, criar arquivo 'playbook1.yml', com o seguinte conteúdo abaixo. Após criado o arquivo, executá-lo com 'ansible playbook playbook1.yml'. Pode-se conferir se o arquivo encontra-se nos Workers com 'ansible all -m shell -a "cat /etc/teste.txt" '.</p>
+            <p id="textoPost">Via módulo copy, copiar arquivo do master para Worker(s). Criar arquivo 'teste.txt' no master node e, após isso, criar arquivo 'playbook1.yml', com o seguinte conteúdo abaixo. Após criado o arquivo, executá-lo com 'ansible playbook playbook1.yml'. Pode-se conferir se o arquivo encontra-se nos workers com 'ansible all -m shell -a "cat /etc/teste.txt" '.</p>
 <small><pre><code>
 - name: Playbook de transferir arquivos
 hosts: all
@@ -115,7 +127,307 @@ user:
 name: {{ username }}
 </code></pre></small>
 
-            <!--Facts aqui-->
+            <br><h4>Facts</h4>
+            <p id="textoPost">Informações coletadas pelo Ansible quando executado em workers. Com isso, pode-se refinar comandos (Ex: Verificar se o worker é Ubuntu e, se sim, execute o 'apt update').</p>
+<small><pre><code>
+ansible debian -m setup <span class="text-muted">#Mostrará informações dos hosts do grupo</span>
+ansible debian -m setup -a "filter=ansible_distribution" <span class="text-muted">#Com filtragem de informações</span>
+</code></pre></small>
+
+            <br><h4>Templates</h4>
+            <ul>
+                <li><b>Job template</b>: Conjunto definido pelo arquivo de inventário, projeto de aplicação e playbook relacionada;</li>
+                <li><b>Workflow template</b>: Agrupamento de job templates, organizados de forma ordenada, possibilitando, com isso, execução de vários templates, ordenadamente, via único workflow template.</li>
+            </ul>
+
+            <br><h4>Loops</h4>
+            <p id="textoPost">Utilizar loops em playbooks para repetição de tasks (Playbook 3b abaixo). Após criado o arquivo, executá-lo com 'ansible-playbook playbook3.yml'. Pode-se verificar a instalação dos pacotes no CentOS com 'ansible centos -m shell -a "rpm -qa | egrep 'wget|vim|tree'" '. No Debian, pode-se verificar com 'ansible debian -m shell -a "dpkg -l | egrep 'wget|git|figlet'" '.</p>
+<small><pre><code>
+<b><u>playbook3.yml</u>:</b>
+- name: Instalar pacotes no CentOS
+  hosts: centos
+  vars:
+    - packages:
+        - wget
+        - vim
+        - tree
+  tasks:
+    - name: Instalar pacotes
+      become: true
+      yum:
+        name: "{{ packages }}"
+
+<b><u>playbook3b.yml</u>:</b>
+- name: Instalar pacotes no Debian
+  hosts: debian
+  tasks:
+    - name: Instalar pacotes Debian
+      become: true
+      apt:
+        name: "{{ item }}"
+      loop:
+        - wget
+        - git
+        - figlet
+</code></pre></small>
+
+            <br><h4>Condicionais (when)</h4>
+            <p id="textoPost">Pode-se utilizar condicionais 'when' para aplicar filtros em playbooks, conforme abaixo.</p>
+<small><pre><code>
+- name: Instalar pacotes
+  hosts: all
+  tasks:
+    - name: Instalar pacotes
+      become: true
+      apt:
+        name: "{{ item }}"
+      loop:
+        - wget
+        - git
+        - figlet
+      when: ansible_distribution == "Debian"
+</code></pre></small>
+
+            <br><hr><h4>Exemplos de playbooks</h4>
+<small><pre><code>
+<b><u>frontend.yml</u>:</b>
+---
+- name: Implantar frontend
+  hosts: frontend
+  become: yes
+  vars:
+    frontend_deploy_dest: /srv/frontend/
+  tasks:
+  - name: Instalar servidor web Nginx
+    package:
+      name: nginx
+      state: present
+  - name: Copiar os artefatos de frontend
+    copy:
+      src: app-src/public/
+      dest: "{{ frontend_deploy_dest }}"
+      setype: httpd_sys_content_t
+    notify:
+    - Reiniciar o serviço do Nginx
+  - name: Serviço do Nginx deve estar habilitado
+    service:
+      name: nginx
+      enabled: yes
+      state: started
+  - name: Configura o Nginx para o frontend
+    template: <span class="text-muted">#Pegar arquivo de template e enviá-lo ao destino</span>
+      src: nginx.conf.j2
+      dest: /etc/nginx/nginx.conf
+      owner: root
+      group: root
+    notify:
+    - Reiniciar o serviço do Nginx
+  handlers:
+  - name: Reiniciar o serviço do Nginx <span class="text-muted">#O name do handlers precisa ser idêntico ao notify</span>
+    service:
+      name: nginx
+      state: restarted
+
+<b><u>backend.yml</u>:</b>
+---
+- name: Implantar backend
+  hosts: backend
+  become: yes
+  roles: <span class="text-muted">#Importar roles abaixo</span>
+  - backend
+
+<b><u>Exemplo de conteúdo em 'roles'</u>:</b>
+<b>roles/backend/defaults/main.yml:</b>
+---
+backend_deno_version: v1.2.0
+backend_required_packages:
+- unzip
+backend_deploy_dest: /srv/backend
+backend_src_path: app-src/api/
+backend_entrypoint: app.ts
+backend_runtime_args: --allow-read --allow-net
+backend_bind_address: 0.0.0.0
+backend_bind_port: 8080
+
+<b>roles/backend/handlers/main.yml:</b>
+---
+- name: Reiniciar serviço de backend
+  systemd:
+    name: deno-backend.service
+    state: restarted
+    daemon_reload: yes
+
+<b>roles/backend/tasks/main.yml:</b>
+---
+- name: Instalando dependências (pacotes)
+  package:
+    name: "{{ backend_required_packages }}"
+    state: present
+- name: Instalando ambiente de execução Deno (binário)
+  unarchive:
+    src: "https://github.com/denoland/deno/releases/download/{{ backend_deno_version }}/deno-x86_64-unknown-linux-gnu.zip"
+    dest: /usr/local/bin
+    remote_src: yes
+  notify:
+  - Reiniciar serviço de backend
+- name: Copiar artefatos de backend para diretório de final
+  copy:
+    src: "{{ backend_src_path }}"
+    dest: "{{ backend_deploy_dest }}"
+  notify:
+  - Reiniciar serviço de backend
+- name: Configurar backend para ambiente produtivo
+  template:
+    src: env.j2
+    dest: "{{ backend_deploy_dest }}/.env"
+  notify:
+  - Reiniciar serviço de backend
+- name: Configurar systemd como supervisor do backend
+  template:
+    src: systemd-unit.j2
+    dest: /etc/systemd/system/deno-backend.service
+    owner: root
+    group: root
+  notify:
+  - Reiniciar serviço de backend
+- name: Serviço precisa estar ativo e inicializado
+  systemd:
+    name: deno-backend.service
+    enabled: yes
+    daemon_reload: yes
+
+<b>roles/backend/templates/systemd-unit.js:</b>
+# {{ ansible_managed }}
+
+[Unit]
+Description=Deno Backend Service
+
+[Service]
+WorkingDirectory={{ backend_deploy_dest }}
+ExecStart=/usr/local/bin/deno run {{ backend_runtime_args }} {{ backend_entrypoint }}
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+<b>roles/backend/templates/env.j2:</b>
+# {{ ansible_managed }}
+
+HOST={{ backend_bind_address }}
+PORT={{ backend_bind_port }}
+
+
+<b><u>playbook_remove.yml</u>:</b>
+---
+- name: Remover componentes
+  hosts: all
+  become: yes
+  gather_facts: no
+  tasks:
+  - name: Parar os serviços
+    service:
+      name: "{{ item }}"
+      state: stopped
+      enabled: no
+    loop:
+    - deno-backend
+    - nginx
+    ignore_errors: yes
+  - name: Remover dependências (pacotes)
+    package:
+      name:
+      - nginx
+      - unzip
+      state: absent
+  - name: Remover dependências (binarios)
+    file: <span class="text-muted">#Forma para remover arquivo</span>
+      path: /usr/local/bin/deno
+      state: absent
+  - name: Remove vestígios do Nginx
+    file:
+      path: /etc/nginx
+      state: absent
+  - name: Remover configuração systemd
+    file:
+      path: /etc/systemd/system/deno-backend.service
+      state: absent
+  - name: Remover diretórios de implantação
+    file:
+      path: "{{ item }}"
+      state: absent
+    loop:
+    - /srv/frontend
+    - /srv/backend
+
+<b><u>playbook_validate.yml</u>:</b>
+---
+- name: Verifica componente frontend
+  hosts: frontend
+  gather_facts: no
+  vars:
+    frontend_bind_port: 80
+  tasks:
+  - name: Executando requisição HTTP
+    uri: <span class="text-muted">#Verificar se frontend subiu, e retornar o h1 em caso de falha</span>
+      url: "http://{{ ansible_host }}:{{ frontend_bind_port }}"
+      return_content: yes
+    register: response
+    failed_when: "'&lt;h1&gt;Youtube Chapter Extractor&lt;/h1&gt;' not in response.content"
+    retries: 3
+    delay: 3
+    until: response.status == 200
+
+- name: Verifica componente backend
+  hosts: backend
+  vars:
+    backend_bind_port: 8080
+  gather_facts: no
+  tasks:
+  - name: Executando requisição HTTP
+    uri:
+      url: "http://{{ ansible_host }}:{{ backend_bind_port }}/api/v1/video-chapters/notreal"
+    register: response
+    retries: 3
+    delay: 3
+    until: response.status == 200
+</code></pre></small>
+
+            <br><hr><h4>Laboratório prático</h4>
+            <p id="textoPost">Ambiente Vagrant composto por master node (Ubuntu - 'ansible') e 2 workers (Debian e CentOS - 'machine 1 e 2').</p>
+            <ol><b><u>Preparo</u></b>
+                <li>Instalar requisitos com 'sudo apt install virtualbox vagrant'</li>
+                <li>Baixe o arquivo 'Vagrantfile' do Github acima</li>
+                <li>Executá-lo com 'vagrant up'</li>
+            </ol>
+            <ol><b><u>Configuração</u></b>
+                <li>Acessar master node com 'vagrant ssh ansible'</li>
+                <li>Executar 'sudo apt update && sudo apt -y install wget curl ansible'</li>
+                <li>Configurar workers com 'sudo nano /etc/ansible/hosts', apagar todo conteúdo e informar:
+<small><pre><code>
+[all:vars]
+ansible_python_interpreter=/usr/bin/python
+
+[debian]
+machine01.ubsocial
+
+[centos]
+machine02.ubsocial
+
+[linuxservers]
+machine01.ubsocial
+machine02.ubsocial
+</code></pre></small></li>
+                <li>Em '/etc/ansible/ansible.cfg'
+                    <ul>
+                        <li>Descomentar linha '<i>host_key_checking = False</i>'</li>
+                        <li>Alterar linha 'private_key_file = /vagrant/key'</li>
+                    </ul>
+                </li>
+                <li>Sair do arquivo e criar chave de autenticação com 'ssh-keygen -q -t rsa -f /vagrant/key -N '' '</li>
+                <li>Copiar conteúdo de 'vagrant/key.pub', acessar os Workers (vagrant ssh machine01...), usar 'nano .ssh/authorized_keys' e colar a chave na última linha</li>
+                <li>Para verificar a conexão, usa-se no Master node 'ansible all -m ping'</li>
+                <!--Finalizar esse!-->
+            </ol>
         </div>
     </div>
 
