@@ -418,16 +418,18 @@ machine02.ubsocial
 machine01.ubsocial
 machine02.ubsocial
 </code></pre></small></li>
-                <li>Em '/etc/ansible/ansible.cfg', informar:
-<small><pre><code>
-inventory = /etc/ansible/hosts
-host_key_checking = False <span class="text-muted">#Não recomendado para ambiente de produção</span>
-private_key_file = /vagrant/key
-</code></pre></small></li>
+                <li>Em 'sudo nano /etc/ansible/ansible.cfg':
+                  <ul>
+                    <li>Descomentar linha 'host_key_checking = False'</li>
+                    <li>Alterar linha 'private_key_file = /vagrant/key'</li>
+                  </ul>
+                </li>
                 <li>Sair do arquivo e criar chave de autenticação com 'ssh-keygen -q -t rsa -f /vagrant/key -N '' '</li>
-                <li>Copiar conteúdo de '/vagrant/key.pub', acessar os Workers (vagrant ssh machine01...), usar 'nano .ssh/authorized_keys' e colar a chave na última linha</li>
-                <li>Para verificar a conexão, usa-se no Master node 'ansible all -m ping'</li>
-                <!--Finalizar esse!-->
+                <li>Copiar conteúdo de 'cat /vagrant/key.pub', acessar os Workers (vagrant ssh machine01...), usar 'nano .ssh/authorized_keys' e colar a chave na última linha</li>
+                <li>Verificar conexão no master node com 'ansible all -m ping'</li>
+                <!--Finalizar:
+                  https://www.youtube.com/watch?v=GfOj2wgxyF4&t=543s (9min, configurar ambiente com o Vagrant)
+                -->
             </ol>
         </div>
     </div>
