@@ -39,8 +39,14 @@
         </div>
 
         <div class="col-sm-12">
-            <p id="textoPost">Também chamado de <i>Google Dorking</i> ou <i>GH</i>, é uma técnica de Information Gathering, realizada através do buscador Google, que utiliza caracteres coringa (<b>dorks</b>) para pesquisa avançada e específica. Dork é o conjunto de caracteres em expressão para busca avançada.</p>
-            <p>O Google é o maior buscador (search engine) da internet, onde a indexação de sites é realizada através de algoritmos denominados <b>crawlers</b>, que percorrem as páginas web através dos links presentes nas mesmas, guardando as páginas na base de dados do buscador, através da referência do link ou até mesmo salvando cópia da página em cache do buscador.</p>
+            <p id="textoPost">Também chamado de <i>Google Dorking</i> ou <i>GH</i>, é uma técnica de Information Gathering, realizada através do buscador Google, que utiliza parâmetros/caracteres coringa (<b>dorks</b>) para pesquisa avançada e específica. Dork é o conjunto de caracteres em expressão para busca avançada.</p>
+            <p>O Google é o maior buscador (search engine) da internet, onde a indexação de sites é realizada através de algoritmos denominados <b>crawlers</b> (rastreadores- Googlebot), que percorrem as páginas web através da identificação dos links presentes nas mesmas, guardando as páginas no BD do buscador, através da referência do link ou, até mesmo, salvando cópia da página na cache do buscador. Um search engine funciona da seguinte maneira:</p>
+            <ol>
+                <li>Descoberta de URLs: Via menu de links, categorias, sitemap;</li>
+                <li>Crawling: Acesso a página web, execução de js;</li>
+                <li>Indexação: Análise de tags html, idioma, país, outras informações relevantes;</li>
+                <li>Entrega de resultados: Com base na relevância.</li>
+            </ol>
             <p>Existem inúmeros mecanismos de pesquisa avançada no Google. Google Trends, Alerts, filtros de busca por sites/arquivos, imagens, vídeos, livros, etc. Pode-se pesquisar através de imagens (reverse search - busca reversa), usando o mecanismo de ML denominado 'Leans'.</p>
             <ul>
                 <li>Google Advanced Search: <a class="text-decoration-none" href="https://www.google.com.br/advanced_search" target="_blank">Acesse</a></li>
@@ -48,17 +54,17 @@
                 <li>Google Advanced Video: <a class="text-decoration-none" href="https://www.google.com.br/advanced_video_search" target="_blank">Acesse</a></li>
                 <li>Google Advanced Book: <a class="text-decoration-none" href="https://books.google.com.br/advanced_book_search" target="_blank">Acesse</a></li>
             </ul>
-            <p>Como muitos sites o Google salva uma cópia em <b>cache</b>, é possível até mesmo recuperar conteúdo de sites que foram apagados. Para isso, basta, nos resultados da pesquisa, clicar nos 3 pontos ao lado do título do resultado da pesquisa específico, e clicar na opção 'Em cache', que mostrará o conteúdo salvo na cache do Google. Governos, como na China, geralmente utilizam GH para realizar monitoramento ativo da sociedade.</p>
+            <p>Como muitos sites o Google salva uma cópia em <b>cache</b>, é possível até mesmo recuperar conteúdo de sites que foram apagados. Para isso, basta, nos resultados da pesquisa, clicar nos 3 pontos ao lado do título do resultado da pesquisa específico, e clicar na opção 'Em cache', que mostrará o conteúdo salvo na cache do Google. Governos, como na China, geralmente utilizam GH para realizar monitoramento ativo da sociedade. São inúmeras as possibilidades de uso de Google Hacking, como obter senhas e informações salvas em arquivos txt, documentos, como contratos confidenciais em pdf, páginas de sites vulneráveis, painéis de admin (Sistemas, roteadores, câmeras, webcams abertas...), informações pessoas, etc.</p>
             <br><h4>Operadores:</h4>
             <ul>
-                <li><b>site</b>: Busca um site específico (<i>site:wikipedia.org</i>)</li>
+                <li><b>site</b>: Busca um site específico (<i>site:wikipedia.org</i>, <i>site:.gov.br</i>)</li>
                 <li><b>related</b>: Busca sites relacionados (<i>related:wikipedia.org</i>)</li>
                 <li><b>around</b>: Busca por proximidade (<i>ubsocial AROUND(3) programação</i>)</li>
                 <li><b>cache</b>: Busca em sites salvos no cache do Google (<i>cache:wikipedia.org</i>)</li>
-                <li><b>intitle / allintitle / inposttitle</b>: Busca título de página web (<i>intitle:wikipedia</i>)</li>
-                <li><b>inurl / allinurl / blogurl</b>: Busca exata url (<i>inurl:wikipedia</i>)</li>
-                <li><b>filetype</b>: Busca tipo de arquivo (<i>filetype:pdf</i>)</li>
-                <li><b>intext / allintext / inbody</b>: Busca apenas texto da página (<i>intext:wiki</i>)</li>
+                <li><b>intitle / allintitle / inposttitle</b>: Busca termo contido no título da página web (<i>intitle:wikipedia</i>, <i>intitle:index of</i>, <i>allintitle:"Painel de Login"</i>)</li>
+                <li><b>inurl / allinurl / blogurl</b>: Busca termo na url (<i>inurl:wikipedia</i>, <i>inurl:.php id=1</i>, <i>inurl:admin/php</i>, <i>allinurl:tsweb/default.htm</i>, <i>allinurl:"wp-content/plugins/wordpress-popup/views/admin/"</i>)</li>
+                <li><b>filetype</b>: Busca tipo de arquivo (<i>filetype:pdf</i>, <i>filetype:sql</i>, <i>filetype:pdf "contrato" + "confidencial" + "cpf"</i>)</li>
+                <li><b>intext / allintext / inbody</b>: Busca termo contido na página (<i>intext:wiki</i>)</li>
                 <li><b>contains:</b> Busca sites que contém termo (<i>contains:pdf</i>)</li>
                 <li><b>info</b>: Busca informações similares, como textos, links e páginas (<i>info:wikipedia.org</i>)</li>
                 <li><b>source</b>: Busca em site proprietário (<i>programação source:ubsocial</i>)</li>
@@ -85,11 +91,12 @@
                 <li><b>phonebook</b>: Busca por telefone (<i>phonebook:(510) 555-2222 ou nomePessoa</i>)</li>
                 <li><b>feed / hasfeed:[url]</b>: Busca por feed RSS</li>
                 <li><b>ip</b>: Busca por endereço IP (<i>ip:192.158.1.38.</i>)</li>
+
                 <br><b><u>Operadores lógicos</u>:</b>
-                <li><b>" "</b>: Busca padrão exato (<i>"wikipedia"</i>)</li>
-                <li><b>NOT ou -</b>: Exclui termo da busca (<i>ubsocial site -windows</i>)</li>
+                <li><b>" "</b>: Busca padrão-palavra-frase exata (<i>"wikipedia"</i>, <i>"site do governo"</i>)</li>
+                <li><b>NOT ou -</b>: Exclui termo da busca (<i>ubsocial site -windows</i>, <i>-site:com.br</i>)</li>
                 <li><b>OR ou |</b>: Combina termos na busca, ou um ou outro (<i>ubsocial OU youtube</i>)</li>
-                <li><b>AND ou +</b>: Combina termos na busca, um e outro (<i>ubsocial AND youtube</i>)</li>
+                <li><b>AND ou +</b>: Combina termos na busca, um e outro (<i>ubsocial AND youtube</i>, <i>site:.gov.br "usuario" + "senha" + "cpf"</i>, <i>inurl:gov.br "login" + "senha"</i>)</li>
                 <li><b>~</b>: Busca sinônimos (<i>ubsocial ~programacao</i>)</li>
                 <li><b>( )</b>: Agrupam operadores, para dorks mais complexas em expressões</li>
                 <li><b>*</b>: Coringa, pode ser qualquer caracteres ou nada antes/entre/depois da expressão (<i>ubsocial site de * no youtube</i>)</li>
@@ -105,10 +112,12 @@
                 <li><b>GHDB</b>: Google Hacking Database, no Exploit Database, é um arsenal open source com milhares de dorks previamente prontas: <a href="https://www.exploit-db.com/google-hacking-database" class="text-decoration-none" target="_blank">Acesse</a></li>
                 <li><b>uDork</b>: Shell Script que realiza Google Hacking automaticamente: <a href="https://github.com/m3n0sd0n4ld/uDork" class="text-decoration-none" target="_blank">Acesse</a></li>
                 <li><b>Google Hacking Tool</b>: Automatizador online de Google Hacking: <a href="https://pentest-tools.com/information-gathering/google-hacking" class="text-decoration-none" target="_blank">Acesse</a></li>
-                <li><b>Tabela de operadores Google Hacking</b>: Tabela para cola: <a href="https://github.com/ubsocial/ubsocial.github.io/blob/main/artigos/seguranca/anenos/posta6/TabelaDorksOperadores.pdf" class="text-decoration-none" target="_blank">Acesse</a></li>
+                <li><b>Tabela de operadores Google Hacking</b>: Tabela para cola (pdf): <a href="../anexos/googleHacking/TabelaDorksOperadores.pdf" class="text-decoration-none" target="_blank">Acesse</a></li>
+
             </ul>
             <br><h4>Exemplos:</h4>
             <ul>
+                <li><b>Dorks com vários comandos:</b> <i>ntitle:"index of" intext:"Apache/2.2.3"</i>, <i>site:gov.br filetype:pdf intitle:confidencial</i></li>
                 <li><b>Câmeras:</b> <i>intitle:"webcamXP 5"</i> ou <i>inurl:top.htm inurl:currenttime</i></li>
                 <li><b>Câmeras ao vivo:</b> <i>inurl:"lvappl.htm"</i></li>
                 <li><b>Dispositivos online:</b> <i>"inurl:system_device.xml"</i></li>
@@ -132,7 +141,7 @@
                 <li><b>Arquivos txt sensíveis:</b> <i>inurl:/wp-content/uploads/ ext:txt "username" AND "password" | "pwd" | "pw"</i> ou <i>xamppdirpasswd.txt filetype:txt</i> ou <i>site:github.cominurl:sftp-config.json</i> ou <i>filetype:passwordjmxremote</i></li>
                 <li><b>Arquivos de logs:</b> <i>allintext:username filetype:log</i></li>
                 <li><b>Arquivos de banco de dados:</b> Geralmente relacionados a backups e despejos (<i>intitle:"index of" "dump.sql"</i>)</li>
-                <li><b>robots.txt:</b> Arquivos removidos da indexação do Google, informar campo na url do browser (<i>url/robots.txt</i>)</li>
+                <li><b>robots.txt:</b> Arquivos removidos da indexação (crawlers) do Google, informar campo na url do browser (<i>url/robots.txt</i>)</li>
             </ul>
             <br><h4>Formulário busca Google:</h4>
 <small><pre><code>
