@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../../icons/logoTit.png">
+    <link rel="stylesheet" href="../../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <nav class="navbar rounded-bottom fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="../../index.html"><img src="../../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../sobre/sobre.html">Sobre</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../livros/livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 text-center" id="titulo">
+            <h1>CRUD PHP Ajax, Bootstrap e MySQL</h1>
+            <h6><strong>CRUD PHP simples com Ajax, Bootstrap e MySQL</strong></h6>
+            <a href="../../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
+        </div>
+
+        <div class="col-sm-12">
+            <h4>Pré-requisitos</h4>
+            <p id="textoPost">Necessário XAMPP executando. Primeiramente, execute o <b>banco.sql</b> no <i>Phpmyadmin</i>. Mantenha idêntica a árvore de diretórios do projeto e o nome dos arquivos, conforme abaixo.</p>
+            <img src="aquivos.jpg" class="img-fluid">
+
+            <br><br>
+            <hr><p class="text-muted">Diretório 'ajax'</p>
+            <h4>addRecord.php</h4>
+<small><pre><code>
+&lt;?php
+if(!empty($_POST['first_name'])) {
+    include("db_connection.php");
+    $r = $db->prepare("INSERT INTO users(first_name) VALUES (?)");
+    $r->execute(array($_POST['first_name']));
+}
+</code></pre></small><br>
+            <h4>db_connection.php</h4>
+<small><pre><code>
+&lt;?php
+$db = new PDO('mysql:host=localhost;dbname=test;charset=utf8', 'root', '');
+$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+</code></pre></small><br>
+            <h4>deleteUser.php</h4>
+<small><pre><code>
+&lt;?php
+if(!empty($_POST['id'])) {
+    include("db_connection.php");
+    $r = $db->prepare("DELETE FROM users WHERE id=?");
+    $r->execute(array($_POST['id']));
+}
+</code></pre></small><br>
+            <h4>readRecords.php</h4>
+<small><pre><code>
+&lt;?php
+include("db_connection.php");
+$r = $db->query("SELECT * FROM users");
+$linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+foreach($linhas as $l) {echo $l['id']." ".$l['first_name']." &lt;a onclick='GetUserDetails(".$l['id'].")'&gt;Editar&lt;/a&gt; &lt;a onclick='DeleteUser(".$l['id'].")'&gt;Excluir&lt;/a&gt;&lt;br&gt;";}
+</code></pre></small><br>
+            <h4>readUserDetails.php</h4>
+<small><pre><code>
+&lt;?php
+include("db_connection.php");
+if(!empty($_POST['id'])) {
+    $r = $db->prepare("SELECT * FROM users WHERE id=?");
+    $r->execute(array($_POST['id']));
+    $response = array();
+    $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+    if($r->rowCount()>0) {foreach($linhas as $l) {$response = $l['id'];}}
+    else {
+        $response['status'] = 200;
+        $response['message'] = "Data not found!";
+    }
+    echo json_encode($response);
+} else {
+    $response['status'] = 200;
+    $response['message'] = "Invalid Request!";
+}
+</code></pre></small><br>
+            <h4>updateUserDetails.php</h4>
+<small><pre><code>
+&lt;?php
+include("db_connection.php");
+if(!empty($_POST)) {
+    $r = $db->prepare("UPDATE users SET first_name=? WHERE id=?");
+    $r->execute(array($_POST['first_name'],$_POST['id']));
+}
+</code></pre></small><br>
+            <hr><p class="text-muted">Diretório 'js'</p>
+            <h4>script.js</h4>
+<small><pre><code>
+function addRecord() {
+    var first_name = $("#first_name").val();
+    $.post("ajax/addRecord.php", {first_name: first_name}, function(data,status){$("#addModal").modal("hide"); readRecords(); $("#first_name").val("");});
+}
+
+function readRecords() {$.get("ajax/readRecords.php", {}, function(data,status){$(".records_content").html(data);});}
+
+function DeleteUser(id) {$.post("ajax/deleteUser.php", {id:id}, function(data,status){readRecords();});}
+
+function GetUserDetails(id) {
+    $("#hidden_user_id").val(id);
+    $.post("ajax/readUserDetails.php", {id:id}, function(data,status){var user = JSON.parse(data); $("#upModal").val(user.first_name);});
+    $("#upModal").modal("show");
+}
+
+function UpdateUserDetails() {
+    var first_name = $("#update_first_name").val();
+    var id = $("#hidden_user_id").val();
+    $.post("ajax/updateUserDetails.php", {id:id,first_name:first_name}, function(data,status) {$("#upModal").modal("hide"); readRecords();});
+}
+
+$(document).ready(function(){readRecords();});
+</code></pre></small><br>
+            <h4>jquery-1.11.3.min.js</h4>
+            <p id="textoPost">Este arquivo é pertencente ao jQuery, do qual fará a importação das funcionalidades js. Ele deverá ser baixado juntamente com os demais arquivos, no botão de download acima.</p>
+            <br>
+            <hr><p class="text-muted">Diretório principal</p>
+            <h4>banco.sql</h4>
+<small><pre><code>
+CREATE DATABASE test CHARSET=utf8;
+USE test;
+CREATE TABLE users(
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    first_name VARCHAR(100) NOT NULL
+)CHARSET=utf8;
+INSERT INTO users(first_name) VALUES ("ubsocial1"),("ubsocial2");
+</code></pre></small><br>
+            <h4>index.php</h4>
+<small><pre><code>
+&lt;script type="text/javascript" src="js/jquery-1.11.3.min.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="js/script.js"&gt;&lt;/script&gt;
+&lt;link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"&gt;
+&lt;link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"&gt;
+&lt;script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"&gt;&lt;/script&gt;
+
+&lt;h1&gt;CRUD PHP Mysql e Ajax&lt;/h1&gt;
+&lt;a data-toggle="modal" data-target="#addModal"&gt;Adicionar&lt;/a&gt;
+&lt;div class="records_content"&gt;&lt;/div&gt;
+
+&lt;div class="modal fade" id="addModal" role="dialog"&gt;
+    &lt;div class="modal-dialog" role="document"&gt;
+        &lt;div class="modal-content"&gt;
+            &lt;h4&gt;Adicionar&lt;/h4&gt;
+            &lt;input type="text" id="first_name" placeholder="Nome"&gt;
+            &lt;a data-dismiss="modal"&gt;Cancelar&lt;/a&gt;
+            &lt;a onclick="addRecord()"&gt;Adicionar&lt;/a&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="modal fade" id="upModal" role="dialog"&gt;
+    &lt;div class="modal-dialog" role="document"&gt;
+        &lt;div class="modal-content"&gt;
+            &lt;h4&gt;Atualizar&lt;/h4&gt;
+            &lt;input type="text" id="update_first_name" placeholder="Nome"&gt;
+            &lt;a data-dismiss="modal"&gt;Cancelar&lt;/a&gt;
+            &lt;a onclick="UpdateUserDetails()"&gt;Atualizar&lt;/a&gt;
+            &lt;input type="hidden" id="hidden_user_id"&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre></small>
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center bg-black text-light pt-4 pb-3">
+        <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>

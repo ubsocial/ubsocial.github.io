@@ -1,0 +1,1916 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../../icons/logoTit.png">
+    <link rel="stylesheet" href="../../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <nav class="navbar rounded-bottom fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="../../index.html"><img src="../../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../sobre/sobre.html">Sobre</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../livros/livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 text-center" id="titulo">
+            <h1>Auditoria de Logs</h1>
+            <h6><strong>Conceitos, aplicações e comandos para Linux</strong></h6>
+            <a href="../../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
+        </div>
+
+        <div class="col-sm-12">
+            <h4>Ambiente e materiais</h4>
+            <a href="https://github.com/ubsocial/auditoria-de-logs" class="btn btn-link text-decoration-none" target="_blank">Github do projeto</a>
+            <ol>
+                <li>Instalar Virtualbox, com extension pack</li>
+                <li>Instalar Ansible, Git e Vagrant: <pre><code>sudo apt update && sudo apt install software-properties-common ansible git vagrant</code></pre></li>
+                <li>Instalar Vagrant: Automação de VMs através de arquivos de código em repositório
+                    <ul>
+                        <li>Baixar .deb;</li>
+                        <li>No diretório das VMs, usar comando 'vagrant status' para verificar VMs para uso;</li>
+                        <li>Comando 'vagrant up' iniciará todas as VMs, 'vagrant halt' desligará VMs. Arquivo 'environment.yaml' possuirá detalhes das VMs. Usuário padrão do Vagrant é 'vagrant'.</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h4>Laboratório:</h4>
+            <p>Serão criadas 3 VMs CLI através do Vagrant:</p>
+            <div class="table-responsive">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nome</th>
+                            <th scope="col">vCPUs</th>
+                            <th scope="col">Memória RAM</th>
+                            <th scope="col">IP</th>
+                            <th scope="col">SO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">webserver-audit</th>
+                            <td>1</td>
+                            <td>2048MB</td>
+                            <td>172.16.0.11</td>
+                            <td>centos-7.3-x86_64</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">graylog-audit</th>
+                            <td>1</td>
+                            <td>2560MB</td>
+                            <td>172.16.0.12</td>
+                            <td>ubuntu-18.04-amd64</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">kibana-audit</th>
+                            <td>1</td>
+                            <td>2560MB</td>
+                            <td>172.16.0.13</td>
+                            <td>debian-10-amd64</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <ol>
+                <li>Baixe o repositório no link acima e o extraia</li>
+                <li>Acesse a pasta '516-master' e execute o comando: vagrant up</li>
+                <li>Alguns comandos Vagrant:
+                    <ul>
+                        <li>Subir ambiente: vagrant up</li>
+                        <li>Ver VMs: vagrant box list</li>
+                        <li>Ver ambiente geral: vagrant global-status</li>
+                        <li>Suspender VMs: vagrant suspend <span class="text-muted">('resume' para retomar)</span></li>
+                        <li>Reiniciar VM: vagrant reload nomeVM</li>
+                        <li>Desligar VMs: vagrant halt</li>
+                        <li>Acessar VM: vagrant ssh nomeVM <span class="text-muted">(Use ctrl+d para sair)</span></li>
+                    </ul>
+                </li>
+            </ol>
+
+            <br>
+            <h4>Introdução ao sistema de logs</h4>
+            <p id="textoPost">A utilização de logs nas rotinas profissionais é essencial para gerenciar o passo a passo do funcionamento dos sistemas. Assim como verificar problemas de forma detalhada e acessos indevidos/atividades não autorizadas. Entre os serviços de administração de logs, tem-se:</p>
+            <ul>
+                <li><b>syslog</b>: Mais antigo, não suporta a TCP/UDP em logs remoto, log criptografado e armazenamento de log em DB;</li>
+                <li><b>syslog-ng</b>: Possui tais suportes, possuindo também versão enterprise;</li>
+                <li><b>rsyslog</b>: Mais recente, possui versão enterprise e community.</li>
+            </ul>
+            <p><b>Elementos de configuração:</b></p>
+            <ul>
+                <li><b>Facility</b>: Identificação de qual serviço o log será enviado ao qual será registrado entre os demais: auth, authpriv, cron, ftp, local[0-7], lpr (Impressão), mail, news, user, kern (Kernel), syslog, daemon;</li>
+                <li><b>Nível</b>: Nível de criticidade do registro do serviço ao log: Emerg, Crit, Warn, Info, Alert, Err, Notice, Debug;</li>
+                <li><b>Arquivo</b>: Onde a informação será armazenada, em '/var/log/nomeServ.nivel' (Ex: /var/log/mail.err);</li>
+                <li><b>Padrões</b>: Arquivos criados pelo próprio syslog automaticamente;
+                    <ul>
+                        <li><b>lastlog</b> (/var/log/lastlog): Logs dos últimos logins de usuários;</li>
+                        <li><b>dmesg</b> (/var/log/dmesg ou comando dmesg): Logs de conexões com hardwares externos, através do reconhecimento com o kernel Linux. Informações sobre hardware;</li>
+                        <li><b>messages</b>: Principais logs do sistema com relação aos serviços e afins;</li>
+                        <li><b>syslog</b>: Logs de arquivos e serviços que não possuem arquivo específico para tal.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <br>
+            <h4>Logs padrão no Linux</h4>
+            <p><b>Debian</b> (/var/log/):</p>
+            <ul>
+                <li>alternatives.log</li>
+                <li>apt</li>
+                <li>auth.log</li>
+                <li>btmp</li>
+                <li>daemon.log</li>
+                <li>debug</li>
+                <li>messages (Ubuntu não possui, alternativa é o comando syslog. Também presente no Debian)</li>
+            </ul>
+            <p><b>CentOS</b> (/var/log/):</p>
+            <ul>
+                <li>anaconda</li>
+                <li>audit</li>
+                <li>boot.log</li>
+                <li>btmp</li>
+                <li>chrony</li>
+                <li>cron</li>
+                <li>messages (Informações sobre serviços)</li>
+                <li>yum.log</li>
+            </ul>
+            <p>Comandos de log:</p>
+            <ul>
+                <li><b>dmesg</b>: Exibe arquivo /var/log/dmesg. Logs referentes à conexão de hardware externo com kernel</li>
+                <li><b>last</b>: Log dos últimos logins e logouts no sistema</li>
+                <li><b>lastlog</b>: Log dos últimos logins no sistema</li>
+                <li><b>lastb</b>: Log das tentativas mal sucedidas de login no sistema</li>
+            </ul>
+            <p>Personalização de logs:</p>
+            <ul>
+                <li>Mostrar configuração padrão de logs: <i>cat/etc/rsyslog.conf</i></li>
+                <li>Para criar configuração personalizada, deve-se ir ao diretório '/etc/rsyslog.d/'. Nele, criamos arquivo 'cron.conf'. Nesse, inserir o seguinte conteúdo:
+                    <ul>
+                        <li>Sintaxe: <i>facility.nivel diretorioGravacao</i></li>
+                        <li>cron.* /var/log/cron.log<br>(Asterisco ativa todos os níveis para serem registrados no log)<br>(Arquivo cron.log será criado)</li>
+                    </ul>
+                </li>
+                <li>Para confirmar o rsyslog, deve-se reiniciar o serviço: <i>sudo systemctl restart rsyslog</i></li>
+                <li>Ao realizar o comando 'crontab -l' e verificar o cron.log, verá o log: <i>mês dia horário nomeMaquina serviço[processo]: (usuario) LIST (agendamentosdeusuario)</i>></li>
+            </ul>
+
+            <br>
+            <h4>Rotação de logs</h4>
+            <p id="textoPost">Log Rotate: Ferramenta que gerencia a organização dos logs por tamanho/tempo. Verificará o tamanho do log, dividindo-o e compactando-o. Para manter quantidade personalizada de arquivos de logs de determinado serviço, utiliza-se a rotação de logs, executado pelo crontab. Arquivos de logrotate criados automaticamente pelo sistema ficam em '/etc/logrotate.d/': Arquivos como alternatives, apt, dpkg, rsyslog, unattended-upgrades.</p>
+            <p><b>Configuração padrão dos arquivos em logrotate:</b></p>
+            <ul>
+                <li>weekly (Agendamento de rotates - hourly, daily, weekly ou monthly)</li>
+                <li>rotate 4 (Quantidade de arquivos de logs que devem ser mantidos)</li>
+                <li>create (Criar arquivo de log quando o rotacionamento é feito)</li>
+                <li>compress (Comprimir arquivo de log para formato gzip - .gz)</li>
+                <li>missingok (Não fará roticionamento se o arquivo não existir)</li>
+                <li>notifempty (Não fará roticionamento de arquivo vazio)</li>
+            </ul>
+            <p>Criar rotate para arquivo criado acima, cron.log, Criando, em /etc/logrotate.d/, arquivo 'cron', com o conteúdo:</p>
+<small><pre><code>
+/var/log/cron.log {
+    daily
+    rotate 4
+    compress
+    delaycompress (Compacta a partir do 2º logrotate)
+    size 1M (Fará o roticionamento quando o arquivo atingir 1M)
+    missingok
+    notifempty
+    create 644 root root (Criará novos arquivos / permissão / usuario / grupo)
+}
+</code></pre></small>
+            <p id="textoPost">O arquivo <i>cron.log</i> estará no rsyslog, caso isso aconteça, comente a linha (#) de sua referência no arquivo /var/log/rsyslog (<i>#/var/log/cron.log</i>). Quando o arquivo cron.log passar do tamanho definido, pode-se fazer o logrotate dele ou aguardá-lo automaticamente, de acordo com o provisionamento definido. Para realizar o logrotate forçadamente, use o comando <i>logrotate -f /etc/logrotate.conf</i>, que irá ler as configurações definidas nos arquivos em /etc/logrotate.d/ e, se preciso, executará o logrotate. Os arquivos envolvidos em logrotate ficarão em /var/log, onde os arquivos estarão com nomeclatura <i>nomeArquivo.log.1</i> e, caso houver atributo delaycompress, na 2ª execução do logrotate aparecerá o arquivo <i>nomeArquivo.log.2.gz</i>. Respectivamente, a cada próxima execução, será criado o arquivo <i>nomeArquivo.log.3.gz</i>, onde manterá somente os últimos X arquivos, de acordo com a quantidade definida no 'rotate' do mesmo (Ex: rotate 4 manterá somente os últimos 4 arquivos). Automaticamente, o período padrão de execução do logrotate está definido em <i>/etc/crontab</i>, onde haverá os diretórios apontados em <i>/etc/cron.daily</i>, <i>/etc/cron.weekly</i>, etc, que possuirão os arquivos com incluídos. Com 'cat /etc/crontab' as 2 primeiras colunas representam, respectivamente, quais minutos, hora, dia... do período ocorrerá o logrotate.</p>
+            <p><b>Resolvendo problemas através de logs:</b></p>
+            <ul>
+                <li><b>Cenário 1 (Erro de configuração de serviço):</b> Exemplo, um comando errado no arquivo /etc/rsyslog.conf (Após restart do serviço, verificar com 'systemctl status rsyslog', ou verificar arquivo /var/log/syslog)</li>
+                <li><b>Cenário 2 (Erro de autenticação no sistema através de um usuário, de máquina à outra)</b>:
+                    <ul>
+                        <li>PS: <i>mail.info /var/log/infomail.log</i> enviará informações de serviços de email para o arquivo de log especificado</li>
+                        <li>Usuário, via VM1, acessa VM2: <i>sshpass -p "senhaErrada" ssh -l nomeUsuario nomeVM</i></li>
+                        <li>Na VM2, verificar se houve tentativas mal sucedidas de acesso: <i>sudo grep Failed /var/log/secure --color</i></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <br>
+            <h4>Auditoria de acessos ao sistema</h4>
+            <p id="textoPost">Audit: Serviço que permite gerar logs de sistema através de regras. Instalar Audit: <i>sudo apt install auditd</i></p>
+            <ul>
+                <li>Ver status: <i>sudo auditctl -s</i></li>
+                <li>Listar regras: <i>sudo auditctl -l</i></li>
+                <li>Criar regra de auditoria de log em arquivo: sudo auditctl -w /diretorio/arquivo -p rwxa (-p permissões)
+                    <ul>
+                        <li>Ex: <i>sudo auditctl -w /etc/passwd -p rwxa</i>
+                            <ol>
+                                <li>Ler o arquivo /etc/passwd (<i>cat passwd</i>)</li>
+                                <li>Verificar se audit pegou a leitura do arquivo: <i>sudo grep -i passwd /var/log/audit/audit.log</i></li>
+                                <li>Também pode-se ler todo o arquivo de log gerado pelo audit: <i>sudo cat /var/log/audit/audit.log</i></li>
+                            </ol>
+                        </li>
+                    </ul>
+                </li>
+                <li>Remover regra: <i>sudo auditctl -W /diretorio/arquivo</i>
+                    <ul>
+                        <li>Ex: <i>sudo auditctl -W /etc/passwd</i></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <br>
+            <h4>Regra para execução de syscalls</h4>
+            <p id="textoPost">Syscalls (Chamadas de sistema) é a interface entre aplicação e kernel. Exemplo: Mudança de hora realizada pela aplicação.</p>
+            <p><b>Criar regra para auditar mudança do horário do sistema:</b></p>
+            <ul>
+                <li>Criar regra para syscall: <i>sudo auditctl -a exit,always -F arch=b64 -S clock_settime -F key=mudarHora</i> (always marca o tempo e grava o registro. exit permite criar evento quando a syscall for encerrada. -F filtro de syscall para arquitetura. -S define o que será registrado. key define variável string)</li>
+                <li>Alterar hora do sistema: <i>sudo date --set '2021/01/01 20:00"</i></li>
+                <li>Procurar apontamento no audit.log: <i>sudo grep -i mudarHora /var/log/audit/audit.log</i> (Ou cta nesse arquivo)</li>
+                <li>Listar registros syscall: <i>sudo ausyscall --dump (Ver nº do syscall no comando acima e procurá-lo nessa lista)</i>
+                    <ul>
+                        <li>Procurar diretamente: <i>sudo ausyscall --dump | grep numSyscall</i> (Ex: 227)</li>
+                    </ul>
+                </li>
+                <li>Remover regra: <i>sudo auditctl -d exit,always -F arch=b64 -S clock_settime -F key=mudarHora</i>
+                    <ul>
+                        <li>Verificar se regra foi removida ou não: <i>sudo auditctl -l</i></li>
+                    </ul>
+                </li>
+            </ul>
+            <p><b>Criar regras automaticamente ao iniciar máquina:</b></p>
+            <p>Para isso, define-se as regras dentro do arquivo /etc/audit/rules.d/audit.rules</p>
+            <ul>
+                <li>Criar regra para arquivo: <i>sudo auditctl -w /etc/passwd -p rwxa -k listaUsuarios</i></li>
+                <li>Criar regra para syscall: <i>sudo auditctl -a exit,always -F arch=b64 -S clock_settime -k mudarHora</i></li>
+                <li>Listar regras, para ver se foram criadas: <i>sudo auditctl -l</i></li>
+                <li>Encaminhar lista para final do arquivo audit.rules: <i>auditctl &gt;&gt; /etc/audit/rules.d/audit.rules</i></li>
+                <li>Para efeito, pode-se reiniciar a máquina ou seguir os comandos
+                    <ul>
+                        <li>Remover todas regras: <i>sudo auditctl -D</i></li>
+                        <li>Listar, para comprovar remoção: <i>sudo auditctl -l</i></li>
+                        <li>Reiniciar serviço auditd: <i>systemctl restart auditd</i></li>
+                        <li>Listar, para comprovar regras efetivadas: <i>sudo auditctl -l</i></li>
+                        <li>Lista de syscalls: <a href="https://man7.org/linux/man-pages/man2/syscalls.2.html" class="text-decoration-none" target="_blank">Acesse</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <br>
+            <h4>Analisar logs de auditoria</h4>
+            <p id="textoPost">Para gerar relatórios de logs envolvendo as 2 regras acima, usaremos ausearch e aureport. Ausearch é ideal para comprimir comandos com variáveis. Ausearch é ideal para exibir, em analise de logs, quantidade de falhas na autenticação de usuários por exemplo.</p>
+            <ul>
+                <li>Acessar arquivo, para pegá-lo no log d arquivo: <i>cat /etc/passwd</i></li>
+                <li>Mudar horário do sistema, para pegá-la no log syscall: <i>date --set "1999/04/11 9:30"</i></li>
+                <li>Ver/Filtrar eventos no arquivo /etc/passwd através ausearch: <i>ausearch -k listaUsuarios</i></li>
+                <li>Ver/Filtrar eventos no syscall hora através do ausearch: <i>ausearch -k mudarHora</i></li>
+                <li>Ver logs específicos (Exemplo crontab) através do ausearch: <i>ausearch -x /usr/bin/crontab</i></li>
+                <li>Mostrar relatório do sistema, através do aureport: <i>aureport --summary</i>
+                    <ul>
+                        <li>Mostrar tudo: <i>aureport -f</i></li>
+                        <li>Em tempo real: <i>aureport -f | tail -f</i></li>
+                    </ul>
+                </li>
+                <li>Mostrar relatório de usuários: <i>aureport -m</i></li>
+            </ul>
+
+            <br>
+            <h4>Auditoria em tempo real</h4>
+            <p id="textoPost">PAM (Pluggable Authentication Modules) são módulos que fazem gerenciamento de logs no Linux, como autenticação, trocas de sessão, digitação, etc. Ele se encontra em <i>/etc/pam.d/</i>. Nele, os arquivos 'common' servem como modelos. Arquivos como 'login' mostram configuração para regras de login. Os arquivos seguem padrão de 4 partes:<br>[Interação] [Controle] [Módulo de controle] [Parâmetros do módulo]<br>auth/session optional/sufficient/requisite/required modulo.so delay=3000000<br>Exemplos:</p>
+            <ul>
+                <li><i>auth requisite pam_nologin.so</i> (Se há arquivo /etc/nologin, o root não poderá logar)</li>
+                <li><i>auth requisite pam_time.so</i> (Se há arquivo /etc/security/time.conf, haverá determinados horários para login)</li>
+            </ul>
+            <p id="textoPost">* <b>Required</b> verifica e não bloqueia na 1ª vez carregado, olhando outros módulos para então tomada de decisão. Se os demais módulos bloquearem, aí ele bloqueia também. <b>Requisite</b> bloqueia direto. <b>Sufficient</b> não impactará bloqueios caso o módulo falhe, passando para o próximo módulo.</p>
+            <p>Exemplo:</p>
+            <p id="textoPost"><b>pam_tty_audit</b> faz auditoria em logs de tudo o que for digitado no shell, registrando em <i>/var/log/audit/audit.log</i>. Neste caso, usará auditoria em tempo real para verificar o que o root estará digitando no shell.</p>
+            <ol>
+                <li>A sessão do usuário deverá ser requerida para uso do módulo: Inserir no final do arquivo /etc/pam.d/commom-password, a regra: <i>session required pam_tty_audit.so disable=* enable=root log_passwd</i></li>
+                <li>Adicionar regras de auditorias em <i>/etc/audit/rules.d/audit.rules</i>, para captar todos binários envolvidos com root:
+                    <ul>
+                        <li><i>echo '-a always,exit -F arch=b64 -F euid=0 -s execve' &gt;&gt; /etc/audit/rules.d/audit.rules</i></li>
+                        <li><i>echo '-a always,exit -F arch=b32 -F euid=0 -s execve' &gt;&gt; /etc/audit/rules.d/audit.rules</i></li>
+                    </ul>
+                </li>
+                <li>Reiniciar audit: <i>systemctl restart auditd</i></li>
+                <li>(Tudo o que o root digitar no shell será registrado no /var/log/audit/audit.log)</li>
+            </ol>
+            <p>Instalar plugin para evitar que o arquivo de registro desse log (<i>/var/log/audit/audit.log</i>) seja outro:</p>
+            <ol>
+                <li>Instalar: sudo apt install audispd-plugins (Após instalado, criará <i>/etc/audisp/plugins.d/</i>)
+                    <ul>
+                        <li>Os arquivos têm configurações, que podem ser ativadas (active), que permitem redirecionar resultados de logs para outros arquivos especificados.</li>
+                        <li>No arquivo /etc/audisp/plugins.d/syslog.conf, ativar o arquivo com '<i>active = yes</i>'.</li>
+                        <li>Editar arquivo /etc/rsyslog.d/50-default.conf, remover comentários das linhas 31, 32, 33 e 34 (<i>*.=info… até mail,news,none ~/var/log/messages</i>)
+                            <ul>
+                                <li>Todos logs info serão redirecionados para <i>~/var/log/messages</i></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>Reiniciar rsyslog e audit: <i>systemctl restart rsyslog && systemctl restart auditd</i></li>
+                <li>Será criado arquivo <i>/var/log/messages</i>, onde ficarão todos logs de info, assim como os logs que registram o que o root escreve no shell (Isso, além do arquivo audit.log primeiramente criado).</li>
+                <li>Para retransmitir a outra nível (local, info...):
+                    <ul>
+                        <li>Editar /etc/audisp/plugins.d/syslog.conf, alterar <i>ARGS</i> para '<i>LOG_LOCAL6</i>'</li>
+                        <li>Editar /etc/rsyslog.d/50-default.conf, alterar, nas linhas 31, 32, 33, 34 propriedade '<i>.none</i>', que impede de gravar logs destes do no arquivo informado (~/var/log/messages). Junto, após 'news.none' informar '<i>;local6.none</i>' (No caso, desabilitar os logs de local6 para serem informados no arquivo messages)</li>
+                        <li>Reiniciar rsyslog e audit: <i>systemctl restart rsyslog && systemctl restart auditd</i></li>
+                        <li>Ver, em /var/log/audit/audit.log, que os logs dos comandos que o root digitou no shell foram registrados
+                            <ul>
+                                <li>Nada disso foi registrado em /var/log/messages</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ol>
+
+            <br>
+            <h4>Logs remoto</h4>
+            <p id="textoPost">A ideia de centralizar logs em um servidor para facilitar a análise e backups. O rsyslog, em <i>/etc/rsyslog.conf</i>, fornece disposição de logs remoto através de TCP/UDP na porta 514 ($InputTCPServerRun). Pode-se alterar tal porta, informando-a nos arquivos abaixo (Ex: Recebimentos de logs em TCP porta 514 é input(type="imtcp" port="514")).</p>
+            <p><b>Máquina Servidor (Debian):</b></p>
+            <p id="textoPost">Ativar recebimento de requisições de logs externos, em <i>/etc/rsyslog.conf</i>, Modules descomentar linhas 17, 18, 21 e 22 (<i>#module... e #input(type...</i>), após isso reiniciar rsyslog (<i>sudo systemctl restart rsyslog</i>). Para testar se o servidor está atendendo à essa porta, usa-se <i>ss -nlptu | grep 514</i>. Verificar ip da máquina servidor com <i>ip a</i> na parte eth1 inet.</p>
+            <p id="textoPost">Configurar template para separar os logs de cada máquina: Criar diretório <i>sudo mkdir /srv/log/ && sudo chown syslog:syslog -R /srv/log</i>. Em <i>/etc/rsyslog.conf.d/</i>, criar arquivo chamado 'template.conf', inserindo o seguinte conteúdo:</p>
+<small><pre><code>
+template (name="LogRemoto" type="string" string="/srv/log/%HOSTNAME%/%PROGRAMNAME%.log")
+*.* ?LogRemoto
+</code></pre></small>
+            <p id="textoPost">Após finalizado o arquivo, reiniciar rsyslogs <i>sudo systemctl restart rsyslog</i>. Conferir também se o rsyslog está operando com sucesso <i>sudo systemctl status rsyslog</i>. A 1ª linha especifica que todos os logs serão enviados para o diretório destino informado, sendo-os separados pelo nome de cada máquina e seu respectivo programa que está enviando o log. A 2ª linha epecifica os logs da própria máquina servidor, sendo respectivamente 'facility.nivel', onde os mesmos serão enviados para o local LogRemoto, definido no template.</p>
+            <p><b>Máquina Cliente (CentOS):</b></p>
+            <p id="textoPost">Em <i>/etc/rsyslog.conf</i>, inserir no final:</p>
+<small><pre><code>
+# *.* @@NomeOuIpServidor:514 (@ é UDP. @@ é TCP)
+*.* @@graylog:514 (O nome do servidor é graylog)
+
+<u>Exemplo (UDP):</u> \*.\* @172.16.0.100**
+</code></pre></small>
+            <p id="textoPost">Após finalizar arquivo, fazer teste de conexão <i>ping -c4 graylog</i>. Caso a máquina não reconheça o servidor, verificar arquivo '/etc/hosts'. Se os 4 pacotes foram transmitidos com sucesso, deve-se reiniciar o rsyslog <i>sudo systemctl restart rsyslog</i>. Agora, na máquina servidor aparecerão, em '/srv/log/', os logs da máquina cliente.</p>
+
+            <br>
+            <h4>Criptografia TLS</h4>
+            <p id="textoPost">A criptografia em logs é essencial para a segurança dos mesmos. O Certtool é a ferramenta para gestão de certificados em chaves de criptografia.</p>
+            <p><b>Máquina Servidor (Ubuntu / graylog):</b></p>
+            <ul>
+                <li>Instalar pacotes para permitir criptografia e gerar certificado em chaves: <i>sudo apt install rsyslog-gnutils gnutils-bin</i></li>
+                <li>Criar e acessar diretório para guardar as chaves de criptografia: <i>mkdir /etc/rsyslog-keys && cd /etc/rsyslog-keys</i></li>
+            </ul>
+            <p><b>Máquina Cliente (CentOS / webserver):</b></p>
+            <ul>
+                <li>Instalar pacote para permitir criptografia: <i>sudo yum install rsyslog-gnutils</i></li>
+                <li>Criar diretório para guardar chaves: <i>mkdir /etc/rsyslog-key</i></li>
+            </ul>
+            <p><b>Máquina Cliente (Debian / kibana):</b></p>
+            <ul>
+                <li>Instalar pacote para permitir criptografia: <i>sudo apt install rsyslog-gnutils</i></li>
+                <li>Criar diretório para guardar chaves: <i>mkdir /etc/rsyslog-key</i></li>
+            </ul>
+            <p><b>Máquina Servidor (Ubuntu):</b></p>
+            <ul>
+                <li>Em /etc/rsyslog-keys, gerar chave para o próprio servidor: <i>certtool --generate-privkey --outfile ca-key.pem</i> (O comando criará chave privada no próprio diretório de criação)</li>
+                <li>Alterar permissões da chave (Somente dono pode ler): <i>sudo chmod 400 ca-key.pem</i></li>
+                <li>Gerar certificado auto assinado com a chave ca-key: <i>certtool --generate-self-signed --load-privkey ca-key.pem --outfile ca.pem</i>. Informar os seguintes campos solicitados e informados:
+                    <ul>
+                        <li>Common name: graylog (Mesmo nome do servidor)</li>
+                        <li>The certificate will expire in (days): 3650</li>
+                        <li>Does the certificate belong to an authority? (y,N): y</li>
+                        <li>Enter a dnsName of the subject of the certificate: graylog (Mesmo nome do servidor)</li>
+                        <li>Will the certificate be used to sign other certificates? (y,N): y</li>
+                        <li>Will the certificate be used to sign CRLs? (y,N): y</li>
+                        <li>Is the above information ok? y</li>
+                        <li>(Com isso, será gerado nesse mesmo diretório o certificado 'ca.pem'.)</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h5>Criar chaves:</h5>
+            <ul>
+                <li>Em /etc/rsyslog, informar:
+                    <ul>
+                        <li>certtool --generate-privkey --outfile webserver-key.pem --bits 2048 (Webserver é o nome da máquina cliente 1)</li>
+                        <li>certtool --generate-privkey --outfile kibana-key.pem --bits 2048 (Kibana é o nome da máquina cliente 2)</li>
+                        <li>(Criará chave webserver-key.pem e kibana-key.pem neste diretório)</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h5>Criar requisições:</h5>
+            <p id="textoPost">Requests são necessárias para cada máquina gerar certificados auto assinados. Os arquivos gerados de requests (*-request.pem) podem ser removidos após criação dos certificados.</p>
+            <ul>
+                <li>certtool --generate-request --load-privkey webserver-key.pem --outfile webserver-request.pem
+                    <ul>
+                        <li>Common name: webserver (Nome da máquina)</li>
+                        <li>Enter a dnsName of the subject of the certificate: webserver</li>
+                        <li>Will be certificate be used for signing (DHE ciphersuites)? (y,N): y</li>
+                        <li>(Com isso, será gerado arquivo webserver-request.pem)</li>
+                    </ul>
+                </li>
+                <li>certtool --generate-request --load-privkey kibana-key.pem --outfile kibana-request.pem
+                    <ul>
+                        <li>Common name: kibana (Nome da máquina)</li>
+                        <li>Enter a dnsName of the subject of the certificate: kibana</li>
+                        <li>Will be certificate be used for signing (DHE ciphersuites)? (y,N): y</li>
+                        <li>(Com isso, será gerado arquivo kibana-request.pem)</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h5>Criar certificado auto assinado para máquinas clientes:</h5>
+            <ul>
+                <li>certtool --generate-certificate --load-request webserver-request.pem --outfile webserver-cert.pem --load-ca-certificate ca.pem --load-ca-privkey ca.key.pem
+                    <ul>
+                        <li>The certificate will expire in (days): 1000</li>
+                        <li>Is this a TLS web client certificate? (y,N): y</li>
+                        <li>Is this a TLS web server certificate? (y,N): y</li>
+                        <li>Enter a dnsName of the subject of the certificate: webserver (Nome da máquina)</li>
+                        <li>Is the above information ok? y</li>
+                        <li>(Com isso, gerará arquivo webserver-cert.pem)</li>
+                    </ul>
+                </li>
+                <li>certtool --generate-certificate --load-request kibana-request.pem --outfile kibana-cert.pem --load-ca-certificate ca.pem --load-ca-privkey ca.key.pem
+                    <ul>
+                        <li>The certificate will expire in (days): 1000</li>
+                        <li>Is this a TLS web client certificate? (y,N): y</li>
+                        <li>Is this a TLS web server certificate? (y,N): y</li>
+                        <li>Enter a dnsName of the subject of the certificate: kibana (Nome da máquina)</li>
+                        <li>Is the above information ok? y</li>
+                        <li>(Com isso, gerará arquivo kibana-cert.pem)</li>
+                    </ul>
+                </li>
+                <li>Copiar arquivos para máquinas webserver e kibana:
+                    <ul>
+                        <li>scp ca.pem webserver* nomeUsuario@webserver:/tmp (Informar yes)</li>
+                        <li>scp ca.pem kibana* nomeUsuario@kibana:/tmp (Informar yes)</li>
+                    </ul>
+                </li>
+            </ul>
+            <p><b>Máquina Cliente (CentOS / webserver):</b></p>
+            <ul>
+                <li>mv /tmp/ca.pem /etc/rsyslog-keys/ && mv /tmp/webserver*.pem /etc/rsyslog-keys/</li>
+                <li>Pode-se testar com 'ls /etc/rsyslog-keys' para verificar se os determinados arquivos encontram-se corretamente no diretório destino.</li>
+            </ul>
+            <p><b>Máquina Cliente (Debian / kibana):</b></p>
+            <ul>
+                <li>mv /tmp/ca.pem /etc/rsyslog-keys/ && mv /tmp/kibana*.pem /etc/rsyslog-keys/</li>
+                <li>Pode-se testar com 'ls /etc/rsyslog-keys' para verificar se os determinados arquivos encontram-se corretamente no diretório destino.</li>
+            </ul>
+            <p><b>Máquina Server (Ubuntu / graylog):</b></p>
+            <ul>
+                <li>Copiar modelo de configuração TLS: cp /opt/syslog-tls.conf /etc/rsyslog.d/</li>
+                <li>O arquivo /etc/rsyslog.d/syslog-tls.conf possui as informações de configuração e criptografia. Alterar permissão do mesmo: sudo chown syslog:syslog -R /etc/rsyslog.conf/</li>
+                <li>Editar arquivo /etc/rsyslog.conf, comentar linhas que anteriormente foram descomentadas (17, 18, 21 e 22). Após salvar o arquivo, reiniciar rsyslog 'sudo systemctl restart rsyslog'.</li>
+                <li>Por fim, verificar se está atendendo na porta 6514: 'ss -nlptu | grep 6514'.</li>
+            </ul>
+            <p><b>Máquina Cliente (CentOS / webserver):</b></p>
+            <ul>
+                <li>Copiar modelo de configuração TLS: cp /opt/syslog-tls.conf /etc/rsyslog.d/. Comentar, no arquivo /etc/rsyslog.conf, última linha preenchida nos passos acima.</li>
+                <li>Após isso, reiniciar rsyslog 'sudo systemctl restart rsyslog'.</li>
+            </ul>
+            <p><b>Máquina Cliente (Debian / kibana):</b></p>
+            <ul>
+                <li>Copiar modelo de configuração TLS: cp /opt/syslog-tls.conf /etc/rsyslog.d/.</li>
+                <li>Comentar, no arquivo /etc/rsyslog.conf, última linha preenchida nos passos acima.</li>
+                <li>Após isso, reiniciar rsyslog 'sudo systemctl restart rsyslog'.</li>
+            </ul>
+            <p><b>Máquina Servidor (Ubuntu / graylog):</b></p>
+            <ul>
+                <li>Verificar se tudo funcionou e há criptografia nas auditorias: tail -f /var/log/webserver/messages. Ir na máquina cliente webserver (debian) e reiniciar rsyslog.</li>
+                <li>Então, na máquina servidor (ubuntu) serão incorporadas novas mensagens de logs, sendo essas criptografadas.</li>
+                <li>(O mesmo vale para a máquina cliente kibana (debian).)</li>
+            </ul>
+
+            <br>
+            <h4>Armazenar logs no MySQL</h4>
+            <p id="textoPost">O rsyslog trás o armazenamento dos logs padrão em arquivos, mas também conta com suporte a BDs Relacionais e NoSQL (Módulo ommysql). O ideal é possuir o BD em máquina separada da máquina servidor, mas nesse caso ocorrerá na mesma máquina. Na máquina servidor:</p>
+            <ul>
+                <li>Instalar plugin rsyslog: <i>sudo DEBIAN_FRONTEND=noninteractive apt install mysql-server mysql-client mysql-common rsyslog-mysql</i></li>
+                <li>Conectar mysql: <i>mysql -u root -e 'CREATE DATABASE Syslog;'</i>
+                    <ul>
+                        <li>Conferir se o BD foi criado: <i>mysql -u root -e 'SHOW DATABASES;'</i></li>
+                    </ul>
+                </li>
+                <li>Ver arquivo BD rsyslog: cat /usr/share/dbconfig-common/data/rsyslog-mysql/install/mysql
+                    <ul>
+                        <li>Popular BD com o conteúdo do arquivo: <i>mysql -u root -D Syslog &gt; /usr/share/dbconfig-common/data/rsyslog-mysql/install/mysql</i></li>
+                        <li>Conferir BD Syslog: <i>mysql -u root -D Syslog -e 'SHOW TABLES;'</i></li>
+                        <li>Verificar estrutura das tables: <i>mysql -u root -D Syslog -e 'DESC SystemEvents;'</i></li>
+                        <li>Criar usuário para acessar BD: <i>mysql -u root -D Syslog -e "CREATE USER rsysloguser@localhost IDENTIFIED BY 'rsyslogpw';"</i></li>
+                        <li>Definir acesso ao usuário: <i>mysql -u root -D Syslog -e 'GRANT ALL ON Syslog.* TO rsysloguser@localhost;'</i>
+                            <ul>
+                                <li>Se o acesso fosse remoto, deveria-se colocar o % após o @</li>
+                            </ul>
+                        </li>
+                        <li>Editar arquivo /etc/rsyslog.d/mysql.conf, alterar uid="rsysloguser" e pwd="rsyslogpw"</li>
+                    </ul>
+                </li>
+                <li>Reiniciar rsyslog: sudo systemctl restart rsyslog
+                    <ul>
+                        <li>Verificar se rsyslog está operando: sudo systemctl status rsyslog</li>
+                    </ul>
+                </li>
+                <li>Listar dados das tabelas, para conferência: <i>mysql -u root -D Syslog -e 'SELECT ID, fromHost, Message FROM SystemEvents;'</i>
+                    <ul>
+                        <li>Testar log de digitação no shell pelo root: (Em root) systemctl restart rsyslog</li>
+                        <li>Realizar novamente o select acima para verificar se o log citado foi incluído na table</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <br>
+            <h4>Backup e Restore de logs</h4>
+            <p><b>Backup:</b></p>
+            <ul>
+                <li>Fazer dump (backup) de base de dados: <i>mysqldump Syslog &gt; backup-banco-syslog.sql</i></li>
+                <li>Dump de table à parte: <i>mysqldump Syslog SystemEvents &gt; backup-tabela-system-events.sql</i></li>
+            </ul>
+            <p><b>Restore (Através do backup acima):</b></p>
+            <ul>
+                <li>Remover table SystemEvents: <i>mysql -u root -D Syslog -e 'DROP TABLE SystemEvents;'</i></li>
+                <li>Realizar restore: <i>mysql -u root -D Syslog &lt; backup-tabela-system-events.sql</i></li>
+            </ul>
+            <p><b>Agendamento de backups:</b></p>
+            <p id="textoPost">Criar, em <i>/opt/</i>, script de backup (<i>bkp-banco.sh</i>):</p>
+<small><pre><code>
+#!/bin/bash
+mysqldump --user="rsysloguser" --password="rsyslogpw" "$@" "Syslog" &gt; "/opt/backup/syslog-$(date '+%d-%n-%Y')".sql 2&gt; /dev/null
+</code></pre></small>
+            <ul>
+                <li>Copiar script: <i>cp /opt/bkkp-banco.sh /usr/local/bin/ && chmod u+x /usr/local/bin/bkp-banco.sh</i></li>
+                <li>Criar diretório backup: <i>mkdir /opt/backup</i></li>
+                <li>Executar script: <i>bash /usr/local/bin/bkp-banco.sh</i>
+                    <ul>
+                        <li>Verificar funcionamento: <i>ls /opt/backup</i></li>
+                    </ul>
+                </li>
+                <li>Mover para cron daily, para executar script automaticamente diariamente: <i>cp /usr/local/bin/bkp-banco.sh etc/cron.daily/bkp-banco</i>
+                    <ul>
+                        <li>Verificar funcionamento: <i>rm /opt/backup/* && run-parts /etc/cron.daily && ls /opt/backup</i></li>
+                    </ul>
+                </li>
+            </ul>
+            <p id="textoPost">PS: Usuário e senha foram criados em /etc/rsyslog.d/rsyslog.conf no conteúdo acima. Arquivos no cron daily remove-se extensão.</p>
+
+            <br>
+            <h4>Centralização de logs com Graylog</h4>
+            <img src="graylog.png" class="img-fluid rounded" width="500px">
+            <p id="textoPost">Graylog é software de gerenciamento de logs, funcionando em conjunto com MongoDB e Elasticsearch, viabilizando criação de filtros, alertas, dashboards e aumentando a velocidade de pesquisa de mensagens. Pode ser utilizado em cluster, via master e slaves. MongoDB armazenará as configurações do Graylog e o Elasticsearch o armazenamento dos logs.</p>
+            <p><b>Pré-requisitos:</b></p>
+            <ul>
+                <li>sudo apt update</li>
+                <li>sudo apt install apt-transport-https openjdk-8-jre-headless uuid-runtime pwgen</li>
+                <li>Configurar $JAVA_HOME para Elasticsearch:
+                    <ul>
+                        <li>sudo nano /etc/environment (Inserir no final do arquivo): JAVA_HOME="/usr/lib/jvm/java-1.8.0-openjdk-amd64/bin/"</li>
+                        <li>source /etc/environment
+                            <ul>
+                                <li>Testar funcionamento: <i>echo $JAVA_HOME</i> (Deverá retornar diretório informado)</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <p><b>Instalar MongoDB 4 (Debian):</b></p>
+            <ul>
+                <li>Instruções conforme site oficial</li>
+                <li>wget -qO - https://www.mongodb.org/static/pgp/server-4.0.asc | sudo apt-key add -</li>
+                <li>echo "deb http://repo.mongodb.org/apt/debian stretch/mongodb-org/4.0 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list
+                    <ul>
+                        <li>Verificar versão do Debian acima (jessie/stretch)</li>
+                    </ul>
+                </li>
+                <li>sudo apt update && sudo apt install mongodb-org</li>
+                <li>sudo systemctl enable mongod.service
+                    <ul>
+                        <li>sudo systemctl start mongod.service</li>
+                        <li>Verificar funcionamento: sudo systemctl status mongod</li>
+                    </ul>
+                </li>
+            </ul>
+            <p><b>Instalar Elasticsearch:</b></p>
+            <ul>
+                <li>Instruções conforme site oficial</li>
+                <li>wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -</li>
+                <li>echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-7.x.list</li>
+                <li>sudo apt update && sudo apt install elasticsearch</li>
+                <li>sudo nano /etc/elasticsearch/elasticsearch.yml
+                    <ul>
+                        <li>(Editar no arquivo): cluster.name: nomeMaquina (Ex: graylog)</li>
+                    </ul>
+                </li>
+                <li>sudo nano /etc/elasticsearch/jvm.options
+                    <ul>
+                        <li>(Editar no arquivo, linhas 22 e 23):
+                            <ul>
+                                <li>-Xms512m</li>
+                                <li>-Xmx512m</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>sudo systemctl enable elasticsearch.service
+                    <ul>
+                        <li>sudo systemctl start elasticsearch.service</li>
+                        <li>Verificar funcionamento: sudo systemctl status elasticsearch.service</li>
+                    </ul>
+                </li>
+            </ul>
+            <p><b>Instalar Graylog:</b></p>
+            <ul>
+                <li>wget https://packages.graylog2.org/repo/packages/graylog-4.2-repository_latest.deb</li>
+                <li>sudo dpkg -i graylog-4.2-repository_latest.deb</li>
+                <li>sudo apt update && sudo apt install graylog-server</li>
+                <li>sudo systemctl enable graylog.service
+                    <ul>
+                        <li>sudo systemctl start graylog.service</li>
+                        <li>Verificar funcionamento: sudo systemctl status graylog.service (Pode ocorrer erro devido a não configuração abaixo)</li>
+                    </ul>
+                </li>
+                <li>Gerar senha de autenticação graylog: sudo pwgen -N 1 -s 96 (Guardar essa chave1)</li>
+                <li>echo -n ubsocial | sha256sum (Guardar essa chave2)</li>
+                <li>sudo nano /etc/graylog/server/server.conf
+                    <ul>
+                        <li>(Informar na linha 57) password_secret = (chave1 acima)</li>
+                        <li>(Informar na linha 68) root_password_sha2 = (chave2 acima)</li>
+                        <li>(Descomentar e informar na linha 76) root_timezone = America/Sao_Paulo</li>
+                        <li>(Descomentar e informar na linha 105) http_bind_address = ipMaquina (Ex: 172.16.0.12:9000)</li>
+                        <li>(Inserir nova linha abaixo da linha 105): http_publish_uri = http://ipMaquina:9000/</li>
+                        <li>(Inserir nova linha): http_external_uri = http://ipMaquina:9000</li>
+                    </ul>
+                </li>
+                <li>sudo systemctl restart graylog-server
+                    <ul>
+                        <li>sudo systemctl start graylog-server</li>
+                        <li>Verificar funcionamento: sudo systemctl status graylog-server</li>
+                    </ul>
+                </li>
+                <li>sudo systemctl restart elasticsearch.service
+                    <ul>
+                        <li>Verificar funcionamento: sudo systemctl status elasticsearch.service</li>
+                    </ul>
+                </li>
+                <li>Acessar painel do graylog: No browser, informar http://ipMaquina:9000
+                    <ul>
+                        <li>Usuário '<i>admin</i>', Senha '<i>ubsocial</i>'</li>
+                    </ul>
+                </li>
+            </ul>
+            
+            <br>
+            <h5>Inputs:</h5>
+            <img src="graylogInputs.png" class="img-fluid rounded" width="500px">
+            <p id="textoPost">Inputs de mensagens são responsáveis por levar os logs ao Graylog (Inputs para TCP, UDP, AWS, GCP, Containers...).</p>
+            <p><b>Maquina Server (Ubuntu / graylog):</b></p>
+            <p id="textoPost">Criar Input UDP: Objetivo é criar Input UDP para coletar logs das máquinas clients (Webserver/CentOS e Kibana/Debian). No graylog, aba System/Inputs, selecionar Syslog UDP e clicar em Launch New Input.</p>
+            <ul>
+                <li>Node selecionar o único (Máquina atual / graylog)</li>
+                <li>Title "SYSLOG"</li>
+                <li>Bind Address: 172.16.0.12 (ipMaquina)</li>
+                <li>Port: 1514</li>
+                <li>Selecionar opção 'Allow overriding date?' caso não esteja selecionada</li>
+                <li>Save (O status do Graylog deverá ser Running)</li>
+            </ul>
+            <p><b>Máquina Cliente (CentOS / webserver):</b></p>
+            <p id="textoPost">Configurar para encaminhar os logs desejados para o Graylog da máquina server (Porta 1514).</p>
+            <ul>
+                <li>sudo nano /etc/rsyslog.conf
+                    <ul>
+                        <li>(Editar última linha, descomentá-la)
+<small><pre><code>*.* @graylog:1514;RSYSLOG_SyslogProtoco123Format</code></pre></small>
+                        </li>
+                    </ul>
+                </li>
+                <li>sudo systemctl restart rsyslog</li>
+            </ul>
+            <p><b>Maquina Cliente (Debian / kibana):</b></p>
+            <ul>
+                <li>sudo nano /etc/rsyslog.conf
+                    <ul>
+                        <li>(Editar última linha, descomentá-la)
+<small><pre><code>*.* @graylog:1514;RSYSLOG_SyslogProtoco123Format</code></pre></small>
+                        </li>
+                    </ul>
+                </li>
+                <li>sudo systemctl restart rsyslog</li>
+            </ul>
+            <p><b>Maquina Server (Ubuntu / graylog):</b></p>
+            <p id="textoPost">Após configuração das máquinas acima, verificar funcionamento do Graylog clicando em Show received messages, após recarregar página selecionar opção Search in all messages e no ícone de pesquisa informar 'webserver' seguido de Enter, para verificar logs da máquina cliente centOS webserver. Informar 'kibana' para verificar logs da máquina cliente debian kibana. Para mostrar logs em tempo real, selecionar, no select superior direito, o tempo de Update every 1 second.</p>
+            <p id="textoPost">Fazer teste com log de autenticação, autenticando-se na máquina centOS webserver com senha errada.</p>
+            <ul>
+                <li>ssh suporte@172.16.0.11 (usuario@ipMaquina)</li>
+                <li>Informar senha errada</li>
+                <li>Verificar mensagens de logs no Graylog, onde estará, no topo, mensagem de erro de autenticação na máquina centOS webserver.</li>
+            </ul>
+
+            <br>
+            <h5>Coletar Logs de Containers:</h5>
+            <p id="textoPost">Inputs do tipo GELF (Graylog Extended Log Format) UDP permitem envio de logs de host externo. O provisionamento e configuração será realizada via arquivo docker compose. No seguinte exemplo, será realizado utilizando container Wordpress, para que, como resultado, tenha-se o site Wordpress em funcionamento e seus logs armazenados e gerenciados no Graylog.</p>
+            <p><b>Configurar Graylog (Maquina Server (Ubuntu / graylog)):</b></p>
+            <ul>
+                <li>No Graylog, aba System/Inputs, selecionar opção <i>Input GELF UDP</i> e clicar em Launch New Input
+                    <ul>
+                        <li>Node: Selecionar sua máquina</li>
+                        <li>Title: Docker</li>
+                        <li>Blind Address: ipMaquina (Ex: 172.16.0.12)</li>
+                        <li>Port: 12201 (Padrão)</li>
+                        <li>Save (Verificar funcionamento, status running)</li>
+                    </ul>
+                </li>
+            </ul>
+            <p><b>Configurar Docker (Máquina Cliente (CentOS / webserver)):</b></p>
+            <p id="textoPost">Diretório do usuário, criar diretório <i>wordpress-deploy</i> com o arquivo <i>docker-compose.yaml</i> com o seguinte conteúdo abaixo. Entrar no diretório do arquivo, e utilizar o comando para subí-lo "docker-compose up -d". Para verificar se os containers estão de pé, basta utilizar o comando "docker-compose ps" e verificar o State dos ambientes.</p>
+<small><pre><code>
+services:
+    traefik:
+        image: traefik:1.7
+        ports:
+            - "80:80"
+            - "8080:8080"
+            - "443:443"
+        networks:
+            - traefik
+        command: &gt;
+            --web
+            --docker
+            --docker.domain=4labs.example
+            --docker.watch
+        volumes:
+            - /var/run/docker.sock:/vat/run/docker.sock
+
+    wordpress-mysql:
+        image: "mysql:5.6"
+        logging:
+            driver: "gelf"
+            options:
+                gelf-address: "udp://ipMaquina:12201" (Ex: 172.16.0.12:12201)
+        environment:
+            MYSQL_ROOT_PASSWORD: wordpresspass
+        restart: always
+        volumes:
+            - "worpress-mysql:/var/lib/mysql"
+        networks:
+            - traefik
+
+    wordpress:
+        image: "wordpress:4.8-apache"
+        logging:
+            driver: "gelf"
+            options:
+                gelf-address: "udp://ipMaquina:12201" (Ex: 172.16.0.12:12201)
+        environment:
+            WORDPRESS_DB_HOST: wordpress-mysql
+            WORDPRESS_DB_PASSWORD: wordpresspass
+        restart: always    
+        labels:
+            - "traefik.enable=true"
+            - "traefik.port=80"
+            - "traefik.backend=wordpress"
+            - "traefik.docker.network=traefik"
+            - "traefik.frontend.rule=Host:wordpress.4labs.example"
+        volumes:
+            - "wordpress:/var/www/html"
+        networks:
+            - traefik
+
+volumes:
+    wordpress:
+    wordpress-mysql:
+
+networks:
+    traefik:
+        external: true[usuario@webserver ~]$
+</code></pre></small>
+            <p id="textoPost">Após subir os containers acima, pode-se acessar o site através de outra máquina:</p>
+            <ul>
+                <li>sudo nano /etc/hosts
+                    <ul>
+                        <li>(Inserir no final do arquivo) ipMaquinaWebserver    wordpress.4labs.example</li>
+                    </ul>
+                </li>
+                <li>No browser, acessar site: <i>https://wordpress.4labs.example</i>
+                    <ul>
+                        <li>Para 1º acesso, instalar Wordpress, seguindo as instruções no browser</li>
+                    </ul>
+                </li>
+                <li>No painel do Wordpress, aba esquerda, opção Aparência/Temas, trocar de tema do site</li>
+            </ul>
+            <p><b>Maquina Server (Ubuntu / graylog):</b></p>
+            <ul>
+                <li>No Graylog, página de Inputs, nos Inputs Docker, clicar em Show received messages
+                    <ul>
+                        <li>Nesta página aparecerão os logs do site via Container</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <br>
+            <h5>Extrator de logs:</h5>
+            <p id="textoPost">Extrator de log permite instruir nós (nodes) Graylog sobre como extrair dados de qualquer texto na mensagem recebida. A partir disso, pode-se gerar logs, gráficos estatísticos, painéis, alertas, etc. <u>Exemplo</u>: Tratando-se do caso Wordpress, ao acessar página inexistente, tem-se erro 404. Ao acessar página existente, tem-se código 200. Utilizando extrator, pode-se criar filtros mais específicos sobre essas informações relacionadas com tais códigos.</p>
+            <p><b>Máquina Cliente (Debian / kibana):</b></p>
+            <p id="textoPost">Criar extrator para filtrar logs de acesso com sucesso ao site Wordpress (Código HTTP 200).</p>
+            <ul>
+                <li>sudo nano /etc/hosts
+                    <ul>
+                        <li>(Inserir no final do arquivo) ipMaquinaWebserver    wordpress.4labs.example</li>
+                    </ul>
+                </li>
+                <li>ping wordpress.4labs.example</li>
+                <li>for cont in $(seq 1 10); do curl http://wordpress.4labs.example; done (Gerará 10 logs com código 200 no Graylog)</li>
+                <li>for cont in $(seq 1 10); do curl http://wordpress.4labs.example/teste; done (Gerará 10 logs com código 404 no Graylog)</li>
+                <li>for cont in $(seq 1 10); do curl http://wordpress.4labs.example/wp-admin/themes.php; done (Gerará 10 logs com código 302 no Graylog)</li>
+            </ul>
+            <p><b>Máquina Server (Ubuntu / graylog):</b></p>
+            <ul>
+                <li>No Graylog, possuirão vários logs de acesso, código 200, com sucesso ao site Wordpress
+                    <ul>
+                        <li>Acessar aba System/Inputs, área dos logs Docker, clicar em Manage extractors. Na nova página, sessão Add extractor, clicar em Get started, onde o Graylog selecionará a última mensagem recebida, clicar em Lead Message.
+                            <ul>
+                                <li>A mensagem selecionada será fatiada de acordo com suas strings: String message, clicar em Select extractor type, selecionando opção Regular expressions</li>
+                            </ul>
+                        </li>
+                        <li>Abrirá página do novo extrator com expressão regular
+                            <ul>
+                                <li>Campo de texto Regular expressions, informar: HTTP/1.1\"(.+?)\s.*
+                                    <ul>
+                                        <li>Verificar funcionamento, clicando em Try para verificar se o código 200 resultará da expressão informada</li>
+                                    </ul>
+                                </li>
+                                <li>Condition: Always try to extract</li>
+                                <li>Store as field: http_reponse_code</li>
+                                <li>Extractor title: HTTP_REPONSE_CODE</li>
+                                <li>Create extractor</li>
+                            </ul>
+                        </li>
+                        <li>Na página principal do Graylog, no campo de pesquisa, informar: <i>http_reponse_code: 200</i>
+                            <ul>
+                                <li>Clicar em pesquisar, onde serão filtrados somente os logs de código 200</li>
+                                <li>Realizar o mesmo procedimento de pesquisa acima, alterando o código para 404 e 302
+                                    <ul>
+                                        <li>No caso, o extrator fará o filtro de pesquisa via código HTTP nessa lista de logs</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <br>
+            <h5>Dashboards estatísticos:</h5>
+            <img src="graylogDashboards.png" class="img-fluid rounded" width="500px">
+            <p id="textoPost">No Graylog, um Dashboard é a composição de painéis gráficos advindos de lógicas estatísticas dos logs coletados Ordenadamente, primeiro cria-se Dashboard vazio, após isso gerar logs de interesse e, por fim, modificar painel de apresentação de tais logs. Para realização de testes com estatísticas nos painéis do Dashboard abaixo, pode-se replicar os códigos for cont na máquina kibana, como expressado acima.</p>
+            <p><b>Criar Dashboard para acoplar painéis:</b></p>
+            <ul>
+                <li>Criar dashboard vazio
+                    <ul>
+                        <li>Acessar página de Dashboard do Graylog, clicar em Create new dashboard</li>
+                        <li>Clicar em Save as, informando:
+                            <ul>
+                                <li>Title: Wordpress Dashboard</li>
+                                <li>Summary: Wordpress Dashboard</li>
+                                <li>Description: Dashboard para estatísticas do site Wordpress</li>
+                            </ul>
+                        </li>
+                        <li>Clicar em Save</li>
+                    </ul>
+                </li>
+            </ul>
+            <p><b>Gráfico para estatísticas de acesso:</b></p>
+            <ul>
+                <li>Graylog, página System/Inputs, acessar Input Docker, clicar em Show received messages
+                    <ul>
+                        <li>Pesquisar com filtro: _exists_:http_reponse_code</li>
+                        <li>No painel Message Count (Acima dos logs), clicar na seta direita de opções, clicar na opção Edit. No modal de edição do painel:
+                            <ul>
+                                <li>Visualization Type: Pie Chart</li>
+                                <li>Rows: http_reponse_code</li>
+                                <li>Metrics: count()</li>
+                                <li>Save</li>
+                            </ul>
+                        </li>
+                        <li>Nesse painel, clicar na seta direita de opções, clicar na opção Copy to Dashboard, selecionando Wordpress Dashboard, clicar em Select
+                            <ul>
+                                <li>No Wordpress Dashboard, painel do gráfico, clicar na seta direita de opções, clicar na opção Edit e dar duplo clique sobre o nome do painel, para alterá-lo à "Estatísticas de Acesso - Wordpress" e, por fim, clicar em Save</li>
+                            </ul>
+                        </li>
+                        <li>Por fim, no Dashboard, selecionar Update a cada 1 segundo, após isso clicar em Save</li>
+                    </ul>
+                </li>
+            </ul>
+            <p><b>Tabela de contagem de acesso:</b></p>
+            <ul>
+                <li>Graylog, página System/Inputs, acessar Input Docker, clicar em Show received messages
+                    <ul>
+                        <li>Pesquisar com filtro: _exists_:http_reponse_code</li>
+                        <li>No painel All Messages (Painel das mensagens dos logs), clicar na seta direita de opções, clicar na opção Edit. No modal de edição do painel:
+                            <ul>
+                                <li>Fields: timestamp, source, http_reponse_code</li>
+                                <li>Save</li>
+                            </ul>
+                        </li>
+                        <li>No painel All Messages (Painel das mensagens dos logs), selecionar seta direita da coluna de cabeçalho "http_reponse_code", clicar na opção Show top values (Criará painel gráfico com tabela com contagem dos valores)
+                            <ul>
+                                <li>Nesse painel, clicar na seta direita de opções, clicar na opção Copy to Dashboard, selecionando Wordpress Dashboard, clicar em Select</li>
+                                <li>No Wordpress Dashboard, painel da tabela, clicar na seta direita de opções, clicar na opção Edit e dar duplo clique sobre o nome do painel, para alterá-lo à "Contagem de acessos por HTTP REPONSE CODE" e, por fim, clicar em Save</li>
+                            </ul>
+                        </li>
+                        <li>Por fim, no Dashboard, selecionar Update a cada 1 segundo, após isso clicar em Save</li>
+                    </ul>
+                </li>
+            </ul>
+            <p><b>Número de contagem total de acessos:</b></p>
+            <ul>
+                <li>Graylog, página System/Inputs, acessar Input Docker, clicar em Show received messages
+                    <ul>
+                        <li>Pesquisar com filtro: _exists_:http_reponse_code</li>
+                        <li>No painel Message Count (Acima dos logs), clicar na seta direita de opções, clicar na opção Edit. No modal de edição do painel:
+                            <ul>
+                                <li>Visualization Type: Single Number</li>
+                                <li>Rows: http_reponse_code</li>
+                                <li>Metrics: count()</li>
+                                <li>Save</li>
+                            </ul>
+                        </li>
+                        <li>Nesse painel, clicar na seta direita de opções, clicar na opção Copy to Dashboard, selecionando Wordpress Dashboard, clicar em Select
+                            <ul>
+                                <li>No Wordpress Dashboard, painel do gráfico, clicar na seta direita de opções, clicar na opção Edit e dar duplo clique sobre o nome do painel, para alterá-lo à "Número total de acessos Wordpress" e, por fim, clicar em Save</li>
+                            </ul>
+                        </li>
+                        <li>Por fim, no Dashboard, selecionar Update a cada 1 segundo, após isso clicar em Save</li>
+                    </ul>
+                </li>
+            </ul>
+            
+            <br>
+            <h5>Alerta via emails:</h5>
+            <p><b>Habilitar envio de emails do Graylog:</b></p>
+            <ul>
+                <li>sudo nano /etc/graylog/server/server.conf:
+                    <ul>
+                        <li>(Linha 558) Email transport (Descomentar e editar):
+                            <ul>
+                                <li>transport_email_enabled = true</li>
+                                <li>transport_email_hostname = smtp.gmail.com (Usar Gmail neste exemplo)</li>
+                                <li>transport_email_port = 587</li>
+                                <li>transport_email_use_auth = true</li>
+                                <li>transport_email_auth_username = seuemail@gmail.com</li>
+                                <li>transport_email_auth_password = suasenhagmail</li>
+                                <li>transport_email_subject_prefix = [graylog]</li>
+                                <li>transport_email_from_email = graylog@4labs.example</li>
+                            </ul>
+                        </li>
+                        <li>(Linha 578, descomentar): transport_email_use_ssl = false</li>
+                    </ul>
+                </li>
+                <li>Reiniciar graylog-server: systemctl restart graylog-server</li>
+            </ul>
+            <p><b>Habilitar evento no Graylog:</b></p>
+            <ul>
+                <li>Graylog, página Alerts e, na página, clicar em Get Started (Entrará na página New Event Definition)
+                    <ul>
+                        <li>Event Details:
+                            <ul>
+                                <li>Title: Acesso ao site Wordpress</li>
+                                <li>Description: O acesso ao site Wordpress gerou o código 404</li>
+                                <li>Priority: Normal</li>
+                                <li>Clicar em Next</li>
+                            </ul>
+                        </li>
+                        <li>Condition:
+                            <ul>
+                                <li>Condition Type: Filter & Aggregation</li>
+                                <li>Filter
+                                    <ul>
+                                        <li>Search Query: 404</li>
+                                        <li>Streams: All messages</li>
+                                    </ul>
+                                </li>
+                                <li>Clicar em Next</li>
+                            </ul>
+                        </li>
+                        <li>Fields:
+                            <ul>
+                                <li>Clicar em Add Custom Field (Entrará na página New Custom Field)</li>
+                                <li>Name: http_response_code</li>
+                                <li>Set Value From: Template</li>
+                                <li>Template: Filter</li>
+                                <li>Clicar em Done</li>
+                                <li>Clicar em Next</li>
+                            </ul>
+                        </li>
+                        <li>Notifications:
+                            <ul>
+                                <li>Clicar em Add Notification (Entrará na página Add Notification)</li>
+                                <li>Choose Notification: Create New Notification</li>
+                                <li>Title: Acesso ao site Wordpress</li>
+                                <li>Description: O acesso ao site Wordpress gerou o código 404</li>
+                                <li>Notification Type: Email Notification</li>
+                                <li>Sender: seuemail@gmail.com</li>
+                                <li>User Recipient(s): Admin (Administrator)</li>
+                                <li>Email Recipient(s): seuemail@gmail.com</li>
+                                <li>Clicar em Done</li>
+                                <li>Clicar em Next</li>
+                            </ul>
+                        </li>
+                        <li>Summary: Clicar em Done</li>
+                    </ul>
+                </li>
+            </ul>
+            <p id="textoPost">Para testar funcionamento da notificação, clicar no botão direito superior Notifications e, na notification, clicar no botão de opções More, clicar na opção Test Notification. Caso houver erro de reconhecimento de email, entrar no endereço "<i>https://myaccount.google.com/lesssecureapps?</i>". Nesta página habilitar, como On, opção Allow less secure apps. Após isso, realizar novamente o procedimento de teste da notification no Graylog. Se fora testada com sucesso, verifique a caixa de seu email informado ao Graylog (Verificar Caixa de Entrada e Spam), que lhe será enviado email de teste.</p>
+            <p id="textoPost">Por fim, para testar realmente o funcionamento da notificação do Graylog, acessar site com URL incorreta (Exemplo: <i>https://wordpress.4labs.example/teste</i>), que gerará erro HTTP 404. Após alguns minutos, então verificar caixa de emails de seu email informado.</p>
+
+            <br>
+            <h5>Alerta via mensagens Rocket Chat</h5>
+            <img src="graylogRocketChat.png" class="img-fluid rounded" width="500px">
+            <p><b>Máquina Cliente (CentOS / webserver), instalar Rocket Chat via docker:</b></p>
+            <ul>
+                <li>Criar diretório ~/rocketchat-deploy/docker-compose.yaml, com o seguinte conteúdo:</li>
+            </ul>
+<small><pre><code>
+version: '3'
+
+services:
+    rocketchat:
+    image: rocketchat/rocket.chat:latest
+    command: &gt;
+        bash -c
+        "for i in 'seq 1 30'; do
+            node main.js &&
+            s=$$? && break || s=$$?;
+            echo \"Tried $$i times. Waiting 5 secs...\";
+            sleep 5;
+        done; (exit $$s)"
+    volumes:
+        - "./uploads:/app/uploads"
+    environment:
+        - PORT=3000
+        - ROOT_URL=http://172.16.0.11:3000 (ipMaquinaWebserver)
+        - MONGO_URL=mongodb://mongo:27017/rocketchat
+        - MONGO_OPLOG_URL=mongodb://mongo:27017/local
+    ports:
+        - 3000:3000
+    networks:
+        - traefik
+
+    mongo:
+    image: mongo:4.0
+    volumes:
+        - "./data/db:/data/db"
+    command: mongod --smallfiles --oplogSize 128 --replSet rs0 --storageEngine=mmapv1
+    networks:
+        - traefik
+
+    mongo-init-replica:
+    image: mongo:4.0
+    command: &gt;
+        bash -c
+        "for i in 'seq 1 30'; do
+            mongo mongo/rocketchat --eval \"
+            rs.initiate({
+                _id: 'rs0',
+                members: [ { _id: 0, host: 'localhost:27017' } ]})\" &&
+            s=$$? && break || s=$$?;
+            echo \"Tried $$i times. Waiting 5 secs...\";
+            sleep 5;
+        done; (exit $$s)"
+
+    networks:
+        - traefik
+
+networks:
+    traefik:
+    external: true
+</code></pre></small>
+            <ul>
+                <li>Após isso, no diretório, subir containers: docker-compose up -d
+                    <ul>
+                        <li>Verificar funcionamento: docker-compose ps (Stat deve ser Up, com exceção do replica, que é Exit 0)</li>
+                        <li>No browser, abrir Rocket Chat em outra máquina, informando URL http://ipMaquinaWebserver:3000 (Ex: http://172.16.0.11:3000)
+                            <ul>
+                                <li>Nome: admin</li>
+                                <li>Nome de usuário: admin</li>
+                                <li>Email da organização: admin@4labs.example</li>
+                                <li>Senha: ubsocial</li>
+                                <li>Clicar em Continuar</li>
+                                <li>Tipo de organização: Comunidade</li>
+                                <li>Nome da Organização: UB Social</li>
+                                <li>Indústria: Provedor de tecnologia</li>
+                                <li>Tamanho: 11-50 pessoas</li>
+                                <li>País: Brasil</li>
+                                <li>Site: 4labs.example</li>
+                                <li>Clicar em Continuar</li>
+                                <li>Nome do site: Rocket.Chat</li>
+                                <li>Idioma: Português do Brasil</li>
+                                <li>Tipo de servidor: Comunidade</li>
+                                <li>Ativar autenticação em duas etapas: Sim</li>
+                                <li>Clicar em Continuar</li>
+                                <li>Selecionar opção Mantenha-se autônomo</li>
+                                <li>Clicar em Continuar</li>
+                                <li>Clicar em Vá para seu espaço de trabalho</li>
+                            </ul>
+                        </li>
+                        <li>Criar Channel separado para receber mensagens do Graylog:
+                            <ul>
+                                <li>Botão superior esquerdo, Create Channel</li>
+                                <li>Nome: graylog</li>
+                                <li>Tópico: (Não informar nada)</li>
+                                <li>Privado: Desabilitar (Será público)</li>
+                                <li>Add Members: Rocket.Cat</li>
+                                <li>Clicar em Criar</li>
+                            </ul>
+                        </li>
+                        <li>Criar Webhook para conexão do Rocket.Chat com Graylog:
+                            <ul>
+                                <li>Botão superior esquerdo, selecionar opção Administração/Integrações</li>
+                                <li>Aba Incoming, clicar em Novo</li>
+                                <li>Ativado: Habilitar</li>
+                                <li>Nome: alertgraylog</li>
+                                <li>Postar no Canal: #graylog</li>
+                                <li>Postar como: rocket.cat</li>
+                                <li>Apelido: Graylog Alert</li>
+                                <li>Script Ativado: Habilitar</li>
+                                <li>Script: (Colocar esse script abaixo)</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+<small><pre><code>
+/* exported Script */
+/* globals console, _, s */
+
+const GRAYLOG_URL = 'https://graylog.example.com';
+
+const createPermalink = (m, index) =&gt; {
+    const label = index === 0 ? 'Display complete message' : '#${index + 1}';
+    return '[${label}](${GRAYLOG_URL}/messages/${m.index}/${m.id})'
+};
+
+const formatMessages = (messages) =&gt; {
+    const grouped = messages.reduce((acc, m) =&gt; {
+            if (!acc.hasOwnProperty(m.message)) {
+                acc[m.message] = [];
+            }
+            acc[m.message].push(m);
+            return acc;
+        }
+        , {});
+    const result = [];
+    for (let mType in grouped) {
+        if (grouped.hasOwnProperty(mType)) {
+            const line = '*Message*: ' + mType + '\n*Source*: ' + grouped[mType][0].source + '\n' + grouped[mType].map(createPermalink).join(", ");
+            result.push(line);
+        }
+    }
+    
+    return result.join('\n-------------\n');
+};
+
+const parseText = function (result) {
+    if (result.matching_messages.length &gt; 0) {
+        return formatMessages(result.matching_messages);
+    } else {
+        return result.result_description;
+    }
+};
+
+const createAlertMessageEvent = function(result) {
+    return ':warning: *Alert*: ' + result.triggered_condition.title + '\n' + parseText(result)
+}
+
+const makeAttachment = (text) =&gt; {
+    return {
+        text,
+        color: '#e8d612',
+    };
+};
+
+class Script {
+    process_incoming_request({request}) {        
+        return {
+            content: {
+                attachments:
+                [
+                    makeAttachment(createAlertMessageEvent(request.content.check_result))
+                ]
+            }
+        };
+    }
+}
+</code></pre></small>
+            <ul>
+                <li>Clicar em Salvar
+                    <ul>
+                        <li>Gerará URL de Webhook (Copiar URL)</li>
+                    </ul>
+                </li>
+            </ul>
+            <p><b>Vincular Graylog com Rocket Chat:</b></p>
+            <ul>
+                <li>No Graylog (http://ipMaquinaServidor:9000), aba System/Configurations</li>
+                <li>Na sessão URL Whitelist Configuration, clicar em Update, que abrirá modal para inserir URL, clicando em Add List
+                    <ul>
+                        <li>Title: Acesso ao site Wordpress</li>
+                        <li>URL: (Colar URL copiada)</li>
+                        <li>Clicar em Save</li>
+                    </ul>
+                </li>
+                <li>Aba Alerts, clicar no botão superior direito Notifications, nesta página clicar em Create Notification
+                    <ul>
+                        <li>Title: Acesso ao site Wordpress - Chat</li>
+                        <li>Description: O acesso ao site Wordpress gerou o código 404</li>
+                        <li>Notification Type: Legacy Alarm Callback</li>
+                        <li>Choose Legacy Notifications: Legacy HTTP Alarm Callback</li>
+                        <li>URL: (Colar URL copiada)</li>
+                        <li>Clicar em Create</li>
+                    </ul>
+                </li>
+                <li>Na página de Notifications, selecionar a notificação criada e clicar no botão direito More, opção Test Notification
+                    <ul>
+                        <li>No Rocket Chat, verificar recebimento da mensagem de teste</li>
+                    </ul>
+                </li>
+                <li>No Graylog, aba Alerts, clicar no botão superior direito Event Definitions, na notificação criada clicar em Edit
+                    <ul>
+                        <li>Selecionar aba Notifications, clicar em Add Notification
+                            <ul>
+                                <li>Choose Notification: Acesso ao site Wordpress - Chat</li>
+                                <li>Clicar em Donei</li>
+                                <li>Na sessão Notification Settings, habilitar opção Grace Period, informando 5 segundos</li>
+                                <li>Clicar em Next</li>
+                                <li>Clicar em Done, para salvar Alert</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <p id="textoPost">Por fim, para testar realmente o funcionamento da notificação do Graylog, acessar site com URL incorreta (Exemplo: https://wordpress.4labs.example/teste), que gerará erro HTTP 404. Então, verificar recebimento da mensagem de alerta no Rocket Chat.</p>
+
+            <br>
+            <h4>Centralização de logs com Elastic Stack (ELK)</h4>
+            <p id="textoPost">O ELK compõe-se de 4 projetos:</p>
+            <ol>
+                <li><b>Beats</b>: Realiza ingestão de dados ao Logstash ou direto ao Elasticsearch;</li>
+                <li><b>Logstash</b>: Processa/Trata logs e os envia ao Elasticsearch. Processos possuem 3 estágios (Entrada do dado, filtragem e envia à saída);</li>
+                <li><b>Elasticsearch</b>: Realiza pesquisa, análise e armazenamento de dados;</li>
+                <li><b>Kibana</b>: Realiza visualização dos dados dos logs do Elasticsearch.</li>
+            </ol>
+            <p id="textoPost"><u>OBS</u>: <i>Os componentes abaixo deverão ser instalados na máquina cliente Debian Kibana. Quando outra máquina envolver-se no processo, a mesma será referenciada</i>.</p>
+            
+            <p><b>Elasticsearch, instalação e configuração:</b></p>
+            <img src="elkElasticsearch.png" class="img-fluid" width="500px">
+            <ul>
+                <li>sudo apt update && sudo apt install openjdk-11-jre wget apt-transport-https curl</li>
+                <li>wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -</li>
+                <li>sudo nano /etc/apt/sources.list.d/elastic-7.x.list, com o seguinte conteúdo: deb https://artifacts.elastic.co/packages/oss-7.x/apt stable main</li>
+                <li>sudo apt update && sudo apt install elasticsearch-oss</li>
+                <li>Editar arquivo /etc/elasticsearch/elasticsearch.yml:
+                    <ul>
+                        <li>(Descomentar e alterar, linha 17): cluster.name: auditlog</li>
+                        <li>(Descomentar e alterar, linha 55): networks.host: ipMaquinaKibana (Ex: 172.16.0.13)</li>
+                        <li>(Descomentar, linha 59): http.port: 9200</li>
+                        <li>(Descomentar e alterar, linha 72): cluster.initial_master_nodes: "ipMaquinaKibana" (Ex: "172.16.0.13")</li>
+                    </ul>
+                </li>
+                <li>Editar arquivo /etc/elasticsearch/jvm.options:
+                    <ul>
+                        <li>(Alterar linha 22): -Xms512m</li>
+                        <li>(Alterar linha 23): -Xmx512m</li>
+                    </ul>
+                </li>
+                <li>sudo systemctl start elasticsearch && sudo systemctl enable elasticsearch</li>
+                <li>Testar funcionamento do Elasticsearch: curl -X GET http://ipMaquinaKibana:9200 (Ex: 172.16.0.13:9200)
+                    <ul>
+                        <li>Deverá mostrar json com detalhes do serviço</li>
+                    </ul>
+                </li>
+            </ul>
+            
+            <p><b>Logstash, instalação e configuração:</b></p>
+            <ul>
+                <li>sudo apt install logstash-oss=7.10.2</li>
+                <li>Criar arquivo de entrada de dados recebidos por Beats, /etc/logstash/conf.d/filebeat-input.conf, com o seguinte conteúdo:</li>
+            </ul>
+<small><pre><code>
+input {
+    beats {
+        port =&gt; 5044
+        type =&gt; syslog
+    }
+}
+</code></pre></small>
+            <ul>
+                <li>Criar arquivo de tratamento de dados, /etc/logstash/conf.d/syslog-filter.conf, com o seguinte conteúdo:</li>
+            </ul>
+<small><pre><code>
+filter {
+    if [type] == "syslog" {
+        grok {
+            match =&gt; { "message" =&gt; "%{SYSLOGTIMESTAMP:syslog_timestamp} %{SYSLOGHOST:syslog_hostname} %{DATA:syslog_program}(?:\[%{POSINT:syslog_pid}\])?: %{GREEDYDATA:syslog_message}" }
+            add_field =&gt; [ "received_at", "%{@timestamp}" ]
+            add_field =&gt; [ "received_from", "%{host}" ]
+        }
+        date {
+            match =&gt; [ "syslog_timestamp", "MMM  d HH:mm:ss", "MMM dd HH:mm:ss" ]
+        }
+    }
+}
+</code></pre></small>
+            <ul>
+                <li>Criar arquivo de saída de dados para o Elasticsearch, /etc/logstash/conf.d/output-elasticsearch.conf, com o seguinte conteúdo:</li>
+            </ul>
+<small><pre><code>
+output {
+    elasticsearch {
+        hosts =&gt; ["172.16.0.13:9200"] (ipMaquinaKibana)
+        hosts =&gt; "172.16.0.13:9200" (ipMaquinaKibana)
+        manage_template =&gt; false
+        index =&gt; "%{[@metadata][beat]}-%{+YYYY.MM.dd}"
+    }
+}
+</code></pre></small>
+            <ul>
+                <li>Editar arquivo /etc/logstash/jvm.options:
+                    <ul>
+                        <li>(Alterar linha 6): -Xms512m</li>
+                        <li>(Alterar linha 7): -Xmx512m</li>
+                    </ul>
+                </li>
+                <li>sudo systemctl start logstash && sudo systemctl enable logstash
+                    <ul>
+                        <li>Verificar funcionamento: sudo systemctl status logstash</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <p><b>Kibana, instalação e configuração:</b></p>
+            <img src="elkKibana.png" class="img-fluid" width="500px">
+            <ul>
+                <li>sudo apt install kibana-oss nginx</li>
+                <li>Editar arquivo de configuração do Kibana, /etc/kibana/kibana.yml
+                    <ul>
+                        <li>(Descomentar, linha 2) server.port: 5601</li>
+                        <li>(Descomentar e editar, linha 7) server.host: "ipMaquinaKibana" (Ex: "172.16.0.13")</li>
+                        <li>(Descomentar e editar, linha 28) elasticsearch.hosts: ["http://ipMaquinaKibana:9200"] (Ex: "http://172.16.0.13:9200")</li>
+                    </ul>
+                </li>
+                <li>sudo systemctl start kibana && sudo systemctl enable kibana</li>
+                <li>Criar arquivo de parametrização para login nginx acoplado ao kibana (Que não fornece login nativamente) /etc/nginx/sites-avaliable/kibana.4labs.example, com o seguinte conteúdo:</li>
+            </ul>
+<small><pre><code>
+server {
+    listen 80;
+    server_name kibana.4labs.example;
+    auth_basic "Acesso Restrito";
+    auth_basic_user_file /etc/nginx/htpasswd.users;
+    location / {
+        proxy_pass http://172.16.0.13:5601/; (ipMaquinaKibana)
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+</code></pre></small>
+            <ul>
+                <li>Adicionar parametrização de novo usuário nginx com o comando (Com senha criptografada): echo "admin:`openssl passwd ubsocial`" | sudo tee -a /etc/nginx/htpasswd.users
+                    <ul>
+                        <li>Usuário 'admin', senha 'ubsocial'</li>
+                    </ul>
+                </li>
+                <li>Ativar configuração nginx através de link simbólico com o comando: sudo ln -s /etc/nginx/sites-avaliable/kibana.4labs.example /etc/nginx/sites-enabled/kibana.4labs.example</li>
+                <li>sudo systemctl start nginx && sudo systemctl enable nginx && sudo systemctl status nginx</li>
+                <li>Para acessar Kibana, editar hosts da máquina que irá acessar (Máquina externa):
+                    <ul>
+                        <li>(MacOS ou Linux): sudo nano /etc/hosts/</li>
+                        <li>(Windows): C:\Windows\System32\Drivers\etc\hosts
+                            <ul>
+                                <li>(Inserir no final do arquivo): ipMaquinaKibana kibana.4labs.example</li>
+                            </ul>
+                        </li>
+                        <li>Remover site dos sites enabled: sudo rm /etc/nginx/sites-enabled/default</li>
+                        <li>sudo systemctl restart nginx</li>
+                        <li>Acessar, no browser, Kibana: http://kibana.4labs.example
+                            <ul>
+                                <li>Usuário 'admin', senha 'ubsocial'</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <p><b>Beats, instalação e configuração:</b></p>
+            <p id="textoPost">Ferramentas leves desenvolvidas para exportar todos tipos de dados (Logs, protocolos de rede, uptime, informações sobre memória e cpu) para o Elasticsearch e/ou Logstash. Através do Beats, é possível exportar dados de servidores, containers e até mesmo funções. Entre os Beats desenvolvidos pela Elastic Co, tem-se:</p>
+            <ul>
+                <li><b>Filebeat</b>: Monitora logs, trabalhando com logs de Apache, nginx, logs de sistemas, logs de BD, etc;</li>
+                <li><b>Functionbeat</b>: Monitora infraestrutura de cloud, como AWS Lambda;</li>
+                <li><b>Metricbeat</b>: Monitora métricas (libs) de sistema, de cpu, memória, rede, sistema de arquivos, processos, etc;</li>
+                <li><b>Packetbeat</b>: Monitora protocolos de rede de aplicações;</li>
+                <li><b>Winlogbeat</b>: Monitora logs e eventos do Windows;</li>
+                <li><b>Auditbeat</b>: Monitora auditoria de logs, coletando dados do auditd;</li>
+                <li><b>Heartbeat</b>: Monitora uptime do host.</li>
+            </ul>
+            <p>Instalação do Filebeat:</p>
+            <ul>
+                <li>curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.10.1-amd64.deb</li>
+                <li>sudo dpkg -i filebeat-7.10.1-amd64.deb
+                    <ul>
+                        <li>Repetir download nas máquinas Graylog (Ubuntu) e Webserver (CentOS)</li>
+                        <li>No caso do Webserver (CentOS):
+                            <ul>
+                                <li>curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.10.1-x86_64.rpm</li>
+                                <li>sudo rpm filebeat-7.10.1-x86_64.rpm</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>Criar arquivo de configuração do Filebeat /etc/filebeat/filebeat.yml, com o seguinte conteúdo:
+                    <ul>
+                        <li class="text-muted"><i>Criar em todas as 3 máquinas envolvidas</i></li>
+                    </ul>
+                </li>
+            </ul>
+<small><pre><code>
+filebeat.inputs:
+    - type: log
+    enabled: true
+    paths:
+        - /var/log/*.log
+
+filebeat.config.modules:
+    path: ${path.config}/modules.d/*.yml
+    reload.enabled: false
+
+setup.template.settings:
+    index.number_of_shards: 1
+
+setup.kibana:
+    host: "172.16.0.13:5601"
+
+output.logstash:
+    hosts: ["172.16.0.13:5044"]
+
+processors:
+    - add_host_metadata:
+        when.not.contains.tags: forwarded
+    - add_cloud_metadata: ~
+    - add_docker_metadata: ~
+    - add_kubernetes_metadata: ~
+</code></pre></small>
+            <p class="text-muted"><i>(Em todas as 3 máquinas envolvidas):</i></p>
+            <ul>
+                <li>Ativar módulos logstash e system:
+                    <ul>
+                        <li>sudo filebeat modules enable logstash system</li>
+                    </ul>
+                </li>
+                <li>Carregar template de links:
+                    <ul>
+                        <li>sudo filebeat setup --index-management -E output.logstash.enabled=false -E 'output.elasticsearch.hosts=["ipMaquina:9200"]'</li>
+                    </ul>
+                </li>
+                <li>sudo systemctl start filebeat && sudo systemctl enable filebeat</li>
+            </ul>
+            <p>Instalação do Metricbeat:<br><span class="text-muted"><i>(Somente na máquina Kibana Debian)</i></span></p>
+            <ul>
+                <li>sudo apt install metricbeat=7.10.2</li>
+                <li>Criar arquivo de configuração do Metricbeat /etc/metricbeat/metricbeat.yml, com o seguinte conteúdo:</li>
+            </ul>
+<small><pre><code>
+metricbeat.config.modules:
+    path: ${path.config}/modules.d/*.yml
+    reload.enabled: false
+
+setup.template.settings:
+    index.number_of_shards: 1
+    index.codec: best_compression
+
+setup.kibana:
+    host: "172.16.0.13:5601"
+
+output.elasticsearch:
+    hosts: ["172.16.0.13:9200"]
+
+processors:
+    - add_host_metadata: ~
+    - add_cloud_metadata: ~
+    - add_docker_metadata: ~
+    - add_kubernetes_metadata: ~
+
+logging.to_files: true
+logging.files:
+    path: /var/log/metricbeat
+    name: metricbeat
+    keepfiles: 7
+    permissions: 0644
+</code></pre></small>
+            <ul>
+                <li>Verificar funcionamento: sudo metricbeat setup --dashboards
+                    <ul>
+                        <li class="text-muted"><i>Para isso, o Kibana deverá estar em execução!</i></li>
+                    </ul>
+                </li>
+                <li>sudo sysetmctl start metricbeat && sudo sysetmctl enable metricbeat
+                    <ul>
+                        <li>Verificar funcionamento com Elasticsearch:
+                            <ul>
+                                <li>Maneira 1: curl http://ipMaquinaKibana:9200/_cat/indices/metricbeat*?v</li>
+                                <li>Maneira 2: curl http://ipMaquinaKibana:9200/metricbeat=*/_search?pretty</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <p><b>Dashboards no Kibana:</b></p>
+            <p id="textoPost">Filebeat enviará os logs do /var/log/, enviando-os ao Logstash que, por sua vez, os filtrará (Formatação e organização) e, por fim, será armazenado no Elasticsearch. Com isso, o Kibana conseguirá visualizar tais logs de forma organizada e personalizada. Acessar Elastic / kibana: http://kibana.4labs.example, usuário 'Admin' e senha 'ubsocial'.</p>
+            <p>Visualizar dashboards de Logs (Filebeat):</p>
+            <img src="kibanaDashboard.png" class="img-fluid rounded" width="500px">
+            <ul>
+                <li>Acessar tela Home do Kibana, clicar em Manage</li>
+                <li>Na tela de Manager, clicar em Index Patterns / Create Index Pattern
+                    <ul>
+                        <li>Name: filebeat-* (Clicar em Next Step)</li>
+                        <li>Time Field: @timespamp (Create index pattern)</li>
+                    </ul>
+                </li>
+                <li>Menu lateral, acessar Kibana / Discover para visualizar dashboard de gráficos
+                    <ul>
+                        <li>Informar na pesquisa 'graylog', últimas 24hrs</li>
+                        <li>Selecionar filebeat-* no Discover, clicar em Refresh para visualizar atualizado
+                            <ul>
+                                <li>Em caso de Windows, selecionar na pesquisa a máquina Windows e selecionar, ao invés do filebeat, o winlogbeat</li>
+                            </ul>
+                        </li>
+                        <li>A paleta esquerda serve para adicionar colunas personalizadas ao Dashboard</li>
+                    </ul>
+                </li>
+            </ul>
+            <p>Visualizar gráficos de métricas de máquina (Metricbeat):</p>
+            <img src="kibanaGraficos.png" class="img-fluid rounded" width="500px">
+            <ul>
+                <li class="text-muted">Metric Server já fora instalado e configurado na máquina cliente Kibana Debian</li>
+                <li>Menu lateral, acessar Management / Stack Management, clicar em Index Patterns / Create Index Pattern
+                    <ul>
+                        <li>Name: metricbeat-* (Clicar em Next Step)</li>
+                        <li>Time Field: @timestamp</li>
+                        <li>Show advanced settings, informar metricbeat-* (Create index pattern)</li>
+                    </ul>
+                </li>
+                <li>Menu lateral, acessar Kibana / Dashboards, pesquisar por host</li>
+                <li>Selecionar SystemHostOverview</li>
+            </ul>
+            <p id="textoPost">Salvar pesquisa, clicando no ícone de salvamento superior esquerdo, informar nome de preferência. Tal pesquisa salva pode ser acessada, via menu lateral, Management / Stack Management, clicar em Saved Objects, onde poderá localizá-la através da pesquisa: Será mostrado o dashboard do filebeat-*, mas poderá alterar para metricbeat-* nas opções de seleção no canto superior esquerdo.</p>
+
+            <br>
+            <h4>Gerenciar logs na AWS com CloudWatch</h4>
+            <p class="text-muted"><i>(Criar conta em Amazon AWS Free)</i></p>
+            <p id="textoPost">Amazon CloudWatch é o serviço AWS para monitoramento e observação de instâncias na cloud AWS, que possibilita a realização das seguintes tarefas:</p>
+            <ul>
+                <li>Fornecer dados e insights práticos para monitorar aplicações</li>
+                <li>Permite responder às alterações de performance em todo o sistema</li>
+                <li>Otimizar utilização de recursos e obter uma visualização unificada da integridade operacional</li>
+                <li>Coleta dados de monitoramento e operações na forma de logs, via syslog, aplicação como servidor web, containers, etc</li>
+                <li>Permite uso de alarmes e notificações via e-mail</li>
+                <li>Visualização unificada dos recursos de aplicações e dos serviços da AWS executados na AWS e em servidores locais</li>
+            </ul>
+            <p><b>Criar função de acesso completo à AWS (CloudWatchFullAcces):</b></p>
+            <ul>
+                <li>Acessar opção superior esquerda 'Serviços', sessão 'Segurança, identidade e conformidade', clicar em IAM (Identify and Access Management)</li>
+                <li>Sessão 'Recursos do IAM', clicar em Funções. Ao entrar, clicar em Criar Função
+                    <ul>
+                        <li>Tipo de identidade: Serviço da AWS</li>
+                        <li>Casos de uso comuns: EC2 (Após selecionar, clicar em Próximo Permissões)</li>
+                    </ul>
+                </li>
+                <li>Página Criar Função
+                    <ul>
+                        <li>Pesquisar política 'cloudwatchfullaccess' e selecioná-la/check (Abrirá aba de resumo, que pode ser fechada/descartada)</li>
+                        <li>Clicar em Próximo Tags / Próximo Revisar
+                            <ul>
+                                <li>Nome da função: ec2-role-cloudwatch</li>
+                            </ul>
+                        </li>
+                        <li>Clicar em Criar Função</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <p><b>Gerenciar Instâncias na AWS:</b></p>
+            <img src="awsShell.png" class="img-fluid rounded" width="500px">
+            <ol>
+                <li>Criar Instância:</li>
+            </ol>
+            <ul>
+                <li>Acessar opção superior esquerda 'Serviços', sessão 'Computação', clicar em EC2</li>
+                <li>Sessão 'Executar Instância', clicar em Executar Instância
+                    <ul>
+                        <li>Selecionar Imagem de Máquina da Amazon (AMI): Amazon Linux 2 AMI 64 bits x86</li>
+                        <li>Selecionar tipo de instância: Gratuito</li>
+                        <li>Clicar em Próximo Configurar Detalhes da Instância</li>
+                        <li>Página configurar detalhes da instância:
+                            <ul>
+                                <li>Função do IAM, selecionar ec2-role-cloudwatch (Clicar em Próximo Adicionar Armazenamento / Próximo Adicionar Tags / Próximo Configure o Security Group)</li>
+                            </ul>
+                        </li>
+                        <li>Página Configure o Security Group:
+                            <ul>
+                                <li>Clicar em Add Rule</li>
+                                <li>Selecionar tipo: HTTP</li>
+                                <li>Protocol: TCP</li>
+                                <li>Port: 80</li>
+                                <li>Clicar em Verificar e Ativar</li>
+                            </ul>
+                        </li>
+                        <li>Página Review Instance Launch (Clicar em Executar)
+                            <ul>
+                                <li>Modal de par de chaves:
+                                    <ul>
+                                        <li>Selecionar 'Criar um novo par de chaves'</li>
+                                        <li>Nome do par de chaves: cloudwatch</li>
+                                        <li>Clicar em Fazer Download do Par de Chaves (Baixará arquivo nomeParChaves.pem)</li>
+                                        <li>Clicar em Executar Instância</li>
+                                    </ul>
+                                </li>
+                                <li>Clicar em Exibir Instância</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <ol start="2">
+                <li>Acessar Instância:</li>
+            </ol>
+            <ul>
+                <li>Selecionar/check Instância e clicar no botão superior Conectar</li>
+                <li>Página de conectar-se à Instância, selecionar 1ª aba: Conexão de Instância do EC2, clicar em Conectar (Abrirá nova aba com Instância conectada ao shell do Amazon Linux da Instância)</li>
+            </ul>
+
+            <p><b>Visualizar logs da Instância do shell CloudWatch:</b></p>
+            <img src="awsLogs.png" class="img-fluid rounded" width="500px">
+            <ul>
+                <li>Conectar ao shell do Amazon Linux da Instância, como realizado acima</li>
+                <li>sudo yum install awslogs</li>
+                <li>Acessar arquivo de configurações: sudo nano /etc/awslogs/awscli.conf
+                    <ul>
+                        <li>(Alterar) region = (Deve ser a mesma que a da Instância na AWS, com exceção da letra no final, que é removida no arquivo)</li>
+                    </ul>
+                </li>
+                <li>Acessar arquivo de configurações: sudo nano /etc/awslogs/awslogs.conf:
+                    <ul>
+                        <li>(Perto do final do arquivo, alterar, grupo [/var/log/messages]): log_stream_name = idInstanciaReferenciada (Geralmente encontra-se no rodapé da conexão do shell)</li>
+                    </ul>
+                </li>
+                <li>sudo systemctl start awslogsd && sudo systemctl enable awslogsd</li>
+                <li>Voltar na AWS, opção superior esquerda 'Serviços', sessão 'Gerenciamento e Governança', clicar em Cloudwatch</li>
+                <li>Ao acessar a página do CloudWatch, menu lateral esquerdo, selecionar opção 'Grupos de logs'
+                    <ul>
+                        <li>Na página de Grupos de logs, clicar no grupo /var/log/messages e, após entrar, clicar na Instância</li>
+                        <li>Aparecerão todos os logs relacionados</li>
+                    </ul>
+                </li>
+                <li>No shell do Amazon Linux, fazer teste para verificar, após isso, na AWS: sudo systemctl restart rsyslog
+                    <ul>
+                        <li>Verificar, na AWS, se o log aparecerá, clicando no botão Refresh</li>
+                    </ul>
+                </li>
+                <li>Incluir cron aos logs do rsyslog:
+                    <ul>
+                        <li>sudo nano /etc/rsyslog.conf
+                            <ul>
+                                <li>(Editar linha)
+<small><pre><code>*.info;mail.none;authpriv.none;*.cron(remover cron.none) /var/log/messages</code></pre></small>
+                                </li>
+                                <li>(Editar linha abaixo de Log cron stuff)
+<small><pre><code>cron.* /var/log/messages(antes era /var/log/cron)</code></pre></small>
+                                </li>
+                                <li>sudo systemctl restart rsyslog</li>
+                            </ul>
+                        </li>
+                        <li>Fazer teste para verificar, após isso, log do cron na AWS: crontab -l
+                            <ul>
+                                <li>Verificar, na AWS, se o log aparecerá, clicando no botão Refresh</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <p><b>Visualizar logs de servidor web Apache no CloudWatch:</b></p>
+            <ul>
+                <li>No shell do Amazon Linux da Instância</li>
+                <li>Instalar Apache: sudo yum install httpd && sudo systemctl start httpd && sudo systemctl enable httpd</li>
+                <li>Configurar arquivo de configuração AWS /etc/awslogs/awslog.conf, com o seguinte conteúdo:
+                    <ul>
+                        <li>(No final do arquivo, adicionar bloco):</li>
+                    </ul>
+                </li>
+            </ul>
+<small><pre><code>
+[/var/log/httpd/access_log]
+datetime_format = %b %d %H:%M:%S
+file = /var/log/httpd/access_log
+buffer_duration = 5000
+log_stream_name = (O mesmo que o do bloco acima, de /var/log/messages)
+initial_position = start_of_file
+log_group_name = /var/log/httpd/access_log
+</code></pre></small>
+            <ul>
+                <li>sudo systemctl restart awslogsd</li>
+                <li>Acessar servidor web da Instância:
+                    <ul>
+                        <li>Copiar IP do rodapé no shell do Amazon Linux da Instância e colá-lo em outra aba do browser</li>
+                        <li>Isso gerará log de access_log, que pode ser visualizado na AWS CloudWatch, nos logs da Instância, menu lateral esquerdo, Logs/Grupo de logs. Após isso, clicar na Instância access_log, clicar na Instância e, com isso, aparecerão os respectivos logs do servidor Apache</li>
+                    </ul>
+                </li>
+            </ul>
+            <p><b>Visualizar logs de container nginx no CloudWatch:</b></p>
+            <ul>
+                <li>No shell do Amazon Linux da Instância</li>
+                <li>sudo yum update && sudo yum install docker && sudo systemctl start docker && sudo systemctl stop httpd</li>
+                <li>sudo docker container run -d --name nginx --log-driver=awslogs --log-opt awslogs-region=(Mesma região da Instância, não incluir a letra final da região) --log-opt awslogs-group=nginx-logs --log-opt awslogs-create-group=true -p 80:80 nginx
+                    <ul>
+                        <li>Acessar, no browser, o IP do rodapé no shell do Amazon Linux da Instância, onde aparecerá o servidor nginx do container</li>
+                        <li>Isso gerará log de nginx-logs, que pode ser visualizado na AWS CloudWatch, nos logs da Instância, menu lateral esquerdo, Logs/Grupo de logs. Após isso, clicar na Instância nginx-logs, clicar na Instância e, com isso, aparecerão os respectivos logs do container servidor nginx</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <br>
+            <h4>Gerenciar logs na GCP com Stackdriver</h4>
+            <p class="text-muted"><i>(Criar conta em Google Cloud Platform)</i></p>
+            <p id="textoPost">Google Stackdriver é um serviço freemium de gerenciamento de sistemas em cloud, fornecendo dados de desempenho e diagnósticos para usuários de nuvem pública. O Stackdriver é uma solução com várias clouds, fornecendo suporte para GCP e AWS.</p>
+            
+            <p><b>Gerenciar Instâncias na GCP:</b></p>
+            <ol>
+                <li>Criar Instância:</li>
+            </ol>
+            <ul>
+                <li>Menu lateral superior esquerdo, acessar Compute Engine, sessão Máquinas Virtuais, clicar em Instâncias de VM</li>
+                <li>Clicar em Criar
+                    <ul>
+                        <li>Nome: instancia-gcp</li>
+                        <li>Bloco de inicialização:
+                            <ul>
+                                <li>Sistema Operacional: Ubuntu</li>
+                                <li>Versão: Ubuntu 20.04 LTS</li>
+                                <li>Tipo de disco de inicialização: Disco Permanente SSD</li>
+                                <li>Tamanho (GB): 100</li>
+                                <li>Clicar em Selecionar</li>
+                            </ul>
+                        </li>
+                        <li>Firewall:
+                            <ul>
+                                <li>Marcar Permitir tráfego HTTP</li>
+                                <li>Marcar Permitir tráfego HTTPS</li>
+                            </ul>
+                        </li>
+                        <li>Clicar em Criar</li>
+                    </ul>
+                </li>
+            </ul>
+            <ol start="2">
+                <li>Acessar Instância:</li>
+            </ol>
+            <ul>
+                <li>Na listagem de Instâncias, clicar nas opções de Conectar da Instância em questão, clicar em opção 'Abrir na janela do navegador'</li>
+            </ul>
+
+            <p><b>Visualizar logs do shell da GCP:</b></p>
+            <img src="gcpLogs.png" class="img-fluid rounded" width="500px">
+            <ul>
+                <li>Conectar ao shell da Instância Ubuntu, conforme acima</li>
+                <li>sudo su -</li>
+                <li>curl -sSO https://dl.google.com/cloudagents/add-logging-agent-repo.sh
+                    <ul>
+                        <li>Verificar se criou-se o arquivo de script: ls</li>
+                    </ul>
+                </li>
+                <li>bash add-logging-agent-repo.sh</li>
+                <li>apt update && apt install google-fluentd google-fluentd-catch-all-config
+                    <ul>
+                        <li>Coletará, com isso, logs de todos os citados: ls /etc/google-fluentd/config.d/</li>
+                    </ul>
+                </li>
+                <li>systemctl start google-fluentd && systemctl enable google-fluentd</li>
+                <li>Acompanhar logs: tail -f /var/log/google-fluentd/google-fluentd.log</li>
+                <li>Menu lateral superior esquerdo, acessar Operations/Registros, clicar em 'Roteador de Registros'
+                    <ul>
+                        <li>Na página de Roteador de Registros, clicar em Criar Coletor
+                            <ul>
+                                <li>Nome: bucket-audit (Clicar em Next)</li>
+                                <li>Tipo do coletor: Bucket do Cloud Logging</li>
+                                <li>Selecionar um bucket de registros: Criar novo bucket de registros
+                                    <ul>
+                                        <li>Nome: bucket1</li>
+                                        <li>Região: Global (Clicar em Next)</li>
+                                    </ul>
+                                </li>
+                                <li>Clicar em Next nas próximas etapas</li>
+                                <li>Clicar em Criar Coletor</li>
+                                <li>No shell Ubuntu da Instância: sudo systemctl restart google-fluentd</li>
+                                <li>Após isso, voltar na GCP</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>Menu lateral superior esquerdo, acessar Operations/Registros, clicar em 'Explorador de Registros'
+                    <ul>
+                        <li>Na página Explorador de Registros, selecionar:
+                            <ul>
+                                <li>Recurso: Instância de VM/instancia-gcp</li>
+                                <li>Nome do registro: syslog</li>
+                                <li>Gravidade: Selecionar tudo</li>
+                            </ul>
+                        </li>
+                        <li>No shell Ubuntu da Instância, configurar para exibir logs
+                            <ul>
+                                <li>sudo nano /etc/rsyslog.d/50-default.conf
+                                    <ul>
+                                        <li>(Descomentar) cron.*</li>
+                                    </ul>
+                                </li>
+                                <li>crontab -l</li>
+                                <li>logger 'auditoria de logs ubsocial'</li>
+                                <li>sudo systemctl restart rsyslog</li>
+                                <li>Voltar ao painel de logs da Instância na GCP, clicar em Executar Consulta e verificar se os primeiros logs apresentados referem-se ao restart do rsyslog, logger e crontab</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <p><b>Visualizar logs de servidor web nginx na GCP:</b></p>
+            <ul>
+                <li>Procurar IP da Instância Ubuntu da GCP, para momento posterior:
+                    <ul>
+                        <li>Na GCP, menu lateral esquerdo superior, Computer Engine, sessão Máquinas Virtuais, clicar em Instâncias de VM, e aparecerá o IP da Instância GCP</li>
+                    </ul>
+                </li>
+                <li>Conectar ao shell da Instância Ubuntu da GCP (Modo root sudo su)</li>
+                <li>apt install nginx && systemctl start nginx</li>
+                <li>systemctl restart google-fluentd
+                    <ul>
+                        <li>No browser, nova aba, acessar servidor web nginx com o IP da Instância</li>
+                        <li>A GCP pegará os logs de acordo com o arquivo de configuração /etc/google-fluentd/config.d/nginx.conf</li>
+                    </ul>
+                </li>
+                <li>Para visualizar os logs na GCP, acessá-la e, no menu lateral esquerdo superior, Registros, clicar em Explorador de Registros
+                    <ul>
+                        <li>Recurso: Instância de VM / instancia-gcp</li>
+                        <li>Nome do registro: nginx-access</li>
+                        <li>Gravidade: Tudo</li>
+                        <li>Clicar em Executar Consulta</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <p><b>Visualizar logs de container Apache GCP:</b></p>
+            <ul>
+                <li>Conectar ao shell da Instância Ubuntu da GCP (Modo root sudo su)</li>
+                <li>apt install apt-transport-https ca-certificates curl gnupg-agent software-properties-common</li>
+                <li>curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -</li>
+                <li>add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"</li>
+                <li>apt update && apt install docker-ce docker-ce-cli containerd.io</li>
+                <li>systemctl start docker && systemctl stop nginx</li>
+                <li>docker container run -d --name httpd --log-driver=gcplogs --log-opt gcp-meta-name=`hostname` -p 80:80 httpd
+                    <ul>
+                        <li>No browser, nova aba, abrir servidor web Apache com o IP da Instância Ubuntu da GCP</li>
+                    </ul>
+                </li>
+                <li>Para visualizar os logs na GCP, acessá-la e, no menu lateral esquerdo superior, Registros, clicar em Explorador de Registros
+                    <ul>
+                        <li>Recurso: Instância de VM / intancia-gcp</li>
+                        <li>Nome do registro: gcplogs-docker-driver</li>
+                        <li>Gravidade: Tudo</li>
+                        <li>Clicar em Executar Consulta</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center bg-black text-light pt-4 pb-3">
+        <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>
