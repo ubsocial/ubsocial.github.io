@@ -221,7 +221,7 @@
                     <h4>Estrutura de arquivos:</h4>
                     <p>Em 1994, a FSSTND (Filesystem Standard) criou a estrutura básica de organização de arquivos no Linux. Atualmente, algumas distros trazem ZFS (Zeta Filesystem) como integração, mais voltado para distros profissionais em Datacenters, pois realiza gestão de múltiplos volumes em pool, além de ferramentas nativas contra corrompimento de dados. Há o OpenZFS, versão free do ZFS, sendo substituível pelo BTRFS. Linux compõe-se da seguinte estrutura de arquivos, baseada na FHS (Filesystem Hierarchy Standard), mantida pela FSG (Free Standard Group), no padrão Posix:</p>
                     <p><b>/ (raíz):</b><br>Dentro do diretório raíz (<b>/</b>) encontram-se todos os demais diretórios.</p>
-                    <p><b>/bin:</b><br>Todos os comandos (Binaries) alias acessíveis ao usuário, sendo a pasta um link simbólico para '/usr/bin', executáveis no Bash, são referenciados neste diretório. Por exemplo, o comando alias <i>ls</i> refere-se ao <i>/bin/ls</i>. Neste caso, <i>ls /boot/grub</i> é o mesmo que <i>/bin/ls /boot/grub</i>.</p>
+                    <p><b>/bin:</b><br>Todos os comandos (Binaries) alias acessíveis ao usuário, sendo a pasta um link simbólico para '/usr/bin', executáveis no Bash, são referenciados neste diretório. Por exemplo, o comando alias <i>ls</i> refere-se ao <i>/bin/ls</i>. Neste caso, <i>ls /boot/grub</i> é o mesmo que <i>/bin/ls /boot/grub</i>. O comando <i>wich</i> mostra o caminho para o binário do pacote informado.</p>
                     <p><b>/boot:</b><br>Onde ficam os arquivos estáticos necessários para a inicialização do sistema, como o gerenciador de boot (<i>grub</i>) e imagem do Kernel.</p>
                     <p><b>/cdrom:</b><br> Diretório legado (Não faz parte da FHS), para montagem temporária de imagem de disco CD-DVD. O local padrão para tal é o /media.</p>
                     <p><b>/dev:</b><br>Onde ficam todos os dispositivos (Devices), como periféricos, onde a comunicação ocorre por meio de links. Por exemplo, o dispositivo controlador do mouse na movimentação do cursor na tela. Neste diretório encontram-se o hd (<i>sda</i> ou <i>vda</i>), periféricos (Usb geralmente é <i>sdb</i>, <i>sdb1</i>...), ttys, entre outros. Ao acessar o arquivo de escrita em disco, pode-se utilizar o <i>ctrl+h</i> para resetar e sair do mesmo.</p>
@@ -304,9 +304,10 @@
                     <ul>
                         <li><b>Boot</b>: Partição para boot da distro, do tipo primária FAT32, com label <i>/boot/efi</i>, com média de 600MB;</li>
                         <li><b>Swap</b>: Partição de memória virtual, do tipo primária linux-swap, sem label, com média de metade do tamanho da RAM (Aqui no caso 2GB);</li>
-                        <li><b>Root</b>: Partição raíz, onde ficará o sistema, do tipo primária journaling EXT4, com label <i>/</i>, preenchendo com o restante do espaço livre.
+                        <li><b>Root</b>: Partição raíz, onde ficará o sistema, do tipo primária journaling EXT4 (ou BTRFS, ou LVM), com label <i>/</i>, preenchendo com o restante do espaço livre.
                             <ul>
-                                <li><b>Opcional (Partição home separada)</b>: Partição onde ficarão os arquivos dos usuários (documentos, imagens, vídeos, etc), do tipo primária journaling EXT4, com label <i>/home</i>, preenchendo com o espaço livre restante (Neste caso, 40% do espaço livre restante será de home, e os demais 60% será de root).</li>
+                                <li><b>Opcional (Partição home separada)</b>: Partição onde ficarão os arquivos dos usuários (documentos, imagens, vídeos, etc), do tipo primária journaling EXT4, com label <i>/home</i>, preenchendo com o espaço livre restante (Neste caso, 40% do espaço livre restante será de home, e os demais 60% será de root);</li>
+                                <li><b>Opcional (Criptografa)</b>: Pode-se criptografar a participação / com o LUKS.</li>
                             </ul>
                         </li>
                     </ul>
