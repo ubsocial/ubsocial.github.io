@@ -95,8 +95,9 @@
 </code></pre></small>
 
             <br><h4>Exemplo visual</h4>
-            <p>Código do gráfico: <a href="https://github.com/ubsocial/ubsocial.github.io/blob/main/arquivo/posts/post9.html" class="text-decoration-none" target="_blank">Acesse</a></p>
-            <!--Código do gráfico 'Avaliação UB Social':-->
+            <p>Código do gráfico: <a href="https://github.com/ubsocial/ubsocial.github.io/blob/main/posts/post9.html" class="text-decoration-none" target="_blank">Acesse</a></p>
+
+            <!--Código do gráfico 'Avaliação UB Social'-->
             <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
             <script type="text/javascript">
                 google.charts.load("current", {packages:["corechart"]});
@@ -104,9 +105,9 @@
                 function drawChart() {
                     var data = google.visualization.arrayToDataTable([
                         ['Descrição', 'Nota'],
-                        ['Bom', 10],
-                        ['Médio', 2],
-                        ['Ruim', 1]
+                        ['Desenvolvimento', 10],
+                        ['Tips', 6],
+                        ['Outros', 2]
                     ]);
                     var options = {title: 'Avaliação UB Social', backgroundColor: 'none', pieHole: 0.4};
                     var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
@@ -115,6 +116,7 @@
             </script>
             <div id="donutchart" style="width: 600px; height: 400px;"></div>
             <!---->
+
         </div>
     </div>
 
