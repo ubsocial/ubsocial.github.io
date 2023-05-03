@@ -1,0 +1,663 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../icons/logoTit.png">
+    <link rel="stylesheet" href="../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <nav class="navbar rounded-bottom fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="../index.html"><img src="../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../sobre/sobre.html">Sobre</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../livros/livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 text-center" id="titulo">
+            <h1>MySQL</h1>
+            <h6><strong>Teoria e prática MySQL</strong></h6>
+            <a href="../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
+        </div>
+
+        <div class="col-sm-12">
+<small><pre><code>
+Database -&gt; Conjunto de tables -&gt; Conjunto de registros (linhas, tuplas) -&gt; Compostas por campos (columns)
+
+<b>Modelo Entidade-Relacionamento (ER)</b>
+- Entidades: Objetos do BD (Ex: aluno)
+- Relacionamentos: Conjunto de associações entre ocorrência de entidade (Ex: fulano acessa site ub social)
+
+Relacionamento 1:1: Indica que as tabelas têm relação unívoca entre si. Você escolhe qual tabela vai receber a chave estrangeira;
+Relacionamento 1:N: Chave primária da tabela que tem o lado 1 está para ir para a tabela do lado N. No lado N ela é chamada de chave estrangeira;
+Relacionamento N:N: Será necessário criar nova tabela com as chaves primárias das tabelas envolvidas, ficando assim uma chave composta, ou seja, formada por diversos campos-chave de outras tabelas. A relação então se reduz para uma relação 1..n, sendo que o lado n ficará com a nova tabela criada.
+
+Cardinalidade Mínima e Máxima:
+Projeto (0,n) - trabalha - (1,n) Empregado
+Funcionario (1,1) - gerencia - (0,1) Departamento
+
+- Relacionamento Unário: Exclusivo a 1 só entidade (Ex: funcionário gerencia a gerência e é gerenciado pela gerência)
+- Relacionamento Ternário (Ex: 1..n..n): Distribuidor - (1)distribuicao - (n)cidade e (n)produto
+
+Entidade Fraca: Quando depende da existência de um relacionamento de identificação com outra entidade
+Ex: empregado(1,1) - depende de - (0,n)dependentes
+
+Entidade Associativa: Ambos precisam do dataConsulta para registrar o medicamento prescrito em uma consulta
+Medico(1,n) - consulta - (0,n)Paciente
+    |_ (0,n)prescricao - (0,n)Medicamento
+
+
+<b>NORMALIZAÇÃO</b>
+Simplificar grupos complexos de dados, evitando redundâncias e possibilitar maior desempenho nas pesquisas
+
+Primeira forma normal (1FN):
+Se os valores de seus atributos são atômicos (simples, indivisíveis) e monovalorados. FN1 não permite "relações dentro de relações" ou "relações como atributos de tuplas". Uma tabela está na primeira forma normal quando seus atributos não contêm grupos de repetição, ou seja, multivalorados.
+Ex: tabela Cliente, com idCliente,nome,telefone: cria-se uma tabela Cliente(idCliente,nome) e uma Telefone(idCliente,telefone).
+
+Segunda forma normal (2FN):
+Precisa atender as condições: A relação está em 1FN & Todo atributo da tabela seja dependente funcional da chave completa e não de parte da chave. Ou seja, Todos os atributos não-chave dependem funcionalmente de toda a chave primária.
+Ex: Tabela XY(pk_Projeto,pk_Empregado,Cargo,DtInicio,Horas): cria-se nova tabela X(pk_Projeto,pk_Empregado,DtInicio,Horas) e Y(pk_Empregado,Cargo)
+
+Terceira forma normal (3FN):
+Exige que não existam atributos transitivamentes dependentes de chave. Identificar colunas que são dependentes das outras colunas não chave e extraí-las p/ tabela
+Ex: Tabela XY(pk_Pessoa,Idade,Cidade,cep): cria-se tabela X(pk_Pessoa,Idade,Cidade) e Y(Cidade,cep).
+
+
+<b>TIPOS COMUNS DE DADOS MYSQL</b>
+&gt; Numéricos Inteiros:
+tinyint
+smallint
+int 12 2000
+mediumint
+bigint
+
+&gt; Numéricos Reais:
+decimal 999.99
+float
+double -999.00009
+real
+
+&gt; Numérico Lógico:
+bit b'11'
+boolean true / false
+
+&gt; Data/Tempo:
+date 'YYYY-MM-DD' '1000-01-01'
+datetime 'YYYY-MM-DD HH:MM:SS' '9999-12-31 23:59:59'
+timestamp '1970-01-01 00:00:01'
+time 'HH:MM:SS' '838:59:59'
+year '1901' 2018
+
+&gt; Literal Caractere:
+char char(4)'abcd'
+varchar varchar(4)'abcd'
+
+&gt; Literal Texto:
+tinytext
+text 'This is a test message. This is a test message. This is a test message.'
+mediumtext
+longtext
+
+&gt; Literal Binário:
+tinyblob
+blob '89504E470D0A1A0A0000000D4948' (no caso link da img)
+mediumblob
+longblob
+
+&gt; Literal Coleção:
+enum size ENUM('x-small', 'small', 'medium', 'large', 'x-large')-&gt;  'small' (pd opções...);
+set col SET('a', 'b', 'c', 'd')-&gt;   ('a,d'), ('d,a'), ('a,d,a');
+
+&gt; Espacial:
+geometry
+point 'POINT(1 1)'
+polygon 'POLYGON((0 0,10 0,10 10,0 10,0 0),(5 5,7 5,7 7,5 7, 5 5))'
+multipolygon
+
+<b>FUNÇÕES MATEMÁTICAS</b>
+• ABS(x): valor absoluto de x
+• CEIL(numeric): arredonda para o próximo inteiro superior
+• DEGREES(valor): converte valor de radianos para graus
+• FLOOR(numeric): arredonda para o próximo inteiro inferior
+• MOD(x,y): resto da divisão de x por y
+• PI(): constante PI (3,1415...)
+• POWER(x,y): x elevado a y
+• RADIANS(valor): converte valor de graus para radianos
+• RANDOM(): valor aleatório entre 0 e 1
+• ROUND(numeric): arredonda para o inteiro mais próximo
+• ROUND(v,d): arredonda v com d casas decimais
+• SIGN(numeric): retorna o sinal da entrada, como -1 ou +1
+• SQRT(X): Raiz quadrada de X
+• TRUNC(numeric): trunca para o nenhuma casa decimal
+• TRUNC(v numeric, s int): trunca para s casas decimais
+
+<b>FUNÇÕES STRINGS</b>
+• Concatenação de Strings - dois || (pipes)
+SELECT 'ae' || 'io' || 'u' AS vogais; --vogais --- aeiou
+SELECT CHR(67)||CHR(65)||CHR(84) AS "Dog"; -- Dog CAT
+• Quantidade de Caracteres de String
+char_length - retorna o número de caracteres
+SELECT CHAR_LENGTH('UNIFOR'); --Retorna 6 ou LENGTH('ubsocial')
+• Converter para minúsculas: SELECT LOWER('UNIFOR');
+• Converter para maiúsculas: SELECT UPPER('universidade');
+• Posição de caractere: SELECT POSITION ('@' IN 'ribafs@gmail.com'); -- Retorna 7 Ou SELECT STRPOS('Ribamar' ,'mar'); -- Retorna 5
+• CONCAT Concatena os valores das strings: SELECT CONCAT(Nome_cliente, Cidade) FROM Cliente;
+• CONCAT_WS Concatena os valores das strings tendo como primeiro parâmetro um caractere separador: SELECT concat_ws(' ', Nome_cliente, Cidade) FROM Cliente;
+• LEFT Devolve os N primeiros caracteres iniciando da esquerda: SELECT LEFT(Nome_cliente, 3) FROM Cliente;
+• RIGHT Devolve os N primeiros caracteres iniciando da direita: SELECT RIGHT(Nome_cliente, 3) FROM Cliente;
+• LPAD dado um tamanho de string, preenche com um caractere definido preenchido a esquerda de modo a fechar a quantidade delimitada: SELECT Lpad(Nome_cliente, 10, '*') FROM cliente;
+• RPAD dado um tamanho de string, preenche com um caractere definido preenchido a direita de modo a fechar a quantidade delimitada: SELECT RPAD(Nome_cliente, 10, '*') FROM cliente;
+• LTRIM, RTRIM e TRIM: Remove espaços em branco de cadeias de caracteres. Left sendo da esquerda para a direita e rigth da direita para esquerda e TRIM de ambos os lados: SELECT LTRIM('                teste');
+• Substring
+SUBSTRING(string [FROM inteiro] [FOR inteiro])
+Seleciona uma substring de uma string, tendo um inicio e uma largura.
+SELECT SUBSTRING('otorrinolaringologista', 3, 7);
+SELECT SUBSTRING('otorrinolaringologista', -5, 3);
+SELECT SUBSTRING ('Ribamar FS' FROM 9 FOR 10); -- FS
+SUBSTRING(string FROM padrão);
+SELECT SUBSTRING ('PostgreSQL' FROM '.......'); --Postgre
+SELECT SUBSTRING ('PostgreSQL' FROM '...$'); -- SQL
+Primeiros ....... e últimos ...$
+Ou
+SUBSTR ( 'string', inicio, quantidade);
+SELECT SUBSTR ('Ribamar', 4, 3); -- Retorna mar
+• Substituir todos os caracteres semelhantes
+SELECT TRANSLATE(string, velho, novo);
+SELECT TRANSLATE('Brasil', 'il', 'ão'); -- Retorna Brasão
+SELECT TRANSLATE('Brasileiro...leiro', 'eiro', 'eira');
+• Remover Espaços de Strings: SELECT TRIM(' SQL - PADRÃO ');
+• Calcular MD5 de String: SELECT MD5('ribafs'); -- Retorna 53cd5b2af18063bea8ddc804b21341d1
+• Repetir uma string n vezes: SELECT REPEAT('SQL-', 3); -- Retorna SQL-SQL-SQL
+• Sobrescrever substring em string
+SELECT REPLACE ('Postgresql', 'sql', 'SQL'); -- Retorna PostgreSQL
+SELECT REPLACE('otorrinolaringologista','gista','bolachinha');
+SELECT REPLACE(Nome_cliente ,'Tu', 'Você') FROM cliente;
+• INSTR: Retorna a posição da string onde uma substring se inicia: SELECT INSTR('Otorrinolaringologista' ,'ringo');
+• REPEAT: Repete a string uma determinada quantidade de vezes: SELECT Repeat('Otorrinolaringologista' , 5);
+• REVERSE: Inverte uma string: SELECT REVERSE ('Otorrinolaringologista');
+
+<b>FUNÇÕES DE DATA & HORA</b>
+• Operações com datas:
+timestamp '2001-09-28 01:00' + interval '23 hours' -&gt; timestamp '2001-09-29 00:00'
+date '2001-09-28' + interval '1 hour' -&gt; timestamp '2001-09-28 01:00'
+date '01/01/2006' – date '31/01/2006'
+time '01:00' + interval '3 hours'time -&gt; '04:00'
+interval '2 hours' - time '05:00' -&gt; time '03:00:00'
+• Função age (retorna Interval) - Diferença entre datas
+age(timestamp)interval (Subtrai de hoje)
+age(timestamp '1957-06-13') -&gt; 43 years 8 mons 3 days
+age(timestamp, timestamp)interval Subtrai os argumentos
+age('2001-04-10', timestamp '1957-06-13') -&gt; 43 years 9 mons 27 days
+• Função extract (retorna double) - Extrai parte da data: ano, mês, dia, hora, minuto, segundo.
+select extract(year from age('2001-04-10', timestamp'1957-06-13'))
+select extract(month from age('2001-04-10', timestamp'1957-06-13'))
+select extract(day from age('2001-04-10', timestamp'1957-06-13'))
+• Data e Hora atuais (retornam data ou hora)
+SELECT CURRENT_DATE;
+SELECT CURRENT_TIME;
+SELECT CURRENT_TIME(0);
+SELECT CURRENT_TIMESTAMP;
+SELECT CURRENT_TIMESTAMP(0);
+• Obtendo o dia do mês:
+SELECT DATE_PART('DAY', CURRENT_TIMESTAMP) AS Dia;
+• Somar dias e horas a uma data:
+SELECT CAST('06/04/2006' AS DATE) + INTERVAL '27 DAYS' AS Data;
+• Função now (retorna timestamp with zone)
+now() - Data e hora corrente (timestamp with zone);
+Não usar em campos somente timestamp.
+• Função date_part (retorna double)
+SELECT date_part('day', TIMESTAMP '2001-02-16 20:38:40');
+Resultado: 16 (day é uma string, diferente de extract)
+• Função date_trunc (retorna timestamp)
+SELECT date_trunc('year', TIMESTAMP '2001-02-16 20:38:40');
+Retorna 2001-02-16 00:00:00
+• Convertendo (CAST)
+select to_date('1983-07-18', 'YYYY-MM-DD')
+select to_date('19830718', 'YYYYMMDD')
+• Função timeofday (retorna texto)
+select timeofday() -&gt; Fri Feb 24 10:07:32.000126 2006 BRT
+
+<b>FUNÇÕES DE AGRUPAMENTO (Agregação)</b>
+– avg(expressão)
+– count(*)
+– count(expressão)
+– max(expressão)
+– min(expressão)
+– sum(expressão)
+
+
+<b>CRIAR BD:</b>
+CREATE DATABASE nome;
+DEFAULT CHARACTER SET utf8
+DEFAULT COLLATE utf8_general_ci;
+
+<b>ABRIR BD:</b>
+USE nome;
+
+<b>EXCLUIR BD</b>
+DROP DATABASE nome;
+
+<b>CRIAR E EXCLUIR SCHEMA</b>
+CREATE SCHEMA nomeesquema;
+DROP SCHEMA nomeesquema CASCADE;
+Apaga o esquema e todas as suas tabelas, portanto muito cuidado
+
+<b>CRIAR TABELA</b>
+CREATE TABLE pessoas (
+    Id int not null auto_increment,
+    Nome varchar(30),
+    Idade tinyint(3),
+    Sexo char(1),
+    Peso float,
+    Altura float,
+    Nacionalidade varchar(20),
+    PRIMARY KEY(Id)
+) DEFALUT CHARSET = utf8;
+
+<b>TABELAS MODELO</b>
+CREATE TABLE Usuario (
+    idUsuario INTEGER AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(20) NOT NULL,
+    senha VARCHAR(32) NOT NULL
+);
+
+CREATE TABLE Navio (
+    idNavio VARCHAR(7) NOT NULL PRIMARY KEY,
+    transportadora VARCHAR(20) NOT NULL,
+    comandante VARCHAR(20) NOT NULL,
+    idUsuario INTEGER NOT NULL,
+    FOREIGN KEY(IdUsuario) REFERENCES Usuario(idUsuario)
+);
+
+<b>EXCLUIR TABELA</b>
+DROP TABLE pessoas;
+
+<b>EXCLUIR COLUNA</b>
+DROP COLUMN profissao;
+
+<b>ALTERAR TIPO COLUNA</b>
+ALTER TABLE pessoas MODIFY COLUMN profissão VARCHAR(20);
+
+<b>ALTERAR POSIÇÃO DA COLUNA</b>
+ALTER TABLE pessoas ADD COLUMN profissão VARCHAR(20) AFTER nome; ADD COLUMN codigo INT FIRST;
+
+<b>RENOMEAR TABELA</b>
+ALTER TABLE pessoas RENAME TO gafanhotos;
+
+<b>EXCLUIR TABELA</b>
+DROP TABLE cursos;
+
+<b>ADICIONAR COLUNA</b>
+ALTER TABLE pessoas ADD COLUMN profissão VARCHAR(20);
+
+<b>RENOMEAR COLUNA</b>
+ALTER TABLE pessoas CHANGE COLUMN profissão prof VARCHAR(20);
+
+<b>EXCLUIR COLUNA</b>
+ALTER TABLE pessoas DROP COLUMN profissão;
+
+<b>ADICIONAR PRIMARY KEY</b>
+ALTER TABLE cursos ADD COLUMN idcurso INT FIRST, ADD PRIMARY KEY(idcurso);
+
+<b>ADICIONAR FOREIGN KEY</b>
+ALTER TABLE gafanhotos ADD COLUMN cursopreferido INT, ADD FOREIGN KEY(cursopreferido) REFERENCES cursos(idcurso);
+
+<b>APAGAR FOREIGN KEY</b>
+ALTER TABLE posts DROP FOREIGN KEY fk_posts;
+
+<b>APAGAR PRIMARY KEY</b>
+1º remover o auto_increment:
+ALTER TABLE user_customer_permission MODIFY id INT NOT NULL;
+2º remover a primary key:
+ALTER TABLE user_customer_permission DROP PRIMARY KEY;
+
+<b>INSERIR DADOS NA TABELA</b>
+INSERT INTO pessoas (id, nome, nascimento, sexo, peso, altura, nacionalidade) VALUES ('1', 'ubsocial', '1984-12-31', 'M', '78.5', '1.83', 'Brasil');
+
+<b>INSERIR DADOS CRIPTOGRAFADOS (MD5)</b>
+INSERT INTO Usuario (nome,senha) VALUES ("admin",MD5(123));
+
+<b>MODIFICAR LINHAS INCORRETAS</b>
+UPDATE gafanhotos SET cursopreferido = 'g' WHERE ID = '1' AND idade &gt; 15;
+
+<b>MODIFICAR LINHAS INCORRETAS</b>
+UPDATE cursos SET nome = 'HTML5' WHERE idcurso = '1';
+UPDATE cursos SET nome = 'PHP', ano = '2015' WHERE idcurso = '4' HAVING....
+
+<b>MODIFICAR LINHAS DE FORMA LIMITADA</b>
+UPDATE cursos SET nome = 'Java', carga = '40', ano = '2015' WHERE idcurso = '5' LIMIT 1;
+
+<b>EXCLUIR LINHAS</b>
+DELETE FROM cursos WHERE idcurso = '8';
+OU
+DELETE FROM cursos WHERE ano = '2018' LIMIT 3;
+DELETE FROM medicos WHERE especialidade = 'cardiologia' OR cidade &lt;&gt; 'Feliz';
+
+<b>APAGAR TODOS OS DADOS DA TABELA</b>
+TRUNCATE TABLE cursos; OU TRUNCATE cursos;
+
+<b>SELECT COM APELIDOS</b>
+SELECT siape AS "Matricula do Servidor" FROM pessoal;
+SELECT pessoal.siape, pessoal.senha, locacoes.lotacao FROM pessoal, lotacoes WHERE pessoal.siape = lotacoes.siape ORDER BY lotacoes.lotacao;
+
+<b>SELECT MAIÚSCULO</b>
+SELECT nome FROM clientes WHERE UPPER(estado)='RS'; /*lower() para minúsculo*/
+
+<b>SELECT ORDEM CRESCENTE</b>
+SELECT * FROM cursos ORDER BY nome;
+
+<b>SELECT ORDEM DESCRESCENTE</b>
+SELECT * FROM cursos ORDER BY nome DESC;
+
+<b>SELECT ORDENADO</b>
+SELECT nome, carga, ano FROM cursos ORDER BY nome, ano;
+
+<b>SELECT CONDIÇÃO LINHAS MÚLTIPLAS</b>
+SELECT * FROM cursos WHERE ano = '2016' ORDER BY nome;
+
+<b>SELECT CONDIÇÃO LINHA ÚNICA</b>
+SELECT nome, descrição, carga FROM cursos WHERE ano &lt;= '2015' ORDER BY ano;
+
+<b>SELECT ENTRE CONDIÇÕES</b>
+SELECT * FROM cursos WHERE totaulas BETWEEN '20' AND '30' ORDER BY nome;
+
+<b>SELECT ENTRE CONDIÇÕES</b>
+SELECT nome, descrição, ano FROM cursos WHERE ano IN(2014, 2016) ORDER BY ano;
+
+<b>SELECT ENTRE CONDIÇÕES</b>
+SELECT * FROM cursos WHERE carga &gt; 35 AND totaulas &lt; 30 ORDER BY nome;
+IN -&gt; Posso usar valores específicos
+BETWEEN -&gt; Posso usar a faixa de valores
+
+<b>SELECT LIKE</b>
+SELECT * FROM cursos WHERE nome LIKE 'P%';
+SELECT * FROM cursos WHERE nome LIKE '%A';
+/*'%A%';
+'J%A';
+WHERE nome NOT LIKE '%A';
+WHERE nome LIKE 'PH%P_';
+O espaço requer que tenha um componente na composição no lugar!
+ILIKE é case INsensitive
+LIKE case sensitive.*/
+
+<b>SELECT EXISTS</b>
+SELECT * FROM datas WHERE EXISTS(SELECT * FROM datas2 WHERE datas.data = datas2.data); /*tem tbm o NOT EXISTS...*/
+
+<b>SELECT NULL</b>
+SELECT nome FROM clientes WHERE estado IS NULL;
+SELECT nome FROM clientes WHERE estado IS NOT NULL;
+
+<b>SELECT DISTINCT</b>
+SELECT DISTINCT carga FROM cursos;
+/*O DISTINCT tem a função de escolher uma só característica de cada tupla!*/
+
+<b>SELECT QTDE TOTAL</b>
+SELECT COUNT(*) FROM cursos;
+SELECT COUNT(*) FROM cursos WHERE carga &gt; 40;
+
+<b>SELECT MAIOR E MENOR VALOR</b>
+SELECT MAX(totaulas) FROM cursos WHERE ano = '2016';
+SELECT MIN(totaulas) FROM cursos;
+/*Se há valores iguais, considerará somente o primeiro da lista!*/
+
+<b>SELECT SOMA</b>
+SELECT SUM(totaulas) FROM cursos;
+
+<b>SELECT MÉDIA</b>
+SELECT AVG(totaulas) FROM cursos;
+
+<b>SELECT GROUP BY</b>
+SELECT carga FROM cursos GROUP BY carga;
+SELECT carga, COUNT(nome) FROM cursos GROUP BY carga HAVING COUNT(nome) &gt; 3;
+SELECT c.nome, COUNT(p.quant) AS quantos FROM clientes c, pedidos p WHERE c.codigo = p.cod_cliente GROUP BY (p.cod_cliente);
+/*GROUP BY: Agrupa o resultado dos dados por um ou mais campos de uma tabela. Quando utilizar group by num campo da lista do SELECT, os demais deverão ser agrupados.*/
+
+<b>SELECT HAVING:</b>
+SELECT cliente, SUM(quant) AS total FROM pedidos GROUP BY cliente HAVING total &gt; 50; ou HAVING SUM(quant) &gt; 50;
+/*Filtra o retorno de GROUP BY. Não altera o resultado, apenas filtra.*/
+
+<b>SELECT ORDER BY</b>
+SELECT * FROM pedidos ORDER BY cliente DESC, quantidade ASC;
+/*Ordena o resultado da consulta por um ou mais campos em ordem ascendente (default) ou descendente.*/
+
+<b>STORED PROCEDURES</b>
+CREATE PROCEDURE Procedure_teste()
+BEGIN
+    SELECT 'A quantidade de funcionários da empresa é : ', COUNT(*) FROM Funcionário;
+END
+CALL Procedure_teste();
+
+<b>EXEMPLO STORED PROCEDURE</b>
+CREATE PROCEDURE Gera_nomes_completos ()
+BEGIN
+    DECLARE Primeiro_nome, Nome_meio, sobrenome varchar(50);
+    DECLARE CPF_Func char(11);
+    DECLARE cursor_nome CURSOR for SELECT Pnome, Minicial, Unome, Cpf FROM funcionario;
+    OPEN cursor_nome;
+    Meu_loop:
+    LOOP
+    FETCH cursor_nome INTO primeiro_nome, nome_meio, sobrenome, CPF_Func;
+    IF (nome_meio is null) then
+        update funcionario set nomecompleto = concat_ws(' ', primeiro_nome, sobrenome) where cpf = CPF_Func;
+    ELSE
+        update funcionario set nomecompleto = concat_ws(' ', primeiro_nome, nome_meio, sobrenome) where cpf=CPF_Func;
+    END IF;
+    END LOOP;
+    close cursor_nome;
+END;
+/*Declare: declarar variáveis que serão usadas pelo programa declaração de um cursor, servem pra armazenar resultados de selects é necessário abrir esse cursor para utiliza-lo no loop. Inicamos LOOP dando nome, pra que este possa ser referenciado se necessário, atribuimos valores capturados no cursor pras váriaveis que declaramos através fetch. Lógica principal da nossa rotina, realizar a concatenação dos nomes, o nome do meio caso seja null fechar o cursor*/
+
+<b>Criando Procedure</b>
+DELIMITER $
+CREATE PROCEDURE proc()
+BEGIN
+    SELECT "hello from proc";
+END
+$
+
+<b>Chamando a Procedure</b>
+CALL proc();
+hello from proc
+/*DELIMITER define caractere delimitador responsável por dizer onde começa e termina a função, funções retornam valores, procedures não. Procedures são utilizadas normalmente para juntar várias queries numa única transação.*/
+
+
+<b>FUNCTIONS</b>
+/*Procedimentos armazenados no bd que podem ser chamadas dentro de SELECTs. Usada normalmente para calcular um valor com base num determinado input. Não permite alterações no escopo*/
+/*Stored Procedures podem ser chamadas apenas com o comando CALL, as FUNCTIONS tem necessidade de ter algum retorno específico para serem chamadas dentro de consultas.*/
+CREATE FUNCTION fun_teste() RETURNS VARCHAR(100)
+BEGIN
+    RETURN 'função teste'
+END;
+
+EXEMPLO FUNCTION:
+/*Criando FUNCTION*/
+DELIMITER $
+CREATE FUNCTION func() RETURNS CHAR(100)
+BEGIN
+    RETURN "hello from func";
+END
+$
+/*Chamando func()*/
+SELECT func();
+
+<b>TRIGGERS</b>
+/*Ações disparadas em resposta ou como consequência de outras, realizando:
+• Operações de cálculo
+• Validações
+• Alterações na base de dados.
+Um TRIGGER ou gatilho é um objeto de banco de dados, associado a uma tabela, definido para ser disparado, respondendo a um evento em particular
+Tais eventos são os comandos da DML: • INSERT, DELETE ou UPDATE.
+E para cada evento existem dois momentos: • BEFORE | • AFTER
+Podemos definir inúmeros TRIGGERS em uma base de dados, porém não é possível criar mais de um trigger para o mesmo evento/momento na mesma tabela.
+Exemplo: AFTER INSERT*/
+
+CREATE TRIGGER nome momento evento ON tabela
+FOR EACH ROW
+BEGIN
+    /*corpo do código*/
+END
+
+/*• nome: nome da trigger
+• momento: instante em que o disparo deve ocorrer: BEFORE (antes) ou AFTER(depois).
+• evento: ação que ativa o disparo: INSERT, UPDATE, DELETE.
+• tabela: tabela que sofrerá a ação.
+• sentença: ação a ser executada quando determinado disparo ocorrer.
+• Registros NEW e OLD: são executados em conjunto com operações de inclusão e exclusão, é necessário poder acessar os registros que estão sendo incluídos ou removidos.
+INSERT: Essa instrução aceita somente o operador NEW.nome_coluna, onde é possível acessar o valor enviado para ser inserido em uma coluna de uma tabela.
+DELETE: Essa instrução aceita somente o operador OLD.nome_coluna, onde é possivel recuperar o valor excluido ou que será excluido pela instrução.
+UPDATE: Essa instrução aceita os dois operadores sendo, OLD.nome_coluna utilizado para recuperar o valor do campo antes da instrução e o NEW.nome_coluna usado para recuperar o novo valor após a execução da instrução.*/
+
+<b>EXEMPLO TRIGGER:</b>
+/*Considerando as tables:
+Item (num_item, descrição, preco, estoque)
+Item_pedido (num_pedido, num_item,quantidade)
+Criar trigger para atualizar o estoque quando entrar um pedido*/
+
+DROP FUNCTION insert_ped_item();
+CREATE FUNCTION insert_ped_item()
+RETURNS trigger LANGUAGE plpgsql
+AS
+'begin
+    update item set estoque = estoque - new.quantidade where
+    item.num_item = new.num_item;
+    return new;
+end;';
+DROP TRIGGER tg_insert_ped_item ON item_pedido;
+CREATE TRIGGER tg_insert_ped_item AFTER INSERT
+ON item_pedido FOR EACH ROW
+EXECUTE PROCEDURE insert_ped_item();
+
+<b>UNION & INTERSECT:</b>
+/*Interseção e União: eliminam automaticamente repetições
+– Relações precisam ser compatíveis (mesmo número de atributos)
+– UNION ALL e INTERSECTS ALL preserva duplicatas
+(select nome from conta) intersect (select nome from emprestimo);
+(select nome from conta) union (select nome from emprestimo);*/
+
+<b>JOINS:</b>
+SELECT gafanhoto.nome, gafanhoto.cursopreferido, curso.nome, curso.ano FROM gafanhotos JOIN cursos;
+/*mostrará junção da pessoa e todos os cursos que ela faz: Daniel fez 30 cursos; então ele aparecerá 30 vezes, uma com cada curso!*/
+
+<b>INNER JOIN</b> /*Esse join ocorre somente entre relações!*/
+SELECT gafanhotos.nome, gafanhotos.cursopreferido, cursos.nome, cursos.ano FROM gafanhotos INNER JOIN cursos ON cursos.idcurso = gafanhotos.cursopreferido;
+
+<b>OUTER JOIN</b> /*Seleciona tbm registros que não têm ligações. Ele possui uma preferial, sendo essa LEFT ou RIGHT.*/
+SELECT g.nome, c.curso, c.ano FROM gafanhotos AS g LEFT OUTER JOIN cursos AS c ON c.idcurso = g.cursopreferido;
+
+<b>JUNÇÕES DE TABELAS</b>
+SELECT * FROM gafanhotos g JOIN gafanhoto_assiste_curso a ON g.id = a.idgafanhoto JOIN cursos c ON a.idcurso = c.idcurso;
+/*Unimos as 3 tables do modelo relacional n-para-n, onde se relacionam entre sí através do comando.
+Com esse comando, além dele selecionar o código do curso, ele mostrará também todos(*) os outros registros!*/
+
+<b>JOIN MEIO CONJUNTOS</b>
+SELECT &lt;fields&gt; FROM tableA A INNER JOIN tableB B ON A.key = B.key;
+
+<b>JOIN MEIO E ESQUERDO</b>
+SELECT &lt;fields&gt; FROM tableA A LEFT JOIN tableB B ON A.key = B.key;
+
+<b>JOIN SOMENTE ESQUERDO</b>
+SELECT &lt;fields&gt; FROM tableA A LEFT JOIN tableB B ON A.key = B.key WHERE B.key IS NULL;
+
+<b>JOIN TOTAL</b>
+SELECT &lt;fields&gt; FROM tableA A FULL OUTER JOIN tableB B ON A.key = B.key;
+
+<b>JOIN EXTERNO ESQUERDO E DIREITO</b>
+SELECT &lt;fields&gt; FROM tableA A FULL OUTER JOIN tableB B ON A.key = B.key WHERE A.key IS NULL OR B.key IS NULL;
+
+<b>JOIN SOMENTE DIREITO</b>
+SELECT &lt;fields&gt; FROM tableA A RIGHT JOIN tableB B ON A.key = B.key WHERE A.key IS NULL;
+
+<b>JOIN MEIO E DIREITO</b>
+SELECT &lt;fields&gt; FROM tableA A RIGHT JOIN tableB B ON A.key = B.key;
+
+
+<b>CRIPTOGRAFIA</b>
+encrypt(data bytea, key bytea, type text) returns bytea;
+decrypt(data bytea, key bytea, type text) returns bytea;
+/*Type
+• bf — Blowfish
+• aes — AES (Rijndael-128)*/
+1.CREATE EXTENSION pgcrypto;
+2.CREATE TABLE crypto (id SERIAL PRIMARY KEY,title VARCHAR(50),crypted_content BYTEA);
+3.INSERT INTO crypto VALUES (1,'test1',encrypt('daniel', 'fooz', 'aes'));
+4.INSERT INTO crypto VALUES (2,'ifrs',encrypt('ifrs', '123', 'aes'));
+
+
+<b>VIEWS</b>
+/*Coleção de relações personalizadas que se ajustem melhor às necessidades dos usuários e que levem em conta as questões de segurança. table derivada de outras tables, podendo existir apenas virtualmente, em contraste com as tabelas-base, cujas tuplas estão fisicamente armazenadas no bd.*/
+SINTAXE: CREATE VIEW &lt;nome_visão&gt; (&lt;nomes das colunas&gt;) AS &lt;expressão_de_consulta&gt;;
+
+EXEMPLO VIEW:
+CREATE VIEW curso_disciplina (cod_curso, nom_curso, cod_disc, nom_disc) AS
+select r.cod_curso, c.nom_curso, r.cod_disc , d.nom_disc from disciplinas d, cursos c, curriculos r where r.cod_curso = c.cod_curso and r.cod_disc = d.cod_disc;
+
+<b>EXCLUIR VIEWS:</b>
+DROP VIEW &lt;nome_visão&gt;;
+
+
+<b>INDEX:</b>
+/*Um índice não necessariamente precisa ser uma chave primária(que não permite chaves iguais) e pd ser usado em valores que se repetem.
+TIPOS:
+BTREE&gt; Utilizado para indexar colunas que geralmente serão consultadas por intervalo.
+Por exemplo o campo salário, onde geralmente serão buscado as tuplas por um intervalo de valores desse campo.
+HASH&gt; Utilizado para indexar colunas que serão consultadas por um valor exato.
+Por exemplo o campo RG que apesar de poder repetir, geralmente serão consultado as tuplas usando a condição de igualdade para esse campo.
+Usam o conceito de tabela hash onde a tupla não é pesquisada sequencialmente e sim calculada, ou seja, a posição da tupla no banco de dados é calculado por um algoritmo e a tupla é imediatamente acessada sem precisar percorrer uma a uma procurando pela condição.
+Árvore Binária: Nela as tuplas são distribuídas em forma de árvore, colocando sempre o valor maior a direita e tendo sempre duas opções (nó).*/
+
+<b>INDEX HASH:</b>
+CREATE INDEX index_hash ON tabela_populada USING HASH (id_literal);
+EXPLAIN ANALYSE
+SELECT * FROM tabela_populada WHERE id_literal = MD5('500000');
+
+<b>INDEX BTREE:</b>
+CREATE INDEX index_btree ON tabela_populada USING btree (id_numerico);
+EXPLAIN ANALYSE
+SELECT * FROM tabela_populada WHERE id_numerico BETWEEN 499998 AND 500001;
+
+
+<b>COMMIT E ROLLBACK:</b>
+/*O Rollback é um 'cntrl+z power', que apaga tudo o que foi feito depois do begin, mas não pode ter feito o commit, que é a confirmação do script*/
+begin;
+    select max(f) from t;
+    insert into t(f) values(2);
+end;
+commit;
+rollback;
+
+select max(f) from t lock in share mode;
+UPDATE t SET f = 55 WHERE f = 2;
+/*somente executará após dar commit na outra tela (lock bloqueia!)*/
+</code></pre></small>
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center bg-black text-light pt-4 pb-3">
+        <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>

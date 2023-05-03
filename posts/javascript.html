@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../icons/logoTit.png">
+    <link rel="stylesheet" href="../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-sm-12">
+            <nav class="navbar rounded-bottom fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="../index.html"><img src="../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../sobre/sobre.html">Sobre</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../livros/livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 text-center" id="titulo">
+            <h1>JavaScript e jQuery</h1>
+            <h6><strong>Sintaxe básica JavaScript e jQuery</strong></h6>
+            <a href="../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
+        </div>
+
+        <div class="col-sm-12">
+            <h3>JavaScript</h3>
+<small><pre><code>
+<b>===== VARIÁVEIS =====</b>
+var nome = "UB Social";
+var peso = 80.5;
+var humano = true;
+var alunos = ["UB Social","UB Social2"];
+var aluno = {
+    nome: alunos[0],
+    peso: 36.5
+};
+console.log(alunos[1]);
+console.log(aluno.nome);
+
+
+<b>===== OP MATEMÁTICAS =====</b>
+var x = 10, y = 5;
+var r1 = x%y, r2 = x+=3; r3 = x*=2;
+
+
+<b>===== FUNÇÕES =====</b>
+function soma(a,b) {
+    var r = a+b;
+    return r;
+}
+soma(5,5);
+
+
+<b>===== CONDICIONAIS =====</b>
+sexo = 'M';
+if (sexo=='M') {return "Masculino";}
+else if (sexo=='F') {return "Feminino";}
+else {return "Outro";}
+
+switch (sexo) {
+    case 'M':
+        return "Masculino";
+        break;
+    default:
+        return "Feminino";
+        break;
+}
+
+
+<b>===== OP LÓGICOS =====</b>
+AND: &&
+OR: ||
+NOT: !=
+
+
+<b>===== COND TERNÁRIA =====</b>
+var r = (sexo=='M')?"Masc":"Fem";
+
+
+<b>===== REPETIÇÃO =====</b>
+for (var i=0; i&lt;=100; i++) {
+    console.log(i);
+}
+
+var j=200000;
+while (j&gt;=100) {
+    console.log(j);
+    j/=5;
+}
+
+
+<b>===== INTERVALO & TIMEOUT =====</b>
+function exibeAlgo() {console.log("Olá");}
+setInterval(exibeAlgo,1000); //executa a cada 1seg
+setTimeout(exibeAlgo,5000); //executa apenas 1vez, delay 5seg
+
+
+<b>===== EVENTOS INLINE =====</b>
+function mostraAlerta() {alert("Botão clicado");}
+&lt;button onclick="mostraAlerta()"&gt;Aperte&lt;/button&gt;
+&lt;button onmouseover="mostraAlerta()"&gt;Aperte&lt;/button&gt;
+
+
+<b>===== REFERENCIAÇÃO DOM =====</b>
+&lt;input type="text" name="nome" id="nome"/&gt;
+&lt;button class="botao"&gt;Adicionar&lt;/button&gt;
+var inputElement = document.getElementById("nome");
+var inputElement2 = document.getElementsByTagName("input")[0];
+var inputElement3 = document.getElementsByClassName("botao")[0];
+var inputElement4 = document.querySelector("body button.botao"); //percorre dom até achar o elemento
+var inputElement4 = document.querySelector("input[name=nome]");
+var inputElement5 = document.querySelectorAll("input"); //tds os inputs
+
+var btnElement = document.querySelector("button.botao");
+var inputElement = document.querySelector("input[name=nome]");
+
+btnElement.onclick = function() {
+    var texto = inputElement.nodeValue;
+    alert("Clicou");
+}
+
+
+<b>===== MANIPULAÇÃO DOM =====</b>
+&lt;div id="app"&gt;&lt;input id="nome"/&gt;&lt;/div&gt;
+var linkElement = document.createElement('a');
+linkElement.setAttribute('href','https://google.com');
+var textElement = document.createTextNode('Acesse!');
+linkElement.appendChild(textElement);
+
+var containerElement = document.querySelector('#app');
+containerElement.appendChild(linkElement);
+
+var inputElement = document.querySelector('#nome');
+containerElement.removeChild(inputElement);
+
+
+<b>===== ALTERANDO ESTILOS =====</b>
+&lt;div class="box"&gt;&lt;/div&gt;
+var boxElement = document.querySelector('.box');
+boxElement.style.width = 100;
+boxElement.style.height = 100;
+boxElement.style.backgroundColor = '#f00';
+</code></pre></small>
+            
+            <br><h3>jQuery</h3>
+            <p id="textoPost">Biblioteca encapsulada de códigos Javascript, criada em meados de 2005/2006, por John Resig, com objetivo de simplificar o Javascript, com compatibilidade de navegadores e código. Necesário download do arquivo.js para referência no codigo JavaScript. O arquivo jQuery é encontrado no site oficial, disponível para download.</p>
+            <a class="btn btn-link text-decoration-none" href="https://jquery.com/download" target="_blank">Download jquery.min.js</a>
+            
+            <br><br><h5>Por que (não) usar?</h5>
+            <ul>
+                <li>Não é tão famoso quanto ultimamente, mas muito usado em projetos</li>
+                <li>Facilita a comunicação com o servidor, via Ajax</li>
+                <li>jQuery trata todas as funções como um array</li>
+            </ul>
+            
+<small><pre><code>
+<b>Fazer chamada jQuery(<u>ex:</u> versão 3.3.1):</b>
+&lt;script src="pasta/jquery-3.3.1.js">&lt;/script&gt;
+&lt;script&gt;Códigos aqui...&lt;/script&gt;
+
+
+<b>SELETORES</b>
+&lt;p class="p1"&gt;Lorem2.&lt;/p&gt;
+&lt;p&gt;Lorem.&lt;/p&gt;
+&lt;p id="p2"&gt;&lt;/p&gt;
+&lt;p data-aula="p3"&gt;&lt;/p&gt;
+
+&lt;script src="pasta/jquery-3.3.1.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+    // Javascript
+    var p1 = document.querySelector(".p1");
+
+    // jQuery
+    var p1 = $('.p1');
+    var p1 = $('#p2');
+    var p1 = $('p[data-aula="p3"]');
+    console.log(p1);
+
+    var p1 = $('.p1').remove(); //apaga o elemento
+    var p1 = $('.p1').get(0); //acessar item índice
+    var p1 = $('.p1')[0]; //idem acima
+&lt;/script&gt;
+
+
+<b>EFEITOS</b>
+&lt;style&gt;
+    body {background-color: #efefef;}
+    .box {position:relative; left:0; width:100px; height:100px; background-color:pink;}
+&lt;/style&gt;
+
+&lt;div class="box"&gt;&lt;/div&gt;
+&lt;hr&gt;
+
+&lt;script src="pasta/jquery-3.3.1.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+    var box = $('.box');
+    box.animate({width:"200px", height:"200px"},1000) //estilo,tempo de animação(em milisegundos)
+    box.show();
+    box.hide();
+    box.fadeIn(1000); //aparecer(tempo)
+    box.fadeOut(2000); //desaparecer(tempo)
+&lt;/script&gt;
+
+
+<b>EVENTOS</b>
+&lt;style&gt;
+    body {background-color: #efefef;}
+    .box {position:relative; left:0; width:100px; height:100px; background-color:pink;}
+&lt;/style&gt;
+
+&lt;div class="box"&gt;&lt;/div&gt;
+&lt;hr&gt;
+&lt;button id="starting"&gt;Go!&lt;/button&gt;
+
+&lt;script src="pasta/jquery-3.3.1.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+    var box = $('.box');
+    var starting = $('#starting');
+
+    // forma menos usual
+    starting.click(function() {
+        console.log("Clicou");
+    });
+
+    // forma mais indicada
+    starting.on("click", function() {
+        console.log("Clicou!");
+    });
+
+    starting.on("hover", function() {
+        console.log("Passou sob!");
+    });
+
+    starting.on("click", function() {
+        box.animate({
+            left: "800"
+        }, 1500);
+    });
+&lt;/script&gt;
+
+
+<b>DELAY</b>
+Exemplo clicar no botão e esconder a mensagem com delay
+
+&lt;button&gt;Click&lt;/button&gt;
+&lt;div class="mensagem"&gt;Olá!&lt;/div&gt;
+
+&lt;script&gt;
+    var button = $("button");
+    var mensagem = $(".mensagem");
+
+    button.on("click", function() {
+        mensagem.delay("slow").fadeOut(); //ou "fast" ou 1000 milisegundos
+    });
+&lt;/script&gt;
+
+
+<b>ADDCLASS & REMOVECLASS</b>
+Remover todos os links actives existentes e ativar active no link que cliquei. Suponhamos, para o exemplo, um css com classe .active
+
+&lt;ul&gt;
+    &lt;li&gt;&lt;a class="link active" href="#"&gt;Home&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a class="link" href="#"&gt;Empresa&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a class="link" href="#"&gt;projetos&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a class="link" href="#"&gt;Contato&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;script&gt;
+    var link = $(".link");
+
+    link.on("click", function(){
+        //remover todos as .actives nos links
+        link.removeClass("active");
+
+        //adicionar a .active no link que cliquei
+        $(this).addClass("active");
+    });
+&lt;/script&gt;
+
+
+<b>SERIALIZE & SERIALIZEARRAY</b>
+Serializar dados: toda vez que preenche fomulário de Ajax, precisamos dizer quais as informações ao servidor. Enviar dados Serializados, 'em formato get, no metodo post'
+ex: cep = 0330 & logradouro = Rua x
+
+&lt;form action="#"&gt;
+    &lt;label for="cep"&gt;CEP&lt;/label&gt;
+    &lt;input type="text" name="cep"&gt;
+    &lt;label for="logradouro"&gt;Logradouro&lt;/label&gt;
+    &lt;input type="text" name="logradouro"&gt;
+    &lt;button&gt;Submit&lt;/button&gt;
+&lt;/form&gt;
+&lt;div class="resultado"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+    var form = $("form");
+    var resultado = $(".resultado");
+
+    form.on("submit", function(event){
+        //travar o recarregamento da página ao submeter (Ajax permite!)
+        event.preventDefault();
+
+        //Serializar dados
+        var data = $(this).serialize();
+        resultado.text(data);
+
+        //Serializar e convertê-los em objetos (no caso só no console)
+        var data = $(this).serializeArray();
+        console.log(data);
+    });
+&lt;/script&gt;
+
+
+<b>POSITION & OFFSET</b>
+Intentificar coordenadas de posicionamento.
+Exemplo: Saber o espaço entre um container e um item / relação entre ele e tela inteira
+
+&lt;div class="container"&gt;
+    &lt;div class="item"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+    var container = $(".container");
+    var item = $(".item");
+
+    //espaço entre item e container
+    var posicao = item.position();
+    console.log(posicao.left, posicao.top);
+
+    //espaço entre item e tela toda (geralmente usado com drag & drop)
+    var posicao = item.offset();
+    console.log(posicao.left, posicao.top);
+&lt;/script&gt;
+
+
+<b>SCROLL & SCROLLTOP</b>
+Cliques com rolagem mais suave. Ex: voltar ao topo, de forma suave.
+<u>Obs:</u> No caso do exemplo, abstrairemos o conteudo css, deixando somente o Html!
+
+&lt;ul class="menu"&gt;
+    &lt;li&gt;&lt;a href="#empresa"&gt;Empresa&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#projetos"&gt;Projetos&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#contato"&gt;Contato&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class="item"&gt;
+    &lt;h2 id="empresa"&gt;Empresa&lt;/h2&gt;
+&lt;/div&gt;
+&lt;div class="item"&gt;
+    &lt;h2 id="projetos"&gt;projetos&lt;/h2&gt;
+&lt;/div&gt;
+&lt;div class="item"&gt;
+    &lt;h2 id="contato"&gt;Contato&lt;/h2&gt;
+&lt;/div&gt;
+&lt;button class="btn"&gt;Subir&lt;/button&gt;
+
+&lt;script&gt;
+    //realizar scroll clicando no menu
+    var link = $(".menu li a");
+    var subir = $(".btn");
+
+    //toda vez que tiver scroll, fazer monitoramento
+    $(window).scroll(function {
+        //botão subir aparecer somente qndo o menu desaparecer (1200 altura do menu)
+        var minhaposicao = $(this).scrollTop();
+        if(minhaposicao &gt;= 1200) {
+            subir.fadeIn();
+        } else {
+            subir.fadeOut();
+        }
+    });
+
+    link.on("click", function(){
+        //quebrar a forma nativa do âncora (#empresa), tornando-a manual
+        //pegar valor do atributo href
+        var seletor = $(this).attr("href");
+
+        //para fazer o scroll, preciso saber a posição de destino (ex: projetos)
+        var posicao = $(seletor).offset().top;
+        $("html, body").animate({scrollTop: posicao-60},1000); //60 posição do menu, 1000 milisegundos
+
+        //scroll no botão subir
+        subir.on("click", function(){
+            $("html, body").animate({scrollTop: 0},500);
+        });
+    });
+&lt;/script&gt;
+
+
+<b>===== jQuery com Ajax =====</b>
+
+<b>--- index.php ---</b>
+&lt;script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"&gt;&lt;/script&gt;
+&lt;form id="login" method="post"&gt;
+    &lt;input type="text" placeholder="Nome" name="nome"&gt;
+    &lt;input type="password" placeholder="Senha" name="senha" id="senha"&gt;
+    &lt;input type="submit" name="loginBtn" value="Login"&gt;
+&lt;/form&gt;
+
+&lt;script&gt;
+$(document).ready(function() {
+    $('#login').submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: 'login.php',
+            data: $(this).serialize(),
+            success: function(response) {
+                var jsonData = JSON.parse(response);
+                if (jsonData.success == "1") {location.href = 'logado.php';}
+                else {alert('Login incorreto!');}
+           }
+       });
+     });
+});
+&lt;/script&gt;
+
+
+<b>--- login.php ---</b>
+&lt;?php
+if ((!empty($_POST['nome'])) and (!empty($_POST['senha']))) {echo json_encode(array('success' =&gt; 1));}
+else {echo json_encode(array('success' =&gt; 0));}
+</code></pre></small>
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center bg-black text-light pt-4 pb-3">
+        <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../icons/logoTit.png">
+    <link rel="stylesheet" href="../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <nav class="navbar rounded-bottom fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="../index.html"><img src="../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../sobre/sobre.html">Sobre</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../livros/livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 text-center" id="titulo">
+            <h1>Vagrant</h1>
+            <h6><strong>Gerenciamento automatizado de VM</strong></h6>
+            <a href="../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a><br>
+            <a href="https://youtu.be/db97Hr9pkpk" class="btn btn-link text-decoration-none" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="1.3em" height="1.3em" fill="currentColor" class="bi bi-youtube text-danger" viewBox="0 0 16 16"><path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.007 2.007 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.007 2.007 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31.4 31.4 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.007 2.007 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A99.788 99.788 0 0 1 7.858 2h.193zM6.4 5.209v4.818l4.157-2.408L6.4 5.209z"/></svg> Conteúdo disponível</a>
+        </div>
+
+        <div class="col-sm-12">
+            <h4>Introdução</h4>
+            <p id="textoPost">Solução de gerenciamento automatizado e construção de laboratórios de máquinas virtuais (VMs), via arquivo único ('Vagrantfile'), descartando todas etapas de interações com SO e suas necessidades, conectado a um Provider (Hypervisor como VirtualBox). Pode ser conectado localmente ou até mesmo em Clouds (AWS, Azure, GCP, Digital Ocean, etc). Utiliza linguagem HCL (Hashicorp Configuration Language), baseada em Ruby. Para a criação de Boxes, recomenda-se o software Packer, ao invés dos Boxes na Vagrant, pois os mesmos tendem a possuir vulnerabilidades. Códigos conforme documentação oficial: <a href="https://www.vagrantup.com" class="text-decoration-none" target="_blank">Site oficial</a>.</p>
+
+            <h4>Conceitos</h4>
+            <ul>
+                <li><b>Box</b>: Componente com SO definido no início do projeto, juntamente com suas configurações, que terá sua imagem baixada pelo Vagrant na VM. O VagrantUp é o repositório oficial dos Boxes (Vagrant Cloud), também há o Vagrantbox.es, que armazena vários Boxes: <a href="https://app.vagrantup.com" class="text-decoration-none" target="_blank">Vagrant Cloud</a>, <a href="https://www.vagrantbox.es/" class="text-decoration-none" target="_blank">Vagrantbox.es</a>;</li>
+                <li><b>Host</b> e <b>Guest</b>: Host é o SO que está executando o Vagrant (SO da máquina local). Guest é o SO da VM;</li>
+                <li><b>Provider</b>: Hypervisor responsável pela virtualização (VirtualBox-<i>default</i>, VMWare, KVM, Docker, Hyper-V);</li>
+                <li><b>Provisioner</b>: Software orquestrador que irá automatizar as tarefas executadas na VM (Chef, Puppet, Ansible, Salt, arquivos, Shell Script manualmente, etc). Consiste em scripts e arquivos com códigos de automação do processo de criação da VM;</li>
+                <li><b>Plugins</b>: Extensões do Vagrant, que podem ser baixadas;</li>
+                <li><b>Synced Folders</b>: Diretórios usados para compartilhar conteúdo entre Host e Guest;</li>
+                <li><b>Vagrantfile</b>: Arquivo de configuração do Vagrant, onde são definidas configurações da VM, versão do SO, memória, ip, etc;</li>
+            </ul>
+
+            <br><h4>Comandos básicos</h4>
+<small><pre><code>
+<b>Instalação (Debian):</b> sudo apt install vagrant <span class="text-muted">#Comando '<i>vagrant version</i>' para verificar instalação, ou 'vagrant -h' para ajuda. Também opção de Download na página oficial.</span>
+<b>vagrant init</b>: Gerar novo Vagrantfile baseado em uma Box ('-m' após init especifica criação mínima. '-f' para sobrescrever criação)
+<b>vagrant up</b>: Iniciar VM e executadar Provisioner (Subir ambiente. Pode-se relacionar com Provider, como '<i>vagrant up --provider=vmware_fusion</i>')
+<b>vagrant reload</b>: Reiniciar VM
+<b>vagrant provision</b>: Executar Provisioner
+<b>vagrant halt</b>: Desligar VM (<i>destroy</i> excluir VM)
+<b>vagrant suspend</b>: Pausar VM (<i>resume</i> retomar VM)
+<b>vagrant ssh</b>: Acessar ssh da VM (Sintaxe: 'vagrant ssh [name|id] [--extra_ssh_args]')
+<b>vagrant powershell</b>: Abrir PowerShell de Box que possua suporte
+<b>vagrant box list</b>: Listar Boxes
+<b>vagrant box add USER/BOX</b>: Somente adicionar Box
+<b>vagrant box remove hashicorp/bionic64</b>: Remover Box específico <span class="text-muted">#No caso, removeria o hashicorp/bionic64</span>
+<b>vagrant status</b>: Ver status de Box
+<b>vagrant global-status</b>: Ver status dos ambientes de Boxes
+<b>vagrant port [name|id]</b>: Listar portas disponíveis/abertas das Boxes
+</code></pre></small>
+
+            <br><h4>Vagrantfile</h4>
+            <p id="textoPost">Estrutura do arquivo Vagrantfile e exemplo passo a passo de sua construção (Comando '<i>vagrant validate</i>' valida o Vagrantfile):</p>
+<small><pre><code>
+<b>1.<u>Estrutura básica</u>:</b>
+<b>Vagrant.configure("2") do |config|</b>
+    <span class="text-muted">Conteúdo aqui</span>
+<b>end</b>
+
+<b>2.<u>Boxes</u>:</b> (Executar <i>vagrant up</i> para criar, depois <i>vagrant ssh</i> para acessar)
+<b>Vagrant.configure("2") do |config|</b>
+    <span class="text-muted">Conteúdo aqui, exemplos abaixo:</span>
+    config.vm.box = "ubuntu/xenial64" <span class="text-muted">#Definir Box (SO e versão opcional)</span>
+<b>end</b>
+
+<b>3.<u>Provisioner</u>:</b> (Executar <i>vagrant provision</i> para atualizar)
+<span class="text-muted">Existem várias possibilidades de Provisioners, como Shell, Ansible, Chef, Docker, Podman, Puppet, Salt, entre outros.</span>
+<b>Vagrant.configure("2") do |config|</b>
+    config.vm.box = "ubuntu/xenial64"
+    config.vm.provision "shell",
+    inline: "apt update"
+    config.vm.provision "shell", inline:&lt;&lt;-SHELL
+        apt install -y apache2
+    SHELL
+<b>end</b>
+
+<b>4.<u>Especifiar porta de acesso e plugins</u>:</b> (Executar <i>vagrant reload</i> para reiniciar. Após, acessar porta 8080 da VM o apache2)
+<span class="text-muted">Podem ser redes privadas ou públicas, incluir hosts personalizados, protocolos personalizados, IP estático, entre outras configurações pormenores.</span>
+<b>Vagrant.configure("2") do |config|</b>
+    config.vm.box = "ubuntu/xenial64"
+    config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+    config.vagrant.plugins = ["vagrant-plugin", "vagrant-other-plugin"]
+    config.vm.provision "shell",
+    inline: "apt update"
+    config.vm.provision "shell", inline:&lt;&lt;-SHELL
+        apt install -y apache2
+    SHELL
+<b>end</b>
+</code></pre></small>
+
+            <br><h4>Synced Folders</h4>
+            <p id="textoPost">O diretório em que encontra-se o Vagrantfile (Host), e o diretório '/vagrant' (Guest) são sincronizados por padrão. Para testar, crie, na VM, algo dentro do '/vagrant', saia da VM e vá ao diretório do Vagrantfile do Host para verificar se sua criação também encontra-se lá. Pode-se usar tipos personalizados, como NFS, RSync, SMB e via VirtualBox diretamente. Para modificar os padrões, segue linha de código no Vagrantfile:</p>
+<small><pre><code>
+<b>Vagrant.configure("2") do |config|</b>
+    config.vm.synced_folder "src/", "/srv/website" <span class="text-muted">#Diretório Host, diretório Guest</span>
+<b>end</b>
+
+<b>Upload:</b>
+<span class="text-muted">Enviar arquivos do Host para o Guest</span>
+vagrant upload source [destination] [name|id]
+</code></pre></small>
+
+            <br><h4>Vagrant Cloud</h4>
+            <p id="textoPost">Pode-se interagir com o Vagrant Cloud, hospedando novos Boxes diretamente do mesmo. Para isso, precisa-se cadastro no Vagrant Cloud, conforme links acima. Pode-se interagir, inclusive, usando comandos 'cloud_init' no Vagrantfile. Os comandos abaixo entre colchetes são parâmetros opcionais. Os comandos abaixo possuem outros parâmetros de refinamento, que podem ser acessados na documentação oficial.</p>
+<small><pre><code>
+<b>Autenticação:</b>
+vagrant cloud auth login <span class="text-muted">#Informe dados conforme cadastro Vagrant Cloud. Use '<b>logout</b>' ao invés de login para fazer logout</span>
+vagrant cloud auth login --token ABCD1234 <span class="text-muted">#Mesmo comando, usando token de autenticação (Gerado nas configurações do site Vagrant Cloud)</span>
+
+<b>Gestão de Boxes:</b>
+vagrant cloud box create ORGANIZATION/BOX-NAME <span class="text-muted">#Criar Box</span>
+vagrant cloud box delete ORGANIZATION/BOX-NAME <span class="text-muted">#Deletar Box</span>
+vagrant cloud box show ORGANIZATION/BOX-NAME <span class="text-muted">#Ver Box</span>
+vagrant cloud box update ORGANIZATION/BOX-NAME <span class="text-muted">#Editar Box</span>
+vagrant cloud search TERMO <span class="text-muted">#Pesquisar no Vagrant Cloud (Exemplo: <i>vagrant cloud search hashicorp --limit 5</i>)</span>
+
+<b>Gestão de Providers:</b>
+vagrant cloud provider create ORGANIZATION/BOX-NAME PROVIDER-NAME VERSION [URL] <span class="text-muted">#Criar Provider</span>
+vagrant cloud provider delete ORGANIZATION/BOX-NAME PROVIDER-NAME VERSION <span class="text-muted">#Deletar Provider</span>
+vagrant cloud provider update ORGANIZATION/BOX-NAME PROVIDER-NAME VERSION [URL] <span class="text-muted">#Editar Provider</span>
+vagrant cloud provider upload ORGANIZATION/BOX-NAME PROVIDER-NAME VERSION BOX-FILE <span class="text-muted">#Upload arquivo de Box para Vagrant Cloud</span>
+vagrant cloud publish ORGANIZATION/BOX-NAME VERSION PROVIDER-NAME [PROVIDER-FILE] <span class="text-muted">#Publicar no Vagrant Cloud</span>
+
+<b>Gestão de Versões:</b>
+vagrant cloud version create ORGANIZATION/BOX-NAME VERSION
+vagrant cloud version delete ORGANIZATION/BOX-NAME VERSION
+vagrant cloud version release ORGANIZATION/BOX-NAME VERSION
+vagrant cloud version revoke ORGANIZATION/BOX-NAME VERSION <span class="text-muted">#Desfazer alteração</span>
+vagrant cloud version update ORGANIZATION/BOX-NAME VERSION
+
+<b>Exemplo:</b>
+<span class="text-muted">Publicar Box no Vagrant Cloud</span>
+vagrant cloud publish briancain/supertest 1.0.0 virtualbox boxes/my/virtualbox.box -d "Descrição aqui" --version-description "Versão 1" --release --short-description "Download me!"
+</code></pre></small>
+
+            <br><h4>Vagrant Share</h4>
+            <p id="textoPost">Compartilhar ambiente Vagrant, via padrão/http/ssh.</p>
+<small><pre><code>
+<b>Instalação:</b>
+vagrant plugin install vagrant-share
+
+<b>Via HTTP:</b>
+vagrant share <span class="text-muted">#Incluir '--https' para casos de HTTPS</span>
+
+<b>Via SSH:</b>
+vagrant share --ssh
+vagrant share --full <span class="text-muted">#Ver todas portas possíveis para conexão</span>
+
+<b>Conectar:</b>
+vagrant connect --ssh NAME <span class="text-muted">#Criará IP estático para conexões</span>
+</code></pre></small>
+
+            <br><h4>Packages</h4>
+            <p id="textoPost">Após criar o Vagrantfile, pode-se empacotá-lo para futuro compartilhamento, conforme códigos abaixo:</p>
+<small><pre><code>
+<b>Empacotar Vagrantfile:</b>
+vagrant package [name|id]
+vagrant package --base idBox <span class="text-muted">#Gerará arquivo 'package.box', que poderá ser aberto com 'vagrant box add nomePacote.box'</span>
+vagrant package --vagrantfile Vagrantfile.pkg <span class="text-muted">#Pacote de Vagrantfile</span>
+</code></pre></small>
+
+            <br><h4>Plugins</h4>
+            <p id="textoPost">Complementos personalizados para Boxes Vagrant</p>
+<small><pre><code>
+<b>Instalar:</b>
+vagrant plugin install &lt;name&gt;
+vagrant plugin install /path/to/my-plugin.gem
+
+<b>Desinstalar/Reparar:</b>
+vagrant plugin expunge my-plugin <span class="text-muted">#Incluir --reinstall para reinstalar. Incluir --force para remover forçadamente. </span>
+vagrant plugin uninstall &lt;name&gt; [&lt;name2&gt; &lt;name3&gt; ...]
+
+<b>Editar:</b>
+vagrant plugin update [&lt;name&gt;]
+
+<b>Listar</b>
+vagrant plugin list
+</code></pre></small>
+
+            <br><h4>Hardware</h4>
+            <p id="textoPost">Pode-se configurar discos, memória, CPUs das Boxes, particionando-os e configurando-os de forma personalizada, via Vagrantfile, conforme trechos de comandos abaixo. Entre os tipos de discos, tem-se 'disk', 'dvd' e 'floppy'. Para remover o disco, precisa-se remover a linha no Vagrantfile e executar '<i>vagrant reload</i>'. Pode-se relacionar os discos com Providers, como VirtualBox, Hyper-V e VMWare.</p>
+<small><pre><code>
+<b>Definir discos:</b>
+config.vm.disk: disk, name: "backup", size: "10GB"
+config.vm.disk: disk, size: "100GB", primary: true
+config.vm.disk: dvd, name: "installer", file: "./installer.iso"
+config.vm.disk: floppy, name: "cool_files"
+
+<b>Memória (MB), CPUs:</b>
+config.vm.provider "virtualbox" do |vb|
+    vb.memory = "1024"
+    vb.cpus   = "2"
+end
+</code></pre></small>
+
+            <br><h4>Múltiplos Boxes</h4>
+            <p id="textoPost">Criar ambiente com múltiplas máquinas, conforme exemplo abaixo:</p>
+<small><pre><code>
+<b>Vagrant.configure("2") do |config|</b>
+    config.vm.provision "shell", inline: "echo Hello"
+
+    config.vm.define "web" do |web|
+        web.vm.box = "apache"
+    end
+
+    config.vm.define "db" do |db|
+        db.vm.box = "mysql"
+    end
+<b>end</b>
+
+<b>Acessar:</b>
+vagrant ssh apache
+</code></pre></small>
+
+            <br><h4>Snapshots</h4>
+            <p id="textoPost">Snapshots preservam a VM em determinado estado/condições, assim como seus dados nela.</p>
+<small><pre><code>
+vagrant snapshot save [vm-name] NAME <span class="text-muted">#Criar Snapshot (Similar: <i>vagrant snapshot push</i>)</span>
+vagrant snapshot restore [vm-name] NAME <span class="text-muted">#Restaurar Snapshot (Similar: <i>vagrant snapshot pop</i>)</span>
+vagrant snapshot delete [vm-name] NAME <span class="text-muted">#Deletar Snapshot</span>
+vagrant snapshot list <span class="text-muted">#Listar Snapshots</span>
+</code></pre></small>
+
+            <br><h4>Push</h4>
+            <p id="textoPost">Publicar aplicação em determinado servidor. Primeiro, define-se o servidor e suas respectivas configurações, para então executar comando Push, conforme códigos abaixo:</p>
+<small><pre><code>
+<b>1. Configurar Server:</b>
+config.push.define "staging", strategy: "ftp" do |push|
+    push.host = "ftp.example.com"
+    push.username = "nome"
+    push.password = "senha"
+end
+
+<b>1.2. Configurar Server Heroku:</b>
+config.push.define "heroku" do |push|
+    push.app = "my_application"
+end
+
+<b>1.3.1. Local (Path Remoto):</b>
+config.push.define "local-exec" do |push|
+    push.inline = &lt;&lt;-SCRIPT
+        scp -r . server:/var/www/website
+    SCRIPT
+end
+
+<b>1.3.2. Local (Path Local):</b>
+config.push.define "local-exec" do |push|
+    push.inline = &lt;&lt;-SCRIPT
+        cp -r . /var/www/website
+    SCRIPT
+end
+
+<b>1.4. Via Shell Script:</b>
+config.push.define "local-exec" do |push|
+    push.script = "my-script.sh"
+end
+
+<b>2. Executar Push:</b>
+vagrant push staging <span class="text-muted">#Se não especificar o nome acima ('staging') no Vagrantfile, não precisará especificá-lo no comando (Somente <i>vagrant push</i>)</span>
+</code></pre></small>
+
+            <br><h4>Triggers:</h4>
+            <p id="textoPost">Comandos gatilhos que são ativados/executados após determinadas condições, especificadas no cabeçalho do trecho específico no Vagrantfile, conforme trechos de comandos abaixo. Pode-se especificar o type da Tigger, onde tem-se:</p>
+            <ul>
+                <li>'type: :action': Executa antes/depois de Vagrant Action;</li>
+                <li>'type: :command': Executar antes/depois de Vagrant Command;</li>
+                <li>'type: :hook': Executar antes/depois de Vagrant Hook.</li>
+            </ul>
+<small><pre><code>
+<b>Executar comando após 'up':</b>
+config.trigger.after :up do |trigger|
+    <span class="text-muted">Comandos aqui</span>
+end
+
+<b>Outros modelos:</b>
+config.trigger.before [:up, :destroy, :halt, :package] do |trigger|
+    <span class="text-muted">Comandos aqui</span>
+end
+
+config.trigger.after :up, :destroy, :halt, :package do |trigger|
+    <span class="text-muted">Comandos aqui</span>
+end
+
+<b>Sempre executar:</b>
+config.trigger.before :all do |myTrigger|
+    myTrigger.name = "Run Trigger"
+    myTrigger.info = "Running a before trigger!"
+    myTrigger.ignore = [:destroy, :halt]
+end
+
+<b>Em escopo Guest:</b>
+config.vm.define "ubuntu" do |ubuntu|
+    ubuntu.vm.box = "ubuntu"
+    ubuntu.trigger.before :destroy do |trigger|
+        trigger.warn = "Dumping database to /vagrant/outfile"
+        trigger.run_remote = {inline: "pg_dump dbname &gt; /vagrant/outfile"}
+    end
+end
+
+<b>Inlcuindo type:</b>
+config.trigger.after :destroy, type: :command do |t|
+    t.warn = "Destroy command completed"
+end
+
+<b>Ordem de execução:</b>
+Vagrantfile
+    global trigger 1
+    global trigger 2
+    machine defined
+        machine trigger 3
+    global trigger 4
+end
+</code></pre></small>
+
+            <br><h4>Exemplo prático</h4>
+<small><pre><code>
+<b>1. Criar Vagrantfile</b>:
+vagrant init -m ubuntu/bionic64
+
+<b>2. Complementar Vagrantfile com o seguinte código</b>:
+$script = &lt;&lt;-EOF
+sudo apt-get update
+sudo apt-get install -y nginx
+EOF
+
+Vagrant.configure("2") do |config|
+    config.vm.define "server1" do |server1|
+        server1.vm.box = "ubuntu/bionic64"
+        server1.memory = "1000"
+        server1.cpus = "1"
+        server1.vm.network "private_network", ip: "192.168.56.2" <span class="text-muted">#Comando do Provider VirtualBox (Outros Providers trazem comandos diferentes)</span>
+        config.vm.provision "shell", inline: $script
+    end
+    config.vm.define "server2" do |server2|
+        server2.vm.box = "centos/7"
+        server2.vm.network "private_network", ip: "192.168.56.3"
+    end
+end
+
+<b>3. Criar Boxes</b>:
+vagrant up
+vagrant status
+
+<b>4. Acessar máquinas</b>:
+vagrant ssh server1
+vagrant ssh server1 -c "cat /etc/*release" <span class="text-muted">#Realizar comando na Box via ssh</span>
+vagrant ssh server1 -c "ip -c a show enp0s8" <span class="text-muted">#Mostrar IP configurado da máquina Ubuntu</span>
+vagrant ssh server2 -c "ip -c a show eth1" <span class="text-muted">#Mostrar IP configurado da máquina CentOS</span>
+curl 192.168.56.2 <span class="text-muted">#Acessará nginx da máquina Ubuntu. No Browser da máquina Host, acessar url '<a href="192.168.56.2" class="text-decoration-none" target="_blank">192.168.56.2</a>'</span>
+</code></pre></small>
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center bg-black text-light pt-4 pb-3">
+        <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>

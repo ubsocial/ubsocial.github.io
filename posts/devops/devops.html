@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../../icons/logoTit.png">
+    <link rel="stylesheet" href="../../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <nav class="navbar rounded-bottom fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="../../index.html"><img src="../../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../sobre/sobre.html">Sobre</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../livros/livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 text-center" id="titulo">
+            <h1>DevOps</h1>
+            <h6><strong>Conceitos, ferramentas e práticas DevOps</strong><br><br><span class="badge bg-warning text-dark">Artigo em construção</span></h6>
+            <a href="../../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
+        </div>
+
+        <div class="col-sm-12">
+            <h4>O que é</h4>
+            <p id="textoPost">Development e Operations, é o conceito/processo de desenvolvimento de software que reúne metodologia, prática, ambientes, pessoas e ferramentas que integram tais áreas, de forma mais unificada, relacionada e padronizada, enfatizando melhor comunicação entre os profissionais de tais áreas, favorecendo produtividade e valor ao cliente. Profissionais DevOps são aptos para exercer funções tanto em desenvolvimento de software, quanto na administração dos mesmos. Surgimento a partir do Manifesto Ágil, em 2001, com a adesão de tecnologias e motodologias a fim de facilitar o desenvolvimento de sistemas e, com isso, aumentar a produtividade. DevOps é um processo Agile, adotando os conceitos de metodologias ágeis, além de metodologias como <i>Scrum</i> e <i>Spotify Squads</i>, onde há processo cíclico e entregas fracionadas do produto final, havendo, consequentemente, melhoria contínua. Neste ponto, tem-se os principais conceitos:</p>
+            <ul>
+                <li>Indivíduos e interações, mais que processos e ferramentas;</li>
+                <li>Software em funcionamento, mais que documentação abrangente;</li>
+                <li>Responder a mudanças, mais que seguir um plano.</li>
+            </ul>
+            <p id="textoPost">Entre 2001 e 2002, procuraram-se novos mecanismos para agilizar os processos na entrega do software, envolvendo a Agile Conference. O termo DevOps surgiu em 2009, originado a partir da Agile Conference de 2008, dando origem, futuramente, aos DevOpsDays - Criada e implantada na Bélgica. Entre os materiais que impulsionaram o conceito, tem-se o livro Phoenix Project e o site Reliability Engineering.</p>
+            
+            <br><h4>Áreas</h4>
+            <p id="textoPost"><b>Development:</b> A infraestrutura necessária para reunir o desenvolvimento, desde o compartilhamento de ativos até a escrita de código e algoritmos para aplicativos corporativos que podem aproveitar recursos avançados, como IA, containers e funções sem servidor. Além disso, testes, arquivamento, rastreamento de bugs e outras tarefas críticas são realizadas na fase de desenvolvimento, tudo na estrada para o lançamento. Ferramentas como Git e GitHub são usadas nessas etapas.</p>
+            <p id="textoPost"><b>Operations:</b> Com a aplicação implementada, o lado das operações assume o controle com foco em garantir que os desafios de negócios das plataformas em Cloud sejam atendidos. Problemas como segurança do usuário, gerenciamento de BD, escalabilidade para cargas de trabalho de produção e aplicação de patches são todos tratados nesta função. Ferramentas geralmente utilizadas: Terraform, Ansible, Puppet e Chef para gestão de infraestrutura e configurações.</p>
+            
+            <br><h4>Objetivos de ambiente DevOps</h4>
+            <ul>
+                <li>Melhorar frequência de deploys;</li>
+                <li>Automatizar processos;</li>
+                <li>Diminuir ocorrência de erros em novas versões;</li>
+                <li>Curtos períodos de tempo para mudanças e melhorias;</li>
+                <li>Recuperação rápida à falhas no ambiente;</li>
+                <li>Padronização dos processos de configuração e servidores.</li>
+            </ul>
+
+            <br><h4>Pilares do DevOps (C.A.L.M.S)</h4>
+            <ul>
+                <li><b>Culture</b>: Respeitar a cultura, compartilhando e colaborando com as relações saudáveis entre todas as áreas, trabalhando junto e atingindo resultados;</li>
+                <li><b>Automation</b>: Automatizar quando possível, eliminando o máximo de trabalho laboral possível;</li>
+                <li><b>Lean</b>: Processo ágil, sem desperdícios, mantendo foco no cliente e valor que o mesmo espera do produto;</li>
+                <li><b>Measure</b>: Medir tudo o que for possível, de processos a pessoas, para seguir sempre com o processo de melhoria contínua, coração do DevOps;</li>
+                <li><b>Sharing</b>: Ambientes DevOps têm como características fundamentais a cultura Blameless (Sem culpa), favorecendo compartilhamento e segurança aos envolvidos.</li>
+            </ul>
+
+            <br><h4>Skills envolvidas</h4>
+            <ul>
+                <li>Cultura e compartilhamento (Metodologias agiles, como Scrum e Spotify Squads. Utilização de OKR (Objectives, Key Results) para evolução nos conceitos da área);</li>
+                <li>Programação e instalação de softwares;</li>
+                <li>Gerenciamento de servidores, virtualização (Softwares como Vagrant), containers (Microservices. Softwares como Docker, Kubernetes), redes e segurança;</li>
+                <li>Criação de scripts;</li>
+                <li>Instalação e configuração de middlewares (Programas que fornecem serviços para aplicações de outros programas. Exemplo Apache, nginx);</li>
+                <li>Versionamento e sistemas VCS (Softwares como Git, Github, Gitlab);</li>
+                <li>Automatização de tarefas e gerenciamento de configurações (Cloud como AWS, Azure, GCP. On Premises, infraestrutura local. CI/CD. Softwares como Ansible, Chef, Puppet);</li>
+                <li>Infraestrutura como código;</li>
+                <li>Observabilidade (Monitoramento da infraestrutura e do software. Softwares como Prometheus e Zabbix);</li>
+            </ul>
+
+            <br><h4>Pipeline DevOps</h4>
+            <img src="pipeline.png" class="img-fluid" width="400px">
+            <p id="textoPost">Pipeline tem como objetivo automatizar o processo de entrega de infraestrutura ou software de forma rápida, garantindo qualidade, testes, estabilidade e escalabilidade. Desenvolvimento agile de software está diretamente ligado a uma pipeline de software. Uma pipeline de entrega de software normalmente constitui-se das etapas:</p>
+            <ul>
+                <li>Planejamento;</li>
+                <li>Análise;</li>
+                <li>Desenho;</li>
+                <li>Implementação;</li>
+                <li>Testes e Integração;</li>
+                <li>Deploy e Revisão.</li>
+            </ul>
+            <img src="graficoprocesso.png" class="img-fluid" width="600px">
+            <p id="textoPost">É um processo em ciclos, onde define-se o entregável que é trabalhado até sua conclusão. Após isso, inicia-se novo ciclo, definindo novamente o entregável e trabalhando até sua conclusão. Pipeline DevOps tem como base uma pipeline agile, diferenciando-se em alguns pontos. Trabalha-se com entregáveis, porém o processo é contínuo (Melhoria contínua). De forma geral, uma Pipeline CI/CD possui os elementos: Compilação, teste, lançamento, implantação, validação e conformidade. Tem-se 2 ciclos, Dev e Ops, compostos das etapas:</p>
+            <ul>
+                <b><u>Dev:</u></b>
+                <li><b>Planejar</b>: Listagem de requerimentos/requisitos e criação de cards onde serão definidas as atividades da Sprint. Ferramentas utilizadas: Boards Kanban - Jira, Trello, Wekan, Notion;</li>
+                <li><b>Desenvolver ou codificar</b>: Organização do código e da colaboração entre as equipes. Ferramentas utilizadas: Git, Github, Gitlab;</li>
+                <li><b>Construir/Build</b>: Geração do artefato entregável, seja esse uma library ou pacote executável. Ferramentas utilizadas: Gradle, Docker, Maven, Packer;</li>
+                <li><b>Testar</b>: Efetuar diversos testes, garantindo que o entregável funcione como planejado. O QA Engineer (Software quality assurance) é o profissional que os realiza. Ferramentas utilizadas: Selenium, JUnit, pytest, inspec.</li>
+                <br><b><u>Ops:</u></b>
+                <li><b>Lançar/Deploy</b>: Lançamento da aplicação para ambiente de produção. Ferramentas utilizadas: Terraform, Ansible, Chef, Puppet, Powershell;</li>
+                <li><b>Implantar e operar</b>: Garantir que o artefato testado esteja em execução. Ferramentas utilizadas: Docker, rkt, Kubernetes, Nomad, OpenShift, clouds como AWS, Azure, GCP;</li>
+                <li><b>Monitorar</b>: Garantir que o sistema encontra-se saudável, ou seja, de acordo com o planejado para seu funcionamento, dentro dos requisitos com eficiência. Monitora-se IPs, DNS, arquivos de logs, status de APIs. Ferramentas utilizadas: Prometheus, Zabbix, Grafana, Elasticstack, Datadog, Splunk, Nagios.</li>
+            </ul>
+            <img src="pipelineTools.png" class="img-fluid" width="800px">
+
+            <br><h4>Práticas DevOps</h4>
+            <ul>
+                <li><b>CI/CD</b>: Automatização das etapas dos ambientes do ciclo de construção da aplicação, reduzindo desvios de configuração;</li>
+                <li><b>Controle de versão</b>: Gerenciamento de código por meio de versões;</li>
+                <li><b>Desenvolvimento agile</b>: Metodologia de desenvolvimento que abrange colaboração dos stakeholders, realizada por meio de curtos ciclos, compondo-se em abstração de features e entrega do essencial nesses períodos;</li>
+                <li><b>Infraestrutura como código</b>: Gerar infraestrutura configurada e pronta por meio de códigos que o farão, diminuindo ruídos de compatibilidade, aumentando a produtividade na implantação das mesmas;</li>
+                <li><b>Gerenciamento de configuração</b>: Gerenciar estados dos recursos de um sistema, assim como infraestrutura do mesmo, permitindos às equipes alterações sistemáticas e controladas;</li>
+                <li><b>Monitoramento contínuo</b>: Visibilidade total e em tempo real sobre o desempenho e integridade da aplicação, juntamente com sua infraestrutura, coletando telemetria e metadados, captação de logs, além de definição de alertas para determinadas condições.</li>
+            </ul>
+
+            <br><h4>CI/CD</h4>
+            <p id="textoPost">Para realizar a integração de todos os passos de uma pipeline DevOps, precisa-se seguir estruturas CI (Continuous Integration - Integração contínua) e CD (Continuous Delivery/Deployment - Entrega contínua). CI é responsável por ligar todas as partes do processo, ou gatilho que faz com que o processo ou ferramenta A conecte-se ao processo ou ferramenta B, trabalhando para garantir integração contínua entre cada elo do processo. CD é o processo de entrega do produto final. No Deployment, essa entrega final é totalmente automatizada, sem necessidade de intervenção humana. No Delivery, o produto é entregue a um usuário final, que decide se o produto será lançado, e em que momento. A escolha entre ambas dependerá do modelo de negócios utilizado. Juntas, as práticas de CI/CD geralmente são chamadas de Pipeline de CI/CD.</p>
+            <ul>
+                <li><b>CI</b>: Continuous Integration refere-se à integração contínua, processo de automação onde o objetivo é que muitos desenvolvedores trabalhem ao mesmo tempo em diferentes recursos na mesma aplicação, evitando conflitos de ramificações e demais problemas de integração de novos códigos. Uma CI bem sucedida é quando novas mudanças no código de uma aplicação são desenvolvidas, testadas e consolidadas regularmente em um repositório compartilhado;</li>
+                <li><b>CD (Entrega)</b>: Mudanças feitas pelo desenvolvedor em uma aplicação, que são automaticamente testadas e carregadas em repositório, registry ou container. Nesse local, a equipe de operações pode implantar mudanças em ambiente de produção ativo, garantindo o mínimo de esforço na implantação de novos códigos. Após realização da automação de compilações e da unidade e os testes de integração na CI, a entrega contínua automatiza o lançamento desse código validado em um repositório. Portanto, para cada etapa da entrega contínua, inclui-se a automação do lançamento de códigos e testes previamente;</li>
+                <li><b>CD (Implantação)</b>: Refere-se ao lançamento automático das mudanças feitas por um desenvolvedor do repositório à produção, onde podem ser usadas pelos clientes, evitando sobrecarga da equipe de operações com seus processos manuais. A etapa final de um pipeline de CI/CD sólido é a implantação contínua, que é um complemento da entrega contínua, visando automatizar o lançamento da aplicação à produção.</li>
+                <li><b>CI/CD</b>: Aplicam monitoramento e automação contínuos em todo o o ciclo de vida das aplicações, incluindo etapas de teste e integração, além de entrega e implantação;</li>
+            </ul>
+            <img src="cicd.png" class="img-fluid" width="400px">
+
+            <br><br><h4>DevSecOps</h4>
+            <p id="textoPost">Desenvolvimento, Segurança e Operações, é uma abordagem à cultura, automação e design da plataforma que integra segurança como uma responsabilidade compartilhada em todo o ciclo de vida da TI. Diferente do DevOps, ou complementando-o, integra também a equipe de segurança da TI. Dessa forma, a segurança é responsabilidade compartilhada e integrada do início ao fim, reforçando, com segurança, as iniciativas DevOps. Também significa automatizar algumas barreiras de segurança, evitando o alto fluxo de trabalho DevOps nesse conceito. Características dessa cultura são manter os ciclos de desenvolvimento curtos e frequentes, integrar medidas de segurança com mínima interrupção das operações, acompanhar o ritmo das tecnologias inovadoras e, acima de tudo, estimular colaboração entre as equipes envolvidas. Entre alguns pontos da implantação de DevSecOps, tem-se:</p>
+            <ul>
+                <li>Padronizar e automatizar o ambiente, onde cada serviço terá o mínimo possível de privilégios, reduzindo conexões e acessos não autorizados;</li>
+                <li>Centralizar recursos de controle de acesso e identidade de usuários;</li>
+                <li>Isolar containers que executam microsserviços um dos outros e da rede, incluindo dados em trânsito e repouso;</li>
+                <li>Criptografar dados trocados entre aplicações e serviços;</li>
+                <li>Introduzir gateways de API seguros;</li>
+                <li>Integrar verificadores de segurança para containers, inclusive no processo de inclusão ao Registry;</li>
+                <li>Automatizar os testes de segurança no processo de integração contínua;</li>
+                <li>Adicionar testes automatizados para os recursos de segurança no processo de teste de aceitação;</li>
+                <li>Automatizar as atualizações de segurança, como patches, para identificar vulnerabilidades conhecidas;</li>
+                <li>Automatizar os recursos de gerenciamento das configurações de serviços e sistemas.</li>
+            </ul>
+
+            <br><h4>Git Ops</h4>
+            <p id="textoPost">Diferente do DevOps, Git Ops é a implementação da automação no Git Server, onde todo o desenvolvimento agile e levado do repositório local ao repositório remoto, através do Git. Webhook é uma forma de recebimento de informações ao longo de um evento. É utilizado como gatilho para disparo de funcionalidades, tarefas ou ações após um sistema A comunicar-se com o sistema B. Para trabalhar com Git Ops, desenvolve-se o código em repositório local, em Branch não principal (Não master). O código é enviado para o repositório remoto (Git Server), criando-se o Pull Request para, após Review, efetuar o Merge do código. Após tais passos, é ativado um Webhook para dar prosseguimento do processo de entrega.</p>
+            <p id="textoPost"><b>ChatOps</b> trabalha com os conceitos de GitOps, sendo a junção das tarefas de automação e colaboração. É delegar a responsabilidade de tarefas e ações para bot interno, que também faz parte da organização e está executando as conversas. É uma metodologia assim como DevOps (ChatOps = Chat + DevOps). O funcionamento se dá por meio de aplicação de chat (Slack, Rocket.Chat, Microsoft Teams), adiciona-se bots para executar as ações da infraestrutura, através de comandos enviados pelas equipes de profissionais DevOps.</p>
+            
+            <br><h4>Ferramentas DevOps</h4>
+            <p id="textoPost">Uma das características do DevOps é a utilização, geralmente, de ferramentas Open Source, que fornecem melhor personalização às equipes, evitando vendor lock-in (Aprisionamento tecnológico perante a ferramenta). Existem inúmeras ferramentas para automatização em DevOps, inclusive fora criada uma tabela periódica com as principais do mercado (<a href="https://digital.ai/periodic-table-of-devops-tools" class="text-decoration-none" target="_blank">Acesse</a>). Entre as principais ferramentas para cada estágio, tem-se:</p>
+            <ul>
+                <li><b>Plan</b>: Trello, Git e Github/Gitlab, Notion, Draw.io/Diagrams.net;</li>
+                <li><b>Code</b>: Git, editor de texto (VSCode, Sublime Text, Atom, etc);</li>
+                <li><b>CI/CD</b>: Jenkins e Github/Gitlab</li>
+                <li><b>Test</b>: ChefInspect, Molecule, Selenium;</li>
+                <li><b>Build/Release/Deploy</b>: Docker, Ansible, Kubernetes, Terraform;</li>
+                <li><b>Monitor/Operate</b>: Prometheus, Grafana, Zabbix, Rocket.chat, Slack, Graylog, Fluentd.</li>
+            </ul>
+
+            <br><h4>Criar pipeline DevOps</h4>
+            <p id="textoPost">Para a criação da pipeline DevOps a seguir, será seguido o fluxo de trabalho abaixo. Será utilizado o Github Actions para o processo automatizado de Deploy, que atualizará, no repositório, os status do CI usando o arquivo 'pipeline.yml'. Após a integração concluir, o Github Actions efeturará o deploy da aplicação Heroku, deixando-a disponível publicamente. A aplicação que será feito deploy será uma aplicação web python flask de Hello World, que deverá ser feito 'fork' da mesma (<a href="https://github.com/mateusschwede/DevOpsLab-HelloWorld" class="text-decoration-none" target="_blank">Acesse</a>).</p>
+            <img src="fluxoPipelineDevOps.png" class="img-fluid" width="530px">
+            <p><b>Passo a passo:</b></p>
+            <ol>
+                <li>Clonar aplicação na máquina local <span class="text-muted">(Ver post Git e Github para configuração e passo a passo desse processo)</span></li>
+                <li>Acessar diretório do projeto: <span class="text-muted">cd DevOpsLab-HelloWorld</span></li>
+                <img src="pipelineEditor.png" class="img-fluid rounded" width="500px">
+                <li>No Github do projeto, aba 'Projects', 'New Project' para inserir o board Kanban, para criar o planejamento da aplicação, informando nome 'Pipeline DevOps' e descrição 'Projeto de Pipeline DevOps para o DevOps Lab Hello World' e template 'Basic Kanban', confirmando criação do projeto</li>
+                <li>Criar Cards To Do
+                    <ul>
+                        <li>Criar app no Heroku</li>
+                        <li>Coletar chave API do Heroku</li>
+                        <li>Configurar Secrets no Github</li>
+                        <li>Criar Pipeline do Github Actions</li>
+                        <li>Efetuar o primeiro deploy da aplicação</li>
+                        <li>Modificar a aplicação e efetuar o deploy</li>
+                    </ul>
+                </li>
+                <img src="pipelineKanban.png" class="img-fluid rounded" width="500px">
+                <li>Mover card 'Criar app no Heroku' para In Progress</li>
+                <li>Acessar Heroku, 'Create New App', nome 'devops-SEUNOMESOBRENOME', 'Create app'</li>
+                <li>Voltar ao Kanban e mover o card 'Criar app no Heroku' para Done</li>
+                <li>Mover card 'Coletar chave API do Heroku' para In Progress</li>
+                <li>No Heroku, no perfil do usuário, 'Account settings', API Key, 'Reveal', copiar key</li>
+                <li>Mover card 'Coletar chave API do Heroku' para Done</li>
+                <li>Mover card 'Configurar Secrets no Github' para In Progress</li>
+                <li>No Github do projeto, aba 'Settings', sessão 'Secrets/Actions', 'New repository secret'
+                    <ul>
+                        <li>Name 'HEROKU_API_KEY', Value '<span class="text-muted">Colar chave Heroku</span>', Add secret</li>
+                        <li>Name 'HEROKU_APP_NAME', Value 'devops-SEUNOMESOBRENOME', Add secret</li>
+                        <li>Name 'HEROKU_USER_EMAIL', Value '<span class="text-muted">Seu email do Heroku</span>', Add secret</li>
+                    </ul>
+                </li>
+                <li>Mover card 'Configurar Secrets no Github' para Done</li>
+                <li>Mover card 'Criar Pipeline do Github Actions' para In Progress (<span class="text-muted">Actions é ferramenta de automação de workflow, para implemetar CI/CD diretamente do Github, onde deve-se criar no repositório o diretório e arquivo '.github/workflows/arquivoCI'</span>)</li>
+                <li>No diretório do projeto, criar diretórios com o comando: <span class="text-muted">mkdir -p .github/workflows</span></li>
+                <li>Copiar arquivo de CI: <span class="text-muted">cp templates/pipeline.yml .github/workflows</span></li>
+<small><pre><code>
+<span class="text-muted">#Conteúdo do arquivo pipeline.yml</span>
+name: CI - Lint / Tests / Deploy
+
+on: [push]
+
+jobs:
+
+  lint:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8
+
+      - name: Lint with flake8
+        run: |
+          # stop the build if there are Python syntax errors or undefined names
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+  tests:
+    needs: lint
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        python-version: [3.6, 3.7, 3.8, 3.9]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8 pytest
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Integrations Test
+        run: | 
+          python test.py
+
+
+  deploy:
+    needs: tests
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: deploy into heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
+          heroku_email: ${{secrets.HEROKU_USER_EMAIL}}
+
+<span class="text-muted"><b>Sintaxe do arquivo:</b>
+<b>name</b>: Nome do processo de workflow CI
+<b>on</b>: Condicional (Toda vez que for realizado 'Push', esse CI será ativado)
+<b>job lint</b>: Verifica sintaxe do arquivo, se escrito de forma correta (Informado plataforma que o arquivo é executado e os passos - steps)
+    <b>steps</b>: 1º uses chamará o Actions do Github, após isso é configurado o Python, instala dependências que executarão o lint via flake8
+<b>job tests</b>: Com o Lint executado e concluído (need), executando em determinada plataforma, haverá matriz de estratégia Python (Fará testes em todas versões do Python informadas)
+    <b>steps</b>: Executar o Actions, configurando Python na matriz de estratégia (Cada versão será feito o step), instala dependências e executará o arquivo 'test.py', responsável por testes
+<b>deploy</b>: Com o tests executado e concluído (Implicitamente o lint também), em determinada plataforma, chamará Actions e configurará o Python, executará Action que fará deploy no Heroku, com as chaves cadastradas nos Secrets, 
+</code></pre></small>
+                <li>Mover card 'Efetuar o primeiro deploy da aplicação' para In Progress</li>
+                <li>Fazer commit do arquivo de CI, 'pipeline.yml', para que o mesmo seja executado: <span class="text-muted">git add . && git commit -m "Adicionado pipeline DevOps" && git push origin main</span></li>
+                <li>No Github do projeto, aba 'Actions', mostrará detalhes e passos do workflow CI sendo executado. Clicando sob cada passo serão exibidos os logs de cada processo, em todas as etapas/ambientes (lint - tests - deploy)</li>
+                <img src="pipelineActions1.png" class="img-fluid rounded" width="500px">
+                <img src="pipelineActions2.png" class="img-fluid rounded" width="500px">
+                <li>Após feito o deploy no Heroku com sucesso, pode-se acessar o Heroku e ver as informações da aplicação. No Browser, acessar aplicação com o link: <span class="text-muted">https://devops-SEUNOMESOBRENOME.herokuapp.com</span></li>
+                <img src="pipelineHeroku.png" class="img-fluid rounded" width="500px">
+                <li>Mover card 'Criar Pipeline do Github Actions' para o Done</li>
+                <li>Mover card 'Efetuar o primeiro deploy da aplicação' para Done</li>
+                <li>Mover card 'Modificar a aplicação e efetuar o deploy' para In Progress</li>
+                <li>No código do projeto, alterar arquivo 'templates/index.html', inserir linha <span class="text-muted">&lt;b&gt;UB Social - Linha inserida!&lt;/b&gt;</span></li>
+                <li>No arquivo 'test.py', alterar linha 22 com a mesma mensagem acima</li>
+                <li>Fazer commit e push do projeto: <span class="text-muted">git add . && git commit -m "Mensagem inicial alterada" && git push origin main</span></li>
+                <li>No Github do projeto, aba 'Actions' aparecerá novo workflow CI, juntamente com seus respectivos detalhes</li>
+                <li>Acessar, no Browser, acessar aplicação e conferir modificação</li>
+                <li>Mover card 'Modificar a aplicação e efetuar o deploy' para Done</li>
+            </ol>
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center bg-black text-light pt-4 pb-3">
+        <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>
+
+<!-- ANOTAÇÕES E LINKS PERTINENTES:
+https://www.ibm.com/br-pt/cloud/learn/devops-a-complete-guide
+Quais os KPIs mais importantes para o DevOps?: https://blog.tecnospeed.com.br/devops/
+Lista legal de ferramentas: https://kinsta.com/pt/blog/ferramentas-devops/
+Ferramentas: https://www.guru99.com/devops-tools.html
+CI/CD Fluxo de trabalho: https://blog.accurate.com.br/ci-cd-entenda-o-que-e/
+Frameworks DevOps: https://www.atlassian.com/devops/frameworks
+-->

@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../icons/logoTit.png">
+    <link rel="stylesheet" href="../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <nav class="navbar rounded-bottom fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="../index.html"><img src="../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../sobre/sobre.html">Sobre</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../livros/livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 text-center" id="titulo">
+            <h1>Java</h1>
+            <h6><strong>Sintaxe Java 8</strong></h6>
+            <a href="../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a><br>
+            <a class="btn btn-link text-decoration-none" href="https://github.com/mateusschwede/CodigosJava" target="_blank">Java 8 conteúdo</a>
+        </div>
+
+        <div class="col-sm-12">
+            <p id="textoPost">Baixe, acima, os arquivos de sintaxe Java 8 base, OOP e GUI. Os arquivos compõem-se de slides com conteúdo e códigos de exemplo. A parte GUI foi desenvolvida com o Eclipse WindowBuilder.</p>
+            <br><br><h4>Java URI</h4>
+<small><pre><code>
+<b>===== CÓDIGO MODELO =====</b>
+// O 'package' deve ser removido e devem ser inseridos os imports abaixo
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Main { //classe SEMPRE com nome 'Main'
+    public static void main(String[] args) throws IOException { //sempre colocar o IOException
+
+//O URI lê o Java como um arquivo, ou seja, Strings, portanto, no momento da submissão, sempre realize as conversões, printf e leitura conforme arquivo
+        InputStreamReader ir = new InputStreamReader(System.in);
+        BufferedReader in = new BufferedReader(ir);
+
+        int A, B, X;
+        A = Integer.parseInt(in.readLine());
+        B = Integer.parseInt(in.readLine());
+        X = A + B;        
+        System.out.printf("X = %d\n", X);
+    }
+}
+
+
+<b>===== CONVERTER VARIAVEL =====</b>
+int i = 10;
+double i2 = (double) i;
+
+
+<b>===== FUNÇÕES MATEMÁTICAS =====</b>
+Math.abs(x); // Valor absoluto
+Math.ceil(x); // Arredonda para cima
+Math.floor(x); // Arredonda para baixo
+Math.max(x,y); // Retorna o maior
+Math.min(x,y); // Retorna o menor
+Math.pow(x,y); // Potencia: x elevado a y
+Math.sqrt(x); // Raiz quadrada
+
+NUMEROS ALEATORIOS
+Random r = new Random();
+for(int i = 0; i &lt; 30; i++) {
+    int num = r.nextInt(6); //nº inteiro entre 0 e 5
+}
+
+
+<b>===== FUNÇÕES STRINGS =====</b>
+String cidade = "Feliz";
+System.out.println(cidade.charAt(0)); //letra 'F'
+int tamanho = cidade.length(); //tamanho da cidade
+cidade.equals("Feliz"); //comparar strings
+cidade.equalsIgnoreCase("FELIZ"); //idem, ignora maiúsculas e minúsculas
+System.out.println(cidade.toLowerCase()); //tudo minusculo
+System.out.println(cidade.toUpperCase()); //tudo maiusculo
+String cidade = " IFRS-Campus-Feliz ";
+System.out.println(cidade.trim()); //remove espaços em branco
+String cidade = "IFRS-Campus-Feliz";
+System.out.println(cidade.endsWith("eliz")); //verifica se termina com (retorna boolean)
+System.out.println(cidade.startsWith("IFRS-Cam")); //verifica se começa com (retorna boolean)
+System.out.println(cidade.startsWith("Campus",5));
+
+STRING FORMAT:
+String t1 = String.format("%15s %15s %15s","Coluna 1","Coluna 2","Coluna 3");
+String t3 = String.format("%-15s %-15s %-15s","Coluna 1","Coluna 2","Coluna 3");
+// -(menos) = a esquerda | 15 - nº caracteres | s - string/f - nº
+String t2 = String.format("%-15.3f %-15.8f", 666.23429837482,9.99);
+
+PERCORRER STRING:
+String banda = "Black Sabbath";
+for(int i=0; i &lt; banda.length(); i++) {
+    System.out.println(banda.charAt(i));
+}
+
+CONVERTER STRING PRA ARRAY DE CHAR:
+String cidade = "Feliz";
+char[] cidadeCharArray = cidade.toCharArray();
+for (int i = 0; i &lt; cidadeCharArray.length; i++) {
+    System.out.println("Caracter: " + cidadeCharArray[i]);
+}
+for(char c : cidadeCharArray){
+    System.out.println("Caracter: " + c);
+}
+
+SPLIT:
+String teste = "IFRS-Campus-Feliz";
+String[] splitArray = teste.split("-");
+for (int i = 0; i &lt; splitArray.length; i++) {
+    System.out.println("Elemento: " + splitArray[i]);
+}
+
+SUBSTRING (retorna parte especifica de sting):
+String teste = "Programacao em Java";
+System.out.println(teste.substring(0,5)); //entre indice 0 e 5
+
+
+<b>===== ARRAYS =====</b>
+int[] valores = {44,12,23,12,17,81,4,9};
+System.out.println(valores[0]);
+int[] valores = new int[3]; // cria array vazio
+valores[0] = 666;
+System.out.println(nomes.length); // tamanho array
+
+PERCORRER ARRAY:
+for (int i = 0; i &lt; valores.length; i++) {
+    System.out.println(valores[i]);
+}
+
+SORT (ordena arrays):
+double[] doubleArray = {8.4, 9.3, 0.2, 7.9, 3.4};
+Arrays.sort(doubleArray);
+for(double valor : doubleArray) {
+    System.out.println(valor + " ");
+}
+
+BINARY SEARCH (busca elemento no array ordenado):
+int[] intArray = {1, 2, 5, 67, 800, 2112};
+int posicao1 = Arrays.binarySearch(intArray, 80); //retorna index do elemento
+
+
+<b>===== PILHAS (Last In, First Out) =====</b>
+push(...) | pop() | empty()
+Stack&lt;Livro&gt; pilha = new Stack&lt;Livro&gt;();
+Livro l1 = new Livro();
+l1.setAutor("Fulano");
+l1.setTitulo("Java in 21 days");
+pilha.push(l1);
+while(!pilha.empty()) {
+    Livro temp = pilha.pop();
+    System.out.println(temp.getAutor() + " " + temp.getTitulo());
+}
+
+
+<b>===== FILAS (First In, First Out) =====</b>
+add(...) | pool() | isEmpty()
+Queue&lt;Pessoa&gt; fila = new LinkedList&lt;Pessoa&gt;();
+Pessoa p1 = new Pessoa();
+p1.setNome("Maria");
+p1.setIdade(30);
+fila.add(p1);
+Pessoa temp = fila.poll();
+
+
+<b>===== DIRETORIOS =====</b>
+File dir = new File("NovaPasta");
+dir.mkdir(); //cria diretorio
+dir.delete(); //apaga diretorio
+File dir2 = new File("NovaPasta/OutraAqui");
+dir2.mkdir(); //cria subdiretorio
+
+
+<b>===== ARQUIVOS =====</b>
+File arquivo = new File("NovaPasta/Texto1.txt");
+try {
+    arquivo.createNewFile();
+    FileWriter escritor = new FileWriter(arquivo,true);
+    BufferedWriter buffer = new BufferedWriter(escritor);
+    for (int i = 0; i &lt; 10; i++) { //escreve no arquivo
+        buffer.write("¡Buenos dias! \n");
+    }
+    FileReader leitor = new FileReader(arquivo);
+    BufferedReader buffer = new BufferedReader(leitor);
+    String linha = null;
+    while ((linha = buffer.readLine()) != null) { //ler arquivo
+        System.out.println(linha);
+    }
+    buffer.close();
+    escritor.close();
+    arquivo.delete(); //apaga arquivo
+} catch (IOException e) {e.printStackTrace();}
+
+
+<b>===== /* RESOLUÇÃO PARCIAL 1131-Grenais */ =====</b>
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        InputStreamReader ir = new InputStreamReader(System.in);
+        BufferedReader in = new BufferedReader(ir);
+        int c;
+        do {
+            // leitura placar (3 2)
+            String linhaPlacar = in.readLine();
+            String[] linhaPlacarDividido = linhaPlacar.split(" ");
+            int golsInter = Integer.parseInt(linhaPlacarDividido[0]);
+            int golsGremio = Integer.parseInt(linhaPlacarDividido[1]);
+            // leitura da condição
+            String linhaCondicao = in.readLine();
+            c = Integer.parseInt(linhaCondicao);
+            // programação
+            System.out.printf("Novo grenal (1-sim 2-nao)\n");
+        } while (c == 1); 
+        // impressao dados restantes
+    }
+}
+
+
+<b>===== EXEMPLO MODELO =====</b>
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        
+        InputStreamReader ir = new InputStreamReader(System.in); //inserir manualmente no console pra testar ou colar do uri
+        BufferedReader in = new BufferedReader(ir); //inserir manualmente no console pra testar ou colar do uri       
+
+        int A = Integer.parseInt(in.readLine()); //leitura de linha inteira - ideal pra 1nº só
+        int B = Integer.parseInt(in.readLine());
+        int X = A + B;      
+
+        System.out.printf("X = %d\n", X); //%d - substituido por digito
+        //System.out.printf("X = %d %d %d\n", X, X+1, X+2); - saida com mais valores 1ªlinha
+        //System.out.printf("X = %d %d\n", X+3, X+4); - saida com mais valores 2ªlinha      
+
+        double A = Double.parseDouble(in.readLine());
+        double B = Double.parseDouble(in.readLine());
+        double X = A + B;
+        System.out.printf("X = %f\n", X);
+        /*%s - string | %d - digito | %f - decimal
+        %.2f - 2 casas decimais
+        Obs: Não esquecer do ultimo 'enter', ao copiar e colar do URI no Console (pd fazer arquivo txt personalizado pra copiar e colar)*/
+    }
+}
+</code></pre></small>
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center bg-black text-light pt-4 pb-3">
+        <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>

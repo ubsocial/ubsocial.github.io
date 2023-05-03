@@ -1,0 +1,938 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../icons/logoTit.png">
+    <link rel="stylesheet" href="../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <nav class="navbar rounded-bottom fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="../index.html"><img src="../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../sobre/sobre.html">Sobre</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../livros/livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 text-center" id="titulo">
+            <h1>Python</h1>
+            <h6><strong>Sintaxe Python 3</strong></h6>
+            <a href="../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
+        </div>
+
+        <div class="col-sm-12">
+            <h4>Base</h4>
+<small><pre><code>
+<b>===== VARIÁVEIS =====</b>
+nome = "mateus"
+peso = 75.8
+print(nome, peso)
+print("Exibir nome %s" % (nome))
+frase = 'ola, tudo bem'
+print(frase[0]) #print 1º caractere
+print(frase[0:8:2]) #print caracteres do 0 ao 8, pulando a cada 2
+print(frase[::-1]) #de trás pra frente, invertido
+
+<b>===== ENTRADA DE DADOS =====</b>
+nome = input("Informe o nome: ")
+idade = int(input("Informe a idade: "))
+humano = True
+print("O valor de PI é ", str(3.14) #conversão float p/ str
+
+<b>===== COMENTÁRIOS =====</b>
+# Comentário de linha
+"""
+comentário
+multiplas linhas
+"""
+
+<b>===== OPERADORES DIFERENTES =====</b>
+Divisão Inteira(//): 5//2 (2)
+Resto da Divisão(%): 4%2 (0)
+Potenciação(**): 4**2 (16)
+
+<b>===== SAÍDA FORMATADA =====</b>
+print('A soma vale{}'.format(soma))
+print('{1} {0}'.format('one', 'two')) #"two one"
+print('{0!s} {0!f}'.format(Data()) #"str float"
+print('{:06.2f}'.format(3.141592653589793)) #003.14
+#:06(qtde de espaços: esquerda p/ direita), .2f(nº float com 2 casas decimais)
+
+<b>===== CONDIÇÃO =====</b>
+if x &gt; 0:
+    print("maior que zero")
+elif x &lt; 0:
+    print("menor que zero")
+else:
+    print("igual a zero")
+
+<b>===== REPETIÇÃO =====</b>
+for i in range(0,11,2):
+    print(i)
+#print i no intervalo de 0 a 10, incrementando de 2 em 2
+
+<b>===== CONDIÇÃO SEGUIDA DE REPETIÇÃO =====</b>
+while x &lt; 5:
+    print(x)
+    x += 1
+
+<b>===== REPETIÇÃO CONTÍNUA =====</b>
+while True:
+    print("olá")
+    break
+
+<b>===== FUNÇÕES =====</b>
+def imprimir():
+    return "resposta da função"
+print(imprimir())
+
+#com parâmetros:
+def juntar(x1, x2):
+    return x1+" e "+x2
+juntar("hello","world")
+
+#com argumentos:
+def maiorNum(*args):
+    print max(args)
+    return max(args)
+maiorNum(-10,20,5,10)
+
+#com valor padrão(default)
+def soma(a=0,b=0):
+    return(a+b)
+soma(4+5)
+
+<b>===== TUPLAS =====</b>
+lanche = ("Hamburger","Suco","Refri")
+print(lanche[1])
+print(lanche[-2])
+print(lanche[1::3])
+print(len(lanche)) #2
+coisas = ("Max",39,25.5)
+#só atribuo valores à tupla na sua criação
+#não há como deletar somente item x da tupla
+#tupla é imutável
+
+Percorrer tupla:
+for comida in lanche:
+    print(f"Eu vou comer {comida}")
+
+Deletar tupla:
+del(lanche)
+
+<b>===== LISTAS =====</b>
+#lista é mutável
+animais = ["leão","gato","zebra"]
+animais[0] #leão
+animais[2] #zebra
+len(animais) #3
+
+Percorrer Lista:
+for i in lista:
+    print(i)
+
+Enumerar lista:
+for i in enumerate(lista):
+    print(i)
+
+Copiar Lista:
+#se alterar uma, altera tbm a outra!
+list_a = [6, 7, 8, 9]
+list_b = lista_a
+
+Clonar Lista:
+#se alterar uma, a outra não altera!
+list_a = [6, 7, 8, 9]
+list_b = lista_a[:]
+
+Juntar Listas(join):
+m = [1, 2, 3]
+n = [4, 5, 6]
+o = m + n
+print(o) #[1, 2, 3, 4, 5, 6]
+
+Inserir no final(append):
+nums = ["um"]
+nums.append("dois")
+nums.append("três")
+print(nums) #["um","dois","três"]
+
+Retornar Índice(index):
+animals = ["ant", "bat", "cat"]
+print(animals.index("bat")) #1
+
+Inserir elemento:
+animals = ["ant", "bat"]
+animals.insert(1,"dog")
+print(animals) #["ant", "dog", "bat"]
+
+Remover elemento:
+animals = ["ant", "bat", "cat"]
+animals.remove("ant")
+print(animals) #["bat", "cat"]
+
+Remove através do index(pop):
+animals = ["ant", "bat", "cat"]
+animals.pop(0) #'ant'
+print(animals) #["bat", "cat"]
+
+Ordenar lista(sort):
+lista = ["c","b","a"]
+lista.sort()
+print(lista) #['a','b','c']
+
+Ordenar lista decrescente:
+lista.sort(reverse=True)
+
+<b>===== LISTAS COMPOSTAS =====</b>
+pessoas = [['Pedro',25],['Maria',19],['João',32]]
+print(pessoas[0][1]) #25
+print(pessoas[1][0]) #Maria
+
+Limpar Lista:
+pessoas.clear()
+
+<b>===== DICIONÁRIOS =====</b>
+#possui chave e valor
+#pode-se inserir dicionários dentro de listas
+pessoa = {
+    "nome": "joão",
+    "idade": 60,
+    "prog": ["python","php"]
+}
+print(pessoa["nome"])
+print(pessoa["idade"])
+print(pessoa["prog"])
+
+Atribuir valores:
+pessoa["idade"] = 40
+
+Remover valores:
+del pessoa['idade']
+
+Dicionário dinâmico:
+dic = {}
+dic['name'] = "joao"
+dic['age']  = "39"
+
+Percorrer dicionários:
+dic = {'a': 'apple', 'b': 'berry', 'c': 'cherry'}
+for i in dic:
+    print i+" "+dic[i]
+
+for i,j in dic:
+    print(f'O {i} é {j}') #o 'a' é 'apple'
+print(lista[0]['filme']) #dict filmes em 'lista'
+
+Ver itens:
+dic.items()
+#([('a','apple'),('b','berry'),('c','cherry')])
+
+Ver índices(keys):
+dic.keys() #(['a','b','c'])
+
+Ver valores(values):
+dic.values() #(['apple','berry','cherry'])
+
+<b>===== CONJUNTOS =====</b>
+#lista misturada com dicionário. Conjunto ñ tem itens repetidos, ñ tem indíces(ñ é ordenado). Mais ágil para percorrer, pesquisas...
+conjunto = {'Gui','João'}
+conjunto.remove('João')
+
+<b>===== LAMBDAS =====</b>
+g = lambda x: x * 2
+print(g(6)) #12
+
+<b>===== MÓDULOS E PACOTES =====</b>
+Módulo:
+Guardar determinado código, geralmente com defs, em um arquivo.py separado
+Código de ligação: import nomeArquivo
+
+Pacote(biblioteca): 
+Pasta com módulos
+ex: pacote 'uteis' tem arquivo 'numeros.py','cores.py'
+import uteis
+from uteis import cores #pra módulo específico
+from arquivo2 import * #pra import tudo
+defDoArquivo2() //função no arquivo 2 que printa 'ola'
+
+Pacote dentro de pacote:
+fazer, dentro de cada pacote um módulo '___init___.py' colocamos o código python desejado e importamos no código principal
+
+<b>===== ERROS & EXCEÇÕES =====</b>
+try:
+    operação
+except Exception as erro:
+    falhou com erro.(classe/genero...)
+except Exception as (erro2,erro3):
+    falhou com erro2.(classe/genero...) ou erro3
+except Exception as errado:
+    falhou com erro genérico do tipo errado.___cause___
+else:
+    deu certo
+finally:
+    deu certo, mas com erro, acima de tudo
+#o finally ocorre com ou sem erro
+
+<b>===== MANIPULANDO ARQUIVOS =====</b>
+# open('pasta/arquivo.txt','w')
+# Modo 'r' é o padrão, de leitura
+# Modo 'w' é o de escrita(cria ou sobrescreve o arquivo)
+# 'r+' é leitura e escrita, não sobrescreve (ideal)
+# 'a' cria o arquivo no modo escrita append (vai inserindo dentro, no final do arquivo)
+# 'b' e 'rb' para abrir arquivos binários, como imagens, .exe...
+
+arquivo = open('arquivo.txt','r')
+arquivo.write("Conteúdo no arquivo") #ocorre somente no modo escrita
+print(arquivo.read()) #para ler troca-se o 'w' por 'r' no open()
+print(arquivo.readlines()) #similar ao acima
+print(arquivo.readline(3)) #ler 3 caracteres somente
+
+for linha in arquivo: #print 1 linha por vez
+    print(linha)
+
+arquivo.close() #fechar arquivo
+
+<b>===== REQUISIÇÕES WEB =====</b>
+'''
+PIP (Python Package Index): Gerenciador de bibliotecas externas nativo Python. pip3 pra Python3
+Instalar pip3 linux: sudo apt install python3-pip
+urllib: Biblioteca padrão pra requisições web python (mais baixo nível)
+requests: urllib em alto nível (necessário instalar: pip3 install requests)
+Verificar se requests já instalado: python3 -m pip install requests
+
+Muitas aplicações necessitam de bibliotecas externas, que são instaladas, no Python, com o PIP.
+Requisição web é entrar no site, solicitar algo ao servidor, via url.
+
+Métodos das requisições:
+- GET: Requisitar informações
+- POST: Enviar informações
+Dentro das requisições existem os headers(cabeçalhos). No browser, F12 na parte Network para verificá-los. Existem 2 tipos de Headers, cada um com seus parâmetros e valores:
+- Response Header: Cabeçalho de resposta
+- Request Header: Cabeçalho de requisição
+Status das requisições:
+200: Bem sucedida
+403: Permissão negada
+404: Página não encontrada
+500: Erro interno no servidor
+
+Site para fazer testes: putsreq.com (mostra detalhes de requisições). Após requisitar com a chave, no site consegue-se ver detalhes do log de requisições
+Para requisições mais avançadas, recomenda-se a biblioteca Beautiful Soup 4 / BS4 (pip3 install bs4)
+'''
+
+import requests
+requisicao = requests.get('https://google.com')
+#requisicao = requests.delete('https://google.com')
+#requisicao = requests.patch('https://google.com')
+#requisicao = requests.put('https://google.com')
+#requisicao = requests.head('https://google.com')
+#requisicao = requests.options('https://google.com')
+#requisicao = requests.post('https://google.com')
+#print(requisicao) #status da requisição
+#print(requisicao.status_code) #status da requisição(similar)
+print(requisicao.text) #codigo fonte
+conteudo = requisicao.text
+
+cabecalho = {'User-agent':'Windows 12','Referer':'https://Microsoft.com'}
+meusCookies = {'Visita':'10-10-2020'}
+dados = {'user':'mateus','senha':'abc'}
+requisicao = requests.post('https://google.com',headers=cabecalho,cookies=meusCookies,data=dados)
+
+<b>===== API JSON =====</b>
+'''
+Api usada: OMDb API(www.omdbapi.com)
+Ver detalhes do filme pelo nome. 1º gerar uma APIKey para o funcionamento, no próprio site
+'''
+import requests,json #biblioteca json transforma arquivos json em dicionários
+req = requests.get('http://www.omdbapi.com/?t=interstellar&apikey=31f06394')
+print(req.text)
+dic = json.loads(req.text) #converte em dicionário
+print(dic)
+print(dic['Title'])
+print(dic['valor']['subvalor']['terceiroValor']) #dicionário dentro de dicionário
+print(dic['valor'][0]['subvalor']) #lista dentro de dicionário
+
+<b>===== EXPRESSÕES REGULARES =====</b>
+'''
+(Regular Expressions / regex)
+Permitem encontrar padrões em textos. Há expressões regulares pra emails,telefones...
+Site pra montar expressões regulares e testar: regex101.com
+'''
+import re
+frase = 'O gato é bonito'
+padrao = re.search(r'ga.',frase)
+#'r' transforma em RAW String(torna caracteres especiais em String)
+#'.' qualquer coisa depois, inclusive espaços. Pode colocar '..' (2 quaisquer caracteres seguidos)
+#'\w' caractere unicode(a-z,A-Z,_). 'ga\w\w' terminaria com 2 quaisquer letras
+#'\w+' todos caracteres restantes unicode
+#'\w*' caractere opcional
+#'\d' caracteres numéricos(0-9).
+#'\D' caracteres não numéricos.
+#'\A' início de String
+#'\' tora caracteres especiais em String (r'ga\.' termina com um ponto)
+if padrao:
+    print(padrao.group()) #print texto com padrão informado
+else:
+    print('Padrão ñ encontrado')
+
+frase2 = 'O gato, a gata, os gatinhos, os gatoes'
+padrao2 = re.findall(r'gat\w+',frase2) #procura vários resultados
+print(padrao2)
+print(padrao2[1])
+
+padrao3 = re.findall(r'[gat]+',frase2) #procura letras separadas. O '+', opcional, insere tbm grupos 'gat'
+print(padrao3)
+
+padrao4 = re.findall(r'[gat]+\w+',frase2) #grupo de letras com mais um caractere unicode
+print(padrao4)
+
+email = 'mateus.sch@gmail.com'
+padraoEmail = re.findall(r'[\w\.-]+@[\w-]+\.[\w\.-]+',email) #procura emails
+print(padraoEmail)
+
+<b>===== ARGUMENTOS E LINHA DE COMANDO =====</b>
+'''
+Ao executar esse arquivo.py no terminal, serão executados/solicitados os argumentos.
+Argumento 0: Caminho até o arquivo atual
+'''
+import sys
+argumentos = sys.argv
+print(argumentos[0])
+print(argumentos)
+if argumentos:
+    print(argumentos[1]+argumentos[2])
+#informe no terminal(linux): 'python arquivo.py sexta feira'(concatenará 'sexta' com 'feira')
+</code></pre></small><br>
+            <h4>Python URI</h4>
+<small><pre><code>
+<b>===== MULTIPLAS ENTRADAS =====</b>
+x,y = list(map(int,unput().split()))
+
+
+<b>===== SAÍDA FORMATADA =====</b>=
+print('A soma vale{}'.format(soma))
+'{1} {0}'.format('one', 'two') #"two one"
+print('{0!s} {0!f}'.format(Data()) #"str float"
+print('{:06.2f}'.format(3.141592653589793)) #003.14
+#:06(qtde de espaços: esquerda p/ direita), .2f(nº float com 2 casas decimais)
+
+
+<b>===== EXERCÍCIO ENTRADA VAZIA =====</b>
+while True:
+    try:
+        x = input()
+        if(x=='2002''):
+            print('Acesso permitido')
+            break
+        else:
+            print('Senha invalida')
+            break
+    except EOFError:
+        break
+
+
+<b>===== OPERADORES ARITMÉTICOS =====</b>
+Divisão Inteira(//): 5//2 (2)
+Resto da Divisão(%): 4%2 (0)
+Potenciação(**): 4**2 (16)
+
+
+<b>===== FUNÇÕES STRING =====</b>
+Tamanho da String:
+x = "max"
+print(len(x))
+
+Tudo em minúsculo:
+x = "MAX"
+print(lower(x))
+
+Tudo em maiúsculo:
+x = "max"
+print(upper(x))
+
+Somente 1ªs letras maiúsculas:
+frase = "curSO de python"
+frase.captalize() #Curso de python
+
+1ª letra de cada palavra maiúscula:
+frase.title() #Curso De Python
+
+Acessar índice de String:
+"python"[0] #'p'
+"python"[1] #'y'
+"python"[:3] #pyt
+"python"[3:] #hon
+"python"[0:3] #pyt
+"python"[0:4:2] #pt //print e pula 2
+"python"[0::3] #inicia 0, até fim, print e pula 3
+"python"[-1] #n
+py = "python" #modelo para abaixo
+
+Contar Letras:
+py.count("o") #1 letra 'o'
+py.count("o",0,4) #1 letra 'o' do index 0 até 4
+
+Encontrar Strings:
+py.find("py") #1 vez
+
+Substituir String:
+frase = "curso de python"
+frase.replace("python","android")
+
+Percorrer String:
+for i in "python":
+    print(i)
+
+Pesquisar String:
+"b" in "abc" #true
+"d" in "abc" #False
+
+String só de letras:
+"abc".isalpha() #True
+"a1bc".isalpha() #False
+
+Remover espaços em branco:
+"  espaços   ".strip() #'espaços'
+# rstrip(só direita) | lstrip(só esquerda)
+
+Juntar Strings com um delimitador:
+", ".join("abc") #'a, b, c'
+
+Separar Strings com delimitador:
+s = 'n o m e'
+s.split() #['n', 'o', 'm', 'e']
+s.split(" ") #['n', 'o', 'm', 'e']
+
+
+<b>===== FUNÇÕES MATEMÁTICAS (math) =====</b>
+import math
+from math import sqrt,ceil #pra específicos
+
+Arredon. Cima: math.ceil(25.6)
+Arredon. Baixo: math.floor(25.6)
+Potenciação: math.pow(3,3) #3 elevado a 3
+Raíz: math.sqrt(25)
+Maior nº: max(20,5,10)
+Menor nº: min(20,5,10)
+Valor Absoluto: abs(-1) #1
+trunc
+factorial
+Nºs Aleatórios: import random
+random.randint(1,10) #int entre 1 e 10
+
+
+<b>===== DATAS =====</b>
+from datetime import datetime
+now = datetime.now()
+print(now)
+print(now.year)
+print(now.month)
+print(now.day)
+#data brasil
+print('%s/%s/%s' % (now.day, now.month, now.year))
+#hora brasil
+print('%s:%s:%s' % (now.hour, now.minute, now.second))
+
+
+<b>===== FUNÇÕES (Modularização) =====</b>
+def imprimir():
+    return "resposta da função"
+print(imprimir())
+
+#com parâmetros:
+def juntar(x1, x2):
+    return x1+" e "+x2
+juntar("hello","world")
+
+#com argumentos:
+def maiorNum(*args):
+    print max(args)
+    return max(args)
+maiorNum(-10,20,5,10)
+
+#com valor padrão(default)
+def soma(a=0,b=0):
+    return(a+b)
+soma(4+5)
+
+
+<b>===== TUPLAS =====</b>
+lanche = ("Hamburger","Suco","Refri")
+print(lanche[1])
+print(lanche[-2])
+print(lanche[1::3])
+print(len(lanche)) #2
+coisas = ("Max",39,25.5)
+#só atribuo valores à tupla na sua criação
+#não há como deletar somente item x da tupla
+
+Percorrer tupla:
+for comida in lanche:
+    print(f"Eu vou comer {comida}")
+
+Deletar tupla:
+del(lanche)
+
+
+<b>===== LISTAS (Lists) =====</b>
+animais = ["leão","gato","zebra"]
+animais[0] #leão
+len(animais) #3
+
+Percorrer Lista:
+for i in lista:
+    print(i)
+    letra = lista[i][0] #1ª letra da palavra
+    if letra not in lista: #Se ñ encontrado na lista
+        ...
+
+Enumerar lista:
+for i in enumerate(lista):
+    print(i)
+
+Copiar Lista:
+#se alterar uma, altera tbm a outra!
+list_a = [6, 7, 8, 9]
+list_b = lista_a
+
+Clonar Lista:
+#se alterar uma, a outra não altera!
+list_a = [6, 7, 8, 9]
+list_b = lista_a[:]
+
+Juntar Listas(join):
+m = [1, 2, 3]
+n = [4, 5, 6]
+o = m + n
+print(o) #[1, 2, 3, 4, 5, 6]
+
+Inserir no final(append):
+nums = ["um"]
+nums.append("dois")
+
+Retornar Índice(index):
+animals = ["ant", "bat", "cat"]
+print(animals.index("bat")) #1
+
+Inserir elemento no índice:
+animals = ["ant", "bat"]
+animals.insert(1,"dog")
+
+Remover elemento:
+animals = ["ant", "bat", "cat"]
+animals.remove("ant")
+
+Remove através do index(pop):
+animals = ["ant", "bat", "cat"]
+animals.pop(0) #'ant'
+
+Ordenar lista(sort):
+lista = ["c","b","a"]
+lista.sort()
+lista.sort(key=len,reverse=True) #Descrescente
+
+
+<b>===== LISTAS COMPOSTAS =====</b>
+pessoas = [['Pedro',25],['Maria',19],['João',32]]
+print(pessoas[0][1]) #25
+print(pessoas[1][0]) #Maria
+
+Limpar Lista:
+pessoas.clear()
+DICIONÁRIOS (dictionaries):
+pessoa = {
+    "nome": "joão",
+    "idade": 60,
+    "prog": ["python","php"]
+}
+print(pessoa["nome"])
+print(pessoa["prog"])
+
+Atribuir valores:
+pessoa["idade"] = 40
+
+Remover valores:
+del pessoa['idade']
+
+Dicionário dinâmico:
+dic = {}
+dic['name'] = "joao"
+dic['age']  = "39"
+
+Percorrer dicionários:
+dic = {'a': 'apple', 'b': 'berry', 'c': 'cherry'}
+for i in dic:
+    print i+" "+dic[i]
+
+for i,j in dic:
+    print(f'O {i} é {j}') #o 'a' é 'apple'
+#pode-se inserir dicionários dentro de listas
+print(lista[0]['filme']) #dict filmes em 'lista'
+
+Ver itens:
+dic.items()
+#([('a','apple'),('b','berry'),('c','cherry')])
+
+Ver índices(keys):
+dic.keys() #(['a','b','c'])
+
+Ver valores(values):
+dic.values() #(['apple','berry','cherry'])
+
+
+<b>===== MATRIZES =====</b>
+turma = [[5.0, 4.5, 6.1],[2.1, 6.5], [8.6, 7.0]]
+
+CRIAR MATRIZ:
+x = input().split()
+linhas = int(x[0])
+colunas = int(x[1])
+matriz = []
+
+for i in range(linhas):
+    linha = []
+    for j in range(colunas):
+        x = input()
+        linha.append(x)
+    matriz.append(linha)
+
+
+PERCORRER MATRIZ VIA VALOR:
+for linha in matriz:
+    for coluna in linha:
+        print(coluna)
+    print()
+
+
+PERCORRER MATRIZ VIA POSIÇÃO INDEX:
+for posLinha in range(len(matriz)):
+    for posColuna in range(len(matriz[0])):
+        print(matriz[posLinha][posColuna])
+
+
+IMPRIMIR EM FORMATO DE MATRIZ:
+n = int(input('Digite a dimensão n da matriz: '))
+m = int(input('Digite a dimensão m da matriz: '))
+matriz = []
+for i in range(n):
+    matriz.append([0]*m)
+for i in range(n):
+    print(matriz[i])
+
+
+CONTAR PARES MATRIZ:
+matriz = []
+for i in range(3):
+    linha = []
+    for j in range(3):
+        linha.append(int(input('Digite o valor de [' +str(i) + ',' + str(j) + ']:')))
+        matriz.append(linha)
+pares = 0
+for linha in matriz:
+    for valor in linha:
+        if valor % 2 == 0:
+            pares = pares + 1
+for i in range(3):
+    print(matriz[i])
+print('A matriz contém', pares, 'números pares')
+
+
+DIMENSÃO DA MATRIZ:
+matriz = []
+parar = False
+while not(parar):
+    linha = [0] * 10
+    matriz.append(linha)
+    x = input("Deseja parar? (S/N)")
+    if x == "S":
+        parar = True
+print("A matriz possui %d linhas" % len(matriz))
+print("A matriz possui %d colunas" % len(matriz[0]))
+
+
+<b>===== LAMBDAS =====</b>
+g = lambda x: x * 2
+print(g(6)) #12
+'''
+similar:
+def g(x):
+    return x * 2
+print(f(6))
+'''
+
+
+<b>===== ERROS & EXCEÇÕES =====</b>
+try:
+    operação
+except Exception as erro:
+    falhou com erro.(classe/genero...)
+except Exception as (erro2,erro3):
+    falhou com erro2.(classe/genero...) ou erro3
+except Exception as errado:
+    falhou com erro genérico do tipo errado.___cause___
+else:
+    deu certo
+finally:
+    deu certo, mas com erro, acima de tudo
+#o finally ocorre com ou sem erro
+
+
+<b>===== ATIV PRONTA NºS PRIMOS =====</b>
+numero = int(input())
+divisores = 0
+for divisor in range(1, numero):
+    if numero % divisor == 0:
+        divisores = divisores+1
+        if divisores>1:
+            break
+if (divisores>1):
+    print("não é primo")
+else:
+    print("é primo")
+# só que 0 e 1 não são primos!
+</code></pre></small><br>
+            <h4>OOP</h4>
+<small><pre><code>
+<b>===== Criação Classe =====</b>
+class Carro(object): #object(padrão): classe herdada
+    pass #indica classe vazia
+
+class Carro(object):
+    estado = "novo"
+
+Instanciando:
+Fusca = Carro()
+print(fusca.estado) #novo
+
+Instância Aberta(atributos dinâmicos):
+fusca.idade = "novo"
+print(fusca.idade)
+
+
+<b>===== Métodos(self) =====</b>
+#self indica que o método é da própria classe
+class Carro(object):
+    def dirigir(self):
+        self.estado = "usado"
+    c = Carro()
+    c.dirigir()
+    print(c.estado) #usado
+
+Alterar propriedades via método("set"):
+class Carro(object):
+    estado = "novo"
+    def dirigir(self):
+        self.estado = "usado"
+    c2 = Carro()
+    c2.dirigir()
+    print(c2.estado) #usado
+
+<b>===== Construtor(__init__) =====</b>
+class Carro(object):
+    def __init__(self,estado):
+        self.estado = estado
+
+    bmw = Carro("semi-novo")
+    print(bmw.estado) #semi-novo
+
+
+<b>===== Herança =====</b>
+class Veiculo(object):
+    estado = "novo"
+    def getEstado(self):
+        return self.estado
+    def setEstado(self,estado):
+        self.estado = estado
+
+class Carro(Veiculo):
+    def __init__(self,cor,rodas):
+        Veiculo.__init__(cor,rodas)
+    bmw = Carro()
+    print(bmw.getEstado()) #novo
+
+-- Classe Main --
+from carro import Carro
+# Instanciando objetos abaixo
+</code></pre></small><br>
+            <h4>PDO</h4>
+<small><pre><code>
+<b>===== BANCO DE DADOS =====</b>
+CREATE DATABASE agenda;
+USE agenda;
+CREATE TABLE contato (
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    nome varchar(30) NOT NULL,
+    telefone varchar(11) NOT NULL,
+    PRIMARY KEY(id)
+);
+
+<b>===== CONEXÃO =====</b>
+import mysql.connector
+mydb = mysql.connector.connect(host="localhost",user="root",passwd="",database="agenda")
+
+<b>===== INSERIR =====</b>
+mycursor = mydb.cursor()
+sql = "INSERT INTO contato(nome,telefone) VALUES (%s, %s)"
+val = [
+    ('Mateus','51992282929'),
+    ('Amy','55994663322'),
+    ('Hannah','51980146466')
+]
+#val = ("John", "Highway 21")
+mycursor.executemany(sql, val)
+mydb.commit()
+
+<b>===== SELECT =====</b>
+mycursor = mydb.cursor()
+mycursor.execute("SELECT * FROM contato")
+myresult = mycursor.fetchall()
+for x in myresult:
+    print("Id:", x[0], "Nome:", x[1], "Tel:", x[2])
+
+<b>===== DELETE =====</b>
+mycursor = mydb.cursor()
+sql = "DELETE FROM contato WHERE nome = %s"
+adr = ("Mateus", )
+mycursor.execute(sql, adr)
+mydb.commit()
+print(mycursor.rowcount, "linhas deleted")
+
+<b>===== UPDATE =====</b>
+mycursor = mydb.cursor()
+sql = "UPDATE contato SET nome = %s WHERE nome = %s"
+val = ("Amyly", "Amy")
+mycursor.execute(sql, val)
+mydb.commit()
+</code></pre></small>
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center bg-black text-light pt-4 pb-3">
+        <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>
