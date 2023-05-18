@@ -299,7 +299,7 @@ grafico.show() <span class="text-muted">#Imagem dos gráficos com colorações i
             <br><img src="pxGrafico1.jpg" title="px.scatter_matrix" class="img-fluid rounded" width="800px">
 
             <br><br><p><b>4.1. Tratamento de valores inconsistentes:</b></p>
-            <p id="textoPost">No gráfico acima, pode-se perceber a existência de idades negativas, significando dados equivocados, ou seja, inconsistentes. Situações como essa geralmente são advindas de imerfeições do sistema, onde há possibilidade do usuário informar determinado valor inconsistente.</p>
+            <p id="textoPost">No gráfico acima, existem idades negativas, ou seja, valores inconsistentes.</p>
 <small><pre><code>
 base_credit.loc[base_credit['age'] &lt; 0] <span class="text-muted">#Localizar registros (Ou base_credit[base_credit['age'] &lt; 0])</span>
 
@@ -314,7 +314,7 @@ base_credit3 = base_credit.drop(base_credit[base_credit['age'] &lt; 0].index)
 base_credit3
 base_credit3.loc[base_credit3['age'] &lt; 0] <span class="text-muted">#Apagou, então retornará nenhum registro encontrado</span>
 
-<span class="text-muted"></span>#Preencher os valores inconsistentes manualmente (Geralmente preencher com média da classe)</span>
+<span class="text-muted">#Preencher os valores inconsistentes manualmente (Geralmente preencher com média da classe)</span>
 base_credit.mean() <span class="text-muted">#Localizar média de valores (Ou base_credit['age'].mean())</span>
 base_credit['age'][base_credit['age'] &gt; 0].mean() <span class="text-muted">#Média não considerando valores negativos</span>
 base_credit.loc[base_credit['age'] &lt; 0, 'age'] = 40.92 <span class="text-muted">#Preencher idades negativas com média de idades</span>
