@@ -76,8 +76,71 @@
                 </li>
             </ul>
             <p>Dessa forma, permite que as requisições HTTP armazenem dados (estados). Os Web services que estão em conformidade com o estilo arquitetural REST são denominados Web services <b>RESTful</b>. RESTful é o nome do padrão quando o sistema utiliza API REST corretamente seu funcionamento. Em síntese, API que intermedia a comunicação do Front-end com o Back-end do sistema, fazendo-os se conversarem por meio de linguagem XML/JSON utilizando métodos REST (Front-end solicita coisas via URL ao Back-end que, por meio de padrões de código e métodos REST (Como DELETE, UPDATE...), cria JSON com resposta e o reenvia ao Front-end, que organizará visualmente o conteúdo ao usuário, técnica chamada <i>Consumir API</i>).</p>
+
+            <br><h4>HTTP Request e Response</h4>
+            <br><b>Request:</b>
+            <p>Requisição HTTP do dispositivo ao servidor web. Incluem dados de pares chave/valor na URI (query string)<br>Ex: /api/produtos<b>?order=desc&limit=5</b></p>
             
-            <br><h4>Funcionamento prático</h4>
+            Header da request:
+            <ul>
+                <li><u>Accept</u>: Especifica formato do arquivo desejado pelo requester.
+                    <ul>
+                        <li class="text-muted">Accept: application/xml</li>
+                        <li class="text-muted">Accept: application/json</li>
+                        <li class="text-muted">Accept: application/pdf</li>
+                    </ul>
+                </li>
+                <li><u>Accept-Language</u>: Idioma do conteúdo</li>
+                <li><u>Cache-Control</u>: Conteúdo pode ser consumido do cache e o tempo em que o cache é atualizado</li>
+            </ul>
+            <p>Versão da API: /api/v1/produtos</p>
+
+            <br><b>Response:</b>
+            <p>Resposta HTTP do servidor web ao dispositivo, sob sua requisição.</p>
+            <ul>
+                <li>Na requisição existe query string?</li>
+                <li>Qual foi o verbo HTTP que realizou a ação?</li>
+                <li>Quais os dados do header?</li>
+                <li>Qual o formato requisitado?</li>
+                <li>Quais dados da coleção ou indivíduo do recurso solicitado precisam ser enviados?</li>
+            </ul>
+            
+            Header da response:
+            <ul>
+                <li><u>Content-Type</u>: text/javascript (Formato de dado conforme requisitado)</li>
+                <li><u>Last-Modified</u>: Tue, 15 Jan 2023 12:45:26 GMT</li>
+                <li><u>Expires</u>: Thu, 22 Jan 2023 16:00:00 GTM</li>
+                <li><u>Status</u>: 200 OK (Código de status HTTP)</li>
+            </ul>
+            
+            <br><b>HTTP Status Codes:</b>
+            <ul>
+                <li><u>1XX</u>: Informational <span class="text-muted">(100 a 199)</span></li>
+                <li><u>2XX</u>: Success
+                    <ul class="text-muted">
+                        <li>200: Consulta encontrada no server</li>
+                        <li>202: Criação de novo recurso com sucesso</li>
+                    </ul>
+                </li>
+                <li><u>3XX</u>: Redirection
+                    <ul class="text-muted">
+                        <li>300: Requisição HTTP foi entendida, mas o recurso encontra-se em outra URI</li>
+                    </ul>
+                </li>
+                <li><u>4XX</u>: Client Error
+                    <ul class="text-muted">
+                        <li>404: URI informada incorretamente (Not Found)</li>
+                        <li>405 e 403: URI pode ser requisitada apenas com verbo GET/POST</li>
+                    </ul>
+                </li>
+                <li><u>5XX</u>: Server Error
+                    <ul class="text-muted">
+                        <li>500: Requisição realizada, mas houve erro no lado do servidor (Server Error)</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <br><hr><p class="text-muted mb-4">Exemplo prático</p>
             <p id="textoPost">Aplicação Front-end envia requisição HTTP com métodos REST para Back-end, que, de acordo com a URL, realizará determinadas rotinas e gerará um JSON com os resultados da requisição. Essa requisição, geralmente, será reenviada ao Front-end, que o 'consumirá' em um layout interativo ao usuário.</p>
             <p id="textoPost"><u>Exemplo consultar dados de cliente</u>: Usuário clica em Consultar Cliente, que enviará URL requisitando dados do cliente ao Back-end. Conforme parâmetros na URI requisitada (ID do usuário, URL via método GET), dinâmica e denominada <i>endpoint</i>, com isso, o Back-end, por meio da API REST (Métodos e padrões de código) com Laravel, consultará BD e criará JSON com resultado dos dados do cliente solicitado e o enviará de volta ao Front-end, que lerá o JSON (Consumir API REST) com React, mostrando os dados do cliente em interface gráfica agradável para o usuário.</p>
 
@@ -275,5 +338,44 @@ class Artigo extends JsonResource {
 
 
 <!-- ANOTAÇÕES CURSO DJANGO API REST --
-VER 6.Entendendo as Requests
+REQUEST:
+Requisição HTTP do dispositivo ao servidor web. Incluem dados de pares chave/valor na URI (query string)
+Ex: /api/produtos?order=desc&limit=5
+
+Header da request (Accept): Especifica formato do arquivo desejado pelo requester.
+Accept: application/xml
+Accept: application/json
+Accept: application/pdf
+
+Header da request (Accept-Language): Idioma do conteúdo
+Header da request (Cache-Control): Conteúdo pode ser consumido do cache e o tempo em que o cache é atualizado
+
+Versão da API: /api/v1/produtos
+
+RESPONSE:
+Resposta HTTP do servidor web ao dispositivo, sob sua requisição.
+- Na requisição existe query string?
+- Qual foi o verbo HTTP que realizou a ação?
+- Quais os dados do header?
+- Qual o formato requisitado?
+- Quais dados da coleção ou indivíduo do recurso solicitado precisam ser enviados?
+
+Header da response:
+- Content-Type: text/javascript (Formato de dado conforme requisitado)
+- Last-Modified: Tue, 15 Jan 2023 12:45:26 GMT
+- Expires: Thu, 22 Jan 2023 16:00:00 GTM
+- Status: 200 OK (Código de status HTTP)
+
+HTTP Status Codes:
+1XX: Informational (100 a 199)
+2XX: Success
+    200: Consulta encontrada no server
+    202: Criação de novo recurso com sucesso
+3XX: Redirection
+    300: Requisição HTTP foi entendida, mas o recurso encontra-se em outra URI
+4XX: Client Error
+    404: URI informada incorretamente (Not Found)
+    405 e 403: URI pode ser requisitada apenas com verbo GET/POST
+5XX: Server Error
+    500: Requisição realizada, mas houve erro no lado do servidor (Server Error)
 -->
