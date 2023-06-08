@@ -75,7 +75,7 @@
                     </ul>
                 </li>
             </ul>
-            <p>Dessa forma, permite que as requisições HTTP armazenem dados (estados). Os Web services que estão em conformidade com o estilo arquitetural REST são denominados Web services <b>RESTful</b>. RESTful é o nome do padrão quando o sistema utiliza API REST corretamente seu funcionamento. Em síntese, API que intermedia a comunicação do Front-end com o Back-end do sistema, fazendo-os se conversarem por meio de linguagem XML/JSON utilizando métodos REST (Front-end solicita coisas via URL ao Back-end que, por meio de padrões de código e métodos REST (Como DELETE, UPDATE...), cria JSON com resposta e o reenvia ao Front-end, que organizará visualmente o conteúdo ao usuário, técnica chamada <i>Consumir API</i>).</p>
+            <p>Nativamente, o HTTP é <i>Stateless</i> (Não guarda estado). Com o uso de REST, permitirá que as requisições HTTP armazenem dados (estados). Os Web services que estão em conformidade com o estilo arquitetural REST são denominados Web services <b>RESTful</b>. RESTful é o nome do padrão quando o sistema utiliza API REST corretamente seu funcionamento. Em síntese, API que intermedia a comunicação do Front-end com o Back-end do sistema, fazendo-os se conversarem por meio de linguagem XML/JSON utilizando métodos REST (Front-end solicita coisas via URL ao Back-end que, por meio de padrões de código e métodos REST (Como DELETE, UPDATE...), cria JSON com resposta e o reenvia ao Front-end, que organizará visualmente o conteúdo ao usuário, técnica chamada <i>Consumir API</i>).</p>
 
             <br><h4>HTTP Request e Response</h4>
             <br><b>Request:</b>
@@ -136,6 +136,18 @@
                 <li><u>5XX</u>: Server Error
                     <ul class="text-muted">
                         <li>500: Requisição realizada, mas houve erro no lado do servidor (Server Error)</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <br><h4>Segurança em APIs</h4>
+            <ul>
+                <li>Uso de cache para requests: cliente faz requisição ao servidor, que enviará a resposta e a armazenará em memória. As próximas requisições similares consultarão diretamente o cache, dispensando acesso ao servidor todas as vezes. O Redis é um exemplo de ferramenta que constrói tal estrutura.</li>
+                <li>Limitar quantidade de requests no servidor para evitar queda do mesmo.</li>
+                <li>Promover autenticação e autorização de acesso, aderindo Tokens, via Public Key enviada no Header da Request para autenticação e acesso ao servidor.
+                    <ul>
+                        <li>Authorization: What you can do</li>
+                        <li>Authentication: Who are you</li>
                     </ul>
                 </li>
             </ul>
@@ -338,44 +350,5 @@ class Artigo extends JsonResource {
 
 
 <!-- ANOTAÇÕES CURSO DJANGO API REST --
-REQUEST:
-Requisição HTTP do dispositivo ao servidor web. Incluem dados de pares chave/valor na URI (query string)
-Ex: /api/produtos?order=desc&limit=5
 
-Header da request (Accept): Especifica formato do arquivo desejado pelo requester.
-Accept: application/xml
-Accept: application/json
-Accept: application/pdf
-
-Header da request (Accept-Language): Idioma do conteúdo
-Header da request (Cache-Control): Conteúdo pode ser consumido do cache e o tempo em que o cache é atualizado
-
-Versão da API: /api/v1/produtos
-
-RESPONSE:
-Resposta HTTP do servidor web ao dispositivo, sob sua requisição.
-- Na requisição existe query string?
-- Qual foi o verbo HTTP que realizou a ação?
-- Quais os dados do header?
-- Qual o formato requisitado?
-- Quais dados da coleção ou indivíduo do recurso solicitado precisam ser enviados?
-
-Header da response:
-- Content-Type: text/javascript (Formato de dado conforme requisitado)
-- Last-Modified: Tue, 15 Jan 2023 12:45:26 GMT
-- Expires: Thu, 22 Jan 2023 16:00:00 GTM
-- Status: 200 OK (Código de status HTTP)
-
-HTTP Status Codes:
-1XX: Informational (100 a 199)
-2XX: Success
-    200: Consulta encontrada no server
-    202: Criação de novo recurso com sucesso
-3XX: Redirection
-    300: Requisição HTTP foi entendida, mas o recurso encontra-se em outra URI
-4XX: Client Error
-    404: URI informada incorretamente (Not Found)
-    405 e 403: URI pode ser requisitada apenas com verbo GET/POST
-5XX: Server Error
-    500: Requisição realizada, mas houve erro no lado do servidor (Server Error)
 -->
