@@ -41,9 +41,9 @@
         </div>
 
         <div class="col-sm-12">
-            <p id="textoPost">Django REST Framework (DRF), ferramenta oficial do Django, possui mecanismos automatizados para criação e gerenciamento de projetos API REST, dispensando serviços terceiros para testes, como o Postman. No projeto em questão, será criada a API REST via código manualmente, juntamente com autenticação Serializer e todas as funções de CRUD, seguindo os padrões oficiais do framework. Entretanto, para casos mais básicos e genéricos, pode-se utilizar <a href="#genericViews" class="text-decoration-none">Generic Views</a> (Código no final do post), favorecendo assim a produtividade do desenvolvimento. Demais informações, relacionadas à conceitos teóricos sobre API REST e instalação do Django, acesse os posts sobre. O nome do projeto em questão será 'todo_drf' e o app criado nele será 'api'.</p>
-            <br>
-            <h4>Passo a passo:</h4>
+            <p id="textoPost">Django REST Framework (DRF), ferramenta oficial do Django, possui mecanismos automatizados para criação e gerenciamento de projetos API REST, dispensando serviços terceiros para testes, como o Postman. No projeto em questão, será criada a API REST via código manualmente, juntamente com autenticação Serializer e todas as funções de CRUD, seguindo os padrões oficiais do framework (RESTful). Entretanto, para casos mais básicos e genéricos, pode-se utilizar <a href="#genericViews" class="text-decoration-none">Generic Views</a> (Código no final do post), favorecendo assim a produtividade do desenvolvimento. O nome do projeto em questão será 'todo_drf' e o app criado nele será 'api'.</p>
+
+            <br><h4>Passo a passo:</h4>
             <ol>
                 <br>
                 <b><u>Preparo</u>:</b>
@@ -59,26 +59,25 @@
                 <li><b>Executar projeto:</b> python3 manage.py runserver</li>
                 <li>No browser
                     <ul>
-                        <li><b>Acessar API:</b> <a href="http://127.0.0.1:8000/api/" class="text-decoration-none" target="_blank">http://127.0.0.1:8000/api/</a></li>
-                        <li><b>Listar Tasks:</b> <a href="http://127.0.0.1:8000/api/task-list/" class="text-decoration-none" target="_blank">http://127.0.0.1:8000/api/task-list/</a></li>
-                        <li><b>Inserir Task:</b> <a href="http://127.0.0.1:8000/api/task-create/" class="text-decoration-none" target="_blank">http://127.0.0.1:8000/api/task-create/</a>
+                        <li><b>Acessar API:</b> <a href="http://127.0.0.1:8000/api/" class="text-decoration-none" target="_blank">http://127.0.0.1:8000/api</a></li>
+                        <li><b>Listar Tasks:</b> <a href="http://127.0.0.1:8000/api/task-list/" class="text-decoration-none" target="_blank">http://127.0.0.1:8000/api/task-list</a></li>
+                        <li><b>Inserir Task:</b> <a href="http://127.0.0.1:8000/api/task-create/" class="text-decoration-none" target="_blank">http://127.0.0.1:8000/api/task-create</a>
                             <ul>
                                 <li>Conteúdo para inserir (JSON): <span class="text-muted">{"title":"UB Social 1","description":"Task UB Social 1","completed":"True"}</span></li>
                             </ul>
                         </li>
-                        <li><b>Ver Task 1:</b> <a href="http://127.0.0.1:8000/api/task-detail/1/" class="text-decoration-none" target="_blank">http://127.0.0.1:8000/api/task-detail/1/</a></li>
-                        <li><b>Editar Task 1:</b> <a href="http://127.0.0.1:8000/api/task-update/1/" class="text-decoration-none" target="_blank">http://127.0.0.1:8000/api/task-update/1/</a>
+                        <li><b>Ver Task 1:</b> <a href="http://127.0.0.1:8000/api/task-detail/1/" class="text-decoration-none" target="_blank">http://127.0.0.1:8000/api/task-detail/1</a></li>
+                        <li><b>Editar Task 1:</b> <a href="http://127.0.0.1:8000/api/task-update/1/" class="text-decoration-none" target="_blank">http://127.0.0.1:8000/api/task-update/1</a>
                             <ul>
                                 <li>Conteúdo para inserir (JSON): <span class="text-muted">{"title":"UB Social 1 atualizada","description":"Task UB Social 1 atualizada","completed":"False"}</span></li>
                             </ul>
                         </li>
-                        <li><b>Excluir Task 1:</b> <a href="http://127.0.0.1:8000/api/task-delete/1/" class="text-decoration-none" target="_blank">http://127.0.0.1:8000/api/task-delete/1/</a></li>
+                        <li><b>Excluir Task 1:</b> <a href="http://127.0.0.1:8000/api/task-delete/1/" class="text-decoration-none" target="_blank">http://127.0.0.1:8000/api/task-delete/1</a></li>
                     </ul>
                 </li>
             </ol>
 
-            <br>
-            <h4>Arquivos:</h4>
+            <br><h4>Arquivos:</h4>
             <br><p><b>api/models.py</b>:</p>
 <small><pre><code>
 from django.db import models
@@ -231,8 +230,7 @@ urlpatterns = [
                 </li>
             </ol>
 
-            <br>
-            <h4>Arquivos:</h4>
+            <br><h4>Arquivos:</h4>
             <br><p><b><span class="text-muted">(Modificar trecho do arquivo)</span> crudapi/settings.py</b>:</p>
 <small><pre><code>
 INSTALLED_APPS = [

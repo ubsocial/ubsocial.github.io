@@ -34,13 +34,13 @@
     <div class="row">
         <div class="col-sm-12 text-center" id="titulo">
             <h1>API, REST, RESTful</h1>
-            <h6><strong>Criar API REST com Laravel</strong></h6>
+            <h6><strong>Conceitos e exemplo prático</strong></h6>
             <a href="../../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
         </div>
 
         <div class="col-sm-12">
-            <h4>Conceitos</h4>
-            <p id="textoPost"><b>API</b>:<br>Application Programming Interface tem função de intermediar comunicação universal entre diferentes sistemas (Interface de comunicação HTTP), assim como do banco de dados com o próprio sistema (Interno ou externo), utilizando protocolo de comunicação HTTP (XML/JSON), requisitados via URL específica, independente da tecnologia do sistema que irá consumí-la (Acessá-la). Pode-se solicitar dados via API, através de métodos como POST, assim como a API poderá fornecer-lhe dados, via métodos como GET. Em ambos casos, utilizando a comunicação universal citada. Funcionamento: Front-end requisita, via URL específica, rotinas ao Back-end. Conforme URL, serão realizadas rotinas de código com acesso/manipulação ao Banco de Dados. Após isso, Back-end envia feedback, em formato XML/JSON, para Front-end. Todo o processo descrito realizado no Back-end é o conceito de API.</p>
+            <h4>API</h4>
+            <p id="textoPost">Application Programming Interface tem função de intermediar comunicação universal entre diferentes sistemas, assim como do banco de dados com o próprio sistema (Interno ou externo), utilizando protocolo de comunicação HTTP (XML/JSON), requisitados via URL específica, independente da tecnologia do sistema que irá consumí-la (Acessá-la).</p>
             <ul>
                 <li>URL: <span class="text-muted">http://www.sistema.com</span></li>
                 <li>URL + <b>URI</b>: <span class="text-muted">http://www.sistema.com/<b>api/produtos</b></span></li>
@@ -48,7 +48,8 @@
                 <li>Endpoint individual: <span class="text-muted">/api/produtos/2</span></li>
             </ul>
 
-            <br><p id="textoPost"><b>REST</b>:<br>Representational State Transfer. Técnica que consiste em princípios que, quando seguidos, permitem a criação de projetos (Web services) com interfaces/arquitetura bem definidas, utilizando novos métodos/verbos REST HTTP:</p>
+            <br><h4>REST</h4>
+            <p id="textoPost">Representational State Transfer. Técnica que consiste em princípios que, quando seguidos, permitem a criação de projetos (Web services) com interfaces/arquitetura bem definidas, utilizando novos métodos/verbos REST HTTP:</p>
             <ul>
                 <li>PUT: Create
                     <ul class="text-muted">
@@ -75,15 +76,15 @@
                     </ul>
                 </li>
             </ul>
-            <p>Nativamente, o HTTP é <i>Stateless</i> (Não guarda estado). Com o uso de REST, permitirá que as requisições HTTP armazenem dados (estados). Os Web services que estão em conformidade com o estilo arquitetural REST são denominados Web services <b>RESTful</b>. RESTful é o nome do padrão quando o sistema utiliza API REST corretamente seu funcionamento. Em síntese, API que intermedia a comunicação do Front-end com o Back-end do sistema, fazendo-os se conversarem por meio de linguagem XML/JSON utilizando métodos REST (Front-end solicita coisas via URL ao Back-end que, por meio de padrões de código e métodos REST (Como DELETE, UPDATE...), cria JSON com resposta e o reenvia ao Front-end, que organizará visualmente o conteúdo ao usuário, técnica chamada <i>Consumir API</i>).</p>
+            <p>Nativamente, o HTTP é <i>Stateless</i> (Não guarda estado). Com o uso de REST, permitirá que as requisições HTTP armazenem dados (estados). Os Web services que estão em conformidade com o estilo arquitetural REST são denominados Web services <b>RESTful</b>. RESTful é o nome do padrão quando o sistema utiliza API REST corretamente seu funcionamento.</p>
 
             <br><h4>HTTP Request e Response</h4>
             <br><b>Request:</b>
-            <p>Requisição HTTP do dispositivo ao servidor web. Incluem dados de pares chave/valor na URI (query string)<br>Ex: /api/produtos<b>?order=desc&limit=5</b></p>
+            <p>Requisição HTTP do dispositivo ao servidor web. Incluem dados de pares chave/valor na URI (query string).<br>Ex: /api/produtos<b>?order=desc&limit=5</b></p>
             
             Header da request:
             <ul>
-                <li><u>Accept</u>: Especifica formato do arquivo desejado pelo requester.
+                <li><u>Accept</u>: Especifica formato do arquivo desejado pelo requester
                     <ul>
                         <li class="text-muted">Accept: application/xml</li>
                         <li class="text-muted">Accept: application/json</li>
@@ -119,7 +120,7 @@
                 <li><u>2XX</u>: Success
                     <ul class="text-muted">
                         <li>200: Consulta encontrada no server</li>
-                        <li>202: Criação de novo recurso com sucesso</li>
+                        <li>201/202: Criação de novo recurso com sucesso</li>
                     </ul>
                 </li>
                 <li><u>3XX</u>: Redirection
@@ -142,7 +143,7 @@
 
             <br><h4>Segurança em APIs</h4>
             <ul>
-                <li>Uso de cache para requests: cliente faz requisição ao servidor, que enviará a resposta e a armazenará em memória. As próximas requisições similares consultarão diretamente o cache, dispensando acesso ao servidor todas as vezes. O Redis é um exemplo de ferramenta que constrói tal estrutura.</li>
+                <li>Uso de cache para requests: Cliente faz requisição ao servidor, que enviará a resposta e a armazenará em memória. As próximas requisições similares consultarão diretamente o cache, dispensando acesso ao servidor todas as vezes. O Redis é um exemplo de ferramenta que constrói tal estrutura.</li>
                 <li>Limitar quantidade de requests no servidor para evitar queda do mesmo.</li>
                 <li>Promover autenticação e autorização de acesso, aderindo Tokens, via Public Key enviada no Header da Request para autenticação e acesso ao servidor.
                     <ul>
@@ -153,31 +154,13 @@
             </ul>
 
             <br><hr><p class="text-muted mb-4">Exemplo prático</p>
-            <p id="textoPost">Aplicação Front-end envia requisição HTTP com métodos REST para Back-end, que, de acordo com a URL, realizará determinadas rotinas e gerará um JSON com os resultados da requisição. Essa requisição, geralmente, será reenviada ao Front-end, que o 'consumirá' em um layout interativo ao usuário.</p>
-            <p id="textoPost"><u>Exemplo consultar dados de cliente</u>: Usuário clica em Consultar Cliente, que enviará URL requisitando dados do cliente ao Back-end. Conforme parâmetros na URI requisitada (ID do usuário, URL via método GET), dinâmica e denominada <i>endpoint</i>, com isso, o Back-end, por meio da API REST (Métodos e padrões de código) com Laravel, consultará BD e criará JSON com resultado dos dados do cliente solicitado e o enviará de volta ao Front-end, que lerá o JSON (Consumir API REST) com React, mostrando os dados do cliente em interface gráfica agradável para o usuário.</p>
+            <p id="textoPost">Aplicação Front-end envia requisição HTTP com métodos REST para Back-end, que, de acordo com a URL, realizará determinadas rotinas e gerará um JSON de resposta com os resultados da requisição. Essa requisição, geralmente, será reenviada ao Front-end, que o 'consumirá' em um layout interativo ao usuário.</p>
+            <p id="textoPost"><u>Exemplo consultar dados de cliente</u>: Usuário clica em Consultar Cliente, que enviará URL requisitando dados do cliente ao Back-end. Conforme parâmetros na URI requisitada (ID do usuário, URL via método GET) (Request), dinâmica e denominada <i>endpoint</i>, com isso, o Back-end, por meio da API REST (Métodos e padrões de código) com Laravel, consultará BD e criará JSON com resultado dos dados do cliente solicitado e o enviará de volta ao Front-end (Response), que lerá o JSON (Consumir API REST) com React, mostrando os dados do cliente em interface gráfica agradável para o usuário.</p>
 
             <br><h4>Pré-instalações</h4>
             <ol>
-                <li>Instalação e configuração do Laravel (Ver resumo Laravel: <a href="../laravel/laravel.html" class="text-decoration-none" target="_blank">Acesse</a>)</li>
-                <li>Instalar Postman
-                    <ol>
-                        <li>Baixar, no site oficial, Postman Client (.tar.xz) e extraí-lo;</li>
-                        <li>No diretório do Postman, realizar os comandos: <i>sudo mv Postman /opt && sudo ln -s /opt/Postman/Postman /usr/local/bin/postman</i>
-                        </li>
-                        <li>Criar lançador desktop para fácil acesso: sudo nano /usr/share/applications/postman.desktop:</li>
-<small><pre><code>
-(Conteúdo dentro de poastman.desktop)
-[Desktop Entry]
-Type=Application
-Name=Postman
-Icon=/opt/Postman/app/resources/app/assets/icon.png
-Exec="/opt/Postman/Postman"
-Comment=Postman GUI
-Categories=Development;Code;
-</code></pre></small>
-                        <li>O Postman também pode ser acessado informando '<i>postman</i>' no shell</li>
-                    </ol>
-                </li>
+                <li>Instalar Laravel: <a href="../laravel/laravel.html" class="text-decoration-none" target="_blank">Instruções</a></li>
+                <li>Instalar Postman: <a href="../post22.html" class="text-decoration-none" target="_blank">Instruções</a></li>
                 <li>Criar BD: Iniciar Apache e MySQL XAMPP e, no Phpmyadmin, criar BD: '<i>CREATE DATABASE artigos;</i>'</li>
                 <li>Criar projeto Laravel: '<i>composer create-project --prefer-dist laravel/laravel laravelApiRest</i>'</li>
                 <li>Configurar BD em .env: '<i>DB_DATABASE=artigos</i>'</li>
