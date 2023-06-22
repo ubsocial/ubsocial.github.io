@@ -65,9 +65,40 @@
             <div class="card mb-4">
                 <h4 class="card-header">Distros</h4>
                 <div class="card-body">
+                    <p>Uma distribuição (distro) Linux é um SO com kernel Linux. Atualmente, há cerca de 600 distros, nem todas gratuitas. As distros base (from scratch) são Slackware, Debian, Red Hat Enterprise Linux (RHEL), Gentoo, SUSE e Arch. Com isso, criou-se uma árvore de distros geradas a partir de suas progenitoras (<a href="https://commons.wikimedia.org/wiki/File:Linux_Distribution_Timeline_27_02_21.svg" class="text-decoration-none" target="_blank">timeline distros Linux</a>). Como exemplo, o Ubuntu é baseado no Debian, o Mint é baseado no Ubuntu. O Fedora e o CentOS são versões free do RHEL. O <a href="https://distrowatch.com" class="text-decoration-none" target="_blank">distrowatch</a> possui todas notícias sobre distros Linux. A versão não modificada do kernel Linux é chamada de 'Vanilla'. A distro mais antiga em atividade é o Slackware.</p>
+                    <ul>
+                        <li>Distros <b>versionadas</b> (lançamentos versionados);
+                            <ul>
+                                <li>LTS (long term support): Possui atualizações menos frequentes e pacotes mais estáveis;</li>
+                                <li>testing: Versão não LTS, possui as mais recentes atualizações publicadas;</li>
+                                <li>unstable: Possui as atualizações mais recentes e que ainda não foram publicadas (beta).</li>
+                            </ul>
+                        </li>
+                        <li>Distros <b>rolling release</b> (lançamentos contínuos, atualizações constantes, ausência de versionamento).</li>
+                    </ul>
                     
+                    <h5>GUI e CLI:</h5>
+                    <p>Toda distro é <b>CLI</b> (command-line interface), onde há ausência de interface gráfica, sendo somente modo texto. Servidores geralmente utilizam somente CLI. Distros com adesão de GUI (graphical user interface) possuem interface gráfica, sendo essa renderizada através de <b>desktop environment</b> (DE). Desktop environment engloba a interface gráfica do gerenciador de janelas, além de seus respectivos softwares. Os DEs são diferentes no que diz respeito a uso de recursos de hardware no dispositivo, customização e aparência. Entre os principais gerenciadores de janelas, tem-se:</p>
+                    <ul>
+                        <li>Gnome (GNU network object model environment): Principal DE Linux, possui widget toolkit GTK e servidores gráficos Xorg e Wayland. Caracteriza-se por ser mais responsivo e completo. Portanto, consome mais recursos de hardware do dispositivo;</li>
+                        <li>KDE (K desktop environment): Utiliza widget toolkit Qt. Caracteriza-se por ser extremamente customizável e consome poucos recursos de hardware do dispositivo;</li>
+                        <li>XFCE (XForms Common Environment): Caracteriza-se por ser mais estável e consumir menos recursos de hardware do dispositivo. Utiliza servidor gráfico Xorg;</li>
+                        <li>MATE (MATE advanced traditional environment): Nome advindo da 'erva-mate', caracteriza-se por ser leve e customizável;</li>
+                        <li>LXDE (Lightweight X11 desktop environment): Caracteriza-se por consumir pouquíssimos recursos de hardware do dispositivo;</li>
+                        <li>LXQt (LXDE + Qt): Utiliza widget toolkit Qt, caracteriza-se por consumir pouquíssimos recursos de hardware do dispositivo;</li>
+                        <li>Cinnamon: Caracteriza-se por ser extremamente similar ao Windows. Consome poucos recursos de hardware do dispositivo;</li>
+                        <li>Fluxbox: Caracteriza-se por consumir pouquíssimos recursos de hardware do dispositivo;</li>
+                        <li>Deepin DE (desktop environment): Caracteriza-se por ser extremamente similar ao MacOS;</li>
+                        <li>Pantheon: Caracteriza-se por ser extremamente similar ao MacOS;</li>
+                        <li>Unity;</li>
+                        <li>WindowMaker;</li>
+                        <li>AwesomeWM;</li>
+                        <li>Entre outros.</li>
+                    </ul>
+                    <p>Em muitas situações, pode-se optar por qual DE instalar na distro. Como, por exemplo, no Debian, optar entre Debian Gnome, Debian KDE, Debian XFCE, etc. Distros com DEs como XFCE, LXQt, MATE e Fluxbox são ideais para hardware obsoleto. Distros com DEs como XFCE, KDE e Cinnamon possuem mais similaridade com Windows. Distros com DEs Pantheon e Deepin DE possuem mais similaridade com MacOS.</p>
                 </div>
             </div>
+
 
 
 
@@ -85,91 +116,13 @@
 
 
 
-            <div class="card">
-                <h4 class="card-header">3. Distros</h4>
-                <div class="card-body">
-                    <p>Uma distribuição Linux (distro) é um SO completo criado a partir do Kernel Linux. Há cerca de 600 distros atualmente, sendo a Debian a 'mãe' da maioria. Nem todas são totalmente gratuitas, como o Red Hat Enterprise Linux (RHEL). Distros como Mint, Ubuntu e KDE são baseadas (criadas) a partir da Debian. A versão não modificada do Kernel Linux é chamada de 'Vanilla'. A 1ª distro foi a Yggdrasil Linux/GNU/X. A distro comunitária mais antiga é a Slackware, ainda ativa. Cada distro possui nomenclatura baseada em alguma referência cômica ou algo do tipo, como a Mint, que suas versões estáveis possuem nome feminino, e as instáveis, masculino (por que supõe-se que, nas decisões da vida, as mulheres são mais estáveis do que os homens). A distro Debian possui nome como referência à esposa do criador, 'Debie', e seu nome 'Ian', onde cada versão possui como nomenclatura um personagem do filme 'Toy Story'. Há uma teoria de que o logo da Debian, o redemoinho Magic Smoke, foi criado porque o personagem 'Buzz Lightyear' possui um redemoinho similar no queixo. As principais distros Linux são Mint, Ubuntu (mais usada), Fedora (Red Hat), RHEL (Red Hat Enterprise Linux), openSUSE, CentOS (Community Enterprise Operating System, Red Hat), Zorin OS, KDE Neon, Kali, Tor, Tails, MX Linux, Deepin, SteamOS, AV Linux (Kernel Linux RT - Real Time), Ubunu Studio, Kurumin, Arch, Manjaro (Arch), Elementary OS, Raspbian, Oracle Linux (Red Hat), CBL-Mariner (Commom Base Linux, .rpm, Microsoft), Pop!_OS, Tiny Core, Endless OS, entre outras. O site DistroWatch possui o ranking das distros mais usadas e todas as novidades no mundo das distros Linux. Toda distro possui determinadas versões, sendo a <b>Stable (LTS - Long Term Support)</b> a versão mais estável atualmente publicada, geralmente com menos frequência de atualizações, onde a mesma nem sempre é a mais nova lançada. Esta versão é menos propensa a bugs. Há também versão <b>Testing</b> (Rolling Release), sendo a mais moderna publicada, onde há maior frequência de atualizações e novidades em recursos/pacotes. Existe também a versão <b>Unstable</b>, versão mais nova, ainda não publicada, estando em fase de desenvolvimento, sendo mais propensa a bugs e falta de features. Versão muito utilizada pela comunidade, a fins de testes, para propor soluções de bugs e possíveis melhorias.</p>
-                    <ul>
-                        <li>Timeline Distros Linux: <a href="http://futurist.se/gldt" class="text-decoration-none" target="_blank">Acesse</a></li>
-                        <li>DistroWatch: <a href="https://distrowatch.com" class="text-decoration-none" target="_blank">Acesse</a></li>
-                    </ul>
-                </div>
-            </div>
-            <br>
 
 
-            <div class="card">
-                <h4 class="card-header">7. Desktop Environment</h4>
-                <div class="card-body">
-                    <img src="gnome.png" class="img-fluid" width="250px" >
-                    <p>Distros Linux são construídas com <b>gerenciadores de janelas</b> previamente já desenvolvidos. Em muitas situações, o usuário pode escolher qual ambiente gráfico sua distro possuirá. Por exemplo, em uma distro com 3 usuários diferentes, cada um pode optar por utilizar um gerenciador de janelas diferente. Os gerenciadores de janelas são diferentes entre si no que diz respeito de recursos de uso no dispositivo, customização e aparência, configuração de menus, Interface Gráfica (GUI) e capacidade de uso em vários dispositivos ao mesmo tempo. Os principais quesitos para a escolha são visual e desempenho. Os termos <i>Desktop Environment</i> e <i>Interface Gráfica</i> não são a mesma coisa: o 1º engloba a interface em conjunto com os aplicativos da Distro. Uma Distro pode usar interface gráfica X, e aplicativos 'tema' de uma interface gráfica Y. Entre principais encontram-se Gnome (GNU Network Object Model Environment, foto acima), que utiliza o widget toolkit GTK e servidor gráfico XORG (Alternativo do Wayland), KDE (K Desktop Environment), que utiliza o widget toolkit Qt, AwesomeWM, WindowMaker, Cinnamon, Pantheon, Deepin Desktop Environment, Fluxbox, Unity (7 é desktop, 8 é também mobile), MATE (MATE Advanced Traditional Environment. 'Mate' de Erva-Mate), LXDE (Lightweight X11 Desktop Environment), LXQT (LXDE + Qt Python) e XFCE (XForms Common Environment), entre outras, sendo essas últimas duas para hardware mais fraco. Esses ambientes são altamente personalizáveis, onde pode-se personalizar tudo, com temas à instalar, ou até mesmo trocar pontos chave, como ícones, texto e cores. Muitas distros oferecem, no momento da instalação à máquina, opções de Desktop Environment ao usuário, como o Kali Linux (oferece opção entre Gnome, KDE e XFCE).</p>
-                    <i>"Sempre existirá uma distro Linux à sua cara. Se não houver, você poderá montá-la."</i>
-                </div>
-            </div>
-            <br>
 
-            <div class="card">
-                <h4 class="card-header">8. Distros Iniciantes</h4>
-                <div class="card-body">
-                    <h5><b>Mint</b></h5>
-                    <img src="mint.png" class="img-fluid rounded" width="250px" >
-                    <p>O Linux Mint é a melhor distro para iniciantes, por razão da semelhança visual com o Windows. Outro ponto é a facilidade para instalações, atualizações e correções de erros de forma visual, fazendo com que o contato com o terminal seja raro. Possui também a maior comunidade, muitos fóruns de ajuda, é uma distro muito estável e mantem-se sempre atualizada. Recomenda-se, para usuários familiarizados com Windows, Desktop Environments como Cinnamon e XFCE.</p>
-                    <ul>
-                        <li>Site oficial Mint: <a href="https://linuxmint.com" class="text-decoration-none" target="_blank">Acesse</a></li>
-                    </ul>
-                    <h5><b>Elementary OS</b></h5>
-                    <img src="elementaryos.jpg" class="img-fluid rounded" width="250px" >
-                    <p>Possui visual muito similar ao MacOS, além de ser simples, leve e, além disso, muito elegante. Alternativa à essa, recomenda-se o Deepin. Tem-se outras distros, mais 'alusivas', portanto, menos funcionais, como pearOS e CutefishOS. Recomenda-se, para usuários familiarizados com MacOS, Desktop Environments como Pantheon e Deepin DE.</p>
-                    <ul>
-                        <li>Site oficial Elementary OS: <a href="https://elementary.io" class="text-decoration-none" target="_blank">Acesse</a></li>
-                    </ul>
-                    <h5><b>Ubuntu</b></h5>
-                    <img src="ubuntu.jpg" class="img-fluid rounded" width="250px" >
-                    <p>O Ubuntu possui as mesmas vantagens acima, do Mint, com excessão do Desktop Environment, que é diferenciado do Windows, o que torna sua familiaridade um pouco mais distante. Todavia, é muito estável, popular, seguro e automatizado. Esse último ponto é um pouco inferior que o do Mint, o que torna o Ubuntu como segunda alternativa, além do fato de que é uma distro um pouco mais pesada. Todavia, o Ubuntu Server domina o mundo dos servidores web. Recomenda-se, para usuários entusiastas, Desktop Environments como Gnome e KDE.</p>
-                    <ul>
-                        <li>Site oficial Ubuntu: <a href="https://ubuntu.com/download/desktop" class="text-decoration-none" target="_blank">Acesse</a></li>
-                    </ul>
-                </div>
-            </div>
-            <br>
 
-            <div class="card">
-                <h4 class="card-header">9. Distros Leves</h4>
-                <div class="card-body">
-                    <h5><b>Zorin OS Lite</b></h5>
-                    <img src="zorinoslite.png" class="img-fluid rounded" width="250px" >
-                    <p>Distro focada à usuários domésticos. Bonita, moderna, estável e completa. Simplesmente sensacional, roda com aproximadamente 300MB, revivendo seu computador velho com beleza, desempenho e tudo mais o que precisar. Perfeita para o aprendizado à usuários de primeiros contatos com a computação. Recomenda-se Desktop Environment XFCE.</p>
-                    <ul>
-                        <li>Site oficial Zorin OS: <a href="https://zorinos.com" class="text-decoration-none" target="_blank">Acesse</a></li>
-                    </ul>
-                    <h5><b>Lubuntu</b></h5>
-                    <img src="lubuntu.jpg" class="img-fluid rounded" width="250px" >
-                    <p>Baseada, porém totalmente diferente do Ubuntu, essa distro completa, simples e com alto desempenho, roda com aproximadamente 500MB. É um pouco mais manual do que o Zorin, sendo ideal para usuários intermediários que têm preferência em usar um Desktop somente com o essencial e personalizável. Recomenda-se Desktop Environment LXDE ou LXQt.</p>
-                    <ul>
-                        <li>Site oficial Lubuntu: <a href="https://lubuntu.me" class="text-decoration-none" target="_blank">Acesse</a></li>
-                    </ul>
-                    <h5><b>MX Linux</b></h5>
-                    <img src="mxlinux.jpg" class="img-fluid rounded" width="250px" >
-                    <p>Baseada em Debian, possui como objetivos alta estabilidade e desempenho. Transmite leveza e pouca necessidade de hardware. É apresentada em vários formatos gráficos, à escolha do usuário ao instalá-la, sendo XFCE (Padrão), KDE ou <b>Fluxbox</b>. Recomenda-se Desktop Environment Fluxbox.</p>
-                    <ul>
-                        <li>Site oficial MX Linux: <a href="https://mxlinux.org" class="text-decoration-none" target="_blank">Acesse</a></li>
-                    </ul>
-                </div>
-            </div>
-            <br>
 
-            <div class="card">
-                <h4 class="card-header">10. Servidores</h4>
-                <div class="card-body">
-                    <p>Linux é o SO mais vasto na linhagem de servidores. Toda empresa precisa de um servidor para gerenciar seus dados. Da mesma forma, toda empresa procura seriedade, ou seja, qualidade e <b>integridade</b> em sua infraestrutura. Versões estáveis (<b>LTS</b>) de um servidor Linux tendem a possuir somente recursos fundamentais, que não se tornam obsoletos da noite para o dia. Da mesma forma, não possuem atualizações frequentes em novidades de pacotes. Portanto, quando as mesmas recebem atualizações de pacotes, esses já possuem determinado tempo de utilização e circulação, onde já foram testados e aprimorados e, portanto, não são mais novidades no mercado, havendo assim melhor <b>compatibilidade</b> para funcionamento, <b>segurança</b> e <b>otimização</b>. As <i>raras atualizações</i> nesses SOs têm objetivo de não afetar a integridade do sistema e seus respectivos pacotes instalados e em funcionamento, como a solução implantada pelo cliente no mesmo. Por exemplo, uma empresa global de tráfego aéreo precisa de um SO servidor, para hospedar seu sistema de tráfego aéreo, que <i>não pare de funcionar</i> por razão de incompatibilidade ao realizar atualização de pacotes. Da mesma forma, deve-se haver nesse SO o mínimo de atualizações possíveis, para não afetar o desempenho e integridade do SO, que suporta o sistema de tráfego aéreo, funcionando em tempo real. As raras atualizações nele ocorrerão somente quando essenciais para seu funcionamento, segurança e, portanto, integridade, ou seja, para manter o sistema do cliente suportado, sem que o mesmo pare de funcionar, ou torne-se lento/inseguro... Outro ponto é que este SO precisa servir somente como <b>base</b>, possuindo <i>abstração em recursos</i> (Menos pacotes, menos chances de bugs e falhas de segurança), onde há somente o fundamental, para que não haja recursos sem utilidade nele instalados. Sendo base, o mesmo poderá ser <b>personalizado</b> pelo cliente, de acordo com suas necessidades. Por fim, o objetivo de um servidor é manter-se em funcionamento, com desempenho e segurança, além de íntegro, causando o mínimo possível de "ruído" ao cliente, estando totalmente à disposição do mesmo, para personalização e funcionamento. Como principais exemplos de distros Linux para servidores, tem-se a <b>Debian</b>, <b>Ubuntu Server LTS</b> e <b>RHEL</b>. O <b>CentOS</b> é a versão grátis do RHEL, porém o mesmo fora descontinuado, dando espaço para o <b>Fedora Server</b>. Geralmente o acesso e gerenciamento a esses servidores é CLI, via Bash, sendo raras versões modernas com gerenciamento via cPanel. Além disso, pode-se utilizar o <b>Proxmox</b>, que trabalha diretamente com VMs e Containers Linux LXC, ou até mesmo <b>FreeNAS</b>, SO inspirado em FreeBSD, para criação de servidores de armazenamento (NAS Server - Network-Attached Storage)</p>
-                    <ul>
-                        <li>Debian: <a href="https://www.debian.org/distrib" class="text-decoration-none" target="_blank">Acesse</a></li>
-                        <li>Ubuntu Server: <a href="https://ubuntu.com/download/server" class="text-decoration-none" target="_blank">Acesse</a></li>
-                        <li>RHEL (Versão free, para desenvolvedores): <a href="https://developers.redhat.com/products/rhel/download" class="text-decoration-none" target="_blank">Acesse</a></li>
-                    </ul>
-                </div>
-            </div>
-            <br>
+
+
 
             <div class="card">
                 <h4 class="card-header">11. Estrutura</h4>
@@ -245,25 +198,6 @@
                         <li>Licenças Livre GNU Project: <a href="https://www.gnu.org/licenses/" class="text-decoration-none" target="_blank">Acesse</a></li>
                     </ul>
                     <i>Free as in 'Free Speech' not as 'Free Beer' (Livre como Liberdade de expressão, não como cerveja grátis).</i>
-                </div>
-            </div>
-            <br>
-
-            <div class="card">
-                <h4 class="card-header">13. Origens</h4>
-                <div class="card-body">
-                    <p>As 3 distros base (<i>From Scratch</i>) principais são <b>Slackware</b>, <b>Debian</b> e <b>Red Hat</b>. Gentoo, SUSE e Arch saem também direto do Linux Scratch (Raíz). O nome Debian origina-se de Debra (Esposa do criador) + Ian (Ian Murdock, criador), onde todas as versões possuem nomes de personagens do Toy Story, foi o progenitor de muitas distros, as populares .deb. Seu logo referencia a fumaça espiral saindo de uma lâmpada mágica. Debian é muito popular por sua grande estabilidade com seus pacotes. A Red Hat, vinculada à IBM, é inspiradora de distros .rpm, como a Fedora, versão free da distro oficial Red Hat Enterprise Linux (RHEL). A Ubuntu é baseada na Debian, todas as versões compõem-se de um adjetivo e nome de animal. Ubuntu é um termo africano zulu que significa 'comunidade através dos outros', conceituando 'eu sou o que sou porque nós somos', em homenagem ao seu criador Sul Africano, em parceria com a Canonical. Seu símbolo conceitua 3 pessoas dando-se as mãos, formando um círculo. Seu slogan é 'Linux for Humans Beings' (Linux para seres humanos). Distros Linux como Mint foram inspiradas no Ubuntu. O Red Hat Enterprise Linux, da empresa Red Hat, tem como logo o chapéu Fedora vermelho, cuja distro Fedora é sua versão free distribuída e auxiliada pela comunidade, já que o RHEL possui pagamentos relacionados com suporte, muito desejado nas grandes empresas que buscam seriedade e profissionalismo na administração de sistemas. A Slackware foi a 1ª distro Linux, o que faz dela a distro mais antiga mantida, sendo bastante usada até atualmente. É baseada na estabilidade e simplicidade. O nome deriva-se do termo "Slack", significando "Senso de liberdade, independência e originalidade para alcançar suas metas pessoais". Por outro lado, o termo "Slack" deriva-se de "Preguiça", e "Ware" de "Produto", sendo interpretado como um produto de lapidação lenta. Atualmente, existem distros Linux minúsculas, focadas para determinados serviços, como execução em Containers e funcionamento em sistemas embarcados. SUSE deriva-se de Software und System-Entwicklung (Software e Desenvolvimento de Sistemas), possui como mascote o Camaleão Geeko (Gecko - Lagarto + Geek). É conhecida pelo instalador YaST. Possui, além disso, a versão do SO paga, o SUSE Linux Enterprise versão paga do openSUSE, pertencente à empresa Micro Focus Internacional. O Arch Linux é inspirado no antigo CRUX, possui distro rolling release, contendo o gerenciador de pacotes Pacman (AUR - Arch User Repository, mantido pela comunidade). É baseada em 5 pontos: simplicidade, modernidade, pragmatismo, centralidade no usuário e versatilidade.</p>
-                </div>
-            </div>
-            <br>
-
-            <div class="card">
-                <h4 class="card-header">14. Avançado</h4>
-                <div class="card-body">
-                    <p>A Distro considerada por muitos a mais 'difícil', essa é a Gentoo Linux. Com vantagens e desvantagens, sua dificuldade de uso explica-se por razão de ser de baixo nível, sendo praticamente toda manual e personalizável, a fim de que o desenvolvedor crie aplicações extremamente personalizadas para o ambiente, desfrutando de estabilidade e desempenho. Com ela, o usuário desfrutará de todo o poder de montagem do Kernel, personalizando-o para seu hardware. O objetivo da distro era a criação de um SO sem binários pré-compilados, com a minimalidade ao extremo. O nome é baseado no pinguim Gentoo, conhecido por ser muito veloz ao nadar. O Gentoo pode ser descrito como uma meta-distribuição, devido à suas características. Existem distros baseadas no Gentoo, como Sabayon e Redcore. O Gentoo, após instalado, é considerado um sistema sem versionamento, indicando que a versão instalada é sempre a final utilizada no hardware. Seu logo é um 'G' lembrando um Magatama ('Jóia curva' de miçangas japonesas). Seu mascote oficial é o Knurt, o pires voador. Mascote não oficial inclui Larry, o vaca. A instalação da distro é manual, porém fora desenvolvido um instalador CLI para facilitar os usuários, aumentando assim a produtividade. Distros do tipo <i>arch</i>, como o Manjaro, a personalização de baixo nível é mais facilitada, onde o usuário pode realizar a troca do kernel Linux, além de outras modificações sensíveis, de forma simples.</p>
-                    <ul>
-                        <li>Site oficial Gentoo: <a href="https://www.gentoo.org" class="text-decoration-none" target="_blank">Acesse</a></li>
-                    </ul>
                 </div>
             </div>
             <br>
@@ -1350,40 +1284,12 @@ EXEMPLO: <b>1  | 1  | 1  | 0  | 0 | 0 | 0 | 0</b>, onde a soma dos true, <i>128+
             </div>
             <br>
 
-            <div class="card">
-                <h4 class="card-header">35. Cases de Sucesso</h4>
-                <div class="card-body">
-                    <p>Inspirado no sucesso das distros Linux, Software Livre, comunidades de desenvolvedores e até mesmo empresas desenvolveram excelentes Softwares Livre para as mais diversas categorias. Abaixo elencamos os 10 principais.</p>
-                    <ul>
-                        <li>Audacity (Edição áudio): <a href="https://www.audacityteam.org" class="text-decoration-none" target="_blank">Acesse</a></li>
-                        <li>Inkscape (Edição vetorial): <a href="https://inkscape.org" class="text-decoration-none" target="_blank">Acesse</a></li>
-                        <li>GIMP (Edição de imagem): <a href="https://www.gimp.org" class="text-decoration-none" target="_blank">Acesse</a></li>
-                        <li>Kdenlive (Edição de vídeo): <a href="https://kdenlive.org/en" class="text-decoration-none" target="_blank">Acesse</a></li>
-                        <li>OBS Studio (Streaming): <a href="https://obsproject.com" class="text-decoration-none" target="_blank">Acesse</a></li>
-                        <li>Blender (Edição gráfica): <a href="https://www.blender.org" class="text-decoration-none" target="_blank">Acesse</a></li>
-                        <li>WordPress (Sites): <a href="https://wordpress.org" class="text-decoration-none" target="_blank">Acesse</a></li>
-                        <li>LibreOffice (Office): <a href="https://www.libreoffice.org" class="text-decoration-none" target="_blank">Acesse</a></li>
-                        <li>Firefox (Browser): <a href="https://www.mozilla.org/en-US/firefox/new" class="text-decoration-none" target="_blank">Acesse</a></li>
-                        <li>VLC (Media Player): <a href="https://www.videolan.org/vlc" class="text-decoration-none" target="_blank">Acesse</a></li>
-                    </ul>
-                </div>
-            </div>
-            <br>
 
             <div class="card text-center">
                 <h3 class="card-header">Certificação</h3>
                 <div class="card-body">
                     <img src="lpi.png" class="img-fluid rounded" width="100px"><br><br>
                     <p>Principais órgãos certificadores Linux do mundo são Linux Professional Institute (LPI), Red Hat e The Linux Foundation. Nosso Mundo Linux prepara você para concluir a certificação LPI Linux Essentials, a certificação básica do LPI. A prova para certificação possui custo de aproximadamente R$ 600,00, com 40 questões e 60 minutos de duração. Essa certificação é reconhecida mundialmente no mercado profissional.</p>
-                    <div class="list-group">
-                        <a class="list-group-item list-group-item-action" href="https://www.lpi.org" target="_blank">LPI</a>
-                        <a class="list-group-item list-group-item-action" href="https://lpibrasil.com.br" target="_blank">LPI Brasil</a>
-                        <a class="list-group-item list-group-item-action" href="https://www.lpi.org/pt/our-certifications/linux-essentials-overview" target="_blank">Detalhes da prova</a>
-                        <a class="list-group-item list-group-item-action" href="https://lpibrasil.com.br/linux-essentials" target="_blank">Conteúdo LPI Essentials</a>
-                        <a class="list-group-item list-group-item-action" href="https://lpibrasil.com.br/auto-estudo-lpi" target="_blank">Material de estudo</a>
-                        <a class="list-group-item list-group-item-action" href="https://www2.rankdone.com/pt_BR/candidate/login?redirect=%2Frecruitment%2Fsubscribe%2FqIlX9HD94W9cC7Jgqj" target="_blank">Simulado Online (Rankdone)</a>
-                        <a class="list-group-item list-group-item-action" href="https://lpibrasil.com.br/faq-certificacao-online" target="_blank">Prova online - FAQ</a>
-                    </div>
                 </div>
             </div>
             <br>
