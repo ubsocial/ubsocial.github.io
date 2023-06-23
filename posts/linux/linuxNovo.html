@@ -235,6 +235,35 @@
                 </div>
             </div>
 
+            <div class="card mb-4">
+                <h4 class="card-header">Usuários</h4>
+                <div class="card-body">
+                    <p>O usuário comum (<b>$</b>) é o padrão para utilização do Linux, possui restrições de gerenciamento sensíveis ao sistema. O administrador <b>sudo</b> (super user do) possui permissão total de gerenciamento do sistema. O <b>usuário de sistema</b> é fictício, criado durante a instalação de algum script, para execução de tarefas específicas ao mesmo, não possuindo capacidade de login no sistema. O <b>root</b> (<b>#</b>, id 0), é o super user (<span class="text-muted">su</span>) possui permissão total de gerenciamento do sistema. O root é o único usuário com permissão de gerenciamento fora de seu diretório home.</p>
+
+                    <h5>Arquivos de usuário:</h5>
+                    <p>Arquivo '/etc/passwd' possui informações dos usuários, separadas por ':'. Constituem, respectivamente, login do usuário, senha ('x', determinando que a senha está em '/etc/shadow', ou '*', determinando que o login está desabilitado, ou linha em branco, determinando ausência de senha), UID (user identification), GID (group identification), GComs (dados de comentários do usuário, separados por vírgula), localização home do usuário e shell do usuário. Arquivo '/etc/shadow' possui informações do usuário. Constituem, respectivamente, login do usuário, senha criptografada, data da modificação de senha (nº de dias), nº de dias para Linux permitir nova modificação de senha, nº de dias que o usuário pode manter mesma senha, nº de dias para expirar senha, nº de dias após expiração de senha, nº de dias até expiração de senha e campo reservado para futura informação.</p>
+<small><pre><code>
+<u><b>Informações de usuários</b></u>:
+<b>Username</b>: Nome do usuário
+<b>Password Status</b>: P(senha utilizável), L(senha bloqueada), NP(não há senha)
+<b>Change Date</b>: Data de última modificação de senha
+<b>Minimum</b>: Nº mínimo de dias que deve passar para permitir alteração de senha
+<b>Maximum</b>: Nª de dias restantes para senha expirar
+<b>Warn</b>: Nº de dias, antes da expiração de senha, para notificar usuário
+<b>Inactive</b>: Nº de dias, após expiração de senha, que usuário permanece ativo
+
+<u><b>Comandos de usuários</b></u>:
+<b>w</b>: Ver detalhes de usuários conectados
+<b>whoami</b>: Ver usuário atual
+<b>quota</b>: Informações do usuário na sessão
+<b>getent passwd</b>: Abrir passwd
+<b>pwconv</b>: Criar arquivo '/etc/shadow' a partir de '/etc/passwd' <span class="text-muted">(pwunconv faz operação inversa)</span>
+<b>sudo su</b>: Entrar no usuário root
+<b>su - nomeUsuario</b>: Sair do usuário root, para usuário comum
+<b>Alterar senha de usuário</b>: passwd [parâmetros] [utilizador] <spam class="text-muted">(passwd -S sysadmin)</spam>
+</small></pre></code>
+                </div>
+            </div>
 
 
 
@@ -930,29 +959,6 @@ O nano possibilita a abertura de diversos arquivos ao mesmo tempo.
                     </ul>
                     <h4>Comando Which:</h4>
                     <p>Assim como o whereis, o which mostrará somente a localização do binário. Por exemplo <i>which ls</i>.</p>
-                </div>
-            </div>
-            <br>
-
-            <div class="card">
-                <h4 class="card-header">27. Usuários</h4>
-                <div class="card-body">
-                    <p>O <b>administrador (sudo)</b> possui permissão total de utilização do sistema, como gerenciar arquivos e diretórios, além de executar aplicações, instalá-las e removê-las. Também pode executar qualquer comando do terminal. O <b>usuário comum ($)</b> é aquele padrão no Linux, para seu uso, possuindo algumas restrições em terminal e sistema. Entretanto, o usuário comum que instalou o Linux tem permissão para executar comandos/programas no modo administrador, utilizando o comando "sudo". O <b>usuário de sistema</b> é um usuário fictício criado durante a instalação de algum programa, a fim de executar tarefas específicas do mesmo. Não possui capacidade de login no sistema. Por fim, tem-se o <b>root (#, id 0)</b> (sudo su), como sendo um "super-usuário", capaz de fazer absolutamente TUDO no Linux. O que difere o root de outros usuários é o fato dele ser o único capaz de gerenciar coisas fora de seu diretório pessoal. Por essa razão, priva-se a utilização com este usuário. Todo usuário possiu cotas de disco, espaços em disco para seu uso (<i>quota</i> mostra informações sobre).</p>
-<small><pre><code>
-<b>whoami</b>: Ver usuário atual
-<b>w</b>: Ver detalhes de usuários conectados
-<b>su - nomeUsuario</b>: Sai do root e vai para usuário descrito
-<b>Atualizar senha de usuários:</b> <i>passwd [parâmetros] [utilizador]</i>
-<u>Ex:</u> passwd -S sysadmin
-<b>Username:</b> Nome do usuário. Ex: <i>sysadmin</i>
-<b>Password Status:</b> P(Senha utilizável), L(Senha bloqueada), NP(Não há senha). Ex: <i>P</i>
-<b>Change Date:</b> Data de última modificação da senha. Ex: <i>30/07/2021</i>
-<b>Minimum:</b> Nº mínimo de dias que deve passar antes que a senha atual possa ser alterada pelo usuário. Ex: <i>0</i>
-<b>Maximum:</b> Nª máximo de dias restantes para a senha expirar. Ex: <i>99999</i>
-<b>Warn:</b> Nº de dias antes da expiração da senha que o usuário é avisado. Ex: <i>7</i>
-<b>Inactive:</b> Nº de dias após a expiração da senha que a conta do usuário permanece ativa. Ex: <i>-1</i>
-</small></pre></code>
-                    <p class="text-danger">ACRESCENTAR: arquivos de usuário como o /etc/passwd, que possui todas as informações dos usuários, cujas informações, separadas por ':', constitui, respectivamente, login do usuário, senha (Geralmente x, que determina que a senha está em /etc/shadow, ou *, determinando que o login está desabilitado, se linha em branco, determinando que a conta não possuirá senha), UID (User Identification), GID (Group Identification), GComs (Comentários do usuário, separados por vírgulas, como nome, id, telefone, endereço), localização home do usuário (Como /home/nomeUsuario) e, por fim, shell do usuário (Como /bin/bash ou /usr/sbin/nologin). No arquivo /etc/shadow encontram-se os seguintes campos para cada usuário: login do usuário, senha criptografada, data em nº de dias, desde 1970 até atual, com relação à última modificação de senha, nº de dias antes do sistema permitir nova modificação de senha, nº de dias que usuário pode permanecer com a mesma senha, nº de dias antes da expiração de senha, nº de dias após expiração de senha, nº de dias, de 1970 até expiração da senha e, por fim, reservado para campo futuro (Esses últimos 3 campos geralmente encontram-se em branco). Neste contexto, o comando pwconv é usado para criar o arquivo /etc/shadow a partir do /etc/passwd. O comando pwunconv realiza a operação inversa. O comando getent passwd é mais recomendado para abrir o passwd, do que acessar diretamente o arquivo em si.</p>
                 </div>
             </div>
             <br>
