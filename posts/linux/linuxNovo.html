@@ -140,7 +140,7 @@
             <div class="card mb-4">
                 <h4 class="card-header">Estrutura</h4>
                 <div class="card-body">
-                    <p>No Linux não existem programas, drivers e extensões: Tudo é considerado arquivo. Dispensando conceito de 'pasta', a estrutura de diretórios de arquivos no Linux possui padrão POSIX, baseada em FHS (Filesystem Hierarchy Standard). Até mesmo os componentes de hardware são controlados por arquivos em realtime. Nos caminhos de diretórios, tem-se o <i>caminho asboluto</i> (originado a partir do diretório root até o diretório atual, exemplo: <span class="text-muted">/home/ubsocial/arquivo</span>) e caminho relativo (originado a partir de diretório qualquer até o diretório atual, exemplo <span class="text-muted">ubsocial/arquivo</span>).</p>
+                    <p>No Linux não existem programas, drivers e extensões: Tudo é considerado arquivo. Dispensando conceito de 'pasta', a estrutura de diretórios de arquivos no Linux possui padrão POSIX, baseada em FHS (File system Hierarchy Standard). Até mesmo os componentes de hardware são controlados por arquivos em realtime. Nos caminhos de diretórios, tem-se o <i>caminho asboluto</i> (originado a partir do diretório root até o diretório atual, exemplo: <span class="text-muted">/home/ubsocial/arquivo</span>) e caminho relativo (originado a partir de diretório qualquer até o diretório atual, exemplo <span class="text-muted">ubsocial/arquivo</span>).</p>
                     <ul>
                         <li>Diretório root: <b>/</b> <span class="text-muted">(cd /)</span></li>
                         <li>Diretório home: <b>~</b> <span class="text-muted">(cd ~)</span> o mesmo que '/home/usuarioAtual'</li>
@@ -157,7 +157,7 @@
                         <li><b>/boot</b>: Arquivos para inicialização (boot) do Linux, como gerenciador GRUB e imagem do kernel;</li>
                         <li><b>/cdrom</b>: Diretório legado (não pertence a FHS), para montagem temporária de imagem de CD-DVD. Local atual para tal é '/media';</li>
                         <li><b>/dev</b>: Arquivos de dispositivos (devices), como periféricos, como hd (sda, vda), ssd e usb (sda, sdb), cdrom, floppy (fd) e tty;</li>
-                        <li><b>/etc</b>: Abreviação de 'etcetera' ou 'edit do/to config'. Arquivos de configuração do sistema, como scripts de inicialização, módulos de programas, tabela de sistema de arquivos (fstab - filesystem table), configurações de services e usuários;</li>
+                        <li><b>/etc</b>: Abreviação de 'etcetera' ou 'edit do/to config'. Arquivos de configuração do sistema, como scripts de inicialização, módulos de programas, tabela de sistema de arquivos (fstab - file system table), configurações de services e usuários;</li>
                         <li><b>/home</b>: Arquivos dos usuários do sistema. Cada usuário é representado por diretório com seu nome, contendo seus respectivos arquivos dentro (área de trabalho, documentos, imagens, etc);</li>
                         <li><b>/lib, /lib32, /libx32, /lib64</b>: Bibliotecas (libraries) compartilhadas e módulos do kernel. Libraries são scripts que podem ser utilizados por outros arquivos dependentes para seu funcionamento. Links simbólicos para '/usr/lib', '/usr/lib32', 'usr/libx32' e '/usr/lib64';</li>
                         <li><b>/lost+found</b>: Diretório geralmente oculto (/.lost+found) de 'achados e perdidos', usado para reparos no sistema;</li>
@@ -187,24 +187,12 @@
                 </div>
             </div>
 
-
-
-
-
-            <p class="text-center bg-danger text-light my-5 py-2"><b>FIM</b></p>
-
-
-
-
-
-
-
-
-
-
-
-
-
+            <div class="card mb-4">
+                <h4 class="card-header">Devices e file systems</h4>
+                <div class="card-body">
+                    <p>Aqui</p>
+                </div>
+            </div>
 
 
 
@@ -215,7 +203,7 @@
             <div class="card">
                 <h4 class="card-header">17. Dispositivos</h4>
                 <div class="card-body">
-                    <p>O Linux tem suporte a vários sistemas de arquivos (filesystem), inclusive os que o Windows suporta, como FAT32, exFAT, NTFS e EXT4. Há outros, como EXT3, EXT2, reiserfs, swap, xiafs, minix, msdos, vfat, proc, smbfs, iso9660, ufs, hpfs, entre outros. SOs como MacOS não suportam gravação NTFS, suportando apenas leitura. Linux era similar no passado, atualmente consegue. O <b>FAT32</b> não possibilita manipular arquivos com mais de 4GB. <b>exFAT</b> é compatível com arquivos maiores que 4GB, ainda sendo ideal para compatibilidade entre diferentes SOs, mas não tão compatível quanto FAT32, de forma geral. <b>NTFS</b> (New Technology FIle System) é compatível com Windows, apesar de problemas ocasionais com Linux serem ainda frequentes, pois a compatibilidade com o Linux está sendo feita por meio de Engenharia Reversa, sendo ainda não compatível com MacOS e maioria dos dispositivos de hardware. <b>EXT4</b> é moderno, estável, rápido e jornalizado(cria um jornal, algo como pastas temporárias para gravações e recuperações), suportando permissões de arquivos no Linux. Não é compatível com MacOS, Windows e maioria dos dispositivos de hardware. <i>A melhor opção, para arquivos pequenos, é o FAT32</i>. O EXT4 é mais rápido, mas não recomendado para pendrives. O NTFS precisa-se verificar segurança, por razão de vírus Windows via pendrive. SEMPRE ative o ejetar pendrive antes de, de fato, ejetá-lo. O dispositivo USB é Serial, com transmissão assíncrona, que se remover o pendrive sem ativar a ejeção, o processo será interrompido, correndo o risco de corromper algo. Outro ponto é o de que um dos pinos do pendrive passa corrente elétrica, e se removido antes da finalização do processo, correrá o risco de queimá-lo. Quando remove-se algo do pendrive, seus arquivos vão para a pasta da lixeira, .trash, que na verdade é linkada dentro do pendrive, guardando informações da lixeira sobre a localização do arquivo em pasta oculta, dentro do pendrive, o que pode ocupar mais espaço ao invés de diminuir. Para solucionar tal problema, precisa-se apagar o arquivo e limpar a lixeira, que removerá os arquivos da lixeira do pendrive também, ou removê-lo permanentemente com o uso conjunto do botão 'shift'. Isso serve para todos os dispositivos HDs plugados no Linux. Isso serve para qualquer SO. Linux trabalha com 3 tipos padrões de gerenciamento de dados: <b>stdin</b> 0 (standard input, como o teclado), <b>stdout</b> 1 (standard output, como a tela) e <b>stderr</b> 2 (standard error, como a tela também). Com isso, pode-se alterar tais padrões, como por exemplo: Alterar saída padrão de erro para, ao invés da tela, em arquivo (<i>ls mateus &gt; arquivoSaida</i>). Um sistema de arquivos tem o objetivo de organizar os arquivos dentro do dispositivo. O subdiretório <b>/dev</b> armazena os arquivos de todos os dispositivos periféricos, como hd, ssd, placa de som, placa de vídeo, teclado, mouse, webcam, entre outros. A exceção é que neste subdiretório não contém arquivos sobre placas de rede, que são carregadas via módulos do Kernel. Dentro do /dev há outro gerenciamento de arquivos, geralmente sendo <b>/devfs</b> ou <b>/udev</b> (atual, a partir do Kernel 2.6). Linux não trabalha com drivers, mas sim com o conceito de módulos. O /devfs carrega todos os tipos de módulos ao sistema, incluindo os que não estão presentes no hardware hospedeiro. Já o /udev carrega somente os módulos dos hardwares encontrados na máquina, além da configuração automatizada codeplug e hotplug. Seu arquivo de configuração é <i>/etc/udev/udev.conf</i>, e seus arquivos de regras ficam em <i>/etc/udev/rules.d/</i>. Com isso, tem-se os comandos <i>udevmonitor</i> e <i>udevadm monitor</i>, que permitem modificar os eventos que são armazenados no sistema de arquivos lógico sysfs, onde ficam registradas as informações de identificação dos dispositivos.</p>
+                    <p>O Linux tem suporte a vários sistemas de arquivos (file system), inclusive os que o Windows suporta, como FAT32, exFAT, NTFS e EXT4. Há outros, como EXT3, EXT2, reiserfs, swap, xiafs, minix, msdos, vfat, proc, smbfs, iso9660, ufs, hpfs, entre outros. SOs como MacOS não suportam gravação NTFS, suportando apenas leitura. Linux era similar no passado, atualmente consegue. O <b>FAT32</b> não possibilita manipular arquivos com mais de 4GB. <b>exFAT</b> é compatível com arquivos maiores que 4GB, ainda sendo ideal para compatibilidade entre diferentes SOs, mas não tão compatível quanto FAT32, de forma geral. <b>NTFS</b> (New Technology FIle System) é compatível com Windows, apesar de problemas ocasionais com Linux serem ainda frequentes, pois a compatibilidade com o Linux está sendo feita por meio de Engenharia Reversa, sendo ainda não compatível com MacOS e maioria dos dispositivos de hardware. <b>EXT4</b> é moderno, estável, rápido e jornalizado(cria um jornal, algo como pastas temporárias para gravações e recuperações), suportando permissões de arquivos no Linux. Não é compatível com MacOS, Windows e maioria dos dispositivos de hardware. <i>A melhor opção, para arquivos pequenos, é o FAT32</i>. O EXT4 é mais rápido, mas não recomendado para pendrives. O NTFS precisa-se verificar segurança, por razão de vírus Windows via pendrive. SEMPRE ative o ejetar pendrive antes de, de fato, ejetá-lo. O dispositivo USB é Serial, com transmissão assíncrona, que se remover o pendrive sem ativar a ejeção, o processo será interrompido, correndo o risco de corromper algo. Outro ponto é o de que um dos pinos do pendrive passa corrente elétrica, e se removido antes da finalização do processo, correrá o risco de queimá-lo. Quando remove-se algo do pendrive, seus arquivos vão para a pasta da lixeira, .trash, que na verdade é linkada dentro do pendrive, guardando informações da lixeira sobre a localização do arquivo em pasta oculta, dentro do pendrive, o que pode ocupar mais espaço ao invés de diminuir. Para solucionar tal problema, precisa-se apagar o arquivo e limpar a lixeira, que removerá os arquivos da lixeira do pendrive também, ou removê-lo permanentemente com o uso conjunto do botão 'shift'. Isso serve para todos os dispositivos HDs plugados no Linux. Isso serve para qualquer SO. Linux trabalha com 3 tipos padrões de gerenciamento de dados: <b>stdin</b> 0 (standard input, como o teclado), <b>stdout</b> 1 (standard output, como a tela) e <b>stderr</b> 2 (standard error, como a tela também). Com isso, pode-se alterar tais padrões, como por exemplo: Alterar saída padrão de erro para, ao invés da tela, em arquivo (<i>ls mateus &gt; arquivoSaida</i>). Um sistema de arquivos tem o objetivo de organizar os arquivos dentro do dispositivo. O subdiretório <b>/dev</b> armazena os arquivos de todos os dispositivos periféricos, como hd, ssd, placa de som, placa de vídeo, teclado, mouse, webcam, entre outros. A exceção é que neste subdiretório não contém arquivos sobre placas de rede, que são carregadas via módulos do Kernel. Dentro do /dev há outro gerenciamento de arquivos, geralmente sendo <b>/devfs</b> ou <b>/udev</b> (atual, a partir do Kernel 2.6). Linux não trabalha com drivers, mas sim com o conceito de módulos. O /devfs carrega todos os tipos de módulos ao sistema, incluindo os que não estão presentes no hardware hospedeiro. Já o /udev carrega somente os módulos dos hardwares encontrados na máquina, além da configuração automatizada codeplug e hotplug. Seu arquivo de configuração é <i>/etc/udev/udev.conf</i>, e seus arquivos de regras ficam em <i>/etc/udev/rules.d/</i>. Com isso, tem-se os comandos <i>udevmonitor</i> e <i>udevadm monitor</i>, que permitem modificar os eventos que são armazenados no sistema de arquivos lógico sysfs, onde ficam registradas as informações de identificação dos dispositivos.</p>
                     <h4>Dispositivos em /dev</h4>
                     <ul>
                         <li><b>Dispositivos de caractere (c):</b> São orientados à comunicação e ao fluxo de informações de modo serial, ou seja, caractere a caractere. São utilizados por comunicações realizadas entre portas seriais ou portas paralelas, como por exemplo modens, tty's (para comunicação com o Kernel), entre outros.</li>
@@ -244,6 +232,31 @@
                 </div>
             </div>
             <br>
+
+
+
+
+            <p class="text-center bg-danger text-light my-5 py-2"><b>FIM</b></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             <div class="card">
                 <h4 class="card-header">18. Bash 1: Base</h4>
