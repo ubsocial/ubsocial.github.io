@@ -47,7 +47,7 @@
             <div class="card mb-4">
                 <h4 class="card-header">Fundamento</h4>
                 <div class="card-body">
-                    <p>Criado em 1991 por Linus Torvalds, Linux não é um SO completo. É um kernel livre baseado em Unix (Ken Thompson e Dennis Ritchie), Minix, desenvolvido em C, considerado, inicialmente, um emulador de terminal para uso em Unix. Sua 1ª distribuição comercial foi a Yggdrasil Linux/GNU/X, lançada em 1992, no formato Live CD. Através de Richard Stallman, Linus conhece o projeto GNU, onde, futuramente, licencia o kernel Linux (GNU Linux). O mascote do Linux é o Tux (Torvalds' Unix ou Tuxedo). Atualmente, 90% dos servidores web são Linux, correspondendo 99% dos supercomputadores no mundo. Linux está presente na maior parte de nossa rotina, como em dispositivos embarcados (Smart TVs, Android, MacOS, video games, eletrodomésticos, multimídias automotivas, caixas eletrônicos), órgãos governamentais (Forças armadas, departamentos governamentais), aplicações críticas (Trens bala, CERN, sistemas de tráfego aéreo, reatores nucleares, foguetes de sondagem, artilharias de guerra), entre outros. Isso ocorre porque o Linux é Free (livre), onde não há restrição legal para manuseamento do código, permitindo, dessa forma, personalização profunda, de acordo com a necessidade. Além disso, o kernel possui enorme comunidade de contribuidores, ocasionando frequentes atualizações de integridade e otimização. Seu código fonte está disponível em <a href="https://www.kernel.org" class="text-decoration-none" target="_blank">kernel.org</a>. Principais órgãos certificadores são LPI (Linux Professional Institute), Red Hat e The Linux Foundation. Esse resumo prepara você para concluir a certificação LPI Linux Essentials, a certificação básica do LPI. Tais certificações são reconhecidas mundialmente. Software livre (free software) possui código aberto (open source) e segue as diretrizes da GPL. Nem todo software open source (código aberto) é free software, nem mesmo gratuito. Customização, suporte, treinamento e serviços terceiros sob free software podem ser cobradas. Manifesto GNU (GNU not Unix) foi atrelado a FSF (Free Software Foundation), criados por Stallman para armazenar a GPL (GNU General Public License), que possui 4 liberdades:</p>
+                    <p>Criado em 1991 por Linus Torvalds, Linux não é um SO completo. É um kernel livre baseado em Unix (Ken Thompson e Dennis Ritchie), Minix, desenvolvido em C, considerado, inicialmente, um emulador de terminal para uso em Unix. Sua 1ª distribuição comercial foi a Yggdrasil Linux/GNU/X, lançada em 1992, no formato Live CD. Através de Richard Stallman, Linus conhece o projeto GNU, onde, futuramente, licencia o kernel Linux (GNU Linux). O mascote do Linux é o Tux (Torvalds' Unix ou Tuxedo). Atualmente, 90% dos servidores web são Linux, correspondendo 99% dos supercomputadores no mundo. Linux está presente na maior parte de nossa rotina, como em dispositivos embarcados (smart TVs, Android, MacOS, video games, eletrodomésticos, multimídias automotivas, caixas eletrônicos), órgãos governamentais (forças armadas, departamentos governamentais), aplicações críticas (trens bala, CERN, sistemas de tráfego aéreo, reatores nucleares, foguetes de sondagem, artilharias de guerra), entre outros. Isso ocorre porque o Linux é Free (livre), onde não há restrição legal para manuseamento do código, permitindo, dessa forma, personalização profunda, de acordo com a necessidade. Além disso, o kernel possui enorme comunidade de contribuidores, ocasionando frequentes atualizações de integridade e otimização. Seu código fonte está disponível em <a href="https://www.kernel.org" class="text-decoration-none" target="_blank">kernel.org</a>. Principais órgãos certificadores são LPI (Linux Professional Institute), Red Hat e The Linux Foundation. Esse resumo prepara você para concluir a certificação LPI Linux Essentials, a certificação básica do LPI. Tais certificações são reconhecidas mundialmente. Software livre (free software) possui código aberto (open source) e segue as diretrizes da GPL. Nem todo software open source (código aberto) é free software, nem mesmo gratuito. Customização, suporte, treinamento e serviços terceiros sob free software podem ser cobradas. Manifesto GNU (GNU not Unix) foi atrelado a FSF (Free Software Foundation), criados por Stallman para armazenar a GPL (GNU General Public License), que possui 4 liberdades:</p>
                     <ol start="0">
                         <li><b>Executar</b> o software para qualquer propósito ou finalidade;</li>
                         <li><b>Estudar</b> o funcionamento interno do software, podendo fazer alterações e adaptações conforme necessidade;</li>
@@ -126,7 +126,7 @@
                     <ul>
                         <li><b>Boot</b>: Partição para boot da distro, tipo primária FAT32, com label <i>/boot/efi</i>, com média de 800MB;</li>
                         <li><b>Swap</b>: Partição de memória virtual, tipo primária linux-swap, sem label, com média de metade do tamanho da RAM ou mais (aqui no caso 2GB);</li>
-                        <li><b>Root</b>: Partição raíz, onde ficará o sistema, tipo primária journaling EXT4 (ou BTRFS, ou LVM), com label <i>/</i>, preenchendo com o restante do espaço livre.
+                        <li><b>Root</b>: Partição raíz, onde ficará o sistema, tipo primária journaling EXT4 (ou BTRFS, ou LVM, ou ZFS / openZFS), com label <i>/</i>, preenchendo com o restante do espaço livre.
                             <ul>
                                 <li><span class="text-muted">Opcional</span> (Partição <b>home</b> separada): Partição onde ficarão os arquivos dos usuários (documentos, imagens, vídeos, etc), do tipo primária journaling EXT4, com label <i>/home</i>, preenchendo com o espaço livre restante (Neste caso, 40% do espaço livre restante será de home, e os demais 60% será de root);</li>
                                 <li><span class="text-muted">Opcional</span> (<b>criptografa</b>): Pode-se criptografar a participação root com o LUKS.</li>
@@ -136,6 +136,58 @@
                     <p>Toda distro Linux possui codecs (compatibilizadores de formatos de mídia), pode-se configurar snapshots via gerenciador de backups Timeshift, realizar tarefas agendadas de Cron/Crontab, UFW (Ubuntu firewall) e GUFW (Graphical), gestão de configurações Tweaks, entre outras funcionalidades. Há possibilidade de executar softwares incompatíveis com Linux via softwares interpretadores, como <b>Wine</b> (Wine is not emulator) e <b>PlayOnLinux</b>, através da implementação livre da API do Windows e engenharia reversa.</p>
                 </div>
             </div>
+
+            <div class="card mb-4">
+                <h4 class="card-header">Estrutura</h4>
+                <div class="card-body">
+                    <p>No Linux não existem programas, drivers e extensões: Tudo é considerado arquivo. Dispensando conceito de 'pasta', a estrutura de diretórios de arquivos no Linux possui padrão POSIX, baseada em FHS (Filesystem Hierarchy Standard). Até mesmo os componentes de hardware são controlados por arquivos em realtime. Nos caminhos de diretórios, tem-se o <i>caminho asboluto</i> (originado a partir do diretório root até o diretório atual, exemplo: <span class="text-muted">/home/ubsocial/arquivo</span>) e caminho relativo (originado a partir de diretório qualquer até o diretório atual, exemplo <span class="text-muted">ubsocial/arquivo</span>).</p>
+                    <ul>
+                        <li>Diretório root: <b>/</b> <span class="text-muted">(cd /)</span></li>
+                        <li>Diretório home: <b>~</b> <span class="text-muted">(cd ~)</span> o mesmo que '/home/usuarioAtual'</li>
+                        <li>Diretório atual: <b>.</b> <span class="text-muted">(cd .)</span></li>
+                        <li>Diretório pai: <b>..</b> <span class="text-muted">(cd ..)</span></li>
+                        <li>Diretório anterior: <b>-</b> <span class="text-muted">(cd -)</span></li>
+                    </ul>
+                    <p>Todo arquivo oculto inicia com ponto (<b>.</b>) antes do nome. Diretórios possuem barra (<b>/</b>) no final do nome. Diretórios com <b>@</b> no final do nome são links simbólicos, ou seja, atalhos para o diretório real.</p>
+
+                    <h5>Estrutura de diretórios:</h5>
+                    <ul>
+                        <li><b>/</b> (root): Diretório originário de todos os demais, onde encontram-se os diretórios abaixo;</li>
+                        <li><b>/bin</b>: Possui todos os binários (binaries), comandos/alias do Shell. Link simbólico para '/usr/bin'. Exemplo, alias 'ls' refere-se a '/bin/ls', ou seja, '/usr/bin/ls';</li>
+                        <li><b>/boot</b>: Arquivos para inicialização (boot) do Linux, como gerenciador GRUB e imagem do kernel;</li>
+                        <li><b>/cdrom</b>: Diretório legado (não pertence a FHS), para montagem temporária de imagem de CD-DVD. Local atual para tal é '/media';</li>
+                        <li><b>/dev</b>: Arquivos de dispositivos (devices), como periféricos, como hd (sda, vda), ssd e usb (sda, sdb), cdrom, floppy (fd) e tty;</li>
+                        <li><b>/etc</b>: Abreviação de 'etcetera' ou 'edit do/to config'. Arquivos de configuração do sistema, como scripts de inicialização, módulos de programas, tabela de sistema de arquivos (fstab - filesystem table), configurações de services e usuários;</li>
+                        <li><b>/home</b>: Arquivos dos usuários do sistema. Cada usuário é representado por diretório com seu nome, contendo seus respectivos arquivos dentro (área de trabalho, documentos, imagens, etc);</li>
+                        <li><b>/lib, /lib32, /libx32, /lib64</b>: Bibliotecas (libraries) compartilhadas e módulos do kernel. Libraries são scripts que podem ser utilizados por outros arquivos dependentes para seu funcionamento. Links simbólicos para '/usr/lib', '/usr/lib32', 'usr/libx32' e '/usr/lib64';</li>
+                        <li><b>/lost+found</b>: Diretório geralmente oculto (/.lost+found) de 'achados e perdidos', usado para reparos no sistema;</li>
+                        <li><b>/media</b>: Ponto de montagem para mídias removíveis (media), como cdrom, floppy, webcam, usb, hd e ssd externos;</li>
+                        <li><b>/mnt</b>: Ponto de montagem temporária (mount) de sistema de arquivos, como outros SOs e cdrom (similar ao '/media');</li>
+                        <li><b>/opt</b>: Abreviação de 'optional', utilizado por arquivos proprietários, não licenciados pela GNU;</li>
+                        <li><b>/proc</b>: Processos (process) do Linux e todas informações do hardware (cpu, memória e partições). Diretório virtual (gravado em RAM, volátil, todos arquivos nele são apagados no desligamento do dispositivo);</li>
+                        <li><b>/root</b>: Arquivos do usuário administrador (root), para administração de interface de rede, usuários e grupos, prioridades, entre outros;</li>
+                        <li><b>/run</b>: Diretório virtual de arquivos temporários sensíveis e informações de services em execução (run, runtime);</li>
+                        <li><b>/sbin</b>: Link simbólico para '/usr/sbin', possui os super binários (super binaries ou system binaries), comandos/alias do administrador do Linux (root), utilizados para inicialização, reparação e restauração do sistema, e informações sensíveis de rede;</li>
+                        <li><b>/srv</b>: Serviços (service) do Linux, como rede, acessíveis externamente. Geralmente utilizado para instalação de servidores web ('/srv/www') e ftp ('/srv/ftp');</li>
+                        <li><b>/sys</b>: Diretório virtual de mapeamento de chamadas diretas ao kernel (system), similar ao '/proc', sendo mais organizado e categorizado;</li>
+                        <li><b>/tmp</b>: Diretório virtual de arquivos temporátios (temp, temporary);</li>
+                        <li><b>/usr</b>: Recursos do Linux (user, unix system resources), como libraries e binaries, scripts do kernel ('/src'), além de arquivos não essenciais ao sistema, que seguem padrão GNU;</li>
+                        <li><b>/var</b>: Arquivos de informações e tamanho variável (variable), como cache, logs e impressão ('/spool').</li>
+                    </ul>
+
+                    <h5>Camadas distro Linux:</h5>
+                    <ol>
+                        <li><b>Hardware</b>: Componentes físicos do dispositivo;</li>
+                        <li><b>Kernel Linux</b>: Núcleo mediador entre hardware e camadas superiores;</li>
+                        <li><b>Sistema operacional</b>: Camada que auxilia e hospeda todos arquivos das camadas superiores;</li>
+                        <li><b>Teletypes</b> (tty1, tty2, tty3, tty4, tty5, tty6...63): Terminais virtuais, responsáveis por interpretar os comandos (binaries);</li>
+                        <li><b>DM</b> (display manager): Gerenciamento de login e ambiente gráfico;</li>
+                        <li><b>Desktop environment</b>: Ambiente GUI de hospedagem dos programas.</li>
+                    </ol>
+                </div>
+            </div>
+
+
 
 
 
@@ -159,65 +211,6 @@
 
 
 
-
-
-            <div class="card">
-                <h4 class="card-header">11. Estrutura</h4>
-                <div class="card-body">
-                    <img src="arquivos.png" class="img-fluid rounded" width="250px" >
-                    <p>Derivado do Unix, no Linux não existem, de fato, programas/drivers/extensões: Tudo é considerado arquivo. Diretório/pasta são arquivos que contém arquivos. Por exemplo, todo movimento do mouse é baseado na incrementação de conteúdo no arquivo correspondente, fazendo com que o cursor mova-se de acordo com este conteúdo. No Linux não existe extensão de arquivos, já que não existem programas. A extensão, no contexto Linux, é a expressão definida dos nomes de arquivos. Todo arquivo possui caminho de passagem, por meio de seus antecessores e sucessores. Caminho Absoluto origina-se a partir do diretório root/raíz (<i>/</i>), até seu diretório atual (Ex arquivo sysadmin: <i>/home/Documents/Admin/sysadmin</i>). Caminho Relativo origina-se a partir de um diretório qualquer como a localização atual (Ex arquivo sysadmin: <i>Admin/sysadmin</i>). O caractere <b>.</b> (ponto) representa o diretório atual. O caractere <b>~</b> representa o diretório home. O diretório <b>root/raíz (/)</b> é o primeiro de todos diretórios, ou seja, onde estão todos os diretórios e arquivos do Linux para acesso, sendo somente acessado pelo usuário root (<b>#</b>). Todo arquivo oculto inicia-se com um ponto na frente. Arquivos com <b>/</b>, no final, após o nome do mesmo são considerados diretórios. Diretórios com <b>@</b>, no final, após nome do mesmo são considerados links simbólicos, ou seja, atalhos para diretório real. Linux dispensa uso de ambiente gráfico para ser operado, pois todo o sistema é dividido em camadas (layers): Possui Kernel como centro do sistema, que comunica-se com o hardware, fazendo a interface de gerenciamento de usuários, aplicações e processos/execuções. Algumas distros Linux funcionam no formato <b>Dual Kernel</b>, no qual o usuário pode escolher qual versão do kernel deseja iniciar em sua distro.</p>
-                    <h4>Caminhos de diretórios:</h4>
-                    <ul>
-                        <li>(<b>/</b>) Diretório Raíz/Root (<i>cd /</i>)</li>
-                        <li>(<b>.</b>) Diretório Corrente (<i>cd .</i>)</li>
-                        <li>(<b>..</b>) Diretório Pai (<i>cd ..</i>)</li>
-                        <li>(<b>-</b>) Diretório Anterior (<i>cd -</i>)</li>
-                    </ul>
-                    <h4>Funcionamento da máquina:</h4>
-                    <ol>
-                        <li>Aperta botão power</li>
-                        <li>Aciona BIOS/MBR</li>
-                        <li>Gerenciador de Boot (Grub2)</li>
-                        <li>Usuário escolhe o Kernel</li>
-                        <li>Kernel chamará processo init, que carregará os serviços</li>
-                        <li>Gerenciador de login, que dará acesso direto ao interpretador de comandos</li>
-                        <li>Desktop Environment</li>
-                    </ol>
-                    <h4>Camadas distro Linux:</h4>
-                    <ol>
-                        <li><b>Hardware:</b> Ambientação física da máquina</li>
-                        <li><b>Kernel Linux:</b> Núcleo mediador entre hardware e camadas superiores</li>
-                        <li><b>Sistema Operacional:</b> Camada que auxilia e hospeda todos os programas das camadas superiores</li>
-                        <li><b>Teletypes (tty1, tty2, tty3, tty4, tty5, tty6):</b> Terminais virtuais, responsável por interpretar/converter os comandos (programas) introduzidos pelo usuário à máquina. Por padrão, tem-se 6 ttys, mas ao todo tem-se 63 (<i>ls /dev tty*</i>)</li>
-                        <li><b>DM (Display Manager):</b> Gerenciamento de logins, selecionando tipo de ambiente gráfico</li>
-                        <li><b>Ambiente de Trabalho (Desktop Environment):</b> Ambiente de hospedagem dos programas, cujo funcionamento depende do uso de Interface Gráfica (GUI)</li>
-                    </ol>
-                    <h4>Estrutura de arquivos:</h4>
-                    <p>Em 1994, a FSSTND (Filesystem Standard) criou a estrutura básica de organização de arquivos no Linux. Atualmente, algumas distros trazem ZFS (Zeta Filesystem) como integração, mais voltado para distros profissionais em Datacenters, pois realiza gestão de múltiplos volumes em pool, além de ferramentas nativas contra corrompimento de dados. Há o OpenZFS, versão free do ZFS, sendo substituível pelo BTRFS (B-tree file system). Linux compõe-se da seguinte estrutura de arquivos, baseada na FHS (Filesystem Hierarchy Standard), mantida pela FSG (Free Standard Group), no padrão Posix:</p>
-                    <p><b>/ (raíz):</b><br>Dentro do diretório raíz (<b>/</b>) encontram-se todos os demais diretórios.</p>
-                    <p><b>/bin:</b><br>Todos os comandos (Binaries) alias acessíveis ao usuário, sendo a pasta um link simbólico para '/usr/bin', executáveis no Bash, são referenciados neste diretório. Por exemplo, o comando alias <i>ls</i> refere-se ao <i>/bin/ls</i>. Neste caso, <i>ls /boot/grub</i> é o mesmo que <i>/bin/ls /boot/grub</i>. O comando <i>wich</i> mostra o caminho para o binário do pacote informado.</p>
-                    <p><b>/boot:</b><br>Onde ficam os arquivos estáticos necessários para a inicialização do sistema, como o gerenciador de boot (<i>grub</i>) e imagem do Kernel.</p>
-                    <p><b>/cdrom:</b><br> Diretório legado (Não faz parte da FHS), para montagem temporária de imagem de disco CD-DVD. O local padrão para tal é o /media.</p>
-                    <p><b>/dev:</b><br>Onde ficam todos os dispositivos (Devices), como periféricos, onde a comunicação ocorre por meio de links. Por exemplo, o dispositivo controlador do mouse na movimentação do cursor na tela. Neste diretório encontram-se o hd (<i>sda</i> ou <i>vda</i>), periféricos (Usb geralmente é <i>sdb</i>, <i>sdb1</i>...), ttys, entre outros. Ao acessar o arquivo de escrita em disco, pode-se utilizar o <i>ctrl+h</i> para resetar e sair do mesmo.</p>
-                    <p><b>/etc:</b><br>Onde ficam todos os arquivos de configuração do sistema (Edit To/Do Config / Etc), como scripts de inicialização, scripts especiais de módulos de programas, tabela de sistema de arquivos, configuração de serviços, configuração de usuários. Arquivos de configuração de disco, como <i>/etc/fstab</i> (Filesystem Table), arquivos de usuário como o <i>/etc/passwd</i>, que possui todas as informações dos usuários, cujas informações, separadas por '<b>:</b>', constitui, respectivamente, login do usuário, senha (Geralmente x, que determina que a senha está em <i>/etc/shadow</i>, ou <b>*</b>, determinando que o login está desabilitado, se linha em branco, determinando que a conta não possuirá senha), UID (User Identification), GID (Group Identification), GComs (Comentários do usuário, separados por vírgulas, como nome, id, telefone, endereço), localização home do usuário (Como <i>/home/nomeUsuario</i>) e, por fim, shell do usuário (Como <i>/bin/bash</i> ou <i>/usr/sbin/nologin</i>). No arquivo <i>/etc/shadow</i> encontram-se os seguintes campos para cada usuário: login do usuário, senha criptografada, data em nº de dias, desde 1970 até atual, com relação à última modificação de senha, nº de dias antes do sistema permitir nova modificação de senha, nº de dias que usuário pode permanecer com a mesma senha, nº de dias antes da expiração de senha, nº de dias após expiração de senha, nº de dias, de 1970 até expiração da senha e, por fim, reservado para campo futuro (Esses últimos 3 campos geralmente encontram-se em branco). Neste contexto, o comando <b>pwconv</b> é usado para criar o arquivo <i>/etc/shadow</i> a partir do <i>/etc/passwd</i>. O comando <b>pwunconv</b> realiza a operação inversa. O comando <i>getent passwd</i> é mais recomendado para abrir o passwd, do que acessar diretamente o arquivo em si.</p>
-                    <p><b>/home (~):</b><br>Onde estão os arquivos dos usuários. O '<b>~</b>' representa o diretório de usuário (/home/usuarioNoMomento), contido dentro do diretório home. Portanto, contém arquivos pessoais dos usuários no sistema. Caso o sistema tenha 10 usuários, terão-se 10 diretórios dentro de <i>/home</i>, cada uma com os arquivos pessoais de cada respectivo usuário.</p>
-                    <p><b>/lib, /lib32, /libx32 e /lib64:</b><br>Onde ficam todas as bibliotecas compartilhadas, módulos do kernel. Ambos são links simbólicos para '/usr/lib,lib32...'. Bibliotecas (Libraries) são funções que podem ser utilizadas por programas (como se fossem dll's). Cada kernel possui suas respectivas libraries (também chamados de módulos). Para conferir todos os módulos do kernel, tem-se o comando <i>ls /lib/modules/$(uname -r)/kernel</i>.</p>
-                    <p><b>/.lost+found:</b><br>Diretório, geralmente oculto, de 'achados e perdidos', usado para reparos no sistema, com fragmentos do mesmo.</p>
-                    <p><b>/media:</b><br>Serve de ponto de montagem para mídias (Media) removíveis, como cdrom, floppy, câmeras, hd externos, pendrives, entre outros.</p>
-                    <p><b>/mnt:</b><br>Acrônimo de 'Mount'. Usado para montagem temporária de sistemas de arquivos, como Windows, outros GNU/Linux, montados manualmente pelo usuário através do arquivo fstab em <i>/etc/fstab</i>. Este diretório geralmente encontra-se vazio, caso a máquina não possua tais operações no momento.</p>
-                    <p><b>/opt:</b><br>Acrônimo de 'Optional'. Geralmente utilizado por programas adicionais/proprietários, até mesmo não licenciados pela GNU, não essenciais para o sistema.</p>
-                    <p><b>/proc:</b><br>Acrônimo de 'Process'. Diretório virtual, volátil, onde tem-se todas as informações da máquina, como <i>cpuinfo</i>, <i>lscpu</i>, <i>meminfo</i>, <i>version</i>, <i>partitions</i>, entre outros. Tem-se também os processos em execução, representados, em diretórios, por seus respectivos PID, ou seja, em números identificadores.</p>
-                    <p><b>/sbin:</b><br>Link simbólico para '/usr/sbin'. Onde ficam todos os super binários (Super Binaries ou System Binaries), comandos utilizados e somente acessados pelos administradores do sistema (root), essenciais ao mesmo. Comandos de inicialização (boot), reparação, restauração, recuperação, verificação de informações preciosas (Rede).</p>
-                    <p><b>/srv:</b><br>Usado para gerenciar dados de serviços (Services), fornecidos pelo sistema, como serviços de rede. Geralmente administradores utilizam tal diretório para instalação de servidores, como servidor web (Ex: <i>/srv/www</i>), servidores ftp (Ex: <i>/srv/ftp</i>), entre outros serviços, que ficarão acessíveis externamente.</p>
-                    <p><b>/tmp:</b><br>Acrônimo de 'Temp' ou 'Temporary'. Onde ficam os arquivos temporários, pois é um diretório virtual, volátil assim que o sistema é reiniciado. Geralmente utilizado a fins didáticos, para não criar 'lixo' no interior do sistema. Diretório com pequenos arquivos, como informações de downloads, entre outros arquivos temporários.</p>
-                    <p><b>/usr:</b><br>Subdiretório (User ou Unix System Resources), onde tem-se, em seu interior, diretórios como <i>/bin</i>, <i>/lib</i>, <i>/sbin</i>, <i>/share</i>, <i>/src</i>, entre outros diretórios, que são pertencentes ao /usr. Dessa forma, possui programas que não são essenciais ao sistema, mas que seguem o padrão GNU, como por exemplo browsers, desktop environment, código fonte do kernel (<i>/src</i>).</p>
-                    <p><b>/var:</b><br>Diretório de informações variáveis e arquivos de tamanho variável (Variable), onde tem-se cache, logs, arquivos de impressão (<i>/spool</i>), entre outros. O CUPS (Commom Unix Printing System) é o servidor de impressão BSD para Linux e MacOS, funcionando com servidor-cliente, para multiplas conexões ou até mesmo local, identificando as impressoras de forma direta.</p>
-                    <p><b>/sys:</b><br>Acrônimo de 'System'. Mesmo que <i>/proc</i>, mas dispõe de categorias, sendo assim mais organizado. Dessa forma, mapeia chamadas diretas com o kernel, sendo diretório virtual (volátil)</p>
-                    <p><b>/root:</b><br>Contém arquivos pessoais do usuário administrador root, onde pode-se manipular interface de rede, usuários e grupos, alterar prioridades, entre outras funções avançadas fundamentais ao sistema.</p>
-                    <p><b>/run:</b><br>Acrônimo de 'Run' ou 'Runtime'. Onde estão arquivos temporários dos programas, que não podem ser apagados ao longo do funcionamento da máquina, ao contrário do /tmp, além de informações de serviços em execução. Diretório virtual, ou seja, volátil.</p>
-                </div>
-            </div>
-            <br>
 
             <div class="card">
                 <h4 class="card-header">17. Dispositivos</h4>
@@ -943,7 +936,7 @@ O nano possibilita a abertura de diversos arquivos ao mesmo tempo.
 <b>Warn:</b> Nº de dias antes da expiração da senha que o usuário é avisado. Ex: <i>7</i>
 <b>Inactive:</b> Nº de dias após a expiração da senha que a conta do usuário permanece ativa. Ex: <i>-1</i>
 </small></pre></code>
-                    <p>"<i>Acima de Deus somente root</i>".</p>
+                    <p class="text-danger">ACRESCENTAR: arquivos de usuário como o /etc/passwd, que possui todas as informações dos usuários, cujas informações, separadas por ':', constitui, respectivamente, login do usuário, senha (Geralmente x, que determina que a senha está em /etc/shadow, ou *, determinando que o login está desabilitado, se linha em branco, determinando que a conta não possuirá senha), UID (User Identification), GID (Group Identification), GComs (Comentários do usuário, separados por vírgulas, como nome, id, telefone, endereço), localização home do usuário (Como /home/nomeUsuario) e, por fim, shell do usuário (Como /bin/bash ou /usr/sbin/nologin). No arquivo /etc/shadow encontram-se os seguintes campos para cada usuário: login do usuário, senha criptografada, data em nº de dias, desde 1970 até atual, com relação à última modificação de senha, nº de dias antes do sistema permitir nova modificação de senha, nº de dias que usuário pode permanecer com a mesma senha, nº de dias antes da expiração de senha, nº de dias após expiração de senha, nº de dias, de 1970 até expiração da senha e, por fim, reservado para campo futuro (Esses últimos 3 campos geralmente encontram-se em branco). Neste contexto, o comando pwconv é usado para criar o arquivo /etc/shadow a partir do /etc/passwd. O comando pwunconv realiza a operação inversa. O comando getent passwd é mais recomendado para abrir o passwd, do que acessar diretamente o arquivo em si.</p>
                 </div>
             </div>
             <br>
