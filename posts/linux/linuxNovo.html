@@ -126,7 +126,7 @@
                     <ul>
                         <li><b>Boot</b>: Partição para boot da distro, tipo primária FAT32, com label <i>/boot/efi</i>, com média de 800MB;</li>
                         <li><b>Swap</b>: Partição de memória virtual, tipo primária linux-swap, sem label, com média de metade do tamanho da RAM ou mais (aqui no caso 2GB);</li>
-                        <li><b>Root</b>: Partição raíz, onde ficará o sistema, tipo primária journaling EXT4 (ou BTRFS, ou LVM, ou ZFS / openZFS), com label <i>/</i>, preenchendo com o restante do espaço livre.
+                        <li><b>Root</b>: Partição raíz, onde ficará o sistema, tipo primária journaling EXT4 (ou BTRFS), com label <i>/</i>, preenchendo com o restante do espaço livre.
                             <ul>
                                 <li><span class="text-muted">Opcional</span> (Partição <b>home</b> separada): Partição onde ficarão os arquivos dos usuários (documentos, imagens, vídeos, etc), do tipo primária journaling EXT4, com label <i>/home</i>, preenchendo com o espaço livre restante (Neste caso, 40% do espaço livre restante será de home, e os demais 60% será de root);</li>
                                 <li><span class="text-muted">Opcional</span> (<b>criptografa</b>): Pode-se criptografar a participação root com o LUKS.</li>
@@ -156,7 +156,7 @@
                         <li><b>/bin</b>: Possui todos os binários (binaries), comandos/alias do Shell. Link simbólico para '/usr/bin'. Exemplo, alias 'ls' refere-se a '/bin/ls', ou seja, '/usr/bin/ls';</li>
                         <li><b>/boot</b>: Arquivos para inicialização (boot) do Linux, como gerenciador GRUB e imagem do kernel;</li>
                         <li><b>/cdrom</b>: Diretório legado (não pertence a FHS), para montagem temporária de imagem de CD-DVD. Local atual para tal é '/media';</li>
-                        <li><b>/dev</b>: Arquivos de dispositivos (devices), como periféricos, como hd (sda, vda), ssd e usb (sda, sdb), cdrom, floppy (fd) e tty;</li>
+                        <li><b>/dev</b>: Arquivos de dispositivos (devices), como periféricos, como hd (sda, vda), ssd e usb (sda, sdb), cdrom, disquete floppy (fd) e tty;</li>
                         <li><b>/etc</b>: Abreviação de 'etcetera' ou 'edit do/to config'. Arquivos de configuração do sistema, como scripts de inicialização, módulos de programas, tabela de sistema de arquivos (fstab - file system table), configurações de services e usuários;</li>
                         <li><b>/home</b>: Arquivos dos usuários do sistema. Cada usuário é representado por diretório com seu nome, contendo seus respectivos arquivos dentro (área de trabalho, documentos, imagens, etc);</li>
                         <li><b>/lib, /lib32, /libx32, /lib64</b>: Bibliotecas (libraries) compartilhadas e módulos do kernel. Libraries são scripts que podem ser utilizados por outros arquivos dependentes para seu funcionamento. Links simbólicos para '/usr/lib', '/usr/lib32', 'usr/libx32' e '/usr/lib64';</li>
@@ -188,50 +188,53 @@
             </div>
 
             <div class="card mb-4">
-                <h4 class="card-header">Devices e file systems</h4>
+                <h4 class="card-header">File systems e devices</h4>
                 <div class="card-body">
-                    <p>Aqui</p>
-                </div>
-            </div>
-
-
-
-
-
-
-
-            <div class="card">
-                <h4 class="card-header">17. Dispositivos</h4>
-                <div class="card-body">
-                    <p>O Linux tem suporte a vários sistemas de arquivos (file system), inclusive os que o Windows suporta, como FAT32, exFAT, NTFS e EXT4. Há outros, como EXT3, EXT2, reiserfs, swap, xiafs, minix, msdos, vfat, proc, smbfs, iso9660, ufs, hpfs, entre outros. SOs como MacOS não suportam gravação NTFS, suportando apenas leitura. Linux era similar no passado, atualmente consegue. O <b>FAT32</b> não possibilita manipular arquivos com mais de 4GB. <b>exFAT</b> é compatível com arquivos maiores que 4GB, ainda sendo ideal para compatibilidade entre diferentes SOs, mas não tão compatível quanto FAT32, de forma geral. <b>NTFS</b> (New Technology FIle System) é compatível com Windows, apesar de problemas ocasionais com Linux serem ainda frequentes, pois a compatibilidade com o Linux está sendo feita por meio de Engenharia Reversa, sendo ainda não compatível com MacOS e maioria dos dispositivos de hardware. <b>EXT4</b> é moderno, estável, rápido e jornalizado(cria um jornal, algo como pastas temporárias para gravações e recuperações), suportando permissões de arquivos no Linux. Não é compatível com MacOS, Windows e maioria dos dispositivos de hardware. <i>A melhor opção, para arquivos pequenos, é o FAT32</i>. O EXT4 é mais rápido, mas não recomendado para pendrives. O NTFS precisa-se verificar segurança, por razão de vírus Windows via pendrive. SEMPRE ative o ejetar pendrive antes de, de fato, ejetá-lo. O dispositivo USB é Serial, com transmissão assíncrona, que se remover o pendrive sem ativar a ejeção, o processo será interrompido, correndo o risco de corromper algo. Outro ponto é o de que um dos pinos do pendrive passa corrente elétrica, e se removido antes da finalização do processo, correrá o risco de queimá-lo. Quando remove-se algo do pendrive, seus arquivos vão para a pasta da lixeira, .trash, que na verdade é linkada dentro do pendrive, guardando informações da lixeira sobre a localização do arquivo em pasta oculta, dentro do pendrive, o que pode ocupar mais espaço ao invés de diminuir. Para solucionar tal problema, precisa-se apagar o arquivo e limpar a lixeira, que removerá os arquivos da lixeira do pendrive também, ou removê-lo permanentemente com o uso conjunto do botão 'shift'. Isso serve para todos os dispositivos HDs plugados no Linux. Isso serve para qualquer SO. Linux trabalha com 3 tipos padrões de gerenciamento de dados: <b>stdin</b> 0 (standard input, como o teclado), <b>stdout</b> 1 (standard output, como a tela) e <b>stderr</b> 2 (standard error, como a tela também). Com isso, pode-se alterar tais padrões, como por exemplo: Alterar saída padrão de erro para, ao invés da tela, em arquivo (<i>ls mateus &gt; arquivoSaida</i>). Um sistema de arquivos tem o objetivo de organizar os arquivos dentro do dispositivo. O subdiretório <b>/dev</b> armazena os arquivos de todos os dispositivos periféricos, como hd, ssd, placa de som, placa de vídeo, teclado, mouse, webcam, entre outros. A exceção é que neste subdiretório não contém arquivos sobre placas de rede, que são carregadas via módulos do Kernel. Dentro do /dev há outro gerenciamento de arquivos, geralmente sendo <b>/devfs</b> ou <b>/udev</b> (atual, a partir do Kernel 2.6). Linux não trabalha com drivers, mas sim com o conceito de módulos. O /devfs carrega todos os tipos de módulos ao sistema, incluindo os que não estão presentes no hardware hospedeiro. Já o /udev carrega somente os módulos dos hardwares encontrados na máquina, além da configuração automatizada codeplug e hotplug. Seu arquivo de configuração é <i>/etc/udev/udev.conf</i>, e seus arquivos de regras ficam em <i>/etc/udev/rules.d/</i>. Com isso, tem-se os comandos <i>udevmonitor</i> e <i>udevadm monitor</i>, que permitem modificar os eventos que são armazenados no sistema de arquivos lógico sysfs, onde ficam registradas as informações de identificação dos dispositivos.</p>
-                    <h4>Dispositivos em /dev</h4>
+                    <h5>File systems:</h5>
+                    <p>File system tem objetivo de gerenciar os bytes de dados no dispositivo.</p>
                     <ul>
-                        <li><b>Dispositivos de caractere (c):</b> São orientados à comunicação e ao fluxo de informações de modo serial, ou seja, caractere a caractere. São utilizados por comunicações realizadas entre portas seriais ou portas paralelas, como por exemplo modens, tty's (para comunicação com o Kernel), entre outros.</li>
-                        <li><b>Dispositivos de bloco:</b> Orientados ao armazenamento de informações temporárias de algum tipo de mídia. Geralmente utilizado para representar partições, hd's (sda ou vda), pendrives, entre outros.</li>
-                        <li><b>Dispositivos de FIFO:</b> Caracteriza o processo de dados em formato de fila, viabilizando comunicação entre dois processos independentes.</li>
-                        <li><b>Dispositivos de socket:</b> Voltados à criação de ponto de comunicação.</li>
+                        <u>Microsoft</u>:
+                        <li><b>FAT32</b> (File allocation table): Utilizado em Windows, não suporta journaling;</li>
+                        <li><b>exFAT</b> (Extensible FAT): Alternativa ao FAT, melhor compatibilidade entre diferentes file systems. Possui pouquíssimos recursos e suporta arquivos de tamanhos diversos. Ideal para pendrives e HDs externos que acessam diferentes file systems;</li>
+                        <li><b>NTFS</b> (New technology file system): Evolução do FAT32, suporte de volumes maiores, possui checksums em journaling e snapshots em volume shadow copy. Compatível com leitura de dados em outros file systems, mas com compatibilidade de escrita instável;</li>
+                        <u>Linux</u>:
+                        <li><b>ext4</b> (Extended file system): Mais popular em dispositivos Linux "domésticos", possui checksums em journaling;</li>
+                        <li><b>ZFS</b> (Zettabyte file system): Gerencia vários volumes (pool), checksums próprios e confiáveis, snapshots e copy on write (COW). O openZFS é a versão free do ZFS. Utilizado em servidores;</li>
+                        <li><b>BTRFS</b> (B-tree file system): Simimlar ao ZFS, com otimizações e aberto. Ideal para servidores.</li>
                     </ul>
-                    <h4>Diretórios dos dispositivos</h4>
+
+                    <h5>Devices:</h5>
+                    <p>Linux possui 3 formatos de gerenciamento de dados: <b>stdin</b> 0 (standard input, entrada de dados, como via teclado), <b>stdout</b> 1 (standard output, saída de dados, como via display tela) e <b>stderr</b> 2 (standard error, feedback de erro, como via display tela). Pode-se alterar o padrão, como redirecionar stderr para arquivo ('<span class="text-muted">ls erro > arquivo</span>'). O diretório '/dev' armazena arquivos dos dispositivos periféricos, com exceção de placas de rede, que são carregadas via módulo do kernel. Em '/dev' há '/devfs' ou '/udev'. '/dev' carrega todos os módulos ("drivers") do Linux, incluindo os não presentes no hardware host. '/udev' carrega somente módulos encontrados no hardware host, além da configuração automatizada codeplug e hotplug. Seu arquivo de configurações é '/etc/udev/udev.conf' e seus arquivos de regras (rules) estão em '/etc/udev/rules.d/'. Os comando <i>udevmonitor</i> e <i>udevadm monitor</i> permitem modificar eventos armazenados no sistema lógico sysfs, onde ficam as identificações dos dispositivos.</p>
+                    
+                    <h5>Tipos de devices:</h5>
                     <ul>
-                        <li><b>/dev/fd0</b> e <b>/dev/fd1</b>: Respectivamenente, 1ª e 2ª unidade de disquete (Floppy Disk).</li>
-                        <li><b>/dev/hda</b> e <b>/dev/hdb</b>: Dispositivos IDE eram nomeados de acordo com canal IDE utilizado em conexão, seja ele master (hda) ou slave (hdb).
+                        <li><b>Caractere</b> (c): Orientados à comunicação e fluxo de informações de modo serial, ou seja, caractere a caractere. Utilizados por comunicações entre portas seriais ou paralelas, como modens, e tty's (comunicação com o kernel);</li>
+                        <li><b>Bloco</b> (block): Orientados ao armazenamento de informações temporárias de mídia. Geralmente utilizado para representar partições, hd's (sda ou vda) e pendrives;</li>
+                        <li><b>FIFO</b> (first in, first out): Processamento de dados em formato de fila, viabilizando comunicação entre dois processos independentes;</li>
+                        <li><b>Socket</b>: Voltados à criação de ponto de comunicação.</li>
+                    </ul>
+
+                    <h5>Diretórios dos devices:</h5>
+                    <ul>
+                        <li><b>/dev/fd0</b> e <b>/dev/fd1</b>: Respectivamente, 1ª e 2ª unidade de disquete (floppy disk);</li>
+                        <li><b>/dev/hda</b> e <b>/dev/hdb</b>: Dispositivos HD IDE master (hda) e slave (hdb);
                             <ul>
-                                <li><b>/dev/hda0</b>: Se houver, 1ª partição do dispositivo IDE master.</li>
-                                <li><b>/dev/hda1</b>: Se houver, 2ª partição do dispositivo IDE master, e assim por diante.</li>
+                                <li><b>/dev/hda0</b>: 1ª partição do dispositivo IDE master;</li>
+                                <li><b>/dev/hda1</b>: 2ª partição do dispositivo IDE master, e assim por diante;</li>
                             </ul>
                         </li>
-                        <li><b>/dev/sda</b> e <b>/dev/sdb</b>: Respectivamente, 1º e 2º dispositivo SATA.
+                        <li><b>/dev/sda</b> e <b>/dev/sdb</b>: Respectivamente, 1º e 2º dispositivo SSD SATA;
                             <ul>
-                                <li><b>/dev/sda1</b>: Se houver, 1ª partição do dispositivo SATA.</li>
-                                <li><b>/dev/sda2</b>: Se houver, 2ª partição do dispositivo SATA, e assim por diante.</li>
-                                <li><b>/dev/sdd</b>: Cartões que seguem padrão SATA/SCSI.</li>
+                                <li><b>/dev/sda1</b>: 1ª partição do dispositivo SATA;</li>
+                                <li><b>/dev/sda2</b>: 2ª partição do dispositivo SATA, e assim por diante;</li>
+                                <li><b>/dev/sdd</b>: Cartões que seguem padrão SATA/SCSI;</li>
                             </ul>
                         </li>
                         <li><b>/dev/cdrom</b>: Dispositivos cdrom.</li>
                     </ul>
                 </div>
             </div>
-            <br>
+
 
 
 
