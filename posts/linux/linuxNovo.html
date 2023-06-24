@@ -140,7 +140,7 @@
             <div class="card mb-4">
                 <h4 class="card-header">Estrutura</h4>
                 <div class="card-body">
-                    <p>No Linux não existem programas, drivers e extensões: Tudo é considerado arquivo. Dispensando conceito de 'pasta', a estrutura de diretórios de arquivos no Linux possui padrão POSIX, baseada em FHS (File system Hierarchy Standard). Até mesmo os componentes de hardware são controlados por arquivos em realtime. Nos caminhos de diretórios, tem-se o <i>caminho asboluto</i> (originado a partir do diretório root até o diretório atual, exemplo: <span class="text-muted">/home/ubsocial/arquivo</span>) e caminho relativo (originado a partir de diretório qualquer até o diretório atual, exemplo <span class="text-muted">ubsocial/arquivo</span>).</p>
+                    <p>No Linux não existem programas, drivers e extensões: Tudo é considerado arquivo. Dispensando conceito de 'pasta', a estrutura de diretórios de arquivos no Linux possui padrão POSIX, baseada em FHS (File system Hierarchy Standard). Até mesmo os componentes de hardware são controlados por arquivos em realtime. Nos caminhos de diretórios, tem-se o <i>caminho absoluto</i> (originado a partir do diretório root até o diretório atual, exemplo: <span class="text-muted">/home/ubsocial/arquivo</span>. Comando 'pwd' mostra caminho absoluto - print world directory) e caminho relativo (originado a partir de diretório qualquer até o diretório atual, exemplo <span class="text-muted">ubsocial/arquivo</span>).</p>
                     <ul>
                         <li>Diretório root: <b>/</b> <span class="text-muted">(cd /)</span></li>
                         <li>Diretório home: <b>~</b> <span class="text-muted">(cd ~)</span> o mesmo que '/home/usuarioAtual'</li>
@@ -258,6 +258,7 @@
 <b>quota</b>: Informações do usuário na sessão
 <b>getent passwd</b>: Abrir passwd
 <b>pwconv</b>: Criar arquivo '/etc/shadow' a partir de '/etc/passwd' <span class="text-muted">(pwunconv faz operação inversa)</span>
+<b>sudo + comando</b>: Comando em modo administrador
 <b>sudo su</b>: Entrar no usuário root
 <b>su - nomeUsuario</b>: Sair do usuário root, para usuário comum
 <b>Alterar senha de usuário</b>: passwd [parâmetros] [utilizador] <spam class="text-muted">(passwd -S sysadmin)</spam>
@@ -359,217 +360,192 @@ unalias j <span class="text-muted">(descarta alias)</span>
                 </div>
             </div>
 
+            <div class="card mb-4">
+                <h4 class="card-header">Shell</h4>
+                <div class="card-body">
+                    <p>Comando interpretado pelo shell possui composição:</p>
+                    <ol>
+                        <li><b>comando</b>: Arquivo binário em '/usr/bin';</li>
+                        <li><b>parâmetro(s)</b>: Opcional, altera comportamento do comando. Também chamado de 'flag' e 'opção'. Representado por 1 hífen seguido de letra (forma simplificada), ou 2 hífens seguidos de palava (forma extensa). Na forma simplificada, pode-se conter vários parâmetros aninhados, onde tem-se 1 hífe seguido das letras dos respectivos parâmetros;</li>
+                        <li><b>argumento(s)</b>: Opcional, especifica alvo do comando. Representado por palavra(s) ou expressão(ões).</li>
+                        <i class="text-muted">Resumidamente, parâmetro modifica execução do comando para determinado argumento.</i>
+                    </ol>
+                    <p>Sintaxe 1: <span class="text-danger">comando [-p] [argumento]</span><br>Sintaxe 2: <span class="text-danger">comando [--parametro] [argumento]</span></p>
+                    
+                    <u>Exemplos</u>:
+                    <p><span class="text-muted">ls -s /home</span><br><span class="text-muted">ls -s -a /home</span><br><span class="text-muted">ls -sa /home</span><br><span class="text-muted">ls --size /home</span><br><span class="text-muted">ls --size --all /home</span></p>
+
+                    <h5>Atalhos shell</h5>
+                    <ul>
+                        <li><b>tab</b>: Autocompletar comando;</li>
+                        <li><b>seta up</b>: Comando anterior;</li>
+                        <li><b>seta down</b>: Mostrar comando sucessor ao anterior;</li>
+                        <li><b>^c</b>: Quer dizer <i>ctrl+c</i>;</li>
+                        <li><b>M-c</b>: Quer dizer <i>alt+c</i>;</li>
+                        <li><b>ctrl+shift+c</b>: Copiar;</li>
+                        <li><b>ctrl+shift+v</b>: Colar;</li>
+                        <li><b>ctrl+a</b>: Mover cursor ao começo da linha;</li>
+                        <li><b>ctrl+e</b>: Mover cursor ao final da linha;</li>
+                        <li><b>ctrl+u</b>: Recortar tudo à esquerda do cursor;</li>
+                        <li><b>ctrl+k</b>: Recortar tudo à direita do cursor;</li>
+                        <li><b>ctrl+y</b>: Colar conteúdo recortado;</li>
+                        <li><b>alt+b</b>: Voltar 1 palavra;</li>
+                        <li><b>ctrl+w</b>: Deletar 1 palavra;</li>
+                        <li><b>ctrl+p</b>: Comando anterior;</li>
+                        <li><b>ctrl+n</b>: Próximo comando;</li>
+                        <li><b>ctrl+c</b>: Abrir nova linha a partir do cursor (cancelar operação em andamento);</li>
+                        <li><b>ctrl+d</b>: Sair;</li>
+                        <li><b>alt+f</b>: Mover 1 palavra;</li>
+                        <li><b>alt+d</b>: Deletar 1 palavra;</li>
+                        <li><b>ctrl+r</b>: Iniciar/Próxima pesquisa;</li>
+                        <li><b>ctrl+g</b>: Cancelar pesquisa;</li>
+                        <li><b>ctrl+x</b> ou <b>+e</b>: Editar;</li>
+                        <li><b>ctrl+l</b>: Limpar shell (move cursor para baixo até ocultar conteúdo anterior);</li>
+                        <li><b>ctrl+-</b>: Desfazer.</li>
+                    </ul>
+
+                    <h5>Comandos gerais:</h5>
+<small><pre><code>
+<b>Ver shell padrão</b>: echo $SHELL (ou 'echo $0')
+<b>Data e hora do sistema</b>: date
+<b>Fechar o bash</b>: exit
+<b>Limpar bash</b>: clear
+<b>Ajuda no bash</b>: help
+<b>Comentário no Bash</b>: #comentario (Comentários não afetam execuções no shell)
+<b>Concatenar comandos</b> (; ou &&): ls ; echo "a" (ou ls && echo "a")
+
+<b>Histórico de comandos</b>: history
+<b>Histórico dos 10 últimos comandos</b>: history 10 (ou fc -l 10)
+<b>Histórico dos comandos 2 ao 6</b>: fc -l 2 6
+<b>Histórico dos comandos na última hora</b>: fc -l h
+<b>Executar 34º comando do histórico</b>: !34
+
+<b>Ver informações de hardware</b>: lshw
+<b>Ver informações da distro</b> (necessário instalar): neofetch
+<b>Ver versão da distro</b>: lsb_release -a (ou cat /etc/*-release)
+<b>Ver versão do kernel</b>: uname -r
+<b>Ver detalhes do kernel</b>: uname -a
+<b>Ver informações de memória cache em tempo real</b>: sudo slabtop (ctrl+c para sair)
+<b>Ver arquitetura da máquina</b>: arch
+<b>Ver particionamento do disco</b>: lsblk
+<b>Ver espaços das partições</b>: df
+<b>Ver informações sobre uso do disco</b>: du
+<b>Ver mensagens do sistema</b>: sudo dmesg
+<b>Ver quantidade de memória livre</b>: free
+<b>Verificar e reparar sistema de arquivos</b>: fsck
+<b>Ver módulos kernel carregados em memória</b>: lsmod
+<b>Ver arquivos abertos</b>: lsof
+<b>Ver dispositivos pci</b>: lspci
+<b>Ver dispositivos scsi</b>: lsscsi
+<b>Ver dispositivos usb</b>: lsusb
+<b>Subshell (comando dentro de comando)</b>: ls $(which docker)
+
+<b>Desligar</b>: shutdown now (ou poweroff, ou init 0, ou shutdown 0)
+<b>Logout</b>: logout
+<b>Reiniciar</b>: reboot (ou shutdown -r)
+</code></pre></small>
+
+                    <h5>Create:</h5>
+<small><pre><code>
+<b>Criar diretório</b> (make directory): mkdir diretorio1 diretorio2 diretorio3
+<b>Criar diretório com subdiretório</b>: mkdir -p diretorio1/diretorio2/diretorio\ 3/ ('\' não interpreta próximo caractere como comando ("diretorio 3"). '-p' não sobrescreve, caso diretório já exista)
+<b>Criar arquivo</b>: touch nomearquivo (ou 'touch arquivo\ de\ teste' para criar "arquivo de teste")
+</code></pre></small>
+
+                    <h5>Remove:</h5>
+<small><pre><code>
+<b>Remover arquivo</b>: rm arquivo
+<b>Remover diretório vazio</b>: rmdir diretorio
+<b>Remover diretório não vazio</b> (recursive): rm -r diretorio (-f para remoção forçada)
+<b>Remover sob confirmação</b> (interactive): rm -i arquivo
+</code></pre></small>
+
+                    <h5>List:</h5>
+<small><pre><code>
+<b>Listar conteúdo do diretório atual</b>: ls
+<b>Listar conteúdo em diretório específico</b>: ls nomeDiretorio
+<b>Listar diretório e subdiretórios</b>: ls -R
+<b>Listagem com detalhes</b>: ls -l
+<b>Listagem com informações aprimoradas de armazenamento</b>: ls -l -h
+<b>Listagem incluindo arquivos ocultos</b>: ls -a
+<b>Listagem com informações de armazenamento, arquivos ocultos e subdiretórios</b>: ls -Rlah
+<b>Ver metadados de arquivo</b>: stat nomeArquivo
+<b>Ver formato de arquivo</b>: file nomeArquivo
+<b>Ver conteúdo de arquivo</b>: cat nomeArquivo ('tac' mostra inversamente)
+<b>Ver conteúdo de arquivo, com paginação</b>: less /etc/services (Less: 'n' pula pra próxima página, '/termo' procura por termo específico)
+<b>Inserir conteúdo de arquivo em outro arquivo</b>: cat arquivo &gt; arquivoGravacao
+<b>Inserir conteúdo de arquivo no final de outro arquivo</b>: cat arquivo &gt;&gt; arquivoGravacao
+
+<b>Conteúdo do 'ls -l'</b>:
+<span class="text-danger">[tipoArquivo] [permissões(proprietário/grupo/outros)] [contagem linksFisicos] [proprietárioDoUsuario] [proprietárioDoGrupo] [tamanhoArquivoBouKB] [dthrRegistro] [nomeArquivo.extensao]</span>
+Exemplo (arquivo): <span class="text-muted">-rw-r--r-- 1 root root 18047 Dec 20 2021 alternatives.log</span>
+Exemplo (diretório): <span class="text-muted">drwxr-x--- 2 root adm 4096 Dec 20 2021 apache2</span>
+
+<b>d</b>: Diretório
+<b>-</b>: Arquivo regular (Indica que é arquivo, não sendo diretório)
+<b>l</b>: Link simbólico (Aponta para outro arquivo)
+<b>s</b>: Arquivo é um socket (Comunicação entre processos)
+<b>p</b>: Arquivo é um fifo, named pipe (Comunicação entre processos. Fifo- FistIn FirstOut, muito usado para filas de elementos em lista de espera)
+<b>b</b>: Arquivo é dispositivo de bloco (Comunicação com hardware, com buffer: região temporária de memória para escrita/leitura)
+<b>c</b>: Arquivo é dispositivo de caractere (Comunicação com hardware, sem buffer)
+<b>u</b>: O mesmo que <i>c</i>
+</code></pre></small>
+
+                    <h5>Print:</h5>
+<small><pre><code>
+<b>Impressão simples</b>: lp arquivo.txt
+<b>Impressão avançada</b>: lp -d nomeImpressora -n 2 -P 1,3 Documents/arquivo (2 cópias, páginas 1 e 3)
+<b>Detalhes da impressora</b>: lpstat -p -d
+<b>Ver fila de impressão</b>: lpq
+</code></pre></small>
+
+                    <h5>Change directory:</h5>
+<small><pre><code>
+<b>Entrar em outro diretório</b>: cd nomeDiretorio (Exemplo: 'cd /home/usuario/Documents')
+<b>Voltar 1 diretório (diretório pai)</b>: cd ..
+<b>Voltar 2 diretórios</b>: cd ../../ (e assim por diante)
+<b>Entrar no diretório do usuário</b>: cd (ou cd ~)
+<b>Enrtar no diretório root</b>: cd /
+</code></pre></small>
+
+                    <h5>Copy e move:</h5>
+<small><pre><code>
+<b>Copiar e colar arquivo</b>: cp arquivo diretorioDestino
+<b>Copiar e colar recursivamente</b>: cp -r dirOrigem dirDestino (-p mantém metadados)
+<b>Mover</b>: mv arquivo diretorioDestino (o mesmo vale para diretórios)
+<b>Renomear</b>: mv arquivoAtual arquivoNovo (o mesmo vale para diretórios)
+<b>Comparar arquivos</b>: diff arquivo1 arquivo2 ('-r' recursivo, '-i' ignora CamelCase, '-a' compara qualquer tipo de arquivo)
+
+<b>Copiar e colar</b> (bit a bit): dd if=/dev/arquivo1 of=/tmp/arquivo2 bs=1M count=50
+if: arquivo de entrada, a ser lido
+of: arquivo de saída, a ser gravado
+bs: tamanho do bloco (Kilobyte, Megabyte, Gigabyte, Terabyte, etc.)
+count: contagem de blocos a serem lidos da entrada
+</code></pre></small>
+                </div>
+            </div>
 
 
 
+
+            <!-- O QUE FALTA:
+                - Bash (3,4 e 5)
+                - nano
+                - vim
+                - localização
+                - ajuda
+                - compactação e empacotamento
+                - pacotes
+            -->
 
             <p class="text-center bg-danger text-light my-5 py-2"><b>FIM</b></p>
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            <div class="card">
-                <h4 class="card-header">18. Bash 1: Base</h4>
-                <div class="card-body">
-                    <img src="bash.png" class="img-fluid rounded" width="250px" >
-                    <p>Assim como há gerenciamento de arquivos em GUI (Graphical User Interface, como Nautilus, Dolphin), há também CLI (Command Line Interface), onde há somente texto e manuseio via teclado. Como exemplo, o <b>Bash</b> (Bourne Again Shell) é um dos interpretadores/shell de comandos Linux <small>(bash --version)</small>, geralmente o interpretador padrão. O interpretador de comandos tem função de interpretar comandos, juntamente com seus argumentos/parâmetros, executáveis localizados na pasta <i>bin</i>. Diferente do prompt do Windows, no Linux os comandos são externos, nos quais o interpretador tem a função de somente interpretá-los e executá-los. Linux opera de forma case-sensitive. Todo comando é minúsculo (exceção de nome de arquivos e pastas). CLI são muito usados para administração de servidores Linux para computação em nuvem. Todo comando possui parâmetros e/ou argumentos, dos quais modificam a saída do comando, parâmetros são seguidos de 1 traço e letra ou 2 traços e palavra. Argumento não possui traços antecessores. <small>(Ex: cd .. (cd comando, .. argumento))</small>. No caso, parâmetro altera o comportamento do comando, argumento especifica algo para o comando agir. Alguns autores, ao invés de 'parâmetros', nomeiam 'opções' ou 'flags'. Todo SO possui uma entrada padrão (teclado) e saída padrão (tela e saída de erro). Essa, por sua vez, pode ser modificada, como a saída para criação de um arquivo ou algo do tipo. No Linux tudo é arquivo, inclusive os diretórios (pastas). Um pendrive, quando plugado, torna-se um arquivo, salvo na pasta 'device', assim como o teclado. Vale lembrar que esse conteúdo é baseado em distros <b>debian</b>!</p>
-                    <p><b>Sintaxe:</b> <i>comando [-parametro] &lt;argumento&gt;</i><br>No caso, o parâmetro modificará a saída do comando para determinado argumento.</p>
-                    <ul>
-                        <li>Site identificador de comandos 'deb' (Explainshell): <a href="https://explainshell.com" class="text-decoration-none" target="_blank">Acesse</a></li>
-                        <li>VM Linux online (Katacoda): <a href="https://www.katacoda.com" class="text-decoration-none" target="_blank">Acesse</a></li>
-                    </ul>
-                    <h4>Atalhos úteis</h4>
-                    <ul>
-                        <li><b>Tab</b>: Autocompleta o comando</li>
-                        <li><b>Seta up</b>: Comando anterior</li>
-                        <li><b>Seta down</b>: Mostra o comando sucessor ao anterior</li>
-                        <li><b>^c</b>: Quer dizer <i>ctrl+c</i></li>
-                        <li><b>M-c</b>: Quer dizer <i>alt+c</i></li>
-                        <li><b>Ctrl+a</b>: Cursor ao começo da linha</li>
-                        <li><b>Ctrl+e</b>: Cursor ao final da linha</li>
-                        <li><b>Ctrl+u</b>: Deleta tudo à esquerda do cursor (permite colar conteúdo apagado com Ctrl+y)</li>
-                        <li><b>Alt+b</b>: Volta 1 palavra</li>
-                        <li><b>Ctrl+w</b>: Deleta 1 palavra</li>
-                        <li><b>Ctrl+p</b>: Comando anterior</li>
-                        <li><b>Ctrl+n</b>: Próximo comando</li>
-                        <li><b>Ctrl+c</b>: Abre nova linha a partir do cursor</li>
-                        <li><b>Ctrl+d</b>: Sair</li>
-                        <li><b>Alt+f</b>: Move 1 palavra</li>
-                        <li><b>Alt+d</b>: Deleta 1 palavra</li>
-                        <li><b>Ctrl+k</b>: Deleta tudo à direita do cursor (permite colar conteúdo apagado com Ctrl+y)</li>
-                        <li><b>Ctrl+r</b>: Iniciar/Próxima pesquisa</li>
-                        <li><b>Ctrl+g</b>: Cancelar pesquisa</li>
-                        <li><b>Ctrl+x</b> OU <b>+e</b>: Editar</li>
-                        <li><b>Ctrl+l</b>: Limpar terminal</li>
-                        <li><b>Ctrl+-</b>: Desfazer</li>
-                    </ul>
-                    <h4>Comandos gerais</h4>
-<small><pre><code>
-<b>Ver qual shell padrão:</b> echo $SHELL (echo $0)
-<b>Filme Star Wars modo Terminal:</b> telnet towel.blinkenlights.nl
-<b>Relógio analógico:</b> oclock
-<b>Data e hora do sistema:</b> date
-<b>Fechar o bash:</b> exit
-<b>Limpar bash:</b> clear
-<b>Ajuda no bash:</b> help
-<b>Ajuda com determinado comando:</b> comando --help (Ou -h)
-<b>Manual sobre determinado comando:</b> man comando
-<b>Modo administrador:</b> sudo + outros comandos
-<b>Modo root(Super admin(cuidado!)):</b> sudo su (Comando 'su' (Substitute User / 'sudo' Super User Do) permite que atue temporariamente como um usuário diferente, criando novo shell com usuário root por padrão (Ex: 'sudo -'). Alternativo 'sudo -i'. 'exit' volta para usuário comum)
-<b>Mostrar caminho absoluto de arquivos:</b> pwd (print world directory)
-<b>Caminho relativo:</b> ./pasta/pasta/arquivo.tipo
-<b>Comentário no Bash:</b> #comentario aqui (Comentários não afetam/executam programas)
-<b>Executar 2 comandos em 1 só linha (;):</b> cd ../ ; ls | grep passwd
-<b>Mostrar texto graficamente:</b> figlet palavra/frase (Necessário instalar)
-<b>Mostrar informações da distro:</b> neofetch (Necessário instalar)
-
-<b>Histórico dos comandos executados:</b> history
-<b>Histórico dos 10 últimos comandos executados:</b> history 10 OU fc -l 10
-<b>Histórico dos comandos do 2 ao 6:</b> fc -l 2 6
-<b>Histórico dos comandos executados na última hora:</b> fc -l h
-<b>Repetir comando x do history:</b> !34 (executará o comando 34 do history)
-
-<b>Ver informações sobre hardware:</b> lshw
-<b>Ver versão da distro:</b> lsb_release -cs (Ou 'cat /etc/os-release', ou 'cat /etc/issue' ou 'lsb_release -a', ou 'cat /proc/version')
-<b>Ver versão do kernel:</b> uname -r (Release)
-<b>Ver detalhes do kernel:</b> uname -a
-<b>Ver informações de memória cache em tempo real:</b> sudo slabtop (Usar ctrl+c para sair)
-<b>Ver arquitetura da máquina:</b> arch
-<b>Ver particionamento do disco:</b> lsblk
-<b>Ver espaços das partições:</b> df
-<b>Ver informações sobre uso do disco:</b> du
-<b>Ver mensagens do sistema:</b> sudo dmesg
-<b>Ver quantidade de memória livre:</b> free
-<b>Verificar e reparar sistema de arquivos:</b> fsck
-<b>Ver módulos kernel:</b> modinfo nomeModulo
-<b>Ver módulos kernel carregados em memória:</b> lsmod
-<b>Ver arquivos abertos:</b> lsof
-<b>Ver dispositivos PCI:</b> lspci
-<b>Ver dispositivos scsi:</b> lsscsi
-<b>Ver dispositivos USB:</b> lsusb
-<b>Ver usuários do sistema:</b> w (who / whoami)
-<b>Subshell (comando dentro de comando):</b> echo $(which docker) (Comando secundário é executado antes do principal)
-
-<b>Desligamento:</b> <i>shutdown [parâmetros] tempo [mensagem]</i>
-Tempo: <i>dia_da_semana mês dia hora:minuto:segundo ano UTC</i>
-<b>Ex(Imediato):</b> shutdown now OU halt -p OU poweroff OU init 0
-<b>Ex2:</b> shutdown +1 "Goodbye World!"
-<b>Ex3:</b> shutdown -h 21:42 (Agendado desligamento para às 21:42)
-<b>Reiniciar(Imediato):</b> shutdown -r OU init 6 OU reboot OU ctrl+alt+del (Algumas distros)
-<b>Reiniciar daqui a 10min:</b> shutdown -r 10
-</code></pre></small>
-                </div>
-            </div>
-            <br>
-
-            <div class="card">
-                <h4 class="card-header">19. Bash 2: Arquivos</h4>
-                <div class="card-body">
-                    <h4>Criar</h4>
-<small><pre><code>
-<b>Criar pasta:</b> mkdir nomepasta1 nomepasta2 nomepasta3
-<b>Criar pasta com subpasta:</b> mkdir -p pasta1/pasta2/pasta\ 3/ (o '\' representa não interpretar o próximo espaço em branco como um comando, pode-se trocar o nome do arquivo com espaços por seu nome por extenso entre aspas duplas. O -p não sobrescreve, caso o nome já exista)
-<b>Criar arquivo:</b> touch nomearquivo.tipo (O comando touch nasceu com o intuito de modificar a data de criação e modificação de um arquivo)
-<b>Comando mais direto:</b> touch Documents/Cursos/Linux/Modulo\ 1/aula1.txt
-</code></pre></small>
-                    <h4>Editar</h4>
-<small><pre><code>
-<b>Editar arquivo com o editor bash 'nano':</b> nano nomearquivo.tipo
-(Comandos nano: 'ctrl+o(salvar)', 'ctrl+x(sair)', o 'M' representa o 'alt')
-(Ver card completo 'Editor Nano')
-</code></pre></small>
-                    <h4>Remover</h4>
-<small><pre><code>
-<b>Remover pasta/arquivo(cuidado):</b> rm nomepasta/ ('rm' remove definitivamente, não move à lixeira)
-<b>Remover arquivox na pasta Documents:</b> rm Documents/arquivox
-<b>Remover pasta:</b> rmdir nomepasta/ (Diretórios com conteúdo precisam ser removidos de forma recursiva, pois seu conteúdo também será removido)
-<b>Remover pasta com conteúdo dentro:</b> rm -rf nomepasta (Recursive Force)
-<b>Remover sob confirmação:</b> rm -i nomepasta (Interactive)
-<b>Remover sob confirmação com mais de 4 arquivos:</b> rm -I
-</code></pre></small>
-                    <h4>Apelidos (Alias)</h4>
-<small><pre><code>
-Durabilidade somente enquanto o terminal estiver aberto
-<b>Mostrar todos os apelidos:</b> alias
-<b>Criar apelido:</b> alias rm="rm -I" (Com isso, todo o comando 'rm' será seu conteúdo alias, ou seja, 'rm -I')
-</code></pre></small>
-                    <h4>Listar</h4>
-<small><pre><code>
-<b>Listar conteúdos dentro da pasta atual:</b> ls
-<b>Listar pastas e subpastas:</b> ls -R
-<b>Listar conteúdos dentro da pasta atual com informações:</b> ls -l
-<b>Listar conteúdos com informações aprimoradas de armazenamento:</b> ls -l -h
-<b>Listar com arquivos ocultos:</b> ls -a (Todo arquivo oculto possui um ponto na frente)
-<b>Listar com informações incluindo armazenamento e arquivos ocultos e subpastas:</b> ls -Rlah (tipo do arquivo: d(diretório), arquivo comum(-), dispositivo de bloco(b), de caracteres(c), link(l))
-<b>Ver metadados de arquivo:</b> stat nomeArquivo (Metadados são usuárioCriador, datas e horas de criação/modificação...)
-<b>Ver tipo do arquivo:</b> file nomeArquivo
-<b>Listar conteúdo de arquivo:</b> cat nomearquivo.tipo
-<b>Inserir conteúdo cat dentro de arquivo:</b> cat arquivo.tipo > arquivoGravacao
-<b>Inserir conteúdo cat dentro do final de arquivo:</b> cat arquivo.tipo >> arquivoGravacao
-<b>Listar conteúdo de arquivo de trás pra frente:</b> tac nomearquivo.tipo
-<b>Listar conteúdo de arquivo com paginação:</b> less /etc/services (Less: 'n' pula pra próxima página, '/palavra' procura palavra)
-<b>Listar conteúdo de pasta:</b> ls nomepasta/
-</code></pre></small>
-                    <p>Conceitos ls -l:</p>
-<small><pre><code>
-[tipoArquivo] [permissões(proprietário/grupo/outros)] [contagem linksFisicos] [proprietárioDoUsuario] [proprietárioDoGrupo] [tamanhoArquivoBouKB] [dthrRegistro] [nomeArquivo.extensao]
-<i><b>Exemplo (Arquivo):</b> -rw-r--r-- 1 root root 18047 Dec 20 2021 alternatives.log</i>
-<i><b>Exemplo (Diretório):</b> drwxr-x--- 2 root adm 4096 Dec 20 2021 apache2</i>
-
-<b>d:</b> Diretório
-<b>-:</b> Arquivo regular (Indica que é arquivo, não sendo diretório)
-<b>l:</b> Link simbólico (Aponta para outro arquivo)
-<b>s:</b> Arquivo é um socket (Comunicação entre processos)
-<b>p:</b> Arquivo é um fifo, named pipe (Comunicação entre processos. Fifo- FistIn FirstOut, muito usado para filas de elementos em lista de espera)
-<b>b:</b> Arquivo é dispositivo de bloco (Comunicação com hardware, com buffer: região temporária de memória para escrita/leitura)
-<b>c:</b> Arquivo é dispositivo de caractere (Comunicação com hardware, sem buffer)
-<b>u:</b> O mesmo que <i>c</i>
-</code></pre></small>
-                    <h4>Impressão (Básica)</h4>
-<small><pre><code>
-<b>Instalação CUPS:</b></u>
-    sudo apt install cups cups-client foomatic-db
-    service cups restart (Ou <i>start</i> para iniciar, <i>stop</i> para encerrar)
-    http://127.0.0.1:631 (Acessa CUPS GUI manager)
-<b>Impressão simples:</b> lp arquivo.txt
-<b>Impressão avançada:</b> lp -d nomeImpressora -n 2 -P 1,3 Documents/arquivo.txt (2 cópias, pgs 1 e 3)
-<b>Nome da impressora:</b> lpstat -p -d
-<b>Ver fila de impressão:</b> lpq
-</code></pre></small>
-                </div>
-            </div>
-            <br>
-
             <div class="card">
                 <h4 class="card-header">20. Bash 3: Manipulações</h4>
                 <div class="card-body">
-                    <h4>Movimentar-se nas pastas</h4>
-<small><pre><code>
-<b>Entrar em pasta na pasta atual:</b> cd nomepasta/ (Change Directory)
-<b>Entrar em arquivo na pasta atual:</b> cd arquivo.tipo
-<b>Entrar na pasta x:</b> cd ~/pastax/
-<b>Voltar 1 pasta da pasta atual(diretório pai):</b> cd ..
-<b>Voltar 2 pastas da pasta atual:</b> cd ../../ (e assim por diante)
-<b>Voltar à pasta de seu usuário(~):</b> cd ou cd ~
-<b>Volta à pasta raíz:</b> cd / (Na pasta raíz tem-se o acesso de todo o sistema)
-</code></pre></small>
                     <h4>Caracteres globais (Globbing)</h4>
                     <p>Também conhecidos como <b>Expressões Regulares</b> (Regular Expressions), Globbing Files, quando caracteres Regex são utilizados em conjunto. Seguem abaixo os metacaracteres.</p>
 <small><pre><code>
@@ -615,24 +591,6 @@ Durabilidade somente enquanto o terminal estiver aberto
 <b>Listar tudo que, por 2º, liste sequência do 'a' até 'm' ou do 'u' até 'l' (não é necessário o traço '-'), depois qualquer coisa:</b> ls /etc/?[am,ul]*
 <b>Listar tudo que termina com ou 'tab' ou 'swd':</b> ls /etc/*{tab,swd}
 <b>Procurar em 'arquivo.txt' termos que terminam com 'teste':</b> grep '$teste' arquivo.txt
-</code></pre></small>
-                    <h4>Manipulação de arquivos</h4>
-<small><pre><code>
-<b>Copiar e colar arquivo:</b> cp nomearquivo.tipo diretorioDestino/
-<b>Copiar e colar recursivamente:</b> cp -r diretorioOrigem diretorioDestino
-<b>Copiar e colar, mantendo metadados:</b> cp -p diretorioOrigem diretorioDestino (Mantém usuárioCriador, datas, horas, de criação intactas)
-<b>Mover arquivo:</b> mv nomearquivo.tipo Pastadestino/
-<b>Renomear arquivo:</b> mv pastaantiga/ Pastanova/
-<b>Copiar e colar tudo com final '.conf' para dentro de uma pasta:</b> cp /etc/*.conf Pastadestino/
-<b>Alterar propriedades:</b> chown root hello.sh (chown [parâmetros] [proprietário] arquivo)
-
-Comando de copiar <b>dd</b>, diferente do cp, faz cópia bit a bit, muito mais preciso, sendo muito utilizado para gerar backups.
-<b>Copiar e colar arquivo (Avançado):</b> dd if=/dev/zero of=/tmp/swapex bs=1M count=50
-<b>if:</b> Arquivo de entrada, a ser lido
-<b>of:</b> Arquivo de saída, a ser gravado/escrito
-<b>bs:</b> Tamanho do bloco, podendo esse ser Kilobyte, Megabyte, Gigabyte, Terabyte, etc.
-<b>count:</b> Contagem de blocos a serem lidos da entrada
-<b>diff:</b> Comparar 2 arquivos linha por linha (<i>-r</i> recursivo, <i>-i</i> ignora camel case, <i>-a</i> compara qualquer tipo de arquivo.Ex: <i>diff arquivo1 arquivo2</i>)
 </code></pre></small>
                 </div>
             </div>
