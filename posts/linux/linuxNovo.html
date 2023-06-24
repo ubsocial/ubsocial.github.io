@@ -279,6 +279,88 @@
                 </div>
             </div>
 
+            <div class="card mb-4">
+                <h4 class="card-header">Terminais</h4>
+                <div class="card-body">
+                    <p>Emulador de terminal é o programa que emula um terminal, no Linux representado pelo shell. Terminais virtuais (<b>tty</b>, teletypes) suportam o ambiente do sistema. Para acessar a tty utiliza-se 'ctrl+alt+FnumTty' (Ex: '<span class="text-muted">ctrl+alt+F2</span>' acessará tty2), para alternar a tty utiliza-se 'alt+FnumTty'. Algumas tty's carregam GUI (geralmente tty1 e tty2), outras somente CLI (geralmente tty3 a 6).</p>
+
+                    <h5>Sessões:</h5>
+                    <p>Linux funciona sob sessão(ões) ativa(s). O login criará 1 sessão, composta por dados gerados do mesmo. Todo o log no sistema pertencerá a sessão ativa. Um mesmo usuário pode criar várias sessões ao mesmo tempo (cada shell executado e não fechado criará nova sessão). Toda vez que usuário comum executar '<span class="text-muted">sudo su</span>', criará nova sessão com root, e poderá encerrá-la com '<span class="text-muted">exit</span>', '<span class="text-muted">ctrl+d</span>' ou '<span class="text-muted">logout</span>' para retomar a sessão com usuário comum.</p>
+
+                    <h5>Shell:</h5>
+                    <p>Camada de acesso básico ao Linux, utilizada para execução de binários e super binários. Para executar shell, basta informar seu nome ou diretório (Ex: '<span class="text-muted">/usr/bin/sh</span>'). Comandos para encerrá-lo são os mesmos de sessão acima. Entre os tipos de shell, tem-se:</p>
+                    <ul>
+                        <li>sh (Bourne shell)</li>
+                        <li>bash (Bourne again shell, evolução do sh)</li>
+                        <li>csh (C shell)</li>
+                        <li>tcsh (Turbo C shell, evolução do csh)</li>
+                        <li>ksh (Korn shell)</li>
+                        <li>zsh (Z shell)</li>
+                    </ul>
+
+                    <h5>Variáveis:</h5>
+                    <p>Espaços de memória que armazenam valores, com função de fornecer dados ao sistema. Comando <b>echo</b> faz chamada de conteúdo no shell em stdout (Ex: '<span class="text-muted">echo "ola"</span>' mostrará "ola" na tela). Para listar todas variáveis, tem-se 'set' (locais), 'env' (globais) e 'printenv'.</p>
+                    <ul>
+                        <li><b>Variáveis locais</b>: Disponíveis somente para shell atual, são voláteis, possuindo visibilidade restrita ao ambiente onde foi definida. Sintaxe: <span class="text-danger">nome=valor</span>;</li>
+                        <li><b>Variáveis globais</b> (de ambiente, environment): Não possuem restrição de ambiente, disponíveis a todo sistema. Sintaxe: <span class="text-danger">export NOME=valor</span>.</li>
+                    </ul>
+                    <ul>
+                        <u>Variáveis globais</u>:
+                        <li>HOME: Identifica o diretório do usuário;</li>
+                        <li>HOSTTYPE: Identifica a plataforma do dispositivo;</li>
+                        <li>HISTSIZE: Armazena limite de comando armazenados em histórico (histfile, padrão é 1000);</li>
+                        <li>HISTFILE: Identifica local onde histórico de comandos é armazenado;</li>
+                        <li>HISTFILESIZE: Armazena limite de linhas que o histórico (histfile) pode possuir (padrão é 2000);</li>
+                        <li>SHELL: Identifica o shell atual;</li>
+                        <li>TERM: Identifica o terminal atual;</li>
+                        <li>USER: Identifica o usuário atual;</li>
+                        <li>PATH: Identifica caminhos que determinam onde os diretórios devem pesquisar (separados por ':');</li>
+                        <li>PS1: Representa as informações exibidas no prompt (linha do shell para comando, como '<span class="text-muted">usuario@nomeMaquina:~$</span>');</li>
+                        <li>LOGNAME: Identifica nome do usuário logado atual;</li>
+                        <li>OSTYPE: Identifica SO atual.</li>
+                    </ul>
+<small><pre><code>
+<b>Exemplo</b>:
+nome="ubsocial"
+echo $nome <span class="text-muted">(toda vez que nome for chamada, representará seu valor: <i>ubsocial</i>)</span>
+unset nome <span class="text-muted">(descarta variável)</span>
+echo $HOME <span class="text-muted">(exibirá valor de HOME)</span>
+</small></pre></code>
+
+                    <h5>Alias:</h5>
+                    <p>Apelido/atalho atrelado a determinada rotina. Comando 'alias' listará todos aliases do sistema.</p>
+<small><pre><code>
+<b>Exemplo</b>:
+alias j="ls -l"
+j <span class="text-muted">(ao digitar 'j' será executado seu valor: Comando 'ls -l')</span>
+unalias j <span class="text-muted">(descarta alias)</span>
+</code></pre></small>
+
+                    <h5>Arquivos de variáveis:</h5>
+                    <ol>
+                        <u>Escopo global</u>:
+                        <li><i>/etc/profile</i>: Armazena comandos e variáveis para usuários do sistema;</li>
+                        <li><i>/etc/environment</i>: Usado para definir variáveis globais;</li>
+                        <u>Escopo local</u> (/home):
+                        <li><i>.bashrc</i></li>
+                        <li><i>.profile</i> ou <i>._profile</i></li>
+                        <li><i>._login</i> e <i>._logout</i></li>
+                        Comando 'source' reseta o arquivo (Ex: '<span class="text-muted">source /etc/profile</span>').
+                    </ol>
+
+                    <h5>Arquivos de exibição de mensagens:</h5>
+                    <ul>
+                        Responsáveis por armazenar mensagens padrão stderr.
+                        <li><i>/etc/issue</i>: Mensagens antes do login do sistema;</li>
+                        <li><i>/etc/motd</i>: Mensagens após login do sistema;</li>
+                        <li><i>/etc/issue.net</i>: Mensagens via rede, logins remotos;</li>
+                        <li><i>~/.bash_history</i>: Histórico dos comandos.</li>
+                    </ul>
+                </div>
+            </div>
+
+
+
 
 
             <p class="text-center bg-danger text-light my-5 py-2"><b>FIM</b></p>
@@ -972,104 +1054,6 @@ O nano possibilita a abertura de diversos arquivos ao mesmo tempo.
                     </ul>
                     <h4>Comando Which:</h4>
                     <p>Assim como o whereis, o which mostrará somente a localização do binário. Por exemplo <i>which ls</i>.</p>
-                </div>
-            </div>
-            <br>
-
-            <div class="card">
-                <h4 class="card-header">28. Terminais</h4>
-                <div class="card-body">
-                    <img src="terminal.png" class="img-fluid rounded" width="250px" >
-                    <ul>
-                        <li><b>Terminal Virtual (tty):</b> Hardware (teletype ou terminal de vídeo) que os usuários utilizavam para se conectar ao mainframe;</li>
-                        <li><b>Emulador de Terminal:</b> Programa que consegue emular um terminal para que o usuário possa trabalhar, usando o próprio vídeo e teclado do computador. Pode ser o próprio Kernel ou algum outro emulador de terminal (xterm, Konsole, etc.);</li>
-                        <li><b>Console:</b> Hardware que os usuários conectavam no computador para administrá-lo;</li>
-                        <li><b>Console Virtual:</b> Interface de administração do Linux, que transformou o antigo console em vários consoles virtuais, separados logicamente, mas acessados pelo mesmo par teclado/vídeo. Utiliza o emulador de terminal do Kernel;</li>
-                        <li><b>Pseudo-Terminal (PTS):</b> Par de terminais master/slave que o Kernel utiliza para se comunicar com um emulador de terminais que roda no espaço do usuário, em alguma interface gráfica, e não no próprio Kernel;</li>
-                        <li><b>Janela de Terminal:</b> Apresentação GUI do emulador de terminal (Konsole, Gnome Terminal, xterm, etc.);</li>
-                        <li><b>Linha de Comando (CLI):</b> Interface que recebe comandos inputs, retornando em outputs via texto.</li>
-                    </ul>
-                    <p><b>Funcionamento</b></p>
-                    <ol>
-                        <li>Um console virtual é uma interface CLI de administração acessada pelo par vídeo/teclado do computador, utilizando um emulador de terminal próprio do Kernel e drivers tty para interagir com os processos do usuário.</li>
-                        <li>Uma janela de terminal é uma GUI acessada pelo vídeo/teclado do computador, que apresenta uma CLI para o usuário, utilizando um emulador de terminal externo ao Kernel, e pseudo-terminais master/slave para interagir com os processos do usuário.</li>
-                    </ol>
-                    <h4>Terminais Virtuais (tty):</h4>
-                    <p>No ambiente gráfico, para acessar a tty, basta utilizar as teclas <i>ctrl+alt+Fnumtty</i> (Ex: <i>ctrl+alt+F2</i> acessa a tty2). Para alternar entre as ttys, basta utilizar <i>alt+Fnumtty</i> (Ex: <i>alt+F4</i> altera para a tty4). As ttys 1 à 6 são modo texto. A tty7 é Interface Gráfica, então <i>alt+F7</i> voltará para a tty7. Em alguns casos, F1 e F2 representarão GUI, de acordo com o local em que o Jerenciador de Janelas padrão da distro encontra-se.</p>
-                    <h4>Sessões:</h4>
-                    <p>Após iniciar um dispositivo Linux CLI, tem-se a conexão a uma sessão, que solicitará login. Uma sessão é composta pelos dados gerados após o login de um usuário válido cadastrado no sistema e efetuado com sucesso no ambiente. Tudo o que o usuário fizer, como comandos, ficará armazenado na respectiva sessão. Um mesmo usuário pode possuir várias sessões abertas ao mesmo tempo. As sessões são iniciadas através dos terminais, que são caracterizados como um terminal virtual somente CLI (Pseudo-terminais), inicializados a partir de GUI. A única diferença entre eles é a forma de acesso: Em um SO CLI, o acesso é direto. Em um SO GUI, basta acessar o Bash (Cada Bash aberto, ao mesmo tempo, é a criação de um terminal virtual). Programas como <b>ssh</b>, <b>telnet</b> acessam terminais virtuais remotamente ou localmente. Comandos como <b>sudo su</b> e <b>bash</b> abrem sessões, comandos como <b>exit</b>, <b>ctrl+d</b> e <b>logout</b> (algumas distros) saem da respectiva sessão, onde usados repetitivamente sairão das sessões abertas do usuário até o ponto de sair do Bash.</p>
-                    <h4>Shell</h4>
-                    <p>Entre as camadas do dispositivo, tem-se Hardware, Kernel, Programas e Shell. Shell é a camada de acesso ao sistema básico, que pode ser acessado por GUI ou CLI, sendo totalmente personalizado, como automatização de tarefas repetitivas, através de Alias e recursos. Há diversos tipos de shell disponíveis para distribuições GNU/Linux:</p>
-                    <ul>
-                        <li>sh (Bourne Shell, desenvolvido por Stephen R. Bourne)</li>
-                        <li>bash (Bourne Again Shell, evolução do sh)</li>
-                        <li>csh (C Shell)</li>
-                        <li>tcsh (Turbo C Shell, evolução do csh)</li>
-                        <li>ksh (Korn Shell)</li>
-                        <li>zsh (Z Shell)</li>
-                    </ul>
-                    <p>Para chamar outro tipo de shell, basta digitar o nome do mesmo, ou através do comando <i>chsh -s /bin/sh</i> (chsh - change shell). O comando <i>exit</i> voltará para o shell padrão.</p>
-                    <h4>Variáveis:</h4>
-                    <p>Espaços de memória que armazenam valores. Têm função de fornecimento de dados variáveis para o dispositivo, envolvendo seus programas. A chamada de conteúdo na tela do shell é através do comando <b>echo</b> (Ex: <i>echo olá</i>, mostrará olá na tela do shell). Para mostrar todas as variáveis do SO, têm-se os comandos <i>set</i> (locais), <i>env</i> (globais) e <i>printenv</i>.</p>
-                    <ul>
-                        <li><b>Variáveis Locais:</b> Disponíveis somente para o shell atual, ou seja, são voláteis, possuindo assim visibilidade restrita ao ambiente ao qual foi definida. Sintaxe: <i>nome=valor</i></li>
-                        <li><b>Variáveis Globais (De ambiente / environment)</b>: Não possuem restrição de ambiente, sendo visíveis e utilizáveis a todo o restante do sistema, como subprocessos, outros shells e demais ambientes em que não foi definida. Sintaxe: <i>export nome=valor</i></li>
-                    </ul>
-<small><pre><code>
-Mostrar variaveis de ambiente: <i>env</i>
-<b>Exemplo:</b>
-idade=22
-export NOME="mateus"
-echo $idade (Toda vez que idade for chamada, representará seu valor, no caso, 22)
-unset idade (Desabilita variável)
-
-<b>Exemplo2:</b>
-Variável global HOME (echo $HOME)
-</small></pre></code>
-                    <h5>Variáveis Globais:</h5>
-                    <ul>
-                        <li>HOME: Identifica o diretório do usuário</li>
-                        <li>HOSTTYPE: Identifica a plataforma do dispositivo</li>
-                        <li>HISTSIZE: Armazena limite de comando armazenados em histórico (Histfile, padrão é 1000)</li>
-                        <li>HISTFILE: Identifica local onde histórico de comandos é armazenado</li>
-                        <li>HISTFILESIZE: Armazena limite de linhas que o histórico (Histfile) pode possuir (Padrão é 2000)</li>
-                        <li>SHELL: Identifica o shell atual</li>
-                        <li>TERM: Identifica o terminal atual</li>
-                        <li>USER: Identifica o usuário atual</li>
-                        <li>PATH: Identifica caminhos que determinam onde os diretórios devem pesquisar (Separados por <b>:</b>)</li>
-                        <li>PS1: Representa as informações exibidas no prompt (Na linha do shell para comando, como <i>usuario@nomeMaquina:~$</i>)</li>
-                        <li>LOGNAME: Identifica nome do usuário logado atual</li>
-                        <li>OSTYPE: Identifica SO atual</li>
-                    </ul>
-                    <h4>Arquivos de configuração shell:</h4>
-                    <h5>Arquivos de variáveis:</h5>
-                    <p>Arquivos que contém variáveis, alias e demais comandos do sistema. Alias é um apelido que pode ser dado à determinada rotina, para que haja maior facilidade no momento de sua chamada.</p>
-<small><pre><code>
-<b>Exemplo Alias:</b>
-alias j="ls -l"
-j (ao digitar j será executado seu valor, no caso, o comando descrito)
-unalias j (descarta o alias)
-</small></pre></code>
-                    <ol>
-                        <b>Geral:</b>
-                        <li><i>/etc/profile:</i> Arquivo lido antes que os demais, no momento do login, por definir e armazenar comandos e variáveis para usuários do sistema.</li>
-                        <li><i>/etc/environment:</i> Arquivo de distros <i>.deb</i> para definição de variáveis globais, sendo inicializado no momento do login, juntamente com o profile.</li>
-                        <br><b>Diretório home (Usuário específico):</b>
-                        <li><i>.bashrc</i></li>
-                        <li><i>.profile</i></li>
-                        <li><i>._profile</i> (Algumas distros)</li>
-                        <li><i>._login</i></li>
-                        <li><i>._logout</i></li>
-                    </ol>
-                    <p>Voltar ao padrão, utiliza-se o comando <b>source</b>, como <i>source /etc/profile</i>.</p>
-                    <h5>Arquivos de exibição de mensagens:</h5>
-                    <p>Responsáveis por armazenar as mensagens padrão que o Linux traz consigo.</p>
-                    <ol>
-                        <li><i>/etc/issue:</i> Armazena mensagens antes do login do sistema</li>
-                        <li><i>/etc/motd:</i> Armazena mensagens após o login do sistema</li>
-                        <li><i>/etc/issue.net:</i> Armazena mensagens via rede, logins remotos</li>
-                        <li><i>~/.bash_history:</i> Armazena histórico dos comandos</li>
-                    </ol>
                 </div>
             </div>
             <br>
