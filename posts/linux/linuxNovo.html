@@ -129,7 +129,7 @@
                         <li><b>Root</b>: Partição raíz, onde ficará o sistema, tipo primária journaling EXT4 (ou BTRFS), com label <i>/</i>, preenchendo com o restante do espaço livre.
                             <ul>
                                 <li><span class="text-muted">Opcional</span> (Partição <b>home</b> separada): Partição onde ficarão os arquivos dos usuários (documentos, imagens, vídeos, etc), do tipo primária journaling EXT4, com label <i>/home</i>, preenchendo com o espaço livre restante (Neste caso, 40% do espaço livre restante será de home, e os demais 60% será de root);</li>
-                                <li><span class="text-muted">Opcional</span> (<b>criptografa</b>): Pode-se criptografar a participação root com o LUKS.</li>
+                                <li><span class="text-muted">Opcional</span> (<b>criptografa</b>): Pode-se criptografar a participação root com o LUKS (Linux Unified Key Setup-on-disk-format).</li>
                             </ul>
                         </li>
                     </ul>
@@ -265,6 +265,19 @@
                 </div>
             </div>
 
+            <div class="card mb-4">
+                <h4 class="card-header">Rede</h4>
+                <div class="card-body">
+                    <h5>Componentes de rede:</h5>
+                    <ul>
+                        <li><b>eth</b> (eth0, eth1, eth2...): Ethernet, placa de rede cabeada do dispositivo;</li>
+                        <li><b>wlo</b> (wlo0, wlo1, wlo2...), <b>wlan</b> (wlan0, wlan1, wlan2...): Wlo é wireless network interface (NIC). Wireless-LAN (Local Area Network), plca de wifi do dispositivo;</li>
+                        <li><b>ra</b> (ra0, ra1, ra2...): Placa de rede com chipset Ralink;</li>
+                        <li><b>lo</b>: Loopback, interface de rede virtual do dispositivo para conexões TCP/IP.</li>
+                    </ul>
+                    <p>Entre os comandos de rede, tem-se <b>route</b> (<span class="text-muted">route -n</span>) para visualizar e manipular tabela de roteamento IP (inet) e gateway. O <b>ifconfig</b> e <b>iwconfig</b> para informações dos componentes de rede do dispositivo, <b>ip a</b>, <b>ip r</b> e <b>nmcli</b> são similares a ambos. <b>ip addr show</b> mostra IP do dispositivo. <b>netstat</b> ou <b>ss</b> mostra todas conexões de entrada e saída de rede, tabelas de roteamento e estatísticas do protocolo de rede. '<i>netstat -atunp</i>' mostra com detalhes de PID, TCP e UDP. <b>ping</b> mostra tempo de envio/recebimento de resposta em rede (Ex: '<span class="text-muted">ping -c 4 192.168.1.2</span>' (Ping para esse IPV4 limitado em 4 iterações). Ex2: '<span class="text-muted">ping uol.com.br</span>' (Ping no site do uol)). <b>host</b> (<i>host -opcao idHost</i>) localiza informações de rede como, por exemplo, IPV4 (opção -4) ou IPV6 (opção -6) de determinado host. As portas de rede encontram-se em '/etc/services'. Entre os firewalls Linux, tem-se <b>iptables</b>, juntamente com <b>UFW</b> (Ubuntu firewall), que possui o GUFW como serviço GUI para gerenciamento. MacAddress é o id da placa física, geralmente identificado como link/ether, HWaddr ou HW, seguindo padrão 'xx:xx:xx:xx:xx:xx' (Ex: <span class="text-muted">5c:cd:5b:74:ae:32</span>). O MacAddress da placa wifi do dispositivo geralmente encontra-se em wlan, identificado como 'HWaddr' ou 'ether'. Também pode ser encontrado com <b>inxi -Nn</b> na opção state 'up'.</p>
+                </div>
+            </div>
 
 
 
@@ -1057,27 +1070,6 @@ unalias j (descarta o alias)
                         <li><i>/etc/issue.net:</i> Armazena mensagens via rede, logins remotos</li>
                         <li><i>~/.bash_history:</i> Armazena histórico dos comandos</li>
                     </ol>
-                </div>
-            </div>
-            <br>
-
-            <div class="card">
-                <h4 class="card-header">29. Rede</h4>
-                <div class="card-body">
-                    <p>Muitas distros Linux possuem sincronização automática com contas populares, como documentos do Google Drive e eventos do Hotmail e Facebook. Entre os comandos no terminal para gerenciamento de redes, tem-se o <b>route</b>, como o <i>route -n</i>, usado para visualizar e manipular a tabela de roteamento IP (inet) e Gateway. O comando <b>ifconfig</b> é usado para gestão de informações sobre parâmetros TCP/IP, como endereçamento IP e Mac Address (Geralmente listado como <i>HWaddr</i>, no campo designado eth1 ou wlan0), geralmente dedicado à redes com fio. O ifconfig fora descontinuado, mas ainda encontra-se ativo. Atualmente tem-se os comandos <b>ip a</b>, <b>ip r</b>. Os comandos <b>iwconfig</b> e <b>nmcli</b> possui o mesmo padrão, sendo dedicado à redes sem fio. O comando <b>ip addr show</b> mostra o endereço IP da máquina. O comando <b>netstat</b>, descontinuado (Atual é o <b>ss</b>), mostra todas as conexões de entrada e saída de rede, tabelas de roteamento e estatísticas do protocolo de rede. <i>netstat -atunp</i> mostra com detalhes de PID, TCP e UDP. No Mint, se quiser achar o Mac Address, basta digitar o comando <b>inxi -Nn</b>, na opção em que o state é "up", esse é o MacAddress de sua máquina. Outro comando é o <b>ping</b>, que mostra o tempo de envio/recebimento de resposta em rede, verificando assim a conectividade entre 2 máquinas (Ex: <i>ping -c 4 192.168.1.2</i> (Ping para esse IPV4 limitado em 4 iterações), Ex2: <i>ping uol.com.br</i> (Ping no site do uol)). Por fim, o comando <b>host -opcao host</b> é um comando com função de localizar informações de rede, como, por exemplo, determinado IPV4 (opção -4) ou IPV6 (opção -6) de determinado host (localhost por exemplo). Através do <i>Gateway</i>, permite-se acessar outras redes. Para que tenha-se acesso à internet, é necessário conhecer o Gateway. É através do Gateway que permite-se a realização de ping para redes externas. <i>Broadcast</i> é a operação onde uma máquina 'fala' e todas 'ouvem', onde pode-se realizar o envio e recebimento como consequência disso. Os serviços (portas) de rede são encontrados no arquivo <i>/etc/services</i>. Criptografar os dados do SO reforça a segurança em caso de tentativa de acesso. A senha comum pode ser ineficiente, pois os mesmos podem ser acessados, caso o dispositivo de armazenamento seja ativado externamente. A Apple usa o File Vault sob o HFS+, a Microsoft o BitLocker sob o NTFS, e o Linux o <b>LUKS</b> (Linux Unified Key Setup-on-disk-format). Além disso, utilizar firewall e VPN para proteção de dados em rede também é um componente de reforço para a segurança e privacidade. Entre firewalls Linux, o <b>iptables</b> tem destaque, juntamente com o <b>UFW</b> (Uncomplicated Firewall, mais facilitador), que possui o <b>GUFW</b> como serviço GUI para acesso.</p>
-                    <h4>Conceitos (ifconfig):</h4>
-                    <ul>
-                        <li><b>ethX</b>: Placa de rede Ethernet (Cabeada). Ex: <i>eth0</i>, <i>eth1</i>...</li>
-                        <li><b>lo</b>: Interface loopback (Interface de rede virtual que permite que um cliente e um servidor no mesmo host se comuniquem entre si usando a pilha de protocolos TCP/IP)</li>
-                    </ul>
-                    <p>Em placas wireless o nome muda de acordo com o modelo e driver usado:</p>
-                    <ul>
-                        <li><b>wlan0</b> (Wireless-LAN / LAN: Local Area Network): Placa configurada através do ndiswrapper</li>
-                        <li><b>ra0</b>: Placa com chipset Ralink</li>
-                        <li><b>eth1</b>: Placa cabeada ou Placa com chipset Intel</li>
-                    </ul>
-                    <h4>MacAddress:</h4>
-                    <p>Identificador dos componentes físicos de rede do dispositivo (Geralmente link/ether, HWaddr ou HW no Linux), seguindo padrão 'xx:xx:xx:xx:xx:xx', pode ser encontrado através de comando personalizado, com utilização de expressão regular:<br>ifconfig nomePlaca | grep -Ewo '([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2}'<br><u>Ex</u>: <i>ifconfig wlan0 | grep -Ewo '([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2}'</i><br><u>Ex 2</u>: <i>ip link</i> (Mostrará, em wlan0 ou wlo1, 'link/ether 5z:ca:5g:36:ah:87')</p>
                 </div>
             </div>
             <br>
