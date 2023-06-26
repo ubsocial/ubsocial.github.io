@@ -717,10 +717,10 @@ Categories=Categoria do binário
 <small><pre><code>
 #!/bin/bash
 x=1
-while [$x -le 3];
+while [ $x -le 3 ];
 do
     mkdir dir$x
-    echo "diretório $x criado"
+    echo "dir$x criado"
     ((x=$x+1))
 done
 echo "Concluído!"
@@ -728,14 +728,114 @@ echo "Concluído!"
                 </div>
             </div>
 
+            <div class="card mb-4">
+                <h4 class="card-header">Localização</h4>
+                <div class="card-body">
+                    <p>Encontrar arquivos no sistema. Comando 'locate' realiza pesquisa simples, utilizando base de dados (updatedb) ao invés de recursividade nas buscas (Ex: '<span class="text-muted">locate howto</span>'). Comando 'find' utiliza recursividade nas buscas.<br>Sintaxe: <span class="text-danger">find [diretório] [opção/expressão]</span></p>
+<small><pre><code>
+<u><b>Exemplos de buscas</b></u>:
+<b>Arquivos com 'teste' no diretório atual</b>: find teste
+<b>Arquivos com final '.conf' no diretório '/etc'</b>: find /etc -name *.conf
+<b>Limitar recursividade em diretórios</b>: find /etc -maxdepth 1 -name *.conf (apenas 1 diretório, ou seja, o atual)
+<b>Arquivos acessados minutos atrás</b>: find / -amin -5 (últimos 5min)
+<b>Arquivos acessados dias atrás</b>: find / -atime 10 (acessados 10 dias atrás)
+<b>Arquivos por id do usuário</b>: find / -uid 1000 (arquivos do usuário 1000)
+<b>Arquivos por nome do usuário</b>: find / -user root (arquivos do root)
+<b>Arquivos por permissão</b>: find / -perm 644 (arquivos de permissão 644)
+<b>Arquivos por tamanho</b>: find / -size +50M (arquivos com mais de 50 megabytes)
+<b>Arquivos por tipo (bloco, caractere, diretório...)</b>: find /dev -type b (arquivos de bloco)
+<b>Arquivos regulares vazios</b>: find / -type f -empty
+<b>Arquivos executando nos últimos minutos</b>: find / -cmin -60 (últimos 60min)
+<b>Diretórios modificados nos últimos dias</b>: find / -mtime 50 (últimos 50 dias)
+<b>Diretórios modificados entre datas</b>: find / -mtyme +50 -mtyme -100 (entre últimos 50 e 100 dias)
+</small></pre></code>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <h4 class="card-header">Ajuda</h4>
+                <div class="card-body">
+                    <p>Conteúdo aqui</p>
+                </div>
+            </div>
+
+
+
+
+
+            <div class="card"><!--PEGAR DAQUI-->
+                <h4 class="card-header">26. Ajuda</h4>
+                <div class="card-body">
+                    <p>O Linux possui excelente mecanismo de ajuda e documentação sobre serviços e comandos relacionados. Geralmente a ajuda pode ser provida por meio dos manuais, as <b>Man Pages</b>. Para atualizar o banco de dados de pesquisa nas distros Debian, basta digitar o comando <i>catman</i>. Basicamente, existem 3 formas de ajuda/documentação:</p>
+                    <ul>
+                        <li><b>How-to</b>: Também conhecido como <b>Cookbook</b>, são documentos que focam uma necessidade específica, como montar um firewall, instalar uma webcam, configurar placas de som, etc. Podem ser encontrados nos formatos Html, Markdown, entre outros. Disponíveis em <i>/usr/share/doc</i>. Ex: How-to do comando iptables: <i>cd /usr/share/doc/iptables</i></li>
+                        <li><b>Manual</b>: Informam ajuda de forma geral, mostrando todas as possíveis funcionalidades do software, descartando meios de passo a passo ou lista de afazeres.</li>
+                        <li><b>Documentação</b>: Com a documentação de um projeto é possível entender absolutamente tudo sobre o mesmo, ou seja, essa documentação deve mostrar todas as partes relacionadas ao projeto. Geralmente os How-to's e Manuais de determinado projeto estão indiretamente acoplados à documentação. A documentação geralmente é encontrada no site oficial do projeto.</li>
+                    </ul>
+                    <h4>Comando Help:</h4>
+                    <p>Providencia ajuda, em manual, para comandos internos do próprio interpretador de comandos. Também muito útil para identificar se um determinado comando é interno ou não: Se o comando responder ao <i>help</i>, então é interno. Senão, é externo, precisando informar o parâmetro <i>--help</i>.</p>
+                    <ul>
+                        <li><b>help</b>: Ajuda geral de todos comandos do sistema</li>
+                        <li><b>help type</b>: Ajuda para o comando <i>type</i></li>
+                        <li><b>cp --help</b>: Ajuda para o comando externo <i>cp</i></li>
+                    </ul>
+                    <h4>Comando Apropos:</h4>
+                    <p>Providencia ajuda em situação específica, como para que lembrar o nome do comando através de uma palavra/termo chave. Como por exemplo, usuário quer compactar arquivos, mas não sabe. Para isso, basta digitar <i>apropos compress</i>, que todos os comandos de compress serão listados. Pode-se utilizar várias palavras para busca, como por exemplo <i>apropos email address</i>. O comando alternativo do apropos é o <i>man -k termoPesquisa</i>. Abaixo, alguns parâmetros do comando apropos.</p>
+                    <ul>
+                        <li><b>-d</b>: Exibir mensagens de depuração</li>
+                        <li><b>-v</b>: Verbose, exibir mensagens de avisos detalhadas</li>
+                        <li><b>-e</b> ou <b>--exact</b>: Para correspondência de pesquisa exata</li>
+                        <li><b>-w</b> ou <b>--wildcard</b>: Quando termo de pesquisa contém caracteres curingas</li>
+                        <li><b>-a</b> ou <b>-and</b>: Quando há vários termos pesquisados e os mesmos correspondem</li>
+                        <li><b>-l</b> ou <b>--long</b>: Resultado de saída não word wrap</li>
+                        <li><b>-C</b>: Quando não queremos usar o padrão (/ manpath), mas o arquivo de configuração do usuário</li>
+                        <li><b>-L</b>: Definir local para pesquisa</li>
+                        <li><b>-m</b> ou <b>--systems</b>: Usar páginas de manuais de outros sistemas</li>
+                        <li><b>-M</b> ou <b>--manpath</b>: Definir caminho de pesquisa das páginas de manual para PATH em vez do $MANPATH padrão</li>
+                        <li><b>-s</b> ou <b>--sections</b> ou <b>-section</b>: Pesquisar somente em sessões específicas (separadas por <b>:</b>)</li>
+                        <li><b>-r</b> ou <b>--regex</b>: Interpretar cada termo pesquisado como regex</li>
+                    </ul>
+                    <h4>Comando Whatis:</h4>
+                    <p>Diferente do apropos, o whatis é mais específico, buscando referências idênticas ao termo da pesquisa, como por exemplo <i>whatis passwd</i>, ou <i>whatis vim</i>. O comando alternativo do whatis é o <i>man -f termoPesquisa</i>.</p>
+                    <h4>Comando Man:</h4>
+                    <p>O comando man é o mais utilizado para pesquisa de documentações, pois é responsável por trazer os manuais mais completos de cada comando. Nos comandos de pesquisa, geralmente encontra-se o termo com o nº do manual indicado ao lado do mesmo, por exemplo <i>bunzip2(1)</i> refere-se ao man1, ou seja, é um programa ou executável. Os principais manuais são 1, 5 e 8. Sintaxe: <i>man [seção] [comando]</i>. A seção identificada pode alterar o manual do comando, como o passwd é um comando e arquivo de configuração. Então, o <i>man passwd</i> mostrará o man1, mas o <i>man 5 passwd</i> mostrará o man5 do passwd. Os manuais encontram-se em <i>/usr/share/man</i>, onde dentro desse estará cada man com seus respectivos conteúdos.</p>
+                    <ul>
+                        <li><b>man 1</b>: Programas e executáveis disponíveis ao usuário;</li>
+                        <li><b>man 2</b>: Rotinas de sistema Unix e C;</li>
+                        <li><b>man 3</b>: Rotinas de bibliotecas da linguagem C;</li>
+                        <li><b>man 4</b>: Arquivos especiais (dispositivos em <i>/dev</i>);</li>
+                        <li><b>man 5</b>: Arquivos de configuração e convenções;</li>
+                        <li><b>man 6</b>: Games;</li>
+                        <li><b>man 7</b>: Diversos (macros textuais, por exemplo, regex);</li>
+                        <li><b>man 8</b>: Comandos administrativos;</li>
+                        <li><b>man 9</b>: Rotinas internas do kernel.</li>
+                    </ul>
+                    <h4>Comando Info:</h4>
+                    <p>As Info pages são muito similares às Man pages, com a diferença que possuem maiores recursos de navegação. Para pesquisar, basta digitar o comando <i>info [comando]</i>, como por exemplo <i>info vim</i>. Em algumas distros Debian, pode-se utilizar o <b>yelp</b>, que é a forma GUI de pesquisas a manuais do Gnome. Tem-se também o <b>xman</b>, serviço GUI para o comando man.</p>
+                    <h4>Comando Whereis:</h4>
+                    <p>Usado para localizar o binário. Por exemplo, o comando ls é alias ao <i>/bin/ls</i>. Por exemplo, para saber a localização do ifconfig, basta digitar o comando <i>whereis ifconfig</i>. O whereis mostrará, respectivamente, o comando, seu binário (localização) e localização de seu manual. Para identificar somente o binário, basta informar <i>whereis -b termoPesquisa</i>. Para localizar somente a Man page, basta informar <i>whereis -m termoPesquisa</i>. Abaixo, alguns parâmetros do comando whereis.</p>
+                    <ul>
+                        <li><b>-b</b>: Pesquisar somente binários</li>
+                        <li><b>-m</b>: Pesquisar somente por seções manuais</li>
+                        <li><b>-s</b>: Pesquisar somente fontes</li>
+                        <li><b>-u</b>: Pesquisar termos incomuns, como arquivos de origem ou binários</li>
+                        <li><b>-B</b>: Alterar/limitar locais de pesquisa por binários (Comando seguido do diretório)</li>
+                        <li><b>-M</b>: Alterar/limitar locais de pesquisa por seções manuais (Comando seguido do diretório)</li>
+                        <li><b>-S</b>: Alterar/limitar locais de pesquisa por fontes (Comando seguido do diretório)</li>
+                        <li><b>-f</b>: Termina última lista de diretórios e sinaliza início dos nomes dos arquivos. Deve ser usado com opções -B , -M ou -S</li>
+                    </ul>
+                    <h4>Comando Which:</h4>
+                    <p>Assim como o whereis, o which mostrará somente a localização do binário. Por exemplo <i>which ls</i>.</p>
+                </div>
+            </div>
+            <br>
 
 
 
             <!-- O QUE FALTA:
+                - ajuda
                 - nano
                 - vim
-                - localização
-                - ajuda
                 - compactação e empacotamento
                 - pacotes
             -->
@@ -893,99 +993,6 @@ O nano possibilita a abertura de diversos arquivos ao mesmo tempo.
 <b>O</b> - Entrar no modo de inserção em uma linha em branco antes do cursor
 <b>Esc</b> - Sair do modo (Funciona para todos os modos)
 </small></pre></code>
-                </div>
-            </div>
-            <br>
-
-            <div class="card">
-                <h4 class="card-header">25. Localização</h4>
-                <div class="card-body">
-                    <h4>Comando find:</h4>
-                    <p>Utilizado para encontrar arquivos no sistema. Sintaxe: <i>find [diretório] [opção/expressão]</i></p>
-<small><pre><code>
-<b>Procurar arquivos pela 'extensão':</b> find /etc/ -name *.conf
-<b>Limitar recursividade em diretórios:</b> find /etc/ -maxdepth 1 -name *.conf (Apenas 1 diretório, ou seja, o atual)
-<b>Procurar arquivos acessados minutos atrás:</b> find / -amin -5 (Últimos 5min)
-<b>Procurar arquivos acessados dias atrás:</b> find / -atime 10 (Acessados a 10 dias atrás)
-<b>Procurar arquivos por id do usuário:</b> find / -uid 1000 (Arquivos do usuário id 1000)
-<b>Procurar arquivos por nome do usuário:</b> find / -user root (Arquivos do usuário root)
-<b>Procurar arquivos por permissão:</b> find / -perm 644 (Arquivos de permissão 644)
-<b>Procurar arquivos por tamanho:</b> find / -size +50M (Arquivos com mais de 50 megabytes)
-<b>Procurar arquivos por tipo (bloco, caractere, diretório...):</b> find /dev -type b (Arquivos de bloco)
-<b>Procurar arquivos vazios:</b> find / -type f -empty (Arquivos regulares vazios)
-<b>Procurar diretórios modificados nos últimos dias:</b> find / -mtime 50 (Últimos 50 dias)
-<b>Procurar diretórios modificados entre datas:</b> find / -mtyme +50 -mtyme -100 (Entre últimos 50 e 100 dias)
-<b>Procurar arquivos executando nos últimos minutos:</b> find / -cmin -60 (Últimos 60min)
-</small></pre></code>
-                    <h4>Comando locate:</h4>
-                    <p>Também utilizado para pesquisa, de forma mais simples, porém não utiliza recursividade para as buscas, mas sim uma base de dados (<i>updatedb</i>). Algumas distros não possuem este comando. Exemplo: <i>locate howto</i>.</p>
-                </div>
-            </div>
-            <br>
-
-            <div class="card">
-                <h4 class="card-header">26. Ajuda</h4>
-                <div class="card-body">
-                    <p>O Linux possui excelente mecanismo de ajuda e documentação sobre serviços e comandos relacionados. Geralmente a ajuda pode ser provida por meio dos manuais, as <b>Man Pages</b>. Para atualizar o banco de dados de pesquisa nas distros Debian, basta digitar o comando <i>catman</i>. Basicamente, existem 3 formas de ajuda/documentação:</p>
-                    <ul>
-                        <li><b>How-to</b>: Também conhecido como <b>Cookbook</b>, são documentos que focam uma necessidade específica, como montar um firewall, instalar uma webcam, configurar placas de som, etc. Podem ser encontrados nos formatos Html, Markdown, entre outros. Disponíveis em <i>/usr/share/doc</i>. Ex: How-to do comando iptables: <i>cd /usr/share/doc/iptables</i></li>
-                        <li><b>Manual</b>: Informam ajuda de forma geral, mostrando todas as possíveis funcionalidades do software, descartando meios de passo a passo ou lista de afazeres.</li>
-                        <li><b>Documentação</b>: Com a documentação de um projeto é possível entender absolutamente tudo sobre o mesmo, ou seja, essa documentação deve mostrar todas as partes relacionadas ao projeto. Geralmente os How-to's e Manuais de determinado projeto estão indiretamente acoplados à documentação. A documentação geralmente é encontrada no site oficial do projeto.</li>
-                    </ul>
-                    <h4>Comando Help:</h4>
-                    <p>Providencia ajuda, em manual, para comandos internos do próprio interpretador de comandos. Também muito útil para identificar se um determinado comando é interno ou não: Se o comando responder ao <i>help</i>, então é interno. Senão, é externo, precisando informar o parâmetro <i>--help</i>.</p>
-                    <ul>
-                        <li><b>help</b>: Ajuda geral de todos comandos do sistema</li>
-                        <li><b>help type</b>: Ajuda para o comando <i>type</i></li>
-                        <li><b>cp --help</b>: Ajuda para o comando externo <i>cp</i></li>
-                    </ul>
-                    <h4>Comando Apropos:</h4>
-                    <p>Providencia ajuda em situação específica, como para que lembrar o nome do comando através de uma palavra/termo chave. Como por exemplo, usuário quer compactar arquivos, mas não sabe. Para isso, basta digitar <i>apropos compress</i>, que todos os comandos de compress serão listados. Pode-se utilizar várias palavras para busca, como por exemplo <i>apropos email address</i>. O comando alternativo do apropos é o <i>man -k termoPesquisa</i>. Abaixo, alguns parâmetros do comando apropos.</p>
-                    <ul>
-                        <li><b>-d</b>: Exibir mensagens de depuração</li>
-                        <li><b>-v</b>: Verbose, exibir mensagens de avisos detalhadas</li>
-                        <li><b>-e</b> ou <b>--exact</b>: Para correspondência de pesquisa exata</li>
-                        <li><b>-w</b> ou <b>--wildcard</b>: Quando termo de pesquisa contém caracteres curingas</li>
-                        <li><b>-a</b> ou <b>-and</b>: Quando há vários termos pesquisados e os mesmos correspondem</li>
-                        <li><b>-l</b> ou <b>--long</b>: Resultado de saída não word wrap</li>
-                        <li><b>-C</b>: Quando não queremos usar o padrão (/ manpath), mas o arquivo de configuração do usuário</li>
-                        <li><b>-L</b>: Definir local para pesquisa</li>
-                        <li><b>-m</b> ou <b>--systems</b>: Usar páginas de manuais de outros sistemas</li>
-                        <li><b>-M</b> ou <b>--manpath</b>: Definir caminho de pesquisa das páginas de manual para PATH em vez do $MANPATH padrão</li>
-                        <li><b>-s</b> ou <b>--sections</b> ou <b>-section</b>: Pesquisar somente em sessões específicas (separadas por <b>:</b>)</li>
-                        <li><b>-r</b> ou <b>--regex</b>: Interpretar cada termo pesquisado como regex</li>
-                    </ul>
-                    <h4>Comando Whatis:</h4>
-                    <p>Diferente do apropos, o whatis é mais específico, buscando referências idênticas ao termo da pesquisa, como por exemplo <i>whatis passwd</i>, ou <i>whatis vim</i>. O comando alternativo do whatis é o <i>man -f termoPesquisa</i>.</p>
-                    <h4>Comando Man:</h4>
-                    <p>O comando man é o mais utilizado para pesquisa de documentações, pois é responsável por trazer os manuais mais completos de cada comando. Nos comandos de pesquisa, geralmente encontra-se o termo com o nº do manual indicado ao lado do mesmo, por exemplo <i>bunzip2(1)</i> refere-se ao man1, ou seja, é um programa ou executável. Os principais manuais são 1, 5 e 8. Sintaxe: <i>man [seção] [comando]</i>. A seção identificada pode alterar o manual do comando, como o passwd é um comando e arquivo de configuração. Então, o <i>man passwd</i> mostrará o man1, mas o <i>man 5 passwd</i> mostrará o man5 do passwd. Os manuais encontram-se em <i>/usr/share/man</i>, onde dentro desse estará cada man com seus respectivos conteúdos.</p>
-                    <ul>
-                        <li><b>man 1</b>: Programas e executáveis disponíveis ao usuário;</li>
-                        <li><b>man 2</b>: Rotinas de sistema Unix e C;</li>
-                        <li><b>man 3</b>: Rotinas de bibliotecas da linguagem C;</li>
-                        <li><b>man 4</b>: Arquivos especiais (dispositivos em <i>/dev</i>);</li>
-                        <li><b>man 5</b>: Arquivos de configuração e convenções;</li>
-                        <li><b>man 6</b>: Games;</li>
-                        <li><b>man 7</b>: Diversos (macros textuais, por exemplo, regex);</li>
-                        <li><b>man 8</b>: Comandos administrativos;</li>
-                        <li><b>man 9</b>: Rotinas internas do kernel.</li>
-                    </ul>
-                    <h4>Comando Info:</h4>
-                    <p>As Info pages são muito similares às Man pages, com a diferença que possuem maiores recursos de navegação. Para pesquisar, basta digitar o comando <i>info [comando]</i>, como por exemplo <i>info vim</i>. Em algumas distros Debian, pode-se utilizar o <b>yelp</b>, que é a forma GUI de pesquisas a manuais do Gnome. Tem-se também o <b>xman</b>, serviço GUI para o comando man.</p>
-                    <h4>Comando Whereis:</h4>
-                    <p>Usado para localizar o binário. Por exemplo, o comando ls é alias ao <i>/bin/ls</i>. Por exemplo, para saber a localização do ifconfig, basta digitar o comando <i>whereis ifconfig</i>. O whereis mostrará, respectivamente, o comando, seu binário (localização) e localização de seu manual. Para identificar somente o binário, basta informar <i>whereis -b termoPesquisa</i>. Para localizar somente a Man page, basta informar <i>whereis -m termoPesquisa</i>. Abaixo, alguns parâmetros do comando whereis.</p>
-                    <ul>
-                        <li><b>-b</b>: Pesquisar somente binários</li>
-                        <li><b>-m</b>: Pesquisar somente por seções manuais</li>
-                        <li><b>-s</b>: Pesquisar somente fontes</li>
-                        <li><b>-u</b>: Pesquisar termos incomuns, como arquivos de origem ou binários</li>
-                        <li><b>-B</b>: Alterar/limitar locais de pesquisa por binários (Comando seguido do diretório)</li>
-                        <li><b>-M</b>: Alterar/limitar locais de pesquisa por seções manuais (Comando seguido do diretório)</li>
-                        <li><b>-S</b>: Alterar/limitar locais de pesquisa por fontes (Comando seguido do diretório)</li>
-                        <li><b>-f</b>: Termina última lista de diretórios e sinaliza início dos nomes dos arquivos. Deve ser usado com opções -B , -M ou -S</li>
-                    </ul>
-                    <h4>Comando Which:</h4>
-                    <p>Assim como o whereis, o which mostrará somente a localização do binário. Por exemplo <i>which ls</i>.</p>
                 </div>
             </div>
             <br>
