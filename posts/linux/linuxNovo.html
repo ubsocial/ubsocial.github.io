@@ -522,204 +522,162 @@ of: arquivo de saída, a ser gravado
 bs: tamanho do bloco (Kilobyte, Megabyte, Gigabyte, Terabyte, etc.)
 count: contagem de blocos a serem lidos da entrada
 </code></pre></small>
-                </div>
-            </div>
 
-
-
-
-            <!-- O QUE FALTA:
-                - Bash (3,4 e 5)
-                - nano
-                - vim
-                - localização
-                - ajuda
-                - compactação e empacotamento
-                - pacotes
-            -->
-
-            <p class="text-center bg-danger text-light my-5 py-2"><b>FIM</b></p>
-
-
-
-
-            <div class="card">
-                <h4 class="card-header">20. Bash 3: Manipulações</h4>
-                <div class="card-body">
-                    <h4>Caracteres globais (Globbing)</h4>
-                    <p>Também conhecidos como <b>Expressões Regulares</b> (Regular Expressions), Globbing Files, quando caracteres Regex são utilizados em conjunto. Seguem abaixo os metacaracteres.</p>
+                    <h5>Regular expressions:</h5>
+                    <p>Também conhecidos por globbing (file globbing), são caracteres regex utilizados em conjunto.</p>
 <small><pre><code>
-<b>.</b> Referência a qualquer caractere único
-<b>*</b> Referência a conjunto de caracteres (presente no prompt do Windows)
-<b>?</b> Referência a apenas 1 caractere / O padrão anterior é opcional(Quando usado de forma composta) (presente no prompt do Windows)
-<b>[ ]</b> Referência de faixa de caracteres (busca faixas de caracteres, como a até m, u até l)
+<u><b>Metacaracteres</b> (representação)</u>:
+<b>.</b> Qualquer caractere único
+<b>*</b> Conjunto de caracteres
+<b>?</b> Apenas 1 caractere
+<b>[ ]</b> Intervalo de caracteres
 <b>[a-z][0-9]</b> Caracteres de 'a' até 'z', caracteres de '0' até '9'
 <b>[a,z][0,9]</b> Caracteres 'a' e 'z', caracteres '0' e '9'
 <b>[a-z,1,0]</b> Caracteres de 'a' até 'z' ou '1' ou '0'
-<b>[^ ]</b> Referência de faixa de caracteres ausentes
-<b>{ }</b> Referência a padrões de caracteres / Especifique correspondências mínimas, máximas ou exatas do padrão anterior(Quando usado de forma composta)
-<b>x{ab,01}</b> Sequência de caracteres 'xab' ou 'x01'
-<b>x{a-c,f}</b> Sequência de caracteres 'xa', 'xb', 'xc' ou 'xf'
-<b>^</b> Se o 1º caractere do padrão, o padrão deve estar no início da linha para corresponder, senão, apenas um literal ^
-<b>$</b> Se o último caractere do padrão, o padrão deve estar no final da linha para corresponder, senão, apenas um literal $
+<b>[^ ]</b> Faixa de caracteres ausentes
+<b>{ }</b> Padrões de caracteres
+<b>x{ab,01}</b> Caracteres 'xab' ou 'x01'
+<b>x{a-c,f}</b> Caracteres 'xa', 'xb', 'xc' ou 'xf'
+<b>^</b> Se o 1º caractere do padrão, o padrão deve estar no início da linha
+<b>$</b> Se o último caractere do padrão, o padrão deve estar no final da linha
 <b>+</b> 1 ou mais do padrão anterior
 <b>|</b> Alternativa ao <b>-</b> um 'ou' lógico
-<b>( )</b> Criar grupos
-<b>!</b> Exclui caractere da operação
+<b>( )</b> Agrupamento
+<b>!</b> Excluir caractere da operação
 <b>\b</b> Borda de uma palavra
-<b>\n</b> Recupera agrupamento n (n é nº)
-<b>\</b> Acessa caracteres especiais e metacaracteres
-<u>Obs</u>: Há diferença entre maiúsculas e minúsculas
+<b>\n</b> Recuperar n agrupamento (n é um nº)
+<b>\</b> Acessar caracteres especiais e metacaracteres
 
-<b><u>Classificação:</u></b>
-<b>Marcação (Âncoras):</b> ^ $ \b
-<b>Quantificadores:</b> . ? * + {n[,m]} [...] [^...]
-<b>Agrupamento:</b> () \n
-<b>Outros:</b> \
+<u><b>Classificação</b></u>:
+<b>Marcação</b> (âncoras): ^ $ \b
+<b>Quantificadores</b>: . ? * + {n[,m]} [...] [^...]
+<b>Agrupamento</b>: () \n
+<b>Outros</b>: \
 
-<b>Criar 5 arquivos:</b> touch arquivo{1-5}.txt (Gerará 'arquivo1.txt', 'arquivo2.txt'...)
-<b>Listar tudo que começa com 'x':</b> ls /etc/x*
-<b>Listar tudo que tem 'x' no meio:</b> ls /etc/*x*
-<b>Listar tudo que termina com '.conf':</b> ls /etc/*.conf
-<b>Listar tudo que tem 2º caractere 'a', 3º 's', e depois qualquer coisa:</b> ls /etc/?as*
-<b>Listar tudo que tem 'a' na 4ª posição e depois qualquer coisa:</b> ls /etc/???a*
-<b>Listar tudo que começa com 'f', seguido de caractere na faixa entre 'a' e 'i', e depois qualquer coisa:</b> ls /etc/f[a-i]*
-<b>Listar tudo que começa com 'f', seguido de caractere 'a' ou 'c', depois qualquer coisa:</b> ls /etc/f[a,c]*
-<b>Listar tudo que começa com 'f', seguido de caractere entre 'a' até c, ou 'e', depois qualquer coisa:</b> ls /etc/f[a-c,e]*
-<b>Listar tudo que tenha no meio caracteres de 'a' até 'c', depois qualquer coisa:</b> ls /etc/*[a-c]*
-<b>Listar tudo que, por 2º, liste ou 'am' ou(OR) 'ul', depois qualquer coisa:</b> ls /etc/?{am,ul}*
-<b>Listar tudo que, por 2º, liste sequência do 'a' até 'm' ou do 'u' até 'l' (não é necessário o traço '-'), depois qualquer coisa:</b> ls /etc/?[am,ul]*
-<b>Listar tudo que termina com ou 'tab' ou 'swd':</b> ls /etc/*{tab,swd}
-<b>Procurar em 'arquivo.txt' termos que terminam com 'teste':</b> grep '$teste' arquivo.txt
+<u><b>Exemplos</b></u>:
+<b>Criar arquivos</b>: touch arq{1-3}.txt (gerará 'arq1.txt', 'arq2.txt' e 'arq3.txt')
+<b>Listar tudo que começa com 'x'</b>: ls /etc/x*
+<b>Listar tudo que tem 'x' no meio</b>: ls /etc/*x*
+<b>Listar tudo que termina com '.conf'</b>: ls /etc/*.conf
+<b>Listar tudo que termina com, ou 'tab' ou 'swd'</b>: ls /etc/*{tab,swd}
+<b>Listar tudo que tem 2º caractere 'a', 3º 's', e depois qualquer coisa</b>: ls /etc/?as*
+<b>Listar tudo que tem 'a' na 4ª posição, depois qualquer coisa</b>: ls /etc/???a*
+<b>Listar tudo que começa com 'f', seguido de caractere na faixa entre 'a' e 'i', depois qualquer coisa</b>: ls /etc/f[a-i]*
+<b>Listar tudo que começa com 'f', seguido de caractere 'a' ou 'c', depois qualquer coisa</b>: ls /etc/f[a,c]*
+<b>Listar tudo que começa com 'f', seguido de caractere entre 'a' até c, ou 'e', depois qualquer coisa</b>: ls /etc/f[a-c,e]*
+<b>Listar tudo que tenha no meio caracteres de 'a' até 'c', depois qualquer coisa</b>: ls /etc/*[a-c]*
+<b>Listar tudo que, por 2º, listar ou 'am' ou 'ul', depois qualquer coisa</b>: ls /etc/?{am,ul}*
+<b>Listar tudo que, por 2º, listar sequência do 'a' até 'm' ou do 'u' até 'l', depois qualquer coisa</b>: ls /etc/?[am,ul]*
+<b>Procurar em 'arquivo.txt' termos que terminam com 'teste'</b>: grep '$teste' arquivo.txt
 </code></pre></small>
+
+                    <h5>Permissões:</h5>
+                    <p>No Linux, nenhum arquivo externo tem permissão de execução nativamente. Precisa-se aplicá-la com comandos <b>chown</b> e <b>chmod</b>:</p>
+                    <p>Sintaxe: <span class="text-danger">chmod [&lt;conjunto&gt;&lt;ação&gt;&lt;permissões&gt;] arquivo</span></p>
+                    Ordenamento:
+                    <ol>
+                        <span class="text-muted">-rw-r--r-- 1 sysadmin sysadmin 647 Dec 20 2017 hello.sh</span>
+                        <li>(rw-) <b>Proprietário</b>, no caso o primeiro sysadmin;</li>
+                        <li>(r--) <b>Grupo</b>, no caso o segundo sysadmin;</li>
+                        <li>(r--) <b>Outros</b>, no caso outros usuários não proprietários do arquivo.</li>
+                    </ol>
+                    Conjunto:
+                    <ul>
+                        <li>(<b>u</b>) Usuário proprietário do arquivo;</li>
+                        <li>(<b>g</b>) Grupo proprietário do arquivo;</li>
+                        <li>(<b>o</b>) Outros (qualquer usuário que não seja o proprietário do usuário ou membro do proprietário do grupo);</li>
+                        <li>(<b>a</b>) Todos (refere-se ao usuário, grupo e outros)</li>
+                    </ul>
+                    Ação:
+                    <ul>
+                        <li>(<b>+</b>) Adicionar permissão;</li>
+                        <li>(<b>=</b>) Especificar permissão;</li>
+                        <li>(<b>-</b>) Remover permissão.</li>
+                    </ul>
+                    Classificação:
+                    <ul>
+                        <li>Simbólico: Alterar conjunto de permissões de cada vez;
+                            <ul>
+                                <li>(<b>r</b>): Read (leitura);</li>
+                                <li>(<b>w</b>): Write (escrita);</li>
+                                <li>(<b>x</b>): Execution (execução).</li>
+                            </ul>
+                        </li>
+                        <li>Octal: Alterar todos conjuntos de permissões (usuário, grupo e outros).
+                            <ul>
+                                <li>(<b>0</b>) Nenhuma permissão (-rwx);</li>
+                                <li>(<b>1</b>) Execução (x);</li>
+                                <li>(<b>2</b>) Escrita (w);</li>
+                                <li>(<b>3</b>) Escrita e execução (wx);</li>
+                                <li>(<b>4</b>) Leitura (r);</li>
+                                <li>(<b>5</b>) Leitura e execução (rx);</li>
+                                <li>(<b>6</b>) Leitura e escrita (rw);</li>
+                                <li>(<b>7</b>) Leitura, escrita e execução (rwx);</li>
+                                <li>(<b>-R</b>) Recursiva, afeta subdiretórios também (chmod -R 777 /home).</li>
+                            </ul>
+                        </li>
+                    </ul>
+<small><pre><code>
+<u>Exemplos</u>:
+chmod 764 arquivo (proprietário(7) com leitura/escrita/execução, grupo(6) com leitura/escrita, outros(4) com somente leitura)
+chmod 40 arquivo (proprietário não foi modificada, grupo(4) somente leitura, outros(0) nenhuma)
+</code></pre></small>
+
+                    <h5>Lançador:</h5>
+                    <p>Atalho de binário no desktop environment, em arquivo '.desktop'. Lançadores globais (disponíveis para todos usuários) ficam em '/usr/share/applications', lançadores locais (disponíveis somente para usuário da sessão) ficam em '~/.local/share/applications'.</p>
+<small><pre><code>
+<b>Conteúdo de arquivo do lançador</b>:
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Nome do binário
+Comment=Descrição do binário
+Icon=Diretório do ícone do binário
+Exec=Diretório do executável do binário
+Terminal=Abrir shell (true ou false)
+StartupNotify=Notificação quando executado (true ou false)
+Categories=Categoria do binário
+</code></pre></small>
+                    Categorias:
+                    <ul>
+                        <li>Configurações: Settings;</li>
+                        <li>Desenvolvimento: Development; Documentation;</li>
+                        <li>Educação: Education;</li>
+                        <li>Ciência: Science;</li>
+                        <li>Escritório: Office;</li>
+                        <li>Gráficos: Graphics</li>
+                        <li>Rede: Network;</li>
+                        <li>Jogos: Game;</li>
+                        <li>Multimídia: AudioVideo;Audio;Video;AudioVideoEditing;</li>
+                        <li>Sistema: System;</li>
+                        <li>Utilitários: Utility.</li>
+                    </ul>
+
+                    <h5>Processos:</h5>
                 </div>
             </div>
-            <br>
 
-            <div class="card">
-                <h4 class="card-header">21. Bash 4: Aplicações</h4>
-                <div class="card-body">
-                    <h4>Instalar</h4>
-<small><pre><code>
-(Maiores detalhes, ver card completo 'Pacotes')
-<b>Procurar pacotes apt para instalação:</b> sudo apt search
-<b>Pacote com apt:</b> sudo apt install nomearquivo
-<b>Pacote .deb:</b> sudo dpkg -i nomearquivo.deb
-<b>Pacote .run / .bin:</b> sudo chmod +x nomearquivo.run && sudo ./nomearquivo.run / nomearquivo.bin
-<b>Pacote .tar:</b> sudo tar -xvf nomearquivo.tar
-<b>Pacote .tar.gz:</b> sudo tar -zxvf nomearquivo.tar.gz
-<b>Pacote .tar.bz2/.xz:</b> sudo tar -jxvf nomearquivo.tar.bz2
-(Softwares compactados geralmente possuem um arquivo de instruções de instalação, juntamente com um arquivo '.configure', do qual terá de ser executado(./configure), após realizar o 'make' do software, 'make clean' e, após isso, montar o programa 'make install' usando 'sudo')
-(Ver card completo 'Empacotamento e Compactação')
 
-<b>Converter .rpm para .deb (Alien):</b>
-1- Instale Alien: sudo apt install alien
-2- Converta: sudo alien &lt;opção&gt; arquivo.rpm
-Opções (opcionais):
-to-deb -> Converte arquivo para .deb
-to-rpm -> Converte arquivo para .rpm
-to-tgz -> Converte arquivo para .tgz 
-</code></pre></small>
-                    <h4>Desinstalar / Limpar</h4>
-<small><pre><code>
-<b>Remover 'lixo':</b> sudo apt autoremove (bibliotecas) //ou apt clean (cache)
-<b>Reconstruir dependências faltando/corrompidas:</b> sudo apt --fix-broken install
-<b>Desinstalar somente software:</b> sudo apt remove nomesoftware
-<b>Desinstalar .deb:</b> sudo dpkg --remove nomesoftware
-<b>Desinstalar software e bibliotecas (cuidado!):</b> sudo apt purge nomesoftware //ou sudo apt purge --auto-remove nomesoftware
-</code></pre></small>
-                    <h4>Atualizar</h4>
-<small><pre><code>
-<b>Atualizar bibliotecas:</b> sudo apt update
-<b>Atualizar programas:</b> sudo apt upgrade
-<b>Atualizar bibliotecas e programas(comando único):</b> sudo apt update && sudo apt upgrade
-<b>Atualizar distro e programas:</b> sudo apt dist-upgrade / sudo apt full-upgrade
-</code></pre></small>
-                </div>
-            </div>
-            <br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             <div class="card">
                 <h4 class="card-header">22. Bash 5: Gestão</h4>
                 <div class="card-body">
-                    <h4>Permissões de acesso (chmod)</h4>
-                    <p>De forma nativa, no Linux nada pode ser executado por padrão. Precisa-se aplicar permissão para tal.</p>
-<small><pre><code>
-<b>Exemplo:</b> -rw-r--r-- 1 sysadmin sysadmin 647 Dec 20 2017 hello.sh
-<b>Ordenação:</b>
-1. (<b>rw-</b>) <b>Proprietário</b>, no caso o primeiro sysadmin
-2. (<b>r--</b>) <b>Grupo</b>, no caso o segundo sysadmin
-3. (<b>r--</b>) <b>Outros</b>, no caso outros usuários não proprietários do arquivo
-
-<b>Sintaxe:</b> <i>chmod [&lt;conjunto&gt;&lt;ação&gt;&lt;permissões&gt;] arquivo</i>
-
-<u><b>Conjunto:</b></u>
-<b>u</b> - User/Usuário (O usuário que possui o arquivo)
-<b>g</b> - Group/Grupo (O grupo que possui o arquivo)
-<b>o</b> - Others/Outros (Qualquer pessoa que não seja o proprietário do usuário ou membro do proprietário do grupo)
-<b>a</b> - All/Todos (Refere-se ao usuário, grupo e outros)
-
-<u><b>Ação:</b></u>
-<b>+</b> - Adicione a permissão, se necessário
-<b>=</b> - Especifique a permissão exata
-<b>-</b> - Remova a permissão, se necessário
-
-<u><b>Permissões:</b></u>
-<b>Simbólico:</b> Representado por letras (Altera um conjunto de permissões de cada vez)
-<b>r</b> - Read (leitura)
-<b>w</b> - Write (gravação/escrita)
-<b>x</b> - Exec (execução)
-<b>Octal:</b> Representado por números (Altera todos os três conjuntos de permissões (usuário, grupo e outros))
-<b>0</b> - Corresponde ao <b>"-rwx"</b> Nenhuma permissão
-<b>1</b> - Corresponde ao <b>"x"</b> Execução
-<b>2</b> - Corresponde ao <b>"w"</b> Escrita
-<b>3</b> - Corresponde ao <b>"wx"</b> Escrita e execução
-<b>4</b> - Corresponde ao <b>"r"</b> Leitura
-<b>5</b> - Corresponde ao <b>"rx"</b> Leitura e execução
-<b>6</b> - Corresponde ao <b>"rw"</b>  Leitura e escrita
-<b>7</b> - Corresponde ao <b>"rwx"</b> Leitura, escrita e execução (Cuidado!)
-<b>-R</b> - Permissão recursiva (afeta todos arquivo e subpastas) à listada. (Ex: sudo chmod -R 777 arquivo)
-
-<u>Ex1</u>: sudo chmod 764 teste (Da direita pra esquerda, permissão à <b>outros usuários(4)</b> com somente leitura, <b>grupo(6)</b> com leitura e gravação, e <b>dono(7)</b> com leitura, gravação e execução)
-<u>Ex2</u>: sudo chmod 40 teste (Da direita pra esquerda, permissão à outros usuários(0) nenhuma, grupo(4) somente leitura e dono não foi modificada)
-</code></pre></small>
-                    <h4>Criar lançador (atalho)</h4>
-<small><pre><code>
-<b>Conteúdo do arquivo do lançador (nomedoprograma.desktop)</b>
-[Desktop Entry]
-Type=Application
-Version=1.0
-Name=Nome do aplicativo
-Comment=Uma breve descrição do aplicativo
-Icon=/endereço/do/ícone/icon.png do aplicativo
-Exec=/endereço/do/aplicativo/executável do aplicativo
-Terminal=false
-StartupNotify=false
-Categories=Network;
-
-<b>Criar Lançador</b>
-Crie o diretório dos lançadores locais: mkdir ~/.local/share/applications/
-Altere nomedoprograma para o nome do seu aplicativo: nano ~/.local/share/applications/nomedoprograma.desktop
-Cole as informações do lançador, similares à acima, no editor
-Com o lançador pronto, salve teclando Ctrl + x tecle 's'ou'y' e tecle 'Enter' para fechar.
-
-<b>Acessar Lançadores</b>
-Lançadores globais: ls /usr/share/applications
-Lançadores locais: ls ~/.local/share/applications
-
-<u><b>Categorias de Lançadores:</b></u>
-<b>Configurações:</b> Categories=Settings;
-<b>Desenvolvimento:</b> Categories=Development;Documentation;
-<b>Educação:</b> Categories=Education;
-<b>Ciências:</b> Categories=Science;
-<b>Escritório:</b> Categories=Office;
-<b>Gráficos:</b> Categories=Graphics;
-<b>Internet:</b> Categories=Network;
-<b>Jogos:</b> Categories=Game;
-<b>Multimídia:</b> Categories=AudioVideo;Audio;Video;AudioVideoEditing;
-<b>Sistema:</b> Categories=System;
-<b>Utilitários:</b> Categories=Utility;
-</code></pre></small>
                     <h4>Processos</h4>
                     <p>Todos processos possuem um <b>PID</b> (Process Identification) e, muitas vezes também, um <b>PPID</b> (PID pai do processo. O ID do processo que iniciou este processo específico), com prioridade de execução, que vai do -20 (Máxima) ao 19 (Mínima). O root possui poder de alterar a prioridade. Em sistemas Unix-like, o gerenciamento de processos segue modelo padrão POSIX. Processos são a base do SO, controlados pelo Kernel. Podem ser um programa/comando que, ao ser executado, passa a consumir determinados recursos do sistema e, com isso, de hardware. Todo processo possui ciclo de vida. Por padrão, processos criados pelo root possuem prioridade 0 (Padrão). Processos criados pelo usuário comum possuem prioridade 10 (Baixa). Geralmente, os processos em execução criam seus respectivos diretórios, nomeados por PID, em <i>/proc</i>. Outros termos relevantes são o <b>tty</b> (Nome do terminal virtual do processo), <b>TIME</b> (Total de tempo usado pelo processador no processo) e <b>CMD</b> (Comando que iniciou o processo). Linux não se preocupa em gerenciar coisas através de nomes, mas sim por nºs identificadores. Por exemplo, o usuário fulano é gerenciado pelo Linux através de seu ID, não pelo seu nome. O mesmo vale para o gerenciamento de processos e afins. Todo processo possui <i>estado</i>, <i>nº de identificação</i>, <i>recursos</i> e <i>proprietário</i>. Com relação à sistemas de inicializações no Linux, tem-se o <i>systemd</i> e <i>systemctl</i>, que gerenciam a inicialização do sistema, sendo personalizáveis. Após instalação de pacotes, geralmente é necessário habilitar e iniciar o processo (service) do mesmo (Exemplo MongoDB: <i>sudo systemctl start mongod && sudo systemctl enable mongod</i> ou simplesmente <i>sudo systemctl enable --now mongod</i>). A prioridade padrão (Priority - PRI/PR), diferente de Nice (NI), é definida automaticamente no escalonamento definido pelo Kernel. Processos em real time (Normalmente internos do kernel) têm prioridade 1 a 99. Processos convencionais (Normais) têm prioridade de 100 (maior) até 139 (menor), sendo 120 (padrão) e rt (real time). Para abrir o gerenciador padrão de processos da distro tem-se o atalho <i>Ctrl+Alt+Del</i>.</p>
                     <ul>
@@ -774,6 +732,39 @@ echo "Concluído!"
                 </div>
             </div>
             <br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <!-- O QUE FALTA:
+                - Bash (5)
+                - nano
+                - vim
+                - localização
+                - ajuda
+                - compactação e empacotamento
+                - pacotes
+            -->
+
+            <p class="text-center bg-danger text-light my-5 py-2"><b>FIM</b></p>
+
+
+
+
+
+
+
 
             <div class="card">
                 <h4 class="card-header">23. Nano editor</h4>
