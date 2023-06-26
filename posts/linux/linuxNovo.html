@@ -755,6 +755,60 @@ echo "Concluído!"
             <div class="card mb-4">
                 <h4 class="card-header">Ajuda</h4>
                 <div class="card-body">
+                    <ul>
+                        <li><b>how-to</b> (cookbook): Documentos, disponíveis em '/usr/share/doc', focados em necessidade específica, como montar um firewall. Possuem formatos HTML, Markdown, entre outros (Ex: how-to do iptables estão em '/usr/share/doc/iptables');</li>
+                        <li><b>man page</b>: Manuais de ajuda geral, via comando 'man'. Há o termo com o nº do manual indicado ('gzip(1)' é o man1 do gzip). Sintaxe: <span class="text-danger">man [sessão] [comando]</span>. Sessão pode alterar manual do comando (Ex: 'man passwd' é man1 do comando passwd, 'man 5 passwd' é man5 do arquivo de configuração passwd). Comando 'catman' atualiza a base de dados dos manuais. Manuais estão em '/usr/share/man'. Comandos <b>yelp</b> e <b>xman</b> são ferramentas GUI para tal;
+                            <ul>
+                                <li>man 1: Binários e executáveis;</li>
+                                <li>man 2: Rotinas do sistema Linux e linguagem C;</li>
+                                <li>man 3: Rotinas e libraries da linguagem C;</li>
+                                <li>man 4: Arquivos especiais (dispositivos em '/dev');</li>
+                                <li>man 5: Arquivos de configurações e convenções;</li>
+                                <li>man 6: Games;</li>
+                                <li>man 7: Diversos (macros textuais, por exemplo, regex);</li>
+                                <li>man 8: Super binários;</li>
+                                <li>man 9: Rotinas internas do kernel.</li>
+                            </ul>
+                        </li>
+                        <li><b>help</b>: Providencia manuais de ajuda específicos para binários internos (Ex: 'help type' ajuda para comando type). Binários externos são executados com '--help' (Ex: 'cd --help');</li>
+                        <li><b>info</b>: Info pages são similares às man pages, possuindo mais recursos de navegação. Sintaxe: <span class="text-danger">info [termo]</span> (Ex: 'info vim');</li>
+                        <li><b>whatis</b>: Busca por referências idênticas (Ex: 'whatis passwd'). Comando '<span class="text-muted">man -f termo</span>' é similar;</li>
+                        <li><b>which</b>: Mostra localização do binário (Ex: 'which ls');</li>
+                        <li><b>apropos</b>: Busca por referências similares (Ex: 'apropos email address'). Comando '<span class="text-muted">man -k termo</span>' é similar;
+                            <ul>
+                                <li>(<b>-d</b>): Exibir mensagens de depuração;</li>
+                                <li>(<b>-v</b>): Verbose, exibir detalhes do andamento da pesquisa;</li>
+                                <li>(<b>-e</b> ou <b>--exact</b>): Busca por referência idêntica;</li>
+                                <li>(<b>-w</b> ou <b>--wildcard</b>): Busca com expressões regulares;</li>
+                                <li>(<b>-a</b> ou <b>--and</b>): Busca concatenada de 2 ou mais termos que se correspondam;</li>
+                                <li>(<b>-l</b> ou <b>--long</b>): Resultado de saída sem quebra de linha;</li>
+                                <li>(<b>-C</b>): Dispensar padrão (/ manpath), trocando-o por arquivo de configuração personalizado;</li>
+                                <li>(<b>-L</b>): Definir diretório da busca;</li>
+                                <li>(<b>-m</b> ou <b>--systems</b>): Usar man pages externas;</li>
+                                <li>(<b>-M</b> ou <b>--manpath</b>): Definir caminho de busca das man pages para PATH ao invés do $MANPATH padrão;</li>
+                                <li>(<b>-s</b> ou <b>--section</b> ou <b>--sections</b>): Busca em sessões específica (separadas por '<b>:</b>');</li>
+                                <li>(<b>-r</b> ou <b>--regex</b>): Interpretar termo pesquisado como regex.</li>
+                            </ul>
+                        </li>
+                        <li><b>whereis</b>: Localizar binário e manual do comando (Ex: 'whereis ls' mostrará '/usr/bin/ls' e '/usr/share/man/man1/ls.1.gz').
+                            <ul>
+                                <li>(<b>-b</b>): Buscar somente localização do binário;</li>
+                                <li>(<b>-m</b>): Somente man pages;</li>
+                                <li>(<b>-s</b>): Somente fontes;</li>
+                                <li>(<b>-u</b>): Buscar termos incomuns, como arquivos de origem ou binários;</li>
+                                <li>(<b>-B</b>): Alterar/limitar locais de pesquisa por binários;</li>
+                                <li>(<b>-M</b>): Alterar/limitar locais de pesquisa por man pages;</li>
+                                <li>(<b>-S</b>): Alterar/limitar locais de pesquisa por fontes;</li>
+                                <li>(<b>-f</b>): Termina última lista de diretórios e sinaliza início dos nomes dos arquivos (deve ser usado com opções -B , -M ou -S).</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <h4 class="card-header">Nano editor</h4>
+                <div class="card-body">
                     <p>Conteúdo aqui</p>
                 </div>
             </div>
@@ -763,93 +817,8 @@ echo "Concluído!"
 
 
 
-            <div class="card"><!--PEGAR DAQUI-->
-                <h4 class="card-header">26. Ajuda</h4>
-                <div class="card-body">
-                    <p>O Linux possui excelente mecanismo de ajuda e documentação sobre serviços e comandos relacionados. Geralmente a ajuda pode ser provida por meio dos manuais, as <b>Man Pages</b>. Para atualizar o banco de dados de pesquisa nas distros Debian, basta digitar o comando <i>catman</i>. Basicamente, existem 3 formas de ajuda/documentação:</p>
-                    <ul>
-                        <li><b>How-to</b>: Também conhecido como <b>Cookbook</b>, são documentos que focam uma necessidade específica, como montar um firewall, instalar uma webcam, configurar placas de som, etc. Podem ser encontrados nos formatos Html, Markdown, entre outros. Disponíveis em <i>/usr/share/doc</i>. Ex: How-to do comando iptables: <i>cd /usr/share/doc/iptables</i></li>
-                        <li><b>Manual</b>: Informam ajuda de forma geral, mostrando todas as possíveis funcionalidades do software, descartando meios de passo a passo ou lista de afazeres.</li>
-                        <li><b>Documentação</b>: Com a documentação de um projeto é possível entender absolutamente tudo sobre o mesmo, ou seja, essa documentação deve mostrar todas as partes relacionadas ao projeto. Geralmente os How-to's e Manuais de determinado projeto estão indiretamente acoplados à documentação. A documentação geralmente é encontrada no site oficial do projeto.</li>
-                    </ul>
-                    <h4>Comando Help:</h4>
-                    <p>Providencia ajuda, em manual, para comandos internos do próprio interpretador de comandos. Também muito útil para identificar se um determinado comando é interno ou não: Se o comando responder ao <i>help</i>, então é interno. Senão, é externo, precisando informar o parâmetro <i>--help</i>.</p>
-                    <ul>
-                        <li><b>help</b>: Ajuda geral de todos comandos do sistema</li>
-                        <li><b>help type</b>: Ajuda para o comando <i>type</i></li>
-                        <li><b>cp --help</b>: Ajuda para o comando externo <i>cp</i></li>
-                    </ul>
-                    <h4>Comando Apropos:</h4>
-                    <p>Providencia ajuda em situação específica, como para que lembrar o nome do comando através de uma palavra/termo chave. Como por exemplo, usuário quer compactar arquivos, mas não sabe. Para isso, basta digitar <i>apropos compress</i>, que todos os comandos de compress serão listados. Pode-se utilizar várias palavras para busca, como por exemplo <i>apropos email address</i>. O comando alternativo do apropos é o <i>man -k termoPesquisa</i>. Abaixo, alguns parâmetros do comando apropos.</p>
-                    <ul>
-                        <li><b>-d</b>: Exibir mensagens de depuração</li>
-                        <li><b>-v</b>: Verbose, exibir mensagens de avisos detalhadas</li>
-                        <li><b>-e</b> ou <b>--exact</b>: Para correspondência de pesquisa exata</li>
-                        <li><b>-w</b> ou <b>--wildcard</b>: Quando termo de pesquisa contém caracteres curingas</li>
-                        <li><b>-a</b> ou <b>-and</b>: Quando há vários termos pesquisados e os mesmos correspondem</li>
-                        <li><b>-l</b> ou <b>--long</b>: Resultado de saída não word wrap</li>
-                        <li><b>-C</b>: Quando não queremos usar o padrão (/ manpath), mas o arquivo de configuração do usuário</li>
-                        <li><b>-L</b>: Definir local para pesquisa</li>
-                        <li><b>-m</b> ou <b>--systems</b>: Usar páginas de manuais de outros sistemas</li>
-                        <li><b>-M</b> ou <b>--manpath</b>: Definir caminho de pesquisa das páginas de manual para PATH em vez do $MANPATH padrão</li>
-                        <li><b>-s</b> ou <b>--sections</b> ou <b>-section</b>: Pesquisar somente em sessões específicas (separadas por <b>:</b>)</li>
-                        <li><b>-r</b> ou <b>--regex</b>: Interpretar cada termo pesquisado como regex</li>
-                    </ul>
-                    <h4>Comando Whatis:</h4>
-                    <p>Diferente do apropos, o whatis é mais específico, buscando referências idênticas ao termo da pesquisa, como por exemplo <i>whatis passwd</i>, ou <i>whatis vim</i>. O comando alternativo do whatis é o <i>man -f termoPesquisa</i>.</p>
-                    <h4>Comando Man:</h4>
-                    <p>O comando man é o mais utilizado para pesquisa de documentações, pois é responsável por trazer os manuais mais completos de cada comando. Nos comandos de pesquisa, geralmente encontra-se o termo com o nº do manual indicado ao lado do mesmo, por exemplo <i>bunzip2(1)</i> refere-se ao man1, ou seja, é um programa ou executável. Os principais manuais são 1, 5 e 8. Sintaxe: <i>man [seção] [comando]</i>. A seção identificada pode alterar o manual do comando, como o passwd é um comando e arquivo de configuração. Então, o <i>man passwd</i> mostrará o man1, mas o <i>man 5 passwd</i> mostrará o man5 do passwd. Os manuais encontram-se em <i>/usr/share/man</i>, onde dentro desse estará cada man com seus respectivos conteúdos.</p>
-                    <ul>
-                        <li><b>man 1</b>: Programas e executáveis disponíveis ao usuário;</li>
-                        <li><b>man 2</b>: Rotinas de sistema Unix e C;</li>
-                        <li><b>man 3</b>: Rotinas de bibliotecas da linguagem C;</li>
-                        <li><b>man 4</b>: Arquivos especiais (dispositivos em <i>/dev</i>);</li>
-                        <li><b>man 5</b>: Arquivos de configuração e convenções;</li>
-                        <li><b>man 6</b>: Games;</li>
-                        <li><b>man 7</b>: Diversos (macros textuais, por exemplo, regex);</li>
-                        <li><b>man 8</b>: Comandos administrativos;</li>
-                        <li><b>man 9</b>: Rotinas internas do kernel.</li>
-                    </ul>
-                    <h4>Comando Info:</h4>
-                    <p>As Info pages são muito similares às Man pages, com a diferença que possuem maiores recursos de navegação. Para pesquisar, basta digitar o comando <i>info [comando]</i>, como por exemplo <i>info vim</i>. Em algumas distros Debian, pode-se utilizar o <b>yelp</b>, que é a forma GUI de pesquisas a manuais do Gnome. Tem-se também o <b>xman</b>, serviço GUI para o comando man.</p>
-                    <h4>Comando Whereis:</h4>
-                    <p>Usado para localizar o binário. Por exemplo, o comando ls é alias ao <i>/bin/ls</i>. Por exemplo, para saber a localização do ifconfig, basta digitar o comando <i>whereis ifconfig</i>. O whereis mostrará, respectivamente, o comando, seu binário (localização) e localização de seu manual. Para identificar somente o binário, basta informar <i>whereis -b termoPesquisa</i>. Para localizar somente a Man page, basta informar <i>whereis -m termoPesquisa</i>. Abaixo, alguns parâmetros do comando whereis.</p>
-                    <ul>
-                        <li><b>-b</b>: Pesquisar somente binários</li>
-                        <li><b>-m</b>: Pesquisar somente por seções manuais</li>
-                        <li><b>-s</b>: Pesquisar somente fontes</li>
-                        <li><b>-u</b>: Pesquisar termos incomuns, como arquivos de origem ou binários</li>
-                        <li><b>-B</b>: Alterar/limitar locais de pesquisa por binários (Comando seguido do diretório)</li>
-                        <li><b>-M</b>: Alterar/limitar locais de pesquisa por seções manuais (Comando seguido do diretório)</li>
-                        <li><b>-S</b>: Alterar/limitar locais de pesquisa por fontes (Comando seguido do diretório)</li>
-                        <li><b>-f</b>: Termina última lista de diretórios e sinaliza início dos nomes dos arquivos. Deve ser usado com opções -B , -M ou -S</li>
-                    </ul>
-                    <h4>Comando Which:</h4>
-                    <p>Assim como o whereis, o which mostrará somente a localização do binário. Por exemplo <i>which ls</i>.</p>
-                </div>
-            </div>
-            <br>
 
-
-
-            <!-- O QUE FALTA:
-                - ajuda
-                - nano
-                - vim
-                - compactação e empacotamento
-                - pacotes
-            -->
-
-            <p class="text-center bg-danger text-light my-5 py-2"><b>FIM</b></p>
-
-
-
-
-
-
-
-
-            <div class="card">
+            <div class="card"><!--PEGAR AQUI-->
                 <h4 class="card-header">23. Nano editor</h4>
                 <div class="card-body">
                     <p>Editor CLI de texto simples padrão do Debian, baseado no Joe. Para alterar o editor de textos padrão, basta informar no comando <i>update-alternatives --config editor</i>. É carregado automaticamente no modo de edição. Para utilizar o editor basta digitar o comando nano, podendo juntamente com o nome do arquivo que deseja criar/editar. Para abrir arquivo somente leitura, basta informar <i>nano -v arquivo</i>. Na legenda <b>^</b> é <i>Ctrl</i> e <b>M</b> é <i>alt</i>. Além dos atalhos típicos, o nano possui outros atalhos:</p>
@@ -882,6 +851,26 @@ O nano possibilita a abertura de diversos arquivos ao mesmo tempo.
                 </div>
             </div>
             <br>
+
+
+
+
+
+            <!-- O QUE FALTA:
+                - nano
+                - vim
+                - compactação e empacotamento
+                - pacotes
+            -->
+
+            <p class="text-center bg-danger text-light my-5 py-2"><b>FIM</b></p>
+
+
+
+
+
+
+
 
             <div class="card">
                 <h4 class="card-header">24. Vim editor</h4>
