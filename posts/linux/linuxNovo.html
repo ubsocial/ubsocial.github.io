@@ -428,8 +428,8 @@ unalias j <span class="text-muted">(descarta alias)</span>
 <b>Ver informações de memória cache em tempo real</b>: sudo slabtop (ctrl+c para sair)
 <b>Ver arquitetura da máquina</b>: arch
 <b>Ver particionamento do disco</b>: lsblk
-<b>Ver espaços das partições</b>: df
-<b>Ver informações sobre uso do disco</b>: du
+<b>Ver espaços das partições</b>: df (-i para mostrar inodes, buracos de memória no hardware de cada partição)
+<b>Ver informações sobre uso do disco</b>: du (du -sh *)
 <b>Ver mensagens do sistema</b>: sudo dmesg
 <b>Ver quantidade de memória livre</b>: free
 <b>Verificar e reparar sistema de arquivos</b>: fsck
@@ -654,6 +654,39 @@ Categories=Categoria do binário
                     </ul>
 
                     <h5>Processos:</h5>
+                    <p>No Linux, o gerenciamento de processos segue padrão POSIX. Processo é um binário que, quando executado, consome recursos do dispositivo. Possui ciclo de vida (stat), time (tempo usado pelo processador no processo), CMD (binário que iniciou o processo), recursos e usuário proprietário. Todo processo é identificado pelo <b>PID</b> (process identification) e, em alguns casos, <b>PPID</b> (parent process identification), com prioridade de execução (nice), do -20 (máxima) ao 19 (mínima) e 0 (padrão). O root possui permissão para alterar prioridades. Processos criados pelo root têm prioridade 0. Processos criados por usuário comum têm prioridade 10 (baixa). Processos em realtime (normalmente internos do kernel) possuem prioridade 1 a 99. Processos convencionais possuem têm prioridade 100 (maior) até 139 (menor), sendo 120 (padrão) e rt (realtime). A prioridade padrão (PRI/PR), diferente da nice (NI), é definida automaticamente no escalonamento definido pelo kernel. Processos em execução possuem seus diretórios em '/proc', nomeados por PID. Processos podem ser inicializados pelos gerenciadores <i>systemctl</i> e <i>systemd</i>. Comando 'top' mostra lista de processos. A gestão do processo ocorre via sinais de kill (comando 'kill -l' mostra todos sinais de kill).</p>
+                    Componentes do processo:
+                    <ul>
+                        <li>Estado (stat);
+                            <ul>
+                                <li>(<b>R</b>) running (em execução, consome recursos);</li>
+                                <li>(<b>T</b>) stopped (parado, não consome recursos);</li>
+                                <li>(<b>S</b> ou <b>D</b>) sleeping (hibernando ou com dificuldades de retornar à execução, não consome recursos);</li>
+                                <li>(<b>Z</b>) zoombie (travado, não executa funções, consome recursos);</li>
+                                <li>(<b>X</b>) finish (finalizado, não consome recursos).</li>
+                            </ul>
+                        </li>
+                        <li>Recursos: Recursos de hardware ou sistema (libraries);
+                            <ul>
+                                <li>(<b>VSZ</b>) virutal size (tamanho virtual);</li>
+                                <li>(<b>RSS</b>) resident set size (memória utilizada);</li>
+                                <li>(<b>SHR</b>) memória compartilhada;</li>
+                                <li>(<b>tty ?</b>) processo daemon (execução independente de tty);</li>
+                                <li>(stat <b>l</b> ou <b>L</b>) processo com recurso bloqueado na memória.</li>
+                            </ul>
+                        </li>
+                        <li>Proprietário: Usuário que gerou o processo, com permissão para modificá-lo. Usuário comum é proprietário somente de seus processos. root é proprietário de todos processos;</li>
+                        <li>Prioridade: Quantidade disponibilizada de recursos fornecidos;
+                            <ul>
+                                <li>(stat <b>&lt;</b> ou <b>N</b>) prioridade menor que normal;</li>
+                                <li>(stat <b>&gt;</b>) prioridade maior que normal;</li>
+                                <li>(stat <b>s</b>) líder da sessão;</li>
+                                <li>(stat <b>+</b>) executando em 1º plano;</li>
+                                <li>(<b>NI</b>) nice/renice, valor de prioridade definido na criação/alteração do processo;</li>
+                            </ul>
+                        </li>
+                        <li>PID, PPID: Identificadores do processo.</li>
+                    </ul>
                 </div>
             </div>
 
@@ -679,42 +712,29 @@ Categories=Categoria do binário
                 <h4 class="card-header">22. Bash 5: Gestão</h4>
                 <div class="card-body">
                     <h4>Processos</h4>
-                    <p>Todos processos possuem um <b>PID</b> (Process Identification) e, muitas vezes também, um <b>PPID</b> (PID pai do processo. O ID do processo que iniciou este processo específico), com prioridade de execução, que vai do -20 (Máxima) ao 19 (Mínima). O root possui poder de alterar a prioridade. Em sistemas Unix-like, o gerenciamento de processos segue modelo padrão POSIX. Processos são a base do SO, controlados pelo Kernel. Podem ser um programa/comando que, ao ser executado, passa a consumir determinados recursos do sistema e, com isso, de hardware. Todo processo possui ciclo de vida. Por padrão, processos criados pelo root possuem prioridade 0 (Padrão). Processos criados pelo usuário comum possuem prioridade 10 (Baixa). Geralmente, os processos em execução criam seus respectivos diretórios, nomeados por PID, em <i>/proc</i>. Outros termos relevantes são o <b>tty</b> (Nome do terminal virtual do processo), <b>TIME</b> (Total de tempo usado pelo processador no processo) e <b>CMD</b> (Comando que iniciou o processo). Linux não se preocupa em gerenciar coisas através de nomes, mas sim por nºs identificadores. Por exemplo, o usuário fulano é gerenciado pelo Linux através de seu ID, não pelo seu nome. O mesmo vale para o gerenciamento de processos e afins. Todo processo possui <i>estado</i>, <i>nº de identificação</i>, <i>recursos</i> e <i>proprietário</i>. Com relação à sistemas de inicializações no Linux, tem-se o <i>systemd</i> e <i>systemctl</i>, que gerenciam a inicialização do sistema, sendo personalizáveis. Após instalação de pacotes, geralmente é necessário habilitar e iniciar o processo (service) do mesmo (Exemplo MongoDB: <i>sudo systemctl start mongod && sudo systemctl enable mongod</i> ou simplesmente <i>sudo systemctl enable --now mongod</i>). A prioridade padrão (Priority - PRI/PR), diferente de Nice (NI), é definida automaticamente no escalonamento definido pelo Kernel. Processos em real time (Normalmente internos do kernel) têm prioridade 1 a 99. Processos convencionais (Normais) têm prioridade de 100 (maior) até 139 (menor), sendo 120 (padrão) e rt (real time). Para abrir o gerenciador padrão de processos da distro tem-se o atalho <i>Ctrl+Alt+Del</i>.</p>
-                    <ul>
-                        <li><b>Estado</b>: <i>running</i> (R, processo em execução, consumindo recursos), <i>stopped</i> (T, processo parado, não consumindo recursos), <i>sleeping</i> (S, D (caso o processo esteja com hibernando ou com dificuldades de retornar à execução), processo hiberna, enquanto não solicitado, não consumindo recursos), <i>zoombie</i> (Z, processo travado, não executando funções, mas consumindo recursos), <i>finish</i> (X, processo finalizado).</li>
-                        <li><b>Recursos</b>: Parte principal do processo, onde que o processo é determinado através do consumo de determinados recursos, dos quais necessitam, envolvendo hardware e/ou sistema (bibliotecas, funções...). Todo processo possui tamanhos <i>VSZ</i> (Virtual size, tamanho virtual), <i>RSS</i> (Resident set size, quantidade de memória utilizada) e <i>SHR</i> (Shared mem size, quantidade de memória compartilhada). Quando o processo possui tty <b>?</b>, quer dizer que o mesmo é daemon, ou seja, onde sua execução é independente de um terminal virtual. Geralmente, ao lado da sigla do stat (estado), tem-se <b>l</b> ou <b>L</b> (processo possui algum recurso bloqueado na memória).</li>
-                        <li><b>Proprietário</b>: Dono do recurso, a quem poderá intervir no processo, alterando estado e gerenciamento como um todo. Usuários comuns serão proprietários somente de seus próprios processos, sendo somente o root com acesso total aos mesmos.</li>
-                        <li><b>Prioridade</b>: Quando o processo está em execução, o mesmo possui prioridades. Tecnicamente, é a quantidade de disponibilidade de recursos fornecidos ao mesmo, com relação aos demais processos. Geralmente, ao lado da sigla do stat (estado), tem-se <b>&lt;</b> ou <b>N</b> (processo atuando com prioridade menor que o normal) ou <b>&gt;</b> (processo atuando com prioridade maior que o normal). Pode-se também possuir <b>s</b> (Processo líder da sessão) e <b>+</b> (processo executando em 1º plano). O <i>NI</i> (nice/renice) é o valor de prioridade definido na criação/alteração do processo, respectivamente.</li>
-                        <li><b>Nº de identificação (PID, PPID)</b>: Cada processo possui um nº único para sua identificação.</li>
-                    </ul>
 <small><pre><code>
-<b>Ver discos:</b> df -h / df -i (Inodes: buracos de memória no hardware de cada partição, arquivos em branco tbm ocupam)
-<b>Discos e uso:</b> du -sh *(Ver tudo no diretório, do maior pro menor)
-<b>Ver processos:</b> ps -ef / ps -aux / ps -r (-r para somente processos em execução)
-<b>Ver processos filtro:</b> ps -ef | grep init(Todos processos 'init') / ps --pid nº ou --ppid nº (Filtro por id)
-<b>Ver processos de forma personalizada:</b> ps ax -o user,pid,ppid,%cpu,%mem,stat,start,command | head -3
-<b>Ver todos processos e processos filhos:</b> ps faux ou ps -e f
-<b>Ver PID do processo:</b> pidof nomeProcesso (Ex: pidof init)
-<b>Processos e detalhes:</b> top (Processos e detalhes da máquina)
-<b>Mostrar dados específicos de processo, com top:</b> top numPID
-<b>Processos de usuário específico:</b> top -u usuario
-<b>Processos de arquivo específico:</b> fuser nomeArquivo
-<b>Processos em tree:</b> pstree
-<b>Mostrar sinais de kill:</b> kill -l
-<b>Encerrar processo:</b> kill -15 numPID (função de sigterm. Somente kill numPID é o mesmo comando, por padrão)
-<b>Matar/Parar processo:</b> kill -9 numPID (função sigstop)
-<b>Continuar processo stopped:</b> kill -18 numPID (função sigcont)
-<b>Criar processo com prioridade:</b> nice -n -10 nomeProcesso (prioridade -10. nice é a prioridade quando o processo é criado)
-<b>Matar todos processos de software:</b> killall nomesoftware | pkill nomesoftware(associa palavra-chave informada)
-<b>Alterar prioridade:</b> renice numPrioridade -p numPid / nice -n numPrioridade nomeProcesso (Nice prioridade vai do -20 à 19, padrão 0)
-<b>Ignorar sinais enviados ao processo:</b> Exemplo tornar processo daemon, para que o terminal possa ser fechado e o processo manter-se em execução, com <i>nohup ping 8.8.8.8 &</i> (função sighup. As saídas do nohup são armazenadas em arquivo <i>nohup.out</i>, para verificá-lo, basta informar <i>tail -f nohup.out</i>).
-
-<b><u>Processos background</u>:</b>
-<b>Parar processo para background:</b> ctrl+z (função sigquit, o mesmo que kill -3)
-<b>Ver processos parados em background:</b> jobs
-<b>Voltar processo parado em background, para foreground:</b> fg idJob
-<b>Alterar estado do processo em background (como stopped para running):</b> bg idJob
-<b>Enviar processos executando, para background:</b> top & (Ex levar o comando top para background)
+<b>Ver processos</b>: 'ps -ef' ou 'ps -aux' ou 'ps -r' (-r para somente running)
+<b>Ver processos, filtro</b>: 'ps -ef | grep init' (todos processos 'init') ou 'ps --pid numPID' ou '--ppid numPPID' (filtro por id)
+<b>Ver processos, forma personalizada</b>: ps ax -o user,pid,ppid,%cpu,%mem,stat,start,command | head -3
+<b>Listar processos e processos filhos</b>: 'ps faux' ou 'ps -e f'
+<b>Ver PID do processo</b>: pidof nomeProcesso (pidof init)
+<b>Mostrar dados de processo</b>: top numPID
+<b>Processos de usuário específico</b>: top -u usuario
+<b>Processos de arquivo específico</b>: fuser nomeArquivo
+<b>Processos em árvore</b>: pstree
+<b>Encerrar processo</b>: kill -15 numPID (função sigterm, similar a 'kill numPID')
+<b>Parar processo</b>: kill -19 numPID (sigstop)
+<b>Matar processo</b>: kill -9 numPID (sigkill)
+<b>Continuar processo stopped</b>: kill -18 numPID (sigcont)
+<b>Criar processo com prioridade</b>: nice -n -10 nomeProcesso (prioridade -10)
+<b>Matar todos processos de software</b>: 'killall nomeSoftware' ou 'pkill nomeSoftware'
+<b>Alterar prioridade</b>: 'renice numPrioridade -p numPID' ou 'nice -n numPrioridade nomeProcesso'
+<b>Ignorar sinais ao processo</b>: Torná-lo daemon, para mantê-lo em execução mesmo com shell fechado, 'nohup ping 8.8.8.8 &' (sighup. As saídas do nohup ficam em 'nohup.out')
+<b>Parar processo para background</b>: ctrl+z (sigquit, similar a 'kill -3')
+<b>Ver processos parados em background</b>: jobs
+<b>Retmoar processo parado em background, para foreground</b>: fg idJob
+<b>Alterar estado do processo em background (como stopped para running)</b>: bg idJob
+<b>Enviar processo running para background</b>: nomeProcesso &
 </code></pre></small>
                     <h4>Shell Script</h4>
                     <p>Script de execução em Shell Linux, seguindo determinada codificação de linguagem Shell, onde os arquivos terminam com extensão '.sh'. Atuam na automatização de tarefas em rotinas Linux, como instalação e personalização de ambientes de desenvolvimento, realizando, por exemplo, criação de arquivos e diretórios com conteúdos personalizados, abertura automatizada e pré-configurada de pacotes, instalação de libraries e modo administrador, entre outros recursos. Para a execução de arquivos shell script, deve-se aplicar permissão de execução (Abaixo permissão pode ser 777). Abaixo, exemplo de shell script (<b>teste.sh</b>), que cria 3 pastas (pasta1, pasta2, pasta3). Para executá-lo, após conceder permissão chmod 777, executar <i>./teste.sh</i> no diretório de criação do arquivo.</p>
