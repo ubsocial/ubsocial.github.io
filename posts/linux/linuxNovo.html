@@ -687,31 +687,6 @@ Categories=Categoria do binário
                         </li>
                         <li>PID, PPID: Identificadores do processo.</li>
                     </ul>
-                </div>
-            </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            <div class="card">
-                <h4 class="card-header">22. Bash 5: Gestão</h4>
-                <div class="card-body">
-                    <h4>Processos</h4>
 <small><pre><code>
 <b>Ver processos</b>: 'ps -ef' ou 'ps -aux' ou 'ps -r' (-r para somente running)
 <b>Ver processos, filtro</b>: 'ps -ef | grep init' (todos processos 'init') ou 'ps --pid numPID' ou '--ppid numPPID' (filtro por id)
@@ -736,39 +711,27 @@ Categories=Categoria do binário
 <b>Alterar estado do processo em background (como stopped para running)</b>: bg idJob
 <b>Enviar processo running para background</b>: nomeProcesso &
 </code></pre></small>
-                    <h4>Shell Script</h4>
-                    <p>Script de execução em Shell Linux, seguindo determinada codificação de linguagem Shell, onde os arquivos terminam com extensão '.sh'. Atuam na automatização de tarefas em rotinas Linux, como instalação e personalização de ambientes de desenvolvimento, realizando, por exemplo, criação de arquivos e diretórios com conteúdos personalizados, abertura automatizada e pré-configurada de pacotes, instalação de libraries e modo administrador, entre outros recursos. Para a execução de arquivos shell script, deve-se aplicar permissão de execução (Abaixo permissão pode ser 777). Abaixo, exemplo de shell script (<b>teste.sh</b>), que cria 3 pastas (pasta1, pasta2, pasta3). Para executá-lo, após conceder permissão chmod 777, executar <i>./teste.sh</i> no diretório de criação do arquivo.</p>
+
+                    <h5>Shell script:</h5>
+                    <p>Script de execução em shell Linux, em linguagem shell, arquivos com terminação '.sh'. Realizam manipulação em rotinas shell Linux. Prévia execução, precisa-se dar permissão de execução ao mesmo. Executa-se com o comando './arquivo.sh'. Exemplo de shell script para criação de 3 diretórios, arquivo 'teste.sh' (criará 'dir1', 'dir2' e 'dir3'):</p>
 <small><pre><code>
 #!/bin/bash
 x=1
-while [ $x -le 3 ];
+while [$x -le 3];
 do
-    mkdir pasta$x
-    echo "pasta $x criada"
+    mkdir dir$x
+    echo "diretório $x criado"
     ((x=$x+1))
 done
 echo "Concluído!"
 </code></pre></small>
                 </div>
             </div>
-            <br>
-
-
-
-
-
-
-
-
-
-
-
 
 
 
 
             <!-- O QUE FALTA:
-                - Bash (5)
                 - nano
                 - vim
                 - localização
