@@ -573,7 +573,7 @@ count: contagem de blocos a serem lidos da entrada
 
                     <h5>Permissões:</h5>
                     <p>No Linux, nenhum arquivo externo tem permissão de execução nativamente. Precisa-se aplicá-la com comandos <b>chown</b> e <b>chmod</b>:</p>
-                    <p>Sintaxe: <span class="text-danger">chmod [&lt;conjunto&gt;&lt;ação&gt;&lt;permissões&gt;] arquivo</span></p>
+                    <p>Sintaxe: <span class="text-danger">chmod &lt;[conjunto][ação][permissões]&gt; &lt;arquivo(s)&gt;</span></p>
                     Ordenamento:
                     <ol>
                         <span class="text-muted">-rw-r--r-- 1 sysadmin sysadmin 647 Dec 20 2017 hello.sh</span>
@@ -757,7 +757,7 @@ echo "Concluído!"
                 <div class="card-body">
                     <ul>
                         <li><b>how-to</b> (cookbook): Documentos, disponíveis em '/usr/share/doc', focados em necessidade específica, como montar um firewall. Possuem formatos HTML, Markdown, entre outros (Ex: how-to do iptables estão em '/usr/share/doc/iptables');</li>
-                        <li><b>man page</b>: Manuais de ajuda geral, via comando 'man'. Há o termo com o nº do manual indicado ('gzip(1)' é o man1 do gzip). Sintaxe: <span class="text-danger">man [sessão] [comando]</span>. Sessão pode alterar manual do comando (Ex: 'man passwd' é man1 do comando passwd, 'man 5 passwd' é man5 do arquivo de configuração passwd). Comando 'catman' atualiza a base de dados dos manuais. Manuais estão em '/usr/share/man'. Comandos <b>yelp</b> e <b>xman</b> são ferramentas GUI para tal;
+                        <li><b>man page</b>: Manuais de ajuda geral, via comando 'man'. Há o termo com o nº do manual indicado ('gzip(1)' é o man1 do gzip). Sintaxe: <span class="text-danger">man [sessão] &lt;termo&gt;</span>. Sessão pode alterar manual do comando (Ex: 'man passwd' é man1 do comando passwd, 'man 5 passwd' é man5 do arquivo de configuração passwd). Comando 'catman' atualiza a base de dados dos manuais. Manuais estão em '/usr/share/man'. Comandos <b>yelp</b> e <b>xman</b> são ferramentas GUI para tal;
                             <ul>
                                 <li>man 1: Binários e executáveis;</li>
                                 <li>man 2: Rotinas do sistema Linux e linguagem C;</li>
@@ -843,7 +843,7 @@ O nano possibilita a abertura de diversos arquivos ao mesmo tempo
             <div class="card mb-4">
                 <h4 class="card-header">Vim editor</h4>
                 <div class="card-body">
-                    <p>Editor CLI, evolução do vi, o vim (vi improved), sendo <b>gVim</b> sua versão GUI e <b>neovim</b> sua evolução CLI. Possui vários modos, sendo iniciado no <i>ex mode</i> (modo de comandos e visualização), onde as teclas têm função de comandos e somente visualização do conteúdo do arquivo. Para criar/editar conteúdo de arquivo, deve-se entrar no <i>insert mode</i> (modo de inserção/edição), com tecla 'i', onde as teclas têm função de texto comum. Tecla 'esc' sai dos modos, retornando ao ex mode. Arquivo de configuração do vim é '/etc/vim/vimrc'. Sintaxe: <span class="text-danger">vim [parâmetro(s)] [arquivo(s)]</span>. O vim aceita expressões regulares para pesquisa, via comando '/temoOUexpressao'. 'enter' para pesquisar. O cursor se moverá para 1ª correspondência que for encontrada. 'n' para seguir às próximas correspondências, 'N' para retroceder. Abaixo, comandos do ex mode:</p>
+                    <p>Editor CLI, evolução do vi, o vim (vi improved), sendo <b>gVim</b> sua versão GUI e <b>neovim</b> sua evolução CLI. Possui vários modos, sendo iniciado no <i>ex mode</i> (modo de comandos e visualização), onde as teclas têm função de comandos e somente visualização do conteúdo do arquivo. Para criar/editar conteúdo de arquivo, deve-se entrar no <i>insert mode</i> (modo de inserção/edição), com tecla 'i', onde as teclas têm função de texto comum. Tecla 'esc' sai dos modos, retornando ao ex mode. Arquivo de configuração do vim é '/etc/vim/vimrc'. Sintaxe: <span class="text-danger">vim [parâmetros] [arquivo(s)]</span>. O vim aceita expressões regulares para pesquisa, via comando '/temoOUexpressao'. 'enter' para pesquisar. O cursor se moverá para 1ª correspondência que for encontrada. 'n' para seguir às próximas correspondências, 'N' para retroceder. Abaixo, comandos do ex mode:</p>
 <small><pre><code>
 <u><b>Atalhos gerais</b></u>:
 (<b>:i</b>) Entrar no modo Inserção
@@ -934,7 +934,7 @@ O nano possibilita a abertura de diversos arquivos ao mesmo tempo
                     <ul>
                         <li><b>Empacotamento</b>: Quando vários arquivos são empacotados em 1 só arquivo;
                             <ul>
-                                <li>tar: tape arquive, empacotador de arquivos, preservando metadados dos arquivos. Sintaxe: <span class="text-danger">tar [parâmetros] &lt;arquivo.tar&gt; &lt;arquivo1&gt; [arquivo2(s)]</span>
+                                <li>tar: tape arquive, empacotador de arquivos, preservando metadados dos arquivos. Sintaxe: <span class="text-danger">tar &lt;parâmetros&gt; &lt;arquivo.tar&gt; &lt;arquivo1&gt; [arquivo2(s)]</span>
                                     <ul>
                                         <li>(<b>-f</b> ou <b>--file</b>): Parâmetro obrigatório. Indicar destino do arquivo.tar resultante;</li>
                                         <li>(<b>-c</b> ou <b>--create</b>): Empacotar arquivo;</li>
@@ -954,7 +954,7 @@ Desempacotar: 'tar -xf arquivoPronto.tar'
                         </li>
                         <li><b>Compactação</b>: Quando arquivo original é compactado em arquivo menor.
                             <ul>
-                                <li>gzip: Compactador de arquivos, tornando-os com final '.gz'. Sintaxe: <span class="text-danger">gzip [parâmetros] &lt;arquivo&gt; [arquivo2(s)]</span>
+                                <li>gzip: Compactador de arquivos, tornando-os com final '.gz'. Sintaxe: <span class="text-danger">gzip &lt;parâmetros&gt; &lt;arquivo&gt; [arquivo2(s)]</span>
                                     <ul>
                                         <li>(<b>-c</b> ou <b>--stdout</b>): Compactar arquivo;</li>
                                         <li>(<b>-d</b> ou <b>--decompress</b>): Descompactar arquivo.gz;</li>
@@ -998,53 +998,114 @@ Desempacotar: 'tar -xf arquivoPronto.tar'
                 </div>
             </div>
 
+            <div class="card mb-4">
+                <h4 class="card-header">Pacotes</h4>
+                <div class="card-body">
+                    <p>Repositórios de pacotes, os PPAs (personal package archive) são servidores que hospedam pacotes, a fim de instalá-los e atualizá-los. Distros possuem repositórios de pacotes, havendo possibilidade de adição de repositórios (mirror) extras, no conteúdo do arquivo (Debian) '/etc/apt/sources.list' ou em arquivo.list em '/etc/apt/sources.list.d'. Pacotes <i>sandbox</i> funcionam isoladamente, sem intervenções ao sistema (similar ao conceito de container). Gerenciador de pacotes de baixo nível tem função de somente organizar o mesmo internamente na distro (extração), conforme abaixo, não possuindo tratamento de dependências. Gerenciador de pacotes de alto nível tem função de baixar (via repositórios descritos) e organizar pacotes internamente na distro, tratando dependências e configurações extras, direcionando os arquivos da seguinte forma:</p>
+                    <ul>
+                        <li>Configuáveis -&gt; /etc</li>
+                        <li>Binários -&gt; /usr/bin</li>
+                        <li>Super binaries -&gt; /usr/sbin</li>
+                        <li>Libraries -&gt; /usr/lib</li>
+                        <li>Processos -&gt; /proc</li>
+                    </ul>
+                    <p>Sintaxe de repositório (Debian): <span class="text-danger">&lt;tipoPacote&gt; &lt;protocoloAcesso:enderecoPacote&gt; &lt;versaoDistro&gt; &lt;classficacaoPacote&gt;</span><br>
+                    Ex1: <span class="text-muted">deb http://ppa.launchpad.net/kdenlive/kdenlive-stable/ubuntu focal main</span><br>
+                    Ex2: <span class="text-muted">deb cdrom:[Linux Mint 20.3 _Una_ - Release amd64 20220104]/ focal contrib main</span></p>
+                    <ul>
+                        <li>Tipo: deb (padrão) e deb-src (aponta ao código fonte);</li>
+                        <li>Protocolo: HTTP e FTP;</li>
+                        <li>Versão da distro: Codinome ou versão (stable, testing...);</li>
+                        <li>Classificação do pacote.
+                            <ul>
+                                <li>main: Apenas pacotes free software;</li>
+                                <li>contrib: Contém dependências de software proprietário;</li>
+                                <li>nonfree: Código fonte fechado.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Existem gerenciadores de pacotes de alto nível externos, como <b>pip</b> (Python), <b>npm</b> (Node.js). Além disso, pacotes do tipo '<b>appimage</b>' funcionam em sandbox, podendo ser executados imediatamente, após baixados, com '<span class="text-muted">./pacote.appimage --install</span>', mediante permissão de execução. Além disso, pode-se instalar pacotes manualmente, fazendo download do arquivo empacotado compactado: Basta extraí-lo e, no diretório extraído, executar o arquivo './configure', após isso realizar o comando '<span class="text-muted">make</span>', seguido do comando '<span class="text-muted">make install</span>', seguido do '<span class="text-muted">make clean</span>'.</p>
+                    
+                    <h5>Debian (.deb):</h5>
+                    <ul>
+                        <li><b>dpkg</b> (Debian package): Gerenciador de pacotes (baixo nível);
+<small><pre><code>
+<b>Instalar pacote</b>: dpkg -i pacote.deb
+<b>Remover pacote</b>: dpkg -r pacote
+<b>Remover pacote e dependências</b> (purge): dpkg -p pacote
+<b>Listar pacotes instalados</b>: dpkg -l
+</code></pre></small>
+                        </li>
+                        <li><b>apt</b> (advanced package tool): Ou 'apt-get', gerenciador de pacotes (alto nível);
+                            <ul>
+                                Sintaxe: <span class="text-danger">apt &lt;operação&gt; [parâmetros] [pacote(s)]</span>
+                                <li>(<b>-d</b>) download-only, realiza apenas download, não instala. Pacotes ficam em '/var/cache/apt/archives';</li>
+                                <li>(<b>-f</b>) fix-broken, corrige erros gerados na operação;</li>
+                                <li>(<b>-s</b>) simulate, simula operação, não realizando-a de fato;</li>
+                                <li>(<b>-u</b>) show upgrade, lista pacotes que serão atualizados;</li>
+                                <li>(<b>-y</b>) assume yes, assume confirmação de instalação diretamente;</li>
+                                <li>(<b>--reinstall</b>) reinstala pacote já instalado.</li>
+                            </ul>
+<small><pre><code>
+<u><b>Operações</b></u>:
+<b>Instalar pacote</b>: apt install pacote (ou 'apt-get install pacote')
+<b>Procurar pacote</b>: apt search termoBusca
+<b>Remover pacote</b>: apt remove pacote
+<b>Remover pacote e dependências</b>: apt purge pacote
+<b>Remover libraries não utilizadas</b>: apt autoremove
+<b>Reinstalar pacote</b>: apt reinstall pacote
+<b>Exibir detalhes de pacote</b>: apt show pacote
+<b>Listar pacotes disponíveis</b>: apt list ('--installed' para listar somente instalados)
+<b>Atualizar lista de repositórios</b> (update): apt update
+<b>Atualizar pacotes</b> (upgrade): apt upgrade
+<b>Atualizar distro</b> (dist-upgrade): apt dist-upgrade
+<b>Atualizar pacotes e distro</b>: apt full-upgrade
+<b>Identificar e corrigir falhas</b>: apt-check
+<b>Esvaziar repositório local</b>: apt-clean (Esvazia '/var/cache/apt/archives')
+</code></pre></small>
+                        </li>
+                        <li><b>aptitude</b>: Gerenciador de pacotes (alto nível) externo, necessário instalar;
+<small><pre><code>
+<b>Entrar</b>: aptitude
+<b>Procurar pacotes</b>: aptitude search pacote
+<b>Informações sobre pacote</b>: aptitude info pacote (ou 'aptitude show pacote')
+<b>Instalar pacote</b>: aptitude install pacote
+<b>Atualizar pacotes</b>: aptitude safe-upgrade
+</code></pre></small>
+                        </li>
+                        <li><b>synaptic</b>: Gerenciador de pacotes (alto nível) GUI para manipulação de repositórios e gestão de pacotes (basicamente um front-end do 'apt').</li>
+                    </ul>
+                </div>
+            </div>
 
 
 
-            <!-- O QUE FALTA:
-                - pacotes
+
+
+            <!--COMANDOS
+            - Gerenciar ppas
+            - Instalar pacotes
+            - Atualizar pacotes (repositórios, pacotes, distro)
+            - Desinstalar pacotes
+
+            Informar que, nas sintaxes, '<>' querem dizer obrigatórios e '[]' opcionais
+
+
+            cURL e wget devem ir para rede
+            <b>cURL</b>, juntamente com suas libraries (libcurl), que interface CLI para transferência de dados via protocolos de rede.
+            <p><b>wget</b><br>Permite baixar arquivos via HTTP, HTTPS e FTP. Ex: <i>wget http://ftp.gnu.org/pub/gnu/wget/wget-1.10.1.tar.gz</i></p>
             -->
 
-            <p class="text-center bg-danger text-light my-5 py-2"><b>FIM</b></p>
 
-
-
-
-
-
-
-            <div class="card">
+            <div class="card"> <!--PEGAR AQUI-->
                 <h4 class="card-header">31. Pacotes</h4>
                 <div class="card-body">
-                    <p>Todo Linux trabalha com repositórios de pacotes, os <b>PPAs</b> (Personal Package Archive - Exemplo adicionar PPA do Kdenlive: <i>sudo add-apt-repository ppa:kdenlive/kdenlive-stable</i>), que são atualizados em conjunto, de forma automática ou com 1 comando via terminal. Repositórios são servidores que hospedam pacotes. Determinados softwares não possuem seus repositórios inseridos por padrão nativos na Distro, portanto precisam ser acrescentados antes da instalação de seu determinado pacote. Pacotes <b>Sandbox</b> não necessitam de libraries do sistema, pois as dependências já são colocadas no momento do empacotamento, trazendo assim mais segurança para o pacote e o SO. Toda Distro possui sua tabela de repositórios, que pode ser manipulada. Repositórios locais, no Brasil, tendem a ser mais rápidos que os demais, como o da Universidade Federal do Paraná por exemplo. Entre os principais gerenciadores de pacotes, tem-se o <b>apt</b> e <b>dpkg</b> para Distros Debian, o <b>yum</b>, <b>dnf</b> e <b>rpm</b> para Distros Red Hat (Red Hat Package Manager), o <b>yast</b>, <b>Entropy</b> (<i>equo</i>) para distros Sabayon, <b>Portage</b> (emerge) para Gentoo, <b>ZYpp</b> para Distros Suse, <b>XBPS</b> (xbps) para distros Void, <b>Eopkg</b> (eopkg) para distros Solus e o <b>pacman</b> e <b>pamac</b> para Distros Arch/Manjaro. Dentro desse assunto, tem-se também o <b>launchpad</b>, plataforma colaborativa, criada pela Canonical, para desenvolvimento e instalação de Software Livre. O comando <i>aptitude</i> serve como ferramenta CLI para gerenciamento de pacotes, em alto nível. <i>aptitude search nomeprograma</i> localiza pacotes disponíveis. O comando <i>aptitude install nomeprograma</i> instala pacotes disponíveis. O comando para procurar pacotes apt é <i>sudo apt search pacotePesquisado</i>. Além disso, tem-se gerenciadores de pacotes externos, como o próprio aptitude e o <b>pip</b>, que faz o gerenciamento de pacotes Python. Externamente, tem-se programas como o <b>cURL</b>, juntamente com suas libraries (libcurl), que interface CLI para transferência de dados via protocolos de rede. Por fim, pode-se instalar pacotes manualmente, fazendo download do arquivo empacotado compactado: Basta extraí-lo e, no diretório extraído, executar o arquivo <i>./configure</i>, após isso realizar o comando <i>make</i>, seguido do comando <i>make install</i>, seguido do <i>make clean</i>. Além disso, pode-se baixar manualmente o repositório do software diretamente do Github/GitLab (Pull), seguindo as especificidades da instalação de tal.</p>
-                    <h4>Funcionamento</h4>
-                    <p>Um gerenciador de pacotes tem a função de organizar os pacotes baixados nos respectivos diretórios da distro. Como por exemplo, ao baixarmos o htop, o gerenciador de pacotes responsável fará a organização de seus pacotes:</p>
-                    <ul>
-                        <li>Confs -&gt; etc/</li>
-                        <li>Comando -&gt; bin/</li>
-                        <li>Bibliotecas -&gt; lib/</li>
-                        <li>Comandos admin -&gt; sbin/</li>
-                        <li>Processo -&gt; proc/</li>
-                    </ul>
-                    <p>Gerenciadores de pacotes de baixo nível, como o <i>dpkg</i>, não possuem tratamento de dependências. Dessa forma, precisa-se instalá-las manualmente a cada instalação dependente/necessária. Gerenciador de pacotes de alto nível, como o <i>apt</i> (Advanced Packaging Tool), farão isso de forma automática, através dos repositórios/mirrors (<i>/etc/apt/sources.list</i> ou diretório <i>/etc/apt/sources.list.d</i>), instalando-as juntamente com a instalação principal. Existem repositórios via url http ou ftp e repositórios locais (cdrom, hd). Caso o arquivo sources.list for destruído, há um arquivo modelo em <i>/usr/share/doc/apt/examples/sources.list</i>. Repositórios seguem a seguinte sintaxe: <i>tipoPacote protocoloAcesso:enderecoPacote versaoDistro sessaoUso</i> (Exemplo1: deb http://ppa.launchpad.net/kdenlive/kdenlive-stable/ubuntu focal main) (Exemplo2: deb cdrom:[Linux Mint 20.3 _Una_ - Release amd64 20220104]/ focal contrib main). Existem 2 tipos de pacotes, <b>deb</b> e <b>deb-src</b> que aponta código fonte. O protocolo de acesso pode ser <b>http</b>, <b>ftp</b>, onde será possível indicar, no endereço do pacote, a indicação local .iso <b>file</b>. A versão da distro pode ser dada por codinome ou pela versão (Stable, Testing...). Por fim, a sessão dos pacotes, que podem ser <b>main</b> (Apenas pacotes free), <b>contrib</b> (Contém dependências de software proprietário) e <b>nonfree</b> (Código fonte fechado). A leitura/atualização dos repositórios pela distro é feito via comando <i>apt update</i>.</p>
                     <h4>Gerenciadores de Alto Nível</h4>
-                    <p><b>apt / aptitude:</b><br>O gerenciador apt utiliza base de dados própria de pacotes. Com relação ao apt-get, o <i>aptitude</i> possui alguns privilégios extra, mas ambos executam exatamente a mesma função. Uma das diferenças é que o aptitude mostra, em pesquisa, os programas já instalados no dispositivo. Mais especificamente, mostrará legenda se o programa encontra-se instalado(i), verbose/versão(v), não instalado(p). Para pesquisar programas, basta informar o comando <i>aptitude search nomePrograma</i>. Algumas distros não possuem aptitude instalado nativamente, mas o mesmo pode ser instalado via apt. Sintaxe: <i>aptitude install -d -f -s -u -y --reinstall</i>.</p>
-                    <ul>
-                        <li><b>-d:</b> Download-only, realiza apenas o download, não instala. Os pacotes ficam disponíveis em <i>/var/cache/apt/archives</i></li>
-                        <li><b>-f:</b> Fix broken, corrige erros gerados na instalação de pacotes</li>
-                        <li><b>-s:</b> Simulate, simula o processo de instalação, não realizando-a de fato</li>
-                        <li><b>-u:</b> Show upgrade, exibe lista de pacotes que serão atualizados</li>
-                        <li><b>-y:</b> Assume yes, assume confirmação da instalação diretamente</li>
-                        <li><b>--reinstall:</b> Reinstala o pacote já instalado</li>
-                    </ul>
-                    <p>No caso do apt, o comando para verificar se o gerenciamento de pacotes está de acordo é <i>apt-get check</i>. Esse comando identifica e corrige falhas da família apt. Para atualizar os pacotes via aptitude, como no apt, basta informar <i>aptitude safe-upgrade</i>, podendo informar as flags acima para complementar, inclusive o mesmo ocorre para o apt. Para ajustar pacotes quebrados em geral, pode-se utilizar <i>apt-get -f install</i>. Para acessar a interface de gerenciamento de pacotes com aptitude, basta informar <i>aptitude</i>. Para esvaziar os arquivos de repositórios, basta informar <i>aptitude clean</i> ou <i>apt-get clean</i>. Para procurar informações sobre pacote, pode utilizar <i>aptitude info nomePacote</i> ou <i>aptitude show nomePacote</i>. Informando <i>apt moo</i>, você verá o 'vaca', informando somente <i>apt</i> ou <i>apt-get</i> você verá que o mesmo terá poderes de 'Super Vaca'.</p>
                     <p><b>YUM</b><br>O YUM é o gerenciador de pacotes pertencente às distros Red Hat (.rpm). É muito similar ao apt. Seu arquivo de configuração está em <i>/var/cache/yum</i>. Seus repositórios ficam em <i>/etc/yum.repos.d</i>. Os repositórios sempre possuem o final <i>.repo</i>. Além dos comandos similares ao apt, o yum possui o <b>providers</b>, que exibe qual o pacote fornecerá o recurso/arquivo determinado, independente se o mesmo estiver instalado ou não. No caso do update, tem-se o comando <i>update --obsoletes</i>, onde há verificação dos pacotes obsoletos. Há o <i>yumdownloader</i>, onde é realizado somente o download do pacote, não instalando o mesmo. Por fim, tem-se a opção <b>--source</b>, no qual copia o código fonte do pacote, ao invés do mesmo ser compilado. Para pesquisas, além dos conhecidos advindos do apt, tem-se também o <i>YUM list</i>, que trará a listagem somente do argumento de busca, sendo mais objetivo que o <i>search</i>. Para a remoção de pacotes, além dos conhecidos no apt, tem-se o <i>YUM erase nomePacote</i>, que também fará a remoção do mesmo.</p>
                     <p><b>dnf</b><br>O dnf (Dandified YUM) é o gerenciador de pacotes, geralmente o principal, utilizado no Fedora e demais distros Red Hat, sendo um fork do YUM, funcionando da mesma maneira que tal. O dnf utiliza Python 3, enquanto o YUM a versão 2.</p>
                     <p><b>zypper</b><br>O ZYpp é o gerenciador de pacotes de distros SUSE, utilizando gerenciamento de pacotes rpm, distribuindo pacotes na mesma. Possui utilização similar ao YUM, com alguns argumentos extras, como <b>list-updates</b>, <b>verify</b>, <b>what-providers</b>, <b>refresh</b>.</p>
-                    <p><b>synaptic</b><br>Gerenciador de pacotes criados por Brasileiros para uso em conjunto com o sistema de empacotamento Codecs, funcionando como, basicamente, um front-end para o apt, que serve para manipulação de repositórios, para baixar instalações de pacotes. Serve mais para atualização de pacotes em geral, assim como até mesmo a Distro em si.</p>
+                    
                     <p><b>snap</b> e <b>flatpack</b><br>Sistemas de empacotamento universal para repositórios. Com algum desses atualizados em qualquer distro, haverá a compatibilidade e simplicidade no processo de instalação, mesmo em Debian e Red Hat. Como Stores GUI para facilitar a instalação, tem-se a <b>Snapstore</b>, <b>Snapcraft</b>, <b>Gnome Software</b>, <b>Flathub</b>, entre outras. Existem Stores de determinadas distros, como no ZorinOS, que combinam os gerenciadores snap e flatpack, onde o usuário pode selecionar a origem de seus pacotes a cada instalação.</p>
-                    <p><b>appimage</b><br>Assim como snap e flatpack, o appimage funciona como um container de aplicações para fácil instalação e compatibilidade nas mais diversas distros Linux. O appimage não requer permissões root para proceder, não precisando instalar o pacote, apenas baixá-lo e sair usando-o. O software AppImageLancher auxilia na instalação GUI de pacotes appimage. A instalação de pacotes, de forma CLI, acontece pelo comando <i>sudo ./nomePacote.appimage --install</i>.</p>
-                    <p><b>wget</b><br>Permite baixar arquivos via HTTP, HTTPS e FTP. Ex: <i>wget http://ftp.gnu.org/pub/gnu/wget/wget-1.10.1.tar.gz</i></p>
                 </div>
             </div>
             <br>
