@@ -1030,7 +1030,7 @@ Desempacotar: 'tar -xf arquivoPronto.tar'
                     <ul>
                         <li><b>dpkg</b> (Debian package): Gerenciador de pacotes (baixo nível);
 <small><pre><code>
-<b>Instalar pacote</b>: dpkg -i pacote.deb
+<b>Instalar pacote</b>: dpkg -i pacote.deb ('-v' para verbose)
 <b>Remover pacote</b>: dpkg -r pacote
 <b>Remover pacote e dependências</b> (purge): dpkg -p pacote
 <b>Listar pacotes instalados</b>: dpkg -l
@@ -1038,7 +1038,7 @@ Desempacotar: 'tar -xf arquivoPronto.tar'
                         </li>
                         <li><b>apt</b> (advanced package tool): Ou 'apt-get', gerenciador de pacotes (alto nível);
                             <ul>
-                                Sintaxe: <span class="text-danger">apt &lt;operação&gt; [parâmetros] [pacote(s)]</span>
+                                Sintaxe: <span class="text-danger">apt [parâmetros] &lt;operação&gt; [pacote(s)]</span>
                                 <li>(<b>-d</b>) download-only, realiza apenas download, não instala. Pacotes ficam em '/var/cache/apt/archives';</li>
                                 <li>(<b>-f</b>) fix-broken, corrige erros gerados na operação;</li>
                                 <li>(<b>-s</b>) simulate, simula operação, não realizando-a de fato;</li>
@@ -1050,6 +1050,7 @@ Desempacotar: 'tar -xf arquivoPronto.tar'
 <u><b>Operações</b></u>:
 <b>Instalar pacote</b>: apt install pacote (ou 'apt-get install pacote')
 <b>Procurar pacote</b>: apt search termoBusca
+<b>Informações sobre pacote</b>: apt info pacote
 <b>Remover pacote</b>: apt remove pacote
 <b>Remover pacote e dependências</b>: apt purge pacote
 <b>Remover libraries não utilizadas</b>: apt autoremove
@@ -1075,6 +1076,76 @@ Desempacotar: 'tar -xf arquivoPronto.tar'
                         </li>
                         <li><b>synaptic</b>: Gerenciador de pacotes (alto nível) GUI para manipulação de repositórios e gestão de pacotes (basicamente um front-end do 'apt').</li>
                     </ul>
+
+                    <h5>RHEL (.rpm):</h5>
+                    <ul>
+                        <li><b>rpm</b> (Red Hat package manager): Gerenciador de pacotes (baixo nível);
+<small><pre><code>
+<b>Instalar pacote</b>: rpm -i pacote.rpm ('-v' para verbose)
+<b>Atualizar pacote</b>: rpm -U pacote.rpm
+<b>Remover pacote</b>: dpkg -e pacote
+<b>Listar pacotes instalados</b>: rpm -l
+</code></pre></small>
+                        </li>
+                        <li><b>yum</b> (yellowdog updater modified): Gerenciador de pacotes (alto nível);</li>
+                        <li><b>dnf</b> (dandified yum): Gerenciador de pacotes (alto nível) fork e evolução do yum. No RHEL, repositórios ficam em '/etc/yum.repos.d', cujos arquivos de repositórios possuem final '.repo';<br>
+                            Sintaxe: <span class="text-danger">dnf [parâmetros] &lt;operação&gt; [pacote(s)]</span>
+<small><pre><code>
+<span class="text-muted">Os mesmos comandos dnf equivalem ao yum. Os parâmetros do apt são similares no dnf.</span>
+<b>Instalar pacote</b>: dnf install pacote (ou 'dnf localinstall pacote' ou 'dnf localinstall pacote.rpm')
+<b>Procurar pacote</b>: dnf search termoBusca
+<b>Informações sobre pacote</b>: dnf info pacote
+<b>Remover pacote</b>: dnf remove pacote (ou 'dnf erase pacote')
+<b>Remover libraries não utilizadas</b>: dnf autoremove
+<b>Reinstalar pacote</b>: dnf reinstall pacote
+<b>Listar pacotes disponíveis</b>: dnf list ('list installed' para listar somente instalados)
+<b>Atualizar lista de repositórios</b>: dnf check-update
+<b>Atualizar pacotes</b>: dnf upgrade
+<b>Atualizar distro</b> (dist-upgrade): dnf system-upgrade
+<b>Atualizar pacotes e distro</b>: dnf distro-sync
+<b>Identificar e corrigir falhas</b>: dnf check-update pacote
+<b>Esvaziar repositório local</b>: dnf clean (Esvazia '/var/cache/dnf/{repo-name}/packages')
+</code></pre></small>
+                        </li>
+                    </ul>
+                    <h5>SUSE (.rpm):</h5>
+                    <ul>
+                        <li><b>ZYpp</b> (zypper): Gerenciador de pacotes (alto nível), similar ao yum;</li>
+                    </ul>
+                    <h5>Gentoo, Sabayon (ebuild):</h5>
+                    <ul>
+                        <li><b>portage</b>: Gerenciador de pacotes binários (Gentoo);</li>
+                        <li><b>entropy</b> (equo): Gerenciador de binários compilados em portage (Sabayon).</li>
+                    </ul>
+                    <h5>Arch (.pkg.tar.xz):</h5>
+                    <ul>
+                        <li><b>pacman</b>: Gerenciador de pacotes (alto nível);</li>
+                        <li><b>pamac</b>: Gerenciador de pacotes (alto nível), distro Manjaro, englobando repositórios oficiais, AUR, opcionalmente snap e flatpak.</li>
+                    </ul>
+                    <h5>Pacotes sandbox:</h5>
+                    <ul>
+                        <li><b>snap</b>: Gerenciador (proprietário) de pacotes sandbox. Binários ficam em '/snap/bin'. Snapstore é sua versão GUI;
+<small><pre><code>
+<b>Instalar pacote</b>: snap install pacote
+<b>Instalar pacote</b> (outro canal): snap install --channel=edge pacote (Ou simplesmente '--edge'. Canais: stable, edge, latest, beta, candidate, classic...)
+<b>Procurar pacote</b>: snap find pacote (ou "expressão de busca")
+<b>Informações sobre pacote</b>: snap info pacote
+<b>Listar pacotes disponíveis</b>: snap list ('--installed' para listar somente instalados)
+<b>Remover pacote</b>: snap remove pacote
+<b>Atualizar pacote</b>: snap refresh pacote (canal também permitido)
+</code></pre></small>
+                        </li>
+                        <li><b>flatpak</b>: Gerenciador (free) de pacotes sandbox. Binários ficam globalmente em '/var/lib/flatpak' ou localmente em '/home/usuario/.local/share/flatpak. Flathub é sua versão GUI.
+<small><pre><code>
+<b>Instalar pacote</b>: flatpak install pacote
+<b>Procurar pacote</b>: flatpak search pacote (ou "expressão de busca")
+<b>Informações sobre pacote</b>: flatpak info pacote
+<b>Listar pacotes disponíveis</b>: flatpak list ('--app' para listar somente instalados)
+<b>Remover pacote</b>: flatpak uninstall pacote (ou 'repair' para reparar pacote)
+<b>Atualizar pacote</b>: flatpak update pacote
+</code></pre></small>
+                        </li>
+                    </ul>
                 </div>
             </div>
 
@@ -1095,21 +1166,6 @@ Desempacotar: 'tar -xf arquivoPronto.tar'
             <b>cURL</b>, juntamente com suas libraries (libcurl), que interface CLI para transferência de dados via protocolos de rede.
             <p><b>wget</b><br>Permite baixar arquivos via HTTP, HTTPS e FTP. Ex: <i>wget http://ftp.gnu.org/pub/gnu/wget/wget-1.10.1.tar.gz</i></p>
             -->
-
-
-            <div class="card"> <!--PEGAR AQUI-->
-                <h4 class="card-header">31. Pacotes</h4>
-                <div class="card-body">
-                    <h4>Gerenciadores de Alto Nível</h4>
-                    <p><b>YUM</b><br>O YUM é o gerenciador de pacotes pertencente às distros Red Hat (.rpm). É muito similar ao apt. Seu arquivo de configuração está em <i>/var/cache/yum</i>. Seus repositórios ficam em <i>/etc/yum.repos.d</i>. Os repositórios sempre possuem o final <i>.repo</i>. Além dos comandos similares ao apt, o yum possui o <b>providers</b>, que exibe qual o pacote fornecerá o recurso/arquivo determinado, independente se o mesmo estiver instalado ou não. No caso do update, tem-se o comando <i>update --obsoletes</i>, onde há verificação dos pacotes obsoletos. Há o <i>yumdownloader</i>, onde é realizado somente o download do pacote, não instalando o mesmo. Por fim, tem-se a opção <b>--source</b>, no qual copia o código fonte do pacote, ao invés do mesmo ser compilado. Para pesquisas, além dos conhecidos advindos do apt, tem-se também o <i>YUM list</i>, que trará a listagem somente do argumento de busca, sendo mais objetivo que o <i>search</i>. Para a remoção de pacotes, além dos conhecidos no apt, tem-se o <i>YUM erase nomePacote</i>, que também fará a remoção do mesmo.</p>
-                    <p><b>dnf</b><br>O dnf (Dandified YUM) é o gerenciador de pacotes, geralmente o principal, utilizado no Fedora e demais distros Red Hat, sendo um fork do YUM, funcionando da mesma maneira que tal. O dnf utiliza Python 3, enquanto o YUM a versão 2.</p>
-                    <p><b>zypper</b><br>O ZYpp é o gerenciador de pacotes de distros SUSE, utilizando gerenciamento de pacotes rpm, distribuindo pacotes na mesma. Possui utilização similar ao YUM, com alguns argumentos extras, como <b>list-updates</b>, <b>verify</b>, <b>what-providers</b>, <b>refresh</b>.</p>
-                    
-                    <p><b>snap</b> e <b>flatpack</b><br>Sistemas de empacotamento universal para repositórios. Com algum desses atualizados em qualquer distro, haverá a compatibilidade e simplicidade no processo de instalação, mesmo em Debian e Red Hat. Como Stores GUI para facilitar a instalação, tem-se a <b>Snapstore</b>, <b>Snapcraft</b>, <b>Gnome Software</b>, <b>Flathub</b>, entre outras. Existem Stores de determinadas distros, como no ZorinOS, que combinam os gerenciadores snap e flatpack, onde o usuário pode selecionar a origem de seus pacotes a cada instalação.</p>
-                </div>
-            </div>
-            <br>
-
         </div>
     </div>
 
