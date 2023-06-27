@@ -809,57 +809,199 @@ echo "Concluído!"
             <div class="card mb-4">
                 <h4 class="card-header">Nano editor</h4>
                 <div class="card-body">
-                    <p>Conteúdo aqui</p>
-                </div>
-            </div>
-
-
-
-
-
-
-            <div class="card"><!--PEGAR AQUI-->
-                <h4 class="card-header">23. Nano editor</h4>
-                <div class="card-body">
-                    <p>Editor CLI de texto simples padrão do Debian, baseado no Joe. Para alterar o editor de textos padrão, basta informar no comando <i>update-alternatives --config editor</i>. É carregado automaticamente no modo de edição. Para utilizar o editor basta digitar o comando nano, podendo juntamente com o nome do arquivo que deseja criar/editar. Para abrir arquivo somente leitura, basta informar <i>nano -v arquivo</i>. Na legenda <b>^</b> é <i>Ctrl</i> e <b>M</b> é <i>alt</i>. Além dos atalhos típicos, o nano possui outros atalhos:</p>
+                    <p>Editor CLI de texto, baseado no Joe, presente na maioria das distros Linux. Carregado automaticamente no modo de edição. Para utilizá-lo basta digitar nano, seguido do nome do arquivo que deseja criar/editar. Atalhos do nano:</p>
 <small><pre><code>
-<b>Ctrl+g</b>: Ajuda
-<b>Ctrl+k</b>: Recorta a linha
-<b>Ctrl+u</b>: Cola linha copiada
-<b>Ctrl+_</b>: Vai para linha informada
-<b>Ctrl+y</b>: Sobe 1 página
-<b>Ctrl+v</b>: Desce 1 página
-<b>Alt+/</b>: Vai para última linha
-<b>Alt+\</b>: Vai para 1ª linha
-<b>Ctrl+a</b>: Move cursor para início da linha
-<b>Ctrl+e</b>: Move cursor para fim da linha
-<b>Ctrl+c</b>: Apresenta informações sobre a posição do cursor (<i>Ctrl+c</i> em procedimento cancela o mesmo)
-<b>Ctrl+j</b>: Texto justificado
-<b>Ctrl+t</b>: Aciona corretor ortográfico (Se o comando <i>spell</i> estiver instalado)
-<b>Ctrl+w</b>: Pesquisar (<i>Alt+w</i> segue a próxima ocorrência)
-<b>Ctrl+w, texto, depois Ctrl+r, novoTexto</b>: Substituir texto (<i>y</i> seleciona texto, <i>a</i> substitui todas ocorrências)
-<b>Alt+a</b>: Ativa/desativa selecionar texto (<i>Setas</i> fazem a seleção quando ativado)
-<b>Alt+6</b>: Copia seleção
-<b>Ctrl+o</b>: Salva arquivo (Pode salvar uma cópia do mesmo em outro local, com outro nome também, 'Salvar Como')
-<b>Ctrl+x</b>: Sair do editor
-<b>Alt+u</b>: Desfaz última alteração (Undo)
-<b>Alt+e</b>: Refaz última alteração, se desfeita (Redo)
-O nano possibilita a abertura de diversos arquivos ao mesmo tempo.
-<b>Alt+,</b>: Move para arquivo à esquerda (Ou <i>Alt+&lt;</i>)
-<b>Alt+.</b>: Move para arquivo à direita (Ou <i>Alt+&gt;</i>)
+<b>ctrl+g</b>: Ajuda
+<b>ctrl+k</b>: Recortar linha
+<b>ctrl+u</b>: Colar linha recortada
+<b>ctrl+_</b>: Ir para linha informada
+<b>ctrl+y</b>: Sobir 1 página
+<b>ctrl+v</b>: Descer 1 página
+<b>alt+/</b>: Ir para última linha
+<b>alt+\</b>: Ir para 1ª linha
+<b>ctrl+a</b>: Mover cursor para início da linha
+<b>ctrl+e</b>: Mover cursor para fim da linha
+<b>ctrl+c</b>: Informações sobre a posição do cursor
+<b>ctrl+j</b>: Justificar texto
+<b>ctrl+t</b>: Acionar corretor ortográfico (Se comando 'spell' instalado)
+<b>ctrl+w</b>: Pesquisar ('alt+w' avança para próxima ocorrência)
+<b>ctrl+w texto, ctrl+r novoTexto</b>: Substituir texto ('y' seleciona texto, 'a' substitui todas ocorrências)
+<b>alt+a</b>: Ativar/desativar seleção de texto (setas direcionais fazem a seleção quando ativado)
+<b>alt+6</b>: Copiar seleção
+<b>ctrl+o</b>: Salvar arquivo (pode salvar uma cópia do mesmo em outro local, com outro nome também, 'salvar como')
+<b>ctrl+x</b>: Sair do editor
+<b>alt+u</b>: Desfazer última alteração (undo)
+<b>alt+e</b>: Refazer última alteração, se desfeita (redo)
+
+O nano possibilita a abertura de diversos arquivos ao mesmo tempo
+<b>alt+,</b>: Mover para arquivo à esquerda (ou <i>alt+&lt;</i>)
+<b>alt+.</b>: Mover para arquivo à direita (ou <i>alt+&gt;</i>)
 </small></pre></code>
                 </div>
             </div>
-            <br>
 
+            <div class="card mb-4">
+                <h4 class="card-header">Vim editor</h4>
+                <div class="card-body">
+                    <p>Editor CLI, evolução do vi, o vim (vi improved), sendo <b>gVim</b> sua versão GUI e <b>neovim</b> sua evolução CLI. Possui vários modos, sendo iniciado no <i>ex mode</i> (modo de comandos e visualização), onde as teclas têm função de comandos e somente visualização do conteúdo do arquivo. Para criar/editar conteúdo de arquivo, deve-se entrar no <i>insert mode</i> (modo de inserção/edição), com tecla 'i', onde as teclas têm função de texto comum. Tecla 'esc' sai dos modos, retornando ao ex mode. Arquivo de configuração do vim é '/etc/vim/vimrc'. Sintaxe: <span class="text-danger">vim [parâmetro(s)] [arquivo(s)]</span>. O vim aceita expressões regulares para pesquisa, via comando '/temoOUexpressao'. 'enter' para pesquisar. O cursor se moverá para 1ª correspondência que for encontrada. 'n' para seguir às próximas correspondências, 'N' para retroceder. Abaixo, comandos do ex mode:</p>
+<small><pre><code>
+<u><b>Atalhos gerais</b></u>:
+(<b>:i</b>) Entrar no modo Inserção
+(<b>:w</b>) Salvar arquivo
+(<b>:w arquivo</b>) Salvar cópia do arquivo atual como arquivo
+(<b>:w!</b>) Forçar salvar arquivo atual
+(<b>:1</b>) Ir para linha 1 ou qualquer nº fornecido
+(<b>:e arquivo</b>) Abrir arquivo
+(<b>:q</b>) Sair, qiando não há alterações no arquivo
+(<b>:q!</b>) Sair forçadamente, sem salvar alterações no arquivo
+(<b>:wq</b>) Sair e salvar arquivo
+(<b>:u</b>) Desfazer última ação
+(<b>ctrl+r</b>) Repetir comando
+(<b>:X</b>) Criptografar arquivo
+(<b>:set nu</b>) Ativar linhas numeradas (':set nu!' para desativar)
+(<b>:syntax on</b>) Ativar syntax highlighting (para ativar, descomentar linha no arquivo de configuração, removendo as aspas da mesma)
+
+<u><b>Movimentações</b></u>:
+(<b>gg</b>) Ir para início do arquivo
+(<b>G</b>) Ir para final do arquivo
+(<b>36G</b>) Ir para 36ª linha
+(<b>M</b>) Ir para linha do meio da tela
+(<b>h</b>) Voltar 1 caractere ('5h' moverá cursor 5 caracteres para esquerda)
+(<b>l</b>) Avançar 1 caractere
+(<b>H</b>) Ir para 1ª linha exibida na tela
+(<b>L</b>) Ir para última linha exibida na tela
+(<b>J</b>) Juntar linha atual com linha seguinte
+(<b>k</b>) Subir 1 linha
+(<b>j</b>) Descer 1 linha
+(<b>w</b>) 1 palavra para direita ('3w' moverá cursor 3 palavras para direita)
+(<b>b</b>) 1 palavra para esquerda
+(<b>^</b>) Ir para início da linha
+(<b>$</b>) Ir para fim da linha
+(<b>ctrl+B</b>) Voltar 1 página
+(<b>ctrl+F</b>) Avançar 1 página
+(<b>ctrl+w+s</b>) Criar janelas verticais
+(<b>ctrl+w+v</b>) Criar janelas horizontais
+(<b>ctrl+ww</b>) Movimentar entre janelas
+(<b>F1</b>) Exibir tela de ajuda (':q' para sair)
+
+<u><b>Manipulações</b></u>:
+(<b>u</b>) Desfazer modificação (undo)
+(<b>s</b>) Deletar caractere atual e colar linha
+(<b>S</b>) Deletar linha atual e colar linha
+(<b>dgg</b>) Deletar a partir da linha visual do topo até linha do cursor
+(<b>yw</b>) Copiar palavra sob cursor
+(<b>dw</b>) Recortar palavra sob cursor
+(<b>Y</b>) Copiar linha
+(<b>y</b>) Copiar trecho selecionado ('3y' copiar próximas 3 letras, cursor + 2 letras seguintes)
+(<b>D</b>) Recortar trecho selecionado
+(<b>uu</b>) Recortar linha
+(<b>V</b>) Selecionar linha(s), usando setas direcionais para seleção
+(<b>v</b>) Selecionar palavra(s), usando setas direcionais para seleção
+(<b>p</b>) Colar trecho selecionado/copiado após o cursor
+(<b>P</b>) Colar trecho selecionado/copiado antes do cursor
+(<b>r</b>) Substituir caractere atual (replace)
+(<b>R</b>) Substituir conjunto de caracteres
+(<b>yy</b>) Copiar linha atual (sem excluí-la)
+(<b>3yy</b>) Copiar próximas 3 linhas (sem excluí-las)
+(<b>yw</b>) Copiar próximas 3 linhas (sem excluí-las)
+
+<u><b>Exclusões</b></u>:
+(<b>x</b>) Excluir caractere sob cursor
+(<b>dd</b>) Excluir linha atual ('3dd' excluir próximas 3 linhas)
+(<b>dw</b>) Excluir palavra atual ('d3w' excluir próximas 3 palavras. 'd4h' excluir 4 caracteres à esquerda)
+
+<u><b>Modificações</b></u>:
+(<b>cc</b>) Mudar linha atual
+(<b>cw</b>) Mudar palavra atual
+(<b>c3w</b>) Mudar próximas 3 palavras
+(<b>c5h</b>) Mudar 5 caracteres para esquerda
+(<b>:%s/termo/termoNovoNome/g</b>) Substituir todos 'termo' por 'termoNovoNome'
+
+<u><b>Insert mode</b></u>:
+(<b>a</b>) Entrar no modo de inserção após cursor
+(<b>A</b>) Entrar no modo de inserção no final da linha
+(<b>i</b>) Entrar no modo de inserção antes do cursor
+(<b>I</b>) Entrar no modo de inserção no início da linha
+(<b>o</b>) Entrar no modo de inserção 1 linha em branco após cursor
+(<b>O</b>) Entrar no modo de inserção 1 linha em branco antes do cursor
+</small></pre></code>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <h4 class="card-header">Compactação e empacotamento</h4>
+                <div class="card-body">
+                    <ul>
+                        <li><b>Empacotamento</b>: Quando vários arquivos são empacotados em 1 só arquivo;
+                            <ul>
+                                <li>tar: tape arquive, empacotador de arquivos, preservando metadados dos arquivos. Sintaxe: <span class="text-danger">tar [parâmetros] &lt;arquivo.tar&gt; &lt;arquivo1&gt; [arquivo2(s)]</span>
+                                    <ul>
+                                        <li>(<b>-f</b> ou <b>--file</b>): Parâmetro obrigatório. Indicar destino do arquivo.tar resultante;</li>
+                                        <li>(<b>-c</b> ou <b>--create</b>): Empacotar arquivo;</li>
+                                        <li>(<b>-t</b> ou <b>--list</b>): Exibir conteúdo interno do empacotado;</li>
+                                        <li>(<b>-v</b> ou <b>--verbose</b>): Exibir detalhes do empacotamento/desempacotamento na tela;</li>
+                                        <li>(<b>-j</b> ou <b>--bzip2</b>): Compactar arquivo, com bzip2, ao empacotá-lo (gerará 'arquivo.tar.bz2');</li>
+                                        <li>(<b>-J</b> ou <b>--xz</b>): Compactar arquivo, com xz, ao empacotá-lo (gerará arquivo.tar.xz);</li>
+                                        <li>(<b>-z</b> ou <b>--gzip</b>): Compactar, com gzip, ao empacotá-lo (gerará arquivo.tar.gz);</li>
+                                        <li>(<b>-x</b> ou <b>--extract</b>): Desempacotar arquivo empacotado.</li>
+<small><pre><code>
+Empacotar: 'tar -cf arquivoFinal.tar arquivoEmpacotar'
+Desempacotar: 'tar -xf arquivoPronto.tar'
+</code></pre></small>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li><b>Compactação</b>: Quando arquivo original é compactado em arquivo menor.
+                            <ul>
+                                <li>gzip: Compactador de arquivos, tornando-os com final '.gz'. Sintaxe: <span class="text-danger">gzip [parâmetros] &lt;arquivo&gt; [arquivo2(s)]</span>
+                                    <ul>
+                                        <li>(<b>-c</b> ou <b>--stdout</b>): Compactar arquivo;</li>
+                                        <li>(<b>-d</b> ou <b>--decompress</b>): Descompactar arquivo.gz;</li>
+                                        <li>(<b>-f</b> ou <b>--force</b>): Forçar compactação/descompactação;</li>
+                                        <li>(<b>-l</b> ou <b>--list</b>): Exibir informação do arquivo compactado;</li>
+                                        <li>(<b>-q</b> ou <b>--quiet</b>): Sair;</li>
+                                        <li>(<b>-r</b> ou <b>--recursive</b>): Compactar recursivamente;</li>
+                                        <li>(<b>-t</b> ou <b>--test</b>): Testar integridade do arquivo compactado;</li>
+                                        <li>(<b>-v</b> ou <b>--verbose</b>): Exibir progresso da operação;</li>
+                                        <li>(<b>&lt;nivel&gt;</b> ou <b>--fast</b> ou <b>--best</b>): Gerenciar grau da operação. Nível(1 a 9), com menos detalhes ao mais detalhes. Fast equivale 1, best equivale 9.</li>
+<small><pre><code>
+<b>Ver arquivo compactado.gz</b>: zcat arquivo.gz (há também 'zgrep', 'zless', 'zmore')
+<b>Compactar</b>: gzip arquivo
+<b>Compactar, redirecionando saída</b>: gzip -c arquivo &gt; arquivoCompactado.gz
+<b>Descompactar</b>: gzip -d arquivo.gz
+<b>Empacotar/compactar (tar/gzip)</b>: tar -czf arquivo.tar.gz diretorioArquivosAlvo
+<b>Descompactar/desempacotar (gzip/tar)</b>: tar -xzf arquivo.tar.gz
+<b>Descompactar/desempacotar (bzip2/tar)</b>: tar -xjvf arquivo.tar.bz2
+</code></pre></small>
+                                    </ul>
+                                </li>
+                                <li>bzip2: Compactador de arquivos, tornando-os com final '.bzip2'. Funcionamento similar ao gzip;</li>
+<small><pre><code>
+<b>Ver arquivo.bz2</b>: bzcat arquivo.bz2 (há também 'bzgrep', 'zless' e 'zmore')
+<b>Compactar empacotado</b>: bzip2 dirEmpacotado.tar (gerará dirEmpacotado.tar.bz2)
+<b>Descompactar</b>: bzip2 -d dirEmpacotado.tar.bz2
+</code></pre></small>
+                                <li>xz: Compactador de arquivos, tornando-os com final '.xz'. Funcionamento similar ao gzip;</li>
+<small><pre><code>
+<b>Compactar:</b> xz -c arquivo &gt; arquivoCompactado.xz
+<b>Descompactar:</b> xz -d arquivoCompactado.xz
+<b>Empacotar/compactar (tar/xz):</b> tar -cJf ./arquivo.tar.xz diretorioAlvo/
+<b>Descompactar/desempacotar (xz/tar):</b> tar -xJf arquivo.tar.xz
+</code></pre></small>
+                                <li>gunzip: Descompactador, similar ao 'gzip -d' (Ex: 'gunzip arquivoCompactado.tar.gz');</li>
+                                <li>bunzip2: Descompactador, similar ao 'bzip2 -d' (Ex: 'bunzip2 arquivoCompactado.tar.bz2');</li>
+                                <li>unxz: Descompactador, similar ao 'xz -d' (Ex: 'unxz arquivoCompactado.tar.xz').</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
 
 
 
             <!-- O QUE FALTA:
-                - nano
-                - vim
-                - compactação e empacotamento
                 - pacotes
             -->
 
@@ -870,196 +1012,6 @@ O nano possibilita a abertura de diversos arquivos ao mesmo tempo.
 
 
 
-
-
-            <div class="card">
-                <h4 class="card-header">24. Vim editor</h4>
-                <div class="card-body">
-                    <img src="mao_vi.png" class="img-fluid rounded" width="50px" >
-                    <p>O principal editor de texto CLI Linux é o <b>Vi</b>, antigo <i>Ex editor</i>, porém existem outros, como <b>nano</b>, <b>emacs</b>, Joe, Pico, Mcedit, ed, entre outros. O <b>Vim</b> (Vi Improved) é a evolução do Vi, sendo o <b>gVim</b>, também conhecido como <i>vimtutor</i>, a evolução do Vim, onde há presença de GUI. Há também o <b>Neovim</b>, a evolução do Vim modo CLI. Para criar/editar arquivos no Vi, basta seguir o comando 'vi nomearquivo'. O editor abrirá no modo visual. Existem vários modos de operação, onde as teclas funcionam de diferentes maneiras, sendo o <b>Ex Mode</b> o modo inicial, ao abrir o arquivo (Também considerado como modo de Visualização ou modo de Comandos). Para sair dos modos, basta usar a tecla 'Esc'. Na maioria das distribuições Linux, tem-se um alias para o Vim, como vi. Então, quando o comando vi é executado, abrirá na verdade o Vim. O Vim possui seu arquivo de configuração em <i>/etc/vim/vimrc</i>. Para executar o Vim, abrindo ou criando um arquivo, basta digitar o comando <i>vim nomearquivo</i>. A sintaxe é: <i>vim [opções] [arquivo]</i>. Ouve-se a frase de que um usuário estava usando o Vim há anos, não porque gostava, mas porque não sabia como sair do editor. Usuários de Vi têm sinal de mão específico acima.</p>
-                    <h4>Ex Mode</h4>
-                    <p>O antigo Ex editor permitia ao usuário somente trabalhar de 1 linha por vez, sendo o novo Vi o antigo 'modo visual' do Ex, onde o usuário visualizava todas as linhas do arquivo em questão. A evolução incorporou o modo Ex ao Vi. Neste modo, considerado modo de Comandos, é realizada a manipulação do arquivo de forma geral, onde, logicamente, não é possível editar conteúdo do arquivo. Para os comandos abaixo, o <b>!</b> realizará o comando forçadamente, descartando warnings e consequências, como por exemplo <i>:q!</i> sairá forçadamente do arquivo, não salvando-o e não informando mensagem para tal. Abaixo, seguem comandos do Ex Mode:</p>
-                    <ul>
-                        <li>Lista de comandos Vim: <a href="vimComandos.png" class="text-decoration-none" target="_blank">Acesse</a></li>
-                    </ul>
-<small><pre><code>
-<b>:i</b> - Entrar no modo Inserção
-<b>:w</b> - Salvar o arquivo atual no sistema de arquivos
-<b>:w nome_arquivo</b> - Salvar uma cópia do arquivo atual como nome_arquivo
-<b>:w!</b> - Forçar salvar arquivo atual
-<b>:1</b> - Vá para a linha 1 ou qualquer nº fornecido
-<b>:e nome_arquivo</b> - Abrir nome_arquivo
-<b>:q</b> - Sair se nenhuma alteração for feita no arquivo (Se houver, avisará para salvar)
-<b>:q!</b> - Sair forçadamente, sem salvar as alterações no arquivo
-<b>:wq</b> - Sair e salvar arquivo
-<b>:u</b> - Desfazer última ação
-<b>Ctrl+r</b> - Repetir/Refazer comando
-<b>:X</b> - Criptografa o arquivo
-<b>:syntax on</b> - Ativar syntax highlighting (Para ativar, descomentar linha no arquivo de configuração, removendo as aspas da mesma)
-<b>:set nu</b> - Ativar linhas numeradas (<i>:set nu!</i> para desativar)
-</small></pre></code>            
-                    <h5>Movimentações</h5>
-                    <p>O Vim possibilita, além das teclas abaixo, movimentações por meio das setas direcionáveis.</p>
-<small><pre><code>
-<b>gg</b> - Ir para início do arquivo
-<b>G</b> - Ir para final do arquivo
-<b>36G</b> - Ir para a 36ª linha
-<b>M</b> - Ir para linha do meio da tela
-<b>h</b> - Voltar 1 caractere
-<b>l</b> - Avançar 1 caractere
-<b>H</b> - Ir para a 1ª linha exibida na tela
-<b>L</b> - Ir para a última linha exibida na tela
-<b>j</b> - Abaixo 1 linha
-<b>J</b> - Juntar linha atual com linha seguinte
-<b>k</b> - Acima 1 linha
-<b>w</b> - 1 palavra para a frente
-<b>b</b> - 1 palavra atrás
-<b>^</b> - Início da linha
-<b>$</b> - Fim da linha
-<b>Ctrl+B</b> - Voltar 1 página
-<b>Ctrl+F</b> - Avançar 1 página
-<b>ctrl+w+s</b> - Criar janelas verticais
-<b>ctrl+w+v</b> - Criar janelas horizontais
-<b>ctrl+ww</b> - Movimentar entre janelas
-<b>F1</b> - Exibir tela de ajuda (<i>:q</i> Sair da tela de ajuda)
-<u>Ex:</u> <b>3w</b> moverá o cursor 3 palavras para a direita
-<u>Ex2:</u> <b>5h</b> moverá o cursor 5 caracteres para a esquerda
-</small></pre></code>
-                    <h5>Manipulações</h5>
-<small><pre><code>
-<b>u</b> - Desfazer modificação (Undo)
-<b>s</b> - Deletar caractere atual e Colar linha
-<b>S</b> - Deletar linha atual e Colar linha
-<b>dgg</b> - Deletar a partir da linha visual do topo até linha do cursor
-<b>yw</b> - Copiar palavra sob cursor
-<b>dw</b> - Recortar palavra sob cursor
-<b>Y</b> - Copiar linha
-<b>y</b> - Copiar trecho selecionado
-<b>D</b> - Recortar trecho selecionado
-<b>uu</b> - Recortar linha
-<b>V</b> - Selecionar linha(s), usando teclas de movimentações para seleção
-<b>v</b> - Selecionar palavra(s), usando teclas de movimentações para seleção
-<b>p</b> - Colar trecho selecionado/copiado após o cursor
-<b>P</b> - Colar trecho selecionado/copiado antes do cursor
-<b>r</b> - Substituir caractere atual (Replace)
-<b>R</b> - Substituir conjunto de caracteres
-<u>Ex:</u> <b>3y</b> copia as 3 letras em frente (cursor + 2 letras seguintes). <b>p</b> colará, após o cursor
-</small></pre></code>
-                    <h5>Exclusões</h5>
-<small><pre><code>
-<b>x</b> - Excluir caractere sob cursor
-<b>dd</b> - Excluir linha atual
-<b>3dd</b> - Excluir as próximas 3 linhas
-<b>dw</b> - Excluir palavra atual
-<b>d3w</b> - Excluir as próximas 3 palavras
-<b>d4h</b> - Excluir 4 caracteres à esquerda
-</small></pre></code>
-                    <h5>Modificações</h5>
-<small><pre><code>
-<b>cc</b> - Mudar linha atual
-<b>cw</b> - Mudar palavra atual
-<b>c3w</b> - Mudar as próximas 3 palavras (Apaga para mudar)
-<b>c5h</b> - Mudar 5 caracteres para a esquerda (Apaga para mudar)
-</small></pre></code>
-                    <h5>Arrancar (Yank)</h5>
-                    <p>Yank coloca conteúdo no buffer sem excluí-lo (Copiar).</p>
-<small><pre><code>
-<b>yy</b> - Arranque a linha atual
-<b>3yy</b> - Arranque as próximas 3 linhas
-<b>yw</b> - Arranque as próximas 3 linhas
-</small></pre></code>
-                    <h5>Pesquisa</h5>
-                    <p>O Vi aceita termos e expressões regulares para pesquisa. Pesquise, no Ex Mode, a partir da posição atual do cursor, usando <b>/</b> para iniciar a pesquisa, digite o termo de pesquisa e pressione 'Enter' para pesquisar. O cursor se moverá para a 1ª correspondência que for encontrada. Use 'n' para seguir para as próximas correspondências, usando 'N' para retroceder (Pesquisa <b>?</b>). No Ex mode, para substituir todas as palavras 'Caza' por 'Casa' utilize '<i>:%s/Caza/Casa/g</i>'.</p>
-                    <h4>Modo de Inserção (i)</h4>
-                    <p>Neste modo, o usuário poderá modificar o conteúdo interno do arquivo. Neste modo, utilize 'delete' para apagar conteúdo. Use 'esc' para sair do modo e voltar a utilizar o Ex Mode. O modo de Inserção, por padrão, faz a inserção de texto à esquerda do cursor. Caso desejar o contrário, informe a tecla <b>a</b> para inserção de texto à direita do cursor, ou seguindo as demais ações abaixo.</p>
-<small><pre><code>
-<b>Teclas de ações no Ex Mode:</b>
-<b>a</b> - Entrar no modo de inserção logo após o cursor
-<b>A</b> - Entrar no modo de inserção no final da linha
-<b>i</b> - Entrar no modo de inserção logo antes do cursor
-<b>I</b> - Entrar no modo de inserção no início da linha
-<b>o</b> - Entrar no modo de inserção em uma linha em branco após o cursor
-<b>O</b> - Entrar no modo de inserção em uma linha em branco antes do cursor
-<b>Esc</b> - Sair do modo (Funciona para todos os modos)
-</small></pre></code>
-                </div>
-            </div>
-            <br>
-
-            <div class="card">
-                <h4 class="card-header">30. Compactação e Empacotamento</h4>
-                <div class="card-body">
-                    <p>A utilização de compactadores pode ser muito proveitosa quando utilizada em backups, pois a mesma reduz o espaço quando o conteúdo é compactado. Podem haver situações em que existem arquivos com final <i>.tar.gz</i>, o que significa que o mesmo fora empacotado com tar e compactado com gzip.</p>
-                    <p><b>Empacotamento:</b><br>Quando vários arquivos são empacotados em um só arquivo. Exemplos de empacotadores são <b>tar</b> e <b>cpio</b>.</p>
-                    <p><b>Compactação:</b><br>Quando um arquivo maior é compactado para se tornar menor. Exemplos de compactadores são <b>zip</b>, <b>gzip</b> e <b>bzip2</b>.</p>
-                    <h4>tar</h4>
-                    <p>TAR (Tape Archive) é um empacotador de arquivos, preservando as informações (metadados) dos arquivos envolvidos. Pode ser utilizado em conjunto com empacotadores. Em momentos de empacotamento, haverão mensagens de feedback informando remoção de '/', para a segurança da não substituição do diretório original pelo gerado, extraindo assim no diretório presente, não no diretório original empacotado. Sintaxe: <i>tar [opções] &lt;dispositivo/arquivo.tar&gt; &lt;arquivo1&gt; [arquivo2] …</i></p>
-                    <ul>
-                        <li><b>-c</b> ou <b>--create</b>: Empacotar arquivo.</li>
-                        <li><b>-f</b>  ou <b>--file</b>: Indicar se o arquivo empacotado será arquivo.tar do próprio SO ou se o mesmo será externo. <u>Obrigatório informar essa flag!</u></li>
-                        <li><b>-j</b> ou <b>--bzip2</b>: Indica se o pacote será compactado no momento do empacotamento, utilizando bzip2.</li>
-                        <li><b>-J</b> ou <b>--xz</b>: Indica que o pacote será compactado no momento do empacotamento, utilizando o xz.</li>
-                        <li><b>-v</b> ou <b>--verbose</b>: Exibe na tela todo o procedimento de empacotamento/desempacotamento.</li>
-                        <li><b>-t</b> ou <b>--list</b>: Visualizar o conteúdo interno no pacote.</li>
-                        <li><b>-z</b> ou <b>--gzip</b>: Indica que o pacote será compactado no momento do empacotamento, utilizando gzip.</li>
-                        <li><b>-x</b> ou <b>--extract</b>: Para desempacotar arquivo empacotado tar.</li>
-                    </ul>
-<small><pre><code>
-<b><u>Exemplos:</u></b>
-<b>Empacotar:</b> tar -cf arquivoPronto.tar arquivoEmpacotar
-<b>Desempacotar:</b> tar -xf arquivoPronto.tar
-</small></pre></code>
-                    <h4>gzip</h4>
-                    <p>Compactador/descompactador de arquivos. Arquivos compactados com gzip possuem final <i>.gz</i>. Um diretório não pode ser compactado, de forma direta, pelo gzip, tendo que tornar-se, primeiramente, um arquivo empacotado, para depois ser compactado (Ex: <i>.tar.gz</i>), advinda da flag <i>-z</i> no tar. Sintaxe: <i>gzip [opções] &lt;arquivo&gt;</i></p>
-                    <ul>
-                        <li><b>-c</b> ou <b>--stdout</b>: Compacta arquivo.</li>
-                        <li><b>-d</b> ou <b>--decompress</b>: Descompacta arquivo.gz.</li>
-                        <li><b>-f</b> ou <b>--force</b>: Força compactação/descompactação de arquivo (Como para arquivo já descompactado com mesmo nome do que será).</li>
-                        <li><b>-l</b> ou <b>--list</b>: Exibe informações sobre arquivo compactado.</li>
-                        <li><b>-q</b> ou <b>--quiet</b>: Sair.</li>
-                        <li><b>-r</b> ou <b>--recursive</b>: Compacta, recursivamente, os arquivos.</li>
-                        <li><b>-t</b> ou <b>--test</b>: Testa a integridade do arquivo compactado, a fim de não corromper o mesmo.</li>
-                        <li><b>-v</b> ou <b>--verbose</b>: Exibe o processo de compactação/descompactação em detalhes.</li>
-                        <li><b>-&lt;nivel&gt;</b> ou <b>--fast</b> ou <b>--best</b>: Gerenciar grau de compactação. Nível (1-9), quanto menor o nível, menor a compactação (mais simples), sendo menor o tempo do processo. A mesma lógica do contrário. O fast é mesmo que nível 1, o best é mesmo que nível 9.</li>
-                    </ul>
-<small><pre><code>
-<b><u>Exemplos:</u></b>
-<b>Ver arquivo compactado <i>.gz</i>, sem descompactá-lo</b>: zcat arquivoCompactado.tar.gz (Há outros comandos, como <i>zgrep</i>, <i>zless</i>, <i>zmore</i>, pode-se utilizar também comando <i>| grep</i>)
-<b>Compactar</b>: gzip nomeArquivo
-<b>Compactar, redirecionando saída</b>: gzip -c arquivoGrande &gt; arquivoCompactado.gz
-<b>Descompactar</b>: gzip -d arquivo.gz
-
-<b>Juntar/Compactar, Tar e Gzip (Compact Gzip File)</b>: tar -czf arquivoCompactado.tar.gz diretorioArquivosAlvo
-<b>Extrair, Tar e Gzip (Extract Verbose Gzip File)</b>: tar -xvzf arquivoCompactado.tar.gz
-<b>Extrair, Tar e Bzip2 (Extract Bzip2 Verbose File)</b>: tar -xjvf arquivoCompactado.tar.bz2
-</small></pre></code>
-                    <h4>bzip2</h4>
-                    <p>Compactador/descompactador de arquivos similar ao gzip. Os arquivos compactados possuirão final <i>.bz2</i>. As flags são as mesmas do gzip, com exceção da compressão de arquivos via tar. Sintaxe: <i>bzip2 [opções] &lt;arquivo&gt;</i></p>
-<small><pre><code>
-<b><u>Exemplos:</u></b>
-<b>Compactar tar</b>: bzip2 pastaEmpacotada.tar (Gerará <i>pastaEmpacotada.tar.bz2</i>)
-<b>Descompactar</b>: bzip2 -d pastaEmpacotada.tar.bz2
-<b>Descompactar mostrando tempo (Funciona no gzip também)</b>: time bzip2 -d pastaEmpacotada.tar.bz2
-<b>Ver arquivo compactado .bz2, sem descompactá-lo</b>: bzcat arquivo.bz2 (Há outros comandos, como <i>bzgrep</i>, <i>zless</i> e <i>zmore</i>)
-</small></pre></code>
-                    <h4>xz</h4>
-                    <p>O utilitário xz também é utilizado para compactar/descompactar arquivos. Arquivos compactados com xz possuem final <i>.xz</i>. As flags são as mesmas dos utilitários acima. Sintaxe: <i>xz [opções] &lt;arquivo&gt;</i></p>
-<small><pre><code>
-<b><u>Exemplos:</u></b>
-<b>Compactar diretório teste:</b> xz -c teste > testinho.xz
-<b>Descompactar:</b> xz -d teste.xz
-<b>Empacotar (tar) e compactar (xz):</b> tar -cJf ./arquivoCompactado.tar.xz diretorioAlvo/
-<b>Descompactar (xz) e desempacotar (tar):</b> tar -xJf arquivoCompactado.tar.xz
-</small></pre></code>
-                    <h4>gunzip</h4>
-                    <p>Utilizado apenas para descompactar, tendo exatamente a mesma função de <i>gzip -d</i>. Utiliza as mesmas principais flags acima. Sintaxe: <i>gunzip [opções] &lt;arquivo&gt;</i><br><u>Exemplo:</u> <i>gunzip arquivoCompactado.tar.gz</i></p>
-                    <h4>bunzip2</h4>
-                    <p>Utilizado apenas para descompactar arquivos, tendo exatamente a mesma função de <i>bzip2 -d</i>. Utiliza as mesmas principais flags acima. Sintaxe: <i>bunzip2 [opções] &lt;arquivo&gt;</i><br><u>Exemplo:</u> <i>bunzip2 arquivoCompactado.tar.bz2</i></p>
-                    <h4>unxz</h4>
-                    <p>Utilizado apenas para descompactar arquivos, tendo exatamente a mesma função de <i>xz -d</i>. Utiliza as mesmas principais flags acima. Sintaxe: <i>unxz [opções] &lt;arquivo&gt;</i><br><u>Exemplo:</u> <i>unxz arquivoCompactado.tar.xz</i></p>
-                </div>
-            </div>
-            <br>
 
             <div class="card">
                 <h4 class="card-header">31. Pacotes</h4>
