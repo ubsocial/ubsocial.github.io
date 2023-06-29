@@ -122,7 +122,7 @@
                     </ul>
 
                     <h5>Particionamento de disco:</h5>
-                    <p>Particionamento de disco com 500GB disponíveis para armazenamento e 4GB de RAM, para instalação de Ubuntu 20. Formatação do tipo GPT (GUID Partition Table), será da seguinte forma:</p>
+                    <p>Particionamento de disco com 500GB disponíveis para armazenamento e 4GB de RAM, para instalação de Ubuntu 20. Formatação do tipo GPT (GUID Partition Table) ou MBR (Master Boot Record), será da seguinte forma:</p>
                     <ul>
                         <li><b>Boot</b>: Partição para boot da distro, tipo primária FAT32, com label <i>/boot/efi</i>, com média de 800MB;</li>
                         <li><b>Swap</b>: Partição de memória virtual, tipo primária linux-swap, sem label, com média de metade do tamanho da RAM ou mais (aqui no caso 2GB);</li>
@@ -153,23 +153,23 @@
                     <h5>Estrutura de diretórios:</h5>
                     <ul>
                         <li><b>/</b> (root): Diretório originário de todos os demais, onde encontram-se os diretórios abaixo;</li>
-                        <li><b>/bin</b>: Possui todos os binários (binaries), comandos/alias do Shell. Link simbólico para '/usr/bin'. Exemplo, alias 'ls' refere-se a '/bin/ls', ou seja, '/usr/bin/ls';</li>
-                        <li><b>/boot</b>: Arquivos para inicialização (boot) do Linux, como gerenciador GRUB e imagem do kernel;</li>
+                        <li><b>/bin</b>: Possui todos os binários (binaries), comandos/alias do shell, disponíveis aos usuários comuns. Link simbólico para '/usr/bin'. Exemplo, alias 'ls' refere-se a '/bin/ls', ou seja, '/usr/bin/ls';</li>
+                        <li><b>/boot</b>: Arquivos estáticos para inicialização (boot) do Linux, como gerenciador GRUB e imagem do kernel;</li>
                         <li><b>/cdrom</b>: Diretório legado (não pertence a FHS), para montagem temporária de imagem de CD-DVD. Local atual para tal é '/media';</li>
-                        <li><b>/dev</b>: Arquivos de dispositivos (devices), como periféricos, como hd (sda, vda), ssd e usb (sda, sdb), cdrom, disquete floppy (fd) e tty;</li>
+                        <li><b>/dev</b>: Arquivos de dispositivos (devices) de entrada e saída, como periféricos, como hd (sda, vda), ssd e usb (sda, sdb), cdrom, disquete floppy (fd) e tty;</li>
                         <li><b>/etc</b>: Abreviação de 'etcetera' ou 'edit do/to config'. Arquivos de configuração do sistema, como scripts de inicialização, módulos de programas, tabela de sistema de arquivos (fstab - file system table), configurações de services e usuários;</li>
-                        <li><b>/home</b>: Arquivos dos usuários do sistema. Cada usuário é representado por diretório com seu nome, contendo seus respectivos arquivos dentro (área de trabalho, documentos, imagens, etc);</li>
+                        <li><b>/home</b>: Diretórios dos usuários do sistema. Cada usuário é representado por diretório com seu nome, contendo seus respectivos arquivos dentro (área de trabalho, documentos, imagens, etc);</li>
                         <li><b>/lib, /lib32, /libx32, /lib64</b>: Bibliotecas (libraries) compartilhadas e módulos do kernel. Libraries são scripts que podem ser utilizados por outros arquivos dependentes para seu funcionamento. Links simbólicos para '/usr/lib', '/usr/lib32', 'usr/libx32' e '/usr/lib64';</li>
-                        <li><b>/lost+found</b>: Diretório geralmente oculto (/.lost+found) de 'achados e perdidos', usado para reparos no sistema;</li>
+                        <li><b>/lost+found</b>: Diretório geralmente oculto (/.lost+found) de 'achados e perdidos', usado para reparos gerais no sistema, como comando 'fsck';</li>
                         <li><b>/media</b>: Ponto de montagem para mídias removíveis (media), como cdrom, floppy, webcam, usb, hd e ssd externos;</li>
                         <li><b>/mnt</b>: Ponto de montagem temporária (mount) de sistema de arquivos, como outros SOs e cdrom (similar ao '/media');</li>
-                        <li><b>/opt</b>: Abreviação de 'optional', utilizado por arquivos proprietários, não licenciados pela GNU;</li>
+                        <li><b>/opt</b>: Abreviação de 'optional', utilizado por arquivos proprietários, não licenciados pela GNU, adicionados pelos usuários;</li>
                         <li><b>/proc</b>: Processos (process) do Linux e todas informações do hardware (cpu, memória e partições). Diretório virtual (gravado em RAM, volátil, todos arquivos nele são apagados no desligamento do dispositivo);</li>
                         <li><b>/root</b>: Arquivos do usuário administrador (root), para administração de interface de rede, usuários e grupos, prioridades, entre outros;</li>
-                        <li><b>/run</b>: Diretório virtual de arquivos temporários sensíveis e informações de services em execução (run, runtime);</li>
+                        <li><b>/run</b>: Diretório virtual de arquivos temporários sensíveis de inicialização do sistema, e informações de services em execução (run, runtime);</li>
                         <li><b>/sbin</b>: Link simbólico para '/usr/sbin', possui os super binários (super binaries ou system binaries), comandos/alias do administrador do Linux (root), utilizados para inicialização, reparação e restauração do sistema, e informações sensíveis de rede;</li>
                         <li><b>/srv</b>: Serviços (service) do Linux, como rede, acessíveis externamente. Geralmente utilizado para instalação de servidores web ('/srv/www') e ftp ('/srv/ftp');</li>
-                        <li><b>/sys</b>: Diretório virtual de mapeamento de chamadas diretas ao kernel (system), similar ao '/proc', sendo mais organizado e categorizado;</li>
+                        <li><b>/sys</b>: Diretório virtual de mapeamento de chamadas diretas ao kernel (system), e informações sobre devices e módulos, sendo similar ao '/proc', porém mais organizado e categorizado;</li>
                         <li><b>/tmp</b>: Diretório virtual de arquivos temporátios (temp, temporary);</li>
                         <li><b>/usr</b>: Recursos do Linux (user, unix system resources), como libraries e binaries, scripts do kernel ('/src'), além de arquivos não essenciais ao sistema, que seguem padrão GNU;</li>
                         <li><b>/var</b>: Arquivos de informações e tamanho variável (variable), como cache, logs e impressão ('/spool').</li>
@@ -198,7 +198,7 @@
                         <li><b>exFAT</b> (Extensible FAT): Alternativa ao FAT, melhor compatibilidade entre diferentes file systems. Possui pouquíssimos recursos e suporta arquivos de tamanhos diversos. Ideal para pendrives e HDs externos que acessam diferentes file systems;</li>
                         <li><b>NTFS</b> (New technology file system): Evolução do FAT32, suporte de volumes maiores, possui checksums em journaling e snapshots em volume shadow copy. Compatível com leitura de dados em outros file systems, mas com compatibilidade de escrita instável;</li>
                         <u>Linux</u>:
-                        <li><b>ext4</b> (Extended file system): Mais popular em dispositivos Linux "domésticos", possui checksums em journaling;</li>
+                        <li><b>ext4</b> (Fourth extended file system): Mais popular em dispositivos Linux "domésticos", possui checksums em journaling;</li>
                         <li><b>ZFS</b> (Zettabyte file system): Gerencia vários volumes (pool), checksums próprios e confiáveis, snapshots e copy on write (COW). O openZFS é a versão free do ZFS. Utilizado em servidores;</li>
                         <li><b>BTRFS</b> (B-tree file system): Simimlar ao ZFS, com otimizações e aberto. Ideal para servidores.</li>
                     </ul>
@@ -219,14 +219,19 @@
                         <li><b>/dev/fd0</b> e <b>/dev/fd1</b>: Respectivamente, 1ª e 2ª unidade de disquete (floppy disk);</li>
                         <li><b>/dev/hda</b> e <b>/dev/hdb</b>: Dispositivos HD IDE master (hda) e slave (hdb);
                             <ul>
-                                <li><b>/dev/hda0</b>: 1ª partição do dispositivo IDE master;</li>
-                                <li><b>/dev/hda1</b>: 2ª partição do dispositivo IDE master, e assim por diante;</li>
+                                <li><b>/dev/hda1</b>: 1ª partição do 1º dispositivo IDE master;</li>
+                                <li><b>/dev/hda2</b>: 2ª partição do 1º dispositivo IDE master, e assim por diante;</li>
+                                <li><b>/dev/hdb1</b>: 1ª partição do 2º dispositivo IDE master;</li>
+                                <li><b>/dev/hdb2</b>: 2ª partição do 2º dispositivo IDE master, e assim por diante;</li>
                             </ul>
                         </li>
                         <li><b>/dev/sda</b> e <b>/dev/sdb</b>: Respectivamente, 1º e 2º dispositivo SSD SATA;
                             <ul>
-                                <li><b>/dev/sda1</b>: 1ª partição do dispositivo SATA;</li>
-                                <li><b>/dev/sda2</b>: 2ª partição do dispositivo SATA, e assim por diante;</li>
+                                <li><b>/dev/sda1</b>: 1ª partição do 1º dispositivo SATA/SCSI;</li>
+                                <li><b>/dev/sda2</b>: 2ª partição do 1º dispositivo SATA/SCSI, e assim por diante;</li>
+                                <li><b>/dev/sdb1</b>: 1ª partição do 2º dispositivo SATA/SCSI;</li>
+                                <li><b>/dev/sdb2</b>: 2ª partição do 2º dispositivo SATA/SCSI, e assim por diante;</li>
+                                <li><b>/dev/xt1</b>: 1ª partição do 1º dispositivo MFM, e assim por diante;</li>
                                 <li><b>/dev/sdd</b>: Cartões que seguem padrão SATA/SCSI;</li>
                             </ul>
                         </li>
