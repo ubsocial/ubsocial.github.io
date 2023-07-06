@@ -940,7 +940,7 @@ O nano possibilita a abertura de diversos arquivos ao mesmo tempo
                     <ul>
                         <li><b>Empacotamento</b>: Quando vários arquivos são empacotados em 1 só arquivo;
                             <ul>
-                                <li>tar: tape arquive, empacotador de arquivos, preservando metadados dos arquivos. Sintaxe: <span class="text-danger">tar &lt;parâmetros&gt; &lt;arquivo.tar&gt; &lt;arquivo1&gt; [arquivo2(s)]</span>
+                                <li>tar: tape arquive, empacotador de arquivos, preservando metadados dos arquivos, tornando-os com final '.tar'. Sintaxe: <span class="text-danger">tar &lt;parâmetros&gt; &lt;arquivo.tar&gt; &lt;arquivo1&gt; [arquivo2(s)]</span>
                                     <ul>
                                         <li>(<b>-f</b> ou <b>--file</b>): Parâmetro obrigatório. Indicar destino do arquivo.tar resultante;</li>
                                         <li>(<b>-c</b> ou <b>--create</b>): Empacotar arquivo;</li>
@@ -950,12 +950,19 @@ O nano possibilita a abertura de diversos arquivos ao mesmo tempo
                                         <li>(<b>-J</b> ou <b>--xz</b>): Compactar arquivo, com xz, ao empacotá-lo (gerará arquivo.tar.xz);</li>
                                         <li>(<b>-z</b> ou <b>--gzip</b>): Compactar, com gzip, ao empacotá-lo (gerará arquivo.tar.gz);</li>
                                         <li>(<b>-x</b> ou <b>--extract</b>): Desempacotar arquivo empacotado.</li>
-<small><pre><code>
-Empacotar: 'tar -cf arquivoFinal.tar arquivoEmpacotar'
-Desempacotar: 'tar -xf arquivoPronto.tar'
-</code></pre></small>
                                     </ul>
+<small><pre><code>
+<b>Empacotar</b>: tar -cf arquivoFinal.tar arquivoEmpacotar
+<b>Desempacotar</b>: tar -xf arquivoPronto.tar
+</code></pre></small>
                                 </li>
+                                <li>zip: Empacotador de arquivos, tornando-os com final '.zip'. Sintaxe: <span class="text-danger">zip &lt;parâmetros&gt; &lt;arquivo&gt; [arquivo2(s)]</span></li>
+<small><pre><code>
+<b>Empacotar</b>: zip arquivoFinal.zip arquivoEmpacotar
+<b>Empacotar recursivamente</b>: zip -r arquivoFinal.zip diretorioEmpacotar
+<b>Ver conteúdo de empacotado, sem extrair</b>: unzip -l arquivo.zip
+<b>Desempacotar (extrair)</b>: unzip arquivo.zip
+</code></pre></small>
                             </ul>
                         </li>
                         <li><b>Compactação</b>: Quando arquivo original é compactado em arquivo menor.
@@ -971,6 +978,7 @@ Desempacotar: 'tar -xf arquivoPronto.tar'
                                         <li>(<b>-t</b> ou <b>--test</b>): Testar integridade do arquivo compactado;</li>
                                         <li>(<b>-v</b> ou <b>--verbose</b>): Exibir progresso da operação;</li>
                                         <li>(<b>&lt;nivel&gt;</b> ou <b>--fast</b> ou <b>--best</b>): Gerenciar grau da operação. Nível(1 a 9), com menos detalhes ao mais detalhes. Fast equivale 1, best equivale 9.</li>
+                                    </ul>
 <small><pre><code>
 <b>Ver arquivo compactado.gz</b>: zcat arquivo.gz (há também 'zgrep', 'zless', 'zmore')
 <b>Compactar</b>: gzip arquivo
@@ -980,7 +988,6 @@ Desempacotar: 'tar -xf arquivoPronto.tar'
 <b>Descompactar/desempacotar (gzip/tar)</b>: tar -xzf arquivo.tar.gz
 <b>Descompactar/desempacotar (bzip2/tar)</b>: tar -xjvf arquivo.tar.bz2
 </code></pre></small>
-                                    </ul>
                                 </li>
                                 <li>bzip2: Compactador de arquivos, tornando-os com final '.bzip2'. Funcionamento similar ao gzip;</li>
 <small><pre><code>
