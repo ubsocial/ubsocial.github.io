@@ -259,7 +259,7 @@
 
 <u><b>Comandos de usuários</b></u>:
 <b>w</b>: Ver detalhes de usuários conectados
-<b>whoami</b>: Ver usuário atual
+<b>whoami</b>: Ver usuário atual (ou 'who')
 <b>quota</b>: Informações do usuário na sessão
 <b>getent passwd</b>: Abrir passwd
 <b>pwconv</b>: Criar arquivo '/etc/shadow' a partir de '/etc/passwd' <span class="text-muted">(pwunconv faz operação inversa)</span>
@@ -281,7 +281,12 @@
                         <li><b>ra</b> (ra0, ra1, ra2...): Placa de rede com chipset Ralink;</li>
                         <li><b>lo</b>: Loopback, interface de rede virtual do dispositivo para conexões TCP/IP.</li>
                     </ul>
-                    <p>Entre os comandos de rede, tem-se <b>route</b> (<span class="text-muted">route -n</span>) para visualizar e manipular tabela de roteamento IP (inet) e gateway. O <b>ifconfig</b> e <b>iwconfig</b> para informações dos componentes de rede do dispositivo, <b>ip a</b>, <b>ip r</b> e <b>nmcli</b> são similares a ambos. <b>ip addr show</b> mostra IP do dispositivo. <b>netstat</b> ou <b>ss</b> mostra todas conexões de entrada e saída de rede, tabelas de roteamento e estatísticas do protocolo de rede. '<i>netstat -atunp</i>' mostra com detalhes de PID, TCP e UDP. <b>ping</b> mostra tempo de envio/recebimento de resposta em rede (Ex: '<span class="text-muted">ping -c 4 192.168.1.2</span>' (Ping para esse IPV4 limitado em 4 iterações). Ex2: '<span class="text-muted">ping uol.com.br</span>' (Ping no site do uol)). <b>host</b> (<i>host -opcao idHost</i>) localiza informações de rede como, por exemplo, IPV4 (opção -4) ou IPV6 (opção -6) de determinado host. As portas de rede encontram-se em '/etc/services'. Entre os firewalls Linux, tem-se <b>iptables</b>, juntamente com <b>UFW</b> (Ubuntu firewall), que possui o GUFW como serviço GUI para gerenciamento. MacAddress é o id da placa física, geralmente identificado como link/ether, HWaddr ou HW, seguindo padrão 'xx:xx:xx:xx:xx:xx' (Ex: <span class="text-muted">5c:cd:5b:74:ae:32</span>). O MacAddress da placa wifi do dispositivo geralmente encontra-se em wlan, identificado como 'HWaddr' ou 'ether'. Também pode ser encontrado com <b>inxi -Nn</b> na opção state 'up'. cURL (<b>curl</b>) oferece interface CLI para transferência de dados via protocolos de rede. <b>wget</b> é similar ao curl (Ex: '<span class="text-muted">wget http://ftp.gnu.org/pacote.tar.gz</span>').</p>
+                    <p>Entre os comandos de rede, tem-se <b>route</b> (<span class="text-muted">route -n</span>) para visualizar e manipular tabela de roteamento IP (inet) e gateway. O <b>ifconfig</b> e <b>iwconfig</b> para informações dos componentes de rede do dispositivo, <b>ip a</b>, <b>ip r</b> e <b>nmcli</b> são similares a ambos. <b>ip addr show</b> mostra IP do dispositivo. <b>netstat</b> ou <b>ss</b> mostra todas conexões de entrada e saída de rede, tabelas de roteamento e estatísticas do protocolo de rede. '<i>netstat -atunp</i>' mostra com detalhes de PID, TCP e UDP. <b>ping</b> mostra tempo de envio/recebimento de resposta em rede (Ex: '<span class="text-muted">ping -c 4 192.168.1.2</span>' (Ping para esse IPv4 limitado em 4 iterações). Ex2: '<span class="text-muted">ping uol.com.br</span>' (Ping no site do uol)). <b>host</b> (<i>host -opcao idHost</i>) localiza informações de rede como, por exemplo, IPv4 (opção -4) ou IPv6 (opção -6) de determinado host. As portas de rede encontram-se em '/etc/services'. Entre os firewalls Linux, tem-se <b>iptables</b>, juntamente com <b>UFW</b> (Ubuntu firewall), que possui o GUFW como serviço GUI para gerenciamento. MacAddress é o id da placa física, geralmente identificado como link/ether, HWaddr ou HW, seguindo padrão 'xx:xx:xx:xx:xx:xx' (Ex: <span class="text-muted">5c:cd:5b:74:ae:32</span>). O MacAddress da placa wifi do dispositivo geralmente encontra-se em wlan, identificado como 'HWaddr' ou 'ether'. Também pode ser encontrado com <b>inxi -Nn</b> na opção state 'up'. cURL (<b>curl</b>) oferece interface CLI para transferência de dados via protocolos de rede. <b>wget</b> é similar ao curl (Ex: '<span class="text-muted">wget http://ftp.gnu.org/pacote.tar.gz</span>') Comando <b>ssh</b> (secure shell) faz comunicação entre dispositivos via rede.</p>
+<small><pre><code>
+SSH (secure shell):
+<i>ssh -p numPorta usernameRemoto@ipRemoto</i> (-4 para somente IPv4, -6 para somente IPv6)
+<b>Conexão SSH</b>: ssh -p 22 root@10.1.2.3 (porta 22(padrão), username 'root', ip '10.1.2.3')
+</code></pre></small>
                 </div>
             </div>
 
@@ -431,7 +436,9 @@ unalias j <span class="text-muted">(descarta alias)</span>
 <b>Ver versão do kernel</b>: uname -r
 <b>Ver detalhes do kernel</b>: uname -a
 <b>Ver informações de memória cache em tempo real</b>: sudo slabtop (ctrl+c para sair)
-<b>Ver arquitetura da máquina</b>: arch
+<b>Ver informações de tempos em tempos</b>: watch –n 5 date (mostrará date a cada 5seg)
+<b>Ver nome do dispositivo</b>: hostname ('-i' mostrará ip)
+<b>Ver arquitetura do dispositivo</b>: arch
 <b>Ver particionamento do disco</b>: lsblk
 <b>Ver espaços das partições</b>: df (-i para mostrar inodes, buracos de memória no hardware de cada partição)
 <b>Ver informações sobre uso do disco</b>: du (du -sh *)
@@ -478,7 +485,9 @@ unalias j <span class="text-muted">(descarta alias)</span>
 <b>Ver metadados de arquivo</b>: stat nomeArquivo
 <b>Ver formato de arquivo</b>: file nomeArquivo
 <b>Ver conteúdo de arquivo</b>: cat nomeArquivo ('tac' mostra inversamente)
-<b>Ver conteúdo de arquivo, com paginação</b>: less /etc/services (Less: 'n' pula pra próxima página, '/termo' procura por termo específico)
+<b>Ver contagens de arquivo</b>: wc nomeArquivo (nº de linhas, palavra e bytes, respectivamente)
+<b>Ver início de conteúdo de arquivo</b>: head nomeArquivo ('tail' mostra o final)
+<b>Ver conteúdo de arquivo, com paginação</b>: less /etc/services (Less: 'n' pula pra próxima página, '/termo' procura por termo específico, 'more' é o inverso de less)
 <b>Inserir conteúdo de arquivo em outro arquivo</b>: cat arquivo &gt; arquivoGravacao
 <b>Inserir conteúdo de arquivo no final de outro arquivo</b>: cat arquivo &gt;&gt; arquivoGravacao
 
@@ -520,7 +529,7 @@ Exemplo (diretório): <span class="text-muted">drwxr-x--- 2 root adm 4096 Dec 20
 <b>Copiar e colar recursivamente</b>: cp -r dirOrigem dirDestino (-p mantém metadados)
 <b>Mover</b>: mv arquivo diretorioDestino (o mesmo vale para diretórios)
 <b>Renomear</b>: mv arquivoAtual arquivoNovo (o mesmo vale para diretórios)
-<b>Comparar arquivos</b>: diff arquivo1 arquivo2 ('-r' recursivo, '-i' ignora CamelCase, '-a' compara qualquer tipo de arquivo)
+<b>Comparar arquivos</b>: diff arquivo1 arquivo2 ('-r' recursivo, '-i' ignora CamelCase, '-a' compara qualquer tipo de arquivo. 'cmp' é comando similar)
 
 <b>Copiar e colar</b> (bit a bit): dd if=/dev/arquivo1 of=/tmp/arquivo2 bs=1M count=50
 if: arquivo de entrada, a ser lido
@@ -694,7 +703,7 @@ Categories=Categoria do binário
                         <li>PID, PPID: Identificadores do processo.</li>
                     </ul>
 <small><pre><code>
-<b>Ver processos</b>: 'ps -ef' ou 'ps -aux' ou 'ps -r' (-r para somente running)
+<b>Ver processos</b> (process status): 'ps -ef' ou 'ps -aux' ou 'ps -r' (-r para somente running)
 <b>Ver processos, filtro</b>: 'ps -ef | grep init' (todos processos 'init') ou 'ps --pid numPID' ou '--ppid numPPID' (filtro por id)
 <b>Ver processos, forma personalizada</b>: ps ax -o user,pid,ppid,%cpu,%mem,stat,start,command | head -3
 <b>Listar processos e processos filhos</b>: 'ps faux' ou 'ps -e f'
