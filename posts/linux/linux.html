@@ -267,6 +267,9 @@
 <b>sudo su</b>: Entrar no usuário root
 <b>su - nomeUsuario</b>: Sair do usuário root, para usuário comum
 <b>Alterar senha de usuário</b>: passwd [parâmetros] [utilizador] <spam class="text-muted">(passwd -S sysadmin)</spam>
+<b>Criar usuário</b>: useradd nomeUsuario (ou adduser)
+<b>Listar usuários</b>: cat /etc/passwd
+<b>Deletar usuário</b>: userdel nomeUsuario (ou deluser)
 </small></pre></code>
                 </div>
             </div>
@@ -281,7 +284,7 @@
                         <li><b>ra</b> (ra0, ra1, ra2...): Placa de rede com chipset Ralink;</li>
                         <li><b>lo</b>: Loopback, interface de rede virtual do dispositivo para conexões TCP/IP.</li>
                     </ul>
-                    <p>Entre os comandos de rede, tem-se <b>route</b> (<span class="text-muted">route -n</span>) para visualizar e manipular tabela de roteamento IP (inet) e gateway. O <b>ifconfig</b> e <b>iwconfig</b> para informações dos componentes de rede do dispositivo, <b>ip a</b>, <b>ip r</b> e <b>nmcli</b> são similares a ambos. <b>ip addr show</b> mostra IP do dispositivo. <b>netstat</b> ou <b>ss</b> mostra todas conexões de entrada e saída de rede, tabelas de roteamento e estatísticas do protocolo de rede. '<i>netstat -atunp</i>' mostra com detalhes de PID, TCP e UDP. <b>ping</b> mostra tempo de envio/recebimento de resposta em rede (Ex: '<span class="text-muted">ping -c 4 192.168.1.2</span>' (Ping para esse IPv4 limitado em 4 iterações). Ex2: '<span class="text-muted">ping uol.com.br</span>' (Ping no site do uol)). <b>host</b> (<i>host -opcao idHost</i>) localiza informações de rede como, por exemplo, IPv4 (opção -4) ou IPv6 (opção -6) de determinado host. As portas de rede encontram-se em '/etc/services'. Entre os firewalls Linux, tem-se <b>iptables</b>, juntamente com <b>UFW</b> (Ubuntu firewall), que possui o GUFW como serviço GUI para gerenciamento. MacAddress é o id da placa física, geralmente identificado como link/ether, HWaddr ou HW, seguindo padrão 'xx:xx:xx:xx:xx:xx' (Ex: <span class="text-muted">5c:cd:5b:74:ae:32</span>). O MacAddress da placa wifi do dispositivo geralmente encontra-se em wlan, identificado como 'HWaddr' ou 'ether'. Também pode ser encontrado com <b>inxi -Nn</b> na opção state 'up'. cURL (<b>curl</b>) oferece interface CLI para transferência de dados via protocolos de rede. <b>wget</b> é similar ao curl (Ex: '<span class="text-muted">wget http://ftp.gnu.org/pacote.tar.gz</span>') Comando <b>ssh</b> (secure shell) faz comunicação entre dispositivos via rede.</p>
+                    <p>Entre os comandos de rede, tem-se <b>route</b> (<span class="text-muted">route -n</span>) para visualizar e manipular tabela de roteamento IP (inet) e gateway. O <b>ifconfig</b> e <b>iwconfig</b> para informações dos componentes de rede do dispositivo, <b>ip a</b>, <b>ip r</b> e <b>nmcli</b> são similares a ambos. <b>ip addr show</b> mostra IP do dispositivo. <b>netstat</b> ou <b>ss</b> mostra todas conexões de entrada e saída de rede, tabelas de roteamento e estatísticas do protocolo de rede. '<i>netstat -atunp</i>' mostra com detalhes de PID, TCP e UDP. <b>ping</b> mostra tempo de envio/recebimento de resposta em rede (Ex: '<span class="text-muted">ping -c 4 192.168.1.2</span>' (Ping para esse IPv4 limitado em 4 iterações). Ex2: '<span class="text-muted">ping uol.com.br</span>' (Ping no site do uol)). <b>host</b> (<i>host -opcao idHost</i>) localiza informações de rede como, por exemplo, IPv4 (opção -4) ou IPv6 (opção -6) de determinado host. As portas de rede encontram-se em '/etc/services'. Entre os firewalls Linux, tem-se <b>iptables</b>, juntamente com <b>UFW</b> (Ubuntu firewall), que possui o GUFW como serviço GUI para gerenciamento. MacAddress é o id da placa física, geralmente identificado como link/ether, HWaddr ou HW, seguindo padrão 'xx:xx:xx:xx:xx:xx' (Ex: <span class="text-muted">5c:cd:5b:74:ae:32</span>). O MacAddress da placa wifi do dispositivo geralmente encontra-se em wlan, identificado como 'HWaddr' ou 'ether'. Também pode ser encontrado com <b>inxi -Nn</b> na opção state 'up'. cURL (<b>curl</b>) oferece interface CLI para transferência de dados via protocolos de rede. <b>wget</b> é similar ao curl (Ex: '<span class="text-muted">wget http://ftp.gnu.org/pacote.tar.gz</span>'). <b>traceroute</b> mostra rota via rede até o destino (Ex: '<span class="text-muted">traceroute www.google.com</span>'). Comando <b>ssh</b> (secure shell) faz comunicação entre dispositivos via rede.</p>
 <small><pre><code>
 SSH (secure shell):
 <i>ssh -p numPorta usernameRemoto@ipRemoto</i> (-4 para somente IPv4, -6 para somente IPv6)
@@ -710,6 +713,7 @@ Categories=Categoria do binário
 <b>Ver PID do processo</b>: pidof nomeProcesso (pidof init)
 <b>Mostrar dados de processo</b>: top numPID
 <b>Processos de usuário específico</b>: top -u usuario
+<b>Vre processos do shell na sessão atual</b>: jobs (-l mostra PIDs, -r somente running, -s somente stopped)
 <b>Processos de arquivo específico</b>: fuser nomeArquivo
 <b>Processos em árvore</b>: pstree
 <b>Encerrar processo</b>: kill -15 numPID (função sigterm, similar a 'kill numPID')
