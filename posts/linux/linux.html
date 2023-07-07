@@ -408,6 +408,7 @@ unalias j <span class="text-muted">(descarta alias)</span>
                         <li><b>ctrl+n</b>: Próximo comando;</li>
                         <li><b>ctrl+c</b>: Abrir nova linha a partir do cursor (cancelar operação em andamento);</li>
                         <li><b>ctrl+d</b>: Sair;</li>
+                        <li><b>ctrl+z</b>: Pausar comando em andamento;</li>
                         <li><b>alt+f</b>: Mover 1 palavra;</li>
                         <li><b>alt+d</b>: Deletar 1 palavra;</li>
                         <li><b>ctrl+r</b>: Iniciar/Próxima pesquisa;</li>
@@ -455,6 +456,7 @@ unalias j <span class="text-muted">(descarta alias)</span>
 <b>Ver dispositivos scsi</b>: lsscsi
 <b>Ver dispositivos usb</b>: lsusb
 <b>Subshell (comando dentro de comando)</b>: ls $(which docker)
+<b>Gravar shell</b>: script arquivoGravacao (Todos comandos/saídas no shell serão gravados no arquivoGravacao até ser informado 'exit' no shell)
 
 <b>Desligar</b>: shutdown now (ou poweroff, ou init 0, ou shutdown 0)
 <b>Logout</b>: logout
@@ -512,7 +514,7 @@ Exemplo (diretório): <span class="text-muted">drwxr-x--- 2 root adm 4096 Dec 20
                     <h5>Print:</h5>
 <small><pre><code>
 <b>Impressão simples</b>: lp arquivo.txt
-<b>Impressão avançada</b>: lp -d nomeImpressora -n 2 -P 1,3 Documents/arquivo (2 cópias, páginas 1 e 3)
+<b>Impressão avançada</b>: lp -d nomeOuIdImpressora -n 2 -P 1,3 Documents/arquivo (2 cópias, páginas 1 e 3)
 <b>Detalhes da impressora</b>: lpstat -p -d
 <b>Ver fila de impressão</b>: lpq
 </code></pre></small>
@@ -533,6 +535,7 @@ Exemplo (diretório): <span class="text-muted">drwxr-x--- 2 root adm 4096 Dec 20
 <b>Mover</b>: mv arquivo diretorioDestino (o mesmo vale para diretórios)
 <b>Renomear</b>: mv arquivoAtual arquivoNovo (o mesmo vale para diretórios)
 <b>Comparar arquivos</b>: diff arquivo1 arquivo2 ('-r' recursivo, '-i' ignora CamelCase, '-a' compara qualquer tipo de arquivo. 'cmp' é comando similar)
+<b>Sincronizar arquivos</b>: rsync arqOriginal arqDuplicado ('-r' recursivo, '-v' verbose, '-a' mantém todos metadados)
 
 <b>Copiar e colar</b> (bit a bit): dd if=/dev/arquivo1 of=/tmp/arquivo2 bs=1M count=50
 if: arquivo de entrada, a ser lido
