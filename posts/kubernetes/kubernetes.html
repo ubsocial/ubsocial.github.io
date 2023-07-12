@@ -628,6 +628,60 @@ kubectl -n robot-shop create -f ~/robot-shop/K8s/descriptors/
 <b>3. Acompanhar status dos Pods:</b> kubectl get pods -n robot-shop -w
 <b>4. Acessar frontend da aplicação:</b> http://ipMasterNode:30080
 </code></pre></small>
+
+            <br><h4>StatefulSet</h4>
+            <p id="textoPost">Pods, nativamente, são <i>stateless</i> (sem estado, não armazenam dados). No Deployment, ao reiniciar o Pod, os dados armazenados não estão garantidos e os ip's são modificados. Com StatefulSet, o Pod possuirá mesmo ip de rede, host e estado (armazenamento de dados assegurado), mesmo após cair e reiniciar. Diferente do Deployment, no StatefulSet cada volume é dedicado e não compartilhado.</p>
+<small><pre><code>
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  ports:
+  - port: 80
+    name: web
+  clusterIP: None
+  selector:
+    app: nginx
+---
+apiVersion: apps/v1
+<b>kind: StatefulSet</b>
+metadata:
+  name: web
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  <b>serviceName: "nginx"</b>
+  replicas: 3
+  minReadySeconds: 10
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: nginx
+        image: registry.k8s.io/nginx-slim:0.8
+        ports:
+        - containerPort: 80
+          name: web
+        volumeMounts:
+        - name: www
+          mountPath: /usr/share/nginx/html
+  volumeClaimTemplates:
+  - metadata:
+      name: www
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "my-storage-class"
+      resources:
+        requests:
+          storage: 1Gi
+</code></pre></small>
         </div>
     </div>
 
