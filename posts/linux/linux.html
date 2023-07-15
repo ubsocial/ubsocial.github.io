@@ -756,7 +756,7 @@ echo "Concluído!"
             <div class="card mb-4">
                 <h4 class="card-header">Localização</h4>
                 <div class="card-body">
-                    <p>Encontrar arquivos no sistema. Comando 'locate' realiza pesquisa simples, utilizando base de dados (updatedb) ao invés de recursividade nas buscas (Ex: '<span class="text-muted">locate howto</span>'). Comando 'find' utiliza recursividade nas buscas.<br>Sintaxe: <span class="text-danger">find [diretório] [opção/expressão]</span></p>
+                    <p>Encontrar arquivos no sistema. Comando 'locate' realiza pesquisa simples, utilizando base de dados (updatedb) ao invés de recursividade nas buscas (Ex: '<span class="text-muted">locate howto</span>'). Comando 'find' utiliza recursividade nas buscas.<br>Sintaxe: <span class="text-danger">find [diretórioBusca] [opção] [termo/expressãoBusca]</span></p>
 <small><pre><code>
 <u><b>Exemplos de buscas</b></u>:
 <b>Arquivos com 'teste' no diretório atual</b>: find teste
@@ -782,7 +782,7 @@ echo "Concluído!"
                 <div class="card-body">
                     <ul>
                         <li><b>how-to</b> (cookbook): Documentos, disponíveis em '/usr/share/doc', focados em necessidade específica, como montar um firewall. Possuem formatos HTML, Markdown, entre outros (Ex: how-to do iptables estão em '/usr/share/doc/iptables');</li>
-                        <li><b>man page</b>: Manuais de ajuda geral, via comando 'man'. Há o termo com o nº do manual indicado ('gzip(1)' é o man1 do gzip). Sintaxe: <span class="text-danger">man [sessão] &lt;termo&gt;</span>. Sessão pode alterar manual do comando (Ex: 'man passwd' é man1 do comando passwd, 'man 5 passwd' é man5 do arquivo de configuração passwd). Comando 'catman' atualiza a base de dados dos manuais. Manuais estão em '/usr/share/man'. Comandos <b>yelp</b> e <b>xman</b> são ferramentas GUI para tal;
+                        <li><b>man page</b>: Manuais de ajuda geral, via comando 'man'. Há o termo com o nº do manual indicado ('gzip(1)' é o man1 do gzip). Sintaxe: <span class="text-danger">man [sessão] &lt;termo&gt;</span>. Sessão pode alterar manual do comando (Ex: 'man passwd' é man1 do comando passwd, 'man 5 passwd' é man5 do arquivo de configuração passwd). Comando 'catman' atualiza a base de dados dos manuais. Manuais estão em '/usr/share/man'. Cada manual possui 11 seções de organização de conteúdo, sendo padronizados globalmente. Comandos <b>yelp</b> e <b>xman</b> são ferramentas GUI para tal;
                             <ul>
                                 <li>man 1: Binários e executáveis;</li>
                                 <li>man 2: Rotinas do sistema Linux e linguagem C;</li>
