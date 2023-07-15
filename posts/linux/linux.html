@@ -160,18 +160,18 @@
                         <li><b>/etc</b>: Abreviação de 'etcetera' ou 'edit do/to config'. Arquivos de configuração do sistema, como scripts de inicialização, módulos de programas, tabela de sistema de arquivos (fstab - file system table), configurações de services e usuários;</li>
                         <li><b>/home</b>: Diretórios dos usuários do sistema. Cada usuário é representado por diretório com seu nome, contendo seus respectivos arquivos dentro (área de trabalho, documentos, imagens, etc);</li>
                         <li><b>/lib, /lib32, /libx32, /lib64</b>: Bibliotecas (libraries) compartilhadas e módulos do kernel. Libraries são scripts que podem ser utilizados por outros arquivos dependentes para seu funcionamento. Links simbólicos para '/usr/lib', '/usr/lib32', 'usr/libx32' e '/usr/lib64';</li>
-                        <li><b>/lost+found</b>: Diretório geralmente oculto (/.lost+found) de 'achados e perdidos', usado para reparos gerais no sistema, como comando 'fsck';</li>
+                        <li><b>/lost+found</b>: Diretório geralmente oculto (/.lost+found) de 'achados e perdidos' (não faz parte da FHS), usado para reparos gerais no sistema, como comando 'fsck';</li>
                         <li><b>/media</b>: Ponto de montagem para mídias removíveis (media), como cdrom, floppy, webcam, usb, hd e ssd externos;</li>
                         <li><b>/mnt</b>: Ponto de montagem temporária (mount) de sistema de arquivos, como outros SOs e cdrom (similar ao '/media');</li>
                         <li><b>/opt</b>: Abreviação de 'optional', utilizado por arquivos proprietários, não licenciados pela GNU, adicionados pelos usuários;</li>
                         <li><b>/proc</b>: Processos (process) do Linux e todas informações do hardware (cpu, memória e partições). Diretório virtual (gravado em RAM, volátil, todos arquivos nele são apagados no desligamento do dispositivo);</li>
-                        <li><b>/root</b>: Arquivos do usuário administrador (root), para administração de interface de rede, usuários e grupos, prioridades, entre outros;</li>
-                        <li><b>/run</b>: Diretório virtual de arquivos temporários sensíveis de inicialização do sistema, e informações de services em execução (run, runtime);</li>
+                        <li><b>/root</b>: Arquivos do usuário administrador (root, 'home do root'), para administração de interface de rede, usuários e grupos, prioridades, entre outros;</li>
+                        <li><b>/run</b>: Diretório virtual de arquivos temporários sensíveis de inicialização do sistema, além de informações de services em execução (run, runtime);</li>
                         <li><b>/sbin</b>: Link simbólico para '/usr/sbin', possui os super binários (super binaries ou system binaries), comandos/alias do administrador do Linux (root), utilizados para inicialização, reparação e restauração do sistema, e informações sensíveis de rede;</li>
-                        <li><b>/srv</b>: Serviços (service) do Linux, como rede, acessíveis externamente. Geralmente utilizado para instalação de servidores web ('/srv/www') e ftp ('/srv/ftp');</li>
+                        <li><b>/srv</b>: Serviços (service) do Linux, como rede, acessíveis externamente. Geralmente utilizado para instalação de servidores web ('/srv/www'), samba ('/srv/samba') e ftp ('/srv/ftp');</li>
                         <li><b>/sys</b>: Diretório virtual de mapeamento de chamadas diretas ao kernel (system), e informações sobre devices e módulos, sendo similar ao '/proc', porém mais organizado e categorizado;</li>
                         <li><b>/tmp</b>: Diretório virtual de arquivos temporátios (temp, temporary);</li>
-                        <li><b>/usr</b>: Recursos do Linux (user, unix system resources), como libraries e binaries, scripts do kernel ('/src'), além de arquivos não essenciais ao sistema, que seguem padrão GNU;</li>
+                        <li><b>/usr</b>: Recursos do Linux (user, unix system resources), como libraries e binaries, scripts do kernel ('/src'), documentação ao usuário, além de arquivos não essenciais ao sistema, que seguem padrão GNU;</li>
                         <li><b>/var</b>: Arquivos de informações e tamanho variável (variable), como cache, logs e impressão ('/spool').</li>
                     </ul>
 
