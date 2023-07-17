@@ -743,14 +743,16 @@ Categories=Categoria do binário
                     <p>Script de execução em shell Linux, em linguagem shell, arquivos com terminação '.sh'. Realizam manipulação em rotinas shell Linux. Prévia execução, precisa-se dar permissão de execução ao mesmo. Executa-se com o comando './arquivo.sh'. Exemplo de shell script para criação de 3 diretórios, arquivo 'teste.sh' (criará 'dir1', 'dir2' e 'dir3'):</p>
 <small><pre><code>
 #!/bin/bash
-x=1
-while [ $x -le 3 ];
+X=1
+while [ $X -le 3 ];
 do
-    mkdir dir$x
-    echo "dir$x criado"
-    ((x=$x+1))
+    mkdir dir$X
+    echo "dir$X criado"
+    ((X=$X+1))
 done
 echo "Concluído!"
+SAIDA=$( ls -l )
+echo $SAIDA
 </code></pre></small>
                 </div>
             </div>
