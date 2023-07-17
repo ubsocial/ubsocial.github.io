@@ -394,15 +394,15 @@ PORT={{ backend_bind_port }}
             <br><hr><h4>Laboratório prático</h4>
             <p id="textoPost">Ambiente Vagrant composto por master node (Ubuntu - 'ansible') e 2 workers (Debian e CentOS - 'machine01 e machine02').</p>
             <ol><b><u>Preparo</u></b>
-                <li>Instalar requisitos com 'sudo apt install virtualbox vagrant'</li>
-                <li>Baixe o arquivo 'Vagrantfile' do Github acima</li>
-                <li>Executá-lo com 'vagrant up'</li>
+                <li>Instalar requisitos: <span class="text-muted">sudo apt install virtualbox vagrant</span></li>
+                <li>Baixar Vagrantfile (Github acima)</li>
+                <li>Executar: <span class="text-muted">vagrant up</span></li>
             </ol>
             <ol><b><u>Configuração</u></b>
-                <li>Acessar master node com 'vagrant ssh ansible'</li>
-                <li>Executar 'sudo apt update && sudo apt -y install wget curl ansible'</li>
-                <li>Se não existir, criar pasta '/etc/ansible', com os arquivos 'hosts', 'ansible.cfg' e pasta 'roles'</li>
-                <li>Configurar workers com 'sudo nano /etc/ansible/hosts', apagar todo conteúdo e informar:
+                <li>Acessar master node: <span class="text-muted">vagrant ssh ansible</span></li>
+                <li>Executar: <span class="text-muted">sudo apt update && sudo apt -y install wget curl ansible</span></li>
+                <li>Se não existir, criar '/etc/ansible', com arquivos 'hosts', 'ansible.cfg' e pasta 'roles'</li>
+                <li>Configurar workers: <span class="text-muted">sudo nano /etc/ansible/hosts</span>, apagar todo conteúdo e informar:
 <small><pre><code>
 [all:vars]
 ansible_python_interpreter=/usr/bin/python
@@ -417,15 +417,15 @@ machine02.ubsocial
 machine01.ubsocial
 machine02.ubsocial
 </code></pre></small></li>
-                <li>Em 'sudo nano /etc/ansible/ansible.cfg':
+                <li>Em <span class="text-muted">sudo nano /etc/ansible/ansible.cfg</span>:
                   <ul>
                     <li>Descomentar linha 'host_key_checking = False'</li>
                     <li>Alterar linha 'private_key_file = /vagrant/key'</li>
                   </ul>
                 </li>
-                <li>Sair do arquivo e criar chave de autenticação com 'ssh-keygen -q -t rsa -f /vagrant/key -N '' '</li>
-                <li>Copiar conteúdo de 'cat /vagrant/key.pub', acessar os Workers (vagrant ssh machine01...), usar 'nano .ssh/authorized_keys' e colar a chave na última linha</li>
-                <li>Verificar conexão no master node com 'ansible all -m ping'</li>
+                <li>Sair do arquivo e criar chave de autenticação: <span class="text-muted">ssh-keygen -q -t rsa -f /vagrant/key -N ''</span></li>
+                <li>Copiar conteúdo de <span class="text-muted">cat /vagrant/key.pub</span>, acessar os Workers (<span class="text-muted">vagrant ssh machine01</span>...), usar <span class="text-muted">nano .ssh/authorized_keys</span> e colar a chave na última linha</li>
+                <li>Verificar conexão no master node: <span class="text-muted">ansible all -m ping</span></li>
                 <!--Finalizar:
                   https://www.youtube.com/watch?v=GfOj2wgxyF4&t=543s (9min, configurar ambiente com o Vagrant)
                 -->
