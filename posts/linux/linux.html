@@ -203,7 +203,7 @@
                     </ul>
 
                     <h5>Devices:</h5>
-                    <p>Linux possui 3 formatos de gerenciamento de dados: <b>stdin</b> 0 (standard input, entrada de dados, como via teclado), <b>stdout</b> 1 (standard output, saída de dados, como via display tela) e <b>stderr</b> 2 (standard error, feedback de erro, como via display tela). Pode-se alterar o padrão, como redirecionar stderr para arquivo ('<span class="text-muted">ls erro > arquivo</span>'). O diretório '/dev' armazena arquivos dos dispositivos periféricos, com exceção de placas de rede, que são carregadas via módulo do kernel. Em '/dev' há '/devfs' ou '/udev'. '/dev' carrega todos os módulos ("drivers") do Linux, incluindo os não presentes no hardware host. '/udev' carrega somente módulos encontrados no hardware host, além da configuração automatizada codeplug e hotplug. Seu arquivo de configurações é '/etc/udev/udev.conf' e seus arquivos de regras (rules) estão em '/etc/udev/rules.d/'. Os comando <i>udevmonitor</i> e <i>udevadm monitor</i> permitem modificar eventos armazenados no sistema lógico sysfs, onde ficam as identificações dos dispositivos.</p>
+                    <p>Linux possui 3 formatos de gerenciamento de dados: <b>stdin</b> 0 (standard input, entrada de dados, como via teclado), <b>stdout</b> 1 (standard output, saída de dados, como via display tela) e <b>stderr</b> 2 (standard error, feedback de erro, como via display tela ou arquivo de log). Pode-se alterar o padrão, como redirecionar stderr para arquivo ('<span class="text-muted">ls erro 2&gt; arquivo</span>'). Redirecionar stdout e stderr para mesmo local com '<span class="text-muted">ls -l ubsocial 2&&gt;1 arquivo</span>'. Redirecionar stdout e stderr para locais diferentes com '<span class="text-muted">ls -l ubsocial &gt; arquivo 2&gt; arquivoErros</span>'. O diretório '/dev' armazena arquivos dos dispositivos periféricos, com exceção de placas de rede, que são carregadas via módulo do kernel. Em '/dev' há '/devfs' ou '/udev'. '/dev' carrega todos os módulos ("drivers") do Linux, incluindo os não presentes no hardware host. '/udev' carrega somente módulos encontrados no hardware host, além da configuração automatizada codeplug e hotplug. Seu arquivo de configurações é '/etc/udev/udev.conf' e seus arquivos de regras (rules) estão em '/etc/udev/rules.d/'. Os comando <i>udevmonitor</i> e <i>udevadm monitor</i> permitem modificar eventos armazenados no sistema lógico sysfs, onde ficam as identificações dos dispositivos.</p>
                     
                     <h5>Tipos de devices:</h5>
                     <ul>
@@ -245,7 +245,7 @@
                     <p>O usuário comum (<b>$</b>) é o padrão para utilização do Linux, possui restrições de gerenciamento sensíveis ao sistema. O administrador <b>sudo</b> (super user do) possui permissão total de gerenciamento do sistema. O <b>usuário de sistema</b> é fictício, criado durante a instalação de algum script, para execução de tarefas específicas ao mesmo, não possuindo capacidade de login no sistema. O <b>root</b> (<b>#</b>, id 0), é o super user (<span class="text-muted">su</span>) possui permissão total de gerenciamento do sistema. O root é o único usuário com permissão de gerenciamento fora de seu diretório home.</p>
 
                     <h5>Arquivos de usuário:</h5>
-                    <p>Arquivo '/etc/passwd' possui informações dos usuários, separadas por ':'. Constituem, respectivamente, login do usuário, senha ('x', determinando que a senha está em '/etc/shadow', ou '*', determinando que o login está desabilitado, ou linha em branco, determinando ausência de senha), UID (user identification), GID (group identification), GComs (dados de comentários do usuário, separados por vírgula), localização home do usuário e shell do usuário. Arquivo '/etc/shadow' possui informações do usuário. Constituem, respectivamente, login do usuário, senha criptografada, data da modificação de senha (nº de dias), nº de dias para Linux permitir nova modificação de senha, nº de dias que o usuário pode manter mesma senha, nº de dias para expirar senha, nº de dias após expiração de senha, nº de dias até expiração de senha e campo reservado para futura informação.</p>
+                    <p>Arquivo '/etc/passwd' possui informações dos usuários, separadas por ':'. Constituem, respectivamente, login do usuário, senha ('x', determinando que a senha está em '/etc/shadow', ou '*', determinando que o login está desabilitado, ou linha em branco, determinando ausência de senha), UID (user identification), GID (group identification), GComs (dados de comentários do usuário, separados por vírgula), localização home do usuário e shell do usuário. Arquivo '/etc/shadow' possui informações das senhas dos usuários. Constituem, respectivamente, login do usuário, senha criptografada, data da modificação de senha (nº de dias), nº de dias para Linux permitir nova modificação de senha, nº de dias que o usuário pode manter mesma senha, nº de dias para expirar senha, nº de dias após expiração de senha, nº de dias até expiração de senha e campo reservado para futura informação.</p>
 <small><pre><code>
 <u><b>Informações de usuários</b></u>:
 <b>Username</b>: Nome do usuário
@@ -714,29 +714,31 @@ Categories=Categoria do binário
                         <li>PID, PPID: Identificadores do processo.</li>
                     </ul>
 <small><pre><code>
-<b>Ver processos</b> (process status): 'ps -ef' ou 'ps -aux' ou 'ps -r' (-r para somente running)
+<b>Ver processos da sessão, tty e usuário atual</b> (process status): 'ps -ef' ou 'ps -aux' ou 'ps -r' (-r para somente running)
+<b>Similar acima, mas em todos tty</b>: ps u
 <b>Ver processos, filtro</b>: 'ps -ef | grep init' (todos processos 'init') ou 'ps --pid numPID' ou '--ppid numPPID' (filtro por id)
+<b>Ver processos do usuário, em 1º e 2º plano, em todos tty</b>: ps a
 <b>Ver processos, forma personalizada</b>: ps ax -o user,pid,ppid,%cpu,%mem,stat,start,command | head -3
 <b>Listar processos e processos filhos</b>: 'ps faux' ou 'ps -e f'
 <b>Ver PID do processo</b>: pidof nomeProcesso (pidof init)
-<b>Mostrar dados de processo</b>: top numPID
+<b>Mostrar dados de processo</b>: top numPID ('q' para sair)
 <b>Processos de usuário específico</b>: top -u usuario
-<b>Vre processos do shell na sessão atual</b>: jobs (-l mostra PIDs, -r somente running, -s somente stopped)
 <b>Processos de arquivo específico</b>: fuser nomeArquivo
 <b>Processos em árvore</b>: pstree
-<b>Encerrar processo</b>: kill -15 numPID (função sigterm, similar a 'kill numPID')
+<b>Processos enviados para background pelo usuário da sessão atual</b>: jobs (-l mostra PIDs, -r somente running, -s somente stopped)
+<b>Encerrar processo</b>: kill -15 numPID (função sigterm, similar a 'kill numPID' ou 'kill -SIGTERM numPID')
 <b>Parar processo</b>: kill -19 numPID (sigstop)
+<b>Parar processo em background</b>: ctrl+z (sigquit, similar a 'kill -3')
 <b>Matar processo</b>: kill -9 numPID (sigkill)
+<b>Matar processo pelo nome</b>: pkill nomeProcesso (ou 'pkill -9 nomeProcesso')
 <b>Continuar processo stopped</b>: kill -18 numPID (sigcont)
 <b>Criar processo com prioridade</b>: nice -n -10 nomeProcesso (prioridade -10)
-<b>Matar todos processos de software</b>: 'killall nomeSoftware' ou 'pkill nomeSoftware'
+<b>Matar todos processos de software</b>: 'killall nomeSoftware'
 <b>Alterar prioridade</b>: 'renice numPrioridade -p numPID' ou 'nice -n numPrioridade nomeProcesso'
 <b>Ignorar sinais ao processo</b>: Torná-lo daemon, para mantê-lo em execução mesmo com shell fechado, 'nohup ping 8.8.8.8 &' (sighup. As saídas do nohup ficam em 'nohup.out')
-<b>Parar processo para background</b>: ctrl+z (sigquit, similar a 'kill -3')
-<b>Ver processos parados em background</b>: jobs
-<b>Retmoar processo parado em background, para foreground</b>: fg idJob
-<b>Alterar estado do processo em background (como stopped para running)</b>: bg idJob
-<b>Enviar processo running para background</b>: nomeProcesso &
+<b>Retomar processo parado em background, para foreground</b>: fg idJob
+<b>Retomar processo parado em foreground, para background</b>: bg idJob
+<b>Enviar processo para ser executado em background</b>: nomeProcesso & (ou 'comando &')
 </code></pre></small>
 
                     <h5>Shell script:</h5>
