@@ -291,14 +291,79 @@
             <div class="card mb-4">
                 <h4 class="card-header">Rede</h4>
                 <div class="card-body">
-                    <h5>Componentes de rede:</h5>
+                    <h5>Tipos de internet protocol:</h5>
+                    <ul>
+                        <li>IPv4:
+                            <ul>
+                                <li>IPs públicos (válidos na internet) e privados (inválidos na internet) diferentes;</li>
+                                <li>Possui Nat e classes de rede;</li>
+                                <li>Localhost: 127.0.0.1</li>
+                            </ul>
+                        </li>
+                        <li>IPv6:
+                            <ul>
+                                <li>IPs públicos e privados iguais;</li>
+                                <li>Não possui Nat e classes de rede;</li>
+                                <li>Localhost: ::1</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <h5>Arquivos:</h5>
+                    <ul>
+                        <li>'<i>/etc/hostname</i>' armazena o nome do dispositivo ($HOSTNAME);
+                            <ul>
+                                <li>Modificar hostname: <span class="text-muted">hostnamectl --set-hostname novoNome</span></li>
+                                <li>Modificar hostname temporariamente: <span class="text-muted">hostname novoNome</span></li>
+                            </ul>
+                        </li>
+                        <li>'<i>/etc/network/interfaces</i>' arquivo de configuração de IPs (Debian);
+                            <ul>
+                                <li>'auto' significa que placa será configurada automaticamente na inicialização do serviço;</li>
+                                <li>'allow-hotplug' significa que placa será iniciada automaticamente no boot do dispositivo, mas dependerá de 'ifup' quando o serviço de rede for iniciado;</li>
+                                <li>iface nomePlaca inet metodoAtribuicao
+                                    <ul>
+                                        <li>IP dinâmico: iface nomePlaca inet dhcp</li>
+                                        <li>IP fixo:
+<small><pre><code>
+iface nomePlaca inet static
+address 192.168.0.20/24
+netmask 255.255.255.0
+gateway 192.168.0.1
+
+<b>Ex: Incluir placa virtual de rede em '/etc/network/interfaces'</b>
+auto nomePlaca:0
+iafce nomePlaca:0 inet static
+address 10.11..12.13
+netmask 255.255.255.0
+(<span class="text-muted">Sair do arquivo, reiniciar service (sudo systemctl restart networking) e verificar com 'ip a'</span>)
+</code></pre></small>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>'<i>/etc/sysconfig/network-scripts/ifcfg-interfaceRede</i>' arquivo de configuração de IPs (Red Hat);</li>
+                        <li>'<i>/etc/hosts</i>' possui tabela de hosts do dispositivo, seguindo sintaxe 'ip nomeHost.dominio nomeHost'. Esse arquivo é lido antes de acessos ao DNS;</li>
+                        <li>'<i>/etc/resolv.conf</i>'realiza configuração de servidores de DNS para cliente Linux. Possui sintaxe:</li>
+<small><pre><code>
+search nomeHost.dominio
+domain nomeHost.dominio
+nameserver dnsPrimario
+nameserver dnsSecundario
+</code></pre></small>
+                    </ul>
+                    
+                    <h5>Componentes:</h5>
                     <ul>
                         <li><b>eth</b> (eth0, eth1, eth2...): Ethernet, placa de rede cabeada do dispositivo;</li>
                         <li><b>wlo</b> (wlo0, wlo1, wlo2...), <b>wlan</b> (wlan0, wlan1, wlan2...): Wlo é wireless network interface (NIC). Wireless-LAN (Local Area Network), plca de wifi do dispositivo;</li>
                         <li><b>ra</b> (ra0, ra1, ra2...): Placa de rede com chipset Ralink;</li>
                         <li><b>lo</b>: Loopback, interface de rede virtual do dispositivo para conexões TCP/IP.</li>
                     </ul>
-                    <p>Entre os comandos de rede, tem-se <b>route</b> (<span class="text-muted">route -n</span>) para visualizar e manipular tabela de roteamento IP (inet) e gateway. O <b>ifconfig</b> e <b>iwconfig</b> para informações dos componentes de rede do dispositivo, <b>ip a</b>, <b>ip r</b> e <b>nmcli</b> são similares a ambos. <b>ip addr show</b> mostra IP do dispositivo. <b>netstat</b> ou <b>ss</b> mostra todas conexões de entrada e saída de rede, tabelas de roteamento e estatísticas do protocolo de rede. '<i>netstat -atunp</i>' mostra com detalhes de PID, TCP e UDP. <b>ping</b> mostra tempo de envio/recebimento de resposta em rede (Ex: '<span class="text-muted">ping -c 4 192.168.1.2</span>' (Ping para esse IPv4 limitado em 4 iterações). Ex2: '<span class="text-muted">ping uol.com.br</span>' (Ping no site do uol)). <b>host</b> (<i>host -opcao idHost</i>) localiza informações de rede como, por exemplo, IPv4 (opção -4) ou IPv6 (opção -6) de determinado host. As portas de rede encontram-se em '/etc/services'. Entre os firewalls Linux, tem-se <b>iptables</b>, juntamente com <b>UFW</b> (Ubuntu firewall), que possui o GUFW como serviço GUI para gerenciamento. MacAddress é o id da placa física, geralmente identificado como link/ether, HWaddr ou HW, seguindo padrão 'xx:xx:xx:xx:xx:xx' (Ex: <span class="text-muted">5c:cd:5b:74:ae:32</span>). O MacAddress da placa wifi do dispositivo geralmente encontra-se em wlan, identificado como 'HWaddr' ou 'ether'. Também pode ser encontrado com <b>inxi -Nn</b> na opção state 'up'. cURL (<b>curl</b>) oferece interface CLI para transferência de dados via protocolos de rede. <b>wget</b> é similar ao curl (Ex: '<span class="text-muted">wget http://ftp.gnu.org/pacote.tar.gz</span>'). <b>traceroute</b> mostra rota via rede até o destino (Ex: '<span class="text-muted">traceroute www.google.com</span>'). Comando <b>ssh</b> (secure shell) faz comunicação entre dispositivos via rede.</p>
+
+                    <h5>Comandos:</h5>
+                    <p>Entre os comandos de rede, tem-se <b>route</b> (<span class="text-muted">route -n</span>) para visualizar e manipular tabela de roteamento IP (inet) e gateway. O <b>ifconfig</b> e <b>iwconfig</b> para informações dos componentes de rede do dispositivo, <b>ip a</b> (ou 'ip address show'), <b>ip r</b> (ou 'ip route show' ver tabela de rotas) e <b>nmcli</b> são similares a ambos. <b>ip addr show</b> mostra IP do dispositivo. <b>netstat</b> ou <b>ss</b> mostra todas conexões de entrada e saída de rede, tabelas de roteamento e estatísticas do protocolo de rede. '<i>netstat -atunp</i>' mostra com detalhes de PID, TCP e UDP. <b>ping</b> mostra tempo de envio/recebimento de resposta em rede (Ex: '<span class="text-muted">ping -c 4 192.168.1.2</span>' (Ping para esse IPv4 limitado em 4 iterações). Ex2: '<span class="text-muted">ping uol.com.br</span>' (Ping no site do uol)). <b>host</b> (<i>host -opcao idHost</i>) localiza informações de rede como, por exemplo, IPv4 (opção -4) ou IPv6 (opção -6) de determinado host. As portas de rede encontram-se em '/etc/services'. Entre os firewalls Linux, tem-se <b>iptables</b>, juntamente com <b>UFW</b> (Ubuntu firewall), que possui o GUFW como serviço GUI para gerenciamento. MacAddress é o id da placa física, geralmente identificado como link/ether, HWaddr ou HW, seguindo padrão 'xx:xx:xx:xx:xx:xx' (Ex: <span class="text-muted">5c:cd:5b:74:ae:32</span>). O MacAddress da placa wifi do dispositivo geralmente encontra-se em wlan, identificado como 'HWaddr' ou 'ether'. Também pode ser encontrado com <b>inxi -Nn</b> na opção state 'up'. cURL (<b>curl</b>) oferece interface CLI para transferência de dados via protocolos de rede. <b>wget</b> é similar ao curl (Ex: '<span class="text-muted">wget http://ftp.gnu.org/pacote.tar.gz</span>'). <b>traceroute</b> mostra rota via rede até o destino (Ex: '<span class="text-muted">traceroute www.google.com</span>'). Comando <b>ssh</b> (secure shell) faz comunicação entre dispositivos via rede.</p>
 <small><pre><code>
 SSH (secure shell):
 <i>ssh -p numPorta usernameRemoto@ipRemoto</i> (-4 para somente IPv4, -6 para somente IPv6)
@@ -917,7 +982,7 @@ O nano possibilita a abertura de diversos arquivos ao mesmo tempo
 (<b>:e arquivo</b>) Abrir arquivo
 (<b>:q</b>) Sair, qiando não há alterações no arquivo
 (<b>:q!</b>) Sair forçadamente, sem salvar alterações no arquivo
-(<b>:wq</b>) Sair e salvar arquivo
+(<b>:wq</b>) Sair e salvar arquivo (mesmo que ':x')
 (<b>:u</b>) Desfazer última ação
 (<b>ctrl+r</b>) Repetir comando
 (<b>:X</b>) Criptografar arquivo
