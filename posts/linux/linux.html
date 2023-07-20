@@ -255,10 +255,15 @@
             <div class="card mb-4">
                 <h4 class="card-header">Usuários</h4>
                 <div class="card-body">
-                    <p>O usuário comum (<b>$</b>) é o padrão para utilização do Linux, possui restrições de gerenciamento sensíveis ao sistema. O administrador <b>sudo</b> (super user do) possui permissão total de gerenciamento do sistema. O <b>usuário de sistema</b> é fictício, criado durante a instalação de algum script, para execução de tarefas específicas ao mesmo, não possuindo capacidade de login no sistema. O <b>root</b> (<b>#</b>, id 0), é o super user (<span class="text-muted">su</span>) possui permissão total de gerenciamento do sistema. O root é o único usuário com permissão de gerenciamento fora de seu diretório home.</p>
+                    <h5>Tipos:</h5>
+                    <ul>
+                        <li><b>Usuário comum</b> ($): (UID 1000 à 60000) é o padrão para utilização do Linux, possui restrições de gerenciamento sensíveis ao sistema;</li>
+                        <li><b>Usuário de sistema</b>: (UID 1 à 999, também válido para groups) é fictício, criado durante a instalação de algum script, para execução de processos, não possuindo capacidade de login no sistema;</li>
+                        <li><b>Administrador</b> (root, #): (UID 0), é o super user possui permissão total de gerenciamento do sistema. O root (<b>sudo</b>, super user do) é o único usuário com permissão de gerenciamento fora de seu diretório home, total ao sistema.</li>
+                    </ul>
 
                     <h5>Arquivos de usuário:</h5>
-                    <p>Arquivo '/etc/passwd' possui informações dos usuários, separadas por ':'. Constituem, respectivamente, login do usuário, senha ('x', determinando que a senha está em '/etc/shadow', ou '*', determinando que o login está desabilitado, ou linha em branco, determinando ausência de senha), UID (user identification), GID (group identification), GComs (dados de comentários do usuário, separados por vírgula), localização home do usuário e shell do usuário. Arquivo '/etc/shadow' possui informações das senhas dos usuários. Constituem, respectivamente, login do usuário, senha criptografada, data da modificação de senha (nº de dias), nº de dias para Linux permitir nova modificação de senha, nº de dias que o usuário pode manter mesma senha, nº de dias para expirar senha, nº de dias após expiração de senha, nº de dias até expiração de senha e campo reservado para futura informação.</p>
+                    <p>Arquivo '/etc/passwd' possui informações dos usuários, separadas por ':'. Constituem, respectivamente, login do usuário, senha ('x', determinando que a senha está em '/etc/shadow', ou '*', determinando que o login está desabilitado, ou linha em branco ou '!', determinando ausência de senha), UID (user identification), GID (group identification), GComs (dados de comentários do usuário, separados por vírgula), localização home do usuário e shell do usuário. Arquivo '/etc/shadow' possui informações das senhas dos usuários. Constituem, respectivamente, login do usuário, senha criptografada, data da modificação de senha (nº de dias), nº de dias para Linux permitir nova modificação de senha, nº de dias que o usuário pode manter mesma senha, nº de dias para expirar senha, nº de dias após expiração de senha, nº de dias até expiração de senha e campo reservado para futura informação. '/etc/login.defs' é o arquivo padrão lido quando novo usuário é cadastrado no sistema. '/etc/skel' é o arquivo que contém informações que são copiadas para dentro de /home/novoUsuario quando novo usuário é cadastrado.</p>
 <small><pre><code>
 <u><b>Informações de usuários</b></u>:
 <b>Username</b>: Nome do usuário
@@ -273,17 +278,33 @@
 <b>w</b>: Ver detalhes de usuários conectados
 <b>whoami</b>: Ver usuário atual (ou 'who')
 <b>quota</b>: Informações do usuário na sessão
+<b>id nomeUsuario</b>: Verificar se usuário encontra-se no sistema
 <b>getent passwd</b>: Abrir passwd
+<b>Ver informações da senha de user</b>: chage -l nomeUsuario
 <b>pwconv</b>: Criar arquivo '/etc/shadow' a partir de '/etc/passwd' <span class="text-muted">(pwunconv faz operação inversa)</span>
 <b>sudo + comando</b>: Comando em modo administrador
-<b>sudo su</b>: Alternar usuário, padrão é root (set user)
-<b>sudo su -</b>: Entrar no usuário root, alternando todas definições do ambiente para root
+<b>sudo su</b>: Set user, alternar usuário, padrão (nome omitido) é root
+<b>sudo su -</b>: Alternar para usuário root, alternando todas definições do ambiente para root
 <b>sudo su - nomeUsuario</b>: Alternar usuário, alternando todas definições do ambiente para novo usuário
 <b>su - nomeUsuario</b>: Sair do usuário root, para usuário comum
 <b>Alterar senha de usuário</b>: passwd [parâmetros] [utilizador] <spam class="text-muted">(passwd -S sysadmin)</spam>
-<b>Criar usuário</b>: useradd nomeUsuario (ou adduser)
+<b>Alterar metadados de usuário</b>: chage -W 5 nomeUsuario (alterar nº dias de avisos antes de expirar senha)(em '/etc/shadow')
+<b>Criar usuário</b>: adduser nomeUsuario ('/etc/adduser.conf'. Ou useradd, '/etc/default/useradd', useradd não atribui shell ao usuário)
+<b>Criar usuário que não pode logar no shell</b>: adduser --shell /usr/sbin/nologin --home /usr/share/novoUser novoUser (ou '/bin/false'. Para users que usarão apenas arquivos compartilhados ou executar processo)
 <b>Listar usuários</b>: cat /etc/passwd
-<b>Deletar usuário</b>: userdel nomeUsuario (ou deluser)
+<b>Deletar usuário</b>: deluser nomeUsuario (ou userdel)
+
+<u>Exemplos</u>:
+useradd -s /bin/bash -m -c "UB Social, 10, 519999999, 5198989898," ubsocial
+'-s' define shell
+'-m' define home
+'-c' define campos de comentários (gecos)
+
+chage -W 5 nomeUsuario
+'-m' nº mínimo de dias entre troca de senhas
+'-M' nº máximo de dias entre troca de senhas
+'-E' data expiração de senha
+'-e' forçar expiração de senha (passwd -e nomeUsuario)
 </small></pre></code>
                 </div>
             </div>
