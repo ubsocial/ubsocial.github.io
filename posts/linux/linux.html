@@ -121,7 +121,8 @@
                     </ul>
 
                     <h5>Particionamento de disco:</h5>
-                    <p>Particionamento de disco com 500GB disponíveis para armazenamento e 4GB de RAM, para instalação de Ubuntu 20. Formatação do tipo GPT (GUID Partition Table) ou MBR (Master Boot Record), será da seguinte forma:</p>
+                    <p>Objetivo do particionamento é separar, ao máximo, as finalidades dos diretórios com relação ao dispositivo de armazenamento, facilitando assim a manutenção, em caso de falhas/erros em uma partição, onde as demais permanecerão intactas.</p>
+                    <p><b>Desktop</b>:<br>Particionamento de disco com 500GB disponíveis para armazenamento e 4GB de RAM, para instalação de Ubuntu 20. Formatação do tipo GPT (GUID Partition Table) ou MBR (Master Boot Record), será da seguinte forma:</p>
                     <ul>
                         <li><b>Boot</b>: Partição para boot da distro, tipo primária FAT32, com label <i>/boot/efi</i>, com média de 800MB;</li>
                         <li><b>Swap</b>: Partição de memória virtual, tipo primária linux-swap, sem label, com média de metade do tamanho da RAM ou mais (aqui no caso 2GB);</li>
@@ -132,6 +133,18 @@
                             </ul>
                         </li>
                     </ul>
+                    <p><b>Servidor</b>:<br>Particionamento de disco com 40GB, em modo antigo MBR BIOS (não EFI, onde criaria somente partições primárias).</p>
+                    <ul>
+                        <li><b>Boot</b>: Tipo primária, localização início, journaling EXT4, ponto de montagem <i>/boot</i>, com média de 1GB;</li>
+                        <li><b>Swap</b>: Tipo primária, localização início, swap, com média de 2GB;</li>
+                        <li><b>LVM</b>: Tipo lógica, localização início, volume físico LVM, com média de 15GB (logical volume management, faz tamanho da partição ser dinâmico (criação de volumes lógicos), sem perda de dados);</li>
+                        <li><b>usr</b>: Tipo lógica, localização início, journaling XFS, ponto de montagem <i>/usr</i>, com média de 20GB;</li>
+                        <li><b>tmp</b>: Tipo lógica, localização início, journaling EXT4, ponto de montagem <i>/tmp</i>, opção de montagem 'noexec' (não permite executar binários), com média de 1GB;</li>
+                        <li><b>Root</b>: Tipo lógica, localização início, journaling EXT4, ponto de montagem <i>/</i>, com média de 10GB;</li>
+                        <li><b>var</b>: Configurar LVM, criando grupo de volumes (nome 'system'), selecionar partição LVM acima. Com isso, criar volume lógico, grupo 'system' (nome 'var'), tamanho restante disponível. Selecionar volume lógico e usar como journaling XFS, ponto de montagem <i>/var</i>;</li>
+                        <li><b>Espaço livre</b>: Conforme finalidade do servidor. Partição tamanho total, tipo lógica, ponto de montagem <i>/var/www</i> para servidor Apache, ou <i>/home</i> para desktop, ou <i>var/mysql</i> para servidor MySQL, ou <i>/srv/samba</i> para servidor de arquivos.</li>
+                    </ul>
+
                     <p>Toda distro Linux possui codecs (compatibilizadores de formatos de mídia), pode-se configurar snapshots via gerenciador de backups Timeshift, realizar tarefas agendadas de Cron/Crontab, UFW (Ubuntu firewall) e GUFW (Graphical), gestão de configurações Tweaks, entre outras funcionalidades. Há possibilidade de executar softwares incompatíveis com Linux via softwares interpretadores, como <b>Wine</b> (Wine is not emulator) e <b>PlayOnLinux</b>, através da implementação livre da API do Windows e engenharia reversa.</p>
                 </div>
             </div>
