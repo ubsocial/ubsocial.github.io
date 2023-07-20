@@ -262,8 +262,8 @@
                         <li><b>Administrador</b> (root, #): (UID 0), é o super user possui permissão total de gerenciamento do sistema. O root (<b>sudo</b>, super user do) é o único usuário com permissão de gerenciamento fora de seu diretório home, total ao sistema.</li>
                     </ul>
 
-                    <h5>Arquivos de usuário:</h5>
-                    <p>Arquivo '/etc/passwd' possui informações dos usuários, separadas por ':'. Constituem, respectivamente, login do usuário, senha ('x', determinando que a senha está em '/etc/shadow', ou '*', determinando que o login está desabilitado, ou linha em branco ou '!', determinando ausência de senha), UID (user identification), GID (group identification), GComs (dados de comentários do usuário, separados por vírgula), localização home do usuário e shell do usuário. Arquivo '/etc/shadow' possui informações das senhas dos usuários. Constituem, respectivamente, login do usuário, senha criptografada, data da modificação de senha (nº de dias), nº de dias para Linux permitir nova modificação de senha, nº de dias que o usuário pode manter mesma senha, nº de dias para expirar senha, nº de dias após expiração de senha, nº de dias até expiração de senha e campo reservado para futura informação. '/etc/login.defs' é o arquivo padrão lido quando novo usuário é cadastrado no sistema. '/etc/skel' é o arquivo que contém informações que são copiadas para dentro de /home/novoUsuario quando novo usuário é cadastrado.</p>
+                    <h5>Arquivos de usuário e grupo:</h5>
+                    <p>Arquivo '/etc/passwd' possui informações dos usuários, separadas por ':'. Constituem, respectivamente, login do usuário, senha ('x', determinando que a senha está em '/etc/shadow', ou '*', determinando que o login está desabilitado, ou linha em branco ou '!', determinando ausência de senha), UID (user identification), GID (group identification), GComs (dados de comentários do usuário, separados por vírgula), localização home do usuário e shell do usuário. Arquivo '/etc/shadow' possui informações das senhas dos usuários. Constituem, respectivamente, login do usuário, senha criptografada, data da modificação de senha (nº de dias), nº de dias para Linux permitir nova modificação de senha, nº de dias que o usuário pode manter mesma senha, nº de dias para expirar senha, nº de dias após expiração de senha, nº de dias até expiração de senha e campo reservado para futura informação. '/etc/login.defs' é o arquivo padrão lido quando novo usuário é cadastrado no sistema. '/etc/skel' é o arquivo que contém informações que são copiadas para dentro de /home/novoUsuario quando novo usuário é cadastrado. Todo usuário possui grupo relacionado. Nativamente, quando usuário é criado, também é criado grupo com mesmo nome. '/etc/group' contém os grupos cadastrados no sistema, constituindo nomeGrupo:senhaGrupo:GID:usuario1,usuario2 (senha 'x' indica que está em '/etc/gshadow', arquivo que contém informações das senhas dos grupos no sistema). Assim como usuários, há também grupo de sistema, geralmente usados para execução de processos (flag '--system' indica cadastro de usuário ou grupo de sistema).</p>
 <small><pre><code>
 <u><b>Informações de usuários</b></u>:
 <b>Username</b>: Nome do usuário
@@ -293,6 +293,17 @@
 <b>Criar usuário que não pode logar no shell</b>: adduser --shell /usr/sbin/nologin --home /usr/share/novoUser novoUser (ou '/bin/false'. Para users que usarão apenas arquivos compartilhados ou executar processo)
 <b>Listar usuários</b>: cat /etc/passwd
 <b>Deletar usuário</b>: deluser nomeUsuario (ou userdel)
+
+<u>Grupos</u>:
+<b>Adicionar grupo</b>: groupadd nomeGrupo (ou 'addgourp nomeGrupo')
+<b>Adicionar grupo de sistema</b>: groupadd --system nomeGrupo
+<b>Adicionar usuário em grupo</b>: gpasswd -a nomeUsuario nomeGrupo
+<b>Adicionar usuário logado em grupo suplementar</b> (temporariamente): newgrp nomeGrupo
+<b>Manipular informações de usuários e grupos</b>: usermod e groupmod
+<b>Adicionar usuário em grupo</b>: usermod -aG nomeGrupo nomeUsuario (-a é append)
+<b>Renomear grupo</b>: groupmod -n novoNomeGrupo antigoNomeGrupo
+<b>Definir senha para grupo</b>: gpasswd nomeGrupo
+<b>Deletar grupo</b>: delgroup nomeGrupo (ou groupdel)
 
 <u>Exemplos</u>:
 useradd -s /bin/bash -m -c "UB Social, 10, 519999999, 5198989898," ubsocial
