@@ -134,6 +134,7 @@
                         </li>
                     </ul>
                     <p><b>Servidor</b>:<br>Particionamento de disco com 40GB, em modo antigo MBR BIOS (não EFI, onde criaria somente partições primárias).</p>
+                    <img src="partServidor.png" class="img-fluid rounded" width="350px">
                     <ul>
                         <li><b>Boot</b>: Tipo primária, localização início, journaling EXT4, ponto de montagem <i>/boot</i>, com média de 1GB;</li>
                         <li><b>Swap</b>: Tipo primária, localização início, swap, com média de 2GB;</li>
@@ -144,7 +145,6 @@
                         <li><b>var</b>: Configurar LVM, criando grupo de volumes (nome 'system'), selecionar partição LVM acima. Com isso, criar volume lógico, grupo 'system' (nome 'var'), tamanho restante disponível. Selecionar volume lógico e usar como journaling XFS, ponto de montagem <i>/var</i>;</li>
                         <li><b>Espaço livre</b>: Conforme finalidade do servidor. Partição tamanho total, tipo lógica, ponto de montagem <i>/var/www</i> para servidor Apache, ou <i>/home</i> para desktop, ou <i>var/mysql</i> para servidor MySQL, ou <i>/srv/samba</i> para servidor de arquivos.</li>
                     </ul>
-
                     <p>Toda distro Linux possui codecs (compatibilizadores de formatos de mídia), pode-se configurar snapshots via gerenciador de backups Timeshift, realizar tarefas agendadas de Cron/Crontab, UFW (Ubuntu firewall) e GUFW (Graphical), gestão de configurações Tweaks, entre outras funcionalidades. Há possibilidade de executar softwares incompatíveis com Linux via softwares interpretadores, como <b>Wine</b> (Wine is not emulator) e <b>PlayOnLinux</b>, através da implementação livre da API do Windows e engenharia reversa.</p>
                 </div>
             </div>
@@ -276,7 +276,9 @@
 <b>getent passwd</b>: Abrir passwd
 <b>pwconv</b>: Criar arquivo '/etc/shadow' a partir de '/etc/passwd' <span class="text-muted">(pwunconv faz operação inversa)</span>
 <b>sudo + comando</b>: Comando em modo administrador
-<b>sudo su</b>: Entrar no usuário root
+<b>sudo su</b>: Alternar usuário, padrão é root (set user)
+<b>sudo su -</b>: Entrar no usuário root, alternando todas definições do ambiente para root
+<b>sudo su - nomeUsuario</b>: Alternar usuário, alternando todas definições do ambiente para novo usuário
 <b>su - nomeUsuario</b>: Sair do usuário root, para usuário comum
 <b>Alterar senha de usuário</b>: passwd [parâmetros] [utilizador] <spam class="text-muted">(passwd -S sysadmin)</spam>
 <b>Criar usuário</b>: useradd nomeUsuario (ou adduser)
@@ -328,7 +330,7 @@ SSH (secure shell):
                     <p>Espaços de memória que armazenam valores, com função de fornecer dados ao sistema. Comando <b>echo</b> faz chamada de conteúdo no shell em stdout (Ex: '<span class="text-muted">echo "ola"</span>' mostrará "ola" na tela). Para listar todas variáveis, tem-se 'set' (locais), 'env' (globais) e 'printenv'.</p>
                     <ul>
                         <li><b>Variáveis locais</b>: Disponíveis somente para shell atual, são voláteis, possuindo visibilidade restrita ao ambiente onde foi definida. Sintaxe: <span class="text-danger">nome=valor</span>;</li>
-                        <li><b>Variáveis globais</b> (de ambiente, environment): Não possuem restrição de ambiente, disponíveis a todo sistema. Sintaxe: <span class="text-danger">export NOME=valor</span>.</li>
+                        <li><b>Variáveis globais</b> (de ambiente, environment): Não possuem restrição de ambiente, disponíveis a todo sistema. Comando 'export NOMEVARIAVEL', torna variável local em global. Sintaxe: <span class="text-danger">export NOME=valor</span>.</li>
                     </ul>
                     <ul>
                         <u>Variáveis globais</u>:
@@ -363,6 +365,7 @@ unalias j <span class="text-muted">(descarta alias)</span>
 </code></pre></small>
 
                     <h5>Arquivos de variáveis:</h5>
+                    <p>Para armazenar variável no Linux, precisa salvá-la no arquivo, caso contrário ela é removida da memória após finalizar sessão.</p>
                     <ol>
                         <u>Escopo global</u>:
                         <li><i>/etc/profile</i>: Armazena comandos e variáveis para usuários do sistema;</li>
@@ -693,7 +696,7 @@ Categories=Categoria do binário
                     </ul>
 
                     <h5>Processos:</h5>
-                    <p>No Linux, o gerenciamento de processos segue padrão POSIX. Processo é um binário que, quando executado, consome recursos do dispositivo. Possui ciclo de vida (stat), time (tempo usado pelo processador no processo), CMD (binário que iniciou o processo), recursos e usuário proprietário. Todo processo é identificado pelo <b>PID</b> (process identification) e, em alguns casos, <b>PPID</b> (parent process identification), com prioridade de execução (nice), do -20 (máxima) ao 19 (mínima) e 0 (padrão). O root possui permissão para alterar prioridades. Processos criados pelo root têm prioridade 0. Processos criados por usuário comum têm prioridade 10 (baixa). Processos em realtime (normalmente internos do kernel) possuem prioridade 1 a 99. Processos convencionais possuem têm prioridade 100 (maior) até 139 (menor), sendo 120 (padrão) e rt (realtime). A prioridade padrão (PRI/PR), diferente da nice (NI), é definida automaticamente no escalonamento definido pelo kernel. Processos em execução possuem seus diretórios em '/proc', nomeados por PID. Processos podem ser inicializados pelos gerenciadores <i>systemctl</i> e <i>systemd</i>. Comando 'top' mostra lista de processos. A gestão do processo ocorre via sinais de kill (comando 'kill -l' mostra todos sinais de kill).</p>
+                    <p>No Linux, o gerenciamento de processos segue padrão POSIX. Processo é um binário que, quando executado, consome recursos do dispositivo. Possui ciclo de vida (stat), time (tempo usado pelo processador no processo), CMD (binário que iniciou o processo), recursos e usuário proprietário. Todo processo é identificado pelo <b>PID</b> (process identification) e, em alguns casos, <b>PPID</b> (parent process identification), com prioridade de execução (nice), do -20 (máxima) ao 19 (mínima) e 0 (padrão). O root possui permissão para alterar prioridades. Processos criados pelo root têm prioridade 0. Processos criados por usuário comum têm prioridade 10 (baixa). Processos em realtime (normalmente internos do kernel) possuem prioridade 1 a 99. Processos convencionais possuem têm prioridade 100 (maior) até 139 (menor), sendo 120 (padrão) e rt (realtime). A prioridade padrão (PRI/PR), diferente da nice (NI), é definida automaticamente no escalonamento definido pelo kernel. Processos em execução possuem seus diretórios em '/proc', nomeados por PID. Processos podem ser inicializados pelos gerenciadores <i>systemctl</i> e <i>systemd</i>. Comando 'top' mostra lista de processos. A gestão do processo ocorre via sinais de kill (comando 'kill -l' mostra todos sinais de kill). Toda vez que um processo é executado em background, estará executando em subshell.</p>
                     Componentes do processo:
                     <ul>
                         <li>Estado (stat);
@@ -755,8 +758,20 @@ Categories=Categoria do binário
 </code></pre></small>
 
                     <h5>Shell script:</h5>
-                    <p>Script de execução em shell Linux, em linguagem shell, arquivos com terminação '.sh'. Realizam manipulação em rotinas shell Linux. Prévia execução, precisa-se dar permissão de execução ao mesmo. Executa-se com o comando './arquivo.sh'. Exemplo de shell script para criação de 3 diretórios, arquivo 'teste.sh' (criará 'dir1', 'dir2' e 'dir3'):</p>
+                    <p>Script de execução em shell Linux, em linguagem shell, arquivos com terminação '.sh'. Realizam manipulação em rotinas shell Linux. <span class="text-muted">#!/bin/bash</span> é o Shebang, interpretador do script, gerará um subshell para executar os códigos, não considerado comentário. Para executar shell script sem permissão de execução, deve-se executar '<span class="text-muted">source arquivo.sh</span>' (ou '. arquivo.sh', ou 'bash arquivo.sh'). Também, pode-se atribuir permissão de execução ao mesmo com '<span class="text-muted">chmod a+x arquivo.sh</span>' e executá-lo com '<span class="text-muted">./arquivo.sh</span>' (ou '/home/usuario/arquivo.sh').</p>
+                    Variáveis internas do shell:
+                    <ul>
+                        <li>(<b>$0</b>) Nome do script;</li>
+                        <li>(<b>$1</b>) 1º parâmetro passado depois do script;</li>
+                        <li>(<b>$2</b>) 2º parâmetro passado depois do script;</li>
+                        <li>(<b>$3</b>) 3º parâmetro passado depois do script;</li>
+                        <li>(<b>$#</b>) Quantidade de parâmetros passados depois do script;</li>
+                        <li>(<b>$$</b>) PID gerado na execução do script;</li>
+                        <li>(<b>$@</b>) Todos parâmetros passados depois do script;</li>
+                        <li>(<b>$?</b>) Valor de retorno do comando executado.</li>
+                    </ul>
 <small><pre><code>
+<b><u>Shell script para criação de 3 diretórios, arquivo 'teste.sh'</u></b>:
 #!/bin/bash
 X=1
 while [ $X -le 3 ];
@@ -768,6 +783,10 @@ done
 echo "Concluído!"
 SAIDA=$( ls -l )
 echo $SAIDA
+
+<b><u>Shell script de input de dado</u></b>:
+read -p "Informe o nome:" NOME
+echo $NOME
 </code></pre></small>
                 </div>
             </div>
@@ -1052,7 +1071,12 @@ O nano possibilita a abertura de diversos arquivos ao mesmo tempo
             <div class="card mb-4">
                 <h4 class="card-header">Pacotes</h4>
                 <div class="card-body">
-                    <p>Repositórios de pacotes, os PPAs (personal package archive) são servidores que hospedam pacotes, a fim de instalá-los e atualizá-los. Distros possuem repositórios de pacotes, havendo possibilidade de adição de repositórios (mirror) extras, no conteúdo do arquivo (Debian) '/etc/apt/sources.list' ou em arquivo.list em '/etc/apt/sources.list.d'. Pacotes <i>sandbox</i> funcionam isoladamente, sem intervenções ao sistema (similar ao conceito de container). Gerenciador de pacotes de baixo nível tem função de somente organizar o mesmo internamente na distro (extração), conforme abaixo, não possuindo tratamento de dependências. Gerenciador de pacotes de alto nível tem função de baixar (via repositórios descritos) e organizar pacotes internamente na distro, tratando dependências e configurações extras, direcionando os arquivos da seguinte forma:</p>
+                    <p>Repositórios de pacotes, os PPAs (personal package archive) são servidores que hospedam pacotes, a fim de instalá-los e atualizá-los. Distros possuem repositórios de pacotes, havendo possibilidade de adição de repositórios (mirror) extras, no conteúdo do arquivo (Debian) '/etc/apt/sources.list' ou em arquivo.list em '/etc/apt/sources.list.d'. Pacotes <i>sandbox</i> funcionam isoladamente, sem intervenções ao sistema (similar ao conceito de container). Nativamente, Linux possui os tipos de pacotes:</p>
+                    <ul>
+                        <li><b>Fonte</b>: Contém código fonte do software, arquivos de configuração, documentação, scripts de controle, manuais e bibliotecas fonte. Pode ser compilado em qualquer distro;</li>
+                        <li><b>Binário</b>: Contém código binário, pré-compilado, do software, arquivos de configuração, documentação, scripts de controle, manuais e bibliotecas. Cada distro possui seu formato de pacote binário.</li>
+                    </ul>
+                    <p>Gerenciador de pacotes de baixo nível tem função de somente organizar o mesmo internamente na distro (extração), conforme abaixo, não possuindo tratamento de dependências. Gerenciador de pacotes de alto nível tem função de baixar (via repositórios descritos) e organizar pacotes internamente na distro, tratando dependências e configurações extras, direcionando os arquivos da seguinte forma:</p>
                     <ul>
                         <li>Configuáveis -&gt; /etc</li>
                         <li>Binários -&gt; /usr/bin</li>
@@ -1075,7 +1099,7 @@ O nano possibilita a abertura de diversos arquivos ao mesmo tempo
                             </ul>
                         </li>
                     </ul>
-                    <p>Existem gerenciadores de pacotes de alto nível externos, como <b>pip</b> (Python), <b>npm</b> (Node.js). Além disso, pacotes do tipo '<b>appimage</b>' funcionam em sandbox, podendo ser executados imediatamente, após baixados, com '<span class="text-muted">./pacote.appimage --install</span>', mediante permissão de execução. Além disso, pode-se instalar pacotes manualmente, fazendo download do arquivo empacotado compactado: Basta extraí-lo e, no diretório extraído, executar o arquivo './configure', após isso realizar o comando '<span class="text-muted">make</span>', seguido do comando '<span class="text-muted">make install</span>', seguido do '<span class="text-muted">make clean</span>'.</p>
+                    <p>Existem gerenciadores de pacotes de alto nível externos, como <b>pip</b> (Python), <b>npm</b> (Node.js). Além disso, pacotes do tipo '<b>appimage</b>' funcionam em sandbox, podendo ser executados imediatamente, após baixados, com '<span class="text-muted">./pacote.appimage --install</span>', mediante permissão de execução. Além disso, pode-se instalar pacotes manualmente (pacotes fonte), fazendo download do arquivo empacotado compactado: Basta extraí-lo e, no diretório extraído, executar o arquivo './configure', após isso realizar o comando '<span class="text-muted">make</span>', seguido do comando '<span class="text-muted">make install</span>', seguido do '<span class="text-muted">make clean</span>'.</p>
                     
                     <h5>Debian (.deb):</h5>
                     <ul>
