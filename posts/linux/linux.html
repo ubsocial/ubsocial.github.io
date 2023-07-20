@@ -153,7 +153,7 @@
             <div class="card mb-4">
                 <h4 class="card-header">Estrutura</h4>
                 <div class="card-body">
-                    <p>No Linux não existem programas, drivers e extensões: Tudo é considerado arquivo. Dispensando conceito de 'pasta', a estrutura de diretórios de arquivos no Linux possui padrão POSIX, baseada em FHS (File system Hierarchy Standard). Até mesmo os componentes de hardware são controlados por arquivos em realtime. Nos caminhos de diretórios, tem-se o <i>caminho absoluto</i> (originado a partir do diretório raíz até o diretório atual, exemplo: <span class="text-muted">/home/ubsocial/arquivo</span>. Comando 'pwd' mostra caminho absoluto - print world directory) e caminho relativo (originado a partir de diretório qualquer até o diretório atual, exemplo <span class="text-muted">ubsocial/arquivo</span>).</p>
+                    <p>No Linux não existem programas, drivers e extensões: Tudo é considerado arquivo. Dispensando conceito de 'pasta', a estrutura de diretórios de arquivos no Linux possui padrão POSIX, baseada em FHS (File system Hierarchy Standard). Até mesmo os componentes de hardware são controlados por arquivos em realtime. Nos caminhos de diretórios, tem-se o <i>caminho absoluto</i> (originado a partir do diretório raíz até o diretório atual, exemplo: <span class="text-muted">/home/ubsocial/arquivo</span>. Comando 'pwd' mostra caminho absoluto - print world directory) e caminho relativo (originado a partir de diretório qualquer até o diretório atual (não originado no diretório '/'), exemplo <span class="text-muted">ubsocial/arquivo</span>).</p>
                     <ul>
                         <li>Diretório root: <b>/</b> <span class="text-muted">(cd /)</span></li>
                         <li>Diretório home: <b>~</b> <span class="text-muted">(cd ~)</span> o mesmo que '/home/usuarioSessao'</li>
@@ -177,12 +177,12 @@
                         <li><b>/media</b>: Ponto de montagem para mídias removíveis (media), como cdrom, floppy, webcam, usb, hd e ssd externos;</li>
                         <li><b>/mnt</b>: Ponto de montagem temporária (mount) de sistema de arquivos, como outros SOs e cdrom (similar ao '/media');</li>
                         <li><b>/opt</b>: Abreviação de 'optional', utilizado por arquivos proprietários, não licenciados pela GNU, adicionados pelos usuários;</li>
-                        <li><b>/proc</b>: Processos (process) do Linux e todas informações do hardware (cpu, memória e partições). Diretório virtual (gravado em RAM, volátil, todos arquivos nele são apagados no desligamento do dispositivo);</li>
+                        <li><b>/proc</b>: Processos (process) do Linux e todas informações do hardware (cpu, memória e partições), módulos carregados no kernel ('/proc/modules') e configurações do kernel ('/proc/sys/'). Diretório virtual (gravado em RAM, volátil, todos arquivos nele são apagados no desligamento do dispositivo);</li>
                         <li><b>/root</b>: Arquivos do usuário administrador (root, 'home do root'), para administração de interface de rede, usuários e grupos, prioridades, entre outros;</li>
                         <li><b>/run</b>: Diretório virtual de arquivos temporários sensíveis de inicialização do sistema, além de informações de services em execução (run, runtime);</li>
                         <li><b>/sbin</b>: Link simbólico para '/usr/sbin', possui os super binários (super binaries ou system binaries), comandos/alias do administrador do Linux (root), utilizados para inicialização, reparação e restauração do sistema, e informações sensíveis de rede;</li>
                         <li><b>/srv</b>: Serviços (service) do Linux, como rede, acessíveis externamente. Geralmente utilizado para instalação de servidores web ('/srv/www'), samba ('/srv/samba') e ftp ('/srv/ftp');</li>
-                        <li><b>/sys</b>: Diretório virtual de mapeamento de chamadas diretas ao kernel (system), e informações sobre devices e módulos, sendo similar ao '/proc', porém mais organizado e categorizado;</li>
+                        <li><b>/sys</b>: Diretório virtual de mapeamento de chamadas diretas ao kernel (system), sistema de arquivos sys (sysfs), e informações sobre devices e módulos, sendo similar ao '/proc', porém mais organizado e categorizado;</li>
                         <li><b>/tmp</b>: Diretório virtual de arquivos temporátios (temp, temporary);</li>
                         <li><b>/usr</b>: Recursos do Linux (user, unix system resources), como libraries e binaries, scripts do kernel ('/src'), documentação ao usuário, além de arquivos não essenciais ao sistema, que seguem padrão GNU;</li>
                         <li><b>/var</b>: Arquivos de informações e tamanho variável (variable), como cache, logs e impressão ('/spool').</li>
@@ -440,8 +440,8 @@ SSH (secure shell):
                         <li>SHELL: Identifica o shell atual;</li>
                         <li>TERM: Identifica o terminal atual;</li>
                         <li>USER: Identifica o usuário atual;</li>
-                        <li>PATH: Identifica caminhos que determinam onde os diretórios devem pesquisar (separados por ':');</li>
-                        <li>PS1: Representa as informações exibidas no prompt (linha do shell para comando, como '<span class="text-muted">usuario@nomeMaquina:~$</span>');</li>
+                        <li>PATH: Identifica lista de diretórios dos binários executáveis shell (separados por ':');</li>
+                        <li>PS1: Representa as informações exibidas no prompt (linha do shell para comando (prompt string), como '<span class="text-muted">usuario@nomeMaquina:~$</span>');</li>
                         <li>LOGNAME: Identifica nome do usuário logado atual;</li>
                         <li>OSTYPE: Identifica SO atual.</li>
                     </ul>
@@ -550,6 +550,7 @@ unalias j <span class="text-muted">(descarta alias)</span>
 <b>Executar 34º comando do histórico</b>: !34
 
 <b>Ver informações de hardware</b>: lshw
+<b>Ver informações sobre processador</b>: lscpu (mesmo que '/proc/cpuinfo')
 <b>Ver informações da distro</b> (necessário instalar): neofetch
 <b>Ver versão da distro</b>: lsb_release -a (ou cat /etc/*-release)
 <b>Ver versão do kernel</b>: uname -r
@@ -558,11 +559,11 @@ unalias j <span class="text-muted">(descarta alias)</span>
 <b>Ver informações de tempos em tempos</b>: watch –n 5 date (mostrará date a cada 5seg)
 <b>Ver nome do dispositivo</b>: hostname ('-i' mostrará ip)
 <b>Ver arquitetura do dispositivo</b>: arch
-<b>Ver particionamento do disco</b>: lsblk
+<b>Ver particionamento do disco</b>: lsblk (dispositivos de bloco disponíveis)
 <b>Ver espaços das partições</b>: df (-i para mostrar inodes, buracos de memória no hardware de cada partição)
 <b>Ver informações sobre uso do disco</b>: du (du -sh *)
 <b>Ver mensagens do sistema</b>: sudo dmesg
-<b>Ver quantidade de memória livre</b>: free
+<b>Ver quantidade de memória livre</b>: free ('-m' para valores em Megabytes, '-h' para valores organizados. Comando analisa '/proc/meminfo')
 <b>Verificar e reparar sistema de arquivos</b>: fsck
 <b>Gerenciar partições do dispositivo</b>: fdisk ('-l' listará, Ex: 'fdisk -l /dev/sda')
 <b>Ver módulos kernel carregados em memória</b>: lsmod
@@ -598,7 +599,7 @@ unalias j <span class="text-muted">(descarta alias)</span>
 <small><pre><code>
 <b>Listar conteúdo do diretório atual</b>: ls
 <b>Listar conteúdo em diretório específico</b>: ls nomeDiretorio
-<b>Listar diretório e subdiretórios</b>: ls -R
+<b>Listar diretório e subdiretórios</b>: ls -R (recursivamente)
 <b>Listagem com detalhes</b>: ls -l
 <b>Listagem com informações aprimoradas de armazenamento</b>: ls -l -h
 <b>Listagem incluindo arquivos ocultos</b>: ls -a
