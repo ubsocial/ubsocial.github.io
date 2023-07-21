@@ -713,14 +713,19 @@ count: contagem de blocos a serem lidos da entrada
 </code></pre></small>
 
                     <h5>Permissões:</h5>
-                    <p>No Linux, nenhum arquivo externo tem permissão de execução nativamente. Precisa-se aplicá-la com comandos <b>chown</b> e <b>chmod</b>:</p>
-                    <p>Sintaxe: <span class="text-danger">chmod &lt;[conjunto][ação][permissões]&gt; &lt;arquivo(s)&gt;</span></p>
-                    Ordenamento:
+                    <p>No Linux, nenhum arquivo externo tem permissão de execução nativamente. Precisa-se aplicá-la com comandos <b>chown</b>, <b>chgrp</b> e <b>chmod</b>:</p>
+                    <p>Change owner: <span class="text-danger">chown &lt;parâmetros&gt; &lt;novoDono&gt;[:novoGrupo] &lt;arquivo(s)&gt;</span><br>Change group: <span class="text-danger">chgrp &lt;parâmetros&gt; &lt;novoGrupo&gt; &lt;arquivo(s)&gt;</span><br>Change mode: <span class="text-danger">chmod &lt;[conjunto][ação][permissões]&gt;[,[conjunto][ação][permissões]] [parâmetros] &lt;arquivo(s)&gt;</span></p>
+                    Ordenamento (ls -l):
                     <ol>
                         <span class="text-muted">-rw-r--r-- 1 sysadmin sysadmin 647 Dec 20 2017 hello.sh</span>
+                        <li>(-): Indica arquivo;</li>
                         <li>(rw-) <b>Proprietário</b>, no caso o primeiro sysadmin;</li>
                         <li>(r--) <b>Grupo</b>, no caso o segundo sysadmin;</li>
-                        <li>(r--) <b>Outros</b>, no caso outros usuários não proprietários do arquivo.</li>
+                        <li>(r--) <b>Outros</b>, no caso outros usuários não proprietários do arquivo;</li>
+                        <li>(1) Quantidade de subdiretórios;</li>
+                        <li>(647) Tamanho do diretório;</li>
+                        <li>(Dec 20 2017) Data de criação/modificação;</li>
+                        <li>(hello.sh) Nome do arquivo/diretório.</li>
                     </ol>
                     Conjunto:
                     <ul>
@@ -729,37 +734,50 @@ count: contagem de blocos a serem lidos da entrada
                         <li>(<b>o</b>) Outros (qualquer usuário que não seja o proprietário do usuário ou membro do proprietário do grupo);</li>
                         <li>(<b>a</b>) Todos (refere-se ao usuário, grupo e outros)</li>
                     </ul>
-                    Ação:
-                    <ul>
-                        <li>(<b>+</b>) Adicionar permissão;</li>
-                        <li>(<b>=</b>) Especificar permissão;</li>
-                        <li>(<b>-</b>) Remover permissão.</li>
-                    </ul>
                     Classificação:
                     <ul>
-                        <li>Simbólico: Alterar conjunto de permissões de cada vez;
+                        <li>Simbólico (literal): Alterar conjunto de permissões de cada vez, respectivamente 'rwx';
                             <ul>
                                 <li>(<b>r</b>): Read (leitura);</li>
                                 <li>(<b>w</b>): Write (escrita);</li>
-                                <li>(<b>x</b>): Execution (execução).</li>
+                                <li>(<b>x</b>): Execution (execução);</li>
+                                <li>(<b>-</b>): Não possui permissão.</li>
                             </ul>
                         </li>
                         <li>Octal: Alterar todos conjuntos de permissões (usuário, grupo e outros).
                             <ul>
-                                <li>(<b>0</b>) Nenhuma permissão (-rwx);</li>
+                                <li>(<b>0</b>) Nenhuma permissão (-);</li>
                                 <li>(<b>1</b>) Execução (x);</li>
                                 <li>(<b>2</b>) Escrita (w);</li>
                                 <li>(<b>3</b>) Escrita e execução (wx);</li>
                                 <li>(<b>4</b>) Leitura (r);</li>
                                 <li>(<b>5</b>) Leitura e execução (rx);</li>
                                 <li>(<b>6</b>) Leitura e escrita (rw);</li>
-                                <li>(<b>7</b>) Leitura, escrita e execução (rwx);</li>
-                                <li>(<b>-R</b>) Recursiva, afeta subdiretórios também (chmod -R 777 /home).</li>
+                                <li>(<b>7</b>) Leitura, escrita e execução (rwx).</li>
                             </ul>
                         </li>
                     </ul>
+                    Ação:
+                    <ul>
+                        <li>(<b>+</b>) Adicionar permissão;</li>
+                        <li>(<b>=</b>) Especificar permissão;</li>
+                        <li>(<b>-</b>) Remover permissão.</li>
+                    </ul>
 <small><pre><code>
 <u>Exemplos</u>:
+chown novoUser arq1 (alterar usuário proprietário do arquivo 'arq1' para 'novoUser')
+chgrp novoGrupo arq1 (alterar grupo proprietário do arquivo 'arq1' para 'novoGrupo')
+chown novoUser:novoGrupo arq1 (alterar usuário e grupo proprietário do 'arq1')
+
+chmod u-rwx arq1 (usuário sem permissões)
+chmod g+w arq1 (grupo com permissão de escrita)
+chmod o=w (outros somente com permissão de escrita)
+chmod a+x arq1 (all, user/group/others, com permissão de execução)
+chmod ugo=rwx arq1 (permissão total para user/group/others)
+chmod uo=,g=rx arq1 (usuário e outros sem permissões, grupo com leitura e execução)
+chmod u+rw,g-rw,o=rx (ou 'o-w+rx') arq1 (usuário adiciona leitura e escrita, grupo remove leitura e escrita, outros com leitura e execução)
+chmod -Rv a=rwx dir1/ (permissão total e recursiva para todos, no diretório 'dir1'. -v para verbose)
+
 chmod 764 arquivo (proprietário(7) com leitura/escrita/execução, grupo(6) com leitura/escrita, outros(4) com somente leitura)
 chmod 40 arquivo (proprietário não foi modificada, grupo(4) somente leitura, outros(0) nenhuma)
 </code></pre></small>
@@ -882,6 +900,7 @@ done
 echo "Concluído!"
 SAIDA=$( ls -l )
 echo $SAIDA
+<span class="text-muted">#Exemplo comentário</span>
 
 <b><u>Shell script de input de dado</u></b>:
 read -p "Informe o nome:" NOME
