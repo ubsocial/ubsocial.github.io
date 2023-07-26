@@ -396,11 +396,54 @@ nameserver dnsSecundario
                     </ul>
 
                     <h5>Comandos:</h5>
-                    <p>Entre os comandos de rede, tem-se <b>route</b> (<span class="text-muted">route -n</span>) para visualizar e manipular tabela de roteamento IP (inet) e gateway. O <b>ifconfig</b> e <b>iwconfig</b> para informações dos componentes de rede do dispositivo, <b>ip a</b> (ou 'ip address show'), <b>ip r</b> (ou 'ip route show' ver tabela de rotas) e <b>nmcli</b> são similares a ambos. <b>ip addr show</b> mostra IP do dispositivo. <b>netstat</b> ou <b>ss</b> mostra todas conexões de entrada e saída de rede, tabelas de roteamento e estatísticas do protocolo de rede. '<i>netstat -atunp</i>' mostra com detalhes de PID, TCP e UDP. <b>ping</b> mostra tempo de envio/recebimento de resposta em rede (Ex: '<span class="text-muted">ping -c 4 192.168.1.2</span>' (Ping para esse IPv4 limitado em 4 iterações). Ex2: '<span class="text-muted">ping uol.com.br</span>' (Ping no site do uol)). <b>host</b> (<i>host -opcao idHost</i>) localiza informações de rede como, por exemplo, IPv4 (opção -4) ou IPv6 (opção -6) de determinado host. As portas de rede encontram-se em '/etc/services'. Entre os firewalls Linux, tem-se <b>iptables</b>, juntamente com <b>UFW</b> (Ubuntu firewall), que possui o GUFW como serviço GUI para gerenciamento. MacAddress é o id da placa física, geralmente identificado como link/ether, HWaddr ou HW, seguindo padrão 'xx:xx:xx:xx:xx:xx' (Ex: <span class="text-muted">5c:cd:5b:74:ae:32</span>). O MacAddress da placa wifi do dispositivo geralmente encontra-se em wlan, identificado como 'HWaddr' ou 'ether'. Também pode ser encontrado com <b>inxi -Nn</b> na opção state 'up'. cURL (<b>curl</b>) oferece interface CLI para transferência de dados via protocolos de rede. <b>wget</b> é similar ao curl (Ex: '<span class="text-muted">wget http://ftp.gnu.org/pacote.tar.gz</span>'). <b>traceroute</b> mostra rota via rede até o destino (Ex: '<span class="text-muted">traceroute www.google.com</span>'). Comando <b>ssh</b> (secure shell) faz comunicação entre dispositivos via rede.</p>
+                    <p>Entre os comandos de rede, tem-se <b>route</b> (<span class="text-muted">route -n</span>) para visualizar e manipular tabela de roteamento IP (inet) e gateway. O <b>ifconfig</b> e <b>iwconfig</b> para informações dos componentes de rede do dispositivo, <b>ip a</b> (ou 'ip address show'), <b>ip r</b> (ou 'ip route show' ver tabela de rotas) e <b>nmcli</b> são similares a ambos. <b>ip addr show</b> mostra IP do dispositivo. <b>netstat</b> ou <b>ss</b> mostra todas conexões de entrada e saída de rede, tabelas de roteamento e estatísticas do protocolo de rede. '<i>netstat -atunp</i>' mostra com detalhes de PID, TCP e UDP. <b>ping</b> mostra tempo de envio/recebimento de resposta em rede (Ex: '<span class="text-muted">ping -c 4 192.168.1.2</span>' (Ping para esse IPv4 limitado em 4 iterações). Ex2: '<span class="text-muted">ping uol.com.br</span>' (Ping no site do uol)). <b>host</b> (<i>host -opcao idHost</i>) localiza informações de rede como, por exemplo, IPv4 (opção -4) ou IPv6 (opção -6) de determinado host. As portas de rede encontram-se em '/etc/services'. Entre os firewalls Linux, tem-se <b>iptables</b>, juntamente com <b>UFW</b> (Ubuntu firewall), que possui o GUFW como serviço GUI para gerenciamento. MacAddress é o id da placa física, geralmente identificado como link/ether, HWaddr ou HW, seguindo padrão 'xx:xx:xx:xx:xx:xx' (Ex: <span class="text-muted">5c:cd:5b:74:ae:32</span>). O MacAddress da placa wifi do dispositivo geralmente encontra-se em wlan, identificado como 'HWaddr' ou 'ether'. Também pode ser encontrado com <b>inxi -Nn</b> na opção state 'up'. cURL (<b>curl</b>) oferece interface CLI para transferência de dados via protocolos de rede. <b>wget</b> é similar ao curl (Ex: '<span class="text-muted">wget http://ftp.gnu.org/pacote.tar.gz</span>'). <b>traceroute</b> mostra rota via rede até o destino (Ex: '<span class="text-muted">traceroute www.google.com</span>'). Comando <b>ssh</b> (secure shell) faz comunicação entre dispositivos via rede, com porta padrão 22. Por padrão no Debian, somente usuário comum pode conectar-se via SSH. Passo a passo para acessar VM via SSH:</p>
+                    <ol>
+                        <u>Host</u>:
+                        <li>Instalar SSH server: <span class="text-muted">sudo apt install openssh-server</span></li>
+                        <li>Iniciar SSH: <span class="text-muted">systemctl start ssh</span> (status para verificar)</li>
+                        <li>Verificar se porta 22 está aberta: <span class="text-muted">ss -atun | grep 22</span></li>
+                        <u>VM</u>:
+                        <li>Alterar configuração de rede da VM para modo Bridge
+                            <ul>
+                                <li>Selecionar modo Bridge</li>
+                                <li>Selecionar placa de rede da máquina física que está conectada à internet (wireless é wlan, cabeada é eth)</li>
+                            </ul>
+                        </li>
+                        <li>Instalar SSH client: <span class="text-muted">sudo apt install openssh-client</span></li>
+                        <li>Reiniciar rede:
+                            <ol>
+                                <li><span class="text-muted">systemctl restart networking</span></li>
+                                <li><span class="text-muted">ifdown nomePlacaFisica</span></li>
+                                <li><span class="text-muted">ifup nomePlacaFisica</span></li>
+                                <li><span class="text-muted">dhclient -v</span></li>
+                            </ol>
+                        </li>
+                        <u>Host</u>:
+                        <li>Conectar: <span class="text-muted">ssh -l nomeUsuarioVM ipVM</span></li>
+                        <li>Informar 'yes' para aceitar key do server</li>
+                    </ol>
+                    <u>Permitir SSH via root</u>:
+                    <ol>
+                        <li>Na VM, abrir arquivo de configuração: <span class="text-muted">nano /etc/ssh/sshd_config</span></li>
+                        <li>Nesse arquivo, descomentando a linha desejada, pode-se alterar as configurações ssh</li>
+                        <li>Modificar linha PermitRootLogin para 'PermitRootLogin yes'</li>
+                        <li>Reiniciar rede: <span class="text-muted">systemctl restart networking</span></li>
+                        <li>Conectar: <span class="text-muted">ssh -l root ipVM</span></li>
+                        <li>Se alterou porta: <span class="text-muted">ssh -l root piVM -p numPorta</span></li>
+                    </ol>
+                    <p>No caso acima, rede tipo <i>NAT</i> (Network address translation) é quando placa de rede da VM usa rede (IP) da máquina física para conexão. O tipo <i>Bridge</i> (Ponte) é quando VM conectada com cabo diretamente no modem, usando placa da máquina física somente como ponte para conexão.</p>
 <small><pre><code>
 SSH (secure shell):
 <i>ssh -p numPorta usernameRemoto@ipRemoto</i> (-4 para somente IPv4, -6 para somente IPv6)
 <b>Conexão SSH</b>: ssh -p 22 root@10.1.2.3 (porta 22(padrão), username 'root', ip '10.1.2.3')
+
+Comando 'ss' (sockets services - alternativo ao netstat):
+ss -atun | grep 22
+-a: all
+-t: tcp
+-u: udp
+-n: mostrar em formato numérico
+LISTEN: SSH ouvindo na porta 22 (disponível)
 </code></pre></small>
                 </div>
             </div>
@@ -577,7 +620,7 @@ unalias j <span class="text-muted">(descarta alias)</span>
 
 <b>Desligar</b>: shutdown now (ou poweroff, ou init 0, ou shutdown 0)
 <b>Logout</b>: logout
-<b>Reiniciar</b>: reboot (ou shutdown -r)
+<b>Reiniciar</b>: reboot (ou shutdown -r, ou init 6)
 </code></pre></small>
 
                     <h5>Create:</h5>
