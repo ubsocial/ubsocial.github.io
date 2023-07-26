@@ -688,7 +688,9 @@ Exemplo (diretório): <span class="text-muted">drwxr-x--- 2 root adm 4096 Dec 20
 <b>Voltar 1 diretório (diretório pai)</b>: cd ..
 <b>Voltar 2 diretórios</b>: cd ../../ (e assim por diante)
 <b>Entrar no diretório do usuário</b>: cd (ou cd ~)
-<b>Enrtar no diretório root</b>: cd /
+<b>Entrar no diretório root</b>: cd /
+<b>Criar link simbólico</b>: ln -s arqOrigem /home/arqLinkSimbolico
+<b>Listar links simbólicos</b>: ln -lh
 </code></pre></small>
 
                     <h5>Copy e move:</h5>
@@ -788,7 +790,7 @@ count: contagem de blocos a serem lidos da entrada
                                 <li>(<b>-</b>): Não possui permissão.</li>
                             </ul>
                         </li>
-                        <li>Octal: Alterar todos conjuntos de permissões (usuário, grupo e outros).
+                        <li>Octal (numérico): Alterar todos conjuntos de permissões (usuário, grupo e outros).
                             <ul>
                                 <li>(<b>0</b>) Nenhuma permissão (-);</li>
                                 <li>(<b>1</b>) Execução (x);</li>
