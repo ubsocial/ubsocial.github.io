@@ -359,6 +359,15 @@ chage -W 5 nomeUsuario
 '-M' nº máximo de dias entre troca de senhas
 '-E' data expiração de senha
 '-e' forçar expiração de senha (passwd -e nomeUsuario)
+
+<u>Exemplo, configuração de usuários em servidor</u>:
+- Cadastrar grupos:
+addgroup empresa
+addgroup tecnologia
+addgroup rh
+addgroup comercial
+addgroup financeiro
+- Adicionar grupo ao diretório: chgrp empresa dir1/ (<span class="text-muted">Somente usuários do grupo 'empresa' poderão acessar diretório 'dir1/'</span>)
 </small></pre></code>
                 </div>
             </div>
