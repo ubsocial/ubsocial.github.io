@@ -192,7 +192,7 @@
                         <li>Diretório pai: <b>..</b> <span class="text-muted">(cd ..)</span></li>
                         <li>Diretório anterior: <b>-</b> <span class="text-muted">(cd -)</span></li>
                     </ul>
-                    <p>Todo arquivo oculto inicia com ponto (<b>.</b>) antes do nome. Diretórios possuem barra (<b>/</b>) no final do nome. Diretórios com <b>@</b> no final do nome são links simbólicos, ou seja, atalhos para o diretório real. Diretórios como /bin, /sbin, /etc, /lib devem estar na mesma partição que '/'.</p>
+                    <p>Todo arquivo oculto inicia com ponto (<b>.</b>) antes do nome. Diretórios possuem barra (<b>/</b>) no final do nome (por convenção, geralmente possuem '.d' no final do nome, nos casos em que o diretório possuir arquivos de serviço específico). Diretórios com <b>@</b> no final do nome são links simbólicos, ou seja, atalhos para o diretório real. Diretórios como /bin, /sbin, /etc, /lib devem estar na mesma partição que '/'.</p>
 
                     <h5>Estrutura de diretórios:</h5>
                     <ul>
@@ -489,7 +489,7 @@ LISTEN: SSH ouvindo na porta 22 (disponível)
                     <p>Linux funciona sob sessão(ões) ativa(s). O login criará 1 sessão, composta por dados gerados do mesmo. Todo o log no sistema pertencerá a sessão ativa. Um mesmo usuário pode criar várias sessões ao mesmo tempo (cada shell executado e não fechado criará nova sessão, SHLVL mostra o nível do shell). Toda vez que usuário comum executar '<span class="text-muted">sudo su</span>', criará nova sessão com root, e poderá encerrá-la com '<span class="text-muted">exit</span>', '<span class="text-muted">ctrl+d</span>' ou '<span class="text-muted">logout</span>' para retomar a sessão com usuário comum.</p>
 
                     <h5>Shell:</h5>
-                    <p>Camada de acesso básico ao Linux, utilizada para execução de binários e super binários. Para executar shell, basta informar seu nome ou diretório (Ex: '<span class="text-muted">/usr/bin/sh</span>'). Comandos para encerrá-lo são os mesmos de sessão acima. Entre os tipos de shell, tem-se:</p>
+                    <p>Camada de acesso básico ao Linux, utilizada para execução de binários e super binários. Para executar shell, basta informar seu nome ou diretório (Ex: '<span class="text-muted">/usr/bin/sh</span>'). Comandos para encerrá-lo são os mesmos de sessão acima. Arquivo '/etc/bash.bashrc' possui informações dos shells interativos. Entre os tipos de shell, tem-se:</p>
                     <ul>
                         <li>sh (Bourne shell)</li>
                         <li>bash (Bourne again shell, evolução do sh)</li>
@@ -500,7 +500,7 @@ LISTEN: SSH ouvindo na porta 22 (disponível)
                     </ul>
 
                     <h5>Variáveis:</h5>
-                    <p>Espaços de memória que armazenam valores, com função de fornecer dados ao sistema. Comando <b>echo</b> faz chamada de conteúdo no shell em stdout (Ex: '<span class="text-muted">echo "ola"</span>' mostrará "ola" na tela). Para listar todas variáveis, tem-se 'set' (locais), 'env' (globais) e 'printenv'.</p>
+                    <p>Espaços de memória que armazenam valores, com função de fornecer dados ao sistema. Comando <b>echo</b> faz chamada de conteúdo no shell em stdout (Ex: '<span class="text-muted">echo "ola"</span>' mostrará "ola" na tela). Para listar todas variáveis, tem-se 'set' (locais), 'env' (globais) e 'printenv'. Arquivo '/etc/sysctl.conf' realiza definições de variáveis de sistema para o kernel.</p>
                     <ul>
                         <li><b>Variáveis locais</b>: Disponíveis somente para shell atual, são voláteis, possuindo visibilidade restrita ao ambiente onde foi definida. Sintaxe: <span class="text-danger">nome=valor</span>;</li>
                         <li><b>Variáveis globais</b> (de ambiente, environment): Não possuem restrição de ambiente, disponíveis a todo sistema. Comando 'export NOMEVARIAVEL', torna variável local em global. Sintaxe: <span class="text-danger">export NOME=valor</span>.</li>
@@ -1092,7 +1092,7 @@ echo $NOME
             <div class="card mb-4">
                 <h4 class="card-header">Nano editor</h4>
                 <div class="card-body">
-                    <p>Editor CLI de texto, baseado no Joe, presente na maioria das distros Linux. Carregado automaticamente no modo de edição. Para utilizá-lo basta digitar nano, seguido do nome do arquivo que deseja criar/editar. Atalhos do nano:</p>
+                    <p>Editor CLI de texto, baseado no Joe, presente na maioria das distros Linux. Carregado automaticamente no modo de edição. Para utilizá-lo basta digitar nano, seguido do nome do arquivo que deseja criar/editar. O arquivo '/etc/nanorc' realiza a inicialização do GNU nano. Atalhos do GNU nano:</p>
 <small><pre><code>
 <b>ctrl+g</b>: Ajuda
 <b>ctrl+k</b>: Recortar linha
