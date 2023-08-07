@@ -46,7 +46,7 @@
             <div class="card mb-4">
                 <h4 class="card-header">Fundamento</h4>
                 <div class="card-body">
-                    <p>Criado em 1991 por Linus Torvalds, Linux não é um SO completo. É um kernel livre baseado em Unix (Ken Thompson e Dennis Ritchie), Minix, desenvolvido em C, considerado, inicialmente, um emulador de terminal para uso em Unix. Através de Richard Stallman, Linus conhece o projeto GNU, onde, futuramente, licencia o kernel Linux (GNU Linux). Sua 1ª distribuição comercial foi a Yggdrasil Linux/GNU/X, lançada em 1992, no formato Live CD. O mascote do Linux é o pinguim Tux (Torvalds' Unix ou Tuxedo). Atualmente, 90% dos servidores web são Linux, correspondendo 99% dos supercomputadores no mundo. Linux está presente na maior parte de nossa rotina, como em dispositivos embarcados (smart TVs, Android, MacOS, video games, eletrodomésticos, multimídias automotivas, caixas eletrônicos), órgãos governamentais (forças armadas, departamentos governamentais), aplicações críticas (trens bala, CERN, sistemas de tráfego aéreo, reatores nucleares, foguetes de sondagem, artilharias de guerra), entre outros. Isso ocorre porque o Linux é Free (livre), onde não há restrição legal para manuseamento do código, permitindo, dessa forma, personalização profunda, de acordo com a necessidade. Além disso, o kernel possui enorme comunidade de contribuidores, ocasionando frequentes atualizações de integridade e otimização. Seu código fonte está disponível em <a href="https://www.kernel.org" class="text-decoration-none" target="_blank">kernel.org</a>. Principais órgãos certificadores são LPI (Linux Professional Institute), Red Hat e The Linux Foundation. Esse resumo prepara você para concluir a certificação LPI Linux Essentials, a certificação básica do LPI. Tais certificações são reconhecidas mundialmente. Software livre (free software) possui código aberto (open source) e segue as diretrizes da GPL. Free refere-se ao conceito de liberdade, não ao preço de gratuidade (FOSS - Free and Open Source Software, FLOSS - Free/Libre and Open Source Software, sendo FLOSS a maneira mais correta, SL/CA - Software Livre e de Código Aberto). A criação da organização Creative Commons (CC), juntamente com suas licenças, disponibiliza maior diversificação de regras nos direitos autorais do mesmo, permitindo maior cooperação do projeto com a comunidade. Licenças baseadas em Creative Commons são as mais utilizadas na web.. Nem todo software open source (código aberto) é free software, nem mesmo gratuito. Customização, suporte, treinamento e serviços terceiros sob free software podem ser cobradas. Manifesto GNU (GNU not Unix) foi atrelado a FSF (Free Software Foundation), criados por Stallman para armazenar a GPL (GNU General Public License), que possui 4 liberdades:</p>
+                    <p>Criado em 1991 por Linus Torvalds, Linux não é um SO completo. É um kernel livre baseado em Unix (Ken Thompson e Dennis Ritchie), Minix, desenvolvido em C, considerado, inicialmente, um emulador de terminal para uso em Unix. Através de Richard Stallman, Linus conhece o projeto GNU, onde, futuramente, licencia o kernel Linux (GNU/Linux). Sua 1ª distribuição comercial foi a Yggdrasil Linux/GNU/X, lançada em 1992, no formato Live CD. O mascote do Linux é o pinguim Tux (Torvalds' Unix ou Tuxedo). Atualmente, 90% dos servidores web são Linux, correspondendo 99% dos supercomputadores no mundo. Linux está presente na maior parte de nossa rotina, como em dispositivos embarcados (smart TVs, Android, MacOS, video games, eletrodomésticos, multimídias automotivas, caixas eletrônicos), órgãos governamentais (forças armadas, departamentos governamentais), aplicações críticas (trens bala, CERN, sistemas de tráfego aéreo, reatores nucleares, foguetes de sondagem, artilharias de guerra), entre outros. Isso ocorre porque o Linux é Free (livre), onde não há restrição legal para manuseamento do código, permitindo, dessa forma, personalização profunda, de acordo com a necessidade. Além disso, o kernel possui enorme comunidade de contribuidores, ocasionando frequentes atualizações de integridade e otimização. Seu código fonte está disponível em <a href="https://www.kernel.org" class="text-decoration-none" target="_blank">kernel.org</a>. Principais órgãos certificadores são LPI (Linux Professional Institute), Red Hat e The Linux Foundation. Esse resumo prepara você para concluir a certificação LPI Linux Essentials, a certificação básica do LPI. Tais certificações são reconhecidas mundialmente. Software livre (free software) possui código aberto (open source) e segue as diretrizes da GPL. Free refere-se ao conceito de liberdade, não ao preço de gratuidade (FOSS - Free and Open Source Software, FLOSS - Free/Libre and Open Source Software, sendo FLOSS a maneira mais correta, SL/CA - Software Livre e de Código Aberto). A criação da organização Creative Commons (CC), juntamente com suas licenças, disponibiliza maior diversificação de regras nos direitos autorais do mesmo, permitindo maior cooperação do projeto com a comunidade. Licenças baseadas em Creative Commons são as mais utilizadas na web.. Nem todo software open source (código aberto) é free software, nem mesmo gratuito. Customização, suporte, treinamento e serviços terceiros sob free software podem ser cobradas. Manifesto GNU (GNU not Unix) foi atrelado a FSF (Free Software Foundation), criados por Stallman para armazenar a GPL (GNU General Public License), que possui 4 liberdades:</p>
                     <ol start="0">
                         <li><b>Executar</b> o software para qualquer propósito ou finalidade;</li>
                         <li><b>Estudar</b> o funcionamento interno do software, podendo fazer alterações e adaptações conforme necessidade;</li>
@@ -165,7 +165,7 @@
 
                     <h5>Estrutura de diretórios:</h5>
                     <ul>
-                        <li><b>/</b> (root): Diretório originário de todos os demais, onde encontram-se os diretórios abaixo;</li>
+                        <li><b>/</b> (root): Diretório raíz, progenitor de todos os demais, onde encontram-se os diretórios abaixo;</li>
                         <li><b>/bin</b>: Possui todos os binários (binaries), comandos/alias do shell, disponíveis aos usuários comuns. Link simbólico para '/usr/bin'. Exemplo, alias 'ls' refere-se a '/bin/ls', ou seja, '/usr/bin/ls';</li>
                         <li><b>/boot</b>: Arquivos estáticos para inicialização (boot) do Linux, como gerenciador GRUB e imagem do kernel;</li>
                         <li><b>/cdrom</b>: Diretório legado (não pertence a FHS), para montagem temporária de imagem de CD-DVD. Local atual para tal é '/media';</li>
@@ -184,8 +184,8 @@
                         <li><b>/srv</b>: Serviços (service) do Linux, como rede, acessíveis externamente. Geralmente utilizado para instalação de servidores web ('/srv/www'), samba ('/srv/samba') e ftp ('/srv/ftp');</li>
                         <li><b>/sys</b>: Diretório virtual de mapeamento de chamadas diretas ao kernel (system), sistema de arquivos sys (sysfs), e informações sobre devices e módulos, sendo similar ao '/proc', porém mais organizado e categorizado;</li>
                         <li><b>/tmp</b>: Diretório virtual de arquivos temporátios (temp, temporary);</li>
-                        <li><b>/usr</b>: Recursos do Linux (user, unix system resources), como libraries e binaries, scripts do kernel ('/src'), documentação ao usuário, além de arquivos não essenciais ao sistema, que seguem padrão GNU;</li>
-                        <li><b>/var</b>: Arquivos de informações e tamanho variável (variable), como cache, logs e impressão ('/spool').</li>
+                        <li><b>/usr</b>: Recursos do Linux (user, unix system resources), como libraries e binaries, scripts do kernel ('/src'), documentação ao usuário, além de arquivos não essenciais ao sistema, que seguem padrão GNU. Considerado segunda hierarquia do FHS;</li>
+                        <li><b>/var</b>: Arquivos de informações e tamanho variável (variable), como cache, email, logs e impressão ('/spool').</li>
                     </ul>
 
                     <h5>Camadas distro Linux:</h5>
@@ -397,7 +397,7 @@ nameserver dnsSecundario
                     </ul>
 
                     <h5>Comandos:</h5>
-                    <p>Entre os comandos de rede, tem-se <b>route</b> (<span class="text-muted">route -n</span>) para visualizar e manipular tabela de roteamento IP (inet) e gateway. O <b>ifconfig</b> e <b>iwconfig</b> para informações dos componentes de rede do dispositivo, <b>ip a</b> (ou 'ip address show'), <b>ip r</b> (ou 'ip route show' ver tabela de rotas) e <b>nmcli</b> são similares a ambos. <b>ip addr show</b> mostra IP do dispositivo. <b>netstat</b> ou <b>ss</b> mostra todas conexões de entrada e saída de rede, tabelas de roteamento e estatísticas do protocolo de rede. '<i>netstat -atunp</i>' mostra com detalhes de PID, TCP e UDP. <b>ping</b> mostra tempo de envio/recebimento de resposta em rede (Ex: '<span class="text-muted">ping -c 4 192.168.1.2</span>' (Ping para esse IPv4 limitado em 4 iterações). Ex2: '<span class="text-muted">ping uol.com.br</span>' (Ping no site do uol)). <b>host</b> (<i>host -opcao idHost</i>, Ex: '<span class="text-muted">host www.google.com</span>') localiza informações de rede como, por exemplo, IPv4 (opção -4) ou IPv6 (opção -6) de determinado host (comando <b>dig</b> informa com mais detalhes). As portas de rede encontram-se em '/etc/services'. Entre os firewalls Linux, tem-se <b>iptables</b>, juntamente com <b>UFW</b> (Ubuntu firewall), que possui o GUFW como serviço GUI para gerenciamento. MacAddress é o id da placa física, geralmente identificado como link/ether, HWaddr ou HW, seguindo padrão 'xx:xx:xx:xx:xx:xx' (Ex: <span class="text-muted">5c:cd:5b:74:ae:32</span>). O MacAddress da placa wifi do dispositivo geralmente encontra-se em wlan, identificado como 'HWaddr' ou 'ether'. Também pode ser encontrado com <b>inxi -Nn</b> na opção state 'up'. cURL (<b>curl</b>) oferece interface CLI para transferência de dados via protocolos de rede. <b>wget</b> é similar ao curl (Ex: '<span class="text-muted">wget http://ftp.gnu.org/pacote.tar.gz</span>'). <b>traceroute</b> mostra rota via rede até o destino (Ex: '<span class="text-muted">traceroute www.google.com</span>'). Comando <b>ssh</b> (secure shell) faz comunicação entre dispositivos via rede, com porta padrão 22. Por padrão no Debian, somente usuário comum pode conectar-se via SSH. Passo a passo para acessar VM via SSH:</p>
+                    <p>Entre os comandos de rede, tem-se <b>route</b> (<span class="text-muted">route -n</span>) para visualizar e manipular tabela de roteamento IP (inet) e gateway. O <b>ifconfig</b> e <b>iwconfig</b> para informações dos componentes de rede do dispositivo, <b>ip a</b> (ou 'ip address show'), <b>ip r</b> (ou 'ip route show' ver tabela de rotas) e <b>nmcli</b> são similares a ambos. <b>ip addr show</b> mostra IP do dispositivo. <b>iwlist scann</b> mostra todas redes sem fio. <b>netstat</b> ou <b>ss</b> mostra todas conexões de entrada e saída de rede, tabelas de roteamento e estatísticas do protocolo de rede. '<i>netstat -atunp</i>' mostra com detalhes de PID, TCP e UDP. <b>ping</b> mostra tempo de envio/recebimento de resposta em rede (Ex: '<span class="text-muted">ping -c 4 192.168.1.2</span>' (Ping para esse IPv4 limitado em 4 iterações). Ex2: '<span class="text-muted">ping uol.com.br</span>' (Ping no site do uol)). <b>host</b> (<i>host -opcao idHost</i>, Ex: '<span class="text-muted">host www.google.com</span>') localiza informações de rede como, por exemplo, IPv4 (opção -4) ou IPv6 (opção -6) de determinado host (comando <b>dig</b> informa com mais detalhes). As portas de rede encontram-se em '/etc/services'. Entre os firewalls Linux, tem-se <b>iptables</b>, juntamente com <b>UFW</b> (Ubuntu firewall), que possui o GUFW como serviço GUI para gerenciamento. MacAddress é o id da placa física, geralmente identificado como link/ether, HWaddr ou HW, seguindo padrão 'xx:xx:xx:xx:xx:xx' (Ex: <span class="text-muted">5c:cd:5b:74:ae:32</span>). O MacAddress da placa wifi do dispositivo geralmente encontra-se em wlan, identificado como 'HWaddr' ou 'ether'. Também pode ser encontrado com <b>inxi -Nn</b> na opção state 'up'. cURL (<b>curl</b>) oferece interface CLI para transferência de dados via protocolos de rede. <b>wget</b> é similar ao curl (Ex: '<span class="text-muted">wget http://ftp.gnu.org/pacote.tar.gz</span>'). <b>traceroute</b> mostra rota via rede até o destino (Ex: '<span class="text-muted">traceroute www.google.com</span>'). Comando <b>ssh</b> (secure shell) faz comunicação entre dispositivos via rede, com porta padrão 22. Por padrão no Debian, somente usuário comum pode conectar-se via SSH. Passo a passo para acessar VM via SSH:</p>
                     <ol>
                         <u>Host</u>:
                         <li>Instalar SSH server: <span class="text-muted">sudo apt install openssh-server</span></li>
@@ -574,7 +574,8 @@ unalias j <span class="text-muted">(descarta alias)</span>
                         <li><b>ctrl+g</b>: Cancelar pesquisa;</li>
                         <li><b>ctrl+x</b> ou <b>+e</b>: Editar;</li>
                         <li><b>ctrl+l</b>: Limpar shell (move cursor para baixo até ocultar conteúdo anterior);</li>
-                        <li><b>ctrl+-</b>: Desfazer.</li>
+                        <li><b>ctrl+-</b>: Desfazer;</li>
+                        <li><b>!!</b>: Repetir último comando.</li>
                     </ul>
 
                     <h5>Comandos gerais:</h5>
@@ -608,7 +609,7 @@ unalias j <span class="text-muted">(descarta alias)</span>
 <b>Ver informações sobre uso do disco</b>: du (du -sh *)
 <b>Ver mensagens do sistema</b>: sudo dmesg
 <b>Ver quantidade de memória livre</b>: free ('-m' para valores em Megabytes, '-h' para valores organizados. Comando analisa '/proc/meminfo')
-<b>Verificar e reparar sistema de arquivos</b>: fsck
+<b>Verificar e reparar sistema de arquivos</b>: fsck (ou 'fsck nomeDisco'. Comando 'mkfs' é similar. 'mkswap' para disco swap)
 <b>Gerenciar partições do dispositivo</b>: fdisk ('-l' listará, Ex: 'fdisk -l /dev/sda')
 <b>Ver módulos kernel carregados em memória</b>: lsmod
 <b>Ver arquivos abertos</b>: lsof
@@ -756,11 +757,12 @@ count: contagem de blocos a serem lidos da entrada
 <b>Listar tudo que, por 2º, listar ou 'am' ou 'ul', depois qualquer coisa</b>: ls /etc/?{am,ul}*
 <b>Listar tudo que, por 2º, listar sequência do 'a' até 'm' ou do 'u' até 'l', depois qualquer coisa</b>: ls /etc/?[am,ul]*
 <b>Procurar em 'arquivo.txt' termos que terminam com 'teste'</b>: grep '$teste' arquivo.txt (-i ignora case sensitive, -r recursivo)
+<b>Codificar arquivo</b>: gpg -c arq1 ('gpg arq1.gpg' para decodificar)
 </code></pre></small>
 
                     <h5>Permissões:</h5>
-                    <p>No Linux, nenhum arquivo externo tem permissão de execução nativamente. Precisa-se aplicá-la com comandos <b>chown</b>, <b>chgrp</b> e <b>chmod</b>:</p>
-                    <p>Change owner: <span class="text-danger">chown &lt;parâmetros&gt; &lt;novoDono&gt;[:novoGrupo] &lt;arquivo(s)&gt;</span><br>Change group: <span class="text-danger">chgrp &lt;parâmetros&gt; &lt;novoGrupo&gt; &lt;arquivo(s)&gt;</span><br>Change mode: <span class="text-danger">chmod &lt;[conjunto][ação][permissões]&gt;[,[conjunto][ação][permissões]] [parâmetros] &lt;arquivo(s)&gt;</span></p>
+                    <p>No Linux, nenhum arquivo externo tem permissão de execução nativamente. Precisa-se aplicá-la com comandos <b>chown</b>, <b>chgrp</b>, <b>chmod</b> e <b>chattr</b>:</p>
+                    <p>Change owner: <span class="text-danger">chown &lt;parâmetros&gt; &lt;novoDono&gt;[:novoGrupo] &lt;arquivo(s)&gt;</span><br>Change group: <span class="text-danger">chgrp &lt;parâmetros&gt; &lt;novoGrupo&gt; &lt;arquivo(s)&gt;</span><br>Change mode: <span class="text-danger">chmod &lt;[conjunto][ação][permissões]&gt;[,[conjunto][ação][permissões]] [parâmetros] &lt;arquivo(s)&gt;</span><br>Change attribute: <span class="text-danger">chattr &lt;[ação][parâmetros]&gt; &lt;arquivo(s)&gt;</span></p>
                     Ordenamento (ls -l):
                     <ol>
                         <span class="text-muted">-rw-r--r-- 1 sysadmin sysadmin 647 Dec 20 2017 hello.sh</span>
@@ -826,6 +828,17 @@ chmod -Rv a=rwx dir1/ (permissão total e recursiva para todos, no diretório 'd
 
 chmod 764 arquivo (proprietário(7) com leitura/escrita/execução, grupo(6) com leitura/escrita, outros(4) com somente leitura)
 chmod 40 arquivo (proprietário não foi modificada, grupo(4) somente leitura, outros(0) nenhuma)
+
+chattr +a arq1 (permite gravar apenas abrindo arquivo acrescentar modo)
+chattr +c arq1 (permite que arquivo seja compactado/descompactado automaticamente)
+chattr +d arq1 (garante que programa ignore excluir arquivos durante o backup)
+chattr +i arq1 (torna o arquivo inalterado, não podendo ser excluído, alterado, renomeado ou vinculado)
+chattr +s arq1 (permite que arquivo possa ser excluído com segurança)
+chattr +S arq1 (garante que arquivo é modificado, as alterações são gravadas no modo síncrono, como com a
+sincronia)
+chattr +u arq1 (permite recuperar conteúdo de arquivo, mesmo se está cancelado)
+lsattr (listar atributos especiais, pode ser utilizado com parâmetros de 'ls')
+lsattr arq1 (listar atributos especiais do arquivo)
 </code></pre></small>
 
                     <h5>Lançador:</h5>
