@@ -708,7 +708,7 @@ Exemplo (diretório): <span class="text-muted">drwxr-x--- 2 root adm 4096 Dec 20
 
 <b>d</b>: Diretório
 <b>-</b>: Arquivo regular (Indica que é arquivo, não sendo diretório)
-<b>l</b>: Link simbólico (Aponta para outro arquivo)
+<b>l</b>: Link simbólico (Aponta para outro arquivo, 'soft link'. Links físicos, não simbólicos, são entrada adicional no sistema de arquivos que aponta para mesmo local (inode) do disco. Comando 'ls -i' mostra inodes)
 <b>s</b>: Arquivo é um socket (Comunicação entre processos)
 <b>p</b>: Arquivo é um fifo, named pipe (Comunicação entre processos. Fifo- FistIn FirstOut, muito usado para filas de elementos em lista de espera)
 <b>b</b>: Arquivo é dispositivo de bloco (Comunicação com hardware, com buffer: região temporária de memória para escrita/leitura)
@@ -731,7 +731,7 @@ Exemplo (diretório): <span class="text-muted">drwxr-x--- 2 root adm 4096 Dec 20
 <b>Voltar 2 diretórios</b>: cd ../../ (e assim por diante)
 <b>Entrar no diretório do usuário</b>: cd (ou cd ~)
 <b>Entrar no diretório root</b>: cd /
-<b>Criar link simbólico</b>: ln -s arqOrigem /home/arqLinkSimbolico
+<b>Criar link simbólico</b>: ln -s arqOrigem /home/arqLinkSimbolico (ou somente 'ln' para criar link físico)
 <b>Listar links simbólicos</b>: ln -lh
 </code></pre></small>
 
@@ -874,7 +874,6 @@ chmod 40 arquivo (proprietário não foi modificada, grupo(4) somente leitura, o
 chmod 1755 dir1/ (o '1' representa permissão sticky bit, ou restricted deletion flag, representada com '-t' no final do arquivo ao 'ls'. Somente para diretórios. Impede que usuários não proprietários de deletar ou renomear arquivos no diretório. Diretórios geralmente representados com fundo azul)
 chmod 2755 arq1 (ou 'g+s' em simbólico ou '2' octal. Permissão SGID ou bit set group id, concede permissão aos privilégios do grupo proprietário, incluindo respectivos arquivos, se diretório. Representa 's' no lugar do 'x' nas permissões do grupo. Geralmente representados por fundo amarelo)
 chmod 6755 arq1 ('4' octal, incluindo SGID. SUID ou set user id, representa um 's' no lugar do 'x' nas permissões do usuário. Aplicado a arquivos regulares. Semelhante ao SGID, mas aplicado ao usuário proprietário. Geralmente representados com fundo vermelho)
-
 
 chattr +a arq1 (permite gravar apenas abrindo arquivo acrescentar modo)
 chattr +c arq1 (permite que arquivo seja compactado/descompactado automaticamente)
