@@ -540,13 +540,13 @@ unalias j <span class="text-muted">(descarta alias)</span>
                     <h5>Arquivos de variáveis:</h5>
                     <p>Para armazenar variável no Linux, precisa salvá-la no arquivo, caso contrário ela é removida da memória após finalizar sessão.</p>
                     <ol>
-                        <u>Escopo global</u>:
+                        <u>Escopo global</u> (/etc):
                         <li><i>/etc/profile</i>: Armazena comandos e variáveis para usuários do sistema;</li>
                         <li><i>/etc/environment</i>: Usado para definir variáveis globais;</li>
                         <u>Escopo local</u> (/home):
-                        <li><i>.bashrc</i></li>
-                        <li><i>.profile</i> ou <i>._profile</i></li>
-                        <li><i>._login</i> e <i>._logout</i></li>
+                        <li><i>/home/.bashrc</i>: Script de inicialização do bash para shells sem login;</li>
+                        <li><i>/home/.profile</i> ou <i>/home/._profile</i>: Script de inicialização do bash para shells com login;</li>
+                        <li><i>/home/.bash_login</i> e <i>/home/.bash_logout</i>: Possui binários que são executados no login/logout do shell.</li>
                         Comando 'source' reseta o arquivo (Ex: '<span class="text-muted">source /etc/profile</span>').
                     </ol>
 
