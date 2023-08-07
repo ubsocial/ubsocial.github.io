@@ -1344,6 +1344,17 @@ O nano possibilita a abertura de diversos arquivos ao mesmo tempo
                         </li>
                     </ul>
                     <p>Existem gerenciadores de pacotes de alto nível externos, como <b>pip</b> (Python), <b>npm</b> (Node.js). Além disso, pacotes do tipo '<b>appimage</b>' funcionam em sandbox, podendo ser executados imediatamente, após baixados, com '<span class="text-muted">./pacote.appimage --install</span>', mediante permissão de execução. Além disso, pode-se instalar pacotes manualmente (pacotes fonte), fazendo download do arquivo empacotado compactado: Basta extraí-lo e, no diretório extraído, executar o arquivo './configure', após isso realizar o comando '<span class="text-muted">make</span>', seguido do comando '<span class="text-muted">make install</span>', seguido do '<span class="text-muted">make clean</span>'.</p>
+
+                    <h5>Chaves (Keys):</h5>
+                    <p>Chaves key <b>GPG</b> (GNU PGP - Pretty Good Privacy) permitem conexão segura entre host e repositório, ficam, publicamente, em '/usr/share/keyrings/'. Chaves <b>SSH</b> permitem conexão remota entre dispositivos e serviços.</p>
+<small><pre><code>
+<b>Listar chaves GPG</b>: gpg --list-keys (mesmo que '~/.gnupg')
+<b>Gerar par de chaves GPG</b> (pública e privada): gpg --gen-key (gerará 'chave.asc' ou 'chave.gpg')
+<b>Deletar chave GPG pública</b>: gpg --delete-keys numChave
+<b>Deletar chave GPG privada</b>: gpg --delete-secret-keys numChave
+<b>Editar chave GPG</b>: gpg --edit-key numChave
+<b>Gerar chave SSH</b>: ssh-keygen (gerará 'chave.pub' em '~/.ssh')
+</code></pre></small>
                     
                     <h5>Debian (.deb):</h5>
                     <ul>
