@@ -54,7 +54,18 @@
                         <li><b>Distribuir</b> o software, contanto que a distribuição seja com as mesmas liberdades que o software recebido, como não fechar o código.</li>
                     </ol>
                     <p>Licenças como essas são Copyleft. A LGPL (GNU Lesser General Public License) foi escrita como meio-termo da GPL, permitindo associação com softwares que não estejam sob licenças GPL e LGPL, incluindo software proprietário. A AGPL (GNU Affero General Public License) cobre venda de acesso a software hospedado. A FDL (GNU Free Documentation License) estende princípios da liberdade à documentação do software. Licença permissiva, contrária à Copyleft, permite ao proprietário criar suas próprias cláusulas.</p>
-                    
+
+                    <h5>Estrutura de sistema Linux:</h5>
+                    <ol>
+                        <li><b>Hardware</b>: Componentes físicos do dispositivo;</li>
+                        <li><b>Kernel Linux</b>: Núcleo do sistema operacional. Mediador entre hardware e camadas superiores;</li>
+                        <li><b>Sistema Operacional</b>: Auxilia e hospeda aplicações das camadas superiores;</li>
+                        <li><b>Terminais Virtuais</b> (tty1..6): Interpretam comandos e convertem para linguagem de máquina. Camada de execução de comandos e configurações;</li>
+                        <li><b>Servidor X</b> (Gráfico): Base de implantação do ambiente gráfico (GUI). Entre os principais, tem-se Xorg e Wayland;</li>
+                        <li><b>Display Manager</b>: Gerencia logins na GUI e seleciona tipo de GUI que será executada;</li>
+                        <li><b>Desktop</b>: Camada que hospeda aplicações dependentes de GUI para funcionamento.</li>
+                    </ol>
+
                     <h5>Tipos de kernel Linux:</h5>
                     <ul>
                         <li><b>Generic (Stable)</b>: Padrão de SOs Linux;</li>
@@ -734,7 +745,7 @@ count: contagem de blocos a serem lidos da entrada
 <b>!</b> Excluir caractere da operação
 <b>\b</b> Borda de uma palavra
 <b>\n</b> Recuperar n agrupamento (n é um nº)
-<b>\</b> Acessar caracteres especiais e metacaracteres
+<b>\</b> Acessar caracteres especiais e metacaracteres (também considerado caractere de escape)
 
 <u><b>Classificação</b></u>:
 <b>Marcação</b> (âncoras): ^ $ \b
@@ -946,7 +957,7 @@ Categories=Categoria do binário
                     </ul>
 
                     <h5>Shell script:</h5>
-                    <p>Script de execução em shell Linux, em linguagem shell, arquivos com terminação '.sh'. Realizam manipulação em rotinas shell Linux. <span class="text-muted">#!/bin/bash</span> é o Shebang, interpretador do script, gerará um subshell para executar os códigos, não considerado comentário. Para executar shell script sem permissão de execução, deve-se executar '<span class="text-muted">source arquivo.sh</span>' (ou '. arquivo.sh', ou 'bash arquivo.sh'). Também, pode-se atribuir permissão de execução ao mesmo com '<span class="text-muted">chmod a+x arquivo.sh</span>' e executá-lo com '<span class="text-muted">./arquivo.sh</span>' (ou '/home/usuario/arquivo.sh').</p>
+                    <p>Script de execução em shell Linux, em linguagem shell, arquivos com terminação '.sh'. Realizam manipulação em rotinas shell Linux. <span class="text-muted">#!/bin/bash</span> é o Shebang, interpretador do script, gerará um subshell para executar os códigos, não considerado comentário. Para executar shell script sem permissão de execução, deve-se executar '<span class="text-muted">source arquivo.sh</span>' (ou '. arquivo.sh', ou 'bash arquivo.sh'). Também, pode-se atribuir permissão de execução ao mesmo com '<span class="text-muted">chmod a+x arquivo.sh</span>' e executá-lo com '<span class="text-muted">./arquivo.sh</span>' (ou '/home/usuario/arquivo.sh'). Termos entre aspas simples são considerados string como todo. Termos entre aspas duplas consideram valores de variáveis.</p>
                     Variáveis internas do shell:
                     <ul>
                         <li>(<b>$0</b>) Nome do script;</li>
@@ -1009,7 +1020,7 @@ echo $NOME
                 <div class="card-body">
                     <ul>
                         <li><b>how-to</b> (cookbook): Documentos, disponíveis em '/usr/share/doc', focados em necessidade específica, como montar um firewall. Possuem formatos HTML, Markdown, entre outros (Ex: how-to do iptables estão em '/usr/share/doc/iptables');</li>
-                        <li><b>man page</b>: Manuais de ajuda geral, via comando 'man'. Há o termo com o nº do manual indicado ('gzip(1)' é o man1 do gzip). Sintaxe: <span class="text-danger">man [sessão] &lt;termo&gt;</span>. Sessão pode alterar manual do comando (Ex: 'man passwd' é man1 do comando passwd, 'man 5 passwd' é man5 do arquivo de configuração passwd). Comando 'catman' atualiza a base de dados dos manuais. Manuais estão em '/usr/share/man'. Cada manual possui 11 seções de organização de conteúdo, sendo padronizados globalmente. Comandos <b>yelp</b> e <b>xman</b> são ferramentas GUI para tal;
+                        <li><b>man page</b>: Manuais de ajuda geral, via comando 'man'. Há o termo com o nº do manual indicado ('gzip(1)' é o man1 do gzip). Sintaxe: <span class="text-danger">man [sessão] &lt;termo&gt;</span>. Sessão pode alterar manual do comando (Ex: 'man passwd' é man1 do comando passwd, 'man 5 passwd' é man5 do arquivo de configuração passwd). Comando 'catman' atualiza a base de dados dos manuais. Manuais estão em '/usr/share/man'. Cada manual possui 11 seções de organização de conteúdo, sendo padronizados globalmente (nome, sinopse, descrição, opções/parâmetros, argumentos, arquivos, exemplos, veja mais, diagnósticos, direitos autorais e bugs). Além disso, existem 9 categorias de manuais. Comandos <b>yelp</b> e <b>xman</b> são ferramentas GUI para tal;
                             <ul>
                                 <li>man 1: Binários e executáveis;</li>
                                 <li>man 2: Rotinas do sistema Linux e linguagem C;</li>
