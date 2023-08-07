@@ -346,6 +346,7 @@
 <b>Renomear grupo</b>: groupmod -n novoNomeGrupo antigoNomeGrupo
 <b>Definir senha para grupo</b>: gpasswd nomeGrupo
 <b>Deletar grupo</b>: delgroup nomeGrupo (ou groupdel)
+<b>Listar grupos</b>: groups (ou 'groups nomeUsuario' para grupos do usuário)
 
 <u>Exemplos</u>:
 useradd -s /bin/bash -m -c "UB Social, 10, 519999999, 5198989898," ubsocial
@@ -647,7 +648,7 @@ unalias j <span class="text-muted">(descarta alias)</span>
 <b>Ver particionamento do disco</b>: lsblk (dispositivos de bloco disponíveis)
 <b>Ver espaços das partições</b>: df (-i para mostrar inodes, buracos de memória no hardware de cada partição)
 <b>Ver informações sobre uso do disco</b>: du (du -sh *)
-<b>Ver mensagens do sistema</b>: sudo dmesg
+<b>Ver mensagens do sistema</b>: sudo dmesg (mesmo que '/var/log/dmesg')
 <b>Ver quantidade de memória livre</b>: free ('-m' para valores em Megabytes, '-h' para valores organizados. Comando analisa '/proc/meminfo')
 <b>Verificar e reparar sistema de arquivos</b>: fsck (ou 'fsck nomeDisco'. Comando 'mkfs' é similar. 'mkswap' para disco swap)
 <b>Gerenciar partições do dispositivo</b>: fdisk ('-l' listará, Ex: 'fdisk -l /dev/sda')
@@ -869,6 +870,12 @@ chmod -Rv a=rwx dir1/ (permissão total e recursiva para todos, no diretório 'd
 chmod 764 arquivo (proprietário(7) com leitura/escrita/execução, grupo(6) com leitura/escrita, outros(4) com somente leitura)
 chmod 40 arquivo (proprietário não foi modificada, grupo(4) somente leitura, outros(0) nenhuma)
 
+<u>Permissões especiais</u>:
+chmod 1755 dir1/ (o '1' representa permissão sticky bit, ou restricted deletion flag, representada com '-t' no final do arquivo ao 'ls'. Somente para diretórios. Impede que usuários não proprietários de deletar ou renomear arquivos no diretório. Diretórios geralmente representados com fundo azul)
+chmod 2755 arq1 (ou 'g+s' em simbólico ou '2' octal. Permissão SGID ou bit set group id, concede permissão aos privilégios do grupo proprietário, incluindo respectivos arquivos, se diretório. Representa 's' no lugar do 'x' nas permissões do grupo. Geralmente representados por fundo amarelo)
+chmod 6755 arq1 ('4' octal, incluindo SGID. SUID ou set user id, representa um 's' no lugar do 'x' nas permissões do usuário. Aplicado a arquivos regulares. Semelhante ao SGID, mas aplicado ao usuário proprietário. Geralmente representados com fundo vermelho)
+
+
 chattr +a arq1 (permite gravar apenas abrindo arquivo acrescentar modo)
 chattr +c arq1 (permite que arquivo seja compactado/descompactado automaticamente)
 chattr +d arq1 (garante que programa ignore excluir arquivos durante o backup)
@@ -912,7 +919,7 @@ Categories=Categoria do binário
                     </ul>
 
                     <h5>Processos:</h5>
-                    <p>No Linux, o gerenciamento de processos segue padrão POSIX. Processo é um binário que, quando executado, consome recursos do dispositivo. Possui ciclo de vida (stat), time (tempo usado pelo processador no processo), CMD (binário que iniciou o processo), recursos e usuário proprietário. Todo processo é identificado pelo <b>PID</b> (process identification) e, em alguns casos, <b>PPID</b> (parent process identification), com prioridade de execução (nice), do -20 (máxima) ao 19 (mínima) e 0 (padrão). O root possui permissão para alterar prioridades. Processos criados pelo root têm prioridade 0. Processos criados por usuário comum têm prioridade 10 (baixa). Processos em realtime (normalmente internos do kernel) possuem prioridade 1 a 99. Processos convencionais possuem têm prioridade 100 (maior) até 139 (menor), sendo 120 (padrão) e rt (realtime). A prioridade padrão (PRI/PR), diferente da nice (NI), é definida automaticamente no escalonamento definido pelo kernel. Processos em execução possuem seus diretórios em '/proc', nomeados por PID. Processos podem ser inicializados pelos gerenciadores <i>systemctl</i> e <i>systemd</i>. Comando 'top' mostra lista de processos. No 'top', load average é a média de tempo para execução de cada processo (geralmente deve-se manter abaixo de 3). A gestão do processo ocorre via sinais de kill (comando 'kill -l' mostra todos sinais de kill). Processos em 1º plano são foreground (binários executados em shell), processos em 2º plano são background. Toda vez que um processo é executado em background, estará executando em subshell.</p>
+                    <p>No Linux, o gerenciamento de processos segue padrão POSIX. Processo é um binário que, quando executado, consome recursos do dispositivo. Possui ciclo de vida (stat), time (tempo usado pelo processador no processo), CMD (binário que iniciou o processo), recursos e usuário proprietário. Todo processo é identificado pelo <b>PID</b> (process identification) e, em alguns casos, <b>PPID</b> (parent process identification), com prioridade de execução (nice), do -20 (máxima) ao 19 (mínima) e 0 (padrão). O root possui permissão para alterar prioridades. Processos criados pelo root têm prioridade 0. Processos criados por usuário comum têm prioridade 10 (baixa). Processos em realtime (normalmente internos do kernel) possuem prioridade 1 a 99. Processos convencionais possuem têm prioridade 100 (maior) até 139 (menor), sendo 120 (padrão) e rt (realtime). A prioridade padrão (PRI/PR), diferente da nice (NI), é definida automaticamente no escalonamento definido pelo kernel. Processos em execução possuem seus diretórios em '/proc', nomeados por PID. Processos podem ser inicializados pelos gerenciadores <i>systemctl</i> e <i>systemd</i>. Comando 'top' mostra lista de processos. No 'top', load average é a média de tempo para execução de cada processo (geralmente deve-se manter abaixo de 3). A gestão do processo ocorre via sinais de kill (comando 'kill -l' mostra todos sinais de kill). Processos em 1º plano são foreground (binários executados em shell), processos em 2º plano são background. Toda vez que um processo é executado em background, estará executando em subshell. Arquivo '/proc/cmdline' armazena strings do kernel na inicialização.</p>
                     Componentes do processo:
                     <ul>
                         <li>Estado (stat);
@@ -982,7 +989,7 @@ Categories=Categoria do binário
                         <li><i>/var/log/btmp</i>: Informações de logins malsucedidas (comando 'lastb' interpreta o arquivo);</li>
                         <li><i>/var/log/kern.log</i>: Informações do kernel;</li>
                         <li><i>/var/log/syslog</i>: Informações do sistema;</li>
-                        <li><i>/var/log/messages</i>: Dados do sistema e programas.</li>
+                        <li><i>/var/log/messages</i>: Dados do sistema e binários.</li>
                     </ul>
 
                     <h5>Shell script:</h5>
