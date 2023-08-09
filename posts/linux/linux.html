@@ -94,24 +94,31 @@
                     </ul>
                     
                     <h5>GUI e CLI:</h5>
-                    <p>Toda distro é <b>CLI</b> (command-line interface), onde há ausência de interface gráfica, sendo somente modo texto. Servidores geralmente utilizam somente CLI. Distros com adesão de GUI (graphical user interface) possuem interface gráfica, sendo essa renderizada através de <b>desktop environment</b> (DE). Desktop environment engloba a interface gráfica do gerenciador de janelas, além de seus respectivos softwares. Os DEs são diferentes no que diz respeito a uso de recursos de hardware no dispositivo, customização e aparência. Entre os principais gerenciadores de janelas, tem-se:</p>
+                    <p>Toda distro é <b>CLI</b> (command-line interface), onde há ausência de interface gráfica, sendo somente modo texto. Servidores geralmente utilizam somente CLI. Distros com adesão de <b>GUI</b> (graphical user interface) possuem interface gráfica, sendo essa renderizada através de <b>desktop environment</b> (DE). Desktop environment engloba a interface gráfica do gerenciador de janelas, além de seus respectivos softwares. Window manager (gerenciador de janelas) utiliza compositor de janelas, responsável por reproduzir as janelas na GUI, por exemplo Compton e Openbox. Os DEs são diferentes no que diz respeito a uso de recursos de hardware no dispositivo, customização e aparência. Entre os principais DEs, tem-se:</p>
                     <ul>
-                        <li>Gnome (GNU network object model environment): Principal DE Linux, possui widget toolkit GTK e servidores gráficos Xorg e Wayland. Caracteriza-se por ser mais responsivo e completo. Portanto, consome mais recursos de hardware do dispositivo;</li>
-                        <li>KDE (K desktop environment): Utiliza widget toolkit Qt. Caracteriza-se por ser extremamente customizável e consome poucos recursos de hardware do dispositivo;</li>
-                        <li>XFCE (XForms common environment): Caracteriza-se por ser mais estável e consumir menos recursos de hardware do dispositivo. Utiliza servidor gráfico Xorg;</li>
-                        <li>MATE (MATE advanced traditional environment): Nome advindo da 'erva-mate', caracteriza-se por ser leve e customizável;</li>
-                        <li>LXDE (Lightweight X11 desktop environment): Caracteriza-se por consumir pouquíssimos recursos de hardware do dispositivo;</li>
+                        <li>Gnome (GNU network object model environment): Principal DE Linux, possui widget toolkit GTK (ou GTK+, ou GIMP Toolkit) e servidores gráficos Xorg e Wayland. Caracteriza-se por ser mais responsivo, minimalista e, ao mesmo tempo, completo em funcionalidades. Portanto, consome mais recursos de hardware do dispositivo. A GUI do Gnome é Gnome Shell. Usa compositor de janelas Mutter e, em algumas distros, Metacity;</li>
+                        <li>KDE (K desktop environment): Utiliza widget toolkit Qt (ou 'cute'). Caracteriza-se por ser extremamente customizável e consome poucos recursos de hardware do dispositivo. A GUI do KDE é KDE Plasma. Usa compositor de janelas Kwin;</li>
+                        <li>XFCE (XForms common environment): Caracteriza-se por ser mais estável e consumir menos recursos de hardware do dispositivo. Utiliza servidor gráfico Xorg. Usa compositor de janelas xfwm;</li>
+                        <li>MATE (MATE advanced traditional environment): Nome advindo da 'erva-mate', caracteriza-se por ser leve e customizável. Usa compositor de janelas Metacity;</li>
+                        <li>LXDE (Lightweight X11 desktop environment): Caracteriza-se por consumir pouquíssimos recursos de hardware do dispositivo. Utiliza widget toolkit GTK. Usa compositor de janelas Openbox;</li>
                         <li>LXQt (LXDE + Qt): Utiliza widget toolkit Qt, caracteriza-se por consumir pouquíssimos recursos de hardware do dispositivo;</li>
                         <li>Cinnamon: Caracteriza-se por ser extremamente similar ao Windows. Consome poucos recursos de hardware do dispositivo;</li>
                         <li>Fluxbox: Caracteriza-se por consumir pouquíssimos recursos de hardware do dispositivo;</li>
                         <li>Deepin DE (desktop environment): Caracteriza-se por ser extremamente similar ao MacOS;</li>
-                        <li>Pantheon: Caracteriza-se por ser extremamente similar ao MacOS;</li>
-                        <li>Unity;</li>
-                        <li>WindowMaker;</li>
-                        <li>AwesomeWM;</li>
+                        <li>Pantheon: Caracteriza-se por ser extremamente similar ao MacOS. Baseado no Gnome, utiliza widget toolkit GTK;</li>
+                        <li>Unity: Alternativo ao Gnome, utiliza widget toolkit GTK;</li>
+                        <li>Budgie Desktop: Utiliza GTK, alternativo ao Gnome, baseando-se no mesmo;</li>
+                        <li><i>Tile/Tiling window managers (TWM)</i>: Categoria de DEs gerenciadores de janelas estáticas e ajustadas automaticamente, focados na utilização somente via teclado. Geralmente voltados para uso em ambientes terminais somente shell. Possui como objetivos o minimalismo e foco. Geralmente configuráveis via arquivos de texto declarativos. Há possibilidade de utilizá-los em conjunto com demais DEs. Exemplos:
+                            <ul>
+                                <li>i3WM: Mais popular TWM;</li>
+                                <li>Sway (executado sob Wayland);</li>
+                                <li>WindowMaker;</li>
+                                <li>AwesomeWM.</li>
+                            </ul>
+                        </li>
                         <li>Entre outros.</li>
                     </ul>
-                    <p>Em muitas situações, pode-se optar por qual DE instalar na distro. Como, por exemplo, no Debian, optar entre Debian Gnome, Debian KDE, Debian XFCE, etc. Distros com DEs como XFCE, LXQt, MATE e Fluxbox são ideais para hardware obsoleto. Distros com DEs como XFCE, KDE e Cinnamon possuem mais similaridade com Windows. Distros com DEs como Pantheon e Deepin DE possuem mais similaridade com MacOS.</p>
+                    <p>Em muitas situações, pode-se optar por qual DE instalar na distro. Como, por exemplo, no Debian, optar entre Debian Gnome, Debian KDE, Debian XFCE, etc. Além disso, pode-se instalar um tipo de GUI, com DE não pertencente a mesma (exemplo GUI Gnome Shell em DE XFCE). Distros com DEs como XFCE, LXQt, MATE e Fluxbox são ideais para hardware obsoleto. Distros com DEs como XFCE, KDE e Cinnamon possuem mais similaridade com Windows. Distros com DEs como Pantheon e Deepin DE possuem mais similaridade com MacOS.</p>
                     <h5>Servidores:</h5>
                     <p>Dispositivos com função de prover determinados serviços, de forma segura e eficaz. Geralmente são classificados da seguinte maneira:</p>
                     <ul>
