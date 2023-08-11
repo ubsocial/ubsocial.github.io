@@ -662,7 +662,7 @@ unalias j <span class="text-muted">(descarta alias)</span>
 <b>Ver nome do dispositivo</b>: hostname ('-i' mostrará ip)
 <b>Ver arquitetura do dispositivo</b>: arch
 <b>Ver particionamento do disco</b>: lsblk (dispositivos de bloco disponíveis)
-<b>Ver espaços das partições</b>: df (-i para mostrar inodes, buracos de memória no hardware de cada partição)
+<b>Ver espaços das partições</b>: df ('-h' para mostrar valores organizados, '-i' para mostrar inodes, buracos de memória no hardware de cada partição)
 <b>Ver informações sobre uso do disco</b>: du (du -sh *)
 <b>Ver mensagens do sistema</b>: sudo dmesg (mesmo que '/var/log/dmesg')
 <b>Ver quantidade de memória livre</b>: free ('-m' para valores em Megabytes, '-h' para valores organizados. Comando analisa '/proc/meminfo')
@@ -968,7 +968,7 @@ Categories=Categoria do binário
                         <li>PID, PPID: Identificadores do processo.</li>
                     </ul>
 <small><pre><code>
-<b>Ver processos da sessão, tty e usuário atual</b> (process status): 'ps -ef' ou 'ps -aux' ou 'ps -r' (-r para somente running)
+<b>Ver processos da sessão, tty e usuário atual</b> (process status): 'ps -ef' ou 'ps -aux' ou 'ps -r' (-r para somente running. 'pgrep termoBusca' faz mesmo que 'ps aux | grep termoBusca')
 <b>Similar acima, mas em todos tty</b>: ps u
 <b>Ver processos, filtro</b>: 'ps -ef | grep init' (todos processos 'init') ou 'ps --pid numPID' ou '--ppid numPPID' (filtro por id)
 <b>Ver processos do usuário, em 1º e 2º plano, em todos tty</b>: ps a
@@ -994,6 +994,7 @@ Categories=Categoria do binário
 <b>Retomar processo parado em foreground, para background</b>: bg idJob
 <b>Enviar processo para ser executado em background</b>: nomeProcesso & (ou 'comando &')
 <b>Ver carga do sistema</b>: uptime
+<b>Scanner disco, checar por arquivos residuais em diretórios</b>: ncdu (Tecla 'd' apagará arquivos residuais do diretório destaque.)
 </code></pre></small>
 
                     <h5>Mensagens do sistema:</h5>
