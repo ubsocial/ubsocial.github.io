@@ -932,7 +932,7 @@ Categories=Categoria do binário
                     <p>Processos são chamados de process, task, service ou job. Enquanto uma tarefa (<b>task</b>) é um conjunto de instruções em execução, um processo (<b>process</b>) é um conjunto de instruções ou programas em execução. No Linux, task e process são sinônimos. Um serviço (<b>service</b>) é um processo iniciado pelo sistema. Um trabalho (<b>job</b>) são muitas tasks/process em execução, geralmente em lote. No Linux, o gerenciamento de processos segue padrão POSIX. Processo é um binário que, quando executado, consome recursos do dispositivo. Possui ciclo de vida/estado (stat, state ou s), time (tempo usado pelo processador no processo), CMD (binário que iniciou o processo), recursos e usuário proprietário. Todo processo é identificado pelo <b>PID</b> (process identification) e, em alguns casos, <b>PPID</b> (parent process identification), com prioridade de execução (nice), do -20 (máxima) ao 19 (mínima) e 0 (padrão). O root possui permissão para alterar prioridades. Processos criados pelo root têm prioridade 0. Processos criados por usuário comum têm prioridade 10 (baixa). Processos em realtime (normalmente internos do kernel) possuem prioridade 1 a 99. Processos convencionais possuem têm prioridade 100 (maior) até 139 (menor), sendo 120 (padrão) e rt (realtime). A prioridade padrão (PRI/PR), diferente da nice (NI), é definida automaticamente no escalonamento definido pelo kernel. Processos em execução possuem seus diretórios em '/proc', nomeados por PID. Processos podem ser inicializados pelos gerenciadores <i>systemctl</i> e <i>systemd</i>. Comando 'top' mostra lista de processos. No 'top', load average é a média de tempo para execução de cada processo (geralmente deve-se manter abaixo de 3). A gestão do processo ocorre via sinais de kill (comando 'kill -l' mostra todos sinais de kill). Processos em 1º plano são foreground (binários executados em shell), processos em 2º plano são background. Toda vez que um processo é executado em background, estará executando em subshell. Arquivo '/proc/cmdline' armazena strings do kernel na inicialização. Serviços (<b>service</b>) são, basicamente, processos iniciados pelo sistema. Processos (<b>process</b>) são iniciados pelo usuário.</p>
                     Componentes do processo:
                     <ul>
-                        <li>Estado (stat);
+                        <li>Estado (stat, state, s);
                             <ul>
                                 <li>(<b>R</b>) running ou runnable (em execução, consome recursos);</li>
                                 <li>(<b>T</b>) stopped (parado por processo, não consome recursos);</li>
@@ -957,10 +957,12 @@ Categories=Categoria do binário
                         <li>Proprietário: Usuário que gerou o processo, com permissão para modificá-lo. Usuário comum é proprietário somente de seus processos. root é proprietário de todos processos;</li>
                         <li>Prioridade: Quantidade disponibilizada de recursos fornecidos;
                             <ul>
-                                <li>(stat <b>&lt;</b> ou <b>N</b>) prioridade menor que normal;</li>
-                                <li>(stat <b>&gt;</b>) prioridade maior que normal;</li>
+                                <li>(stat <b>&lt;</b> ou <b>N</b>) prioridade menor que normal (low-priority);</li>
+                                <li>(stat <b>&gt;</b>) prioridade maior que normal (high-priority);</li>
                                 <li>(stat <b>s</b>) líder da sessão;</li>
                                 <li>(stat <b>+</b>) executando em 1º plano;</li>
+                                <li>(stat <b>L</b>) partes bloqueadas na memória (por realtime ou IO);</li>
+                                <li>(stat <b>I</b>) multi-threaded (thread's compartilhadas. Fluxos de controle, compartilhados entre processos, atuando em mesmo endereço, num mesmo processo);</li>
                                 <li>(<b>NI</b>) nice/renice, valor de prioridade definido na criação/alteração do processo;</li>
                             </ul>
                         </li>
@@ -974,7 +976,7 @@ Categories=Categoria do binário
 <b>Ver processos, forma personalizada</b>: ps ax -o user,pid,ppid,%cpu,%mem,stat,start,command | head -3
 <b>Listar processos e processos filhos</b>: 'ps faux' ou 'ps -ef'
 <b>Ver PID do processo</b>: pidof nomeProcesso (pidof init)
-<b>Mostrar dados de processo</b>: top numPID ('q' para sair)
+<b>Mostrar dados de processo</b>: top numPID ('q' para sair) ('top' é 'table of process/processes')
 <b>Processos de usuário específico</b>: top -u usuario
 <b>Mostrar processos, via HTOP</b>: htop (O 'Hisham Top' - nome do criador, é uma ferramenta CLI para visualizar processos do sistema. sudo apt install htop)
 <b>Mostrar processos, Bashtop</b>: bashtop (Similar ao HTOP, mas com visualização aperfeiçoada. Necessário instalação)
