@@ -59,6 +59,13 @@ library(ggplot2) # Carregar ggplot2
 ?ggplot2 # Pacote de visualização de dados - para gráficos
 
 
+<b>---------------- ESTRUTURA DE DADOS ----------------</b>
+<b>Vetor</b>: Armazena conjunto de valores ordenados, os elementos. Todos elementos de um vetor devem ser do mesmo tipo.
+<b>Fator</b>: Armazena valores categóricos (nominal ou ordinal).
+<b>Lista</b>: Tipo especial de vetor, onde pode-se adicionar elementos de tipos diferentes.
+<b>Data frame</b>: Usado para organizar elementos em linhas e colunas, semelhante a planilha ou base de dados. Inclusive, pode ser formado por listas ou vetores.
+<b>Matriz</b>: Armazena dados tabulares semelhante ao data frame, porém só aceita 1 tipo de dado.
+
 <b>---------------- VETOR ----------------</b>
 ?c()
 cidade &lt;-c("Brasília","São Paulo","Rio de Janeiro","Porto Alegre")
@@ -155,6 +162,117 @@ m2 &lt;- matrix(seq(1:25),
 )
 m2 # Matriz de 25lin x 5col, byrow indica que martriz será preenchida por linhas, dimnames especifica títulos de linhas e colunas
 m2[c(1:2), c("B","C")] # Filtrar matriz (Linhas 1 à 2, Colunas B e C)
+
+
+<b>---------------- FOR ----------------</b>
+?seq
+for (i in seq(12)) {
+  print(i)
+}
+
+
+<b>---------------- WHILE ----------------</b>
+i &lt;- 0
+while(i &lt;= 10) {
+  print(i)
+  i = i+1
+}
+
+
+<b>---------------- IF ----------------</b>
+x = 10
+if (x &gt; 0) {
+  print("Número Positivo")
+}
+
+nota = 4
+if (nota &gt;=7) {
+  print("Aprovado")
+} else if (nota &gt; 5 && nota &lt; 7) {
+  print("Recuperação")
+} else {
+  print("Reprovado")
+}
+
+
+<b>---------------- FUNÇÃO ----------------</b>
+par.impar &lt;- function(num) {
+  if((num %% 2) == 0) {
+    return("Par")
+  }else
+    return("Ímpar")
+}
+
+num = 3
+par.impar(num)
+
+
+<b>---------------- APPLY ----------------</b>
+?apply
+x &lt;- seq(1:9)
+x
+matriz &lt;- matrix(x, ncol = 3)
+matriz
+
+result1 &lt;- apply(matriz, 1, sum) # O primeiro parâmetro é a matriz, 1 é para realizar operação por linha (2 para coluna), o sum é a soma
+result1
+
+result2 &lt;- apply(matriz, 2, sum) # Similar acima, porém soma feita via colunas
+result2
+
+numeros.p &lt;- c(2,4,6,8,10,12)
+numeros.i &lt;- c(1,3,5,7,9,11)
+numeros &lt;- list(numeros.p,numeros.i) # Converter vetores em uma lista
+numeros
+
+?lapply # Similar a apply, sendo aplicada em vetores e listas
+lapply(numeros, mean) # mean retorna média dos valores
+
+?sapply # Similar a lapply, exibindo resultados organizadamente
+sapply(numeros, mean)
+
+
+<b>---------------- GRÁFICOS ----------------</b>
+?mtcars # Conjunto de dados pré-pronto
+
+carros &lt;- mtcars[,c(1,2,9)] # Filtrar colunas do dataset
+head(carros) # Ver dataset
+
+hist(carros$mpg) # Histograma
+plot(carros$mpg,carros$cyl) # Dispersão
+
+install.packages("ggplot2")
+library(ggplot2)
+
+ggplot(carros,aes(am)) + geom_bar() # Gráfico de barras com ggplot2 (dataset,coluna)
+
+
+<b>---------------- JOIN ----------------</b>
+# Join une 2 conjuntos de dados em um único
+
+install.packages("dplyr")
+library(dplyr)
+
+??dplyr
+?data.frame
+
+df1 &lt;- data.frame(Produto = c(1,2,3,5), Preco = c(15,10,25,20))
+head(df1)
+
+df2 &lt;- data.frame(Produto = c(1,2,3,4), Nome = c("A","B","C","D"))
+head(df2)
+
+df3 &lt;- left_join(df1,df2,"Produto") # Une dados, mantém valores da tabela esquerda, caso não encontre correspondente na direita, atribuirá '&lt;NA&gt;'
+head(df3)
+
+df4 &lt;- right_join(df1,df2, "Produto") # Similar acima, porém mantem valores da tabela direita
+head(df4)
+
+df5 &lt;- inner_join(df1, df2, "Produto") # Unir elementos em comum (campos comparados, coluna de comparação)
+head(df5)
+
+
+<!--VER 3.2 Selecionando os dados (https://cdn.evg.gov.br/cursos/325_EVG/scorms/modulo02_scorm01/scormcontent/index.html#/lessons/yIfYbEwiKIw8GnQNYYxas9qMoYAH6v4e)-->
 </code></pre></small>
         </div>
     </div>
