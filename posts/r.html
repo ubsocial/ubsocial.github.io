@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../icons/logoTit.png">
+    <link rel="stylesheet" href="../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <nav class="navbar rounded-bottom fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="../index.html"><img src="../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../livros/livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 text-center" id="titulo">
+            <h1>Linguagem R</h1>
+            <h6><strong>Sintaxe linguagem R</strong></h6>
+            <a href="../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
+        </div>
+
+        <div class="col-sm-12">
+<small><pre><code>
+<b>---------------- VARIÁVEIS ----------------</b>
+mensagem &lt;- "Hello world!"
+print(mensagem)
+
+# Documentações
+?head
+?str
+?getwd
+?mean
+?sd
+?sum
+?seq
+
+
+<b>---------------- PACOTES ----------------</b>
+install.packages("ggplot2") # Instalar pacote ggplot2
+library(ggplot2) # Carregar ggplot2
+?ggplot2 # Pacote de visualização de dados - para gráficos
+
+
+<b>---------------- VETOR ----------------</b>
+?c()
+cidade &lt;-c("Brasília","São Paulo","Rio de Janeiro","Porto Alegre")
+cidade # Ver dados do vetor
+
+temperatura &lt;- c(32,22,35,17)
+regiao &lt;- c(1,2,2,3)
+
+cidade[1] # Acessar 1º elemento
+temperatura[1:3] # Acessar elementos do 1º ao 3º
+
+cidade2 &lt;- cidade # Copiar vetor
+cidade2
+temperatura[-2] # Excluir 2º elemento da consulta
+
+cidade2[3] &lt;- "Belo Horizonte" # Alterar 3º elemento
+cidade2[5] &lt;- "Curitiba" # Adicionar elemento
+cidade2 
+
+cidade2 &lt;- NULL # Excluir vetor
+cidade2
+
+
+<b>---------------- FATOR ----------------</b>
+?factor
+UF &lt;- factor(c("DF","SP","RJ","RS"))
+UF
+
+grau.instrucao &lt;- factor(c("Nível Médio",
+                           "Superior",
+                           "Nivel Médio",
+                           "Fundamental"),
+                         levels = c("Fundamental",
+                                    "Nivel Médio",
+                                    "Superior"),
+                         ordered = TRUE)
+
+grau.instrucao
+# Levels é o ordenamento dos dados
+
+
+<b>---------------- LISTA ----------------</b>
+?list()
+pessoa &lt;- list(sexo = "M", cidade = "Brasília", idade = 20)
+pessoa
+
+pessoa[1] # Acessar 1º elemento
+pessoa[[1]] # Acessar valor do 1º elemento
+
+pessoa[["idade"]] &lt;- 22 # Alterar elemento
+pessoa
+
+pessoa[["idade"]] &lt;- NULL # Excluir elemento
+pessoa
+
+pessoa &lt;- list(sexo = "M", cidade = "Brasília", idade = 20)
+pessoa[c("cidade","idade")] # Filtrar elementos
+
+# Lista de listas
+cidades &lt;- list(cidade = cidade,temperatura = temperatura,regiao = regiao)
+cidades
+
+
+<b>---------------- DATA FRAME ----------------</b>
+df &lt;- data.frame(cidade,temperatura)
+df
+
+df2 &lt;- data.frame(cidades)
+df2
+
+df[1,2] # Mostrar valor lin1, col2
+df[, 1] # Mostrar todas linhas col1
+df[1,] # Mostrar todas colunas lin1
+df2[c(1:3), c(1,3)] # Mostrar 3 primeiras linhas da primeira e última col
+
+names(df) # Ver nome colunas
+dim(df) # Ver qtd de linhas x colunas
+str(df) # Ver tipos de dados
+
+df$cidade # Ver coluna inteira
+df['cidade']
+
+
+<b>---------------- MATRIZ ----------------</b>
+?matrix()
+m &lt;- matrix(seq(1:9), nrow = 3) # Criar matriz (Valores de 1 à 9, distribuídos em 3 linhas)
+m
+
+m2 &lt;- matrix(seq(1:25), 
+             ncol = 5,
+             byrow = TRUE,
+             dimnames = list(c(seq(1:5)),
+                             c('A','B','C','D','E'))
+)
+m2 # Matriz de 25lin x 5col, byrow indica que martriz será preenchida por linhas, dimnames especifica títulos de linhas e colunas
+m2[c(1:2), c("B","C")] # Filtrar matriz (Linhas 1 à 2, Colunas B e C)
+</code></pre></small>
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center bg-black text-light pt-4 pb-3">
+        <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>
