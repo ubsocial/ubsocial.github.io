@@ -247,7 +247,7 @@ library(ggplot2)
 ggplot(carros,aes(am)) + geom_bar() # Gráfico de barras com ggplot2 (dataset,coluna)
 
 
-<b>---------------- JOIN ----------------</b>
+<b>---------------- UNIR DADOS ----------------</b>
 # Join une 2 conjuntos de dados em um único
 
 install.packages("dplyr")
@@ -272,7 +272,67 @@ df5 &lt;- inner_join(df1, df2, "Produto") # Unir elementos em comum (campos comp
 head(df5)
 
 
-<!--VER 3.2 Selecionando os dados (https://cdn.evg.gov.br/cursos/325_EVG/scorms/modulo02_scorm01/scormcontent/index.html#/lessons/yIfYbEwiKIw8GnQNYYxas9qMoYAH6v4e)-->
+<b>---------------- SELECIONAR DADOS ----------------</b>
+install.packages("dplyr")
+library(dplyr)
+
+?iris
+head(iris) # Conjunto de dados pré-pronto (flor, sépalas e pétalas, e classificação da flor)
+glimpse(iris) # Ver tipos de dados
+
+versicolor &lt;- filter(iris, Species == "versicolor") # Filtrar dados
+versicolor
+dim(versicolor)
+
+slice(iris, 5:10) # Selecionar linhas específicas (Retornar valores das linhas 5 à 10, ou índice da linha específica)
+select(iris, 2:4) # Selecionar colunas específicas (Similar acima, mas com colunas)
+select(iris, -Sepal.Width) # Ocultar coluna na seleção
+
+iris2 &lt;- mutate(iris, nova.coluna = Sepal.Length + Sepal.Width) # Criar nova coluna com base em colunas existentes, combinando-as
+iris2[,c("Sepal.Length", "Sepal.Width", "nova.coluna")]
+
+?arrange # Ordenar dados no dataframe (Select, e colunas a ser ordenadas). Operador %&gt;% concatena comandos
+select(iris, Sepal.Length) %&gt;%
+  arrange(Sepal.Length)
+
+?group_by # Agrupar dados por determinada coluna
+iris %&gt;% group_by(Species) %&gt;%
+  summarise(mean(Sepal.Length))
+
+
+<b>---------------- TRANSFORMAR DADOS ----------------</b>
+install.packages("tidyr") # Tranformar dados (depende de dplyr)
+library(tidyr)
+
+dfDate &lt;- data.frame(Produto = c('A','B','C'),
+                     A.2015 = c(10,12,20),
+                     A.2016 = c(20,25,35),
+                     A.2017 = c(15,20,30)
+                     )
+head(dfDate) # Dataframe criado manualmente
+
+?gather
+dfDate2 &lt;- gather(dfDate, "Ano", "Quantidade", 2:4) # Mudar formato da tabela (colRecebeDadosColunas, colRecebeDadosLinhas, índices das colunas a ser transformados)
+head(dfDate2)
+
+install.packages("dplyr")
+library(dplyr)
+
+?separate # Separar texto com base em condição
+dfDate3 &lt;- separate(dfDate2, Ano, c("A", "Ano")) # Separar A.2015 em A e 2015 (colParaSeparar, colsReceberSeparacao)
+dfDate3
+dfDate3 &lt;- dfDate3[-2] # Coluna A deletada
+dfDate3
+
+dfDate3$Mes &lt;- c('01','02','03') # Acrescentar coluna Mês
+dfDate3
+
+?unite # Unir colunas Ano e Mês em coluna Data (separado por '/')
+dfDate4 &lt;- dfDate3 %&gt;%
+  unite(Data, Mes, Ano, sep = '/')
+head(dfDate4)
+
+<!--VER MÓDULO 3 (https://mooc41.escolavirtual.gov.br/course/view.php?id=1233#section-4)-->
 </code></pre></small>
         </div>
     </div>
