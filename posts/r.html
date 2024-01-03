@@ -452,7 +452,38 @@ ggplot(p3, aes(x = data.inicio.formatada, y = qtd, group = 1))+
   geom_line()+
   geom_point() # Gráfico de barras. Função geom_line cria linhas definidas por pares. Função geom_point cria gráficos de dispersão transformando os pares em pontos
 
-<!--VER MÓDULO 4 parte 2 (https://mooc41.escolavirtual.gov.br/course/view.php?id=1233)-->
+
+<b>---------------- ML COM R: VISUALIZAÇÃO VIA R MARKDOWN ----------------</b>
+install.packages("rmarkdown")
+install.packages('tinytex')
+library(tinytex)
+tinytex::install_tinytex()
+
+# Criar novo arquivo Markdown (.md), com saída PDF, com conteúdo abaixo:
+
+---
+title: "Relatório"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+Ao clicar rm **Knit**, um documento é gerado, incluindo conteúdo quanto saída de código R embutido no documento
+
+```{r cars}
+summary(cars)
+```
+
+## Criando gráficos
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+Parâmetro 'echo = FALSE' adicionado pra evitar impressão do código R que gerou o gráfico.
+
+<!--VER MÓDULO 4 Unidade 2 (https://mooc41.escolavirtual.gov.br/course/view.php?id=1233)-->
 </code></pre></small>
         </div>
     </div>
