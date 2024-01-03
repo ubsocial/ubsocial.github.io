@@ -332,7 +332,127 @@ dfDate4 &lt;- dfDate3 %&gt;%
   unite(Data, Mes, Ano, sep = '/')
 head(dfDate4)
 
-<!--VER MÓDULO 3 (https://mooc41.escolavirtual.gov.br/course/view.php?id=1233#section-4)-->
+
+<b>---------------- ALGORITMOS DE MACHINE LEARNING ----------------</b>
+-<b>Instâncias</b> ou <b>observações</b>: Linhas do dataset
+-<b>Variável resposta/dependente, classe, label ou target</b>: Variável/coluna que se quer prever
+-<b>Features, atributos, dimensões ou variáveis independentes/explicativas</b>: Colunas do dataset que podem ser utilizadas para prever a variável target
+
+<b><u>Aprendizagem Supervisionada</u></b>:
+Predição estimada com base na relação entre dados de entrada (features) e dados de saída (variável resposta). Para cada entrada, é apresentado o resultado esperado. Usada para resolver problemas de classificação e regressão.
+-<b>Regressão linear</b>: Relacionamento entre variável dependente Y (var resposta) e variável independente X (var explicativa), calculado via 'y = W+x+B' (W=weight, B=bias, parâmetros do modelo, estimados via treinamento). Após parâmetros bem definidos, pode-se construir previsões de Y.
+-<b>K-Nearest Neighbors (KNN)</b>: Previsão baseada nos vizinhos mais próximos. Parâmetro K é quantidade de vizinhos mais próximos. Com base na classificação desses vizinhos, será a resposta da previsão
+-<b>Árvore de Decisão</b>: Estrutura, similar a fluxograma, com regras de decisão, possuindo nós (variáveis), ramos (possíveis valores) e folhas (valor final do nó)
+
+<b><u>Aprendizagem Não Supervisionada</u></b>:
+Previsão sem base de dados rotulados. Algoritmos são baseados em medidas de similaridade e padrões ocultos nos dados. Usada para resolver problemas de agrupamento (clustering, agrupar dados de características similares), associação e detecção de anomalias.
+-<b>K-means</b>: Dividir dados em grupos (clusters) com base na similaridade dos mesmos
+
+
+<b>---------------- CONSTRUÇÃO MODELO PREDITIVO ----------------</b>
+1.<b>Pré-processamento dos dados</b>: Dados divididos em dados de treino (dados com respostas prontas, para algoritmo aprender e criar modelo) e teste (dados sem respostas, para verificar se algoritmo aprendeu), a fim de melhorar a qualidade dos mesmos.
+-<u>Feature selection</u>: Selecionar atributos mais relevantes que serão utilizados para treinar o modelo
+-<u>Feature engineering</u>: Criar variáveis a partir de conjunto de dados para melhorar performance do modelo
+-<u>Normalização</u>: Dataset pode conter variáveis em diferentes escalas, então deve-se padronizar tais dados para mesma escala
+-<u>Redução de dimensionalidade</u>: Diminuir dimensões (colunas) de conjuntos de dados
+-<u>Divisão dos dados em treino e teste</u>: Dividir dados em conjunto de treino e teste
+
+2.<b>Aprendizagem</b>: Construção do modelo a partir do conjunto treino.
+-<u>Cross-validation</u>: Dividir cojunto de dados em partições/iterações, alternando entre dados de treino e teste
+-<u>Métricas de desempenho</u>: Medição de acurácia (precisão, percentual de previsões corretas em classificações)
+-<u>Otimização de hiperparâmetros</u>: Conjunto de hiperparâmetros que possams ser alterados, em combinação certa de valores, com objetivo de otimizar a performance do modelo
+
+3.<b>Avaliação</b>: Dados de teste submetidos ao modelo, gerando previsões, que são comparadas com resultados desejados, para avaliar desempenho do modelo
+
+4.<b>Predição</b>: Modelo avaliado com bom resultado pode ser usado para receber novos dados e realizar previsões
+
+
+<b>---------------- ML COM R: OBTENÇÃO DE DADOS ----------------</b>
+Entender Qual valor gasto por órgão, Qual valor gasto por cidade, Qual a quantidade de viagens/mês
+Baixar planilhas de dados abertos 2019 (https://portaldatransparencia.gov.br/download-de-dados/viagens), arquivo '2019_viagem.csv'
+
+viagens &lt;- read.csv(
+  file = "/home/mateus/Downloads/2019_Viagem.csv",
+  sep = ';',
+  dec = ',',
+  fileEncoding='latin1'
+)
+head(viagens) # Ou 'View(viagens)' Ou 'dim(viagens)' mostra nº de observações e colunas do dataset
+summary(viagens) # Ver valores mínimos/máximos. Ou 'summary(viagens$Valor.passagens)' coluna específica
+glimpse(viagens) # Ver tipos de dados de cada coluna (Necessário dplyr)
+
+
+<b>---------------- ML COM R: TRANSFORMAÇÃO DOS DADOS ----------------</b>
+viagens$data.inicio &lt;- as.Date(viagens$Período...Data.de.início, "%d/%m/%Y") # Converter datas para tipo Date
+viagens$data.inicio.formatada &lt;- format(viagens$data.inicio, "%Y-%m") # Data para apenas mês e ano
+viagens$data.inicio.formatada
+
+
+<b>---------------- ML COM R: EXPLORAÇÃO DOS DADOS ----------------</b>
+hist(viagens$Valor.passagens) # Gerar histograma
+passagens_fitro &lt;- viagens %&gt;%
+  select(Valor.passagens) %&gt;%
+  filter(Valor.passagens &gt;= 200 & Valor.passagens &lt;= 5000) 
+passagens_fitro
+hist(passagens_fitro$Valor.passagens) # Histograma com filtro
+
+summary(viagens$Valor.passagens) # Valor máximo muito distante da média (outliers, valores que fogem da normalidade dos dados)
+boxplot(passagens_fitro$Valor.passagens) # Gráfico boxplot, com valores em filtro
+sd(viagens$Valor.passagens) # Desvio padrão
+
+colSums(is.na(viagens)) # 'is.na' verifica se há campos não preenchidos, 'colSums' mostra qtd de campos não preenchidos por coluna
+viagens$Situação &lt;- factor(viagens$Situação) # Converter Situação para factor
+
+str(viagens$Situação) # Ver quantidade de ocorrências da coluna
+table(viagens$Situação) # Ver quantidade de ocorrências para cada classe
+prop.table(table(viagens$Situação))*100 # Obter percentual para cada classe
+
+
+<b>---------------- ML COM R: VISUALIZAÇÃO DOS RESULTADOS ----------------</b>
+#1.Valor gasto por órgão em passagens
+p1 &lt;- viagens %&gt;%
+  group_by(Nome.do.órgão.superior) %&gt;%
+  summarise(n = sum(Valor.passagens)) %&gt;%
+  arrange(desc(n)) %&gt;%
+  top_n(15) # Criar dataframe com 15 órgãos que mais gastam em viagens
+
+names(p1) &lt;- c("orgao", "valor") # Alterar nome das colunas
+p1
+
+library(ggplot2)
+ggplot(p1, aes(x = reorder(orgao, valor), y = valor))+
+  geom_bar(stat = "identity")+
+  coord_flip()+
+  labs(x = "Valor", y = "Órgãos") # Gráfico de barras identity. Função reorder(dado,eixoX,eixoY). Função coord_flip torna orientação gráfico dinâmica. Função labs editar labels de cada eixo
+
+#2.Valor gasto por cidade em passagens
+p2 &lt;- viagens %&gt;%
+  group_by(Destinos) %&gt;%
+  summarise(n = sum(Valor.passagens)) %&gt;%
+  arrange(desc(n)) %&gt;%
+  top_n(15) # Dataframe com 15 cidades que mais gastam em viagens
+
+names(p2) &lt;- c("destino", "valor") # Alterar nome das colunas
+p2
+
+ggplot(p2, aes(x = reorder(destino, valor), y = valor))+
+  geom_bar(stat = "identity", fill = "#0ba791")+
+  geom_text(aes(label = valor), vjust = 0.3, size = 3)+
+  coord_flip()+
+  labs(x = "Valor", y = "Destino") # Gráfico de barras identity, com coloração de barras e texto diretamente nas barras
+  #options(scipen = 999)
+
+#3.Quantidade de viagens/mês
+p3 &lt;- viagens %&gt;%
+  group_by(data.inicio.formatada) %&gt;%
+  summarise(qtd = n_distinct(Identificador.do.processo.de.viagem)) # Dataframe com quantidade de viagens realizadas por mês, em valores distintos, evitando duplicações
+head(p3)
+
+ggplot(p3, aes(x = data.inicio.formatada, y = qtd, group = 1))+
+  geom_line()+
+  geom_point() # Gráfico de barras. Função geom_line cria linhas definidas por pares. Função geom_point cria gráficos de dispersão transformando os pares em pontos
+
+<!--VER MÓDULO 4 parte 2 (https://mooc41.escolavirtual.gov.br/course/view.php?id=1233)-->
 </code></pre></small>
         </div>
     </div>
