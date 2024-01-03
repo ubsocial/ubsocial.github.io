@@ -400,7 +400,7 @@ summary(viagens$Valor.passagens) # Valor máximo muito distante da média (outli
 boxplot(passagens_fitro$Valor.passagens) # Gráfico boxplot, com valores em filtro
 sd(viagens$Valor.passagens) # Desvio padrão
 
-colSums(is.na(viagens)) # 'is.na' verifica se há campos não preenchidos, 'colSums' mostra qtd de campos não preenchidos por coluna
+colSums(is.na(viagens)) # 'is.na' verifica se há campos não preenchidos (true para encontrado), 'colSums' mostra qtd de campos não preenchidos por coluna
 viagens$Situação &lt;- factor(viagens$Situação) # Converter Situação para factor
 
 str(viagens$Situação) # Ver quantidade de ocorrências da coluna
@@ -483,7 +483,190 @@ plot(pressure)
 ```
 Parâmetro 'echo = FALSE' adicionado pra evitar impressão do código R que gerou o gráfico.
 
-<!--VER MÓDULO 4 Unidade 2 (https://mooc41.escolavirtual.gov.br/course/view.php?id=1233)-->
+
+<b>---------------- ML COM R PRÁTICA: OBTENÇÃO DE DADOS ----------------</b>
+Objetivo do modelo: Identificar pacientes com risco de diabetes (mínimo 75% de acurácia): 0 não diabetes, 1 com diabetes
+
+diabetes &lt;- read.csv(
+  file = "/home/mateus/Downloads/diabetes.csv"
+)
+head(diabetes)
+str(diabetes) # Ver tipos de dados
+colSums(is.na(diabetes)) # Ver se há colunas não preenchidas
+table(diabetes$Outcome)
+
+diabetes$Outcome &lt;- as.factor(diabetes$Outcome) # Mudar coluna Outcome para factor
+summary(diabetes$Insulin) # Ver valores mínimo, máximo, mediana
+
+boxplot(diabetes) # Gráfico boxplot para todo dataframe
+boxplot(diabetes$Insulin) # Gráfico boxplot para coluna Insulin
+hist(diabetes$Insulin) # Gráfico histograma para coluna Insulin
+
+<b>---------------- ML COM R PRÁTICA: ANÁLISE EXPLORATÓRIA ----------------</b>
+diabetes2 &lt;- diabetes %&gt;%
+  filter(Insulin &lt;= 250) # Dataset com filtro Insulin (para não mostrar outliers)
+
+boxplot(diabetes2)
+summary(diabetes2$Insulin)
+boxplot(diabetes2$Insulin)
+hist(diabetes2$Pregnancies)
+hist(diabetes2$Age)
+hist(diabetes2$BMI)
+
+
+<b>---------------- ML COM R PRÁTICA: CONSTRUÇÃO DO MODELO ----------------</b>
+install.packages("caTools") # Separar dados de treino e teste (Nesse caso, 70% treino, 30% teste)
+library(caTools)
+set.seed(123)
+
+index = sample.split(diabetes2$Pregnancies, SplitRatio = .70) # split(colunaDataset, percDivisao). Criará Trues e Falses
+index
+
+train = subset(diabetes2, index == TRUE) # Dataset para treino
+test  = subset(diabetes2, index == FALSE) # Dataset para testes
+dim(diabetes2) # Exibe valores de linhas e colunas de dataset
+dim(train)
+dim(test)
+
+install.packages("caret")
+install.packages("e1071")
+library(caret)
+library(e1071)
+
+<b>--- KNN ---</b>
+modelo &lt;- train(
+  Outcome ~., data = train, method = "knn") # Criar modelo de treino(varResposta ~., datasetTreino, algoritmoTreino) Outcome é varResposta, ponto para usar todas colunas como variáveis preditoras (ou informar campos manualmente após ~)
+modelo$results # Acurácia para cada valor de K
+modelo$bestTune # Melhor valor de K
+
+modelo2 &lt;- train(
+  Outcome ~., data = train, method = "knn",
+  tuneGrid = expand.grid(k = c(1:20))) # Testar entre intervalo de valores
+modelo2$results # Nesse intervalo, obteve-se melhor acurácia de K (72%)
+modelo2$bestTune
+plot(modelo2)
+
+<b>--- Naive Bayes ---</b>
+install.packages("naivebayes")
+library(naivebayes)
+
+modelo3 &lt;- train(
+  Outcome ~., data = train, method = "naive_bayes")
+modelo3$results # Acurácia 75%
+modelo3$bestTune
+
+<b>--- Random Forest ---</b>
+install.packages("randomForest")
+library(randomForest)
+
+modelo4 &lt;- train(
+  Outcome ~., data = train, method = "rpart2"
+)
+modelo4
+varImp(modelo4$finalModel) # Ver importância das váriaveis para aprendizado do modelo (Insulin e Blood Pressure não contribuem muito para tal)
+
+modelo4_1 &lt;- train(
+  Outcome ~., data = train[,c(-3,-5)], method = "rpart2"
+) # treinamento removendo colunas Insulin e Blood Pressure
+modelo4_1
+plot(modelo4_1$finalModel)
+text(modelo4_1$finalModel)
+
+<b>--- svmRadialSigma ---</b>
+install.packages("kernlab")
+library(kernlab)
+
+set.seed(100)
+modelo5 &lt;- train(
+  Outcome ~., data = train, method = "svmRadialSigma"
+  ,preProcess=c("center")
+)
+modelo5$results # Acurácia 76%
+modelo5$bestTune
+
+predicoes &lt;- predict(modelo5,test) # Testar modelo com dados teste
+predicoes
+confusionMatrix(predicoes, test$Outcome) # Matriz de confusão (comparação dados treino x teste). Acurácia do algoritmo 79%
+
+novos.dados &lt;- data.frame(
+  Pregnancies = c(3),           
+  Glucose = c(111.50),
+  BloodPressure = c(70),
+  SkinThickness = c(20),          
+  Insulin = c(47.49),
+  BMI = c(30.80),       
+  DiabetesPedigreeFunction = c(0.34),
+  Age = c(28)                     
+)
+novos.dados # Novo dataframe para submeter ao algoritmo
+previsao &lt;- predict(modelo5,novos.dados) # Submissão
+resultado &lt;- ifelse(previsao == 1, "Positivo","Negativo") # Positivo para 1-tem diabetes, negativo para 0-não tem diabetes
+print(paste("Resultado:",resultado)) # Ver resultado da predição do modelo
+
+
+<b>---------------- ML COM R PRÁTICA: VISUALIZAÇÃO DOS RESULTADOS ----------------</b>
+write.csv(predicoes,'resultado.csv') # Criar planilha com resultados das predições
+resultado.csv &lt;- read.csv('resultado.csv') # Ler arquivo gerado
+names(resultado.csv) &lt;- c('Indice','Valor previsto') # Alterar nome das colunas
+resultado.csv
+
+# Gerado arquivo PDF de R Markdown, conforme conteúdo abaixo:
+---
+title: "Diabetes"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Obtenção dos dados
+```{r}
+diabetes &lt;- read.csv(
+  file = "E:/Datasets/diabetes.csv"
+)
+head(diabetes[1:6])
+```
+
+# Preparação dos dados
+```{r message=FALSE, warning=FALSE}
+diabetes$Outcome &lt;- as.factor(diabetes$Outcome)
+library(dplyr)
+diabetes2 &lt;- diabetes %&gt;%
+  filter(Insulin &lt;= 250)
+```
+
+# Construção do modelo
+## Divisão dos dados
+```{r message=FALSE, warning=FALSE, paged.print=TRUE}
+library(caTools)
+set.seed(123)
+index = sample.split(diabetes2$Pregnancies, SplitRatio = .70)
+train = subset(diabetes2, index == TRUE)
+test  = subset(diabetes2, index == FALSE)
+```
+
+# Construção do modelo
+## Treinamento
+```{r message=FALSE, warning=FALSE}
+library(caret)
+library(e1071)
+set.seed(321)
+modelo2 &lt;- train(
+  Outcome ~., data = train, method = "knn",
+   tuneGrid = expand.grid(k = c(1:20)))
+modelo2$results
+modelo2$bestTune
+plot(modelo2)
+```
+
+# Avaliando o modelo
+```{r message=FALSE, warning=FALSE}
+predicoes &lt;- predict(modelo2,test)
+predicoes
+?caret::confusionMatrix
+confusionMatrix(predicoes, test$Outcome)
+```
 </code></pre></small>
         </div>
     </div>
