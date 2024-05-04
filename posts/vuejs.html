@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../icons/logoTit.png">
+    <link rel="stylesheet" href="../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <nav class="navbar rounded-bottom fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="../index.html"><img src="../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../sobre/sobre.html">Sobre</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../livros/livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 text-center" id="titulo">
+            <h1>Vue.js</h1>
+            <h6><strong>Framework Vue.js, teoria e prática</strong></h6>
+            <a href="../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
+        </div>
+
+        <div class="col-sm-12">
+            <h4>Preparo</h4>
+            <ul>
+                <li><b>Extensões VSCode</b>: Recomenda-se Vue(official-volar) e Vetur</li>
+                <li><b>Instalar Vue.js (npm)</b>: npm create vue@latest</li>
+                <li><b>Instalar vite</b>: npm install vite</li>
+                <li><b>Executar projeto</b>: npm run dev</li>
+            </ul>
+
+            <br><h4>Características</h4>
+            <ul>
+                <li><b>Single-file component</b>: Web component em arquivo único (HTML, CSS e TS);</li>
+                <li><b>Arquitetura M-V-VM</b>: Model(dados via BD, API) - ViewModel(intermediador de diretivas, expressions, interpolations) - View(interface HTML);</li>
+            </ul>
+
+            <br><h4>Estrutura de arquivos</h4>
+            <ul>
+                <li><b>dist/</b>:
+                    <ul>
+                        <li><b>assets/</b>: Arquivos estáticos de anexos (CSS, imagens, etc)</li>
+                        <li><b>index.html</b>:</li>
+                    </ul>
+                </li>
+                <li><b>node_modules/</b>: Pacotes do npm</li>
+                <li><b>public/</b>: Arquivos estáticos da aplicação (client-side)</li>
+                <li><b>src/</b>: Source, arquivos da aplicação (server-side)
+                    <ul>
+                        <li><b>assets/</b>: Arquivos estáticos de anexos (CSS, imagens, etc)</li>
+                        <li><b>components/</b>: Componentes do projeto (Arquivo.vue)
+                            <ul>
+                                <li><b>icons/</b>: Ícones de componentes</li>
+                            </ul>
+                        </li>
+                        <li><b>App.vue</b>: Componente pai,principal,global do projeto</li>
+                        <li><b>main.js</b>: Arquivo JS do componente principal</li>
+                    </ul>
+                </li>
+                <li><b>index.html</b>:</li>
+            </ul>
+
+            <br><h4>Propriedades view (HTML)</h4>
+            <ul>
+                <li><b>{{ variavel }}</b>: Mostra variável da model</li>
+                <li><b>v-model="nomeInput"</b>: Envia valor à view</li>
+                <li><b>v-on:click="nomeEvento"</b>: Chama evento à view</li>
+                <li><b>&lt;nomeComponente/&gt;</b>: Componente importado</li>
+            </ul>
+            
+            <br><h4>Propriedades model (JS)</h4>
+            <ul>
+                <li><b>import</b>: Importa outros componentes gerais da aplicação</li>
+                <li><b>export</b>: Exporta o componente para a aplicação geral</li>
+                <li><b>name</b>: Nome do componente em questão</li>
+                <li><b>components</b>: Componentes que serão importados</li>
+                <li><b>data()</b>: Envia dados para view</li>
+                <li><b>methods</b>: Funções da aplicação</li>
+                <li><b>.createApp(nomeApp).mount(localCriacao)</b>: Cria aplicação</li>
+            </ul>
+
+            <br><h4>Sintaxe de Componente.vue</h4>
+<small><pre><code>
+&lt;template&gt;
+    Visual do componente (HTML)
+    - Estrutura visual do componente (formulários, cabeçalhos, rodapés, botões, etc)
+&lt;/template&gt;
+
+&lt;script&gt;
+    Código programável do componente (JS)
+    - Importar outros componentes
+    - Exportar componente para a aplicação
+&lt;/script&gt;
+
+&lt;style&gt;
+    Estilização do componente (CSS)
+    - Coloração, tamanhos, etc
+&lt;/style&gt;
+</code></pre></small>
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center bg-black text-light pt-4 pb-3">
+        <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>
