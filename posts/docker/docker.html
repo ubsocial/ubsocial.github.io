@@ -40,44 +40,24 @@
         </div>
 
         <div class="col-sm-12">
-            <p id="textoPost">Docker é software Container Engine. Há orquestradores de Container, de arquitetura distribuída, como o <i>Kubernetes</i>. Containers são pequenos pacotes de software, isolados, leves e fáceis de movimentar, diferenciando-se de VM. São baseados em <b>Imagens</b> que possuem camadas, que podem ser compartilhadas. Descartam pré configuração de ambiente físico. Além disso, ocasionam deploy mais ágil, facilitam escalabilidade, previnem erros e causam economia, sendo ideais para cloud e microservices. Os <b>namespaces</b> (Isolam os containers), <b>cgroups</b> (Limitam acesso a recursos de hardware da máquina host) e <b>union mounting</b> (Criar camadas no sistema de arquivos, que podem ser compartilhadas nos demais containers, reduzindo uso de recursos). O repositório oficial do Docker é o <b>Docker Hub</b>, composto de inúmeras imagens. Pode-se treinar Docker online através do Play With Docker, login com Docker Hub. O Docker fica salvo no diretório <i>/etc/</i>. A rede do Docker fica do 172.17.0.2 até 172.17.0.254 (172.17.0.1 é o host docker).</p>
-            <ul>
-                <li>Docker Hub: <a href="https://hub.docker.com" class="text-decoration-none" target="_blank">Acesse</a></li>
-                <li>Docker Desktop Linux: <a href="https://docs.docker.com/desktop/install/linux-install" class="text-decoration-none" target="_blank">Acesse</a></li>
-                <li>Play With Docker: <a href="https://labs.play-with-docker.com" class="text-decoration-none" target="_blank">Acesse</a></li>
-            </ul>
-            <br>
-            <img src="exemplo.PNG" class="img-fluid rounded" width="440px">
+            <p id="textoPost">Docker é software container engine. Há orquestradores de Container, de arquitetura distribuída, como o <i>Kubernetes</i>. Containers são pequenos pacotes de software, isolados, leves e fáceis de movimentar, diferenciando-se de VM. São baseados em <b>Imagens</b> que possuem camadas, que podem ser compartilhadas. Descartam pré configuração de ambiente físico. Além disso, ocasionam deploy mais ágil, facilitam escalabilidade, previnem erros e causam economia, sendo ideais para cloud e microservices. Os <b>namespaces</b> isolam os containers, <b>cgroups</b> limitam acesso a recursos de hardware da máquina host e <b>union mounting</b> criam camadas no sistema de arquivos, que podem ser compartilhadas nos demais containers, reduzindo uso de recursos. O repositório oficial do Docker é o <a href="https://hub.docker.com" target="_blank" class="text-decoration-none">docker hub</a>, composto de inúmeras imagens. O Docker fica salvo no diretório <i>/etc/</i>. A rede do Docker fica do 172.17.0.2 até 172.17.0.254 (172.17.0.1 é o host docker). Passo a passo oficial para instalação do Docker pode ser encontrado no <a href="https://docs.docker.com/engine/install" target="_blank" class="text-decoration-none">site oficial</a>.</p>
+            <img src="estrutura.png" class="img-fluid rounded" width="440px">
         </div>
     </div>
 
     <div class="row">
         <div class="col-sm-12">
             <br><h4>Imagem</h4>
-            <p id="textoPost">Planta de containers e dados relacionados (configurações, libraries, variáveis, outros arquivos...). Possui conceitos de camadas, onde, por exemplo, imagem Php é baseada em imagem Apache, que é baseada em imagem Debian. O passo a passo de criação de uma imagem é um arquivo chamado <b>Dockerfile</b>. <i>Entrypoint</i> são scripts que o container executa prévio à sua instalação, como receber variáveis de ambiente, geralmente pré solicitadas na construção de containers. Abaixo, imagem resumo, inclusive envolvendo Dockerfile.</p>
-            <img src="resumo.jpg" class="img-fluid" width="500px">
-        </div>
-
-        <div class="row">
-            <div class="col-sm-12">
-                <br><h4>Instalação</h4>
-                <a class="btn btn-link text-decoration-none" href="https://docs.docker.com/engine/install" target="_blank">Guia Site Oficial</a>
-                <ol>
-                    <li><b>Instalar Curl:</b> <i>sudo apt install curl</i></li>
-                    <li><b>Instalar Docker/Curl:</b> <i>curl -fsSL https://get.docker.com | sh</i></li>
-                    <li><b>Conferir instalação:</b> <i>docker -v</i></li>
-                    <li><b>Caso Docker não estiver iniciado, inicie-o1:</b> <i>sudo /etc/init.d/docker start</i></li>
-                    <li><b>Caso Docker não estiver iniciado, inicie-o2:</b> <i>sudo service docker start (Ou sudo systemctl enable docker --now)</i></li>
-                </ol>
-            </div>
+            <p id="textoPost">Pacote com dados para construção do container (configurações, libraries, variáveis, arquivos, etc). Possui conceito de camadas, onde, por exemplo, imagem PHP é baseada em imagem Apache, que é baseada em imagem Debian. O passo a passo de criação de uma imagem é um arquivo chamado <b>Dockerfile</b>. <i>Entrypoint</i> são scripts que o container executa prévio à sua instalação, como receber variáveis de ambiente, geralmente pré solicitadas na construção de containers.</p>
+            <p class="text-danger">Dockerfile (constrói)-&gt; Imagem (constrói)-&gt; container</p>
         </div>
 
         <div class="row">
             <div class="col-sm-12">
                 <br><h4>Dockerfile</h4>
-                Arquivo texto de nome <i>Dockerfile</i>, com configurações da Imagem, para sua construção. Tais comandos precisam ser inseridos dentro do mesmo. Facilmente compartilhado e pode ser registrado no Docker Hub. Registry é um repositório de imagens (Ex: Portus (SUSE), Harbor, Nexus, Docker Hub (Público)). Para subir imagens (Push), é necessário login no docker hub, com comando <i>docker login</i>.
+                <p id="textoPost">Arquivo de nome <i>Dockerfile</i>, com configurações da Imagem, para sua construção. Facilmente compartilhado e pode ser registrado no Docker Hub. Registry é um repositório de imagens (ex: docker hub). Para subir imagens (push), é necessário login no docker hub, com comando <i>docker login</i>.</p>
 <small><pre><code>
-<b>MODELO:</b>
+<b>MODELO/SINTAXE:</b>
 FROM nomeImagens:versaoImagens
 ENV variaveisAmbiente=valor
 EXPOSE portasUtilizadas (Somente documentação, precisa ser informada na execução do container)
@@ -102,58 +82,48 @@ CMD flask run --host 0.0.0.0
         <div class="row">
             <div class="col-sm-12">
                 <br><h4>Comandos Docker</h4>
-                Executar comandos no diretório raíz do projeto.
 <small><pre><code>
-<b>Criar Container:</b> docker run -d --name nomeContainer nomeImagem (Também acessa e baixa, se não há na máquina)
-    <b>Ex:</b> docker run -d --rm --name meuUbuntu ubuntu
-<b>Criar e entrar no container:</b> docker run -ti nomeImagem (Ctrl+p+q sai do shell sem matar container)
+<b><u>IMAGEM</u></b>
+<span class="text-muted">Sintaxe nomeImagem: usuario/nomeImagem:versaoImagem (versão padrão é latest)</span>
+<b>Baixar imagem:</b> docker pull nomeImagem (push sobe imagem)
+<b>Ver imagens:</b> docker image ls
+<b>Construir Imagem:</b> docker build -t nomeImagem:opcionalInfo -f caminho/nomeDockerFile .
+    <b>Ex:</b> docker build -t mysql-image -f api/db/Dockerfile .
+<b>Remover imagem:</b> docker image rm nomeImagem (-f para imagens com containers existentes)
+<b>Criar apelido para imagem:</b> docker image tag nomeAtual novoAlternativo
 
-<b>Ver Containers em execução:</b> docker ps (-a no final mostra todos containers)
-<b>Ver informações do container:</b> docker inspect idContainer (Inserir para filtro: '| grep termoPesquisa')
-
-<b>Criar container em background, com tty e interativo:</b> docker run -dti nomeImagem
-<b>Voltar para o container:</b> docker attach idContainer
-<b>Criar container com variáveis de ambiente:</b> docker run -d --name banco -e MYSQL_PASSWORD=abc -e MYSQL_USER=fulano mariadb
-
-<b>Executar comandos em Container em execução:</b> docker exec -i nomeContainer comando (bash ao invés de comando, incluindo -t, para entrar no container)
-    <b>Ex:</b> docker exec -ti banco bash
-
-<b>Sair do Container:</b> exit
+<b><u>CONTAINER</u></b>
+<b>Ver Containers em execução:</b> docker ps (-a mostra todos containers)
+<b>Criar Container:</b> docker run -dt nomeImagem (se não houver container, baixará e criará)
+    <b>Ex:</b> docker run -dt ubuntu
+<b>Ver informações do container:</b> docker inspect idContainer (inserir para filtro: '| grep termoPesquisa')
+<b>Criar container com variáveis:</b> docker run -d --name banco -e MYSQL_PASSWORD=abc -e MYSQL_USER=fulano mariadb
+<b>Entrar comandos em container em execução:</b> docker exec -ti idContainer bash
+<b>Sair do container:</b> exit ou 'ctrl+d' ('ctrl+p+q' sai do shell sem encerrar container)
 <b>Iniciar container:</b> docker start idContainer (stop para)
 <b>Pausar container:</b> docker pause idContainer (unpause retoma)
-
 <b>Ver status do container:</b> docker stats idContainer
 <b>Ver processos do container:</b> docker top idContainer
 <b>Ver logs do container:</b> docker logs idContainer
-
-<b>Excluir container (Parado):</b> docker rm idContainer (Incluir -f para em execução, excluir manterá imagens)
-<b>Excluir todos containers:</b> docker rm -f $(docker ps -qa) (-q é quit, mostra somente id's dos containers)
-
-<b>Construir Imagem:</b> docker build -t nomeImagem:opcionalInfo -f caminho/nomeDockerFile .
-    <b>Ex:</b> docker build -t mysql-image -f api/db/Dockerfile .
-<b>Ver imagens:</b> docker image ls
-<b>Somente baixar imagem:</b> docker pull nomeImagem (push sobe imagem)
-Exemplo nome de imagem: <i>docker.io/library/debian:buster-slim</i> (Ou usuario/nomeImagem:versaoImagem, versão padrão é latest)
-
-<b>Criar apelido para imagem:</b> docker image tag nomeAtual novoAlternativo
-<b>Excluir imagem:</b> docker image rm nomeImagem (-f para imagens com containers existentes)
+<b>Remover container parado:</b> docker rm idContainer (-f para em execução, excluir manterá imagens)
+<b>Remover todos containers:</b> docker rm -f $(docker ps -qa) (-q é quit, mostra somente id's dos containers)
 
 <u>PARÂMETROS</u>:
-idContainer pode também ser substituido pelo nome
 <b>-f</b>: especifica dockerfile
 <b>-d</b>: Executar Container em background
-<b>--rm</b>: Sobrescreve Container com novo, caso já exista antigo similar
 <b>-t</b>: tag
 <b>-i</b>: Execução de comando em modo interativo, como um shell
 <b>-ti</b>: TTY, utilizar emulador de Terminal
+<b>--rm</b>: Sobrescreve Container com novo, caso já exista antigo similar
 <b>-e</b>: Environment/Entrypoint, especificar variáveis prévias de configurações
 <b>-v</b>: Volume
+<b>-p</b>: Especifica porta no Container estará exposta para porta do host (pHostDocker:pContainer)
 <b>Ponto no final:</b> Especifica diretório atual
 <b>$(pwd)</b>: Especifica caminho do diretório atual
-<b>-p</b>: Especifica porta no Container estará exposta para porta do host (pHostDocker:pContainer)
 
-<u><b>Resumo:</b></u>
-<i>docker run -d --name banco -e MYSQL_USER=fulano -v dados:/var/lib/mysql -p 3306:3306 mariadb</i>
+<u><b>Exemplo prático:</b></u>
+1. docker run -dt --name banco -e MYSQL_USER=fulano -v dados:/var/lib/mysql -p 3306:3306 mariadb
+2. docker exec -ti banco bash
 </code></pre></small>
             </div>
         </div>
@@ -165,9 +135,9 @@ idContainer pode também ser substituido pelo nome
 <small><pre><code>
 <b>Criar Volume:</b> docker volume create nomeVolume
 <b>Listar Volumes:</b> docker volume ls
-<b>Inspecionar Volume:</b> docker volume inspect nomeVolume
+<b>Ver dados do Volume:</b> docker volume inspect nomeVolume
 <b>Remover Volume:</b> docker volume rm nomeVolume
-<b>Volume em Container:</b> docker run -d --name nomeContainer -v nomeVolume:/localDeDados/dentroDoContainer/ nomeImagem
+<b>Volume em container:</b> docker run -d --name nomeContainer -v nomeVolume:/localDeDados/dentroDoContainer/ nomeImagem
 <b>Volume personalizado ao host docker:</b> docker run -d --name nomeContainer -v /localDeDados/dentroDoHostDocker:/localDeDados/dentroDoContainer/ nomeImagem (Salvará dados dentro de pasta personalizada)
 
 <u>EXEMPLO 1 (Volume padrão)</u>:
