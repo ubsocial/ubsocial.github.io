@@ -97,7 +97,7 @@ CMD flask run --host 0.0.0.0
 <b>Criar Container:</b> docker run -dt nomeImagem (se não houver container, baixará e criará)
     <b>Ex:</b> docker run -dt ubuntu
 <b>Ver informações do container:</b> docker inspect idContainer (inserir para filtro: '| grep termoPesquisa')
-<b>Criar container com variáveis:</b> docker run -d --name banco -e MYSQL_PASSWORD=abc -e MYSQL_USER=fulano mariadb
+<b>Criar container com variáveis:</b> docker run -dt --name banco -e MYSQL_PASSWORD=abc -e MYSQL_USER=fulano mariadb
 <b>Entrar comandos em container em execução:</b> docker exec -ti idContainer bash
 <b>Sair do container:</b> exit ou 'ctrl+d' ('ctrl+p+q' sai do shell sem encerrar container)
 <b>Iniciar container:</b> docker start idContainer (stop para)
@@ -137,8 +137,8 @@ CMD flask run --host 0.0.0.0
 <b>Listar Volumes:</b> docker volume ls
 <b>Ver dados do Volume:</b> docker volume inspect nomeVolume
 <b>Remover Volume:</b> docker volume rm nomeVolume
-<b>Volume em container:</b> docker run -d --name nomeContainer -v nomeVolume:/localDeDados/dentroDoContainer/ nomeImagem
-<b>Volume personalizado ao host docker:</b> docker run -d --name nomeContainer -v /localDeDados/dentroDoHostDocker:/localDeDados/dentroDoContainer/ nomeImagem (Salvará dados dentro de pasta personalizada)
+<b>Volume em container:</b> docker run -dt --name nomeContainer -v nomeVolume:/localDeDados/dentroDoContainer/ nomeImagem
+<b>Volume personalizado ao host docker:</b> docker run -dt --name nomeContainer -v /localDeDados/dentroDoHostDocker:/localDeDados/dentroDoContainer/ nomeImagem (Salvará dados dentro de pasta personalizada)
 
 <u>EXEMPLO 1 (Volume padrão)</u>:
 <b>1. Criar Volume:</b> docker volume create meuVolume
@@ -175,7 +175,7 @@ CMD flask run --host 0.0.0.0
                                 </ol>
                             </li>
                             <li><b>Construir imagem:</b> <i>docker build -t php-image -f website/Dockerfile .</i></li>
-                            <li><b>Executar container com imagem:</b> <i>docker run -dv $(pwd)/website:/var/www/html -p 8888:80 --link phpContainer --rm --name php-container php-image</i></li>
+                            <li><b>Executar container com imagem:</b> <i>docker run -dtv $(pwd)/website:/var/www/html -p 8888:80 --link phpContainer --rm --name php-container php-image</i></li>
                         </ol>
                     </li>
                 </ol>
