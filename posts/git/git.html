@@ -97,18 +97,21 @@ Tem-se projeto (pasta) com arquivo txt, onde usuário quer versionar tal projeto
 <span class="text-muted">(Os processos de B à D são repetidos nas rotinas de controle de versão)</span>
 
 <b>Históricos:</b>
-Ver Working Directory: git diff
-Ver Staging Area: git diff --staged
-Ver Commits: git log (Acrescentar '--pretty=oneline' para visualização formatada)
-Ver Commits detalhado: git log -p ('j' para descer, 'k' para subir, ':q' para sair)
-Ver Commits limite: git log -p -2 (2 últimos commits no log)
+Ver working directory: git diff
+Ver staging area: git diff --staged
+Ver commits: git log (Acrescentar '--pretty=oneline' para visualização formatada)
+Ver commits detalhado: git log -p ('j' para descer, 'k' para subir, ':q' para sair)
+Ver commits limite: git log -p -2 (2 últimos commits no log)
 Ver commits com gráfico visual: git log --pretty=format:"%h %s" --graph
+Ver autor do commit: git blame nomeArquivo
 
 <b>Edições:</b>
-Editar Commit Atual: git commit --amend -m "novaDescricaoCommit"
-Remover da Staging Area: git reset HEAD arquivo.php
+Editar commit atual: git commit --amend -m "novaDescricaoCommit"
+Remover da staging area: git reset HEAD nomeArquivo
 Remover arquivos do repositório, que foram deletados: git rm nomeArquivo
-Reverter Alterações de arquivo sem commit, nem add: git checkout -- nomeArquivo
+Reverter alterações de arquivo sem commit, nem add: git checkout HEAD nomeArquivo
+Reverter commit: git revert idCommit
+Voltar commit anterior, sem desfazer alterações de conteúdo: git reset idCommit
 
 <b>TAG:</b> Atalho para determinado status do sistema. Exemplos: 1.0, 1.1, 1.2...
 Criar tag: git tag -a nometag -m "descricaoTag"
@@ -129,6 +132,7 @@ Deletar branch: git branch -d nomebranch
 git merge branchAntigo (Branch que estou será o destino. Informar branch é opcional)
 <b>REBASE:</b> Passar todos commits, ordenadamente, do branch x no final/atual do master (encerra branch x)
 git rebase branchAntigo
+git rebase --abord (abordar rebase)
 
 <b>SUBMODULE:</b> Repositório dentro de outro repositório (Ponteiro para outro repositório real)
 Adicionar submodule: git submodule add &lt;url-repositorio&gt; diretorio-destino
