@@ -39,7 +39,7 @@
         </div>
 
         <div class="col-sm-12">
-            <p id="textoPost">Plataforma de streaming de eventos, que recebe (push), organiza (topics in brokers) e envia (pull) dados (messages). Ex: Sistema de folha de pagamentos possui BD compartilhado com vários setores da empresa. Tal sistema produz dados, demais setores os consomem. Nesse caso, Kafka auxiliará no processo de produção/consumo dos dados, evitando sobrecargas no BD, indisponibilidades e falhas, baixo desempenho, etc.</p>
+            <p id="textoPost">Plataforma de streaming de eventos, que recebe (push), organiza (topics in brokers) e envia (pull) dados (messages). Ex: Sistema de folha de pagamentos possui BD compartilhado com vários setores da empresa. Tal sistema produz dados, demais setores os consomem. Tecnicamente, é software EDA (event driven architecture - arquitetura orientada a eventos), atuando com event streaming (captura, análise e resposta a events, em real-time, via TCP). Praticamente, Kafka auxiliará no processo de produção/consumo dos dados, evitando sobrecargas no BD, indisponibilidades e falhas, baixo desempenho, etc.</p>
 
             <br><h4>Estrutura:</h4>
             <p class="text-danger"><b>producer</b> -(push message)-&gt; <b>Cluster Kafka</b> (topic in broker) &lt;-(pull message)- <b>consumer</b></p>
@@ -48,6 +48,14 @@
                 <li>Consumer/subscriber: Consumidor das messages, pode lê-las mais de uma vez.</li>
             </ul>
             <img src="kafka.jpg" class="img-fluid rounded my-4" width="530px">
+
+            <br><h4>Event:</h4>
+            <p id="textoPost">Mudança significativa dos dados (possui chave, valor e data). Exemplo: comando de 'update' em table. No Kafka, events são messages. Componentes básicos de um event:</p>
+            <ul>
+                <li>Event key: "fulana"</li>
+                <li>Event value: "café no starbucks"</li>
+                <li>Event timestamp: "Jun. 23, 2024 at 8:00 p.m."</li>
+            </ul>
 
             <br><h4>Broker:</h4>
             <p id="textoPost">Servidor lógico do Kafka, faz intermédio producer-consumer. Cada node físico executa 1 ou mais brokers. Pode-se acessar, num mesmo broker, diferentes instâncias na mesma porta. Atribui numeração ordenada (offset) às messages. Broker chefe é escolhido aleatoriamente e denominado controller. Bootstrap é a porta lógica de entrada para conexão em topic (em broker qualquer), para producer e consumer.</p>
@@ -94,7 +102,7 @@
             <p id="textoPost"><u>Arquivos timeindex</u>: Arquivo nas messages em 'log', permite buscar messages em intervalo de tempo (ex: messages enviadas pelos producers entre minutos x e y).</p>
 
             <br><h4>ZooKeeper:</h4>
-            <p id="textoPost">Realiza gestão física do cluster (máquina/node master gerencia demais nodes workers/slaves). Futuramente, ZooKeeper será substituído por 'Real-Time' KRaft no Kafka 4. Pode-se ter 1 ou mais ZooKeepers gerenciando um ou mais brokers (com ZooKeeper, será 1 broker leader, e 0 ou mais followers).</p>
+            <p id="textoPost">Realiza gestão física do cluster (máquina/node master gerencia demais nodes workers/slaves). Futuramente, ZooKeeper será substituído por 'real-time' KRaft no Kafka 4. Pode-se ter 1 ou mais ZooKeepers gerenciando um ou mais brokers (com ZooKeeper, será 1 broker leader, e 0 ou mais followers).</p>
 
             <br><h4>Topic:</h4>
             <p id="textoPost">Assunto, imutável, semelhante à tabela de BD, para armazenar messages. Ex: topics para gerenciar logs de websites. Cada producer (websites) enviam messages (error, warning, success) para respectivos topics, que serão consumidas pelos consumers da equipe de TI (dev, segurança, marketing). Cada message possui key (chave, similar ao header request). Além disso, cada message possui período de retenção (determinado por tamanho ou tempo) e pode reter apenas última message (log compacted). Messages são distribuídas nas partitions. As partitions não precisam ter mesma quantidade de topics, e partitions não podem ser divididas posteriormente, e só pode haver 1 consumer por partition. Offsets são commitados em mesmo topic, denominado '__consumer_offsets', onde o commit é o ponto de referência para o offset procurado para ser lido. Messages são identificadas por topic, seguido do nº da partition e, então, offset. Messages podem ser serializadas para transferência em rede, no formato Avro.</p>
@@ -123,7 +131,7 @@
             </ul>
 
             <br><h4>Consumer:</h4>
-            <p id="textoPost">Lê messages, ordenadamente, de uma partition de um broker. Um consumer pode ler messages de mais de uma partition. Não há garantia de ordem entre partitions num mesmo topic, apenas dentro de cada partition. O consumer group dividirá processamento para determinado topic. Consumer groups geralmente são criados quando alguns consumers não conseguem processar todas as messages. A quantidade de partitions em determinado topic é a quantidade limite de consumers em um consumer group, que processará tais messages (os demais consumers no group ficarão inativos). Dentro de mesmo group, cada consumer lê sua(s) partition(s) específica(s) (um consumer pode ler mais de uma partition, se essas não estão sendo lidas por outros consumers do mesmo group). Para ter mais de 1 consumer lendo mesma partition, deve-se criar novo group.</p>
+            <p id="textoPost">Lê messages, ordenadamente, de uma partition de um broker. Um consumer pode ler messages de mais de uma partition. Não há garantia de ordem entre partitions num mesmo topic, apenas dentro de cada partition. O consumer group dividirá processamento para determinado topic. Consumer groups geralmente são criados quando alguns consumers não conseguem processar todas as messages. A quantidade de partitions em determinado topic é a quantidade limite de consumers em um consumer group, que processará tais messages (os demais consumers no group ficarão inativos). Dentro de mesmo group, cada consumer lê sua(s) partition(s) específica(s) (um consumer pode ler mais de uma partition, se essas não estão sendo lidas por outros consumers do mesmo group). Portanto, de forma geral, não pode-se ter mais consumers do que partitions. Para ter mais de 1 consumer lendo mesma partition, deve-se criar novo group.</p>
 
             <br><h4>Acknowledgment:</h4>
             <p id="textoPost">Producer pode, ou não, aguardar confirmação de recebimento da message, via parâmetros acks:</p>
@@ -142,10 +150,11 @@
             </ul>
 
             <br><h4>Produção e consumo de messages:</h4>
-            <p id="textoPost">Via Console, API Kafka e Kafka Connect. Kafka Connect: Conectores prontos (declarativo), que só precisam ser instalados e configurados. Pode ser usado com producer (Kafka Connect Source) ou consumer (Kafka Connect Sink). Escalado automaticamente e com balanceamento de carga. Tolerante a falhas. Suporta modo standalone e distributed. Connect em cluster: Connect worker (conexões individuais no cluster, para source e sink). Para escalar, adiciona-se mais workers. Pode-se ter source e sink no mesmo connect. Transformações SMTs (simple messages transform): InsertField, ReplaceField, MaskField, ValueToKey, HostField, ExtractField, SetSchemaMetadata, TimestampRouter, RegexRouter, Filter.</p>
+            <p id="textoPost">Via console, API Kafka e Kafka Connect. Via console, segue exemplo prático, de comandos, no final do artigo. Via API, tem-se Producer API (permite que producer envie messages), Consumer API (permite que consumer consuma messages, via 1 ou mais topics), Streams API (permite que aplicação atue como processador de fluxo, consumindo messages e gerando resultados processados para outro topic), Connector API (permite criar producer e consumers reutilizáveis, que conectam os topics em sistemas existentes - ex: connector para BD relacional que captura todas alterações em uma table) e Admin API (gerencia e inspeciona topics, brokers e demais objetos do kafka). Kafka Connect: Conectores prontos (declarativo), que só precisam ser instalados e configurados. Pode ser usado com producer (Kafka Connect Source) ou consumer (Kafka Connect Sink). Escalado automaticamente e com balanceamento de carga. Tolerante a falhas. Suporta modo standalone e distributed. Connect em cluster: Connect worker (conexões individuais no cluster, para source e sink). Para escalar, adiciona-se mais workers. Pode-se ter source e sink no mesmo connect. Transformações SMTs (simple messages transform): InsertField, ReplaceField, MaskField, ValueToKey, HostField, ExtractField, SetSchemaMetadata, TimestampRouter, RegexRouter, Filter.</p>
 
             <br><h4>Utilização do Kafka:</h4>
             <ul>
+                <li>Exemplo prático via console;</li>
                 <li>Arquivos em 'kafka/bin': '.sh' são scripts Linux, arquivos '.bat' são scripts Windows;</li>
                 <li>Arquivos em 'kafka/lib': bibliotecas Java para conexões via Kafka Connect.</li>
             </ul>
