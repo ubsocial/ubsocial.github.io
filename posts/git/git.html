@@ -123,8 +123,10 @@ Listar branchs: git branch (-r para mostrar remotos, -a para mostrar locais e re
 Voltar ao master: git checkout master
 Deletar branch: git branch -d nomebranch
 
-<b>MERGE:</b> Passar coisas do branch x ao master
-git merge branchAntigo (Branch que estou será o destino)
+<b>MERGE:</b> Passar último commit do branch x no final/atual do master (encerra branch x)
+git merge branchAntigo (Branch que estou será o destino. Informar branch é opcional)
+<b>REBASE:</b> Passar todos commits, ordenadamente, do branch x no final/atual do master (encerra branch x)
+git rebase branchAntigo
 
 <b>SUBMODULE:</b> Repositório dentro de outro repositório (Ponteiro para outro repositório real)
 Adicionar submodule: git submodule add &lt;url-repositorio&gt; diretorio-destino
