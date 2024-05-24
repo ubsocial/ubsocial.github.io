@@ -42,9 +42,9 @@
             <h4>Anexos</h4>
             <ul>
                 <li><a class="text-decoration-none" href="https://github.com/mateusschwede/ia/tree/main/iaUdemy" target="_blank">Github do projeto</a></li>
-                <li><a class="text-decoration-none" href="https://colab.research.google.com/drive/1SnsJEDRxizpwff6K0JFEFHoBtXR5NT9y?usp=sharing" target="_blank">Códigos (Google Colab)</a></li>
-                <li><a class="text-decoration-none" href="https://www.kaggle.com/laotse/credit-risk-dataset" target="_blank">BD Risco de Crédito (Credit Data)</a></li>
-                <li><a class="text-decoration-none" href="https://archive.ics.uci.edu/ml/datasets/adult" target="_blank">BD Censo</a></li>
+                <li><a class="text-decoration-none" href="https://colab.research.google.com/drive/1SnsJEDRxizpwff6K0JFEFHoBtXR5NT9y?usp=sharing" target="_blank">Códigos (Colab)</a></li>
+                <li><a class="text-decoration-none" href="https://www.kaggle.com/laotse/credit-risk-dataset" target="_blank">Dataframe risco de crédito (credit data)</a></li>
+                <li><a class="text-decoration-none" href="https://archive.ics.uci.edu/ml/datasets/adult" target="_blank">Dataframe censo</a></li>
             </ul>
         </div>
 
@@ -66,115 +66,49 @@
 
         <div class="col-sm-12">
             <h4 id="contIntro">===== INTRODUÇÃO =====</h4>
-            <p id="textoPost">Inteligência artificial é a área da Ciência da Computação responsável pelo desenvolvimento de sistemas que simulem a capacidade humana de resolver problemas.</p>
-            <img src="iaMeme.jpg" class="img-fluid rounded" width="180px">
-            <p>Exemplos de aplicações com Machine Learning:</p>
+            <p id="textoPost">Inteligência artificial é a área da ciência da computação responsável pelo desenvolvimento de sistemas que simulem a capacidade humana de resolver problemas. Os principais conceitos/áreas são:</p>
             <ul>
-                <li>Sistemas Especialistas (Baseado em profissionais especialistas humanos)</li>
-                <li>Sistema de Recomendação</li>
-                <li>Reconhecimento Facial (Visão computacional)</li>
-                <li>Reconhecimento de Movimentos</li>
-                <li>Reconhecimento de Sons / Fala (Processamento de linguagem natural)</li>
-                <li>Robótica e Automação</li>
-                <li>Realidade Virtual</li>
-            </ul>
-            <p>Terminologias:</p>
-            <ul>
-                <li><b>Inteligência Artificial</b>: Termo geral, área da Ciência da Computação responsável pelo desenvolvimento de sistemas que simulem a capacidade humana de resolver problemas</li>
-                <li><b>Inteligência Computacional</b>: Redes neurais, computação evolucionária, lógica nebulosa (fuzzy)</li>
-                <li><b>Machine Learning (Aprendizado de Máquina)</b>: Métodos matemáticos para treinar algoritmos</li>
-                <li><b>Data Mining (Mineração de Dados)</b>: Extrair conhecimentos de base de dados, usando métodos de Machine Learning</li>
-                <li><b>Redes Neurais</b>: Tipo de Machine Learning, como um algoritmo</li>
-                <li><b>Deep Learning (Aprendizado Profundo)</b>: Muito mais dados e processadores mais potentes (Rede Neural com muitas camadas)</li>
-                <li><b>Big Data</b>: Imenso volume de dados (Necessário algoritmos de Machine Learning para realizar o tratamento dos dados)</li>
-                <li><b>Ciência de Dados</b>: Exploração e análise de dados, envolve Ciência da Computação + Estatística, além de Machine Learning</li>
-            </ul>
-            
-            <br>
-            <h4>Machine Learning</h4>
-            <p id="textoPost"><b>Métodos Preditivos:</b> Previsão resultante de conjunto de atributos.</p>
-            <ul>
-                <li><b>Classificação</b>: Dividir atributos por determinadas classes (Rótulos)
-                    <ul>
-                        <li><u>Ex</u>: Pessoas que gostam de Rock / Pessoas que não gostam de Rock</li>
-                    </ul>
-                </li>
-                <li><b>Regressão</b>: Previsão realizada através da análise de valores numéricos, como dados históricos
-                    <ul>
-                        <li><u>Ex</u>: Com base na temperatura, umidade e pressão do ar, ocorre-se a previsão da velocidade do vento</li>
-                    </ul>
-                </li>
-            </ul>
-            <p id="textoPost"><b>Métodos Descritivos:</b></p>
-            <ul>
-                <li><b>Associação</b>: Dados em comum
-                    <ul>
-                        <li><u>Ex</u>: Maior histórico de compra de carne e cerveja nos finais de semana</li>
-                    </ul>
-                </li>
-                <li><b>Agrupamento</b>: Agrupar dados em comum (Cria grupos)
-                    <ul>
-                        <li><u>Ex</u>: Com base de dados de histórico de mercado, agrupar clientes que compram jogos eletrônicos</li>
-                    </ul>
-                </li>
-                <li><b>Detecção de Desvios (Outliers)</b>: Detectar "anomalias" em grupos de dados
-                    <ul>
-                        <li><u>Ex</u>: Detectar doping em atletas (Atleta desempenhando além do normal)</li>
-                    </ul>
-                </li>
-                <li><b>Descoberta de Padrões Sequenciais</b>: Detectar "relações" entre grupos de dados
-                    <ul>
-                        <li><u>Ex</u>: Leitor de Harry Potter tende a gostar de livros de Harry Potter</li>
-                    </ul>
-                </li>
-                <li><b>Sumarização</b>: Abstrair dados de um grupo maior, de acordo com atributos solicitados
-                    <ul>
-                        <li><u>Ex</u>: Em base de dados de clientes, resgatar somente pessoas maiores de 50 anos, de origem japonesa</li>
-                    </ul>
-                </li>
+                <li>Inteligência computacional: Redes neurais, computação evolucionária, lógica nebulosa (fuzzy);</li>
+                <li>Machine learning (ML, aprendizado de Máquina): Métodos matemáticos para treinar algoritmos;</li>
+                <li>Data mining (mineração de dados): Extrair conhecimentos de base de dados, via métodos de machine learning;</li>
+                <li>Neural network (rede neural): Tipo de ML, como um algoritmo;</li>
+                <li>Deep learning (aprendizado profundo): Muito mais dados e processadores mais potentes (rede neural com muitas camadas);</li>
+                <li>Big data: Imenso volume de dados (necessário algoritmos de ML para tratamento dos dados);</li>
+                <li>Data analytics (análise de dados): Inspeção, transformação e modelagem de dados, a fim de obter informações e insights sobre;</li>
+                <li>Data science (ciência de dados): Exploração e análise de dados (data analytics), envolvendo ciência da computação + estatística, além de ML.</li>
             </ul>
 
-            <h5>Tipos de Machine Learning:</h5>
+            <br><h4>Machine learning</h4>
+            Tipos de ML:
             <ul>
-                <li><b>Supervisonada:</b>
-                    <ul>
-                        <li>Classificação</li>
-                        <li>Regressão</li>
-                    </ul>
-                </li>
-                <li><b>Não Supervisonada:</b>
-                    <ul>
-                        <li>Associação</li>
-                        <li>Agrupamento</li>
-                        <li>Detecção de Desvios</li>
-                        <li>Padrões Sequenciais</li>
-                        <li>Sumarização</li>
-                    </ul>
-                </li>
-                <li><b>Reforço</b></li>
+                <li><b>Supervisonada</b> (classificação e regressão);</li>
+                <li><b>Não Supervisonada</b> (associação, agrupamento, detecção de outliers, padrões sequenciais e sumarização);</li>
+                <li><b>Reforço</b>.</li>
             </ul>
-            <p><b>Aprendizagem Supervisionada:</b></p>
-            <p id="textoPost">Contexto: Classificar se uma imagem refere-se ao Homer Simpson, ou ao Bart Simpson.</p>
-            <p><u>Fase 1</u>: <i>Imagens -&gt; Extração de características (Montagem da base de dados) -&gt; Algoritmo de aprendizagem (Feito por supervisor) = Modelo Aprendido</i></p>
-            <p id="textoPost" class="text-muted">* Extração de Características: No Homer, a cabeça é arredondada, enquanto no Bart a cabeça não é arredondada, etc.</p>
-            <p id="textoPost" class="text-muted">* Algoritmo de aprendizagem: Supervisor submete imagens do Homer, informando características do Homer, também imagens do Bart, informando características do Bart. Dessa forma, será realizada uma padronização das classes Homer e Bart, de acordo com suas características personalizadas.</p>
-            <p><u>Fase 2</u>: <i>Imagem desconhecida -&gt; Extração de características -&gt; Submissão ao modelo aprendido = Modelo dirá que a imagem é da classe Bart</i></p>
-
-            <p><b>Aprendizagem Não Supervisionada:</b></p>
-            <p id="textoPost">Analisa automaticamente os dados (Associação, Agrupamento), ou seja, não há supervisão nem treinamento manual prévio, necessitando somente de análise para determinar o significado dos padrões encontrados (Se o padrão resultante é, de fato, pertinente). Nessa aprendizagem não é feita a predição dos dados, e sim somente a descrição (Descritiva).</p>
-            <p id="textoPost"><u>Exemplo</u>: Pessoa que compra X também compra Y. Portanto, toda pessoa que comprará X também comprará Y</p>
-
-            <p><b>Aprendizagem por Reforço:</b></p>
-            <p id="textoPost">Aprender com as interações com o ambiente (causa e efeito), aprendendo com sua própria experiência. Aprendizagem muito comum utilizada em ambientes SMA (Sistema Multiagente - Onde há vários agentes interagindo no ambiente).</p>
-            <p><u>Exemplo</u>: Robô automatizado bate em parede e danifica-se. Dessa forma, concluirá que deve-se evitar bater em parede</p>
-
-            <br>
-            <hr>
-            <h4 id="contClassificacao">===== CLASSIFICAÇÃO =====</h4>
-            <p id="textoPost">Levando em consideração o exemplo de análise de risco de crédito. Cada registro pertence a uma classe e possui um conjunto de atributos previsores. Na aprendizagem supervisionada, o valor do atributo meta sempre é conhecido. Com uma base de dados como o exemplo da tabela abaixo, é submetido ao treinamento de algoritmos de Machine Learning, para então prever o risco automaticamente.</p>
+            Métodos preditivos: Previsão resultante de conjunto de atributos.
             <ul>
-                <li><b>Atributos Previsores</b>: Histórico de crédito (Bom, ruim ou desconhecido), dívida (Baixa ou alta), garantias (Nenhuma ou adequada), renda anual (Menor que 15 mil, entre 15 mil e 35 mil, maior que 35 mil) - <i>Variáveis Independentes</i></li>
-                <li><b>Atributos Meta / Classe</b>: Risco (Baixo, moderado ou alto) - <i>Variáveis Dependentes</i></li>
+                <li><b>Classificação</b>: Dividir atributos por determinadas classes (rótulos). Ex: pessoas que gostam de rock e pessoas que não gostam de rock;</li>
+                <li><b>Regressão</b>: Previsão realizada através da análise de valores numéricos, como dados históricos. Ex: com base em valores climáticos, medir previsão do tempo.</li>
+            </ul>
+            Métodos descritivos:
+            <ul>
+                <li><b>Associação</b>: Dados em comum (ex: maior histórico de compra de item x nos sábados);</li>
+                <li><b>Agrupamento</b>: Agrupar dados em comum (ex: grupo de games de ação, grupo de games de terror);</li>
+                <li><b>Detecção de outliers</b> (desvios): Detectar anomalias em grupos de dados (ex: atletas em doping - desempenhando além do normal);</li>
+                <li><b>Descoberta de padrões sequenciais</b>: Detectar relações entre grupos de dados (ex: leitor de Harry Potter tende a gostar de livros de Harry Potter);</li>
+                <li><b>Sumarização</b>: Abstrair dados de um grupo maior, conforme atributos solicitados (ex: BD de clientes, exibir somente cliente maiores de 50 anos);</li>
+            </ul>
+
+            <p>Aprendizagem supervisionada: Classificar se foto refere-se ao Homer ou Bart Simpson. Fase 1 (treino), extraem-se as características de Homer e Bart (montagem do dataframe - tabela com dados), após executa-se algoritmo ML (via supervisor), criando-se padrões de Homer e Bart, então tem-se modelo aprendido (distingue-se fotos de Homer e Bart). Fase 2 (teste), sumete-se foto desconhecida, para modelo distinguir se é Homer ou Bart.</p>
+            <p>Aprendizagem não supervisionada: Análise automática dos dados (associação, agrupamento), sem supervisão, nem treinamento prévio (predição). Necessita somente descrição dos dados (descritiva) e análise para determinar significado dos padrões encontrados (verificar se resultados são pertinentes). Ex: se pessoa que compra x também compra y, então pessoas que comprarão x também comprarão y.</p>
+            <p>Aprendizagem por reforço: Aprender com interações do ambiente (causa e efeito), via experiência própria. Muito utilizada em SMA (sistema multiagente, com vários agentes interagindo no ambiente). Ex: robô automatizado bate em parede e danifica-se. Então, concluirá que deve evitar bater em paredes.</p>
+
+
+            <br><hr><h4 id="contClassificacao">===== CLASSIFICAÇÃO =====</h4>
+            <p id="textoPost">Conforme exemplo análise de risco de crédito. Cada registro (linha) possui atributos (colunas) previsores (características) e atributos classe (resultado). Na aprendizagem supervisionada, a classe sempre é conhecida.</p>
+            <ul>
+                <li><b>Atributos previsores</b> (variáveis dependentes): Histórico de crédito (bom, ruim, desconhecido), dívida (baixa, alta), garantias (nenhuma, adequada), renda anual (menor que 15 mil, entre 15 mil e 35 mil, maior que 35 mil);</li>
+                <li><b>Atributos meta/classe</b> (variáveis independentes): risco (baixo, moderado, alto).</li>
             </ul>
             <div class="table-responsive">
                 <table class="table table-striped table-sm">
@@ -212,48 +146,29 @@
                     </tbody>
                 </table>
             </div>
-            <p><b>Representação da Classificação (Método Indutivo):</b></p>
+
+            <br><h4 id="contPreProcessamento">----- Pré-processamento de dados -----</h4>
+            Variáveis numéricas:
             <ul>
-                <li><b>Fase 1</b>: Conjunto de exemplos (Atributos previsores + Atributos meta) -&gt; Sistema de aprendizado = Classificador</li>
-                <li><b>Fase 2</b>: Caso a ser classificado (Atributo meta não conhecido) -&gt; Classificador = Decisão</li>
+                <li>contínua: nºs reais (temperatura 30.2);</li>
+                <li>discreta: conjunto finito, valores inteiros (preços [12,4,6], idade 25);</li>
             </ul>
-            <p><u>Exemplo</u> (Indução com aprendizagem supervisionada):</p>
+            Variáveis categóricas:
             <ul>
-                <li><b>Fase 1</b>: Homer e Bart -&gt; Extração de características -&gt; Algoritmo de aprendizagem e Supervisor = Modelo aprendido</li>
-                <li><b>Fase 2</b>: Bart com Skate -&gt; Extração de características -&gt; Modelo aprendido = Bart</li>
+                <li>nominal: dados não mensuráveis, sem ordenação (gênero);</li>
+                <li>ordinal: dados ordenados categorizados (tamanhos p,m,g). Convertidas para discretas via categorias numéricas (p=1,m=2,g=3)</li>
             </ul>
 
-            <br>
-            <h4 id="contPreProcessamento">----- Pré-processamento de dados -----</h4>
-            
-            <br><h5>Tipos de variáveis</h5>
-            <ul>
-                <li><b>Numéricas</b>: Possuem valor numérico
-                    <ul>
-                        <li><b>Contínua</b>: Números reais (Temperatura, altura, peso, salário, etc - 44.2)</li>
-                        <li><b>Discreta</b>: Conjnto de valores finito, valores inteiros (Contagem de algo - 15)</li>
-                    </ul>
-                </li>
-                <li><b>Categóricas</b>: Representam categorias, possuem valor String
-                    <ul>
-                        <li><b>Nominal</b>: Dados não mensuráveis (Sem ordenação: cor dos olhos e gênero, id, nome, etc - "azul")</li>
-                        <li><b>Ordinal</b>: Categorizado sob ordenação (Tamanho: P, M e G)</li>
-                    </ul>
-                </li>
-            </ul>
-            <p id="textoPost" class="text-muted">* A conversão de variável categórica para discreta geralmente ocorre quando a categoria básica representa 1, categoria moderada representa 2 e categoria avançada representa 3.</p>
-
-            <p><b>1. Importar libraries:</b></p>
-            <p id="textoPost">Importar libraries plotly (Geração de gráficos dinâmicos), pandas (Gerenciamento de arquivos CSV), numpy, seaborn e matplotlib.pyplot (Visualização de gráficos), plotly.express (Chamará a library plotly).</p>
+            <b>1. Importar bibliotecas:</b>
 <small><pre><code>
-!pip install plotly --upgrade
-import pandas as pd
-import numpy as np
-import seaborn as sns
-import matplotlib.pyplot as plt
+import pandas as pd #gerenciar csv
+import numpy as np #computação científica
+import seaborn as sns #gráficos
+import matplotlib.pyplot as plt #gráficos
 import plotly.express as px
 </code></pre></small>
-            
+
+            <!------------------------->
             <br><h5>Base de Dados (Risco de Crédito - Credit Data)</h5>
             <p class="text-muted" id="textoPost">Objetivo da IA é dizer se a pessoa, de acordo com suas condições, pagará ou não o crédito (default 0 ou 1).</p>
             <a class="btn btn-link text-decoration-none" href="https://github.com/mateusschwede/ubsocialIA/blob/main/Bases%20de%20dados.zip" target="_blank">Acessar BD Risco de Crédito (credit_data.csv)</a>
