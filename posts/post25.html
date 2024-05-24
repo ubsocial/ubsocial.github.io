@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../icons/logoTit.png">
+    <link rel="stylesheet" href="../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <nav class="navbar rounded-bottom fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="../index.html"><img src="../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../sobre/sobre.html">Sobre</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../livros/livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 text-center" id="titulo">
+            <h1>IA qualidade do vinho</h1>
+            <h6><strong>Algoritmo ML classificação da qualidade do vinho</strong></h6>
+            <a href="../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
+        </div>
+
+        <div class="col-sm-12">
+            <h4>Anexos:</h4>
+            <ul>
+                <li><a href="https://www.kaggle.com/datasets/uciml/red-wine-quality-cortez-et-al-2009" class="text-decoration-none" target="_blank">Dataset</a></li>
+                <li><a href="https://www.kaggle.com/code/nimapourmoradi/red-wine-quality/notebook" class="text-decoration-none" target="_blank">Notebook</a></li>
+            </ul>
+            
+            <br><h4>Importar bibliotecas:</h4>
+<small><pre><code>
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+import warnings
+from termcolor import colored
+
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.model_selection import train_test_split, GridSearchCV, cross_val_score, KFold
+from sklearn.ensemble import RandomForestClassifier
+from sklearn import metrics
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.naive_bayes import GaussianNB
+print(colored('\nAll libraries imported succesfully.', 'green'))
+
+pd.options.mode.copy_on_write = True # Allow re-write on variable
+sns.set_style('darkgrid') # Seaborn style
+warnings.filterwarnings('ignore') # Ignore warnings
+pd.set_option('display.max_columns', None) # Setting this option will print all collumns of a dataframe
+pd.set_option('display.max_colwidth', None) # Setting this option will print all of the data in a feature
+
+sns.color_palette("cool_r", n_colors=1)
+
+sns.set_palette("cool_r")
+print(colored('\nAll libraries Configed succesfully.', 'green'))
+</code></pre></small>
+            <br><h4>Coletar dados:</h4>
+<small><pre><code>
+# Import data by using pandas liblary and using read_csv method
+data = pd.read_csv('/kaggle/input/red-wine-quality-cortez-et-al-2009/winequality-red.csv')
+data.head()
+data.info()
+data.describe().T.style.background_gradient(axis=0)
+data.isna().sum()
+
+# Ver img wine_conclusoes
+</code></pre></small>
+            <br><h4>Visualização em gráficos:</h4>
+<small><pre><code>
+# Rename columns to better recall them.
+data.rename(columns = {
+    "fixed acidity": "fixed_acidity",
+    "volatile acidity": "volatile_acidity",
+    "citric acid": "citric_acid",
+    "residual sugar": "residual_sugar",
+    "chlorides": "chlorides",
+    "free sulfur dioxide": "free_sulfur_dioxide",
+    "total sulfur dioxide": "total_sulfur_dioxide"},
+inplace = True)
+
+# Create a list of DataFrame columns
+columns = list(data.columns)
+
+fig, ax = plt.subplots(11, 2, figsize=(15, 45))
+plt.subplots_adjust(hspace = 0.5)
+for i in range(11) :
+    # AX 1
+    sns.boxplot(x=columns[i], data=data, ax=ax[i, 0])
+    # Ax 2
+    sns.scatterplot(x=columns[i], y='quality', data=data, hue='quality', ax=ax[i, 1])
+
+# There is no missing values
+# There is no Outlier in data.
+
+corr = data.corr()
+# cmap = sns.diverging_palette(-1, 1, s=100, l=50, n=15, center="dark", as_cmap=True)
+plt.figure(figsize=(9, 6))
+sns.heatmap(corr, annot=True, fmt='.2f', linewidth=0.5, cmap='Purples', mask=np.triu(corr))
+plt.show()
+
+sns.pairplot(data, hue='quality', corner = True, palette='Purples')
+</code></pre></small>
+            <br><h4>Análises Plot:</h4>
+            Best correlations are between:
+            <ul>
+                <li>citeic_acid & flex_acidity: 0.67</li>
+                <li>density & flex_acidity: 0.67</li>
+                <li>total_sulfor_dioxide & free_sulfor_dioxide: 0.67</li>
+            </ul>
+<small><pre><code>
+# Quality classes: (categorizações)
+data.quality.unique()
+
+# Replace values in quality column to Good and Middle and Bad
+data = data.replace({
+    'quality': {
+        8 : 'Good',
+        7 : 'Good',
+        6 : 'Middle',
+        5 : 'Middle',
+        4 : 'Bad',
+        3 : 'Bad',
+    }
+})
+data.head()
+</code></pre></small>
+            <br><h4>Normalização:</h4>
+<small><pre><code>
+# Create X from DataFrame and y as Target
+X_temp = data.drop(columns='quality')
+y = data.quality
+
+# Normalize X data to decrease effect of larg number.
+# Here, Using MinMaxScaler and ranged in [0, 1]
+
+scaler = MinMaxScaler(feature_range=(0, 1)).fit_transform(X_temp)
+X = pd.DataFrame(scaler, columns=X_temp.columns)
+X.describe().T.style.background_gradient(axis=0, cmap='Purples')
+</code></pre></small>
+            <br><h4>Modelagem:</h4>
+<small><pre><code>
+# define a function to ploting Confusion matrix
+def plot_confusion_matrix(y_test, y_prediction):
+    '''Plotting Confusion Matrix'''
+    cm = metrics.confusion_matrix(y_test, y_prediction)
+    ax = plt.subplot()
+    ax = sns.heatmap(cm, annot=True, fmt='', cmap="Purples")
+    ax.set_xlabel('Prediced labels', fontsize=18)
+    ax.set_ylabel('True labels', fontsize=18)
+    ax.set_title('Confusion Matrix', fontsize=25)
+    ax.xaxis.set_ticklabels(['Bad', 'Good', 'Middle'])
+    ax.yaxis.set_ticklabels(['Bad', 'Good', 'Middle'])
+    plt.show()
+
+# define a function to ploting Classification report
+def clfr_plot(y_test, y_pred) :
+    ''' Plotting Classification report'''
+    cr = pd.DataFrame(metrics.classification_report(y_test, y_pred_rf, digits=3, output_dict=True)).T
+    cr.drop(columns='support', inplace=True)
+    sns.heatmap(cr, cmap='Purples', annot=True, linecolor='white', linewidths=0.5).xaxis.tick_top()
+
+def clf_plot(y_pred) :
+    '''
+    1. Ploting Confusion Matrix
+    2. Plotting Classification Report'''
+    cm = metrics.confusion_matrix(y_test, y_pred)
+    cr = pd.DataFrame(metrics.classification_report(y_test, y_pred, digits=3, output_dict=True)).T
+    cr.drop(columns='support', inplace=True)
+
+    fig, ax = plt.subplots(1, 2, figsize=(15, 5))
+
+    # Left AX : Confusion Matrix
+    ax[0] = sns.heatmap(cm, annot=True, fmt='', cmap="Purples", ax=ax[0])
+    ax[0].set_xlabel('Prediced labels', fontsize=18)
+    ax[0].set_ylabel('True labels', fontsize=18)
+    ax[0].set_title('Confusion Matrix', fontsize=25)
+    ax[0].xaxis.set_ticklabels(['Bad', 'Good', 'Middle'])
+    ax[0].yaxis.set_ticklabels(['Bad', 'Good', 'Middle'])
+
+    # Right AX : Classification Report
+    ax[1] = sns.heatmap(cr, cmap='Purples', annot=True, linecolor='white', linewidths=0.5, ax=ax[1])
+    ax[1].xaxis.tick_top()
+    ax[1].set_title('Classification Report', fontsize=25)
+    plt.show()
+
+data.quality.value_counts()
+
+# Splite Dataframe
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=0)
+</code></pre></small>
+            <br><h4>Classificação via Random Forest:</h4>
+<small><pre><code>
+# a dictionary to define parameters to test in algorithm
+parameters = {
+    'n_estimators' : [50, 150, 500],
+    'criterion' : ['gini', 'entropy', 'log_loss'],
+    'max_features' : ['sqrt', 'log2']
+}
+
+rf = RandomForestClassifier(n_jobs=-1)
+rf_cv = GridSearchCV(estimator=rf, cv=20, param_grid=parameters).fit(X_train, y_train)
+
+print('Tuned hyper parameters : ', rf_cv.best_params_)
+print('accuracy : ', rf_cv.best_score_)
+
+# Model :
+rf = RandomForestClassifier(**rf_cv.best_params_).fit(X_train, y_train)
+
+y_pred_rf = rf.predict(X_test)
+rf_score = round(rf.score(X_test, y_test), 3)
+print('RandomForestClassifier score : ', rf_score)
+
+y_test.value_counts()
+clf_plot(y_pred_rf)
+</code></pre></small>
+            <br><h4>Classificação via Logistic Regression:</h4>
+<small><pre><code>
+# a dictionary to define parameters to test in algorithm
+parameters = {
+    'C' : [0.001, 0.01, 0.1, 1.0, 10, 100, 1000],
+    'class_weight' : ['balanced'],
+    'solver' : ['lbfgs', 'liblinear', 'newton-cg', 'newton-cholesky', 'sag', 'saga']
+}
+
+lr = LogisticRegression()
+lr_cv = GridSearchCV(estimator=lr, param_grid=parameters, cv=10).fit(X_train, y_train)
+
+print('Tuned hyper parameters : ', lr_cv.best_params_)
+print('accuracy : ', lr_cv.best_score_)
+
+lr = LogisticRegression(**lr_cv.best_params_).fit(X_train, y_train)
+
+y_pred_lr = lr.predict(X_test)
+lr_score = round(lr.score(X_test, y_test), 3)
+print('LogisticRegression score : ', lr_score)
+clf_plot(y_pred_lr)
+</code></pre></small>
+            <br><h4>Classificação via SVC (Support Vector Classifier):</h4>
+<small><pre><code>
+# a dictionary to define parameters to test in algorithm
+parameters = {
+    'C' : [0.001, 0.01, 0.1, 1.0, 10, 100, 1000],
+    'gamma' : [0.001, 0.01, 0.1, 1.0, 10, 100, 1000],
+}
+
+svc = SVC()
+svc_cv = GridSearchCV(estimator=svc, param_grid=parameters, cv=10).fit(X_train, y_train)
+
+print('Tuned hyper parameters : ', svc_cv.best_params_)
+print('accuracy : ', svc_cv.best_score_)
+
+# Model
+svc = SVC(**svc_cv.best_params_).fit(X_train, y_train)
+
+y_pred_svc = svc.predict(X_test)
+svc_score = round(svc.score(X_test, y_test), 3)
+print('SVC Score : ', svc_score)
+clf_plot(y_pred_svc)
+</code></pre></small>
+            <br><h4>Classificação via Decision Tree:</h4>
+<small><pre><code>
+# a dictionary to define parameters to test in algorithm
+parameters = {
+    'criterion' : ['gini', 'entropy', 'log_loss'],
+    'splitter' : ['best', 'random'],
+    'max_depth' : list(np.arange(4, 30, 1))
+}
+
+tree = DecisionTreeClassifier()
+tree_cv = GridSearchCV(estimator=tree, cv=10, param_grid=parameters).fit(X_train, y_train)
+
+print('Tuned hyper parameters : ', tree_cv.best_params_)
+print('accuracy : ', tree_cv.best_score_)
+
+tree = DecisionTreeClassifier(**tree_cv.best_params_).fit(X_train, y_train)
+
+y_pred_tree = tree.predict(X_test)
+tree_score = round(tree.score(X_test, y_test), 3)
+print('DecisionTreeClassifier Score : ', tree_score)
+clf_plot(y_pred_tree)
+</code></pre></small>
+            <br><h4>Classificação via KNN (k-nearest neighbors):</h4>
+<small><pre><code>
+# a dictionary to define parameters to test in algorithm
+parameters = {
+    'n_neighbors' : list(np.arange(3, 50, 2)),
+    'weights': ['uniform', 'distance'],
+    'p' : [1, 2, 3, 4]
+}
+
+knn = KNeighborsClassifier()
+knn_cv = GridSearchCV(estimator=knn, cv=10, param_grid=parameters).fit(X_train, y_train)
+
+print('Tuned hyper parameters : ', knn_cv.best_params_)
+print('accuracy : ', knn_cv.best_score_)
+
+knn = KNeighborsClassifier(**knn_cv.best_params_).fit(X_train, y_train)
+
+y_pred_knn = knn_cv.predict(X_test)
+knn_score = round(knn.score(X_test, y_test), 3)
+print('KNeighborsClassifier Score :', knn_score)
+clf_plot(y_pred_knn)
+</code></pre></small>
+            <br><h4>Classificação via Gaussian Naïve Bayes:</h4>
+<small><pre><code>
+gnb = GaussianNB().fit(X_train, y_train)
+y_pred_gnb = gnb.predict(X_test)
+gnb_score = round(gnb.score(X_test, y_test), 3)
+print('GNB Score :', gnb_score)
+
+clf_plot(y_pred_gnb)
+</code></pre></small>
+            <br><h4>Conclusões (resultado final):</h4>
+<small><pre><code>
+result = pd.DataFrame({
+    'Algorithm' : ['RandomForestClassifier', 'LogisticRegression', 'SVC', 'DecisionTreeClassifier', 'KNeighborsClassifier', 'GaussianNB'],
+    'Score' : [rf_score, lr_score, svc_score, tree_score, knn_score, gnb_score]
+})
+result.sort_values(by='Score', inplace=True)
+
+sns.set_palette("Purples")
+
+fig, ax = plt.subplots(1, 1, figsize=(15, 5))
+sns.barplot(x='Algorithm', y='Score', data=result)
+ax.bar_label(ax.containers[0], fmt='%.3f')
+ax.set_xticklabels(labels=result.Algorithm, rotation=300)
+plt.show()
+
+# SVC possui maior precisão de acerto
+</code></pre></small>
+            <br><h4>Modelagem final:</h4>
+<small><pre><code>
+# Model
+svc = SVC(**svc_cv.best_params_)
+svc.fit(X, y)
+</code></pre></small>
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center bg-black text-light pt-4 pb-3">
+        <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>
