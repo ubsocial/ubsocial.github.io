@@ -65,11 +65,11 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.naive_bayes import GaussianNB
 print(colored('\nAll libraries imported succesfully.', 'green'))
 
-pd.options.mode.copy_on_write = True # Allow re-write on variable
-sns.set_style('darkgrid') # Seaborn style
-warnings.filterwarnings('ignore') # Ignore warnings
-pd.set_option('display.max_columns', None) # Setting this option will print all collumns of a dataframe
-pd.set_option('display.max_colwidth', None) # Setting this option will print all of the data in a feature
+pd.options.mode.copy_on_write = True #permite reescrever variáveis
+sns.set_style('darkgrid') #estilo visual
+warnings.filterwarnings('ignore') #ignorar alertas
+pd.set_option('display.max_columns', None) #não mostrar todas colunas do dataframe
+pd.set_option('display.max_colwidth', None) #não mostrar todos dados do dataframe
 
 sns.color_palette("cool_r", n_colors=1)
 
@@ -78,18 +78,16 @@ print(colored('\nAll libraries Configed succesfully.', 'green'))
 </code></pre></small>
             <br><h4>Coletar dados:</h4>
 <small><pre><code>
-# Import data by using pandas liblary and using read_csv method
+#importar dados, via pandas e método de leitura read_csv
 data = pd.read_csv('/kaggle/input/red-wine-quality-cortez-et-al-2009/winequality-red.csv')
 data.head()
 data.info()
 data.describe().T.style.background_gradient(axis=0)
 data.isna().sum()
-
-# Ver img wine_conclusoes
 </code></pre></small>
             <br><h4>Visualização em gráficos:</h4>
 <small><pre><code>
-# Rename columns to better recall them.
+#renomear conlunas para melhor utilização
 data.rename(columns = {
     "fixed acidity": "fixed_acidity",
     "volatile acidity": "volatile_acidity",
@@ -100,70 +98,66 @@ data.rename(columns = {
     "total sulfur dioxide": "total_sulfur_dioxide"},
 inplace = True)
 
-# Create a list of DataFrame columns
-columns = list(data.columns)
+columns = list(data.columns) #criar colunas do dataframe
 
 fig, ax = plt.subplots(11, 2, figsize=(15, 45))
 plt.subplots_adjust(hspace = 0.5)
-for i in range(11) :
-    # AX 1
-    sns.boxplot(x=columns[i], data=data, ax=ax[i, 0])
-    # Ax 2
-    sns.scatterplot(x=columns[i], y='quality', data=data, hue='quality', ax=ax[i, 1])
+for i in range(11):
+    sns.boxplot(x=columns[i], data=data, ax=ax[i, 0]) #ax1-gráfico boxplot
+    sns.scatterplot(x=columns[i], y='quality', data=data, hue='quality', ax=ax[i, 1]) #ax2-gráfico scatterplot
 
-# There is no missing values
-# There is no Outlier in data.
+#não há valores faltantes
+#não há outliers (dados que se diferenciam drasticamente de todos os outros)
 
 corr = data.corr()
-# cmap = sns.diverging_palette(-1, 1, s=100, l=50, n=15, center="dark", as_cmap=True)
+#cmap = sns.diverging_palette(-1, 1, s=100, l=50, n=15, center="dark", as_cmap=True)
 plt.figure(figsize=(9, 6))
-sns.heatmap(corr, annot=True, fmt='.2f', linewidth=0.5, cmap='Purples', mask=np.triu(corr))
+sns.heatmap(corr, annot=True, fmt='.2f', linewidth=0.5, cmap='Purples', mask=np.triu(corr)) #gráfico heatmap
 plt.show()
 
-sns.pairplot(data, hue='quality', corner = True, palette='Purples')
+sns.pairplot(data, hue='quality', corner = True, palette='Purples') #gráfico pairplot
 </code></pre></small>
             <br><h4>Análises Plot:</h4>
-            Best correlations are between:
+            Melhores correlações entre:
             <ul>
-                <li>citeic_acid & flex_acidity: 0.67</li>
-                <li>density & flex_acidity: 0.67</li>
-                <li>total_sulfor_dioxide & free_sulfor_dioxide: 0.67</li>
+                <li>citeic_acid e flex_acidity: 0.67</li>
+                <li>density e flex_acidity: 0.67</li>
+                <li>total_sulfor_dioxide e free_sulfor_dioxide: 0.67</li>
             </ul>
 <small><pre><code>
-# Quality classes: (categorizações)
+#categorizações - formação do atributo classe e seus valores
 data.quality.unique()
-
-# Replace values in quality column to Good and Middle and Bad
 data = data.replace({
     'quality': {
-        8 : 'Good',
-        7 : 'Good',
-        6 : 'Middle',
-        5 : 'Middle',
-        4 : 'Bad',
-        3 : 'Bad',
+        8: 'Good',
+        7: 'Good',
+        6: 'Middle',
+        5: 'Middle',
+        4: 'Bad',
+        3: 'Bad',
     }
 })
 data.head()
 </code></pre></small>
             <br><h4>Normalização:</h4>
 <small><pre><code>
-# Create X from DataFrame and y as Target
-X_temp = data.drop(columns='quality')
-y = data.quality
+sns.histplot(data=data, x="fixed_acidity") #gráfico histplot
+plt.show() #sem normalização
 
-# Normalize X data to decrease effect of larg number.
-# Here, Using MinMaxScaler and ranged in [0, 1]
+X_temp = data.drop(columns='quality') #criar colunas de atributos previsores
+y = data.quality #criar coluna de atributo classe
 
-scaler = MinMaxScaler(feature_range=(0, 1)).fit_transform(X_temp)
+scaler = MinMaxScaler(feature_range=(0, 1)).fit_transform(X_temp) #normalizar atributos previsores, para mantê-los entre 0 e 1
 X = pd.DataFrame(scaler, columns=X_temp.columns)
 X.describe().T.style.background_gradient(axis=0, cmap='Purples')
+
+sns.histplot(data=X, x="fixed_acidity")
+plt.show() #com normalização
 </code></pre></small>
             <br><h4>Modelagem:</h4>
 <small><pre><code>
-# define a function to ploting Confusion matrix
+#função para gerar confusion matrix (dados teste, dados previstos)
 def plot_confusion_matrix(y_test, y_prediction):
-    '''Plotting Confusion Matrix'''
     cm = metrics.confusion_matrix(y_test, y_prediction)
     ax = plt.subplot()
     ax = sns.heatmap(cm, annot=True, fmt='', cmap="Purples")
@@ -174,24 +168,22 @@ def plot_confusion_matrix(y_test, y_prediction):
     ax.yaxis.set_ticklabels(['Bad', 'Good', 'Middle'])
     plt.show()
 
-# define a function to ploting Classification report
-def clfr_plot(y_test, y_pred) :
-    ''' Plotting Classification report'''
+#função para criar classification report
+def clfr_plot(y_test, y_pred):
     cr = pd.DataFrame(metrics.classification_report(y_test, y_pred_rf, digits=3, output_dict=True)).T
     cr.drop(columns='support', inplace=True)
     sns.heatmap(cr, cmap='Purples', annot=True, linecolor='white', linewidths=0.5).xaxis.tick_top()
 
-def clf_plot(y_pred) :
-    '''
-    1. Ploting Confusion Matrix
-    2. Plotting Classification Report'''
+def clf_plot(y_pred):
+    #1.criar confusion matrix
+    #2.criar classification report
     cm = metrics.confusion_matrix(y_test, y_pred)
     cr = pd.DataFrame(metrics.classification_report(y_test, y_pred, digits=3, output_dict=True)).T
     cr.drop(columns='support', inplace=True)
 
     fig, ax = plt.subplots(1, 2, figsize=(15, 5))
 
-    # Left AX : Confusion Matrix
+    #ax esquerdo: confusion matrix
     ax[0] = sns.heatmap(cm, annot=True, fmt='', cmap="Purples", ax=ax[0])
     ax[0].set_xlabel('Prediced labels', fontsize=18)
     ax[0].set_ylabel('True labels', fontsize=18)
@@ -199,7 +191,7 @@ def clf_plot(y_pred) :
     ax[0].xaxis.set_ticklabels(['Bad', 'Good', 'Middle'])
     ax[0].yaxis.set_ticklabels(['Bad', 'Good', 'Middle'])
 
-    # Right AX : Classification Report
+    #ax direito: classification report
     ax[1] = sns.heatmap(cr, cmap='Purples', annot=True, linecolor='white', linewidths=0.5, ax=ax[1])
     ax[1].xaxis.tick_top()
     ax[1].set_title('Classification Report', fontsize=25)
@@ -207,120 +199,114 @@ def clf_plot(y_pred) :
 
 data.quality.value_counts()
 
-# Splite Dataframe
+#dividir dataframe (25% dos dados para teste - geralmente é 80% treino e 20% teste). x são os previsores, y é classe
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=0)
 </code></pre></small>
             <br><h4>Classificação via Random Forest:</h4>
 <small><pre><code>
-# a dictionary to define parameters to test in algorithm
+#dicionário de parâmetros para testes no algoritmo
 parameters = {
-    'n_estimators' : [50, 150, 500],
-    'criterion' : ['gini', 'entropy', 'log_loss'],
-    'max_features' : ['sqrt', 'log2']
+    'n_estimators': [50, 150, 500],
+    'criterion': ['gini', 'entropy', 'log_loss'],
+    'max_features': ['sqrt', 'log2']
 }
 
 rf = RandomForestClassifier(n_jobs=-1)
 rf_cv = GridSearchCV(estimator=rf, cv=20, param_grid=parameters).fit(X_train, y_train)
 
-print('Tuned hyper parameters : ', rf_cv.best_params_)
-print('accuracy : ', rf_cv.best_score_)
+print('Tuned hyper parameters: ', rf_cv.best_params_)
+print('accuracy: ', rf_cv.best_score_)
 
-# Model :
-rf = RandomForestClassifier(**rf_cv.best_params_).fit(X_train, y_train)
+rf = RandomForestClassifier(**rf_cv.best_params_).fit(X_train, y_train) #modelo (treino previsores-classe)
 
 y_pred_rf = rf.predict(X_test)
-rf_score = round(rf.score(X_test, y_test), 3)
-print('RandomForestClassifier score : ', rf_score)
+rf_score = round(rf.score(X_test, y_test), 3) #modelo (teste previsores-classe)
+print('RandomForestClassifier score: ', rf_score)
 
 y_test.value_counts()
 clf_plot(y_pred_rf)
 </code></pre></small>
             <br><h4>Classificação via Logistic Regression:</h4>
 <small><pre><code>
-# a dictionary to define parameters to test in algorithm
 parameters = {
-    'C' : [0.001, 0.01, 0.1, 1.0, 10, 100, 1000],
-    'class_weight' : ['balanced'],
-    'solver' : ['lbfgs', 'liblinear', 'newton-cg', 'newton-cholesky', 'sag', 'saga']
+    'C': [0.001, 0.01, 0.1, 1.0, 10, 100, 1000],
+    'class_weight': ['balanced'],
+    'solver': ['lbfgs', 'liblinear', 'newton-cg', 'newton-cholesky', 'sag', 'saga']
 }
 
 lr = LogisticRegression()
 lr_cv = GridSearchCV(estimator=lr, param_grid=parameters, cv=10).fit(X_train, y_train)
 
-print('Tuned hyper parameters : ', lr_cv.best_params_)
-print('accuracy : ', lr_cv.best_score_)
+print('Tuned hyper parameters: ', lr_cv.best_params_)
+print('accuracy: ', lr_cv.best_score_)
 
 lr = LogisticRegression(**lr_cv.best_params_).fit(X_train, y_train)
 
 y_pred_lr = lr.predict(X_test)
 lr_score = round(lr.score(X_test, y_test), 3)
-print('LogisticRegression score : ', lr_score)
+print('LogisticRegression score: ', lr_score)
 clf_plot(y_pred_lr)
 </code></pre></small>
             <br><h4>Classificação via SVC (Support Vector Classifier):</h4>
 <small><pre><code>
-# a dictionary to define parameters to test in algorithm
 parameters = {
-    'C' : [0.001, 0.01, 0.1, 1.0, 10, 100, 1000],
-    'gamma' : [0.001, 0.01, 0.1, 1.0, 10, 100, 1000],
+    'C': [0.001, 0.01, 0.1, 1.0, 10, 100, 1000],
+    'gamma': [0.001, 0.01, 0.1, 1.0, 10, 100, 1000],
 }
 
 svc = SVC()
 svc_cv = GridSearchCV(estimator=svc, param_grid=parameters, cv=10).fit(X_train, y_train)
 
-print('Tuned hyper parameters : ', svc_cv.best_params_)
-print('accuracy : ', svc_cv.best_score_)
+print('Tuned hyper parameters: ', svc_cv.best_params_)
+print('accuracy: ', svc_cv.best_score_)
 
-# Model
-svc = SVC(**svc_cv.best_params_).fit(X_train, y_train)
+svc = SVC(**svc_cv.best_params_).fit(X_train, y_train) #reaplicação do modelo, com melhores parâmetros (treino previsores-classe)
 
 y_pred_svc = svc.predict(X_test)
 svc_score = round(svc.score(X_test, y_test), 3)
-print('SVC Score : ', svc_score)
+print('SVC Score: ', svc_score)
 clf_plot(y_pred_svc)
 </code></pre></small>
             <br><h4>Classificação via Decision Tree:</h4>
 <small><pre><code>
-# a dictionary to define parameters to test in algorithm
 parameters = {
-    'criterion' : ['gini', 'entropy', 'log_loss'],
-    'splitter' : ['best', 'random'],
-    'max_depth' : list(np.arange(4, 30, 1))
+    'criterion': ['gini', 'entropy', 'log_loss'],
+    'splitter': ['best', 'random'],
+    'max_depth': list(np.arange(4, 30, 1))
 }
 
 tree = DecisionTreeClassifier()
 tree_cv = GridSearchCV(estimator=tree, cv=10, param_grid=parameters).fit(X_train, y_train)
 
-print('Tuned hyper parameters : ', tree_cv.best_params_)
-print('accuracy : ', tree_cv.best_score_)
+print('Tuned hyper parameters: ', tree_cv.best_params_)
+print('accuracy: ', tree_cv.best_score_)
 
 tree = DecisionTreeClassifier(**tree_cv.best_params_).fit(X_train, y_train)
 
 y_pred_tree = tree.predict(X_test)
 tree_score = round(tree.score(X_test, y_test), 3)
-print('DecisionTreeClassifier Score : ', tree_score)
+print('DecisionTreeClassifier Score: ', tree_score)
 clf_plot(y_pred_tree)
 </code></pre></small>
             <br><h4>Classificação via KNN (k-nearest neighbors):</h4>
 <small><pre><code>
-# a dictionary to define parameters to test in algorithm
 parameters = {
-    'n_neighbors' : list(np.arange(3, 50, 2)),
+    'n_neighbors': list(np.arange(3, 50, 2)),
     'weights': ['uniform', 'distance'],
-    'p' : [1, 2, 3, 4]
+    'p': [1, 2, 3, 4]
 }
 
 knn = KNeighborsClassifier()
 knn_cv = GridSearchCV(estimator=knn, cv=10, param_grid=parameters).fit(X_train, y_train)
 
-print('Tuned hyper parameters : ', knn_cv.best_params_)
-print('accuracy : ', knn_cv.best_score_)
+print('Tuned hyper parameters: ', knn_cv.best_params_)
+print('accuracy: ', knn_cv.best_score_)
 
 knn = KNeighborsClassifier(**knn_cv.best_params_).fit(X_train, y_train)
 
 y_pred_knn = knn_cv.predict(X_test)
 knn_score = round(knn.score(X_test, y_test), 3)
-print('KNeighborsClassifier Score :', knn_score)
+print('KNeighborsClassifier Score:', knn_score)
 clf_plot(y_pred_knn)
 </code></pre></small>
             <br><h4>Classificação via Gaussian Naïve Bayes:</h4>
@@ -328,33 +314,29 @@ clf_plot(y_pred_knn)
 gnb = GaussianNB().fit(X_train, y_train)
 y_pred_gnb = gnb.predict(X_test)
 gnb_score = round(gnb.score(X_test, y_test), 3)
-print('GNB Score :', gnb_score)
+print('GNB Score:', gnb_score)
 
 clf_plot(y_pred_gnb)
 </code></pre></small>
             <br><h4>Conclusões (resultado final):</h4>
 <small><pre><code>
 result = pd.DataFrame({
-    'Algorithm' : ['RandomForestClassifier', 'LogisticRegression', 'SVC', 'DecisionTreeClassifier', 'KNeighborsClassifier', 'GaussianNB'],
-    'Score' : [rf_score, lr_score, svc_score, tree_score, knn_score, gnb_score]
+    'Algorithm': ['RandomForestClassifier', 'LogisticRegression', 'SVC', 'DecisionTreeClassifier', 'KNeighborsClassifier', 'GaussianNB'],
+    'Score': [rf_score, lr_score, svc_score, tree_score, knn_score, gnb_score]
 })
 result.sort_values(by='Score', inplace=True)
-
 sns.set_palette("Purples")
 
 fig, ax = plt.subplots(1, 1, figsize=(15, 5))
 sns.barplot(x='Algorithm', y='Score', data=result)
 ax.bar_label(ax.containers[0], fmt='%.3f')
 ax.set_xticklabels(labels=result.Algorithm, rotation=300)
-plt.show()
-
-# SVC possui maior precisão de acerto
+plt.show() #SVC possui maior precisão de acerto (score)
 </code></pre></small>
             <br><h4>Modelagem final:</h4>
 <small><pre><code>
-# Model
 svc = SVC(**svc_cv.best_params_)
-svc.fit(X, y)
+svc.fit(X, y) #reaplicação do modelo, com melhores parâmetros (previsores-classe)
 </code></pre></small>
         </div>
     </div>
