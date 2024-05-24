@@ -52,9 +52,9 @@
                 <li><b>Criar projeto:</b> django-admin startproject nomePastaProjeto <span class="text-muted">(Informado, nesse caso, 'todo')</span></li>
                 <li><b>Criar migrations:</b> python3 manage.py migrate</li>
                 <li><b>Criar usuário:</b> python3 manage.py createsuperuser <span class="text-muted">(Informar dados)</span></li>
-                <li><b>Executar projeto:</b> python3 manage.py runserver <span class="text-muted">(Acessar em <a href="http://127.0.0.1:8000" class="text-decoration-none" target="_blank">http://127.0.0.1:8000</a> - Pode simplesmente trocar o ip por 'localhost')</span>
+                <li><b>Executar projeto:</b> python3 manage.py runserver <span class="text-muted">(Acessar em <a href="http://localhost:8000" class="text-decoration-none" target="_blank">http://localhost:8000</a> - Pode simplesmente trocar o ip por 'localhost')</span>
                     <ul>
-                        <li>Pode-se acessar painel admin com credenciais informadas acima <span class="text-muted">(<a href="http://127.0.0.1:8000/admin" class="text-decoration-none" target="_blank">http://127.0.0.1:8000/admin</a>)</span></li>
+                        <li>Pode-se acessar painel admin com credenciais informadas acima <span class="text-muted">(<a href="http://localhost:8000/admin" class="text-decoration-none" target="_blank">http://localhost:8000/admin</a>)</span></li>
                     </ul>
                 </li>
                 <li><b>No projeto, criar app:</b> python3 manage.py startapp nomeApp <span class="text-muted">(Informado, nesse caso, 'tasks')</span></li>
@@ -80,7 +80,7 @@
                 <li><b>Executar projeto:</b> python3 manage.py runserver</li>
                 <li>Em 'tasks/admin.py', informar 'from .models' e 'admin.site.register'
                     <ul>
-                        <li>No browser, acessar painel admin (<a href="http://127.0.0.1:8000/admin" class="text-decoration-none" target="_blank">http://127.0.0.1:8000/admin</a>), mostrará novo grupo 'Tasks'</li>
+                        <li>No browser, acessar painel admin (<a href="http://localhost:8000/admin" class="text-decoration-none" target="_blank">http://localhost:8000/admin</a>), mostrará novo grupo 'Tasks'</li>
                         <li>Acessar e, após, clicar em 'add task':
                             <ul>
                                 <li>Title: Projeto de ToDo UB Social (Clicar em Save)</li>
@@ -94,7 +94,7 @@
                 <li>Em 'tasks/views.py', informar 'from .models' e aprimorar view index</li>
                 <li>Em 'tasks/templates/list.html', preencher template
                     <ul>
-                        <li>No browser, recarregar index (<a href="http://127.0.0.1:8000" class="text-decoration-none" target="_blank">http://127.0.0.1:8000</a>) e verificar se lista de tasks adicionadas no admin serão mostradas</li>
+                        <li>No browser, recarregar index (<a href="http://localhost:8000" class="text-decoration-none" target="_blank">http://localhost:8000</a>) e verificar se lista de tasks adicionadas no admin serão mostradas</li>
                     </ul>
                 </li>
                 <br>

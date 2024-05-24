@@ -286,11 +286,11 @@ class Artigo extends JsonResource {
     } */
 }
 </code></pre></small>
-                <li>Executar projeto Laravel: '<i>php artisan serve</i>' (<a href="http://127.0.0.1:8000" class="text-decoration-none" target="_blank">http://127.0.0.1:8000</a>)</li>
+                <li>Executar projeto Laravel: '<i>php artisan serve</i>' (<a href="http://localhost:8000" class="text-decoration-none" target="_blank">http://localhost:8000</a>)</li>
                 
                 <br><h5>Testes no Postman</h5>
                 <img src="postman.png" class="img-fluid rounded" width="500px">
-                <li>No Postman, testar API para inserir artigo: (Deverá retornar JSON e inserir no BD)<span class="text-muted"><br>POST: <a href="http://127.0.0.1:8000/api/artigo" class="text-decoration-none" target="_blank">http://127.0.0.1:8000/api/artigo</a><br>(Headers)<br>Key: Content-Type<br>Value: application/json<br>(Body raw) (Enviar 1 bloco de chaves por vez)</span></li>
+                <li>No Postman, testar API para inserir artigo: (Deverá retornar JSON e inserir no BD)<span class="text-muted"><br>POST: <a href="http://localhost:8000/api/artigo" class="text-decoration-none" target="_blank">http://localhost:8000/api/artigo</a><br>(Headers)<br>Key: Content-Type<br>Value: application/json<br>(Body raw) (Enviar 1 bloco de chaves por vez)</span></li>
 <small><pre><code>
 {
     "titulo": "Primeiro artigo pelo Postman",
@@ -307,16 +307,16 @@ class Artigo extends JsonResource {
     "conteudo": "Descrição desse artigo de número três."
 }
 </code></pre></small>
-                <li>No Postman, testar API para listar artigos: (Mostrará em data no JSON)<br><span class="text-muted">GET: <a href="http://127.0.0.1:8000/api/artigos" class="text-decoration-none" target="_blank">http://127.0.0.1:8000/api/artigos</a></span></li>
-                <li>No Postman, testar API para ver somente o 1º artigo:<br><span class="text-muted">GET: <a href="http://127.0.0.1:8000/api/artigo/1" class="text-decoration-none" target="_blank">http://127.0.0.1:8000/api/artigo/1</a></span></li>
-                <li>No Postman, testar API para editar o artigo 1:<br><span class="text-muted">PUT: <a href="http://127.0.0.1:8000/api/artigo/1" class="text-decoration-none" target="_blank">http://127.0.0.1:8000/api/artigo/1</a><br>(Headers)<br>Key: Content-Type<br>Value: application/json<br>(Body raw)</span></li>
+                <li>No Postman, testar API para listar artigos: (Mostrará em data no JSON)<br><span class="text-muted">GET: <a href="http://localhost:8000/api/artigos" class="text-decoration-none" target="_blank">http://localhost:8000/api/artigos</a></span></li>
+                <li>No Postman, testar API para ver somente o 1º artigo:<br><span class="text-muted">GET: <a href="http://localhost:8000/api/artigo/1" class="text-decoration-none" target="_blank">http://localhost:8000/api/artigo/1</a></span></li>
+                <li>No Postman, testar API para editar o artigo 1:<br><span class="text-muted">PUT: <a href="http://localhost:8000/api/artigo/1" class="text-decoration-none" target="_blank">http://localhost:8000/api/artigo/1</a><br>(Headers)<br>Key: Content-Type<br>Value: application/json<br>(Body raw)</span></li>
 <small><pre><code>
 {
     "titulo": "ATUALIZANDO Primeiro artigo pelo Postman",
     "conteudo": "Descrição desse artigo de número um sendo ATUALIZADO."
 }
 </code></pre></small>
-                <li>No Postman, testar API para remover o artigo 1:<br><span class="text-muted">DELETE: <a href="http://127.0.0.1:8000/api/artigo/1" class="text-decoration-none" target="_blank">http://127.0.0.1:8000/api/artigo/1</a></span></li>
+                <li>No Postman, testar API para remover o artigo 1:<br><span class="text-muted">DELETE: <a href="http://localhost:8000/api/artigo/1" class="text-decoration-none" target="_blank">http://localhost:8000/api/artigo/1</a></span></li>
             </ol>
         </div>
     </div>
