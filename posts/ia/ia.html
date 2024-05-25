@@ -43,8 +43,8 @@
             <ul>
                 <li><a class="text-decoration-none" href="https://github.com/mateusschwede/ia/tree/main/iaUdemy" target="_blank">Github do projeto</a></li>
                 <li><a class="text-decoration-none" href="https://colab.research.google.com/drive/1SnsJEDRxizpwff6K0JFEFHoBtXR5NT9y?usp=sharing" target="_blank">Códigos (Colab)</a></li>
-                <li><a class="text-decoration-none" href="https://www.kaggle.com/laotse/credit-risk-dataset" target="_blank">Dataframe risco de crédito (credit data)</a></li>
-                <li><a class="text-decoration-none" href="https://archive.ics.uci.edu/ml/datasets/adult" target="_blank">Dataframe censo</a></li>
+                <li><a class="text-decoration-none" href="https://www.kaggle.com/laotse/credit-risk-dataset" target="_blank">Dataset risco de crédito (credit data)</a></li>
+                <li><a class="text-decoration-none" href="https://archive.ics.uci.edu/ml/datasets/adult" target="_blank">Dataset censo</a></li>
             </ul>
         </div>
 
@@ -99,7 +99,7 @@
                 <li><b>Sumarização</b>: Abstrair dados de um grupo maior, conforme atributos solicitados (ex: BD de clientes, exibir somente cliente maiores de 50 anos);</li>
             </ul>
 
-            <p>Aprendizagem supervisionada: Classificar se foto refere-se ao Homer ou Bart Simpson. Fase 1 (treino), extraem-se as características de Homer e Bart (montagem do dataframe - tabela com dados), após executa-se algoritmo ML (via supervisor), criando-se padrões de Homer e Bart, então tem-se modelo aprendido (distingue-se fotos de Homer e Bart). Fase 2 (teste), sumete-se foto desconhecida, para modelo distinguir se é Homer ou Bart.</p>
+            <p>Aprendizagem supervisionada: Classificar se foto refere-se ao Homer ou Bart Simpson. Fase 1 (treino), extraem-se as características de Homer e Bart (montagem do dataset - tabela com dados), após executa-se algoritmo ML (via supervisor), criando-se padrões de Homer e Bart, então tem-se modelo aprendido (distingue-se fotos de Homer e Bart). Fase 2 (teste), sumete-se foto desconhecida, para modelo distinguir se é Homer ou Bart.</p>
             <p>Aprendizagem não supervisionada: Análise automática dos dados (associação, agrupamento), sem supervisão, nem treinamento prévio (predição). Necessita somente descrição dos dados (descritiva) e análise para determinar significado dos padrões encontrados (verificar se resultados são pertinentes). Ex: se pessoa que compra x também compra y, então pessoas que comprarão x também comprarão y.</p>
             <p>Aprendizagem por reforço: Aprender com interações do ambiente (causa e efeito), via experiência própria. Muito utilizada em SMA (sistema multiagente, com vários agentes interagindo no ambiente). Ex: robô automatizado bate em parede e danifica-se. Então, concluirá que deve evitar bater em paredes.</p>
 
@@ -168,10 +168,8 @@ import matplotlib.pyplot as plt #gráficos
 import plotly.express as px
 </code></pre></small>
 
-            <!------------------------->
-            <br><h5>Base de Dados (Risco de Crédito - Credit Data)</h5>
-            <p class="text-muted" id="textoPost">Objetivo da IA é dizer se a pessoa, de acordo com suas condições, pagará ou não o crédito (default 0 ou 1).</p>
-            <a class="btn btn-link text-decoration-none" href="https://github.com/mateusschwede/ubsocialIA/blob/main/Bases%20de%20dados.zip" target="_blank">Acessar BD Risco de Crédito (credit_data.csv)</a>
+            <br><h5>Dataset (risco de crédito - credit data)</h5>
+            <p id="textoPost">Objetivo da IA é informar se cliente, conforme condições, pagará (default 0) ou não (default 1) o crédito.</p>
             <div class="table-responsive">
                 <table class="table table-bordered table-sm">
                     <thead>
@@ -204,30 +202,29 @@ import plotly.express as px
                     </tbody>
                 </table>
             </div>
-            <small class="text-muted">index (Número do registro no dataframe)<br>clientid - <i>Variável categórica nominal</i><br>income (Renda anual) - <i>Variável numérica contínua</i><br>age - <i>Variável numérica contínua</i><br>loan (Dívida) - <i>Variável numérica contínua</i><br>Default 0: Pagou o empréstimo - <i>Variável numérica discreta</i><br>Default 1 (Devendo): Não pagou o empréstimo - <i>Variável numérica discreta</i></small>
             
-            <br><br><p><b>2. Exploração dos dados:</b></p>
+            <p><b>2. Exploração dos dados:</b></p>
 <small><pre><code>
-base_credit = pd.read_csv('/content/credit_data.csv') <span class="text-muted">#Upload no Colab do CSV com dados (Atente-se ao local do upload '/content/')</span>
-base_credit <span class="text-muted">#Ver dados</span>
-base_credit_head(10) <span class="text-muted">#Ver 10 primeiros dados</span>
-base_credit.tail(8) <span class="text-muted">#Ver 8 últimos dados</span>
-base_credit.describe() <span class="text-muted">#Mostrará, para cada atributo numérico: count (Quantidade total), mean (Média), sid (Desvio padrão - Variação/afastamento dos dados em relação ao valor da média), min/25%/50%/75%/max (Quartis - Valores mínimos/percentuais/máximos)</span>
-base_credit[base_credit['income'] == 1000.00] <span class="text-muted">#Mostrar pessoa com renda 1000.00</span>
-base_credit[base_credit['loan'] &gt;= 1.377] <span class="text-muted">#Mostrar pessoa com dívida menor ou igual a 1.377</span>
+base_credit = pd.read_csv('/content/credit_data.csv') #upload do arquivo CSV (atente-se ao local do upload '/content/')
+base_credit #ver dados
+base_credit_head(10) #ver 10 primeiros dados
+base_credit.tail(8) #ver 8 últimos dados
+base_credit.describe() #mostrar, para cada atributo numérico: count (quantidade total), mean (média), sid (desvio padrão - variação/afastamento dos dados em relação ao valor da média), min/25%/50%/75%/max (quartis - valores mínimos/percentuais/máximos)
+base_credit[base_credit['income'] == 1000.00] #mostrar pessoa com renda 1000.00
+base_credit[base_credit['loan'] &gt;= 1.377] #mostrar pessoa com dívida menor ou igual a 1.377
 </code></pre></small>
             
             <p><b>3. Visualização em gráficos:</b></p>
 <small><pre><code>
-np.unique(base_credit['default']) <span class="text-muted">#Mostrar quais os números presentes nessa classe (0 quando a pessoa paga o empréstimo, 1 quando não paga o empréstimo)</span>
-np.unique(base_credit['default'], return_counts=True) <span class="text-muted">#Ver quantos registros possui cada classe (Zeros e Uns)</span>
-sns.countplot(x = base_credit['default']); <span class="text-muted">#Mostrar dados acima em gráfico de barras (Gráfico 1)</span>
-plt.hist(x = base_credit['age']); <span class="text-muted">#Gerará gráfico histograma, separados em classes/intervalos de idades (Gráfico 2)</span>
-plt.hist(x = base_credit['income']); <span class="text-muted">#Gráfico histograma de renda (Gráfico 3)</span>
-plt.hist(x = base_credit['loan']); <span class="text-muted">#Gráfico histograma de dívida (Gráfico 4)</span>
+np.unique(base_credit['default']) #mostrar tipos de valores do 'default'
+np.unique(base_credit['default'], return_counts=True) #quantidades de valores do 'default'
+sns.countplot(x = base_credit['default']); #gráfico de contagem (img1)
+plt.hist(x = base_credit['age']); #histograma intervalos de 'age' (img2)
+plt.hist(x = base_credit['income']); #histograma 'income' (img3)
+plt.hist(x = base_credit['loan']); #histograma 'loan' (img4)
 
-grafico = px.scatter_matrix(base_credit, dimensions=['age','income','loan'], color='default') <span class="text-muted">#Gráfico dinâmico scatter (Dispersão) que combina os atributos de acordo com 'default' (Pagou/Devendo)</span>
-grafico.show() <span class="text-muted">#Imagem dos gráficos com colorações internas</span>
+grafico = px.scatter_matrix(base_credit, dimensions=['age','income','loan'], color='default') #gráfico scatter (dispersão), combina atributos conforme 'default' (coloração interna)
+grafico.show()
 </code></pre></small>
             <img src="snsGrafico1.jpg" title="sns.countplot(x = base_credit['default'])" class="img-fluid rounded" width="230px">
             <img src="pltGrafico1.jpg" title="plt.hist(x = base_credit['age'])" class="img-fluid rounded" width="230px">
@@ -235,6 +232,7 @@ grafico.show() <span class="text-muted">#Imagem dos gráficos com colorações i
             <img src="pltGrafico3.jpg" title="plt.hist(x = base_credit['loan'])" class="img-fluid rounded" width="230px">
             <br><img src="pxGrafico1.jpg" title="px.scatter_matrix" class="img-fluid rounded" width="800px">
 
+            <!------------------------->
             <br><br><p><b>4.1. Tratamento de valores inconsistentes:</b></p>
             <p id="textoPost">No gráfico acima, existem idades negativas, ou seja, valores inconsistentes.</p>
 <small><pre><code>
