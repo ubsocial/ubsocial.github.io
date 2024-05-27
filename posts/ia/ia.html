@@ -58,7 +58,7 @@
                         <li><a class="text-decoration-none" href="#contNaiveBayes">Naïve Bayes</a></li>
                         <li><a class="text-decoration-none" href="#contArvoreDecisao">Árvore de Decisão</a></li>
                         <li><a class="text-decoration-none" href="#contAprendPorRegras">Aprendizagem por Regras</a></li>
-                        <li class="text-warning">Sumário em contrução</li>
+                        <li class="text-warning">Sumário em construção</li>
                     </ul>
                 </li>
             </ul>
@@ -103,6 +103,36 @@
             <p>Aprendizagem supervisionada: Classificar se foto refere-se ao Homer ou Bart Simpson. Fase 1 (treino), extraem-se as características de Homer e Bart (montagem do dataset - tabela com dados), após executa-se algoritmo ML (via supervisor), criando-se padrões de Homer e Bart, então tem-se modelo aprendido (distingue-se fotos de Homer e Bart). Fase 2 (teste), sumete-se foto desconhecida, para modelo distinguir se é Homer ou Bart.</p>
             <p>Aprendizagem não supervisionada: Análise automática dos dados (associação, agrupamento), sem supervisão, nem treinamento prévio (predição). Necessita somente descrição dos dados (descritiva) e análise para determinar significado dos padrões encontrados (verificar se resultados são pertinentes). Ex: se pessoa que compra x também compra y, então pessoas que comprarão x também comprarão y.</p>
             <p>Aprendizagem por reforço: Aprender com interações do ambiente (causa e efeito), via experiência própria. Muito utilizada em SMA (sistema multiagente, com vários agentes interagindo no ambiente). Ex: robô automatizado bate em parede e danifica-se. Então, concluirá que deve evitar bater em paredes.</p>
+            
+            <br><u>Etapas modelo preditivo</u>:
+            <ol>
+                <li>Coleta de dados (via BD, CSV, big data, etc);</li>
+                <li>Exploração e preparação dos dados (criação do algoritmo para tal);
+                    <ol>
+                        <li>Importar bibliotecas;</li>
+                        <li>Upload do dataset e exploração dos dados brutos;</li>
+                        <li>Visualização dos atributos ordenadamente e em gráficos, a fim de encontrar relações entre previsores;</li>
+                        <li>Separação entre previsores(x) e classes(y);</li>
+                        <li>Tratamento dos dados (valores faltantes, valores inconsistentes(outliers, normalization, standardisation, tipos diferentes));</li>
+                        <li>Divisão dados treinamento (x_train(previsores), y_train(classes)) e teste (x_test(previsoes) e y_test(classes));</li>
+                        <li>Criação do algoritmo IA.</li>
+                    </ol>
+                </li>
+                <li>Treinamento do modelo (submeter dados de treinamento (x_train e y_train) ao algoritmo IA);</li>
+                <li>Avaliação do modelo (comparar dados submetidos de treinamento (x_train e y_train), com dados de teste (x_test e y_test), para identificar precisão de acerto do algoritmo IA);</li>
+                <li>Otimização do modelo (otimizar algoritmo IA, com melhores dados de treinamento, re-verificar precisão do algoritmo IA).</li>
+            </ol>
+
+            <br><u>Termos chave</u>:
+            <ul>
+                <li>Outliers: Dados com muita discrepância de valor (necessário tratamento);</li>
+                <li>Normalization: Colocar dados entre intervalo de valores menor, como 0 e 1, ou -1 e 1 (caso haja valores negativos), sem distorcer diferenças nas faixas de valores (diminuir discrepância de valores). Não indicado para corrigir outliers. Ideal para aplicação quando distribuição não é Gaussiana ou desvio padrão é muito pequeno. Garante maior accuracy ao modelo;</li>
+                <li>Standardisation: Colocar média dos dados em 0 e o desvio padrão em 1. Melhor utilizado em distribuição Gaussiana. Mais indicado para tratamento de outliers. Garante maior accuracy ao modelo;</li>
+                <li>Gráficos, geralmente eixo y (vertical) e eixo x (horizontal). Normalization e standardisation achatam gráfico horizontalmente (eixo x). Remoção de outliers reduzem gráfico verticalmente (eixo y);</li>
+                <li>Algoritmos que precisam dos dados na mesma escala: KNN (K-Nearest Neighbours), Redes Neurais, Regressão Linear, Regressão Logística e SVM;</li>
+                <li>Algoritmos que não precisam dos dados na mesma escala: Árvores de Decisão, Random Forest, AdaBoost, Naïve Bayes, etc (porém, aconselhável testar a normalização ou padronização);</li>
+                <p class="text-warning">Em construção. <!--Ver meu slide Cap4 (slide6)--></p>
+            </ul>
 
 
             <br><hr><h4 id="contClassificacao">===== CLASSIFICAÇÃO =====</h4>
