@@ -107,6 +107,11 @@ CMD flask run --host 0.0.0.0
 <b>Ver logs do container:</b> docker logs idContainer
 <b>Remover container parado:</b> docker rm idContainer (-f para em execução, excluir manterá imagens)
 <b>Remover todos containers:</b> docker rm -f $(docker ps -qa) (-q é quit, mostra somente id's dos containers)
+<b>Criar rede em container:</b> docker network create nomeRede
+<b>Listar redes:</b> docker network ls
+<b>Conectar container a rede:</b> doker network connect nomeRede idContainer (disconnect para desconectar)
+<b>Remover todos containers, imagens e redes parados:</b> docker system prune
+<b>Remover todos containers parados:</b> docker container prume ('images' para imagens, 'volume' para volumes)
 
 <u>PARÂMETROS</u>:
 <b>-f</b>: especifica dockerfile
