@@ -44,9 +44,9 @@
             <h4>Introdução</h4>
             <ol>
                 <b><u>Instalar Django</u>:</b>
-                <li><b>Pré-requisito (Pip):</b> sudo apt install python3-pip</li>
-                <li><b>Instalar Django:</b> pip3 install django</li>
-                <br><b><u>Criar usuário Django admin</u> (Opcional):</b>
+                <li><b>Pré-requisito (pip):</b> sudo apt install python3-pip</li>
+                <li><b>Instalar ecossistema Django:</b> pip3 install django djangorestframework markdown django-filter --break-system-packages</li>
+                <br><b><u>Criar usuário Django admin</u> (opcional):</b>
                 <li><b>Cadastrar usuário no dashboard Django admin:</b> python3 manage.py createsuperuser <span class="text-muted">#Informar dados do usuário</span></li>
                 <li><b>Acessar dashboard Django admin:</b> <a href="http://localhost:8000/admin" class="text-decoration-none" target="_blank">localhost:8000/admin</a></li>
                 <br><b><u>Iniciar projeto Django</u>:</b>
@@ -54,8 +54,8 @@
                 <li><b>Na pasta do projeto, criar aplicação:</b> python3 manage.py startapp nomeApp</li>
                 <li><b>Em 'pastaApp/settings.py':</b> Inserir o nome da App, conforme criado acima, como último elemento do array em INSTALLED_APPS</li>
                 <li>Realizar a programação, com seu código</li>
-                <li><b>Criar Migrations:</b> python3 manage.py makemigrations</li>
-                <li><b>Executar Migrations:</b> python3 manage.py migrate</li>
+                <li><b>Criar migrations:</b> python3 manage.py makemigrations</li>
+                <li><b>Executar migrations:</b> python3 manage.py migrate</li>
                 <li><b>Executar projeto:</b> python3 manage.py runserver <span class="text-muted">#Acesso padrão em <a href="http://localhost:8000" class="text-decoration-none" target="_blank">localhost:8000</a></span></li>
             </ol>
 
