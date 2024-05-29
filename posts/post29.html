@@ -5,8 +5,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="../../icons/logoTit.png">
-    <link rel="stylesheet" href="../../estilo.css">
+    <link rel="shortcut icon" href="../icons/logoTit.png">
+    <link rel="stylesheet" href="../estilo.css">
     <title>UB Social</title>
 </head>
 <body>
@@ -17,13 +17,13 @@
         <div class="col-sm-12">
             <nav class="navbar rounded-bottom fixed-top navbar-expand-lg navbar-light bg-light shadow">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="../../index.html"><img src="../../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
+                    <a class="navbar-brand" href="../index.html"><img src="../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav">
-                            <li class="nav-item"><a class="nav-link" href="../../index.html">Home</a></li>
-                            <li class="nav-item"><a class="nav-link" href="../../sobre/sobre.html">Sobre</a></li>
-                            <li class="nav-item"><a class="nav-link" href="../../livros/livros.html">Livros</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../sobre/sobre.html">Sobre</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../livros/livros.html">Livros</a></li>
                         </ul>
                     </div>
                 </div>
@@ -33,33 +33,34 @@
 
     <div class="row">
         <div class="col-sm-12 text-center" id="titulo">
-            <img src="pycharm.jpg" class="img-fluid rounded mb-3" width="400px">
-            <h1>PyCharm no Linux</h1>
-            <h6><strong>Instalação do PyCharm Community no Linux</strong></h6>
-            <a href="../../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
+            <h1>Weka no Linux</h1>
+            <h6><strong>Instalação do Weka Machine Learning no Linux</strong></h6>
+            <a href="../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
         </div>
 
         <div class="col-sm-12">
             <h4>Passo a passo:</h4>
             <ol>
-                <li><b>Pré-requisitos</b> (deb): <i class="text-muted">sudo apt install python3-dev python3-venv wget</i></li>
-                <li>cd Downloads && wget https://download.jetbrains.com/python/pycharm-community-2022.2.1.tar.gz</li>
-                <li>tar xvzf pycharm-community*.tar.gz && mv pycharm-community*/ pycharm-community</li>
-                <li>sudo mv pycharm-community /opt</li>
-                <li>sudo ln -s /opt/pycharm-community/bin/pycharm.sh /usr/bin/pycharm</li>
-                <li><b>Atalho</b>: sudo nano /usr/share/applications/jetbrains-pycharm-ce.desktop
+                <li><b>Pré-requisito</b> (deb): <i class="text-muted">sudo apt install default-jdk</i></li>
+                <li>Baixar, na pasta Downloads, Weka oficial (.zip) e extraí-la: <a href="https://prdownloads.sourceforge.net/weka/weka-3-8-6-azul-zulu-linux.zip" class="text-decoration-none" target="_blank">Acesse</a></li>
+                <li>Permitir execução: sudo chmod +x /home/<b>SEUUSUARIO</b>/Downloads/weka-3-8-6/weka.sh
+                    <ul>
+                        <li><span class="text-muted"><small>Verifique a versão da pasta gerada para alterá-la nos códigos (Nesse caso foi 'weka-3-8-6')</small></span></li>
+                    </ul>
+                </li>
+                <li><b>Criar atalho</b>: sudo nano /usr/share/applications/weka.desktop
                     <small><pre><code>
 <span class="text-muted">Inserir o seguinte conteúdo no arquivo. Ctrl+k para fechar, e salvá-lo</span>
 [Desktop Entry]
-Version=1.0
-Type=Application
-Name=PyCharm Community Edition
-Icon=/opt/pycharm-community/bin/pycharm.png
-Exec="/opt/pycharm-community/bin/pycharm.sh" %f
-Comment=PyCharm Community Python IDE
-Categories=Development;IDE;
+Encoding=UTF-8
+Name=Weka
+Comment=Machine learning algorithms for data mining tasks
+Exec=/home/<b>SEUUSUARIO</b>/Downloads/weka-3-8-6/weka.sh
+Icon=/home/<b>SEUUSUARIO</b>/Downloads/weka-3-8-6/weka.ico
 Terminal=false
-StartupWMClass=jetbrains-pycharm-ce
+Type=Application
+StartupNotify=false
+Categories=Development;IDE;Java;
                     </code></pre></small>
                 </li>
             </ol>
