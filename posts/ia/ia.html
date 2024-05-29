@@ -56,8 +56,10 @@
                     <ul>
                         <li><a class="text-decoration-none" href="#contPreProcessamento">Pré-processamento de dados</a></li>
                         <li><a class="text-decoration-none" href="#contNaiveBayes">Naïve Bayes</a></li>
-                        <li><a class="text-decoration-none" href="#contArvoreDecisao">Árvore de Decisão</a></li>
+                        <li><a class="text-decoration-none" href="#contArvoreDecisao">Árvore de decisão (decision tree)</a></li>
                         <li><a class="text-decoration-none" href="#contAprendPorRegras">Aprendizagem por Regras</a></li>
+                        <li><a class="text-decoration-none" href="#majorityLearner">Majority learner (ZeroR)</a></li>
+                        <li><a class="text-decoration-none" href="#knn">KNN (k-nearest neighbors)</a></li>
                         <li class="text-warning">Sumário em construção</li>
                     </ul>
                 </li>
@@ -112,7 +114,7 @@
                         <li>Importar bibliotecas;</li>
                         <li>Upload do dataset e exploração dos dados brutos;</li>
                         <li>Visualização dos atributos ordenadamente e em gráficos, a fim de encontrar relações entre previsores;</li>
-                        <li>Separação entre previsores(x) e classes(y);</li>
+                        <li>Domain, separação entre previsores(x) e classes(y);</li>
                         <li>Tratamento dos dados (valores faltantes, valores inconsistentes(outliers, normalization, standardisation, tipos diferentes));</li>
                         <li>Divisão dados treinamento (x_train(previsores), y_train(classes)) e teste (x_test(previsoes) e y_test(classes));</li>
                         <li>Criação do algoritmo IA.</li>
@@ -131,6 +133,7 @@
                 <li>Gráficos, geralmente eixo y (vertical) e eixo x (horizontal). Normalization e standardisation achatam gráfico horizontalmente (eixo x). Remoção de outliers reduzem gráfico verticalmente (eixo y);</li>
                 <li>Algoritmos que precisam dos dados na mesma escala: KNN (K-Nearest Neighbours), Redes Neurais, Regressão Linear, Regressão Logística e SVM;</li>
                 <li>Algoritmos que não precisam dos dados na mesma escala: Árvores de Decisão, Random Forest, AdaBoost, Naïve Bayes, etc (porém, aconselhável testar a normalização ou padronização);</li>
+                <li>Evaluation: Avaliação do algoritmo ML, nível de desempenho (acerto) do modelo;</li>
                 <p class="text-warning">Em construção. <!--Ver meu slide Cap4 (slide6)--></p>
             </ul>
 
@@ -881,7 +884,7 @@ print(classification_report(y_census_teste, previsoes))
 </code></pre></small>
 
             <br>
-            <h4 id="contArvoreDecisao">----- Árvore de Decisão -----</h4>
+            <h4 id="contArvoreDecisao">----- Árvore de decisão (decision tree) -----</h4>
             <p id="textoPost">Também conhecida como CART (Classification and Regression Trees), consiste em gerar, recursivamente, árvore de possibilidades (IF's), onde a classificação de submissões traça o caminho na árvore, até chegar à conclusão (Nó folha), ou seja, o atributo classe de resposta previsto. Em alguns casos, o próprio algoritmo dispensa alguns atributos, considerados não pertinentes para a previsão. Serão elencados, ordenadamente, os atributos com maior importância até os de menor importância, sendo esse ordenamento a conclusão gerada através dos treinamentos do algoritmo. Entre as vantagens de utilizar Árvore de Decisão, tem-se a dispensa de normalização e padronização dos atributos. Como desvantagens, tem-se casos de geração de Árvores muito complexas (Ramos muito específicos - overfitting), problema NP-completo (Complexo) para construir a Árvore, e tal algoritmo é bastante antigo (Usado nos anos 90. Com o passar dos anos, foram aplicadas melhorias, como Random Forest (Florestas Randômicas) para melhor desempenho).</p>
             <img src="arvoreDecisao.png" class="img-fluid rounded" width="500px">
             <p id="textoPost">A construção da árvore é baseada nas fórmulas da Entropy (Entropia) e Gain (Ganho de informação), ou seja, é através desses 2 cálculos define-se a pertinência dos atributos para posterior ordenamento na árvore. Utilizando como exemplo os dados da base de risco de crédito (<a href="#tabRiscoCredito" class="text-decoration-none">Aqui</a>). Nela tem-se (Alto=6/14), (Moderado=3/14) e (Baixo=5/14). Tais dados são colocados na fórmula da Entropia, a fim de medir o quão organizados/desorganizados os dados estão na sua respectiva base de dados. No caso, a Entropia Geral é de 1,53. Com isso, calcula-se os Ganhos de Informação (G) de todos atributos envolvidos, onde o resultado será o nível de pertinência dos mesmos. Quanto menor o valor da Entropia do atributo, melhor será a distribuição dos dados, ou seja, mais fácil/claro, estatisticamente, para classificar o registro. Atributos com valor de Ganho de Informação baixo tendem a serem excluídos da árvore (Como, no exemplo em questão, a dívida). Abaixo dos cálculos, segue imagem com exemplo visual da construção parcial da árvore.</p>
@@ -1497,8 +1500,40 @@ Orange.evaluation.CA(previsoes) <span class="text-muted">#(97,4%) CA para 'Class
             <img src="orange9.png" class="img-fluid rounded" width="600px"><br><br>
             <img src="orange10.png" class="img-fluid rounded" width="600px"><br><br>
             
-            <br><h5>Majority learner</h5>
-            <!--VER 64-->
+            <br>
+            <h4 id="majorityLearner">----- Majority learner (ZeroR) -----</h4>
+            <p id="textoPost">Classificar dados conforme histórico de treino. Exemplo, maioria dos clientes do banco x pagam empréstimo, então novo cliente do banco x será classificado como pagador. Algoritmo muito utilizado para avaliar outros algoritmos ML.</p>
+            <br><h5>Base de Dados (Risco de Crédito - credit data)</h5>
+<small><pre><code>
+base_credit = Orange.data.Table('credit_data_regras.csv') #via biblioteca orange
+base_credit.domain
+majority = Orange.classification.MajorityLearner() #criar algoritmo ML
+previsoes = Orange.evaluation.testing.TestOnTestData(base_credit, base_credit, [majority]) #treinar e testar mesma base_credit, via majority (dispensará treinamento)
+Orange.evaluation.CA(previsoes) #avaliação de aprox 86%
+
+for registro in base_credit: #valores da classe
+    print(registro.get_class())
+
+from collections import Counter
+Counter(str(registro.get_class()) for registro in base_credit) #contagem de tipos de valores da classe (valContagemMaioria/valTotal=evaluationModelo)
+#Nesse dataset, se algoritmo ML acertar menos que 85%, deve ser descartado. Do contrário, pode ser mantido
+</code></pre></small>
+
+            <br><h5>Base de Dados (Censo)</h5>
+<small><pre><code>
+base_census = Orange.data.Table('census_regras.csv')
+base_census.domain
+majority = Orange.classification.MajorityLearner()
+previsoes = Orange.evaluation.testing.TestOnTestData(base_census, base_census, [majority])
+Orange.evaluation.CA(previsoes) #avaliação de aprox 76%
+
+Counter(str(registro.get_class()) for registro in base_census)
+</code></pre></small>
+
+            <br>
+            <h4 id="knn">----- KNN (k-nearest neighbors) -----</h4>
+            <p id="textoPost">Aprendizagem baseada em instâncias.</p>
+            <!-- VER udemy68 -->
         </div>
     </div>
 
