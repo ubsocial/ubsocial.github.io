@@ -1532,8 +1532,15 @@ Counter(str(registro.get_class()) for registro in base_census)
 
             <br>
             <h4 id="knn">----- KNN (k-nearest neighbors) -----</h4>
-            <p id="textoPost">Aprendizagem baseada em instâncias.</p>
-            <!-- VER udemy68 -->
+            <p id="textoPost">Algoritmo de aprendizagem baseada em instâncias (k-ésimo vizinho mais próximo). Classificará dado x conforme outro dado y já classificado no dataset, que possui previsores de valores mais próximos aos do dado x, via menor valor de cálculo de distância euclidiana. Parâmetro k indica quantidade de vizinhos mais próximos para determinar classificação no algoritmo. Se dado x, com k=2, onde os vizinhos mais próximos são diferentes, então há possibilidade de x ser um dos dois (empate, pode ser resolvido escolhendo vizinho mais próximo). Se dado x, em k=3, onde vizinhos 2 e 3 são iguais, então x será como 2 e 3, pois há mais vizinhos próximos com essa classificação. Valor k muito elevado, tende a diminuir a accuracy de classificação. Algoritmo KNN não constrói modelo para classificar (lazy), somente realiza cálculo de distância euclidiana. Quanto menor a distância euclidiana, maior a proximidade (similaridade) entre elementos. KNN é usado em sistemas de recomendações, como filtragem colaborativa.</p>
+            <p>Distância euclidiana calcula proximidade entre vetores, como x e y.</p>
+            <ol>Exemplo x=5,7,9 e y=5,5,5 onde p é valor inicial, ou seja, quantidade de registros (3 registros) e i é valor final, posição (xi é valor na mesma posição que yi).
+                <li>Subtração dos valores (5-5=0 e 7-5=2 e 9-5=4)</li>
+                <li>Elevação ao quadrado (0²=0 e 2²=4 e 4²=16)</li>
+                <li>Somatório (0+4+16=20)</li>
+                <li>Raíz quadrada (raíz(20)=4,47) é a distância euclidiana</li>
+            </ol>
+            <!-- Ver udemy70 -->
         </div>
     </div>
 
