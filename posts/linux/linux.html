@@ -301,7 +301,7 @@
                     <h5>Tipos:</h5>
                     <ul>
                         <li><b>Usuário comum/padrão/regular</b> ($): (UID/GID 1000 à 60000, alguns iniciam em 500) é o padrão para utilização do GNU/Linux, possui restrições de gerenciamento sensíveis ao sistema, shell padrão (bash) e diretório home (/home);</li>
-                        <li><b>Usuário de sistema</b>: (UID/GID 1 à 99, ou entre 500-1000) é fictício, criado durante a instalação de algum script, para execução de processos, não possuindo capacidade de login no sistema. Geralmente não possui shell (/sbin/nologin), nem diretório home (caso possuir, geralmente não está vinculado a '/home');</li>
+                        <li><b>Usuário de sistema</b>: (UID/GID 1 à 99, ou entre 500-1000) é fictício, criado durante a instalação de algum script, para execução de processos, não possuindo capacidade de login no sistema. Geralmente não possui shell (/sbin/nologin ou /bin/false), nem diretório home (caso possuir, geralmente não está vinculado a '/home');</li>
                         <li><b>Usuário de serviço</b>: (UID/GID 1000 à 60000 vinculado a conta de serviço) é fictício, similar ao de sistema (diferencia-se nos identificadores), criado para instalação e configuração de serviços no sistema;</li>
                         <li><b>Administrador</b> (root, #): (UID/GID 0), é o super user possui permissão total de gerenciamento do sistema. O root (<b>sudo</b>, super user do) é o único usuário com permissão de gerenciamento fora de seu diretório home, total ao sistema. Possui diretório home dedicado (/root).</li>
                     </ul>
