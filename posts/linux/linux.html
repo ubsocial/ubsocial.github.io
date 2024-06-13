@@ -377,22 +377,44 @@ addgroup financeiro
             <div class="card mb-4">
                 <h4 class="card-header">Rede</h4>
                 <div class="card-body">
-                    <h5>Tipos de internet protocol:</h5>
+                    <h5>Conceitos:</h5>
                     <ul>
-                        <li>IPv4:
+                        <li><b>IP</b>: internet protocol (protocolo de rede), nº identificar único gerado, pelo servidor DHCP, para cada dispositivo ativo na mesma rede ativa (sintaxe: 'ip:porta');
                             <ul>
-                                <li>IPs públicos (válidos na internet) e privados (inválidos na internet) diferentes;</li>
-                                <li>Possui Nat e classes de rede;</li>
-                                <li>Localhost: 127.0.0.1</li>
+                                <li>IPv4:
+                                    <ul>
+                                        <li>IPs públicos (válidos na internet) e privados (inválidos na internet) diferentes;</li>
+                                        <li>Possui Nat e classes de rede;</li>
+                                        <li>Localhost: 127.0.0.1</li>
+                                        <li>Exemplo: 192.0.2.146</li>
+                                    </ul>
+                                </li>
+                                <li>IPv6:
+                                    <ul>
+                                        <li>IPs públicos e privados iguais;</li>
+                                        <li>Não possui Nat e classes de rede;</li>
+                                        <li>Localhost: ::1</li>
+                                        <li>Exemplo: 2001:db8:3333:4444:5555:6666:7777:8888</li>
+                                    </ul>
+                                </li>
                             </ul>
                         </li>
-                        <li>IPv6:
-                            <ul>
-                                <li>IPs públicos e privados iguais;</li>
-                                <li>Não possui Nat e classes de rede;</li>
-                                <li>Localhost: ::1</li>
-                            </ul>
-                        </li>
+                        <li><b>Host</b>: Dispositivo em rede. Localhost é o dispositivo local na própria rede, com IP 127.0.0.1;</li>
+                        <li><b>TCP</b>: transmission control protocol (protocolo de controle de transmissão), padrão de comunicação para entrega de dados e mensagens em rede, via IP (TCP/IP);</li>
+                        <li><b>UDP</b>: user datagram protocol (protocolo de datagrama do usuário). O TCP é orientado à conexão e fornece comunicação confiável aos recursos, enquanto o UDP é de transporte em tempo real sem conexão, oferece comunicação mais rápida, mas com pouca confiabilidade;</li>
+                        <li><b>MAC address</b>: media access control (endereço MAC) é número identificador única das placas físicas de rede do dispositivo;</li>
+                        <li><b>VPN</b>: virtual private network (rede privada virtual), serviço que fornece "túnel" criptografado entre host-alvo (oculta IP à rede pública), para navegação protegida;</li>
+                        <li><b>Firewall</b>: dispositivo de rede (programa ou equipamento físico) com objetivo de aplicar políticas/regras (rules) de segurança aos pontos da rede, geralmente associados a redes TCP/IP;</li>
+                        <li><b>DHCP</b>: dynamic host configuration protocol (protocolo de configuração dinâmica de host), é protocolo TCP/IP que fornece configuração dinâmica de terminais, com concessão de IPs de hosts, máscara de sub-rede, default gateway (gateway padrão), IP de 1 ou mais servidores DNS, sufixos de pesquisa do DNS e número IP de um ou mais servidores WINS. Um servidor DHCP tem objetivo principal de prover IPs aos dispositivos ativos em sua rede;</li>
+                        <li><b>DNS</b>: domain name system (sistema de nomes de domínio) é sistema hierárquico e distribuído de gestão de nomes para dispositivos e serviços conectados a rede (pública ou privada). Exemplo: IP Amazon 192.0.2.44, DNS do IP da Amazon é www.amazon.com;</li>
+                        <li><b>Gateway</b> (conversor de protocolo): pedaço de hardware (ex: roteador), que intermedia (interface) de conexões entre redes. Ou seja, ponto de entrada/saída que conecta 2 ou mais IPs, por meio de sequência numérica;</li>
+                        <li><b>Broadcast</b>: endereço lógico onde todos dispositivos nas rede ficam habilitados a receber datagramas. Uma mensagem enviada ao endereço broadcast, será replicada a todos dispositivos conectados ao mesmo;</li>
+                        <li><b>Unicast</b>: mesmo que broadcast, porém usado para único dispositivo;</li>
+                        <li><b>Multicast</b>: mesmo que broadcast, porém usado para grupo específico de dispositivos;</li>
+                        <li><b>Rede tipo NAT</b>: network address translation - masquerading (tradução de endereço de rede) consiste em reescrever, via tabela hash, os IPs de origem de um pacote que passam por um router ou firewall de maneira que um dispositivo de rede interna tenha acesso ao exterior;</li>
+                        <li><b>Rede tipo bridge</b> ()ponte: desativa o NAT no dispositivo, permitindo que o mesmo funcione como servidor DHCP, evitando conflito de IP;</li>
+                        <li><b>Netmask</b>: máscara de rede e subnet mask (máscara de sub-rede), identificador (255.255.225.x/x) sob um IP para separar partes da rede em pública, sub-rede e hosts, onde o dispositivo roteador a utilizará para encaminhar pacotes de dados (datagramas) ao local correto. Sub-rede é divisão de rede. Cálculo de netmask (máscara e sub-rede) conciste em converter número binário no padrão acima, ou inverso;</li>
+                        <li><b>Datagram</b>: datagrama é segmento de dados enviados por rede comutada por pacotes.</li>
                     </ul>
 
                     <h5>Arquivos:</h5>
