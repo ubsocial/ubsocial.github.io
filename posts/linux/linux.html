@@ -238,7 +238,7 @@
                 <h4 class="card-header">File systems e devices</h4>
                 <div class="card-body">
                     <h5>File systems:</h5>
-                    <p>File system tem objetivo de gerenciar os bytes de dados no dispositivo.</p>
+                    <p>File system tem objetivo de gerenciar os bytes de dados no dispositivo. Os <b>inodes</b> (index node - nó de índice - nó-i) são elementos de filesystem para armazenar metadados (dados sobre dados, como datas de modificações, diretório de localização, usuário proprietário, etc) de arquivos, através da tabela dos inodes. Comando 'ls -i' mostrará arquivos e inodes. No EXT4, os inodes são criados quando o file system é criado (na instalação da distro), onde há quantidade fixa de inodes no disco (limitada), conforme tamanho dos blocks do file system. Mesmo o disco possuindo mais espaço físico do que inodes, a partir do momento que todos inodes serem preenchidos, não haverá mais espaço para armazenamento. File systems como ZFS, NTFS e BTRFS realizam criação dinâmica de inodes, conforme criação de arquivos no sistema, evitando esgotamento de armazenamento. Quantidade de inodes e blocks é informada via comando 'tune2fs -l /dev/nomeParticaoOuDisco' ou 'df -i'. Função do comando 'ls' é exibir, de forma legível, informações dos inodes. Os inodes em conjunto são como "mapa" dos arquivos no disco, indicando suas posições na estrutura do file system. O <b>superblock</b> (superbloco) é block master, com informações críticas do file system, também usado para unir todos inodes no mesmo. GNU/Linux mantém cópia do superblock em cada file system. Conteúdo de superblock é visto via comando 'dumpe2fs /dev/dev/nomeParticaoOuDisco' ou 'dumpe2fs /dev/dev/nomeParticaoOuDisco | grep superblock'. Backups do superblock são encontrados nos arquivos com blocos de 1K no inode 8193, com blocos de 2K no 16384, e com blocos de 4K no 32768.</p>
                     <ul>
                         <u>Microsoft</u>:
                         <li><b>FAT32</b> (File allocation table): Utilizado em Windows, não suporta journaling;</li>
@@ -443,7 +443,7 @@ gateway 192.168.0.1
 
 <b>Ex: Incluir placa virtual de rede em '/etc/network/interfaces'</b>
 auto nomePlaca:0
-iafce nomePlaca:0 inet static
+iface nomePlaca:0 inet static
 address 10.11..12.13
 netmask 255.255.255.0
 (<span class="text-muted">Sair do arquivo, reiniciar service (sudo systemctl restart networking) e verificar com 'ip a'</span>)
@@ -501,10 +501,12 @@ nameserver dnsSecundario
                     </ol>
                     <u>Permitir SSH via root</u>:
                     <ol>
+                        <u>No client</u>:
                         <li>Na VM, abrir arquivo de configuração: <span class="text-muted">nano /etc/ssh/sshd_config</span></li>
                         <li>Nesse arquivo, descomentando a linha desejada, pode-se alterar as configurações ssh</li>
                         <li>Modificar linha PermitRootLogin para 'PermitRootLogin yes'</li>
                         <li>Reiniciar rede: <span class="text-muted">systemctl restart networking</span></li>
+                        <u>No server</u>:
                         <li>Conectar: <span class="text-muted">ssh -l root ipVM</span></li>
                         <li>Se alterou porta: <span class="text-muted">ssh -l root piVM -p numPorta</span></li>
                     </ol>
@@ -732,7 +734,7 @@ unalias j <span class="text-muted">(descarta alias)</span>
 <b>Listar diretório e subdiretórios, recursivamente</b>: ls -lR
 <b>Listagem com informações de armazenamento, arquivos ocultos e subdiretórios</b>: ls -Rlah
 <b>Ver diretórios árvore FHS</b>: tree ('tree -L 1 /' nível 1, somente 1 diretório. 2 para diretório e subdiretórios)
-<b>Ver metadados de arquivo</b>: stat nomeArquivo
+<b>Ver metadados de arquivo</b> (via inodes): stat nomeArquivo
 <b>Ver formato de arquivo</b>: file nomeArquivo
 <b>Ver conteúdo de arquivo</b>: cat nomeArquivo ('tac' mostra inversamente)
 <b>Ver contagens de arquivo</b>: wc nomeArquivo (nº de linhas, palavra e bytes, respectivamente)
