@@ -1042,40 +1042,577 @@ Categories=Categoria do binário
                         <li><i>/var/log/syslog</i>: Informações do sistema;</li>
                         <li><i>/var/log/messages</i>: Dados do sistema e binários.</li>
                     </ul>
+                </div>
+            </div>
 
-                    <h5>Shell script:</h5>
-                    <p>Script de execução em shell Linux, em linguagem shell, arquivos com terminação '.sh'. Realizam manipulação em rotinas shell Linux. <span class="text-muted">#!/bin/bash</span> é o shebang (ou sha-bang, hashbang, pound-bang, hash-pling), interpretador do script, gerará um subshell para executar os códigos, não considerado comentário. Para executar shell script sem permissão de execução, deve-se executar '<span class="text-muted">source arquivo.sh</span>' (ou '. arquivo.sh', ou 'bash arquivo.sh'). Também, pode-se atribuir permissão de execução ao mesmo com '<span class="text-muted">chmod a+x arquivo.sh</span>' e executá-lo com '<span class="text-muted">./arquivo.sh</span>' (ou '/home/usuario/arquivo.sh'). Termos entre aspas simples são considerados string como todo. Termos entre aspas duplas consideram valores de variáveis.</p>
-                    Variáveis internas do shell:
-                    <ul>
-                        <li>(<b>$0</b>) Nome do script;</li>
-                        <li>(<b>$1</b>) 1º parâmetro passado depois do script;</li>
-                        <li>(<b>$2</b>) 2º parâmetro passado depois do script;</li>
-                        <li>(<b>$3</b>) 3º parâmetro passado depois do script;</li>
-                        <li>(<b>$9</b>) 9º parâmetro passado depois do script;</li>
-                        <li>(<b>$#</b>) Quantidade de parâmetros passados depois do script;</li>
-                        <li>(<b>$$</b>) PID gerado na execução do script;</li>
-                        <li>(<b>$!</b>) PID do último processo em 2º plano;</li>
-                        <li>(<b>$@</b>) Todos parâmetros passados depois do script;</li>
-                        <li>(<b>$?</b>) Valor de retorno do comando executado.</li>
-                    </ul>
+            <div class="card mb-4">
+                <h4 class="card-header">Shell script</h4>
+                <div class="card-body">
+                    <p id="textoPost">Script de execução em shell GNU/Linux, em linguagem shell, arquivos com terminação '.sh'. Realizam manipulação em rotinas shell Linux. <span class="text-muted">#!/bin/bash</span> ou <span class="text-muted">!/bin/sh</span> é o shebang (ou sha-bang, hashbang, pound-bang, hash-pling), interpretador do script, gerará um subshell para executar os códigos, não considerado comentário. Para executar shell script sem permissão de execução, deve-se executar '<span class="text-muted">source arquivo.sh</span>' (ou '. arquivo.sh', ou 'bash arquivo.sh'). Também, pode-se atribuir permissão de execução ao mesmo com '<span class="text-muted">chmod a+x arquivo.sh</span>' e executá-lo com '<span class="text-muted">./arquivo.sh</span>' (ou '/home/usuario/arquivo.sh'). Scripts são utilizados para automatização de tarefas - como configurar ambiente, executar binários, fazer limpezas, registro, etc. Esss tarefas são conhecidas <b>Shell Wrapper</b>. O Kernel GNU/Linux, a partir da versão 6.1, está sofrendo upgrades através da linguagem <b>Rust</b>, que fornece maior desempenho e segurança. Termos entre aspas simples são considerados string como todo. Termos entre aspas duplas consideram valores de variáveis.</p>
 <small><pre><code>
-<b><u>Shell script para criação de 3 diretórios, arquivo 'teste.sh'</u></b>:
+<b><u>Exemplo de arquivo.sh</u></b>:
 #!/bin/bash
-X=1
-while [ $X -le 3 ];
-do
-    mkdir dir$X
-    echo "dir$X criado"
-    ((X=$X+1))
-done
-echo "Concluído!"
-SAIDA=$( ls -l )
-echo $SAIDA
-<span class="text-muted">#Exemplo comentário</span>
+echo "Seu nome de usuário é:"
+whoami
+# comentário
 
-<b><u>Shell script de input de dado</u></b>:
-read -p "Informe o nome:" NOME
-echo $NOME
+<b>========== SAÍDA DE DADOS ==========</b>
+echo "ola" #com ou sem aspas duplas
+$a = ola2 # variável local
+export $b = 12 # variável global
+echo $a
+echo $HOME ola
+echo "$a, $b" # concatenar variáveis
+echo $a > novoArquivo # redirecionar stdout para arquivo
+echo "O nome da variável é \$nome" # \ é caractere scape, não mostrará variável
+
+<b>========== ENTRADA DE DADOS ==========</b>
+read -p "Digite um nome: " nome
+echo "${nome:=$(whoami)}"
+
+<b>========== TIPOS DE DADOS ==========</b>
+$texto = "ola"
+$numInteiro = 12
+$numReal = 12.41
+$booleano = 0 # 0 para false e 1 para true. Ou pode-se utilizar "false" e "true"
+$lista = (1 2 3 4 5 6 7 8 9)
+$lista2 = ("abc" "def" "ghi")
+frutas=("maçã" "banana" "laranja" "goiaba") # Arrays (listas)
+echo "Todas as chaves: ${!frutas[@]}"
+echo "Todas as frutas (@): ${frutas[@]}"
+echo "Todas as frutas (*): ${frutas[*]}"
+echo "Terceira fruta: ${frutas[2]}" # item 3 do array
+echo "Número de frutas: ${#frutas[@]}" # tamanho array
+
+declare -A dicionario # dicionário: array associativo
+dicionario["Brasil"]="Brasília"
+dicionario["Goiás"]="Goiânia"
+echo ${dicionario["Brasil"]}
+unset dicionario["Goiás"] # apagar chave
+
+# Iterando sobre chaves
+for chave in ${!frutas[@]}; do
+    echo $chave
+done
+
+# Iterando sobre valores
+for valor in ${frutas[@]}; do
+    echo $valor
+done
+
+<b>========== OPERADORES ARITMÉTICOS ==========</b>
+=: igual a (1=1)
+!=: diferente de (1!=2)
+-z: vazio (-z $valor)
+-n: não vazio (-n $valor)
++: adição (1+1)
+-: subtração (2-1)
+/: divisão (12/6)
+*: multiplicação (12*6)
+%: módulo, resto da divisão inteira (12%6 será 0)
+++: incremento (1++ será 2)
+--: decremento (2-- será 1)
++=: atribuição com adição (5+=1 é mesmo que 5=5+1)
+-=: atribuição com subtração (5-=1 é mesmo que 5=5-1)
+*= atribuição com multiplicação (5*=1 é mesmo que 5=5*1)
+/= atribuição com divisão (5/=1 é mesmo que 5=5/1)
+%= atribuição com resto da módulo (5%=1 é mesmo que 5=5%1)
+**: exponenciação (2**2 (base,expoente) será 4)
+
+<b>========== OPERADORES LÓGICOS ==========</b>
+&lt;&lt;: deslocamento a esquerda
+&lt;&lt;=: deslocamento a esquerda
+&gt;&gt;: deslocamento a direita
+&gt;&gt;=: deslocamento a direita
+!: operador not, diferente de (! 1 = 2, se 1 é diferente de 2)
+-o ou || ou | ou !=: operador or ($x = 22 -o $x = 23, se x = 22 ou 23)
+^ ou ^=: operador xor, 'ou exclusivo'
+~: negação de bit
+-a ou && ou & ou &=: operador and ($y = 22 -a $x = 22, se x = 22 e y = 22)
+
+<b>========== OPERADORES RELACIONAIS ==========</b>
+-eq: equal, igual a ($x -eq 2)
+-ne: not equal, diferente de ($x -ne 2)
+-gt: greater than, maior que ($y -gt 10)
+-ge: greater than or equal, maior que ou igual a ($s -ge 6.2)
+-lt: less than, menor que ($y -lt 4)
+-le: less than or equal, menor que ou igual a ($k -le 0.4)
+
+<b>========== OPERADORES DE STRING ==========</b>
+-z: verifica se tamanho do operando da string é zero/nulo (-z $x)
+-n: verifica se tamanho do operando da string é diferente de zero/não nulo (-n $x)
+=: verifica se string é igual
+!=: verifica se string é diferente
+[ $x ]: verifica se $x não é string vazia
+
+<b>========== OPERADORES DE ARQUIVO ==========</b>
+-a: verifica se arquivo existe (-a /etc/arquivo)
+-b: verifica se é arquivo de bloco (-b /etc/arquivo)
+-c: verifica se é arquivo de caracteres (-c /etc/arquivo)
+-d: verifica se é diretório (-d /etc/arquivo)
+-e: verifica se arquivo existe (-e /etc/arquivo)
+-f: verifica se é arquivo comum (-f /etc/arquivo)
+-g: verifica se arquivo possui SGID (-g /etc/arquivo)
+-h: verifica se arquivo é link simbólico (-h /etc/arquivo)
+-k: verifica se arquivo possui bit fixo (-k /etc/arquivo)
+-p: verifica se arquivo é pip nomeado (-p /etc/arquivo)
+-r: verifica se arquivo é legível (-r /etc/arquivo)
+-s: verifica se arquivo existe e tem tamanho maior que 0 (-s /etc/arquivo)
+-t: verifica se descritor de arquivo está aberto e associado a terminal (-t /etc/arquivo)
+-u: verifica se arquivo possui SUID (-u /etc/arquivo)
+-w: verifica se arquivo é gravável (-w /etc/arquivo)
+-x: verifica se arquivo é executável (-x /etc/arquivo)
+-G : arquivo existe e pertence ao grupo do usuário
+-L : arquivo existe e é link simbólico
+-N: arquivo existe e modificado desde última leitura
+-O : arquivo existe e usuário é dono do arquivo
+-S: arquivo é socket
+arq1 nt arq2: arquivo arq1 é mais novo que arquivo arq2
+arq1 ot arq2: arquivo arq1 é mais antigo que arquivo arq2
+
+<b>========== BLOCOS e AGRUPAMENTOS ==========</b>
+{...}: agrupa comandos em bloco
+(...): executa comandos em subshell
+$(...): executa comandos em subshell, retornando resultado
+((...)): testa operação aritmética, retornando 0 ou 1
+$((...)): retorna resultado de operação aritmética
+[...]: testa expressão, retornando 0 ou 1 (alias do comando 'test')
+[[...]]: testa expressão, retornando 0 ou 1 (podendo usar && e ||)
+
+<b>========== CONDICIONAL IF-ELIF-ELSE ==========</b>
+if [ $3 ]; then
+    echo "$3"
+elif [ $2 ]; then
+    echo "$2"
+else
+    echo "$1"
+fi
+
+<u>Exemplo 1</u>:
+if [ -e /etc/group ]; then
+    echo 'arquivo existe'
+else
+    echo 'arquivo não existe'
+fi
+
+<u>Exemplo 2</u>:
+num=14
+if [ $num -ge 10 -o $num -lt 20 ]; then
+    echo 'nº maior que 10 e menor que 20'
+else
+    echo 'fora do intervalo'
+fi
+
+<u>Exemplo 3</u>:
+num=12
+if [[ $num = ?(+|-)+([0-9]) ]]; then
+    echo 'Número'
+else
+    echo 'String'
+fi
+
+<u>Exemplo 4</u>:
+echo "you have provided the following arguments $arg1 $arg2 $arg3"
+if [ "$arg1" = "$arg2" ] && [ "$arg1" != "$arg3" ]
+then 
+    echo "2 of the provided args are equal."
+    exit 3
+elif [ $arg1 = $arg2 ] && [ $arg1 = $arg3 ]
+then
+    echo "all of the specified args are equal"
+    exit 0
+else
+    echo "all of the specified args are different"
+    exit 4 
+fi
+
+<b>========== CONDICIONAL CASE ==========</b>
+case $1 in
+    caso_um) echo "1";;
+    caso_dois) echo "2";;
+    6|SEIS|Seis|seis) echo "6";;
+    *) echo "outro";;
+esac
+
+<u>Exemplo 1</u>:
+cor="azul"
+case $cor in
+    "preto") echo "preto é a cor escolhida";;
+    "azul") echo "azul é a cor escolhida";;
+    "vermelho") echo "vermelho é a cor escolhida";;
+    *) echo "outra cor for escolhida";;
+esac
+
+<b>========== CONDICIONAL SELECT ==========</b>
+$FRUTA="Selecione fruta: "
+select FRUTA in uva laranja banana ... outra
+do
+    echo "Fruta escolhida $FRUTA"
+    break;
+done
+
+<u>Exemplo 1</u>:
+PS3="Select your language please: "
+select lng in Bash Java C++ Quit
+do
+    case $lng in
+        "Bash")
+            echo "$lng - that's what we're talking about";;
+        "Java")
+           echo "$lng - is your VM ready?";;
+        "C++")
+           echo "$lng - let's prepare for a lot of compilation";;
+        "Quit")
+           echo "We're done"
+           break;;
+        *)
+           echo "Ooops";;
+    esac
+done
+
+<u>Exemplo 2</u>:
+PS3="Select item please: "
+items=("Item 1" "Item 2" "Item 3")
+select item in "${items[@]}" Quit
+do
+    case $REPLY in
+        1) echo "Selected item #$REPLY which means $item";;
+        2) echo "Selected item #$REPLY which means $item";;
+        3) echo "Selected item #$REPLY which means $item";;
+        $((${#items[@]}+1))) echo "We're done!"; break;;
+        *) echo "Ooops - unknown choice $REPLY";;
+    esac
+done
+
+<u>Exemplo 3 (dialog)</u>:
+# dialog é popup de diálogo CLI, zenity é GUI
+items=(1 "Item 1" 2 "Item 2")
+while choice=$(dialog --title "$TITLE" --menu "Please select" 10 40 3 "${items[@]}" 2&gt;&1 &gt;/dev/tty)
+    do
+    case $choice in
+        1) ;;
+        2) ;;
+        *) ;;
+    esac
+done
+clear
+
+<b>========== LOOP FOR ==========</b>
+for i in 1 2 3
+do
+    echo "teste"
+done
+
+#ou: for i in 1 2 3; do echo "teste"; done
+
+for i in {1..10};
+do
+    echo "Valor: $i"
+done
+
+for i in {10..0}; # decrescente
+do
+   echo "$i"
+done
+
+for i in $(seq 1 5 100); # de 1 a 100, pulando de 5 em 5
+do
+    echo "$i"
+done
+
+for ((j=1; j&lt;20; j+=2))
+do
+    echo $j
+done
+
+# para cada argumento como $i
+for i in "$@"
+do
+    echo $i
+done
+
+<b>========== LOOP WHILE ==========</b>
+while [ -z $a_input ]; do
+    read -p "Enter para continuar ou digite qualquer coisa para sair: " a_input
+done
+
+$i = 0
+while [ $i -le 10 ]; do
+    echo "$i"
+    $i++
+done
+
+# Exemplo:
+while read -p "Digite um numero: " c_input
+do
+    if [ $c_input -gt 25 ]; then
+        echo "Numero $c_input é maior que 25"
+        break
+    else
+        echo "Numero $c_input é menor que 25"
+        break
+    fi
+done
+
+<b>========== LOOP UNTIL ==========</b>
+# O while 1º verifica, depois executa. O until 1º executa, depois verifica
+count=1
+until [ $count -gt 5 ]; do
+    echo $count
+    count=$(($count+1))
+done
+
+<u>Exemplo 1</u>:
+#!/bin/bash
+echo "until loop"
+i=10
+until [ $i == 1 ]
+do
+    echo "$i is not equal to 1";
+    ((i--))
+done
+echo "i value is $i"
+echo "loop terminated"
+
+<u>Exemplo 2</u>:
+n=1
+sum=0
+until [[ $n -gt 15  || $sum -gt 20 ]]
+do
+    sum=$(($sum + $n))
+    echo "n = $n & sum of first n = $sum"
+    ((n++))
+done
+
+<b>========== BREAK e CONTINUE ==========</b>
+# Break encerra o loop. Continue pula iteração e avança para próxima
+#!/bin/bash
+count=1
+while true; do
+    echo "Contagem é $count"
+    count=$(($count+1))
+    if [ $count -gt 5 ]; then
+        echo "instrução break alcançada"
+        break
+    fi
+done
+
+for i in {1..10}; do
+    if [ $i -eq 5 ]; then
+        continue
+    fi
+    echo $i
+done
+
+<u>Exemplo 1:</u>
+for i in {1..3}; do
+    for j in {1..3}; do
+        if [[ $j -eq 2 ]]; then
+            break 2 # break 2 primeiro encerra o loop, depois sai
+        fi
+        echo "j: $j"
+    done
+    echo "i: $i"
+done
+echo "All Done!"
+
+<u>Exemplo 2</u>:
+for val in {1..20..2}
+do
+    if [[ $val -eq 9 ]]
+    then
+        continue
+    fi
+    echo "printing ${val}"
+done
+
+<b>========== FUNCTION ==========</b>
+function minha_funcao() {
+    echo "ola"
+}
+minha_funcao
+
+# Função com retorno
+soma(){
+    echo "Os números são: $n1 $n2"
+    sum_val=$(($n1+$n2))
+    echo "Soma: $sum_val"
+    return $sum_val
+}
+n1=$1
+n2=$2
+soma
+echo "Valor retornado pela função é $?"
+
+<u>Exemplo 1</u>:
+addUser(){
+    USER=$1
+    PASSWORD=$2
+    shift; shift;
+    COMMENTS=$@
+    echo "Adding user $USER ..."
+    echo useradd -c "$COMMENTS" $USER
+    echo passwd $USER $PASSWORD
+    echo "Added user $USER ($COMMENTS) with pass $PASSWORD"
+}
+addUser bob letmein Bob Holness the presenter
+addUser fred badpassword Fred Durst the singer
+addUser bilko worsepassword Sgt. Bilko the role model
+
+<u>Exemplo 2</u>:
+find_avg(){ 
+    len=$#
+    sum=0
+    for x in "$@"
+    do
+        sum=$((sum + x))
+    done
+    avg=$((sum/len))
+    return $avg
+}
+find_avg 30 40 50 60
+printf "%f" "$?"
+printf "\n"
+
+<b>========== ARGUMENTOS ==========</b>
+Argumento(s) passado(s) junto ao comando de execução do arquivo.sh
+- $0: nome do script que foi executado;
+- $1 .. $n: argumentos na ordem em que foram passados ($1 é argumento1, $2 argumento2, etc)
+- $#: nº de argumentos passado
+- $*: todos argumentos de uma vez só
+- $@: todos parâmetros passados depois do script
+- *?: último comando executado
+- $$: PID do processo executando
+- $!: PID do processo executado em background
+
+if [ $# -lt 1 ];
+then
+    echo "Precisa fornecer pelo menos 1 argumento!"
+    exit 1
+fi
+echo "Número de argumentos passados: $#"
+i=0
+for argumento in $*
+do
+    i=$(($i+1))
+    echo "argumento $i passado: $argumento"
+done
+
+<b>========== INTEGRAÇÃO COM PYTHON ==========</b>
+arquivos=$(ls *txt)
+for i in $arquivos
+do
+    python3 script.py $i
+done
+
+arquivos=$(ls *txt)
+for i in $arquivos
+do
+    nohup python3 script.py $i &
+done
+
+<b>========== ERROS ==========</b>
+# Formas de aplicar estrutura similar a 'try/catch/finally' em shell script
+
+<u>Forma 1 (via return)</u>:
+mv /non/existent/path /tmp/file1
+if [[ $? != 0 ]]; then
+    echo "mv failed"
+    exit 1
+fi
+
+if ! command_call; then
+    echo "command_call did not complete successfully"
+fi
+
+<u>Forma 2 (via blocos or e set e)</u>:
+mv /non/existent/path /tmp/file1 || exit 1
+mv /non/existent/path /tmp/file1 || { echo "mv failed"; exit 1; }
+
+<u>Forma 3</u>:
+source includes/logging.sh "script4.log"
+set -e
+mv /non/existent/path /tmp/file1
+
+mv /non/existent/path /tmp/file1 || {
+    echo "mv failed, but it's expected to happen"
+}
+
+{
+    echo "try block"
+    false
+} || {
+    echo "catch block"
+    echo "..."
+}
+
+{
+    echo "try block" &&
+    false &&
+    echo "try block after failed command"
+} || {
+    echo "catch block" &&
+    true  &&
+    echo "..."
+} || { FAILED_CATCH="$?"; } ; {
+    echo "finally block" &&
+    false
+} || { FAILED_FINALLY="$?"; } ; {
+    if [[ ! -z $FAILED_CATCH ]]; then exit $FAILED_CATCH; fi
+    if [[ ! -z $FAILED_FINALLY ]]; then exit $FAILED_FINALLY; fi
+}
+
+<u>Forma 3 (trap)</u>:
+trap "echo 'ERROR: An error occurred during execution, check log $LOGFILE for details.' >&3" ERR
+
+source includes/logging.sh "script4.log"
+set -e
+
+TEST_FILE_PATH='/tmp/dummy-marker'
+cleanup() {
+  echo "A command failed with return code of $?" >&3
+  rm -f "$TEST_FILE_PATH"
+}
+
+trap 'cleanup' ERR # from now on, if any command fails cleanup is executed
+trap 'cleanup' INT # do int for SIGINT as well (ctrl + c)
+ 
+echo "Creating a test file"
+touch $TEST_FILE_PATH
+echo "echo before executing a command that exits with non-zero return code"
+false
+echo "echo after the command is executed
+
+<u>Forma 4 (SIGKILL)</u>:
+#!/bin/bash
+function_that_generates_a_segfault() {
+  ulimit -s 1
+  function_that_generates_a_segfault
+}
+function_that_generates_a_segfault
+
+#!/bin/bash
+source includes/logging.sh "script4.log"
+set -e
+./segfault.sh || {
+    echo "Operation failed"
+}
+echo "..."
+
+#!/bin/bash
+source includes/logging.sh "script4.log"
+set -e
+
+function_that_generates_a_segfault() {
+  ulimit -s 1
+  function_that_generates_a_segfault
+}
+function_that_generates_a_segfault
+
+function_that_generates_a_segfault || {
+    echo "Operation failed"
+}
+echo "..."
 </code></pre></small>
                 </div>
             </div>
