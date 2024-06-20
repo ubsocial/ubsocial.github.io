@@ -1101,6 +1101,8 @@ Categories=Categoria do binário
                         <li>'<b>=</b>': verifica se string é igual</li>
                         <li>'<b>!=</b>': verifica se string é diferente</li>
                         <li>'<b>[ $x ]</b>': verifica se $x não é string vazia</li>
+                        <li>'<b>:=</b>': atribui valor padrão a variável se estiver vazia ou não definida</li>
+                        <li>'<b>:-</b>': fornece valor padrão sem alterar variável original</li>
                     </ul>
 
                     <h5>Operadores de arquivo:</h5>
@@ -1161,7 +1163,7 @@ whoami
 # comentário
 
 <b>========== SAÍDA DE DADOS ==========</b>
-echo "ola" #com ou sem aspas duplas (aspas simples são considerados string como todo, aspas duplas consideram valores de variáveis)
+echo "ola" # com ou sem aspas duplas (aspas simples são considerados string como todo, aspas duplas consideram valores de variáveis)
 $a = ola2 # variável local
 export $b = 12 # variável global
 echo $a
@@ -1169,6 +1171,15 @@ echo $HOME ola
 echo "$a, $b" # concatenar variáveis
 echo $a > novoArquivo # redirecionar stdout para arquivo
 echo "O nome da variável é \$nome" # \ é caractere scape, não mostrará variável
+
+nome=""
+echo "Valor inicial: '$nome'"
+nome=${nome:=Maria}
+echo "valor da variável depois: $nome" # saída será 'Maria'
+
+echo "variável inicial: $var" # saída será ''
+echo "variável após expansão: '${var:-ValorPadrao}'" # saída será 'ValorPadrao'
+echo "valor da variável depois: $var" # saída será ''
 
 <b>========== ENTRADA DE DADOS ==========</b>
 read -p "Digite um nome: " nome
