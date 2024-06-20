@@ -1048,7 +1048,111 @@ Categories=Categoria do binário
             <div class="card mb-4">
                 <h4 class="card-header">Shell script</h4>
                 <div class="card-body">
-                    <p id="textoPost">Script de execução em shell GNU/Linux, em linguagem shell, arquivos com terminação '.sh'. Realizam manipulação em rotinas shell Linux. <span class="text-muted">#!/bin/bash</span> ou <span class="text-muted">!/bin/sh</span> é o shebang (ou sha-bang, hashbang, pound-bang, hash-pling), interpretador do script, gerará um subshell para executar os códigos, não considerado comentário. Para executar shell script sem permissão de execução, deve-se executar '<span class="text-muted">source arquivo.sh</span>' (ou '. arquivo.sh', ou 'bash arquivo.sh'). Também, pode-se atribuir permissão de execução ao mesmo com '<span class="text-muted">chmod a+x arquivo.sh</span>' e executá-lo com '<span class="text-muted">./arquivo.sh</span>' (ou '/home/usuario/arquivo.sh'). Scripts são utilizados para automatização de tarefas - como configurar ambiente, executar binários, fazer limpezas, registro, etc. Esss tarefas são conhecidas <b>Shell Wrapper</b>. O Kernel GNU/Linux, a partir da versão 6.1, está sofrendo upgrades através da linguagem <b>Rust</b>, que fornece maior desempenho e segurança. Termos entre aspas simples são considerados string como todo. Termos entre aspas duplas consideram valores de variáveis.</p>
+                    <p id="textoPost">Script de execução em shell GNU/Linux, em linguagem shell, arquivos com terminação '.sh'. Realizam manipulação em rotinas shell Linux. <span class="text-muted">#!/bin/bash</span> ou <span class="text-muted">#!/bin/sh</span> é o shebang (ou sha-bang, hashbang, pound-bang, hash-pling), interpretador do script, gerará um subshell para executar os códigos, não considerado comentário. Para executar shell script sem permissão de execução, deve-se executar '<span class="text-muted">source arquivo.sh</span>' (ou '. arquivo.sh', ou 'bash arquivo.sh'). Também, pode-se atribuir permissão de execução ao mesmo com '<span class="text-muted">chmod a+x arquivo.sh</span>' e executá-lo com '<span class="text-muted">./arquivo.sh</span>' (ou '/home/usuario/arquivo.sh'). Scripts são utilizados para automatização de tarefas - como configurar ambiente, executar binários, fazer limpezas, gestão de processos e serviços, registros, etc. Esss tarefas são conhecidas <b>Shell Wrapper</b>. O Kernel GNU/Linux, a partir da versão 6.1, está em upgrade através da linguagem <b>Rust</b>, que fornece maior desempenho e segurança.</p>
+
+                    <h5>Operadores aritméticos:</h5>
+                    <ul>
+                        <li>'<b>=</b>': igual a (1=1)</li>
+                        <li>'<b>!=</b>': diferente de (1!=2)</li>
+                        <li>'<b>-z</b>': vazio (-z $valor)</li>
+                        <li>'<b>-n</b>': não vazio (-n $valor)</li>
+                        <li>'<b>+</b>': adição (1+1)</li>
+                        <li>'<b>-</b>': subtração (2-1)</li>
+                        <li>'<b>/</b>': divisão (12/6)</li>
+                        <li>'<b>*</b>': multiplicação (12*6)</li>
+                        <li>'<b>%</b>': módulo, resto da divisão inteira (12%6 será 0)</li>
+                        <li>'<b>++</b>': incremento (1++ será 2)</li>
+                        <li>'<b>--</b>': decremento (2-- será 1)</li>
+                        <li>'<b>+=</b>': atribuição com adição (5+=1 é mesmo que 5=5+1)</li>
+                        <li>'<b>-=</b>': atribuição com subtração (5-=1 é mesmo que 5=5-1)</li>
+                        <li>'<b>*=</b>': atribuição com multiplicação (5*=1 é mesmo que 5=5*1)</li>
+                        <li>'<b>/=</b>': atribuição com divisão (5/=1 é mesmo que 5=5/1)</li>
+                        <li>'<b>%=</b>': atribuição com resto da módulo (5%=1 é mesmo que 5=5%1)</li>
+                        <li>'<b>**</b>': exponenciação (2**2 (base,expoente) será 4)</li>
+                    </ul>
+
+                    <h5>Operadores lógicos:</h5>
+                    <ul>
+                        <li>'<b>&lt;&lt;</b>': deslocamento a esquerda</li>
+                        <li>'<b>&lt;&lt;=</b>': deslocamento a esquerda</li>
+                        <li>'<b>&gt;&gt;</b>': deslocamento a direita</li>
+                        <li>'<b>&gt;&gt;=</b>': deslocamento a direita</li>
+                        <li>'<b>!</b>': operador not, diferente de (! 1 = 2, se 1 é diferente de 2)</li>
+                        <li>'<b>-o</b>' ou '<b>||</b>' ou '<b>|</b>' ou '<b>!=</b>': operador or ($x = 22 -o $x = 23, se x = 22 ou 23)</li>
+                        <li>'<b>^</b>' ou '<b>^=</b>': operador xor, 'ou exclusivo'</li>
+                        <li>'<b>~</b>': negação de bit</li>
+                        <li>'<b>-a</b>' ou '<b>&&</b>' ou '<b>&</b>' ou '<b>&=</b>': operador and ($y = 22 -a $x = 22, se x = 22 e y = 22)</li>
+                    </ul>
+
+                    <h5>Operadores relacionais:</h5>
+                    <ul>
+                        <li>'<b>-eq</b>': equal, igual a ($x -eq 2)</li>
+                        <li>'<b>-ne</b>': not equal, diferente de ($x -ne 2)</li>
+                        <li>'<b>-gt</b>': greater than, maior que ($y -gt 10)</li>
+                        <li>'<b>-ge</b>': greater than or equal, maior que ou igual a ($s -ge 6.2)</li>
+                        <li>'<b>-lt</b>': less than, menor que ($y -lt 4)</li>
+                        <li>'<b>-le</b>': less than or equal, menor que ou igual a ($k -le 0.4)</li>
+                    </ul>
+
+                    <h5>Operadores de String:</h5>
+                    <ul>
+                        <li>'<b>-z</b>': verifica se tamanho do operando da string é zero/nulo (-z $x)</li>
+                        <li>'<b>-n</b>': verifica se tamanho do operando da string é diferente de zero/não nulo (-n $x)</li>
+                        <li>'<b>=</b>': verifica se string é igual</li>
+                        <li>'<b>!=</b>': verifica se string é diferente</li>
+                        <li>'<b>[ $x ]</b>': verifica se $x não é string vazia</li>
+                    </ul>
+
+                    <h5>Operadores de arquivo:</h5>
+                    <ul>
+                        <li>'<b>-a</b>': verifica se arquivo existe (-a /etc/arquivo)</li>
+                        <li>'<b>-b</b>': verifica se é arquivo de bloco (-b /etc/arquivo)</li>
+                        <li>'<b>-c</b>': verifica se é arquivo de caracteres (-c /etc/arquivo)</li>
+                        <li>'<b>-d</b>': verifica se é diretório (-d /etc/arquivo)</li>
+                        <li>'<b>-e</b>': verifica se arquivo existe (-e /etc/arquivo)</li>
+                        <li>'<b>-f</b>': verifica se é arquivo comum (-f /etc/arquivo)</li>
+                        <li>'<b>-g</b>': verifica se arquivo possui SGID (-g /etc/arquivo)</li>
+                        <li>'<b>-h</b>': verifica se arquivo é link simbólico (-h /etc/arquivo)</li>
+                        <li>'<b>-k</b>': verifica se arquivo possui bit fixo (-k /etc/arquivo)</li>
+                        <li>'<b>-p</b>': verifica se arquivo é pip nomeado (-p /etc/arquivo)</li>
+                        <li>'<b>-r</b>': verifica se arquivo é legível (-r /etc/arquivo)</li>
+                        <li>'<b>-s</b>': verifica se arquivo existe e tem tamanho maior que 0 (-s /etc/arquivo)</li>
+                        <li>'<b>-t</b>': verifica se descritor de arquivo está aberto e associado a terminal (-t /etc/arquivo)</li>
+                        <li>'<b>-u</b>': verifica se arquivo possui SUID (-u /etc/arquivo)</li>
+                        <li>'<b>-w</b>': verifica se arquivo é gravável (-w /etc/arquivo)</li>
+                        <li>'<b>-x</b>': verifica se arquivo é executável (-x /etc/arquivo)</li>
+                        <li>'<b>-G </b>': arquivo existe e pertence ao grupo do usuário</li>
+                        <li>'<b>-L </b>': arquivo existe e é link simbólico</li>
+                        <li>'<b>-N</b>': arquivo existe e modificado desde última leitura</li>
+                        <li>'<b>-O </b>': arquivo existe e usuário é dono do arquivo</li>
+                        <li>'<b>-S</b>': arquivo é socket</li>
+                        <li>'<b>arq1 nt arq2</b>': arquivo arq1 é mais novo que arquivo arq2</li>
+                        <li>'<b>arq1 ot arq2</b>': arquivo arq1 é mais antigo que arquivo arq2</li>
+                    </ul>
+
+                    <h5>Blocos e agrupamentos:</h5>
+                    <ul>
+                        <li>'<b>{...}</b>': agrupa comandos em bloco</li>
+                        <li>'<b>(...)</b>': executa comandos em subshell</li>
+                        <li>'<b>$(...)</b>': executa comandos em subshell, retornando resultado</li>
+                        <li>'<b>((...))</b>': testa operação aritmética, retornando 0 ou 1</li>
+                        <li>'<b>$((...))</b>': retorna resultado de operação aritmética</li>
+                        <li>'<b>[...]</b>': testa expressão, retornando 0 ou 1 (alias do comando 'test')</li>
+                        <li>'<b>[[...]]</b>': testa expressão, retornando 0 ou 1 (podendo usar && e ||)</li>
+                    </ul>
+
+                    <h5>Argumentos:</h5>
+                    <p>Argumento(s) informado(s) junto ao comando de execução do arquivo.sh</p>
+                    <ul>
+                        <li>'<b>$0</b>': nome do script que foi executado;</li>
+                        <li>'<b>$1 .. $n</b>': argumentos na ordem em que foram passados ($1 é argumento1, $2 argumento2, etc)</li>
+                        <li>'<b>$#</b>': nº de argumentos passado</li>
+                        <li>'<b>$*</b>': todos argumentos de uma vez só</li>
+                        <li>'<b>$@</b>': todos parâmetros passados depois do script</li>
+                        <li>'<b>*?</b>': último comando executado</li>
+                        <li>'<b>$$</b>': PID do processo executando</li>
+                        <li>'<b>$!</b>': PID do processo executado em background</li>
+                    </ul>
 <small><pre><code>
 <b><u>Exemplo de arquivo.sh</u></b>:
 #!/bin/bash
@@ -1057,7 +1161,7 @@ whoami
 # comentário
 
 <b>========== SAÍDA DE DADOS ==========</b>
-echo "ola" #com ou sem aspas duplas
+echo "ola" #com ou sem aspas duplas (aspas simples são considerados string como todo, aspas duplas consideram valores de variáveis)
 $a = ola2 # variável local
 export $b = 12 # variável global
 echo $a
@@ -1099,85 +1203,6 @@ done
 for valor in ${frutas[@]}; do
     echo $valor
 done
-
-<b>========== OPERADORES ARITMÉTICOS ==========</b>
-=: igual a (1=1)
-!=: diferente de (1!=2)
--z: vazio (-z $valor)
--n: não vazio (-n $valor)
-+: adição (1+1)
--: subtração (2-1)
-/: divisão (12/6)
-*: multiplicação (12*6)
-%: módulo, resto da divisão inteira (12%6 será 0)
-++: incremento (1++ será 2)
---: decremento (2-- será 1)
-+=: atribuição com adição (5+=1 é mesmo que 5=5+1)
--=: atribuição com subtração (5-=1 é mesmo que 5=5-1)
-*= atribuição com multiplicação (5*=1 é mesmo que 5=5*1)
-/= atribuição com divisão (5/=1 é mesmo que 5=5/1)
-%= atribuição com resto da módulo (5%=1 é mesmo que 5=5%1)
-**: exponenciação (2**2 (base,expoente) será 4)
-
-<b>========== OPERADORES LÓGICOS ==========</b>
-&lt;&lt;: deslocamento a esquerda
-&lt;&lt;=: deslocamento a esquerda
-&gt;&gt;: deslocamento a direita
-&gt;&gt;=: deslocamento a direita
-!: operador not, diferente de (! 1 = 2, se 1 é diferente de 2)
--o ou || ou | ou !=: operador or ($x = 22 -o $x = 23, se x = 22 ou 23)
-^ ou ^=: operador xor, 'ou exclusivo'
-~: negação de bit
--a ou && ou & ou &=: operador and ($y = 22 -a $x = 22, se x = 22 e y = 22)
-
-<b>========== OPERADORES RELACIONAIS ==========</b>
--eq: equal, igual a ($x -eq 2)
--ne: not equal, diferente de ($x -ne 2)
--gt: greater than, maior que ($y -gt 10)
--ge: greater than or equal, maior que ou igual a ($s -ge 6.2)
--lt: less than, menor que ($y -lt 4)
--le: less than or equal, menor que ou igual a ($k -le 0.4)
-
-<b>========== OPERADORES DE STRING ==========</b>
--z: verifica se tamanho do operando da string é zero/nulo (-z $x)
--n: verifica se tamanho do operando da string é diferente de zero/não nulo (-n $x)
-=: verifica se string é igual
-!=: verifica se string é diferente
-[ $x ]: verifica se $x não é string vazia
-
-<b>========== OPERADORES DE ARQUIVO ==========</b>
--a: verifica se arquivo existe (-a /etc/arquivo)
--b: verifica se é arquivo de bloco (-b /etc/arquivo)
--c: verifica se é arquivo de caracteres (-c /etc/arquivo)
--d: verifica se é diretório (-d /etc/arquivo)
--e: verifica se arquivo existe (-e /etc/arquivo)
--f: verifica se é arquivo comum (-f /etc/arquivo)
--g: verifica se arquivo possui SGID (-g /etc/arquivo)
--h: verifica se arquivo é link simbólico (-h /etc/arquivo)
--k: verifica se arquivo possui bit fixo (-k /etc/arquivo)
--p: verifica se arquivo é pip nomeado (-p /etc/arquivo)
--r: verifica se arquivo é legível (-r /etc/arquivo)
--s: verifica se arquivo existe e tem tamanho maior que 0 (-s /etc/arquivo)
--t: verifica se descritor de arquivo está aberto e associado a terminal (-t /etc/arquivo)
--u: verifica se arquivo possui SUID (-u /etc/arquivo)
--w: verifica se arquivo é gravável (-w /etc/arquivo)
--x: verifica se arquivo é executável (-x /etc/arquivo)
--G : arquivo existe e pertence ao grupo do usuário
--L : arquivo existe e é link simbólico
--N: arquivo existe e modificado desde última leitura
--O : arquivo existe e usuário é dono do arquivo
--S: arquivo é socket
-arq1 nt arq2: arquivo arq1 é mais novo que arquivo arq2
-arq1 ot arq2: arquivo arq1 é mais antigo que arquivo arq2
-
-<b>========== BLOCOS e AGRUPAMENTOS ==========</b>
-{...}: agrupa comandos em bloco
-(...): executa comandos em subshell
-$(...): executa comandos em subshell, retornando resultado
-((...)): testa operação aritmética, retornando 0 ou 1
-$((...)): retorna resultado de operação aritmética
-[...]: testa expressão, retornando 0 ou 1 (alias do comando 'test')
-[[...]]: testa expressão, retornando 0 ou 1 (podendo usar && e ||)
 
 <b>========== CONDICIONAL IF-ELIF-ELSE ==========</b>
 if [ $3 ]; then
@@ -1342,7 +1367,7 @@ while [ $i -le 10 ]; do
     $i++
 done
 
-# Exemplo:
+<u>Exemplo 1</u>:
 while read -p "Digite um numero: " c_input
 do
     if [ $c_input -gt 25 ]; then
@@ -1352,6 +1377,35 @@ do
         echo "Numero $c_input é menor que 25"
         break
     fi
+done
+
+<u>Exemplo 2</u>:
+while getopts ae:f:hd:s:qx: option
+do
+    case "${option}"
+    in
+        a) ALARM="TRUE";;
+        e) ADMIN=${OPTARG};;
+        d) DOMAIN=${OPTARG};;
+        f) SERVERFILE=$OPTARG;;
+        s) WHOIS_SERVER=$OPTARG;;
+        q) QUIET="TRUE";;
+        x) WARNDAYS=$OPTARG;;
+        \?) usage
+            exit 1;;
+    esac
+done
+
+<u>Exemplo 3</u>:
+while:
+do
+	read -p "Enter two numnbers ( - 1 to quit ): " a b
+	if [ $a -eq -1 ]
+	then
+		break
+	fi
+	ans=$(( a + b ))
+	echo "$ans"
 done
 
 <b>========== LOOP UNTIL ==========</b>
@@ -1475,16 +1529,6 @@ printf "%f" "$?"
 printf "\n"
 
 <b>========== ARGUMENTOS ==========</b>
-Argumento(s) passado(s) junto ao comando de execução do arquivo.sh
-- $0: nome do script que foi executado;
-- $1 .. $n: argumentos na ordem em que foram passados ($1 é argumento1, $2 argumento2, etc)
-- $#: nº de argumentos passado
-- $*: todos argumentos de uma vez só
-- $@: todos parâmetros passados depois do script
-- *?: último comando executado
-- $$: PID do processo executando
-- $!: PID do processo executado em background
-
 if [ $# -lt 1 ];
 then
     echo "Precisa fornecer pelo menos 1 argumento!"
