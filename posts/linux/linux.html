@@ -1024,7 +1024,7 @@ Categories=Categoria do binário
 <b>Criar processo com prioridade</b>: nice -n -10 nomeProcesso (prioridade -10)
 <b>Matar todos processos de software</b>: 'killall nomeSoftware'
 <b>Alterar prioridade</b>: 'renice numPrioridade -p numPID' ou 'nice -n numPrioridade nomeProcesso'
-<b>Ignorar sinais ao processo</b>: Torná-lo daemon, para mantê-lo em execução mesmo com shell fechado, 'nohup ping 8.8.8.8 &' (sighup. As saídas do nohup ficam em 'nohup.out')
+<b>Ignorar sinais ao processo</b>: Torná-lo daemon, para mantê-lo em execução mesmo com shell fechado (2º plano, background), 'nohup ping 8.8.8.8 &' (sighup. As saídas do nohup ficam em 'nohup.out')
 <b>Retomar processo parado em background, para foreground</b>: fg idJob
 <b>Retomar processo parado em foreground, para background</b>: bg idJob
 <b>Enviar processo para ser executado em background</b>: nomeProcesso & (ou 'comando &')
@@ -1044,7 +1044,7 @@ Categories=Categoria do binário
                     </ul>
 
                     <h5>Shell script:</h5>
-                    <p>Script de execução em shell Linux, em linguagem shell, arquivos com terminação '.sh'. Realizam manipulação em rotinas shell Linux. <span class="text-muted">#!/bin/bash</span> é o Shebang, interpretador do script, gerará um subshell para executar os códigos, não considerado comentário. Para executar shell script sem permissão de execução, deve-se executar '<span class="text-muted">source arquivo.sh</span>' (ou '. arquivo.sh', ou 'bash arquivo.sh'). Também, pode-se atribuir permissão de execução ao mesmo com '<span class="text-muted">chmod a+x arquivo.sh</span>' e executá-lo com '<span class="text-muted">./arquivo.sh</span>' (ou '/home/usuario/arquivo.sh'). Termos entre aspas simples são considerados string como todo. Termos entre aspas duplas consideram valores de variáveis.</p>
+                    <p>Script de execução em shell Linux, em linguagem shell, arquivos com terminação '.sh'. Realizam manipulação em rotinas shell Linux. <span class="text-muted">#!/bin/bash</span> é o shebang (ou sha-bang, hashbang, pound-bang, hash-pling), interpretador do script, gerará um subshell para executar os códigos, não considerado comentário. Para executar shell script sem permissão de execução, deve-se executar '<span class="text-muted">source arquivo.sh</span>' (ou '. arquivo.sh', ou 'bash arquivo.sh'). Também, pode-se atribuir permissão de execução ao mesmo com '<span class="text-muted">chmod a+x arquivo.sh</span>' e executá-lo com '<span class="text-muted">./arquivo.sh</span>' (ou '/home/usuario/arquivo.sh'). Termos entre aspas simples são considerados string como todo. Termos entre aspas duplas consideram valores de variáveis.</p>
                     Variáveis internas do shell:
                     <ul>
                         <li>(<b>$0</b>) Nome do script;</li>
