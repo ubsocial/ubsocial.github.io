@@ -210,7 +210,7 @@
                     <h5>Estrutura de diretórios:</h5>
                     <ul>
                         <li><b>/</b> (root): Diretório raíz, progenitor de todos os demais, onde encontram-se os diretórios abaixo;</li>
-                        <li><b>/bin</b>: Possui todos os binários (user binaries), comandos/alias do shell, disponíveis aos usuários comuns. Link simbólico para '/usr/bin'. Exemplo, alias 'ls' refere-se a '/bin/ls', ou seja, '/usr/bin/ls';</li>
+                        <li><b>/bin</b>: Possui todos os binários (user binaries), comandos/alias do shell, disponíveis aos usuários comuns. Link simbólico (ou soft link) para '/usr/bin'. Exemplo, alias 'ls' refere-se a '/bin/ls', ou seja, '/usr/bin/ls';</li>
                         <li><b>/boot</b>: Arquivos estáticos para inicialização (boot) do Linux, como gerenciador GRUB e imagem do kernel;</li>
                         <li><b>/cdrom</b>: Diretório legado (não pertence a FHS), para montagem temporária de imagem de CD-DVD. Local atual para tal é '/media';</li>
                         <li><b>/dev</b>: Arquivos de dispositivos (devices) de entrada e saída, como periféricos, como hd (sda, vda), ssd e usb (sda, sdb), cdrom, disquete floppy (fd) e tty;</li>
@@ -614,11 +614,11 @@ unalias j <span class="text-muted">(descarta alias)</span>
                 <div class="card-body">
                     <p>Camada de comunicação entre binários e kernel. As sintaxes do resumo possuem '&lt;&gt;' para termo que deve ser informado obrigatoriamente, e '[]' para termo que pode ser informado opcionalmente. Nessas sintaxes, todo termo fora de símbolos (parênteses, colchetes, chaves) deve ser informado obrigatoriamente. Comando binário interpretado pelo shell possui composição:</p>
                     <ol>
-                        <li><b>comando</b>: Arquivo binário em '/usr/bin';</li>
-                        <li><b>parâmetro(s)</b>: Opcional, altera comportamento do comando. Também chamado de 'flag' e 'opção'. Representado por 1 hífen seguido de letra (forma simplificada, padrão POSIX), ou 2 hífens seguidos de palava (forma extensa, arquitetura GNU e UNIX). Na forma simplificada, pode-se conter vários parâmetros aninhados, onde tem-se 1 hífen seguido das letras dos respectivos parâmetros;</li>
-                        <li><b>argumento(s)</b>: Opcional, especifica alvo do comando. Representado por palavra(s) ou expressão(ões).</li>
-                        <i class="text-muted">Resumidamente, parâmetro modifica execução do comando para determinado argumento.</i>
+                        <li><b>comando</b>: arquivo binário em '/usr/bin' ou '/usr/sbin';</li>
+                        <li><b>parâmetro(s)</b>: opcional, altera comportamento do comando. Também chamado de 'flag' e 'opção'. Representado por 1 hífen seguido de letra (forma simplificada, padrão POSIX), ou 2 hífens seguidos de palavra (forma extensa, arquitetura GNU e UNIX). Na forma simplificada, pode-se conter vários parâmetros aninhados, onde tem-se 1 hífen seguido das letras dos respectivos parâmetros;</li>
+                        <li><b>argumento(s)</b>: opcional, especifica alvo do comando. Representado por palavra(s) ou expressão(ões).</li>
                     </ol>
+                    Parâmetro modifica execução do comando para determinado argumento.
                     <p>Sintaxe 1: <span class="text-danger">comando [-p] [argumento]</span><br>Sintaxe 2: <span class="text-danger">comando [--parametro] [argumento]</span></p>
                     
                     <u>Exemplos</u>:
@@ -652,7 +652,7 @@ unalias j <span class="text-muted">(descarta alias)</span>
                         <li><b>alt+d</b>: Deletar 1 palavra;</li>
                         <li><b>ctrl+r</b>: Iniciar/Próxima pesquisa;</li>
                         <li><b>ctrl+g</b>: Cancelar pesquisa;</li>
-                        <li><b>ctrl+x</b> ou <b>+e</b>: Editar;</li>
+                        <li><b>ctrl+x</b> ou <b>ctrl+e</b>: Editar;</li>
                         <li><b>ctrl+l</b>: Limpar shell (move cursor para baixo até ocultar conteúdo anterior);</li>
                         <li><b>ctrl+-</b>: Desfazer;</li>
                         <li><b>!!</b>: Repetir último comando.</li>
@@ -744,7 +744,7 @@ unalias j <span class="text-muted">(descarta alias)</span>
 <b>Inserir conteúdo de arquivo em outro arquivo</b>: cat arquivo &gt; arquivoGravacao
 <b>Inserir conteúdo de arquivo no final de outro arquivo</b>: cat arquivo &gt;&gt; arquivoGravacao
 
-<b>Conteúdo do 'ls -l'</b>:
+<b>Conteúdo do 'ls -l'</b> (long listing format):
 <span class="text-danger">[tipoArquivo] [permissões(proprietário/grupo/outros)] [contagem linksFisicos] [proprietárioDoUsuario] [proprietárioDoGrupo] [tamanhoArquivoBouKB] [dthrRegistro] [nomeArquivo.extensao]</span>
 Exemplo (arquivo): <span class="text-muted">-rw-r--r-- 1 root root 18047 Dec 20 2021 alternatives.log</span>
 Exemplo (diretório): <span class="text-muted">drwxr-x--- 2 root adm 4096 Dec 20 2021 apache2</span>
@@ -774,7 +774,7 @@ Exemplo (diretório): <span class="text-muted">drwxr-x--- 2 root adm 4096 Dec 20
 <b>Voltar 2 diretórios</b>: cd ../../ (e assim por diante)
 <b>Entrar no diretório do usuário</b>: cd (ou cd ~)
 <b>Entrar no diretório root</b>: cd /
-<b>Criar link simbólico</b>: ln -s arqOrigem /home/arqLinkSimbolico (ou somente 'ln' para criar link físico)
+<b>Criar links</b>: ln -s arqOrigem /home/arqLinkSimbolico (ou somente 'ln' para criar link físico - hard link)
 <b>Listar links simbólicos</b>: ln -lh
 </code></pre></small>
 
