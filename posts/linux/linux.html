@@ -845,7 +845,7 @@ count: contagem de blocos a serem lidos da entrada
 </code></pre></small>
 
                     <h5>Permissões:</h5>
-                    <p>No Linux, nenhum arquivo externo tem permissão de execução nativamente. Precisa-se aplicá-la com comandos <b>chown</b>, <b>chgrp</b>, <b>chmod</b> e <b>chattr</b>:</p>
+                    <p>No GNU/Linux, nenhum arquivo externo tem permissão de execução nativamente. Precisa-se aplicá-la com comandos <b>chown</b>, <b>chgrp</b>, <b>chmod</b> e <b>chattr</b>:</p>
                     <p>Change owner: <span class="text-danger">chown &lt;parâmetros&gt; &lt;novoDono&gt;[:novoGrupo] &lt;arquivo(s)&gt;</span><br>Change group: <span class="text-danger">chgrp &lt;parâmetros&gt; &lt;novoGrupo&gt; &lt;arquivo(s)&gt;</span><br>Change mode: <span class="text-danger">chmod &lt;[conjunto][ação][permissões]&gt;[,[conjunto][ação][permissões]] [parâmetros] &lt;arquivo(s)&gt;</span><br>Change attribute: <span class="text-danger">chattr &lt;[ação][parâmetros]&gt; &lt;arquivo(s)&gt;</span></p>
                     Ordenamento (ls -l):
                     <ol>
@@ -923,8 +923,7 @@ chattr +c arq1 (permite que arquivo seja compactado/descompactado automaticament
 chattr +d arq1 (garante que programa ignore excluir arquivos durante o backup)
 chattr +i arq1 (torna o arquivo inalterado, não podendo ser excluído, alterado, renomeado ou vinculado)
 chattr +s arq1 (permite que arquivo possa ser excluído com segurança)
-chattr +S arq1 (garante que arquivo é modificado, as alterações são gravadas no modo síncrono, como com a
-sincronia)
+chattr +S arq1 (garante que arquivo é modificado, as alterações são gravadas no modo síncrono)
 chattr +u arq1 (permite recuperar conteúdo de arquivo, mesmo se está cancelado)
 lsattr (listar atributos especiais, pode ser utilizado com parâmetros de 'ls')
 lsattr arq1 (listar atributos especiais do arquivo)
