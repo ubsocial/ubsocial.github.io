@@ -861,10 +861,10 @@ count: contagem de blocos a serem lidos da entrada
                     </ol>
                     Conjunto:
                     <ul>
-                        <li>(<b>u</b>) Usuário proprietário do arquivo;</li>
-                        <li>(<b>g</b>) Grupo proprietário do arquivo;</li>
-                        <li>(<b>o</b>) Outros (qualquer usuário que não seja o proprietário do usuário ou membro do proprietário do grupo);</li>
-                        <li>(<b>a</b>) Todos (refere-se ao usuário, grupo e outros)</li>
+                        <li>(<b>u</b>) User/Usuário proprietário do arquivo;</li>
+                        <li>(<b>g</b>) Group/Grupo proprietário do arquivo;</li>
+                        <li>(<b>o</b>) Other/Outros (qualquer usuário que não seja o proprietário do usuário ou membro do proprietário do grupo);</li>
+                        <li>(<b>a</b>) All/Todos (refere-se ao usuário, grupo e outros)</li>
                     </ul>
                     Classificação:
                     <ul>
@@ -930,7 +930,7 @@ lsattr arq1 (listar atributos especiais do arquivo)
 </code></pre></small>
 
                     <h5>Lançador:</h5>
-                    <p>Atalho de binário no desktop environment, em arquivo '.desktop'. Lançadores globais (disponíveis para todos usuários) ficam em '/usr/share/applications', lançadores locais (disponíveis somente para usuário da sessão) ficam em '~/.local/share/applications'.</p>
+                    <p>Atalho (launcher) de binário no desktop environment, em arquivo '.desktop'. Lançadores globais (disponíveis para todos usuários) ficam em '/usr/share/applications', lançadores locais (disponíveis somente para usuário da sessão) ficam em '~/.local/share/applications'.</p>
 <small><pre><code>
 <b>Conteúdo de arquivo do lançador</b>:
 [Desktop Entry]
@@ -960,7 +960,7 @@ Categories=Categoria do binário
                     </ul>
 
                     <h5>Processos:</h5>
-                    <p>Processos são chamados de process, task, service ou job. Enquanto uma tarefa (<b>task</b>) é um conjunto de instruções em execução, um processo (<b>process</b>) é um conjunto de instruções ou programas em execução. No Linux, task e process são sinônimos. Um serviço (<b>service</b>) é um processo iniciado pelo sistema. Um trabalho (<b>job</b>) são muitas tasks/process em execução, geralmente em lote. No Linux, o gerenciamento de processos segue padrão POSIX. Processo é um binário que, quando executado, consome recursos do dispositivo. Possui ciclo de vida/estado (stat, state ou s), time (tempo usado pelo processador no processo), CMD (binário que iniciou o processo), recursos e usuário proprietário. Todo processo é identificado pelo <b>PID</b> (process identification) e, em alguns casos, <b>PPID</b> (parent process identification), com prioridade de execução (nice), do -20 (máxima) ao 19 (mínima) e 0 (padrão). O root possui permissão para alterar prioridades. Processos criados pelo root têm prioridade 0. Processos criados por usuário comum têm prioridade 10 (baixa). Processos em realtime (normalmente internos do kernel) possuem prioridade 1 a 99. Processos convencionais possuem têm prioridade 100 (maior) até 139 (menor), sendo 120 (padrão) e rt (realtime). A prioridade padrão (PRI/PR), diferente da nice (NI), é definida automaticamente no escalonamento definido pelo kernel. Processos em execução possuem seus diretórios em '/proc', nomeados por PID. Processos podem ser inicializados pelos gerenciadores <i>systemctl</i> e <i>systemd</i>. Comando 'top' mostra lista de processos. No 'top', load average é a média de tempo para execução de cada processo (geralmente deve-se manter abaixo de 3). A gestão do processo ocorre via sinais de kill (comando 'kill -l' mostra todos sinais de kill). Processos em 1º plano são foreground (binários executados em shell), processos em 2º plano são background. Toda vez que um processo é executado em background, estará executando em subshell. Arquivo '/proc/cmdline' armazena strings do kernel na inicialização. Serviços (<b>service</b>) são, basicamente, processos iniciados pelo sistema. Processos (<b>process</b>) são iniciados pelo usuário.</p>
+                    <p>Processos são chamados de process, task, service ou job. Enquanto uma tarefa (<b>task</b>) é um conjunto de instruções em execução, um processo (<b>process</b>) é um conjunto de instruções ou programas em execução, geralmente iniciado pelo usuário. No GNU/Linux, task e process são sinônimos. Um serviço (<b>service</b>) é um processo iniciado pelo sistema. Um trabalho (<b>job</b>) são muitas tasks/process em execução, geralmente em lote. No GNU/Linux, o gerenciamento de processos segue padrão POSIX. Processo é um binário que, quando executado, consome recursos do dispositivo. Possui ciclo de vida/estado (stat, state ou s), time (tempo usado pelo processador no processo), CMD (binário que iniciou o processo), recursos e usuário proprietário. Todo processo é identificado pelo <b>PID</b> (process identification) e, em alguns casos, <b>PPID</b> (parent process identification), com prioridade de execução (nice), do -20 (máxima) ao 19 (mínima) e 0 (padrão). O root possui permissão para alterar prioridades. Processos criados pelo root têm prioridade 0. Processos criados por usuário comum têm prioridade 10 (baixa). Processos em realtime (normalmente internos do kernel) possuem prioridade 1 a 99. Processos convencionais possuem têm prioridade 100 (maior) até 139 (menor), sendo 120 (padrão) e rt (realtime). A prioridade padrão (PRI/PR), diferente da nice (NI), é definida automaticamente no escalonamento definido pelo kernel. Processos em execução possuem seus diretórios em '/proc', nomeados por PID. Processos podem ser inicializados pelos gerenciadores <i>systemctl</i> e <i>systemd</i>. Comando 'top' mostra lista de processos. No 'top', load average é a média de tempo para execução de cada processo (geralmente deve-se manter abaixo de 3). A gestão do processo ocorre via sinais de kill (comando 'kill -l' mostra todos sinais de kill). Processos em 1º plano são foreground (binários executados em shell), processos em 2º plano são background. Toda vez que um processo é executado em background, estará executando em subshell. Arquivo '/proc/cmdline' armazena strings do kernel na inicialização.</p>
                     Componentes do processo:
                     <ul>
                         <li>Estado (stat, state, s);
@@ -976,13 +976,13 @@ Categories=Categoria do binário
                                 <li>(<b>I</b>) idle (ocioso, não consome recursos).</li>
                             </ul>
                         </li>
-                        <li>Recursos: Recursos de hardware ou sistema (libraries);
+                        <li>Recursos (resources): Recursos de hardware ou sistema (libraries);
                             <ul>
                                 <li>(<b>VSZ</b>) virutal size (tamanho virtual);</li>
                                 <li>(<b>RSS</b> ou <b>RES</b>) resident set size (memória utilizada);</li>
                                 <li>(<b>SHR</b>) share (memória compartilhada);</li>
                                 <li>(<b>tty ?</b>) processo daemon (execução independente de tty);</li>
-                                <li>(stat <b>l</b> ou <b>L</b>) processo com recurso bloqueado na memória.</li>
+                                <li>(stat <b>l</b> ou <b>L</b>) processo com recurso bloqueado (locked) na memória.</li>
                             </ul>
                         </li>
                         <li>Proprietário: Usuário que gerou o processo, com permissão para modificá-lo. Usuário comum é proprietário somente de seus processos. root é proprietário de todos processos;</li>
@@ -990,9 +990,9 @@ Categories=Categoria do binário
                             <ul>
                                 <li>(stat <b>&lt;</b> ou <b>N</b>) prioridade menor que normal (low-priority);</li>
                                 <li>(stat <b>&gt;</b>) prioridade maior que normal (high-priority);</li>
-                                <li>(stat <b>s</b>) líder da sessão;</li>
-                                <li>(stat <b>+</b>) executando em 1º plano;</li>
-                                <li>(stat <b>L</b>) partes bloqueadas na memória (por realtime ou IO);</li>
+                                <li>(stat <b>s</b>) líder da sessão (session);</li>
+                                <li>(stat <b>+</b>) executando em 1º plano (foreground);</li>
+                                <li>(stat <b>L</b>) partes bloqueadas (locked) na memória (por realtime ou IO);</li>
                                 <li>(stat <b>I</b>) multi-threaded (thread's compartilhadas. Fluxos de controle, compartilhados entre processos, atuando em mesmo endereço, num mesmo processo);</li>
                                 <li>(<b>NI</b>) nice/renice, valor de prioridade definido na criação/alteração do processo;</li>
                             </ul>
@@ -1028,7 +1028,7 @@ Categories=Categoria do binário
 <b>Retomar processo parado em foreground, para background</b>: bg idJob
 <b>Enviar processo para ser executado em background</b>: nomeProcesso & (ou 'comando &')
 <b>Ver carga do sistema</b>: uptime
-<b>Scanner disco, checar por arquivos residuais em diretórios</b>: ncdu (Tecla 'd' apagará arquivos residuais do diretório destaque.)
+<b>Scanner disco, checar por arquivos residuais em diretórios</b>: ncdu (Tecla 'd' apagará arquivos residuais do diretório destaque)
 </code></pre></small>
 
                     <h5>Mensagens do sistema:</h5>
