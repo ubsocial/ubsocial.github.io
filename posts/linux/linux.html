@@ -1991,6 +1991,58 @@ O nano possibilita a abertura de diversos arquivos ao mesmo tempo
 <b>Editar chave GPG</b>: gpg --edit-key numChave
 <b>Gerar chave SSH</b>: ssh-keygen (gerará 'chave.pub' em '~/.ssh')
 </code></pre></small>
+
+                    <h5>Pacotes empacotados compactados:</h5>
+                    <ol>
+                        <li>Baixar pacote em ~/Downloads: cd ~/Downloads && wget urlPacote -O nomePacote.extensao</li>
+                        <li>Extrair para /opt:
+                            <ul>
+                                <li>.tar.gz: sudo tar -xzf nomePacote.tar.gz -C /opt</li>
+                                <li>.tar.bz2: sudo tar -xjvf nomePacote.tar.bz2 -C /opt</li>
+                                <li>.tar.xz: sudo tar -xJf nomePacote.tar.xz -C /opt</li>
+                                <li>.zip: sudo unzip nomePacote.zip -d /opt/nomeDiretorioPacote</li>
+                                <li>Ou renomear diretório, então movê-lo para /opt: sudo tar xvzf nomePacote.tar.gz && mv nomeAntigoPacote*/ novoNomePacote && sudo mv novoNomePacote /opt</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    <ol>
+                        <u>Arquivo bin</u>:
+                        <li>Criar link simbólico do binário: sudo ln -s /opt/diretorioPacote/nomePacote /usr/bin/nomePacote</li>
+                        <li>Criar lançador: sudo nano /usr/share/applications/nomePacote.desktop
+<small><pre><code>
+[Desktop Entry]
+Encoding=UTF-8
+Name=Pacote
+Exec=/opt/diretorioPacote/nomePacote %U
+Icon=/opt/diretorioPacote/iconPacote.png
+Comment=Descrição do pacote
+Terminal=false
+StartupNotify=true
+Type=Application
+Categories=Development;
+Keywords=termosChave;
+</code></pre></small>
+                        </li>
+                    </ol>
+                    <ol>
+                        <u>Arquivo sh</u>:
+                        <li>Torná-lo executável: sudo chmod +x /opt/nomeDiretorioPacote/nomePacote.sh</li>
+                        <li>Criar lançador: sudo nano /usr/share/applications/nomePacote.desktop
+<small><pre><code>
+[Desktop Entry]
+Encoding=UTF-8
+Name=Pacote
+Exec=sudo /opt/diretorioPacote/nomePacote.sh %f
+Icon=/opt/diretorioPacote/iconPacote.png
+Comment=Descrição do pacote
+Terminal=false
+StartupNotify=true
+Type=Application
+Categories=Development;
+Keywords=termosChave;
+</code></pre></small>
+                        </li>
+                    </ol>
                     
                     <h5>Debian (.deb):</h5>
                     <ul>
