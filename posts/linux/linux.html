@@ -1079,7 +1079,7 @@ Categories=Categoria do binário
 <b>Encerrar processo</b>: kill -15 numPID (função sigterm, similar a 'kill numPID' ou 'kill -SIGTERM numPID')
 <b>Parar processo</b>: kill -19 numPID (sigstop)
 <b>Parar processo em background</b>: ctrl+z (sigquit, similar a 'kill -3')
-<b>Matar processo</b>: kill -9 numPID (sigkill)
+<b>Matar processo</b>: kill -9 numPID (sigkill. O sigkill encerra processo forçadamente, enquanto o sigterm encerra processo naturalmente)
 <b>Matar processo pelo nome</b>: pkill nomeProcesso (ou 'pkill -9 nomeProcesso')
 <b>Continuar processo stopped</b>: kill -18 numPID (sigcont)
 <b>Criar processo com prioridade</b>: nice -n -10 nomeProcesso (prioridade -10)
