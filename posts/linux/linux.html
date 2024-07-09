@@ -1109,7 +1109,7 @@ Categories=Categoria do binário
             <div class="card mb-4">
                 <h4 class="card-header">Shell script</h4>
                 <div class="card-body">
-                    <p id="textoPost">Script de execução em shell GNU/Linux, em linguagem shell, arquivos com terminação '.sh'. Realizam manipulação em rotinas shell Linux. <span class="text-muted">#!/bin/bash</span> ou <span class="text-muted">#!/bin/sh</span> é o shebang (ou sha-bang, hashbang, pound-bang, hash-pling), interpretador do script, gerará um subshell para executar os códigos, não considerado comentário. Para executar shell script sem permissão de execução, deve-se executar '<span class="text-muted">source arquivo.sh</span>' (ou '. arquivo.sh', ou 'bash arquivo.sh'). Também, pode-se atribuir permissão de execução ao mesmo com '<span class="text-muted">chmod a+x arquivo.sh</span>' e executá-lo com '<span class="text-muted">./arquivo.sh</span>' (ou '/home/usuario/arquivo.sh'). Scripts são utilizados para automatização de tarefas - como configurar ambiente, executar binários, fazer limpezas, gestão de processos e serviços, registros, etc. Esss tarefas são conhecidas <b>Shell Wrapper</b>. O Kernel GNU/Linux, a partir da versão 6.1, está em upgrade através da linguagem <b>Rust</b>, que fornece maior desempenho e segurança.</p>
+                    <p id="textoPost">Script de execução em shell GNU/Linux, em linguagem shell, arquivos com terminação '.sh'. Realizam manipulação em rotinas shell Linux. <span class="text-muted">#!/bin/bash</span> ou <span class="text-muted">#!/bin/sh</span> é o shebang (ou sha-bang, hashbang, pound-bang, hash-pling), interpretador do script, gerará um subshell para executar os códigos, não considerado comentário. Para executar shell script sem permissão de execução, deve-se executar '<span class="text-muted">source arquivo.sh</span>' (ou '. arquivo.sh', ou 'bash arquivo.sh'). Também, pode-se atribuir permissão de execução ao mesmo com '<span class="text-muted">chmod a+x arquivo.sh</span>' e executá-lo com '<span class="text-muted">./arquivo.sh</span>' (ou '/home/usuario/arquivo.sh'). Scripts são utilizados para automatização de tarefas - como configurar ambiente, executar binários, fazer limpezas, gestão de processos e serviços, registros, etc. Essas tarefas são conhecidas <b>Shell Wrapper</b>. O Kernel GNU/Linux, a partir da versão 6.1, está em upgrade através da linguagem <b>Rust</b>, que fornece maior desempenho e segurança.</p>
 
                     <h5>Operadores aritméticos:</h5>
                     <ul>
@@ -1184,13 +1184,13 @@ Categories=Categoria do binário
                         <li>'<b>-u</b>': verifica se arquivo possui SUID (-u /etc/arquivo)</li>
                         <li>'<b>-w</b>': verifica se arquivo é gravável (-w /etc/arquivo)</li>
                         <li>'<b>-x</b>': verifica se arquivo é executável (-x /etc/arquivo)</li>
-                        <li>'<b>-G </b>': arquivo existe e pertence ao grupo do usuário</li>
-                        <li>'<b>-L </b>': arquivo existe e é link simbólico</li>
+                        <li>'<b>-G</b>': arquivo existe e pertence ao grupo do usuário</li>
+                        <li>'<b>-L</b>': arquivo existe e é link simbólico</li>
                         <li>'<b>-N</b>': arquivo existe e modificado desde última leitura</li>
-                        <li>'<b>-O </b>': arquivo existe e usuário é dono do arquivo</li>
+                        <li>'<b>-O</b>': arquivo existe e usuário é dono do arquivo</li>
                         <li>'<b>-S</b>': arquivo é socket</li>
-                        <li>'<b>arq1 nt arq2</b>': arquivo arq1 é mais novo que arquivo arq2</li>
-                        <li>'<b>arq1 ot arq2</b>': arquivo arq1 é mais antigo que arquivo arq2</li>
+                        <li>'<b>arq1 nt arq2</b>': arquivo arq1 é mais novo (new to) que arquivo arq2</li>
+                        <li>'<b>arq1 ot arq2</b>': arquivo arq1 é mais antigo (old to) que arquivo arq2</li>
                     </ul>
 
                     <h5>Blocos e agrupamentos:</h5>
@@ -1418,13 +1418,13 @@ while choice=$(dialog --title "$TITLE" --menu "Please select" 10 40 3 "${items[@
 done
 clear
 
-<b>========== LOOP FOR ==========</b>
+<b>========== REPETIÇÃO LOOP FOR ==========</b>
 for i in 1 2 3
 do
     echo "teste"
 done
 
-#ou: for i in 1 2 3; do echo "teste"; done
+#ou inline: for i in 1 2 3; do echo "teste"; done
 
 for i in {1..10};
 do
@@ -1452,7 +1452,7 @@ do
     echo $i
 done
 
-<b>========== LOOP WHILE ==========</b>
+<b>========== REPETIÇÃO LOOP WHILE ==========</b>
 while [ -z $a_input ]; do
     read -p "Enter para continuar ou digite qualquer coisa para sair: " a_input
 done
@@ -1495,16 +1495,16 @@ done
 <u>Exemplo 3</u>:
 while:
 do
-	read -p "Enter two numnbers ( - 1 to quit ): " a b
-	if [ $a -eq -1 ]
-	then
-		break
-	fi
-	ans=$(( a + b ))
-	echo "$ans"
+    read -p "Enter two numbers ( - 1 to quit ): " a b
+    if [ $a -eq -1 ]
+    then
+        break
+    fi
+    ans=$(( a + b ))
+    echo "$ans"
 done
 
-<b>========== LOOP UNTIL ==========</b>
+<b>========== REPETIÇÃO LOOP UNTIL ==========</b>
 # O while 1º verifica, depois executa. O until 1º executa, depois verifica
 count=1
 until [ $count -gt 5 ]; do
@@ -1536,7 +1536,6 @@ done
 
 <b>========== BREAK e CONTINUE ==========</b>
 # Break encerra o loop. Continue pula iteração e avança para próxima
-#!/bin/bash
 count=1
 while true; do
     echo "Contagem é $count"
@@ -1576,7 +1575,7 @@ do
     echo "printing ${val}"
 done
 
-<b>========== FUNCTION ==========</b>
+<b>========== FUNÇÕES FUNCTION ==========</b>
 function minha_funcao() {
     echo "ola"
 }
@@ -1623,6 +1622,29 @@ find_avg(){
 find_avg 30 40 50 60
 printf "%f" "$?"
 printf "\n"
+
+<b>========== PARÂMETROS ==========</b>
+<u>Comando shift</u>:
+# shift executa sequência de parâmetros ordenadamente a partir da origem ou valor informado (ex: shift 5 a partir do 5º parâmetro)
+echo "$#: $*"
+echo -e "executando \"shift\""
+shift
+echo "$#: $*"
+echo -e "executando \"shift 5\""
+shift 5
+echo "$#: $*"
+echo -e "executando \"shift 7\""
+shift 7
+echo "$#: $*"
+
+<u>Comando set</u>:
+# set pode ser usado para editar parâmetros
+echo "Os $# parâmetros passados inicialmente foram:"
+echo "$@"
+echo "Mas agora eu vou alterá-los para 'um', 'dois' e 'tres'."
+set um dois tres
+echo "Os $# novos parâmetros agora são:
+echo "$@" #novos valores a partir do set
 
 <b>========== ARGUMENTOS ==========</b>
 if [ $# -lt 1 ];
