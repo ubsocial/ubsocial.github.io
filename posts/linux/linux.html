@@ -674,7 +674,7 @@ unalias j <span class="text-muted">(descarta alias)</span>
             <div class="card mb-4">
                 <h4 class="card-header">Shell</h4>
                 <div class="card-body">
-                    <p>Camada de comunicação entre binários e kernel. As sintaxes do resumo possuem '&lt;&gt;' para termo que deve ser informado obrigatoriamente, e '[]' para termo que pode ser informado opcionalmente. Nessas sintaxes, todo termo fora de símbolos (parênteses, colchetes, chaves) deve ser informado obrigatoriamente. Comando binário interpretado pelo shell possui composição:</p>
+                    <p>Camada de comunicação entre binários e kernel. As sintaxes do resumo possuem '&lt;&gt;' para termo que deve ser informado obrigatoriamente, e '[]' para termo que pode ser informado opcionalmente. Nessas sintaxes, todo termo fora de símbolos (parênteses, colchetes, chaves) deve ser informado obrigatoriamente. Comandos shell são case sensitive, onde caracteres maiúsculos diferenciam-se de minúsculos. Comando binário interpretado pelo shell possui composição:</p>
                     <ol>
                         <li><b>comando</b>: arquivo binário em '/usr/bin' ou '/usr/sbin';</li>
                         <li><b>parâmetro(s)</b>: opcional, altera comportamento do comando. Também chamado de 'flag' e 'opção'. Representado por 1 hífen seguido de letra (forma simplificada, padrão POSIX), ou 2 hífens seguidos de palavra (forma extensa, arquitetura GNU e UNIX). Na forma simplificada, pode-se conter vários parâmetros aninhados, onde tem-se 1 hífen seguido das letras dos respectivos parâmetros;</li>
@@ -1109,7 +1109,7 @@ Categories=Categoria do binário
             <div class="card mb-4">
                 <h4 class="card-header">Shell script</h4>
                 <div class="card-body">
-                    <p id="textoPost">Script de execução em shell GNU/Linux, em linguagem shell, arquivos com terminação '.sh'. Realizam manipulação em rotinas shell Linux. <span class="text-muted">#!/bin/bash</span> ou <span class="text-muted">#!/bin/sh</span> é o shebang (ou sha-bang, hashbang, pound-bang, hash-pling), interpretador do script, gerará um subshell para executar os códigos, não considerado comentário. Para executar shell script sem permissão de execução, deve-se executar '<span class="text-muted">source arquivo.sh</span>' (ou '. arquivo.sh', ou 'bash arquivo.sh'). Também, pode-se atribuir permissão de execução ao mesmo com '<span class="text-muted">chmod a+x arquivo.sh</span>' e executá-lo com '<span class="text-muted">./arquivo.sh</span>' (ou '/home/usuario/arquivo.sh'). Scripts são utilizados para automatização de tarefas - como configurar ambiente, executar binários, fazer limpezas, gestão de processos e serviços, registros, etc. Essas tarefas são conhecidas <b>Shell Wrapper</b>. O Kernel GNU/Linux, a partir da versão 6.1, está em upgrade através da linguagem <b>Rust</b>, que fornece maior desempenho e segurança.</p>
+                    <p id="textoPost">Script de execução em shell GNU/Linux, em linguagem shell, arquivos com terminação '.sh'. Realizam manipulação em rotinas shell Linux. <span class="text-muted">#!/bin/bash</span> ou <span class="text-muted">#!/bin/sh</span> é o shebang (ou sha-bang, hashbang, pound-bang, hash-pling), interpretador do script, gerará um subshell para executar os códigos, não considerado comentário. Para executar shell script sem permissão de execução, deve-se executar '<span class="text-muted">source arquivo.sh</span>' (ou '. arquivo.sh', ou 'bash arquivo.sh'). Também, pode-se atribuir permissão de execução ao mesmo com '<span class="text-muted">chmod a+x arquivo.sh</span>' e executá-lo com '<span class="text-muted">./arquivo.sh</span>' (ou '/home/usuario/arquivo.sh'). Scripts são utilizados para automatização de tarefas - como configurar ambiente, executar binários, fazer limpezas, gestão de processos e serviços, registros, etc. Essas tarefas são conhecidas <b>Shell Wrapper</b>. O Kernel GNU/Linux, a partir da versão 6.1, está em upgrade através da linguagem <b>Rust</b>, que fornece maior desempenho e segurança. Codificação shell script possui lógica procedural (cascade), possibilitando modularização através de funções.</p>
 
                     <h5>Operadores aritméticos:</h5>
                     <ul>
@@ -1622,6 +1622,17 @@ find_avg(){
 find_avg 30 40 50 60
 printf "%f" "$?"
 printf "\n"
+
+<b>========== IMPORTS ==========</b>
+# source ou '.' importa código shell script externo ao código em que está referenciado
+<u>externo.sh</u>:
+diga_ola() {
+    echo "Olá do script externo!"
+}
+
+<u>arquivo.sh</u>:
+source externo.sh #ou '. externo.sh'
+diga_ola
 
 <b>========== PARÂMETROS ==========</b>
 <u>Comando shift</u>:
