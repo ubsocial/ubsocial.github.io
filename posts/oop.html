@@ -39,33 +39,6 @@
         </div>
 
         <div class="col-sm-12">
-            <h4>Conceitos iniciais</h4>
-            <p id="textoPost"><b>Conceito</b>: Programação orientada a objetos (POO ou OOP - object-oriented programming), paradigma de programação;<br><b>Objetivo</b>: Aproximar o mundo digital com o real;<br><b>Criador</b>: Matemático e biólogo Alan Kay.</p>
-            <br>
-            <h4>Vantagens</h4>
-            <i class="text-muted">comern_ada</i>
-            <ol>
-                <li><b>Confiável</b>: O isolamento entre as partes gera software seguro. Ao alterar uma parte, nenhuma outra é afetada;</li>
-                <li><b>Oportuno</b>: Ao dividir tudo em partes, várias delas podem ser desenvolvidas em paralelo;</li>
-                <li><b>Manutenível</b>: Atualizar um software é mais fácil. Uma pequena modificação vai beneficiar todas as partes que usarem o objeto;</li>
-                <li><b>Extensível</b>: O software não é estático. Ele deve crescer para permanecer útil;</li>
-                <li><b>Reutilizável</b>: Utilização de determinadas estruturas, como atributos e métodos, através de herança;</li>
-                <li><b>Natural</b>: Mais fácil de entender. Você se preocupa mais na funcionalidade do que nos detalhes de implementação.</li>
-            </ol>
-            <br>
-            <h4>Objeto</h4>
-            <p id="textoPost">Coisa material ou abstrata que pode ser percebida pelos sentidos e descrita por meio das suas características (estado atual). Possui identidade única.</p>
-            <br>
-            <h4>Classe</h4>
-            <p id="textoPost">Define os atributos e métodos comuns que serão compartilhados por um conjunto de objetos.</p>
-            <br>
-            <h4>Instância</h4>
-            <p id="textoPost">O mesmo que o termo 'criação'. Uma classe instancia (cria) objetos, um objeto é uma instância (criação) de uma classe.</p>
-            <br>
-            <h4>Abstração</h4>
-            <i>Classificar -&gt; Abstrair -&gt; Instanciar</i>
-            <p id="textoPost">Diferente de métodos/classes abstratas, significa "enxugar" um conteúdo, tirando do mesmo só o essencial. Observar elemento(s), avaliando características e propriedades à parte.</p>
-            <br>
             <h4>Encapsulamento</h4>
             <p id="textoPost">Técnica pra proteger código. Criação de get e set pra proteger atributos privates. Ocultar partes independentes da implementação, permitindo construir partes invisíveis ao mundo exterior.</p>
             Vantagens:
@@ -139,13 +112,6 @@ b.comer(); //resultado TRIÂNGULO
                 <li><b>Herança Múltipla:</b> Conceito OO, não encontrado em linguagens, que caracteriza a herança de atributos e métodos, como acréscimo, de 2 ou mais classes mães. Nela não há divisão de atributos, e sim acréscimo.</li>
             </ul>
             <br>
-            <h4>Atributo de Objeto</h4>
-            <p id="textoPost">É aquele no qual cada objeto encapsula o valor do atributo (quando um atributo é do tipo de outra classe que criamos).<br><b>Tipo Objeto:</b> Quando um atributo é do tipo de outra classe criada.</p>
-            <small><pre><code><b>Ex:</b> private Cachorro[] listac; public void addCachorro(){}</code></pre></small>
-            <br>
-            <h4>Assinatura do método</h4>
-            <p id="textoPost">Constitui o nome e tipo do método. Isso, além do tipo, quantidade e ordem dos parâmetros do mesmo (O nome dos parâmetros não faz parte da assinatura, nem o tipo do retorno do método).</p>
-            <br>
             <h4>Método com valor de retorno</h4>
             <p id="textoPost">Precisa de return, devendo ser do mesmo tipo que o valor de retorno do método.</p>
             <small><pre><code><b>Ex:</b> public int fazerAniver(...) {return ... -&gt; int}</code></pre></small>
@@ -172,41 +138,8 @@ b.comer(); //resultado TRIÂNGULO
             <h4>Static</h4>
             <p id="textoPost">Pode ser modificado, mas será o valor padrão para todos os objetos de que o possuírem(gravação única na memória). Não possui dependência de terceiros. Se utilizado em atributos, o atributo vira "atributo de classe".</p>
             <br>
-            <h4>Atributo Derivado</h4>
-            <p id="textoPost">Pode ser calculado através de outros atributos de classe. É implícito na classe (ele não é definido explicitamente), mas há métodos de acessá-lo.</p>
-            <br>
             <h4>Estado do Objeto</h4>
             <p id="textoPost">Conjunto de valores dos atributos que o objeto possui. <u>Ex:</u> estado atual de Evento = cancelado.</p>
-            <br>
-            <h4>Visibilidade</h4>
-            <p id="textoPost">Indicam o nível de acesso aos componentes internos de uma classe e/ou dela mesma.</p>
-            <ul>
-                <li><b>- private -&gt;</b> visível somente na classe;</li>
-                <li><b>~ package -&gt;</b> nas classes do próprio pacote;</li>
-                <li><b># protected -&gt;</b> nas classes do próprio pacote e nas suas filhas;</li>
-                <li><b>+ public -&gt;</b> visível em todo o projeto.</li>
-            </ul>
-            <br>
-            <h4>Agregação <small>(Tem um)</small></h4>
-            <p id="textoPost">Relação de classes, gera código diferenciado (definição do atributo). Um Canil é um agregado de Cachorro(0..*). "a classe B tem um atributo da classe A".<br><u>Ex:</u> Classe Mercado addProduto(p1); //p1, instancia da classe Produto, foi criado na classe produto e só adicionado, sendo pronto, na classe Mercado.<br><u>Ex:</u> Lutador * - disputa&gt; -&lt;&gt; 0..* Luta.</p>
-            <br>
-            <h4>Associação</h4>
-            <p id="textoPost">Um Canil tem um ou mais Cachorros(1..*), não muda código.</p>
-<small><pre><code>
-public class Canil {
-    private Cachorro[];
-    ArrayList&lt;Cachorro&gt; listac;
-    public void addCachorro(Cachorro c){}
-    public void addCachorro(String nome, Date) {
-        Cachorro c = new Cachorro(nome, dtNasc);
-        this.listac.add(c); -&gt; <b><u>Associação</u></b>: entre as classes gera o listac, pois possibilita instanciar o objeto que representa a parte fora de seu todo
-    } -&gt; <b><u>Composição</u></b>: Canil depende de Nf, pois para criar uma Nf é necessário ter a classe da mesma
-    public NotaFiscal geraNota(Date data, double valor) {
-        NotaFiscal f = new NotaFiscal();
-        return f;
-    }
-}
-</code></pre></small>
             <br>
             <h4>Composição</h4>
             <p id="textoPost">"Relaciona-se exclusivamente".<br>Um Canil é composto por 0..* Cachorros, então se não existir Canil, também não existirão Cachorros.<br><u>Ex:</u> Classe Mercado mercado tem addProduto("vassoura",25.9); Objeto Produto não é criado na classe Produto, sendo dependente de sua criação na classe Mercado.<br><u>Ex:</u> Na Agregação/Associação, os objetos que são adicionados na classe Canil, podem ter sido criados em outra classe. Na Composição, um Canil cria Cachorro.</p>
