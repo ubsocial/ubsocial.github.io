@@ -48,7 +48,7 @@
                 <li><b>Manutenível</b>: maior facilidade de atualização. Pequena modificação pode beneficiar todas partes que usarem o objeto;</li>
                 <li><b>Extensível</b>: software não estático, que deve crescer para permanecer útil;</li>
                 <li><b>Reutilizável</b>: utilização de determinadas estruturas, como atributos e métodos, através de herança;</li>
-                <li><b>Natural</b>: linguagem natural, de fácil interpretação, onde usuário mantém foco na funcionalidade, do que em detalhes de implementação.</li>
+                <li><b>Natural</b>: linguagem natural, de fácil interpretação, onde usuário mantém foco na funcionalidade, ao invés dos detalhes de implementação.</li>
             </ol>
 
             <br><h4>Abstração</h4>
@@ -56,7 +56,7 @@
             <p>Diferente de métodos e classes abstratas, significa "enxugar" conteúdo, mantendo ao mesmo só o essencial. Observar elemento(s), avaliando características e propriedades à parte.</p>
 
             <br><h4>Classe</h4>
-            <p>Também chamada de 'entidade'. Define conjunto de objetos que compartilham mesmas caraterísticas (atributos), ações (métodos ou operações), relações e semântica. <b>Objeto</b> é algo material ou não material (abstrata), que pode ser percebida pelos sentidos e descrita por meio de características (estado atual), possuindo identidade única. Classe instancia (cria) objetos, e objetos são <i>instâncias</i> (criações) de classe. Toda classe é identificada unicamente pelo seu nome. Relacionamentos entre classes determinam conexões entre objetos, fornecendo caminho para comunicação entre os mesmos.</p>
+            <p>Também chamada de 'entidade'. Define conjunto de objetos que compartilham mesmas caraterísticas (atributos), ações (métodos ou operações), relacionamentos e semântica. <b>Objeto</b> é algo material ou não material (abstrato), que pode ser percebido pelos sentidos e descrito por meio de características (estado atual), possuindo identidade única. Classe instancia (cria) objetos, e objetos são <i>instâncias</i> (criações) de classe. Toda classe é identificada unicamente pelo seu nome. Relacionamentos entre classes determinam conexões entre objetos, fornecendo caminho para comunicação entre os mesmos.</p>
             <img src="classe_sintaxe.png" class="img-fluid" width="400px"><br>
             
             <br><h5>Nome da classe:</h5>
@@ -73,33 +73,33 @@
             </ul>
 
             <br><h5>Visibilidade:</h5>
-            <p>Indica nível de acesso aos componentes internos de classe e/ou dela mesma. Termo visibilidade é sinônimo de acessibilidade.</p>
+            <p>Indica nível de acesso aos componentes internos de classe e/ou dela mesma. Termo visibilidade é sinônimo de acessibilidade (visível = acessível).</p>
             <ul>
                 <li>(+) <b>public</b>: público, visível em todo projeto;</li>
                 <li>(#) <b>protected</b>: protegido, visível na própria classe, nas classes do próprio pacote e classes filhas;</li>
                 <li>(-) <b>private</b>: privado, visível somente na própria classe;</li>
                 <li>(~) <b>package</b>: pacote, visível nas classes do próprio pacote.</li>
             </ul>
-            <p>Exemplo: atributo privado é visível (acessível) somente na própria classe, ou seja, pode ser acessado/referenciado somente pelos métodos da própria classe.</p>
+            <p>Exemplo: atributo privado é visível (acessível) somente na própria classe, ou seja, pode ser acessado/referenciado somente pelos métodos da própria classe. Geralmente atributos privados são acessados por métodos especiais acessores get e set (encapsulamento).</p>
 
             <br><h5>Tipo:</h5>
             <p>Tipo do atributo. Pode ser outra classe, interface ou tipo primitivo da linguagem. Principais tipos no Java:</p>
             <ul>
-                <li><b>String</b>: Classe String, valores formato texto (ex: "fulano 123");</li>
-                <li><b>Date</b>: Classe Date, valores formato data (ex: "01.01.2024");</li>
+                <li><b>String</b>: classe String, valores formato texto (ex: "fulano 123");</li>
+                <li><b>Date</b>: classe Date, valores formato data (ex: "01.01.2024");</li>
                 <li><b>char</b>: caractere, valores formato caractere (ex: 'a');</li>
-                <li><b>int</b>: integer, valores numéricos tipo inteiro (ex: 13);</li>
-                <li><b>float</b> ou <b>double</b>: Valores numéricos decimais (ex: 23.20);</li>
-                <li><b>boolean</b>: Booleano, valores verdadeiro (true) ou falso (false);</li>
+                <li><b>int</b>: integer, valores numéricos inteiros (ex: 13);</li>
+                <li><b>float</b> ou <b>double</b>: valores numéricos decimais (ex: 23.20);</li>
+                <li><b>boolean</b>: booleano, valores verdadeiro (true ou 1) ou falso (false ou 0);</li>
                 <li><b>array</b>: lista de valores (ex: int[] nomeLista: {1,2,3});</li>
-                <li><b>ArrayList</b>: lista dinâmica de valores (ex: ArrayList&lt;String&gt; nomeLista = new ArrayList&lt;&gt;());</li>
-                <li><b>Object</b>: objeto, instância de outra classe, com respectivos atributos e métodos (ex: Livro).</li>
+                <li><b>ArrayList</b>: lista dinâmica de valores/objetos (ex: ArrayList&lt;String&gt; nomeLista = new ArrayList&lt;&gt;());</li>
+                <li><b>Object</b>: objeto, instância de classe, com respectivos atributos e métodos (ex: Livro).</li>
             </ul>
 
             <br><h5>Multiplicidade:</h5>
             <p>Representada por números ou '*'. Número de instâncias de uma classe que podem ser associadas a instância de outra classe, em mesma relação (quantas vezes uma classe pode se relacionar com outra).</p>
             <ul>
-                <li><b>0..1</b>: atributo opcionaçl;</li>
+                <li><b>0..1</b>: atributo opcional;</li>
                 <li><b>1</b>: atributo obrigatório;</li>
                 <li><b>0..*</b>: nenhum ou vários objetos;</li>
                 <li><b>1..*</b>: pelo menos 1 ou vários objetos;</li>
@@ -107,16 +107,72 @@
             </ul>
 
             <br><h5>Valor inicial:</h5>
-            <p>Valor padrão inicial atribuído ao atributo para cada instância da classe. Há possibilidade de ser modificado futuramente, com exceção de propriedades (ex: atributo read-only não pode ser modificado).</p>
+            <p>Valor padrão inicial atribuído ao atributo para cada instância da classe. Há possibilidade de ser modificado futuramente, com exceção segundo propriedades (ex: atributo read-only não pode ser modificado).</p>
 
             <br><h5>Propriedades e restrições:</h5>
             <ul>
-                <li><b>Propriedades</b>: Compreendem conjunto de tags pré-definindas, que descrevem determinadas características ao atributo, como <i>read-only</i> e <i>add-only</i>;</li>
-                <li><b>Restrições</b>: Permitem indicar 1 ou mais restrições sobre o atributo. Podem ser escritas em linguagem natural ou com uso de gramática formal, como OCL (ex: - idade: int {idade>18}).</li>
+                <li><b>Propriedades</b>: compreendem conjunto de tags pré-definindas, que descrevem determinadas características ao atributo, como <i>read-only</i> e <i>add-only</i>;</li>
+                <li><b>Restrições</b>: permitem indicar 1 ou mais restrições sobre o atributo. Podem ser escritas em linguagem natural ou com uso de gramática formal, como OCL (ex: '- idade: int {idade>18}').</li>
             </ul>
 
             <br><h5>Estado do objeto:</h5>
-            <p>Conjunto de valores dos atributos que o objeto possui. ex: estado atual de objeto Livro meuLivro = lido.</p>
+            <p>Conjunto de valores dos atributos que o objeto possui. Ex: estado atual de objeto Livro meuLivro = lido.</p>
+<small><pre><code>
+// Definição de classe
+public class Livro {
+    // Atributos
+    private String titulo;
+    private String autor;
+    private int paginas;
+
+    // Construtor
+    public Livro(String titulo, String autor, int paginas) {
+        this.titulo = titulo;
+        this.autor = autor;
+        this.paginas = paginas;
+    }
+
+    // Getters e Setters
+    public String getTitulo() {
+        return titulo;
+    }
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+    public String getAutor() {
+        return autor;
+    }
+    public void setAutor(String autor) {
+        this.autor = autor;
+    }
+    public int getPaginas() {
+        return paginas;
+    }
+    public void setPaginas(int paginas) {
+        this.paginas = paginas;
+    }
+
+    public void lerLivro() {
+        System.out.println("Lendo o livro: " + titulo + " de " + autor);
+    }
+
+    public String virarPagina(int pagina) {
+        this.paginas = pagina;
+        String ler = "Virando para página " + pagina + " do livro: " + titulo;
+        return ler;
+    }
+
+    // Método main para testar a classe
+    public static void main(String[] args) {
+        Livro meuLivro = new Livro("O Alquimista", "Paulo Coelho", 208);
+        meuLivro.lerLivro();
+        System.out.println(meuLivro.virarPagina(23));
+        System.out.println("Título: " + meuLivro.getTitulo());
+        System.out.println("Autor: " + meuLivro.getAutor());
+        System.out.println("Páginas: " + meuLivro.getPaginas());
+    }
+}
+</code></pre></small>
 
             <br><h4>Static</h4>
             <p>Elemento que pode ser modificado, mas será sempre valor estático mutável, porém único entre todos seus semelhantes que o encapsularem (valor salvo no mesmo local de memória). Não possui dependência de terceiros. Se utlizado em atributos, o atributo vira 'atributo de classe'. Método static pertene somente à classe em si, em vez de aos objetos da mesma. Esse método pode ser invocado sem necessidade de criar objeto da classe para tal. Método static não pode acessar ou modificar diretamente atributos do objeto (não têm acesso via self ou this). Métodos static podem acessar e modificar variáveis estáticas da classe.</p>
