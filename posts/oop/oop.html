@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../../icons/logoTit.png">
+    <link rel="stylesheet" href="../../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <nav class="navbar rounded-bottom fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="../../index.html"><img src="../../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../sobre/sobre.html">Sobre</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../livros/livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 text-center" id="titulo">
+            <h1>Programação orientada a objetos</h1>
+            <h6><strong>Todos os conceitos da programação orientada à objetos</strong></h6>
+            <a href="../../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
+        </div>
+
+        <div class="col-sm-12">
+            <p>Programação orientada a objetos (<s>POO</s> ou OOP - object-oriented programming) é paradigma (padrão) de programação, com objetivo de aproximar mundo digital com real. Criado pelo matemático e biólogo Alan Kay. Os exemplos de códigos nesse resumo serão implementados em linguagem Java.</p>
+            <ol>
+                <u>Vantagens</u>:<br>
+                <i>comern_ada</i>
+                <li><b>Confiável</b>: isolamento entre partes gera software seguro. Ao alterar uma parte, nenhuma outra é afetada;</li>
+                <li><b>Oportuno</b>: ao dividir tudo em partes, várias delas podem ser desenvolvidas em paralelo;</li>
+                <li><b>Manutenível</b>: maior facilidade de atualização. Pequena modificação pode beneficiar todas partes que usarem o objeto;</li>
+                <li><b>Extensível</b>: software não estático, que deve crescer para permanecer útil;</li>
+                <li><b>Reutilizável</b>: utilização de determinadas estruturas, como atributos e métodos, através de herança;</li>
+                <li><b>Natural</b>: linguagem natural, de fácil interpretação, onde usuário mantém foco na funcionalidade, do que em detalhes de implementação.</li>
+            </ol>
+
+            <br><h4>Abstração</h4>
+            <i>Classificar -&gt; Abstrair -&gt; Instanciar</i>
+            <p>Diferente de métodos e classes abstratas, significa "enxugar" conteúdo, mantendo ao mesmo só o essencial. Observar elemento(s), avaliando características e propriedades à parte.</p>
+
+            <br><h4>Classe</h4>
+            <p>Também chamada de 'entidade'. Define conjunto de objetos que compartilham mesmas caraterísticas (atributos), ações (métodos ou operações), relações e semântica. <b>Objeto</b> é algo material ou não material (abstrata), que pode ser percebida pelos sentidos e descrita por meio de características (estado atual), possuindo identidade única. Classe instancia (cria) objetos, e objetos são <i>instâncias</i> (criações) de classe. Toda classe é identificada unicamente pelo seu nome. Relacionamentos entre classes determinam conexões entre objetos, fornecendo caminho para comunicação entre os mesmos.</p>
+            <img src="classe_sintaxe.png" class="img-fluid" width="400px"><br>
+            
+            <br><h5>Nome da classe:</h5>
+            <p>Nome único, padrão CamelCase. Pode ser simples (ex: Livro) ou com caminho via padrão 'NomePacote :: NomeClasse', referenciando o pacote onde a classe encontra-se (ex: SitemaLivraria :: Livro).</p>
+            <img src="nome_classe.png" class="img-fluid" width="200px"><br>
+            
+            <br><h5>Atributos:</h5>
+            <p>Cada objeto possui estado, representado pelos valores associados a cada atributo definido pela respectiva classe.<br>Sintaxe atributo (UML): <span class="text-danger">visibilidade</span> <span class="text-success">nome</span> <span class="text-warning">: tipo</span> multiplicidade <span class="text-primary"> = valor inicial</span> <span style="color: blueviolet;">{propriedades e restrições}</span></p>
+            <img src="atributo_sintaxe.png" class="img-fluid" width="140px"><br>
+            <ul>
+                <li><span class="text-danger">+</span> <span class="text-success">titulo</span> <span class="text-warning">: String</span> <span class="text-primary"> = "Sapiens"</span></li>
+                <li><span class="text-danger">-</span> <span class="text-success">autor</span> <span class="text-warning">: String</span> [0..2]</li>
+                <li><span class="text-danger">-</span> <span class="text-success">paginas</span> <span class="text-warning">: int</span> </span> <span style="color: blueviolet;">{frozen}</span></li>
+            </ul>
+
+            <br><h5>Visibilidade:</h5>
+            <p>Indica nível de acesso aos componentes internos de classe e/ou dela mesma. Termo visibilidade é sinônimo de acessibilidade.</p>
+            <ul>
+                <li>(+) <b>public</b>: público, visível em todo projeto;</li>
+                <li>(#) <b>protected</b>: protegido, visível na própria classe, nas classes do próprio pacote e classes filhas;</li>
+                <li>(-) <b>private</b>: privado, visível somente na própria classe;</li>
+                <li>(~) <b>package</b>: pacote, visível nas classes do próprio pacote.</li>
+            </ul>
+            <p>Exemplo: atributo privado é visível (acessível) somente na própria classe, ou seja, pode ser acessado/referenciado somente pelos métodos da própria classe.</p>
+
+            <br><h5>Tipo:</h5>
+            <p>Tipo do atributo. Pode ser outra classe, interface ou tipo primitivo da linguagem. Principais tipos no Java:</p>
+            <ul>
+                <li><b>String</b>: Classe String, valores formato texto (ex: "fulano 123");</li>
+                <li><b>Date</b>: Classe Date, valores formato data (ex: "01.01.2024");</li>
+                <li><b>char</b>: caractere, valores formato caractere (ex: 'a');</li>
+                <li><b>int</b>: integer, valores numéricos tipo inteiro (ex: 13);</li>
+                <li><b>float</b> ou <b>double</b>: Valores numéricos decimais (ex: 23.20);</li>
+                <li><b>boolean</b>: Booleano, valores verdadeiro (true) ou falso (false);</li>
+                <li><b>array</b>: lista de valores (ex: int[] nomeLista: {1,2,3});</li>
+                <li><b>ArrayList</b>: lista dinâmica de valores (ex: ArrayList&lt;String&gt; nomeLista = new ArrayList&lt;&gt;());</li>
+                <li><b>Object</b>: objeto, instância de outra classe, com respectivos atributos e métodos (ex: Livro).</li>
+            </ul>
+
+            <br><h5>Multiplicidade:</h5>
+            <p>Representada por números ou '*'. Número de instâncias de uma classe que podem ser associadas a instância de outra classe, em mesma relação (quantas vezes uma classe pode se relacionar com outra).</p>
+            <ul>
+                <li><b>0..1</b>: atributo opcionaçl;</li>
+                <li><b>1</b>: atributo obrigatório;</li>
+                <li><b>0..*</b>: nenhum ou vários objetos;</li>
+                <li><b>1..*</b>: pelo menos 1 ou vários objetos;</li>
+                <li><b>4..10</b>: pelo menos 4 e no máximo 10 objetos.</li>
+            </ul>
+
+            <br><h5>Valor inicial:</h5>
+            <p>Valor padrão inicial atribuído ao atributo para cada instância da classe. Há possibilidade de ser modificado futuramente, com exceção de propriedades (ex: atributo read-only não pode ser modificado).</p>
+
+            <br><h5>Propriedades e restrições:</h5>
+            <ul>
+                <li><b>Propriedades</b>: Compreendem conjunto de tags pré-definindas, que descrevem determinadas características ao atributo, como <i>read-only</i> e <i>add-only</i>;</li>
+                <li><b>Restrições</b>: Permitem indicar 1 ou mais restrições sobre o atributo. Podem ser escritas em linguagem natural ou com uso de gramática formal, como OCL (ex: - idade: int {idade>18}).</li>
+            </ul>
+
+            <br><h5>Estado do objeto:</h5>
+            <p>Conjunto de valores dos atributos que o objeto possui. ex: estado atual de objeto Livro meuLivro = lido.</p>
+
+            <br><h4>Static</h4>
+            <p>Elemento que pode ser modificado, mas será sempre valor estático mutável, porém único entre todos seus semelhantes que o encapsularem (valor salvo no mesmo local de memória). Não possui dependência de terceiros. Se utlizado em atributos, o atributo vira 'atributo de classe'. Método static pertene somente à classe em si, em vez de aos objetos da mesma. Esse método pode ser invocado sem necessidade de criar objeto da classe para tal. Método static não pode acessar ou modificar diretamente atributos do objeto (não têm acesso via self ou this). Métodos static podem acessar e modificar variáveis estáticas da classe.</p>
+<small><pre><code>
+public class Utilidade {
+    public static int soma(int a, int b) {
+        return a + b;
+    }
+}
+int resultado = Utilidade.soma(5, 3);
+</code></pre></small>
+
+            <br><h4>Atributo de objeto</h4>
+            <p>Atributo no qual cada objeto encapsula seu próprio valor (quando um atributo é do tipo de outra classe criada). Não há distinção visual em UML para tal (ex: '- salario : double'). Exemplo, em classe Funcionario, atributo de objeto 'salario', cada objeto Funcionario encapsula seu próprio valor de 'salario'. O <b>tipo Objeto</b> é quando atributo é do tipo de outra classe criada.</p>
+<small><pre><code>
+private Cachorro[] listaCachorros;
+public void addCachorro() {}
+</code></pre></small>
+
+            <br><h4>Atributo de classe</h4>
+            <p>Também chamado de atributo estático (static). Possui mesmo valor para todos objetos que o encapsularem (valor salvo no mesmo local de memória). Utilizado para padronização de valor no sistema. Alteração no valor do atributo de classe implicará, consequentemente, na alteração de todos valores dos mesmos, presentes nos outros objetos semelhantes. Em UML, atributo de classe é sublinhado (ex: '<u>- pisoSalarial : double</u>'). Exemplo, em classe Funcionario, atributo de classe pisoSalarial possuirá mesmo valor para todos objetos Funcionarios.</p>
+
+            <br><h4>Atributo derivado</h4>
+            <p>Atributo implícito na classe (não definido e acessado explicitamente), mas háverá métodos para acessá-lo. Pode ser calculado através de outros atributos de classe. Em UML, atributo derivado possui caractere barra antes do nome (ex: '- / media : int'). Exemplo, em classe Aluno, atributo derivado media não é explícito, mas pode ser utilizado em métodos como calcularMedia.</p>
+
+            <br><h4>Método</h4>
+            <p>Também chamado de operação ou ação. Serviço que pode ser requisitado a qualquer objeto da classe, afetando seu comportamento. A execução de método por um objeto pode resultar na alteração do valor de seus atributos. Geralmente, seu nome é verbo, indicando ação (ex: lerLivro, fazerAniversario, calcularSoma). Exemplo, em classe Aluno, método calcularMedia utilizará atributo listaNotas para calcular média de notas presentes em listaNotas desse objeto Aluno, e acoplará valor final de média no atributo media do mesmo. Geralmente, toda classe comum possui método construtor e, para cada atributo comum, tem-se método especial get (getNomeAtributo, retorna valor do atributo) e método set (setNomeAtributo, modifica valor do atributo).<br>Sintaxe: <span class="text-danger">visibilidade</span> <span class="text-success">nome</span> <span class="text-primary">(parametro: tipo, parametro: tipo)</span> : tipo-retorno <span class="text-warning">{propriedades}</span></p>
+            <img src="metodo_sintaxe.png" class="img-fluid" width="400px"><br>
+            <ul>
+                <li><span class="text-danger">+</span> <span class="text-success">getTitulo</span> <span class="text-primary">()</span> : String</li>
+                <li><span class="text-danger">+</span> <span class="text-success">setTitulo</span> <span class="text-primary">(titulo: String)</span> : <i>void</i></li>
+            </ul>
+            <ul>
+                <li><b>Método de objeto</b>: método comum, atua sobre objeto (instância). Não há distinção visual em UML para tal (ex: '+ getSalario() : double');</li>
+                <li><b>Método de classe</b>: atua sobre classe (conjunto de objetos), onde não é necessário ter instância de classe para acessá-la. Em UML, operação de classe é sublinhado (ex: '<u>+ setPisoSalarial(p: double) : void</u>').</li>
+            </ul>
+
+            <br><h5>Assinatura do método:</h5>
+            <p>Constitui nome, tipo do método, quantidade e ordem de seus parâmetros (nome dos parâmetros não faz parte da assinatura, nem tipo do retorno do método). No método Java "public int lerLivro(pagina: int, lido: boolean) {pagina = this.pagina++;}", a assinatura é 'lerLivro', método tipo 'int', possui 2 parâmetros ordenados int e boolean.</p>
+
+            <br><h5>Visibilidade:</h5>
+            <ul>
+                <li>(+) <b>public</b>: público, visível em todo projeto. Qualquer objeto pode invocar (chamar, referenciar, executar) método;</li>
+                <li>(#) <b>protected</b>: protegido, visível na própria classe, nas classes do próprio pacote e classes filhas. Somente objetos da própria classe, subclasses e classes do mesmo pacote podem invocar método;</li>
+                <li>(-) <b>private</b>: privado, visível somente na própria classe. Somente objetos da mesma classe podem invocar método. Somente objetos da mesma classe podem invocar método;</li>
+                <li>(~) <b>package</b>: pacote, visível nas classes do próprio pacote. Objetos de classes do mesmo pacote podem invocar método.</li>
+            </ul>
+
+            <br><h5>Lista de parâmetros:</h5>
+            <p>Lista de valores (e tipos) de entrada para o método. Um método não precisa, obrigatoriamente, ter 1 ou mais parâmetros de entrada, ou seja, lista de parâmetros do método é opcional.</p>
+
+            <br><h5>Tipo de retorno:</h5>
+            <p>Valor de retorno (return) indica tipo de dado que será informado como resultado da operação.</p>
+
+            <br><h5>Propriedades:</h5>
+            <p>Conjunto de tags pré-definindas que descrevem características da operação, como <i>isQuery</i>, <i>guarded</i> e <i>leaf</i>.</p>
+
+            <br><h4>Métodos especiais</h4>
+            <p>Métodos com operações individuais, diferentes dos demais (comuns). get (acessor), set (modificador), construct(construtor, criador). Cada atributo da classe possui um método especial get para acessar seu valor, e um método especial set para modificar seu valor. Em UML, getAll e setAll são utilizados para substituir, implicitamente, os métodos get e set de todos atributos da classe.</p>
+
+            <br><h5>Método construtor:</h5>
+            <p>Método construct, com mesmo nome da classe e visibilidade public, cuja função é criar instâncias (objetos) da classe. Em UML, método construtor não possui tipo de retorno visível (ex método construtor de classe Livro: '+ Livro(args : ArrayList)'). Em UML, o atributo 'args' representa, implicitamente, todos atributos da classe para criação de suas instâncias. Em Java, utiliza-se o super() para importar, implicitamente, todos atributos das superclasses (herança).</p>
+<small><pre><code>
+// classe Livro é subclasse de Publicacao, onde, no construtor da classe Livro, importa-se (via super) atributos da superclasse Publicacao. Construtor Livro instanciará objetos Livros, com dados de Livro e também Publicacao
+public class Publicacao {
+    private String titulo;
+    private String autor;
+    public Publicacao(String titulo, String autor) {
+        this.titulo = titulo;
+        this.autor = autor;
+    }
+}
+
+public class Livro extends Publicacao {
+    private int paginas;
+    public Livro(String titulo, String autor, int paginas) {
+        super(titulo, autor);
+        this.paginas = paginas;
+    }
+
+}
+
+public static void main(String[] args) {
+    Livro meuLivro = new Livro("1984", "George Orwell", 328);
+}
+</code></pre></small>
+
+            <br><h4>Encapsulamento</h4>
+            <p>Técnica pra proteger código, via criação de métodos públicos get e set para proteger atributos privates. Ocultar partes independentes da implementação, permitindo construir partes invisíveis ao mundo exterior. Entre as vantagens, tem-se mudanças no código interno imperceptíveis ao código externo, reutilização de código e redução de efeitos colaterais.</p>
+
+            <br><h4>Método com valor de retorno</h4>
+            <p>Método com return, onde o tipo do método é o mesmo que o tipo de seu valor de retorno (return).</p>
+<small><pre><code>
+public String lerLivro() {return valor String}
+</code></pre></small>
+
+            <br><h4>Método void</h4>
+            <p>Método que não possui valor de retorno (return), mas pode ter parâmetros.</p>
+<small><pre><code>
+public void lerLivro() {}
+</code></pre></small>
+
+            <br><h4>Responsabilidades da classe</h4>
+            <p>Responsabilidade de classe são as obrigações dentro do contexto do sistema, onde são traduzidas em conjunto de atributos e métodos que melhor atendam tais obrigações. Em UML, uma anotação (Note) pode ser relacionada na classe via relação NoteAnchor (linha tracejada, sem setas).</p>
+            <img src="noteanchor.png" class="img-fluid" width="400px"><br>
+
+            <br><h4>Relacionamentos</h4>
+            <ul>
+                <li><b>Relacionamentos fracos</b>: não armazenados em banco de dados. Em UML, representados por linha tracejada. Realização e dependência;</li>
+                <li><b>Relacionamentos fortes</b>: armazenado em banco de dados. Em UML, representados por linha contínua. Associação (agregação e composição) e generalização.</li>
+            </ul>
+
+            <br><h4>Associação</h4>
+            <p>Relacionamento estrutural, forte, que descreve ligação entre objetos das classes. Uma associação pode ter nome, que pode ser utilizado para descrever a natureza do relacionamento. Em UML, associação é representada por linha contínua entre classes, opcionalmente com nome e seta indicando implicação à classe alvo. Associação possui, opcionalmente, multiplicidade:</p>
+            <ul>
+                <li>(1-1): somente 1 autor escreve somente 1 livro;</li>
+                <li>(1-0..1): somente 1 autor escreve nenhum ou somente 1 livro;</li>
+                <li>(1-1..*): somente 1 autor escreve 1 ou mais livros;</li>
+                <li>(1-0..*): somente 1 autor escreve nenhum ou mais livros (exemplo na imagem).</li>
+            </ul>
+            <img src="associacao1.png" class="img-fluid" width="500px"><br>
+            <p>Associação possui, opcionalmente, papéis de cada classe na relação (name of the association end). Pode ocorrer associação comum, entre diferentes classes, ou auto associação, na mesma classe. Conforme exemplo abaixo, 1 autor, denominado autor da obra, escreve nenhum ou mais livros em uma lista de livros. Na auto associação, opcionalmente 1 pessoa cônjugeA realiza casamento com, opcionalmente, 1 pessoa cônjugeB.</p>
+            <img src="associacao2.png" class="img-fluid" width="500px"><br>
+            <img src="associacao3.png" class="img-fluid" width="230px"><br>
+            <p>Associação possui, opcionalmente, navegabilidade (representada por seta), que determina visualização (acesso) por parte de classes relacionadas. Tipos de navegabilidades de associação:</p>
+            <ul>
+                <li>(A - B): associação com navegabilidade não especificada, onde há ausênca de setas abertas em ambas extremidades da linha contínua. Classes A e B podem, ou não, acessar uma a outra;</li>
+                <li>(A &lt;-&gt; B): associação com navegabilidade especificada em ambas extremidades, onde há presença de setas abertas em ambas extremidades da linha contínua. Classes A e B acessam uma a outra;</li>
+                <li>(A -&gt; B): associação com navegabilidade especificada em somente 1 extremidade e não especificada em outra extremidade. Classe A acessa B, mas classe B pode, ou não, acessar A;</li>
+                <li>(A x-&gt; B): associação sem navegabilidade (x) em 1 extremidade e com navegabilidade na outra extremidade. Classe A acessa B, mas classe B não acessa A;</li>
+                <li>(A x-x B): associação sem navegabilidades em ambas extremidades. Classe A não acessa B, nem classe B acessa A.</li>
+            </ul>
+
+            <br><h4>Agregação</h4>
+            <p>Tipo especial de associação. Agregação ("tem um" ou "é um agregado de"), relação entre classes, onde classe B tem um atributo da classe A, na qual a definição do atributo em B diferencia-se da mesma em A. Dessa forma, uma das classes é parte ou está contida em outra classe.<br>Ex1: 1 Canil é agregado de 0 ou mais Cachorros;<br>Ex2: Mercado addProduto(p1); onde p1 é instância da classe Produto, e só adicionado, estando preenchido, na classe Mercado;</p>
+            <p>Agregação possui navegabilidade representada, em UML, através de losango não preenchido, apontado ao agregador ('classe X tem' o 'classe x é um agregado de'). Na outra extremidade da linha contínua (associação), tem opcionalmente navegabilidade à classe agregada.<br>No exemplo 1 abaixo, nenhuma ou 1 biblioteca é um agregado de 1 ou mais livros, onde classe Biblioteca acessa Livro, mas Livro pode, ou não, acessar Biblioteca (agregação para associação sem navegabilidade especificada). No exemplo 2 abaixo, nenhuma ou 1 biblioteca é um agregado de 1 ou mais livros, onde classe Biblioteca2 acessa Livro2, e Livro2 acessa Biblioteca2 (agregação para associação navegável).</p>
+            <img src="agregacao.png" class="img-fluid" width="250px"><br>
+            <!--https://www.uml-diagrams.org/aggregation.html (ver bolinha escura na seta)-->
+
+            <br><h4>Composição</h4>
+            <p>Tipo especial de associação. Relacionamento forte, dependente ("relaciona-se exclusivamente"). Quando uma parte é criada, sua existência coincide com o todo, ou seja, se o objeto da classe que contém for destruído, as classes da composição também serão destruídas, já que as mesmas fazem parte da outra (quando o todo é apagado, apaga-se também os dependentes). Exemplo, Canil é composto por Cachorros, então se não existir Canil, também não existirão Cachorros. Então, Canil é um composto de Cachorros, e Cachorros compõem-se de Canil.<br>Ex1: Classe Mercado tem addProduto("vassoura",25.9). Objeto produto não é criado na classe Produto, sendo dependente de sua criação na classe Mercado;<br>Ex2: Na agregação e associação, objetos adicionados na classe Canil podem ter sido criados em outra classe. Na composição, um Canil cria Cachorro.</p>
+            <p>Associação possui navegabilidade representada, em UML, através de losango preenchido, apontado ao "todo", sendo esse sempre com multiplicidade 1. Na outra extremidade da linha contínua (associação), tem opcionalmente navegabilidade à classe dependente do todo.<br>No exemplo 1 abaixo, 1 Editora é um composto (todo) de nenhum ou mais Livros, onde Editora acessa Livro, mas Livro pode, ou não, acessar Editora (composição para associação sem navegabilidade especificada). Nesse caso, se Editora for destruída, Livro também será. No exemplo 2 abaixo, ocorre o mesmo procedimento. Entretanto, Editora acessa Livro, e Livro acessa Editora (composição para associação navegável).</p>
+            <img src="composicao.png" class="img-fluid" width="250px"><br>
+<small><pre><code>
+public class Canil {
+    private Cachorro[];
+    ArrayList&lt;Cachorro&gt; listac;
+    public void addCachorro(Cachorro c){}
+    public void addCachorro(String nome, Date) {
+        Cachorro c = new Cachorro(nome, dtNasc);
+        this.listac.add(c); -&gt; <b>Associação</b>: entre as classes gera o listac, pois possibilita instanciar o objeto que representa a parte fora de seu todo
+    } -&gt; <b>Composição</b>: Canil depende de Nf, pois para criar uma Nf é necessário ter a classe da mesma
+    public NotaFiscal geraNota(Date data, double valor) {
+        NotaFiscal f = new NotaFiscal();
+        return f;
+    }
+}
+</code></pre></small>
+
+            <br><h4>Herança</h4>
+            <p>Relacionamento hierárquico forte, chamado <b>generalização</b>. Quando classe(s) herda(m) atributos, métodos e relacionamentos de outra(s) ("é um tipo de", exemplo: Cachorro (classe filha, subclasse) é um tipo de Animal (classe pai, superclasse)). Subclasse herda atributos e métodos da superclasse, permitindo modificações nos mesmos. Necessário incorporar todo conteúdo na subclasse. Quando há herança para atribuir os valores aos atributos herdados, utilizar através do Construtor o super (representa, implicitamente, atributos da superclasse).</p>
+            <ul>
+                <li><b>Generalização</b>: árvore acima, de subclasse para superclasse;</li>
+                <li><b>Especialização</b>: árvore abaixo, de superclasse para subclasse;</li>
+                <li><b>Classe ancestral</b>: superclasse;</li>
+                <li><b>Classe raíz (root)</b>: superclasse progenitora (classe de origem, mãe de todas, 1ª classe). Em UML, possui, opcionalmente, propriedade {root} ao lado do nome;</li>
+                <li><b>Classe folha (leaf)</b>: última filha (não possui filhas, linha final da árvore, não pode ser herdada). Também chamada de <b>classe final</b>. Em UML, possui, opcionalmente, propriedade {leaf} ao lado do nome.</li>
+            </ul>
+            <ul>
+                Tipos de herança:
+                <li><b>Herança de implementação</b>: quando subclasse não possui conteúdo extra e próprio, somente conteúdo da superclasse;</li>
+                <li><b>Herança para diferença</b>: quando subclasse possui conteúdo extra e próprio, além do conteúdo da superclasse;</li>
+                <li><b>Herança múltipla</b>: conceito OO, não encontrado em linguagens, caracteriza herança de atributos e métodos de 2 ou mais superclasses. Nelas, não há divisão de atributos, e sim acréscimos.</li>
+            </ul>
+            <p>Generalização é representada, em UML, através de linha contínua e, em uma das extremidades, uma seta fechada, não preenchida, apontando para superclasse. Não especifica-se navegabilidade.<br>No exemplo abaixo, subclasse Livro herdará os atributos e método da superclasse Exemplar (pois todo livro é um exemplar, e todo exemplar gera um livro). Nesse caso, Livro possuirá, além de seus próprios atributos, métodos e relacionamentos, as mesmas propriedades de Exemplar.</p>
+            <img src="generalizacao.png" class="img-fluid" width="130px"><br>
+            <p>JAVA classe final</p>
+
+            <br><h4>Polimorfismo</h4>
+            <p>Técnica para criar métodos iguais, porém com outro comportamento de execução, permitindo que um mesmo nome represente vários comportamentos diferentes numa mesma classe e projeto. Só há polimorfismo quando há generalização entre classes.</p>
+            <ul>Tipos:
+                <li><b>Sobrecarga</b>: métodos com mesmo nome, lista de parâmetros diferentes (geralmente na mesma classe);</li>
+                <li><b>Sobrescrita</b>: métodos com mesmo nome e lista de parâmetros, conteúdo interno diferente na subclasse.</li>
+            </ul>
+            <p>O código Java abaixo, informa mecanismo de ligação tardia entende que p1 é instância (criação) de Brasileiro, mesmo sendo "armazenado" dentro de Pessoa.</p>
+<small><pre><code>
+public class Main {
+    public static void main (String[] args) {
+        Pessoa p = new Pessoa("Ana");
+        Brasileiro b = new Brasileiro("Bob");
+        Cachorro c = new Cachorro();
+        Pessoa p1 = new Brasileiro("Rick");
+        b.setPet(c);
+    }
+}   
+public class Cachorro {
+    private String nome;
+    public void setNome(String n) {this.nome = n;}
+}   
+public class Pessoa {
+    private String nome;
+    public Pessoa(String nome) {this.nome = nome;}
+    public void comer() {QUADRADO}
+    public boolean comer(float qtde) {return false; BOLA}
+}
+public class Brasileiro extends Pessoa {
+    private Cachorro pet;
+    public Brasileiro(String  nome) {super(nome);}
+    public void comer() {TRIÂNGULO}
+    public void setPet(Cachorro c) {this.pet = c;}
+}
+
+p1.comer(); //resultado TRIÂNGULO
+p.comer(); //resultado QUADRADO
+p1.comer(0.5); //resultado BOLA
+b.comer(); //resultado TRIÂNGULO
+</code></pre></small>
+
+            <br><h5>Sobreposição:</h5>
+            <p>Conceito geral, significa clonar itens de mesmo valor e atribuir incremento extra ao item clonado.</p>
+
+            <br><h4>Dependência</h4>
+            <p>Relacionamento fraco entre 2 itens, um independente e um dependente, onde mudança no independente poderá afetar o dependente. Onde objeto manipula, em seus métodos, outro objeto (de outra classe), mas não tem qualquer outro relacionamento com a mesma. Relacionamento utilizado quando deseja-se representar utilização de uma classe em outra, como nos casos de parâmetros de métodos e uso de código nos métodos.<br>Ex1: Cliente depende do Fornecedor, onde Cliente não tem conhecimento semântico de Fornecedor;<br>Ex2: addNf() onde pode somente criar objeto nf na classe Canil, porque Canil depende da classe Nf para instanciar as mesmas, mas não há qualquer outro relacionamento entre as classes Nf e Canil.</p>
+            <p>Dependência é representada, em UML, através de linha tracejada e, em uma das extremidades, uma seta aberta apontando para classe independente. Dependência pode, opcionalmente, possui um título de relacionamento, denominado estereótipo (stereotype), representado por '&lt;&lt;nomeStereotype&gt;&gt;'.<br>No exemplo abaixo, Autor é dependente de Caneta, onde Autor usa Caneta e depende da mesma.</p>
+            <img src="dependencia.png" class="img-fluid" width="230px"><br>
+
+            <br><h4>Classe associativa</h4>
+            <p>Classe derivada de associação para qual seja necessário expressar propriedades em inermédio à relação. O nome da relação em classe associativa precisa ser igual ao nome da classe associativa. Classes associativas geralmente são utilizadas somente na fase de análise do projeto, onde são substituídas por outra classe em intermédio, relacionada com as demais via associação. Classe associativa é representada, em UML, por classe em intermédio entre associação de classes, vinculada à linha contínua de associação, por meio de linha tracejada, possuindo nome da associação igual ao nome da classe associativa de intermédio. Para a fase de projeto, a multiplicidade que está na classe esquerda (em fase de análise) vai para multiplicidade no lado direito da classe gerada por associação, e multiplicidade que está na classe direita (em fase de análise) vai para multiplicidade no lado esquerdo da classe gerada por associação. As multiplicidades das classes esquerda e direita tornam-se 1.<br>No exemplo 1 abaixo, associação entre classes Autor e Livro gera classe associativa Publicacao. Pois, para autor publicar um livro, é necessário ocorrer por meio de publicação, apresentando dados como editora e data da publicação. No exemplo 2 abaixo, tem-se o mesmo exemplo 1, porém aplicado à fase de projeto, onde a classe associativa torna-se classe de intermédio entre associação das envolvidas. Nesse exemplo, autor gera publicação da obra, e livro finalizado possui várias versões de publicações do mesmo.</p>
+            <img src="classe_associativa1.png" class="img-fluid" width="400px"><br>
+            <img src="classe_associativa2.png" class="img-fluid" width="400px"><br>
+
+            <br><h4>Propriedades dos atributos</h4>
+            <ul>
+                <li><b>readOnly</b>: também chamado de <b>atributo final</b>, indica que valor do atributo não pode ser modificado após valor inicial atribuído. Pode ser considerado atributo "constante";
+<small><pre><code>
+<u>Exemplo UML</u>:
+classe Biblioteca
+- livro : String = "UB Social" {readOnly}
+
+<u>Exemplo Java</u>:
+public class Biblioteca {
+    private final String livro = "UB Social";
+}
+</code></pre></small>
+                </li>
+                <li><b>changeable</b>: atributo modificável, sem restrições para modificações. Por padrão, um atributo é sempre changeable;</li>
+                <li><b>addOnly</b>: válido somente para atributos com multiplicidade maior que 1, onde valor do atributo não pode ser alterado ou removido;</li>
+                <li><b>union</b>: frequentemente utilizado para indicar que atributo é união derivada de outro conjunto de atributos;</li>
+                <li><b>redefines &lt;attribute-name&gt;</b>: atributo atua como 'alias' (apelido, atalho) de outro atributo. Pode ser utilizado para indicar que subclasse possui atributo atalho para atributo na superclasse.</li>
+            </ul>
+
+            <br><h4>Propriedades dos métodos</h4>
+            <ul>
+                <li><b>leaf</b>: folha, indica que método não possuirá redefinição. Também chamado de <b>método final</b>, que pode ser herdado, mas não sobrescrito (modificado);</li>
+                <li><b>isQuery</b>: método 'puro', ou seja, não altera estado do sistema;</li>
+                <li><b>sequential</b>: invocadores do método devem coordenar externamente o objeto, garantindo que exista fluxo único no objeto por vez;</li>
+                <li><b>guarded</b>: método garante que várias chamadas serão tratadas como chamadas sequenciais;</li>
+                <li><b>concurrent</b>: método considerado atômico e permite que seja executado concorrentemente com outros métodos.</li>
+            </ul>
+            <p>JAVA método final</p>
+
+            <br><h4>Restrições</h4>
+            <p>Define limites para objetos, classes, atributos, relacionamentos e associações. Restrição é especificada entre '{}' próximo ao elemento restrito, ou pode ser especificada como comentário do elemento. Restrições servem para limitar e realizar consistência dos elementos podendo tornar-se base para asserções (pré e/ou pós condições) em programação. Em UML, comentário é uma Note vinculada a classe via relação NoteAnchor. Restrições na generalização:</p>
+            <ul>
+                <li><b>complete</b>: não há mais nenhuma subclasse a especificar;</li>
+                <li><b>incomplete</b>: existem outras subclasses a especificar;</li>
+                <li><b>disjoint</b>: objeto da superclasse só pode ser objeto de subclasse;</li>
+                <li><b>overlapping</b>: objeto da superclasse pode ser objeto de mais de 1 subclasse ao mesmo tempo.</li>
+            </ul>
+            <p>No exemplo abaixo, complete indica que não há mais nenhum tipo de usuário de livro, e overlapping indica que um usuário de livro pode ser escritor e leitor ao mesmo tempo.</p>
+            <img src="restricoes_generalizacao.png" class="img-fluid" width="200px"><br>
+
+
+            <br><h4>Classe abstrata</h4>
+            <p>Classe <b>concreta</b> possui instâncias (objetos). Classe abstrata não possui instâncias. É utilizada na construção de hierarquia de relacionamentos de generalização. Pode, ou não, ter métodos concretos (padrão) ou abstratos. Se tiver <b>métodos abstratos</b>, obrigatoriamente terá de ser abstrata. Os métodos abstratos devem ser implementados nas subclasses concretas da classe abstrata (criado na classe abstrata, mas implementado nas subclasses abstratas concretas). Métodos abstratos, em UML, são identificados em itálico. Método abstrato possui, na superclasse, somente assinatura, e nas subclasses (@override) será informado conteúdo interno. Métodos construtores de classes abstratas não podem ser abstratos. Classe abstrata é representada, em UML, com o nome em itálico, ou com nome normal seguido de estereótipo &lt;&lt;abstract&gt;&gt; acima do nome.</p>
+            <p>No exemplo abaixo, Figura e Retangulo são abstratas, e classe Botao é folha. Método 'mostrar()' na classe Figura é método abstrato, implementado na subclasse concreta e folha Botao.</p>
+            <img src="classe_abstrata.png" class="img-fluid" width="400px"><br>
+            <p>colocar código método abstrato JAVA</p>
+
+            <br><h4>Interface</h4>
+            <p>Estereótipo interface é classe que define conjunto de métodos sem implementação (apenas assinatura). É o contato com o mundo exterior (via abtração), que define o que pode ser feito com um objeto dessa classe. Na interface, todo métodos são public e abstract, que não possuem conteúdo interno (somente assinatura), pelas quais todas as classes que implementarão (implements) 1 ou mais interfaces, terão de carregar (@override) todos métodos abstratos informados (implements). Não precisa informar <i>abstract</i> nos métodos na interface, porque já entende-se que os mesmos nela são abstratos por padrão. Os métodos abstratos podem ter valor de retorno e parâmetros. Também na interface, todos os atributos são atributos de classe e readOnly, sendo static e final. Interface não possui método construtor. Classe herdeira somente pode herdar (extends) de uma classe, abstrata ou não. Uma classe herdeira pode implementar (implements) várias classes simultaneamente.</p>
+            <p>Em UML, interface é representada pelo estereótipo '&lt;&lt;interface&gt;&gt;' acima do nome da classe (boas práticas sugerem nome da interface com 'I' de primeira letra, como 'IPainel'). Da mesma forma, todos seus métodos são representados em itálico (métodos abstract). Alternativamente, em UML, interface pode ser representada por círculo fechado não preenchido, ao invés de quadrado de classe.<br>Ex 1: Painel é interface, Botao (classe concreta) é implementação de Painel, então Botao é um tipo de Painel.</p>
+            <p><b>Realização</b> é relacionamento fraco onde classe concretiza ou implementa o comportamento de outro. É relacionamento entre interface e classe. Classe realiza comportamento de interface quando ocorre a implementação da mesma na primeira, permitindo assim, relacionamento "é um tipo de".</p>
+            <p>Em UML, quando a interface encontra-se como classe estereotipada, relacionamento realização é representado por linha tracejada, onde uma das extremidades possui seta fechada não preenchida, apontando para a interface. Ou, alternativamente, quando interface encontra-se como círculo fechado não preenchido, realização é representado como linha contínua, sem identificação nas extremidades (associação).</p>
+            <img src="realizacao.png" class="img-fluid" width="400px"><br>
+
+            <br><h4>Classe parametrizada</h4>
+            <p>Também conhecida como template (modelo) ou classe template. Classe template é usada como conjunto modelo para criar elementos mais específicos a partir dessa.<br>Ex 1: classe template EstanteLivro serve de classe modelo para criação de classe MinhaEstanteLivro, sendo essa mais específica e personalizada;<br>Ex 2: código Java, lista meusLivros é usada como modelo para criar objetos (Livros) mais específicos:</p>
+<small><pre><code>
+public ArrayList&lt;Livro&gt; meusLivros = new ArrayList&lt;Livro&gt;();
+</code></pre></small>
+            <p>Em UML, classe template é representada por pequeno quadrado tracejado no canto superior direito da classe, indicando template ou lista dos parâmetros. O relacionamento fraco entre classe template e classe concreta (nesse caso chamada 'bound element' (elemento ligado)) é representado explicitamente por linha tracejada com seta aberta em uma das extremidades, apontando para a classe template. Tal relação é nomeada pelo estereótipo '&lt;&lt;bind&gt;&gt;', juntamente com indicação do parâmetro para a classe template (template biding), em que o biding aponta seta para o objeto que lhe substituirá. A classe concreta relacionada geralmente não são mostrados atributos e métodos, pois não pode haver qualquer alteração no bound element (apenas indica-se o(s) parâmetro(s)). Na forma explícita, o quadrado tracejado representando template, pode possuir nome, tipo, valor padrão e tipo modificador (ex: 'T:boolean=true'). Na forma implícita, o bound element precisa ter mesmo nome da classe template, e a indicação do(s) parâmetro(s) é feita ao lado do nome do bound element, entre sinais de menor e maior.<br>O exemplo 1 abaixo mostra notação com vinculação explícita.<br>O exemplo 2 abaixo mostra notação com vinculação implícita.</p>
+            <img src="template1.png" class="img-fluid" width="400px"><br>
+            <img src="template2.png" class="img-fluid" width="520px"><br>
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center bg-black text-light pt-4 pb-3">
+        <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>
