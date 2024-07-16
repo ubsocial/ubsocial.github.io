@@ -628,25 +628,302 @@ public class Cafe {
             <img src="associacao1a.png" class="img-fluid" width="500px"><br>
             <p>Associação pode possuir propriedade que determina fim da associação, apontando o classificador associado. Em UML, o fim da associação é representado por círculo fechado preenchido (similar a um ponto). A propriedade que está apontada pelo círculo, é pertencente à propriedade do outro lado da linha de associação. Conforme exemplo abaixo, o fim da associação "query" pertence a classe QueryBuilder, e o fim da associação "qbuilder" é propriedade da própria associação Builds.</p>
             <img src="associacao1b.png" class="img-fluid" width="300px"><br>
+<small><pre><code>
+import java.util.ArrayList;
+import java.util.List;
+
+// Classe Professor
+class Professor {
+    private String nome;
+    private List&lt;Disciplina&gt; disciplinas;
+
+    public Professor(String nome) {
+        this.nome = nome;
+        this.disciplinas = new ArrayList&lt;&gt;();
+    }
+
+    // Método para adicionar disciplina que professor leciona
+    public void adicionarDisciplina(Disciplina disciplina) {
+        disciplinas.add(disciplina);
+    }
+
+    // Método para exibir disciplinas que professor leciona
+    public void mostrarDisciplinas() {
+        System.out.println("Professor: " + nome);
+        System.out.println("Disciplinas lecionadas:");
+        for (Disciplina disciplina : disciplinas) {
+            System.out.println("- " + disciplina.getNome());
+        }
+    }
+}
+
+// Classe Disciplina
+class Disciplina {
+    private String nome;
+    private List&lt;Professor&gt; professores;
+
+    public Disciplina(String nome) {
+        this.nome = nome;
+        this.professores = new ArrayList&lt;&gt;();
+    }
+
+    public String getNome() {return nome;}
+
+    // Método para adicionar professor que leciona a disciplina
+    public void adicionarProfessor(Professor professor) {
+        professores.add(professor);
+    }
+
+    // Método para exibir professores que lecionam a disciplina
+    public void mostrarProfessores() {
+        System.out.println("Disciplina: " + nome);
+        System.out.println("Professores que lecionam:");
+        for (Professor professor : professores) {
+            System.out.println("- " + professor.nome);
+        }
+    }
+}
+
+// Exemplo de uso das classes
+public class ExemploAssociacao {
+    public static void main(String[] args) {
+        // Criar objetos professores
+        Professor p1 = new Professor("João");
+        Professor p2 = new Professor("Maria");
+
+        // Criar objetos disciplinas
+        Disciplina d1 = new Disciplina("Matemática");
+        Disciplina d2 = new Disciplina("História");
+
+        // Associar professores às disciplinas
+        d1.adicionarProfessor(p1);
+        d1.adicionarProfessor(p2);
+        d2.adicionarProfessor(p2);
+
+        // Associar disciplinas aos professores
+        p1.adicionarDisciplina(d1);
+        p2.adicionarDisciplina(d1);
+        p2.adicionarDisciplina(d2);
+
+        // Exibir disciplinas lecionadas por cada professor
+        p1.mostrarDisciplinas();
+        System.out.println();
+        p2.mostrarDisciplinas();
+
+        // Exibir professores que lecionam cada disciplina
+        System.out.println();
+        d1.mostrarProfessores();
+        System.out.println();
+        d2.mostrarProfessores();
+    }
+}
+</code></pre></small>
 
 
             <br><h4>Agregação</h4>
             <p>Tipo especial de associação. Agregação ("tem um" ou "é um agregado de"), relação entre classes, onde classe B tem um atributo da classe A, na qual a definição do atributo em B diferencia-se da mesma em A. Dessa forma, uma das classes é parte ou está contida em outra classe.<br>Ex1: 1 Canil é agregado de 0 ou mais Cachorros;<br>Ex2: Mercado addProduto(p1); onde p1 é instância da classe Produto, e só adicionado, estando preenchido, na classe Mercado;</p>
             <p>Agregação possui navegabilidade representada, em UML, através de losango não preenchido, apontado ao agregador ('classe X tem' o 'classe x é um agregado de'). Na outra extremidade da linha contínua (associação), tem opcionalmente navegabilidade à classe agregada.<br>No exemplo 1 abaixo, nenhuma ou 1 biblioteca é um agregado de 1 ou mais livros, onde classe Biblioteca acessa Livro, mas Livro pode, ou não, acessar Biblioteca (agregação para associação sem navegabilidade especificada). No exemplo 2 abaixo, nenhuma ou 1 biblioteca é um agregado de 1 ou mais livros, onde classe Biblioteca2 acessa Livro2, e Livro2 acessa Biblioteca2 (agregação para associação navegável).</p>
             <img src="agregacao.png" class="img-fluid" width="250px"><br>
-            
+<small><pre><code>
+import java.util.ArrayList;
+import java.util.List;
+
+// Classe Funcionário
+class Funcionário {
+    private String nome;
+    private int idade;
+
+    public Funcionário(String nome, int idade) {
+        this.nome = nome;
+        this.idade = idade;
+    }
+
+    public String getNome() {return nome;}
+    public int getIdade() {return idade;}
+}
+
+// Classe Departamento
+class Departamento {
+    private String nome;
+    private List&lt;Funcionário&gt; funcionários;
+
+    public Departamento(String nome) {
+        this.nome = nome;
+        this.funcionários = new ArrayList&lt;&gt;();
+    }
+
+    // Método para adicionar funcionários ao departamento
+    public void adicionarFuncionário(Funcionário funcionário) {
+        funcionários.add(funcionário);
+    }
+
+    // Método para exibir funcionários do departamento
+    public void mostrarFuncionários() {
+        System.out.println("Departamento: " + nome);
+        System.out.println("Funcionários:");
+        for (Funcionário funcionário : funcionários) {
+            System.out.println("- " + funcionário.getNome() + ", " + funcionário.getIdade() + " anos");
+        }
+    }
+}
+
+// Exemplo de uso das classes
+public class ExemploAgregacao {
+    public static void main(String[] args) {
+        // Criar objetos funcionários
+        Funcionário f1 = new Funcionário("João", 30);
+        Funcionário f2 = new Funcionário("Maria", 25);
+        Funcionário f3 = new Funcionário("José", 28);
+
+        // Criar objeto departamento
+        Departamento d1 = new Departamento("Recursos Humanos");
+
+        // Adicionar funcionários ao departamento
+        d1.adicionarFuncionário(f1);
+        d1.adicionarFuncionário(f2);
+        d1.adicionarFuncionário(f3);
+
+        // Exibir funcionários do departamento
+        d1.mostrarFuncionários();
+    }
+}
+</code></pre></small>
+
             <br><h4>Nesting</h4>
             <p>Nesting (owning) consiste em aninhar/conter (nest) elemento dentro de outro, para mostrar relações de composição ou agrupamento entre partes do modelo. Usado quando classe contém outra classe(s) como atributo(s), indicando que essa está intimamente relacionada ou é parte essencial da classe principal/proprietária owner (contém partes (classe) do código referenciadas no classe todo). Em UML, nesting é relacionado através de linha contínua com um circulo fechado em uma das extremidades da linha, preenchido com um "+", apontando para o todo (elemento que vai conter o outro dentro). No exemplo 1 abaixo, a classe Lista está aninhando (todo, está contendo, contém) a interface Elemento, ou seja, Elemento está no escopo de Lista (está contido). No exemplo 2 abaixo, classe ProximoValor está aninhada pela classe EstruturaDados, possuindo classe ElementoDado no código de ProximoValor. A classe ElementoDado está agregada em EstruturaDados.</p>
             <img src="nest1.png" class="img-fluid" width="100px"><br>
             <img src="nest2.png" class="img-fluid" width="320px"><br>
-            <!--VER O QUE linha tracejada depenência 'Usage'-->
-            <!--VER O QUE business entity-->
-            <!--VER O QUE control, business worker, interfaces-->
+<small><pre><code>
+// Classe externa
+class ClasseExterna {
+    private int valorExterno;
+
+    public ClasseExterna(int valorExterno) {
+        this.valorExterno = valorExterno;
+    }
+
+    // Método da classe externa
+    public void mostrarValor() {
+        System.out.println("Valor externo: " + valorExterno);
+    }
+
+    // Classe interna (nested class)
+    class ClasseInterna {
+        private int valorInterno;
+
+        public ClasseInterna(int valorInterno) {
+            this.valorInterno = valorInterno;
+        }
+
+        // Método da classe interna
+        public void mostrarValorInterno() {
+            System.out.println("Valor interno: " + valorInterno);
+        }
+    }
+}
+
+// Classes aninhadas
+public class ExemploClassesAninhadas {
+    public static void main(String[] args) {
+        // Criar instância da classe externa
+        ClasseExterna externa = new ClasseExterna(10);
+
+        // Criar instância da classe interna usando a instância da classe externa
+        ClasseExterna.ClasseInterna interna = externa.new ClasseInterna(5);
+
+        externa.mostrarValor(); // Saída: Valor externo: 10
+        interna.mostrarValorInterno(); // Saída: Valor interno: 5
+    }
+}
+</code></pre></small>
 
             <br><h4>Composição</h4>
-            <p>Tipo especial de associação. Relacionamento forte, dependente ("relaciona-se exclusivamente"). Quando uma parte é criada, sua existência coincide com o todo, ou seja, se o objeto da classe que contém for destruído, as classes da composição também serão destruídas, já que as mesmas fazem parte da outra (quando o todo é apagado, apaga-se também os dependentes). Exemplo, Canil é composto por Cachorros, então se não existir Canil, também não existirão Cachorros. Então, Canil é um composto de Cachorros, e Cachorros compõem-se de Canil.<br>Ex1: Classe Mercado tem addProduto("vassoura",25.9). Objeto produto não é criado na classe Produto, sendo dependente de sua criação na classe Mercado;<br>Ex2: Na agregação e associação, objetos adicionados na classe Canil podem ter sido criados em outra classe. Na composição, um Canil cria Cachorro.</p>
+            <p>Tipo especial de associação. Relacionamento forte, dependente ("relaciona-se exclusivamente"). Quando uma parte é criada (parte do todo), sua existência coincide com o todo, ou seja, se o objeto da classe que o contém for destruído, as classes da composição também serão destruídas, já que as mesmas fazem parte da outra (quando o todo é apagado, apaga-se também os dependentes - partes do todo). Exemplo, Canil é composto por Cachorros, então se não existir Canil, também não existirão Cachorros. Então, Canil é um composto de Cachorros, e Cachorros compõem-se de Canil.<br>Ex1: Classe Mercado tem addProduto("vassoura",25.9). Objeto produto não é criado na classe Produto, sendo dependente de sua criação na classe Mercado;<br>Ex2: Na agregação e associação, objetos adicionados na classe Canil podem ter sido criados em outra classe. Na composição, um Canil cria Cachorro.</p>
             <p>Associação possui navegabilidade representada, em UML, através de losango preenchido, apontado ao "todo", sendo esse sempre com multiplicidade 1. Na outra extremidade da linha contínua (associação), tem opcionalmente navegabilidade à classe dependente do todo.<br>No exemplo 1 abaixo, 1 Editora é um composto (todo) de nenhum ou mais Livros, onde Editora acessa Livro, mas Livro pode, ou não, acessar Editora (composição para associação sem navegabilidade especificada). Nesse caso, se Editora for destruída, Livro também será. No exemplo 2 abaixo, ocorre o mesmo procedimento. Entretanto, Editora acessa Livro, e Livro acessa Editora (composição para associação navegável).</p>
             <img src="composicao.png" class="img-fluid" width="250px"><br>
+<p><u>Exemplo 1</u>:</p>
+<p>Computador (todo) possui diretamente objetos (partes do todo) CPU, PlacaMae e MemoriaRAM. Se Computador for destruído, os componentes CPU, PlacaMae e MemoriaRAM também serão destruídos, pois eles não têm existência própria independente do Computador.</p>
+<small><pre><code>
+// Classe CPU (parte do composto)
+class CPU {
+    private String tipo;
+    private int velocidade;
+
+    public CPU(String tipo, int velocidade) {
+        this.tipo = tipo;
+        this.velocidade = velocidade;
+    }
+
+    public String getTipo() {return tipo;}
+    public int getVelocidade() {return velocidade;}
+}
+
+// Classe PlacaMae (parte do composto)
+class PlacaMae {
+    private String modelo;
+    private int slotsMemoria;
+
+    public PlacaMae(String modelo, int slotsMemoria) {
+        this.modelo = modelo;
+        this.slotsMemoria = slotsMemoria;
+    }
+
+    public String getModelo() {return modelo;}
+    public int getSlotsMemoria() {return slotsMemoria;}
+}
+
+// Classe MemoriaRAM (parte do composto)
+class MemoriaRAM {
+    private int capacidade;
+    private String tipo;
+
+    public MemoriaRAM(int capacidade, String tipo) {
+        this.capacidade = capacidade;
+        this.tipo = tipo;
+    }
+
+    public int getCapacidade() {return capacidade;}
+    public String getTipo() {return tipo;}
+}
+
+// Classe Computador (composto/todo: composição com CPU, PlacaMae e MemoriaRAM)
+class Computador {
+    private CPU cpu;
+    private PlacaMae placaMae;
+    private MemoriaRAM memoriaRam;
+
+    public Computador(CPU cpu, PlacaMae placaMae, MemoriaRAM memoriaRam) {
+        this.cpu = cpu;
+        this.placaMae = placaMae;
+        this.memoriaRam = memoriaRam;
+    }
+
+    // Método para exibir informações do computador
+    public void exibirInfo() {
+        System.out.println("Computador:");
+        System.out.println("- CPU: " + cpu.getTipo() + ", " + cpu.getVelocidade() + " GHz");
+        System.out.println("- Placa Mãe: " + placaMae.getModelo() + ", " + placaMae.getSlotsMemoria() + " slots de memória");
+        System.out.println("- Memória RAM: " + memoriaRam.getCapacidade() + " GB, " + memoriaRam.getTipo());
+    }
+}
+
+// Exemplo de uso das classes
+public class ExemploComposicaoJava {
+    public static void main(String[] args) {
+        // Criar componentes individuais do computador
+        CPU cpu = new CPU("Intel Core i7", 3);
+        PlacaMae placaMae = new PlacaMae("ASUS Prime Z590", 4);
+        MemoriaRAM memoriaRAM = new MemoriaRAM(16, "DDR4");
+
+        // Criar objeto computador com os componentes criados
+        Computador meuComputador = new Computador(cpu, placaMae, memoriaRAM);
+
+        // Exibir informações do computador
+        meuComputador.exibirInfo();
+    }
+}
+</code></pre></small>
+<br><p><u>Exemplo 2</u>:</p>
 <small><pre><code>
 public class Canil {
     private Cachorro[];
@@ -655,7 +932,7 @@ public class Canil {
     public void addCachorro(String nome, Date) {
         Cachorro c = new Cachorro(nome, dtNasc);
         this.listac.add(c); -&gt; <b>Associação</b>: entre as classes gera o listac, pois possibilita instanciar o objeto que representa a parte fora de seu todo
-    } -&gt; <b>Composição</b>: Canil depende de Nf, pois para criar uma Nf é necessário ter a classe da mesma
+    } -&gt; <b>Composição</b>: Canil depende de NotaFiscal, pois para criar um objeto NotaFiscal é necessário ter a classe da mesma
     public NotaFiscal geraNota(Date data, double valor) {
         NotaFiscal f = new NotaFiscal();
         return f;
@@ -664,13 +941,14 @@ public class Canil {
 </code></pre></small>
 
             <br><h4>Herança</h4>
-            <p>Relacionamento hierárquico forte, chamado <b>generalização</b>. Quando classe(s) herda(m) atributos, métodos e relacionamentos de outra(s) ("é um tipo de", exemplo: Cachorro (classe filha, subclasse) é um tipo de Animal (classe pai, superclasse)). Subclasse herda atributos e métodos da superclasse, permitindo modificações nos mesmos. Necessário incorporar todo conteúdo na subclasse. Quando há herança para atribuir os valores aos atributos herdados, utilizar através do Construtor o super (representa, implicitamente, atributos da superclasse).</p>
+            <p>Relacionamento hierárquico forte, chamado <b>generalização</b>. Quando classe(s) herda(m) atributos, métodos e relacionamentos de outra(s) ("é um tipo de", exemplo: Cachorro (classe filha, subclasse) é um tipo de Animal (classe pai, superclasse)). Subclasse herda atributos e métodos da superclasse, permitindo modificações nos mesmos (sobrescrita - @Override). Consequentemente, herança incorpora todo conteúdo da(s) superclasse(s) na(s) subclasse(s). Quando há herança para atribuir os valores aos atributos herdados, utilizar através do Construtor o super (representa, implicitamente, atributos e construtor da superclasse).</p>
             <ul>
                 <li><b>Generalização</b>: árvore acima, de subclasse para superclasse;</li>
                 <li><b>Especialização</b>: árvore abaixo, de superclasse para subclasse;</li>
-                <li><b>Classe ancestral</b>: superclasse;</li>
-                <li><b>Classe raíz (root)</b>: superclasse progenitora (classe de origem, mãe de todas, 1ª classe). Em UML, possui, opcionalmente, propriedade {root} ao lado do nome;</li>
-                <li><b>Classe folha (leaf)</b>: última filha (não possui filhas, linha final da árvore, não pode ser herdada). Também chamada de <b>classe final</b>. Em UML, possui, opcionalmente, propriedade {leaf} ao lado do nome.</li>
+                <li><b>Classe ancestral (mãe, base)</b>: superclasse;</li>
+                <li><b>Classe raíz (root, base)</b>: superclasse progenitora (classe de origem, mãe de todas, 1ª classe). Em UML, possui, opcionalmente, propriedade {root} ao lado do nome;</li>
+                <li><b>Subclasse (derivada, filha)</b>: classe gerada a partir de herança de superclasse. Incorpora, implicitamente, todos atributos, métodos e relacionamentos da(s) superclasse(s), salve exceções;</li>
+                <li><b>Classe folha (filha, derivada, leaf)</b>: última filha (não possui filhas, linha final da árvore, não pode ser herdada). Também chamada de <b>classe final</b>. Em UML, possui, opcionalmente, propriedade {leaf} ao lado do nome.</li>
             </ul>
             <ul>
                 Tipos de herança:
@@ -680,9 +958,154 @@ public class Canil {
             </ul>
             <p>Generalização é representada, em UML, através de linha contínua e, em uma das extremidades, uma seta fechada, não preenchida, apontando para superclasse. Não especifica-se navegabilidade.<br>No exemplo abaixo, subclasse Livro herdará os atributos e método da superclasse Exemplar (pois todo livro é um exemplar, e todo exemplar gera um livro). Nesse caso, Livro possuirá, além de seus próprios atributos, métodos e relacionamentos, as mesmas propriedades de Exemplar.</p>
             <img src="generalizacao.png" class="img-fluid" width="130px"><br>
-            <p>JAVA classe final</p>
+<br><p><u>Exemplo 1</u>:</p>
+<small><pre><code>
+// Classe Rascunho (superclasse)
+class Rascunho {
+    protected String titulo;
+    protected String autor;
+
+    public Rascunho(String titulo, String autor) {
+        this.titulo = titulo;
+        this.autor = autor;
+    }
+
+    public String getTitulo() {return titulo;}
+    public String getAutor() {return autor;}
+
+    public void exibirInfo() {
+        System.out.println("Título: " + titulo);
+        System.out.println("Autor: " + autor);
+    }
+}
+
+// Classe Livro (subclasse, herda de Rascunho)
+class Livro extends Rascunho {
+    private String isbn;
+    private int numeroPaginas;
+
+    public Livro(String titulo, String autor, String isbn, int numeroPaginas) {
+        super(titulo, autor); // Chama construtor da Rascunho
+        this.isbn = isbn;
+        this.numeroPaginas = numeroPaginas;
+    }
+
+    public String getIsbn() {return isbn;}
+    public int getNumeroPaginas() {return numeroPaginas;}
+
+    // Método para exibir informações do livro (sobrescreve exibirInfo da classe Rascunho)
+    @Override
+    public void exibirInfo() {
+        super.exibirInfo(); // Invoca método da classe Rascunho
+        System.out.println("ISBN: " + isbn);
+        System.out.println("Número de Páginas: " + numeroPaginas);
+    }
+}
+
+// Exemplo de uso das classes
+public class ExemploHeranca {
+    public static void main(String[] args) {
+        // Criar objeto rascunho
+        Rascunho r1 = new Rascunho("Rascunho de Java", "João Silva");
+
+        // Criar objeto livro
+        Livro l1 = new Livro("Java Completo", "Maria Oliveira", "978-3-16-148410-0", 450);
+
+        // Exibir informações do rascunho
+        System.out.println("Informações do Rascunho:");
+        r1.exibirInfo();
+
+        // Exibir informações do livro
+        System.out.println("\nInformações do Livro:");
+        l1.exibirInfo();
+    }
+}
+</code></pre></small>
+
+            <br><p><u>Exemplo 2</u>:</p>
+            <p>Classe Animal (superclasse), Cachorro (subclasse de Animal) e Poodle (subclasse de Cachorro, e também é classe final - leaf)</p>
+<small><pre><code>
+// Classe base Animal
+class Animal {
+    protected String nome;
+    protected int idade;
+
+    public Animal(String nome, int idade) {
+        this.nome = nome;
+        this.idade = idade;
+    }
+
+    public String getNome() {return nome;}
+    public int getIdade() {return idade;}
+
+    public void emitirSom() {
+        System.out.println("O animal emite um som.");
+    }
+}
+
+// Classe derivada Cachorro
+class Cachorro extends Animal {
+
+    public Cachorro(String nome, int idade) {
+        super(nome, idade); // Invoca construtor da classe base Animal
+    }
+
+    public void latir() {
+        System.out.println("O cachorro late: Au Au!");
+    }
+
+    // Sobrescrer método emitirSom da classe base Animal
+    @Override
+    public void emitirSom() {
+        System.out.println("O cachorro faz: Au Au!");
+    }
+}
+
+// Classe final (folha,leaf) Poodle que herda de Cachorro
+public final class Poodle extends Cachorro {
+
+    public Poodle(String nome, int idade) {
+        super(nome, idade); // Invoca construtor da classe base Cachorro
+    }
+
+    // Método específico para o poodle
+    public void mostrarEstilo() {
+        System.out.println("O poodle está exibindo seu estilo.");
+    }
+
+    // Sobrescrever método emitirSom da classe Cachorro
+    @Override
+    public void emitirSom() {
+        System.out.println("O poodle faz: Au Au, com um toque de elegância!");
+    }
+}
+
+public class ExemploHerancaFinal {
+    public static void main(String[] args) {
+        // Criar objeto Animal
+        Animal a1 = new Animal("Animal Genérico", 5);
+        a1.emitirSom();
+
+        // Criar objeto Cachorro
+        Cachorro c1 = new Cachorro("Rex", 3);
+        c1.emitirSom();
+        c1.latir();
+
+        // Criar objeto Poodle
+        Poodle p1 = new Poodle("Bella", 2);
+        p1.emitirSom();
+        p1.latir();
+        p1.mostrarEstilo();
+
+        // Exibir informações do Poodle
+        System.out.println("Nome: " + p1.getNome());
+        System.out.println("Idade: " + p1.getIdade());
+    }
+}
+</code></pre></small>
 
             <br><h4>Polimorfismo</h4>
+            <!--PAROU CÓDIGOS JAVA AQUI-->
             <p>Técnica para criar métodos iguais, porém com outro comportamento de execução, permitindo que um mesmo nome represente vários comportamentos diferentes numa mesma classe e projeto. Só há polimorfismo quando há generalização entre classes.</p>
             <ul>Tipos:
                 <li><b>Sobrecarga</b>: métodos com mesmo nome, lista de parâmetros diferentes (geralmente na mesma classe);</li>
@@ -798,6 +1221,13 @@ public ArrayList&lt;Livro&gt; meusLivros = new ArrayList&lt;Livro&gt;();
             <p>Em UML, classe template é representada por pequeno quadrado tracejado no canto superior direito da classe, indicando template ou lista dos parâmetros. O relacionamento fraco entre classe template e classe concreta (nesse caso chamada 'bound element' (elemento ligado)) é representado explicitamente por linha tracejada com seta aberta em uma das extremidades, apontando para a classe template. Tal relação é nomeada pelo estereótipo '&lt;&lt;bind&gt;&gt;', juntamente com indicação do parâmetro para a classe template (template biding), em que o biding aponta seta para o objeto que lhe substituirá. A classe concreta relacionada geralmente não são mostrados atributos e métodos, pois não pode haver qualquer alteração no bound element (apenas indica-se o(s) parâmetro(s)). Na forma explícita, o quadrado tracejado representando template, pode possuir nome, tipo, valor padrão e tipo modificador (ex: 'T:boolean=true'). Na forma implícita, o bound element precisa ter mesmo nome da classe template, e a indicação do(s) parâmetro(s) é feita ao lado do nome do bound element, entre sinais de menor e maior.<br>O exemplo 1 abaixo mostra notação com vinculação explícita.<br>O exemplo 2 abaixo mostra notação com vinculação implícita.</p>
             <img src="template1.png" class="img-fluid" width="400px"><br>
             <img src="template2.png" class="img-fluid" width="520px"><br>
+
+
+
+            <!--VER O QUE linha tracejada depenência 'Usage'-->
+            <!--VER O QUE business entity-->
+            <!--VER O QUE control, business worker, interfaces-->
+            <!--Explicar sintaxe e porquê do funcionamento do 'public static void main(String[] args) {}'-->
         </div>
     </div>
 
