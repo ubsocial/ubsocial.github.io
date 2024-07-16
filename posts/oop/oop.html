@@ -93,7 +93,7 @@
                 <li><b>boolean</b>: booleano, valores verdadeiro (true ou 1) ou falso (false ou 0);</li>
                 <li><b>array</b>: lista de valores (ex: int[] nomeLista: {1,2,3});</li>
                 <li><b>ArrayList</b>: lista dinâmica de valores/objetos (ex: ArrayList&lt;String&gt; nomeLista = new ArrayList&lt;&gt;());</li>
-                <li><b>Object</b>: objeto, instância de classe, com respectivos atributos e métodos (ex: Livro).</li>
+                <li><b>object</b>: objeto, instância de classe, com respectivos atributos e métodos (ex: Livro).</li>
             </ul>
 
             <br><h5>Multiplicidade:</h5>
@@ -175,7 +175,7 @@ public class Livro {
 </code></pre></small>
 
             <br><h4>Static</h4>
-            <p>Elemento que pode ser modificado, mas será sempre valor estático mutável, porém único entre todos seus semelhantes que o encapsularem (valor salvo no mesmo local de memória). Não possui dependência de terceiros. Se utlizado em atributos, o atributo vira 'atributo de classe'. Método static pertene somente à classe em si, em vez de aos objetos da mesma. Esse método pode ser invocado sem necessidade de criar objeto da classe para tal. Método static não pode acessar ou modificar diretamente atributos do objeto (não têm acesso via self ou this). Métodos static podem acessar e modificar variáveis estáticas da classe.</p>
+            <p>Elemento que pode ser modificado, mas será sempre valor estático mutável, porém único entre todos seus semelhantes que o encapsularem (valor salvo no mesmo local de memória). Não possui dependência de terceiros. Se utlizado em atributos, o atributo vira 'atributo de classe'. Método static pertene somente à classe em si, em vez de aos objetos da mesma. Esse método pode ser invocado sem necessidade de criar objeto da classe para tal. Método static não pode acessar ou modificar diretamente atributos do objeto (não tem acesso via self ou this). Métodos static podem acessar e modificar variáveis estáticas da classe.</p>
 <small><pre><code>
 public class Utilidade {
     public static int soma(int a, int b) {
@@ -186,20 +186,79 @@ int resultado = Utilidade.soma(5, 3);
 </code></pre></small>
 
             <br><h4>Atributo de objeto</h4>
-            <p>Atributo no qual cada objeto encapsula seu próprio valor (quando um atributo é do tipo de outra classe criada). Não há distinção visual em UML para tal (ex: '- salario : double'). Exemplo, em classe Funcionario, atributo de objeto 'salario', cada objeto Funcionario encapsula seu próprio valor de 'salario'. O <b>tipo Objeto</b> é quando atributo é do tipo de outra classe criada.</p>
-<small><pre><code>
-private Cachorro[] listaCachorros;
-public void addCachorro() {}
-</code></pre></small>
+            <p>Atributo não estático, no qual cada objeto encapsula seu próprio valor (quando um atributo é do tipo de outra classe criada). Não há distinção visual em UML para tal (ex: '- salario : double'). Exemplo, em classe Funcionario, atributo de objeto 'salario', cada objeto Funcionario encapsula seu próprio valor de 'salario'. O <b>tipo objeto</b> é quando atributo é do tipo de outra classe criada.</p>
 
             <br><h4>Atributo de classe</h4>
             <p>Também chamado de atributo estático (static). Possui mesmo valor para todos objetos que o encapsularem (valor salvo no mesmo local de memória). Utilizado para padronização de valor no sistema. Alteração no valor do atributo de classe implicará, consequentemente, na alteração de todos valores dos mesmos, presentes nos outros objetos semelhantes. Em UML, atributo de classe é sublinhado (ex: '<u>- pisoSalarial : double</u>'). Exemplo, em classe Funcionario, atributo de classe pisoSalarial possuirá mesmo valor para todos objetos Funcionarios.</p>
+<small><pre><code>
+public class Livro {
+    // Atributo de classe
+    public static int contadorLivros = 0;
+
+    // Atributo de objeto (não-static)
+    public String nome;
+
+    public Livro(String nome) {
+        this.nome = nome;
+        contadorLivros++;
+    }
+
+    public void mostrarInformacoes() {
+        System.out.println("Nome: " + this.nome);
+        System.out.println("Contador de livros: " + Livro.contadorLivros);
+    }
+
+    public static void main(String[] args) {
+        Livro livro1 = new Livro("Livro 1");
+        Livro livro2 = new Livro("Livro 2");
+        livro1.mostrarInformacoes();
+        livro2.mostrarInformacoes();
+
+        // Acessar atributo de classe diretamente
+        System.out.println("Contador de livros (diretamente): " + Livro.contadorLivros);
+    }
+}
+</code></pre></small>
 
             <br><h4>Atributo derivado</h4>
-            <p>Atributo implícito na classe (não definido e acessado explicitamente), mas háverá métodos para acessá-lo. Pode ser calculado através de outros atributos de classe. Em UML, atributo derivado possui caractere barra antes do nome (ex: '- / media : int'). Exemplo, em classe Aluno, atributo derivado media não é explícito, mas pode ser utilizado em métodos como calcularMedia.</p>
+            <p>Atributo implícito na classe (não definido, armazenado e acessado explicitamente), mas háverá métodos para acessá-lo. Pode ser calculado através de outros atributos de classe. Em UML, atributo derivado possui caractere barra antes do nome (ex: '- / media : int'). Exemplo, em classe Aluno, atributo derivado media não é explícito, mas pode ser utilizado em métodos como calcularMedia.</p>
+<small><pre><code>
+public class Retangulo {
+    private double largura;
+    private double altura;
+
+    public Retangulo(double largura, double altura) {
+        this.largura = largura;
+        this.altura = altura;
+    }
+
+    public double getLargura() {return largura;}
+    public void setLargura(double largura) {this.largura = largura;}
+    public double getAltura() {return altura;}
+    public void setAltura(double altura) {this.altura = altura;}
+
+    // Método para calcular área (atributo derivado - area)
+    public double getArea() {
+        return largura * altura;
+    }
+
+    public static void main(String[] args) {
+        Retangulo retangulo = new Retangulo(5, 10);
+        System.out.println("Largura: " + retangulo.getLargura());
+        System.out.println("Altura: " + retangulo.getAltura());
+        System.out.println("Área: " + retangulo.getArea());
+
+        retangulo.setLargura(7);
+        retangulo.setAltura(3);
+        System.out.println("Nova Largura: " + retangulo.getLargura());
+        System.out.println("Nova Altura: " + retangulo.getAltura());
+        System.out.println("Nova Área: " + retangulo.getArea());
+    }
+}
+</code></pre></small>
 
             <br><h4>Método</h4>
-            <p>Também chamado de operação ou ação. Serviço que pode ser requisitado a qualquer objeto da classe, afetando seu comportamento. A execução de método por um objeto pode resultar na alteração do valor de seus atributos. Geralmente, seu nome é verbo, indicando ação (ex: lerLivro, fazerAniversario, calcularSoma). Exemplo, em classe Aluno, método calcularMedia utilizará atributo listaNotas para calcular média de notas presentes em listaNotas desse objeto Aluno, e acoplará valor final de média no atributo media do mesmo. Geralmente, toda classe comum possui método construtor e, para cada atributo comum, tem-se método especial get (getNomeAtributo, retorna valor do atributo) e método set (setNomeAtributo, modifica valor do atributo).<br>Sintaxe: <span class="text-danger">visibilidade</span> <span class="text-success">nome</span> <span class="text-primary">(parametro: tipo, parametro: tipo)</span> : tipo-retorno <span class="text-warning">{propriedades}</span></p>
+            <p>Também chamado de operação ou ação. Serviço que pode ser requisitado a qualquer objeto da classe, afetando seu comportamento. A execução de método por um objeto pode resultar na alteração do valor de seus atributos. Geralmente, seu nome é verbo, indicando ação (ex: lerLivro, fazerAniversario, calcularSoma). Exemplo, em classe Aluno, método calcularMedia utilizará atributo listaNotas para calcular média de notas presentes em listaNotas desse objeto Aluno, e acoplará valor final de média no atributo media do mesmo. Geralmente, toda classe comum possui método especial construtor (construct, criador, instancia objetos) e, para cada atributo comum, tem-se métodos especiais get (getNomeAtributo, acessor, retorna valor do atributo) e método set (setNomeAtributo, modificador, modifica valor do atributo).<br>Sintaxe: <span class="text-danger">visibilidade</span> <span class="text-success">nome</span> <span class="text-primary">(parametro: tipo, parametro: tipo)</span> : tipo-retorno <span class="text-warning">{propriedades}</span></p>
             <img src="metodo_sintaxe.png" class="img-fluid" width="400px"><br>
             <ul>
                 <li><span class="text-danger">+</span> <span class="text-success">getTitulo</span> <span class="text-primary">()</span> : String</li>
@@ -207,8 +266,44 @@ public void addCachorro() {}
             </ul>
             <ul>
                 <li><b>Método de objeto</b>: método comum, atua sobre objeto (instância). Não há distinção visual em UML para tal (ex: '+ getSalario() : double');</li>
-                <li><b>Método de classe</b>: atua sobre classe (conjunto de objetos), onde não é necessário ter instância de classe para acessá-la. Em UML, operação de classe é sublinhado (ex: '<u>+ setPisoSalarial(p: double) : void</u>').</li>
+                <li><b>Método de classe</b>: método static, atua sobre classe (conjunto de objetos), onde não é necessário ter instância de classe para acessá-la. Em UML, operação de classe é sublinhado (ex: '<u>+ setPisoSalarial(p: double) : void</u>').</li>
             </ul>
+<small><pre><code>
+public class Calculadora {
+    // Método de classe (static)
+    public static int somar(int a, int b) {
+        return a + b;
+    }
+
+    public static int subtrair(int a, int b) {
+        return a - b;
+    }
+
+    public static int multiplicar(int a, int b) {
+        return a * b;
+    }
+
+    public static double dividir(int a, int b) {
+        if (b == 0) {
+            throw new IllegalArgumentException("Divisor não pode ser zero");
+        }
+        return (double) a / b;
+    }
+
+    public static void main(String[] args) {
+        // Invocar métodos de classe sem criar instância de Calculadora
+        int soma = Calculadora.somar(10, 5);
+        int subtracao = Calculadora.subtrair(10, 5);
+        int multiplicacao = Calculadora.multiplicar(10, 5);
+        double divisao = Calculadora.dividir(10, 5);
+
+        System.out.println("Soma: " + soma);
+        System.out.println("Subtração: " + subtracao);
+        System.out.println("Multiplicação: " + multiplicacao);
+        System.out.println("Divisão: " + divisao);
+    }
+}
+</code></pre></small>
 
             <br><h5>Assinatura do método:</h5>
             <p>Constitui nome, tipo do método, quantidade e ordem de seus parâmetros (nome dos parâmetros não faz parte da assinatura, nem tipo do retorno do método). No método Java "public int lerLivro(pagina: int, lido: boolean) {pagina = this.pagina++;}", a assinatura é 'lerLivro', método tipo 'int', possui 2 parâmetros ordenados int e boolean.</p>
@@ -217,21 +312,159 @@ public void addCachorro() {}
             <ul>
                 <li>(+) <b>public</b>: público, visível em todo projeto. Qualquer objeto pode invocar (chamar, referenciar, executar) método;</li>
                 <li>(#) <b>protected</b>: protegido, visível na própria classe, nas classes do próprio pacote e classes filhas. Somente objetos da própria classe, subclasses e classes do mesmo pacote podem invocar método;</li>
-                <li>(-) <b>private</b>: privado, visível somente na própria classe. Somente objetos da mesma classe podem invocar método. Somente objetos da mesma classe podem invocar método;</li>
+                <li>(-) <b>private</b>: privado, visível somente na própria classe. Somente objetos da própria mesma classe podem invocar método;</li>
                 <li>(~) <b>package</b>: pacote, visível nas classes do próprio pacote. Objetos de classes do mesmo pacote podem invocar método.</li>
             </ul>
 
             <br><h5>Lista de parâmetros:</h5>
             <p>Lista de valores (e tipos) de entrada para o método. Um método não precisa, obrigatoriamente, ter 1 ou mais parâmetros de entrada, ou seja, lista de parâmetros do método é opcional.</p>
+<small><pre><code>
+public class Pessoa {
+    private String nome;
+    private int idade;
+
+    public Pessoa(String nome, int idade) {
+        this.nome = nome;
+        this.idade = idade;
+    }
+
+    // Método sem parâmetros
+    public void mostrarInformacoes() {
+        System.out.println("Nome: " + nome);
+        System.out.println("Idade: " + idade);
+    }
+
+    // Método com parâmetros
+    public void atualizarInformacoes(String novoNome, int novaIdade) {
+        this.nome = novoNome;
+        this.idade = novaIdade;
+    }
+
+    public static void main(String[] args) {
+        Pessoa pessoa = new Pessoa("João", 25);
+
+        // Invocar método sem parâmetros
+        pessoa.mostrarInformacoes();
+
+        // Atualizando as informações da pessoa
+        pessoa.atualizarInformacoes("Maria", 30);
+
+        // Invocar método sem parâmetros novamente para ver alterações
+        pessoa.mostrarInformacoes();
+    }
+}
+</code></pre></small>
 
             <br><h5>Tipo de retorno:</h5>
             <p>Valor de retorno (return) indica tipo de dado que será informado como resultado da operação.</p>
+<small><pre><code>
+public class ContaBancaria {
+    private String titular;
+    private double saldo;
+
+    public ContaBancaria(String titular, double saldoInicial) {
+        this.titular = titular;
+        this.saldo = saldoInicial;
+    }
+
+    // Método sem retorno (void)
+    public void depositar(double valor) {
+        if (valor &gt; 0) {
+            saldo += valor;
+            System.out.println("Depósito de R$ " + valor + " realizado com sucesso.");
+        }
+    }
+
+    // Método com retorno (double)
+    public double obterSaldo() {
+        return saldo;
+    }
+
+    public static void main(String[] args) {
+        ContaBancaria conta = new ContaBancaria("Alice", 1000.0);
+
+        // Invocar método sem retorno (void)
+        conta.depositar(500.0);
+
+        // Invocar método com retorno (double) e armazenar valor retornado
+        double saldoAtual = conta.obterSaldo();
+        System.out.println("Saldo atual: R$ " + saldoAtual);
+    }
+}
+</code></pre></small>
 
             <br><h5>Propriedades:</h5>
             <p>Conjunto de tags pré-definindas que descrevem características da operação, como <i>isQuery</i>, <i>guarded</i> e <i>leaf</i>.</p>
 
             <br><h4>Métodos especiais</h4>
-            <p>Métodos com operações individuais, diferentes dos demais (comuns). get (acessor), set (modificador), construct(construtor, criador). Cada atributo da classe possui um método especial get para acessar seu valor, e um método especial set para modificar seu valor. Em UML, getAll e setAll são utilizados para substituir, implicitamente, os métodos get e set de todos atributos da classe.</p>
+            <p>Métodos com operações individuais, diferentes dos demais (comuns). get (acessor), set (modificador), construct (construtor, criador). Cada atributo da classe possui um método especial get para acessar seu valor ('getNomeAtributo()'), e um método especial set para modificar seu valor ('setNomeAtributo(novoValor)'). Em UML, getAll e setAll são utilizados para substituir, implicitamente, os métodos get e set de todos atributos da classe.</p>
+<small><pre><code>
+public class Livro {
+    private String titulo;
+    private String autor;
+    private double preco;
+
+    // Método construtor
+    public Livro(String titulo, String autor, double preco) {
+        this.titulo = titulo;
+        this.autor = autor;
+        this.preco = preco;
+    }
+
+    // Método getter para o título
+    public String getTitulo() {
+        return titulo;
+    }
+
+    // Método setter para o título
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    // Método getter para o autor
+    public String getAutor() {
+        return autor;
+    }
+
+    // Método setter para o autor
+    public void setAutor(String autor) {
+        this.autor = autor;
+    }
+
+    // Método getter para o preço
+    public double getPreco() {
+        return preco;
+    }
+
+    // Método setter para o preço
+    public void setPreco(double preco) {
+        this.preco = preco;
+    }
+
+    public void mostrarInformacoes() {
+        System.out.println("Título: " + titulo);
+        System.out.println("Autor: " + autor);
+        System.out.println("Preço: R$ " + preco);
+    }
+
+    public static void main(String[] args) {
+        // Criar objeto Livro
+        Livro livro = new Livro("1984", "George Orwell", 39.90);
+
+        livro.mostrarInformacoes();
+
+        // Invocar método getTitulo
+        System.out.println(livro.getTitulo());
+
+        // Invocar métodos set
+        livro.setTitulo("Admirável Mundo Novo");
+        livro.setAutor("Aldous Huxley");
+        livro.setPreco(29.90);
+
+        livro.mostrarInformacoes();
+    }
+}
+</code></pre></small>
 
             <br><h5>Método construtor:</h5>
             <p>Método construct, com mesmo nome da classe e visibilidade public, cuja função é criar instâncias (objetos) da classe. Em UML, método construtor não possui tipo de retorno visível (ex método construtor de classe Livro: '+ Livro(args : ArrayList)'). Em UML, o atributo 'args' representa, implicitamente, todos atributos da classe para criação de suas instâncias. Em Java, utiliza-se o super() para importar, implicitamente, todos atributos das superclasses (herança).</p>
@@ -240,6 +473,7 @@ public void addCachorro() {}
 public class Publicacao {
     private String titulo;
     private String autor;
+
     public Publicacao(String titulo, String autor) {
         this.titulo = titulo;
         this.autor = autor;
@@ -248,6 +482,7 @@ public class Publicacao {
 
 public class Livro extends Publicacao {
     private int paginas;
+
     public Livro(String titulo, String autor, int paginas) {
         super(titulo, autor);
         this.paginas = paginas;
@@ -261,21 +496,106 @@ public static void main(String[] args) {
 </code></pre></small>
 
             <br><h4>Encapsulamento</h4>
-            <p>Técnica pra proteger código, via criação de métodos públicos get e set para proteger atributos privates. Ocultar partes independentes da implementação, permitindo construir partes invisíveis ao mundo exterior. Entre as vantagens, tem-se mudanças no código interno imperceptíveis ao código externo, reutilização de código e redução de efeitos colaterais.</p>
+            <p>Técnica para proteger código, via criação de métodos públicos para realizar acesso protegido a atributos e métodos não públicos. Ocultar partes independentes da implementação, permitindo construir partes invisíveis ao mundo (código) exterior. Entre as vantagens, tem-se mudanças no código interno imperceptíveis ao código externo, reutilização de código e redução de efeitos colaterais.</p>
+<small><pre><code>
+public class ContaBancaria {
+    // Atributos privados (encapsulados)
+    private String titular;
+    private double saldo;
+
+    public ContaBancaria(String titular, double saldoInicial) {
+        this.titular = titular;
+        this.saldo = saldoInicial;
+    }
+
+    // Método público getter para acessar atributo privado titular
+    public String getTitular() {
+        return titular;
+    }
+
+    // Método público setter para acessar atributo privado titular
+    public void setTitular(String titular) {
+        this.titular = titular;
+    }
+
+    // Método público getter para acessar atributo privado saldo
+    public double getSaldo() {
+        return saldo;
+    }
+
+    public static void main(String[] args) {
+        // Criar objeto ContaBancaria (criar, via método público construct, objeto de atributos privados encapsulados)
+        ContaBancaria conta = new ContaBancaria("Alice", 1000.0);
+
+        // Exibir saldo inicial (acessar, via método público get, valor de atributo privado encapsulado)
+        System.out.println("Saldo inicial: R$ " + conta.getSaldo());
+
+        // Exibir titular
+        System.out.println("Titular: " + conta.getTitular());
+
+        // Modificar titular (modificar, via método público set, valor de atributo privado encapsulado)
+        String novoTitular = "Fulana";
+        setTitular(novoTitular);
+
+        // Exibir novo titular
+        System.out.println("Novo titular: " + conta.getTitular());
+    }
+}
+</code></pre></small>
 
             <br><h4>Método com valor de retorno</h4>
             <p>Método com return, onde o tipo do método é o mesmo que o tipo de seu valor de retorno (return).</p>
-<small><pre><code>
-public String lerLivro() {return valor String}
-</code></pre></small>
 
             <br><h4>Método void</h4>
             <p>Método que não possui valor de retorno (return), mas pode ter parâmetros.</p>
 <small><pre><code>
-public void lerLivro() {}
+public class Cafe {
+    private String tipo;
+    private double precoPorXicara;
+
+    public Cafe(String tipo, double precoPorXicara) {
+        this.tipo = tipo;
+        this.precoPorXicara = precoPorXicara;
+    }
+
+    // Método com return (return precisa ser String, já que método também é String)
+    public String getTipo() {
+        return tipo;
+    }
+
+    // Método void (não possui return, mas tem parâmetros)
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public double getPrecoPorXicara() {return precoPorXicara;}
+    public void setPrecoPorXicara(double precoPorXicara) {this.precoPorXicara = precoPorXicara;}
+
+    // Método com valor de retorno que calcula o preço total
+    public double calcularPrecoTotal(int quantidade) {
+        return quantidade * precoPorXicara;
+    }
+
+    public static void main(String[] args) {
+        Cafe cafe = new Cafe("Expresso", 5.0);
+
+        System.out.println("Tipo de café: " + cafe.getTipo());
+        System.out.println("Preço por xícara: R$ " + cafe.getPrecoPorXicara());
+
+        int quantidade = 3;
+        double precoTotal = cafe.calcularPrecoTotal(quantidade);
+        System.out.println("Preço total para " + quantidade + " xícaras: R$ " + precoTotal);
+
+        cafe.setTipo("Latte");
+        cafe.setPrecoPorXicara(6.0);
+        quantidade = 2;
+        precoTotal = cafe.calcularPrecoTotal(quantidade);
+        System.out.println("Preço total para " + quantidade + " xícaras: R$ " + precoTotal);
+    }
+}
 </code></pre></small>
 
-            <br><h4>Responsabilidades da classe</h4>
+            <br><h4>Responsabilidades de classe</h4>
             <p>Responsabilidade de classe são as obrigações dentro do contexto do sistema, onde são traduzidas em conjunto de atributos e métodos que melhor atendam tais obrigações. Em UML, uma anotação (Note) pode ser relacionada na classe via relação NoteAnchor (linha tracejada, sem setas).</p>
             <img src="noteanchor.png" class="img-fluid" width="400px"><br>
 
@@ -300,17 +620,28 @@ public void lerLivro() {}
             <p>Associação possui, opcionalmente, navegabilidade (representada por seta), que determina visualização (acesso) por parte de classes relacionadas. Tipos de navegabilidades de associação:</p>
             <ul>
                 <li>(A - B): associação com navegabilidade não especificada, onde há ausênca de setas abertas em ambas extremidades da linha contínua. Classes A e B podem, ou não, acessar uma a outra;</li>
-                <li>(A &lt;-&gt; B): associação com navegabilidade especificada em ambas extremidades, onde há presença de setas abertas em ambas extremidades da linha contínua. Classes A e B acessam uma a outra;</li>
+                <li>(A &lt;-&gt; B): associação com navegabilidade especificada em ambas extremidades, onde há presença de setas abertas em ambas extremidades da linha contínua. Classes A e B acessam uma a outra. Exemplo abaixo;</li>
                 <li>(A -&gt; B): associação com navegabilidade especificada em somente 1 extremidade e não especificada em outra extremidade. Classe A acessa B, mas classe B pode, ou não, acessar A;</li>
                 <li>(A x-&gt; B): associação sem navegabilidade (x) em 1 extremidade e com navegabilidade na outra extremidade. Classe A acessa B, mas classe B não acessa A;</li>
                 <li>(A x-x B): associação sem navegabilidades em ambas extremidades. Classe A não acessa B, nem classe B acessa A.</li>
             </ul>
+            <img src="associacao1a.png" class="img-fluid" width="500px"><br>
+            <p>Associação pode possuir propriedade que determina fim da associação, apontando o classificador associado. Em UML, o fim da associação é representado por círculo fechado preenchido (similar a um ponto). A propriedade que está apontada pelo círculo, é pertencente à propriedade do outro lado da linha de associação. Conforme exemplo abaixo, o fim da associação "query" pertence a classe QueryBuilder, e o fim da associação "qbuilder" é propriedade da própria associação Builds.</p>
+            <img src="associacao1b.png" class="img-fluid" width="300px"><br>
+
 
             <br><h4>Agregação</h4>
             <p>Tipo especial de associação. Agregação ("tem um" ou "é um agregado de"), relação entre classes, onde classe B tem um atributo da classe A, na qual a definição do atributo em B diferencia-se da mesma em A. Dessa forma, uma das classes é parte ou está contida em outra classe.<br>Ex1: 1 Canil é agregado de 0 ou mais Cachorros;<br>Ex2: Mercado addProduto(p1); onde p1 é instância da classe Produto, e só adicionado, estando preenchido, na classe Mercado;</p>
             <p>Agregação possui navegabilidade representada, em UML, através de losango não preenchido, apontado ao agregador ('classe X tem' o 'classe x é um agregado de'). Na outra extremidade da linha contínua (associação), tem opcionalmente navegabilidade à classe agregada.<br>No exemplo 1 abaixo, nenhuma ou 1 biblioteca é um agregado de 1 ou mais livros, onde classe Biblioteca acessa Livro, mas Livro pode, ou não, acessar Biblioteca (agregação para associação sem navegabilidade especificada). No exemplo 2 abaixo, nenhuma ou 1 biblioteca é um agregado de 1 ou mais livros, onde classe Biblioteca2 acessa Livro2, e Livro2 acessa Biblioteca2 (agregação para associação navegável).</p>
             <img src="agregacao.png" class="img-fluid" width="250px"><br>
-            <!--https://www.uml-diagrams.org/aggregation.html (ver bolinha escura na seta)-->
+            
+            <br><h4>Nesting</h4>
+            <p>Nesting (owning) consiste em aninhar/conter (nest) elemento dentro de outro, para mostrar relações de composição ou agrupamento entre partes do modelo. Usado quando classe contém outra classe(s) como atributo(s), indicando que essa está intimamente relacionada ou é parte essencial da classe principal/proprietária owner (contém partes (classe) do código referenciadas no classe todo). Em UML, nesting é relacionado através de linha contínua com um circulo fechado em uma das extremidades da linha, preenchido com um "+", apontando para o todo (elemento que vai conter o outro dentro). No exemplo 1 abaixo, a classe Lista está aninhando (todo, está contendo, contém) a interface Elemento, ou seja, Elemento está no escopo de Lista (está contido). No exemplo 2 abaixo, classe ProximoValor está aninhada pela classe EstruturaDados, possuindo classe ElementoDado no código de ProximoValor. A classe ElementoDado está agregada em EstruturaDados.</p>
+            <img src="nest1.png" class="img-fluid" width="100px"><br>
+            <img src="nest2.png" class="img-fluid" width="320px"><br>
+            <!--VER O QUE linha tracejada depenência 'Usage'-->
+            <!--VER O QUE business entity-->
+            <!--VER O QUE control, business worker, interfaces-->
 
             <br><h4>Composição</h4>
             <p>Tipo especial de associação. Relacionamento forte, dependente ("relaciona-se exclusivamente"). Quando uma parte é criada, sua existência coincide com o todo, ou seja, se o objeto da classe que contém for destruído, as classes da composição também serão destruídas, já que as mesmas fazem parte da outra (quando o todo é apagado, apaga-se também os dependentes). Exemplo, Canil é composto por Cachorros, então se não existir Canil, também não existirão Cachorros. Então, Canil é um composto de Cachorros, e Cachorros compõem-se de Canil.<br>Ex1: Classe Mercado tem addProduto("vassoura",25.9). Objeto produto não é criado na classe Produto, sendo dependente de sua criação na classe Mercado;<br>Ex2: Na agregação e associação, objetos adicionados na classe Canil podem ter sido criados em outra classe. Na composição, um Canil cria Cachorro.</p>
