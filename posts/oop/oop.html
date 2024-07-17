@@ -1222,7 +1222,7 @@ b.comer(); //resultado TRIÂNGULO
 
             <br><h4>Dependência</h4>
             <p>Relacionamento fraco entre 2 itens, um independente e um dependente, onde mudança no independente poderá afetar o dependente. Onde objeto manipula, em seus métodos, outro objeto (de outra classe), mas não tem qualquer outro relacionamento com a mesma. Relacionamento utilizado quando deseja-se representar utilização de uma classe em outra, como nos casos de parâmetros de métodos e uso de código nos métodos.<br>Ex1: classe Cliente depende de classe Fornecedor, onde Cliente não tem conhecimento semântico de Fornecedor;<br>Ex2: addNf() onde somente é possível criar objeto nf na classe Canil, porque Canil depende da classe NotaFiscal para instanciar as mesmas, mas não há qualquer outro relacionamento entre as classes NotaFiscal e Canil.</p>
-            <p>Dependência é representada, em UML, através de linha tracejada e, em uma das extremidades, uma seta aberta apontando para classe independente. Dependência pode, opcionalmente, possuir título de relacionamento, denominado estereótipo (stereotype), representado por '&lt;&lt;nomeStereotype&gt;&gt;'.<br>No exemplo abaixo, Autor é dependente de Caneta, onde Autor usa Caneta e depende da mesma.</p>
+            <p>Dependência é representada, em UML, através de linha tracejada e, em uma das extremidades, uma seta aberta apontando para classe independente. Dependência pode, opcionalmente, possuir título de relacionamento, denominado estereótipo (stereotype), representado por '&lt;&lt;nomeStereotype&gt;&gt;'. Dependência pode ser de uso (usage, use, '&lt;&lt;use&gt;&gt;'), onde elemento todo é dependente de outro, para que realize sua implementação ou operação de forma completa.<br>No exemplo abaixo, Autor é dependente de Caneta, onde Autor usa Caneta e depende da mesma.</p>
             <img src="dependencia.png" class="img-fluid" width="230px"><br>
 <small><pre><code>
 import java.util.ArrayList;
@@ -1570,7 +1570,7 @@ public class ExemploClasseAbstrata {
             <br><h4>Interface</h4>
             <p>Estereótipo interface é classe que define conjunto de métodos sem implementação (apenas assinatura). É o contato com o mundo exterior (via abstração), que define o que pode ser feito com um objeto dessa classe. Na interface, todo métodos são public e abstract, que não possuem conteúdo interno (somente assinatura), pelas quais todas as classes que implementarão (implements) 1 ou mais interfaces, terão de carregar (@override) todos métodos abstratos informados (implements). Não é obrigatório informar "abstract" nos métodos na interface, porque já entende-se que os mesmos nela são abstratos por padrão. Os métodos abstratos podem ter valor de retorno e parâmetros. A partir do Java 8, interfaces também podem conter métodos concretos default (com implementação) e métodos estáticos. A parir do Java 9, interfaces podem conter métodos privados. Também na interface, todos os atributos são atributos de classe (constante) e readOnly, sendo static e final. Interface não possui método construtor. Classe herdeira pode herdar (extends), simultaneamente, somente uma classe, abstrata ou não (Java não suporta herança múltipla de classes). Uma classe herdeira pode implementar (implements) várias interfaces simultaneamente.</p>
             <p>Em UML, interface é representada pelo estereótipo '&lt;&lt;interface&gt;&gt;' acima do nome da classe (boas práticas sugerem nome da interface com 'I' na 1ª letra, como 'IPainel'). Da mesma forma, todos seus métodos são representados em itálico (métodos abstract). Alternativamente, em UML, interface pode ser representada por círculo fechado não preenchido, ao invés de quadrado padrão de classe.<br>Ex 1: Painel é interface, Botao (classe concreta) é implementação de Painel, então Botao é um tipo de Painel.</p>
-            <p><b>Realização</b> é relacionamento fraco onde classe concretiza ou implementa o comportamento de outro. É relacionamento entre interface e classe. Classe realiza comportamento de interface quando ocorre a implementação da mesma na primeira, permitindo assim, relacionamento "é um tipo de".</p>
+            <p><b>Realização</b> (realization) é relacionamento fraco onde classe concretiza ou implementa o comportamento de outro. É relacionamento entre interface e classe. Classe realiza comportamento de interface quando ocorre a implementação da mesma na primeira, permitindo assim, relacionamento "é um tipo de".</p>
             <p>Em UML, quando a interface encontra-se como classe estereotipada, relacionamento realização é representado por linha tracejada, onde uma das extremidades possui seta fechada não preenchida, apontando para a interface. Ou, alternativamente, quando interface encontra-se como círculo fechado não preenchido, realização é representado como linha contínua, sem identificação nas extremidades (associação).</p>
             <img src="realizacao.png" class="img-fluid" width="400px"><br>
             <p><u>Exemplo 1</u>:</p>
@@ -1724,6 +1724,137 @@ public class TestaCaixa {
 }
 </code></pre></small>
 
+            <br><h4>Package</h4>
+            <p>Pacote ou sub-pacote (sub-package) do projeto, contendo entidades, pacotes e outros componentes do projeto. Pacotes são relacionados via relacionamento fraco de dependência. Um componente pode relacionar-se diretamente com pacote, através de nesting, cujo círculo do relacionamento apontará para o pacote (todo). Pacote pode herdar de outro (generalização).<br>O exemplo abaixo indica que pacote Financas é dependete do pacote Pedidos, pois é necessário ter conhecimento dos pedidos, para gestão das finanças.</p>
+            <img src="package.png" class="img-fluid" width="300px"><br>
+<small><pre><code>
+package com.empresa.produto;
+import com.empresa.util.Utilitario; // Importar classe do outro pacote
+
+public class Produto {
+    private String nome;
+    private double preco;
+
+    public Produto(String nome, double preco) {
+        this.nome = nome;
+        this.preco = preco;
+    }
+
+    // Método para calcular preço com desconto usando uma classe do outro pacote
+    public double calcularPrecoComDesconto(double descontoPercentual) {
+        // Utilizar método da classe do pacote com.empresa.util
+        double desconto = Utilitario.calcularDesconto(preco, descontoPercentual);
+        return preco - desconto;
+    }
+}
+------------------------------
+package com.empresa.util;
+
+public class Utilitario {
+    // Método estático para calcular desconto
+    public static double calcularDesconto(double valor, double percentual) {
+        return valor * (percentual / 100);
+    }
+}
+</code></pre></small>
+
+            <br><h4>Subsystem</h4>
+            <p>Subsistema dentro do sistema macro, contendo entidades, pacotes, subsistemas e outros componentes do projeto. Subsistemas são relacionados via relacionamento fraco de dependência. Um componente pode relacionar-se diretamente com subsistema, através de nesting, cujo círculo do relacionamento apontará para o subsistema (todo). Subsistema pode herdar de outro (generalização).<br>No exemplo abaixo, subsistema SistemaGestao é dependente do subsistema SistemaCliente, pois é necessária existência do sistema com showroom e escolhas dos clientes, para alimentar informações às pesquisas de produtos e tendências de mercado. Subsystem</p>
+            <img src="subsystem.png" class="img-fluid" width="400px"><br>
+<small><pre><code>
+<b><u>Subsystem de Produtos</u></b>:
+// Arquivo: Produto.java
+package com.empresa.produtos.cadastro;
+
+public class Produto {
+    private String nome;
+    private double preco;
+    // Getters e setters omitidos para simplicidade
+}
+
+// Arquivo: Estoque.java
+package com.empresa.produtos.estoque;
+
+public class Estoque {
+    private int quantidadeDisponivel;
+
+    public void atualizarEstoque(int quantidade) {
+        // Lógica para atualizar o estoque
+    }
+}
+
+// Arquivo: Venda.java
+package com.empresa.produtos.vendas;
+import com.empresa.produtos.cadastro.Produto;
+import com.empresa.produtos.estoque.Estoque;
+
+public class Venda {
+    public void realizarVenda(Produto produto, int quantidade) {
+        // Lógica para processar venda e atualizar estoque
+        Estoque estoque = new Estoque();
+        estoque.atualizarEstoque(-quantidade); // Reduz quantidade do estoque após venda
+    }
+}
+
+<b><u>Subsistema de Clientes e Pedidos</u></b>:
+// Arquivo: Cliente.java
+package com.empresa.clientes;
+
+public class Cliente {
+    private String nome;
+    private String endereco;
+    // Getters e setters omitidos para simplicidade
+}
+
+// Arquivo: Pedido.java
+package com.empresa.clientes.pedidos;
+import com.empresa.produtos.cadastro.Produto;
+
+public class Pedido {
+    private Cliente cliente;
+    private Produto produto;
+    private int quantidade;
+    // Construtor, getters e setters omitidos para simplicidade
+}
+
+<b><u>Classe Main</u></b>:
+// Arquivo: Main.java
+package com.empresa;
+import com.empresa.clientes.Cliente;
+import com.empresa.clientes.pedidos.Pedido;
+import com.empresa.produtos.cadastro.Produto;
+import com.empresa.produtos.vendas.Venda;
+
+public class Main {
+    public static void main(String[] args) {
+        // Exemplo de uso do subsistema de produtos
+        Produto produto = new Produto();
+        produto.setNome("Camiseta");
+        produto.setPreco(29.99);
+
+        Venda venda = new Venda();
+        venda.realizarVenda(produto, 1);
+
+        // Exemplo de uso do subsistema de clientes e pedidos
+        Cliente cliente = new Cliente();
+        cliente.setNome("João");
+        cliente.setEndereco("Rua A, 123");
+
+        Pedido pedido = new Pedido();
+        pedido.setCliente(cliente);
+        pedido.setProduto(produto);
+        pedido.setQuantidade(2);
+
+        // Lógica para processar pedido
+        processarPedido(pedido);
+    }
+
+    private static void processarPedido(Pedido pedido) {
+        // Lógica para processar pedido
+    }
+}
+</code></pre></small>
+
             <br><h4>Java</h4>
 <small><pre><code>
 public static void main(String[] args) {}
@@ -1736,10 +1867,17 @@ public static void main(String[] args) {}
                 <li><b>String[] args</b>: args é parâmetro do método, sendo array de objetos tipo classe String. Utilizado para receber argumentos de linha de comando quando programa Java é executado, onde cada elemento do arrays 'args' é um argumento passado na linha de comando;</li>
                 <li><b>{}</b>: corpo do método, delimitando bloco de código que compõe o método main. O código entre {} será executado quando método main for invocado, ou seja, quando o programa Java for iniciado pela JVM.</li>
             </ul>
-
-            <!--VER O QUE linha tracejada depenência 'Usage'-->
-            <!--VER O QUE business entity-->
-            <!--VER O QUE control, business worker, interfaces-->
+            <!--
+            FALTA COMPLETAR:
+            - Dependência usage (u): ver em https://www.ibm.com/docs/pt-br/dmrt/9.5?topic=diagrams-dependency-relationships
+            - Interface: Interface normal, Required interface, Provided interface
+            - BusinessEntity
+            - Boundary
+            - Control e BusinessWorker
+            - InstanceSpecification: Entity, BusinessEntity, Boundary, Control, BusinessWorker
+            Link sobre Astah UML: https://astah.net/support/astah-pro/user-guide/class-diagrams
+            Download software IBM Rational: https://youtu.be/MHc4yFNp0wI?si=kpQd_TmcHvh3qG6U
+            -->
         </div>
     </div>
 
