@@ -81,6 +81,7 @@
                 <li>(~) <b>package</b>: pacote, visível nas classes do próprio pacote.</li>
             </ul>
             <p>Exemplo: atributo privado é visível (acessível) somente na própria classe, ou seja, pode ser acessado/referenciado somente pelos métodos da própria classe. Geralmente atributos privados são acessados por métodos especiais acessores get e set (encapsulamento).</p>
+            <p><b>Classes</b>: Em Java, quando não é explicitamente especificada visibilidade de classe, o modificador de acesso padrão é "package-private" ou "default". Isso significa que a classe é acessível apenas dentro do mesmo pacote. A classe não será acessível fora do pacote, mas todas as outras classes no mesmo pacote poderão acessá-la.</p>
 
             <br><h5>Tipo:</h5>
             <p>Tipo do atributo. Pode ser outra classe, interface ou tipo primitivo da linguagem. Principais tipos no Java:</p>
@@ -99,11 +100,11 @@
             <br><h5>Multiplicidade:</h5>
             <p>Representada por números ou '*'. Número de instâncias de uma classe que podem ser associadas a instância de outra classe, em mesma relação (quantas vezes uma classe pode se relacionar com outra).</p>
             <ul>
-                <li><b>0..1</b>: atributo opcional;</li>
-                <li><b>1</b>: atributo obrigatório;</li>
-                <li><b>0..*</b>: nenhum ou vários objetos;</li>
-                <li><b>1..*</b>: pelo menos 1 ou vários objetos;</li>
-                <li><b>4..10</b>: pelo menos 4 e no máximo 10 objetos.</li>
+                <li><b>0..1</b>: atributo opcional (pode ser considerado um-para-um);</li>
+                <li><b>1</b>: atributo obrigatório (pode ser considerado um-para-um);</li>
+                <li><b>0..*</b>: nenhum ou vários objetos (pode ser considerado muitos-para-muitos);</li>
+                <li><b>1..*</b>: pelo menos 1 ou vários objetos (pode ser considerado muitos-para-muitos);</li>
+                <li><b>4..10</b>: pelo menos 4 e no máximo 10 objetos (pode ser considerado muitos-para-muitos).</li>
             </ul>
 
             <br><h5>Valor inicial:</h5>
@@ -790,7 +791,7 @@ public class ExemploAgregacao {
 </code></pre></small>
 
             <br><h4>Nesting</h4>
-            <p>Nesting (owning) consiste em aninhar/conter (nest) elemento dentro de outro, para mostrar relações de composição ou agrupamento entre partes do modelo. Usado quando classe contém outra classe(s) como atributo(s), indicando que essa está intimamente relacionada ou é parte essencial da classe principal/proprietária owner (contém partes (classe) do código referenciadas no classe todo). Em UML, nesting é relacionado através de linha contínua com um circulo fechado em uma das extremidades da linha, preenchido com um "+", apontando para o todo (elemento que vai conter o outro dentro). No exemplo 1 abaixo, a classe Lista está aninhando (todo, está contendo, contém) a interface Elemento, ou seja, Elemento está no escopo de Lista (está contido). No exemplo 2 abaixo, classe ProximoValor está aninhada pela classe EstruturaDados, possuindo classe ElementoDado no código de ProximoValor. A classe ElementoDado está agregada em EstruturaDados.</p>
+            <p>Nesting (owning) consiste em aninhar/conter (nest) elemento dentro de outro, para mostrar relações de composição ou agrupamento entre partes do modelo. Usado quando classe contém outra classe(s) como atributo(s), indicando que essa está intimamente relacionada ou é parte essencial da classe principal/proprietária owner (contém partes (classe) do código referenciadas no classe todo). Em UML, nesting é relacionado através de linha contínua com um círculo fechado em uma das extremidades da linha, preenchido com um "+", apontando para o todo (elemento que vai conter o outro dentro). No exemplo 1 abaixo, a classe Lista está aninhando (todo, está contendo, contém) a interface Elemento, ou seja, Elemento está no escopo de Lista (está contido). No exemplo 2 abaixo, classe ProximoValor está aninhada pela classe EstruturaDados, possuindo classe ElementoDado no código de ProximoValor. A classe ElementoDado está agregada em EstruturaDados.</p>
             <img src="nest1.png" class="img-fluid" width="100px"><br>
             <img src="nest2.png" class="img-fluid" width="320px"><br>
 <small><pre><code>
@@ -923,7 +924,7 @@ public class ExemploComposicaoJava {
     }
 }
 </code></pre></small>
-<br><p><u>Exemplo 2</u>:</p>
+            <br><br><p><u>Exemplo 2</u>:</p>
 <small><pre><code>
 public class Canil {
     private Cachorro[];
@@ -958,7 +959,7 @@ public class Canil {
             </ul>
             <p>Generalização é representada, em UML, através de linha contínua e, em uma das extremidades, uma seta fechada, não preenchida, apontando para superclasse. Não especifica-se navegabilidade.<br>No exemplo abaixo, subclasse Livro herdará os atributos e método da superclasse Exemplar (pois todo livro é um exemplar, e todo exemplar gera um livro). Nesse caso, Livro possuirá, além de seus próprios atributos, métodos e relacionamentos, as mesmas propriedades de Exemplar.</p>
             <img src="generalizacao.png" class="img-fluid" width="130px"><br>
-<br><p><u>Exemplo 1</u>:</p>
+            <br><p><u>Exemplo 1</u>:</p>
 <small><pre><code>
 // Classe Rascunho (superclasse)
 class Rascunho {
@@ -1022,7 +1023,7 @@ public class ExemploHeranca {
 }
 </code></pre></small>
 
-            <br><p><u>Exemplo 2</u>:</p>
+            <br><br><p><u>Exemplo 2</u>:</p>
             <p>Classe Animal (superclasse), Cachorro (subclasse de Animal) e Poodle (subclasse de Cachorro, e também é classe final - leaf)</p>
 <small><pre><code>
 // Classe base Animal
@@ -1105,13 +1106,84 @@ public class ExemploHerancaFinal {
 </code></pre></small>
 
             <br><h4>Polimorfismo</h4>
-            <!--PAROU CÓDIGOS JAVA AQUI-->
-            <p>Técnica para criar métodos iguais, porém com outro comportamento de execução, permitindo que um mesmo nome represente vários comportamentos diferentes numa mesma classe e projeto. Só há polimorfismo quando há generalização entre classes.</p>
+            <p>Técnica para criar métodos iguais, porém com outro comportamento de execução, permitindo que um mesmo nome represente vários comportamentos diferentes numa mesma classe e projeto.</p>
             <ul>Tipos:
                 <li><b>Sobrecarga</b>: métodos com mesmo nome, lista de parâmetros diferentes (geralmente na mesma classe);</li>
                 <li><b>Sobrescrita</b>: métodos com mesmo nome e lista de parâmetros, conteúdo interno diferente na subclasse.</li>
             </ul>
-            <p>O código Java abaixo, informa mecanismo de ligação tardia entende que p1 é instância (criação) de Brasileiro, mesmo sendo "armazenado" dentro de Pessoa.</p>
+<p><u>Exemplo 1</u>:</p>
+<small><pre><code>
+class Animal {
+    protected String nome;
+
+    public Animal(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNome() {return nome;}
+
+    // Método emitir som (será sobrescrito nas subclasses)
+    public void emitirSom() {
+        System.out.println("O animal emite um som.");
+    }
+
+    // Sobrecarga de métodos - diferentes parâmetros
+    public void emitirSom(String som) {
+        System.out.println("O animal faz: " + som);
+    }
+}
+
+class Cachorro extends Animal {
+
+    public Cachorro(String nome) {
+        super(nome);
+    }
+
+    // Sobrescrever método emitirSom da classe base Animal
+    @Override
+    public void emitirSom() {
+        System.out.println("O cachorro faz: Au Au!");
+    }
+}
+
+class Gato extends Animal {
+
+    public Gato(String nome) {
+        super(nome);
+    }
+
+    // Sobrescrever método emitirSom da classe base Animal
+    @Override
+    public void emitirSom() {
+        System.out.println("O gato faz: Miau!");
+    }
+}
+
+public class ExemploPolimorfismo {
+    public static void main(String[] args) {
+        Animal animal = new Animal("Animal Genérico");
+        Cachorro cachorro = new Cachorro("Rex");
+        Gato gato = new Gato("Mimi");
+
+        // Sobrescrita de métodos
+        animal.emitirSom(); // Invocar método da classe base Animal
+        cachorro.emitirSom(); // Invocar método sobrescrito da classe Cachorro
+        gato.emitirSom(); // Invocar método sobrescrito da classe Gato
+
+        // Sobrecarga de métodos
+        animal.emitirSom("Roar"); // Invocar método sobrecarregado da classe base
+
+        // Usando polimorfismo com um array de animais
+        Animal[] animais = {animal, cachorro, gato};
+        for (Animal a : animais) {
+            System.out.println("Nome: " + a.getNome());
+            a.emitirSom(); // Invocar método apropriado baseado no tipo do objeto
+        }
+    }
+}
+</code></pre></small>
+            <br><p><u>Exemplo 2</u>:</p>
+            <p>O código Java abaixo, informa mecanismo de ligação tardia entende, onde p1 é instância (criação) de Brasileiro, mesmo sendo "armazenado" dentro de Pessoa.</p>
 <small><pre><code>
 public class Main {
     public static void main (String[] args) {
@@ -1149,14 +1221,151 @@ b.comer(); //resultado TRIÂNGULO
             <p>Conceito geral, significa clonar itens de mesmo valor e atribuir incremento extra ao item clonado.</p>
 
             <br><h4>Dependência</h4>
-            <p>Relacionamento fraco entre 2 itens, um independente e um dependente, onde mudança no independente poderá afetar o dependente. Onde objeto manipula, em seus métodos, outro objeto (de outra classe), mas não tem qualquer outro relacionamento com a mesma. Relacionamento utilizado quando deseja-se representar utilização de uma classe em outra, como nos casos de parâmetros de métodos e uso de código nos métodos.<br>Ex1: Cliente depende do Fornecedor, onde Cliente não tem conhecimento semântico de Fornecedor;<br>Ex2: addNf() onde pode somente criar objeto nf na classe Canil, porque Canil depende da classe Nf para instanciar as mesmas, mas não há qualquer outro relacionamento entre as classes Nf e Canil.</p>
-            <p>Dependência é representada, em UML, através de linha tracejada e, em uma das extremidades, uma seta aberta apontando para classe independente. Dependência pode, opcionalmente, possui um título de relacionamento, denominado estereótipo (stereotype), representado por '&lt;&lt;nomeStereotype&gt;&gt;'.<br>No exemplo abaixo, Autor é dependente de Caneta, onde Autor usa Caneta e depende da mesma.</p>
+            <p>Relacionamento fraco entre 2 itens, um independente e um dependente, onde mudança no independente poderá afetar o dependente. Onde objeto manipula, em seus métodos, outro objeto (de outra classe), mas não tem qualquer outro relacionamento com a mesma. Relacionamento utilizado quando deseja-se representar utilização de uma classe em outra, como nos casos de parâmetros de métodos e uso de código nos métodos.<br>Ex1: classe Cliente depende de classe Fornecedor, onde Cliente não tem conhecimento semântico de Fornecedor;<br>Ex2: addNf() onde somente é possível criar objeto nf na classe Canil, porque Canil depende da classe NotaFiscal para instanciar as mesmas, mas não há qualquer outro relacionamento entre as classes NotaFiscal e Canil.</p>
+            <p>Dependência é representada, em UML, através de linha tracejada e, em uma das extremidades, uma seta aberta apontando para classe independente. Dependência pode, opcionalmente, possuir título de relacionamento, denominado estereótipo (stereotype), representado por '&lt;&lt;nomeStereotype&gt;&gt;'.<br>No exemplo abaixo, Autor é dependente de Caneta, onde Autor usa Caneta e depende da mesma.</p>
             <img src="dependencia.png" class="img-fluid" width="230px"><br>
+<small><pre><code>
+import java.util.ArrayList;
+import java.util.List;
+
+// Classe Produto (independente)
+class Produto {
+    private String nome;
+    private double preco;
+
+    public Produto(String nome, double preco) {
+        this.nome = nome;
+        this.preco = preco;
+    }
+
+    public String getNome() {return nome;}
+    public double getPreco() {return preco;}
+}
+
+// Classe Pedido (dependente de Produto)
+class Pedido {
+    private List&lt;Produto&gt; produtos;
+
+    public Pedido() {
+        this.produtos = new ArrayList&lt;&gt;();
+    }
+
+    // Método para adicionar produto ao pedido
+    public void adicionarProduto(Produto produto) {
+        produtos.add(produto);
+    }
+
+    // Método para calcular total do pedido
+    public double calcularTotal() {
+        double total = 0.0;
+        for (Produto produto : produtos) {
+            total += produto.getPreco();
+        }
+        return total;
+    }
+
+    // Método para exibir produtos do pedido
+    public void exibirPedido() {
+        System.out.println("Produtos no pedido:");
+        for (Produto produto : produtos) {
+            System.out.println("- " + produto.getNome() + ": R$ " + produto.getPreco());
+        }
+    }
+}
+
+public class ExemploDependencia {
+    public static void main(String[] args) {
+        Produto prod1 = new Produto("Camiseta", 49.90);
+        Produto prod2 = new Produto("Calça", 89.90);
+        Produto prod3 = new Produto("Tênis", 129.90);
+        Pedido ped = new Pedido();
+
+        // Adicionar produtos ao pedido
+        ped.adicionarProduto(prod1);
+        ped.adicionarProduto(prod2);
+        ped.adicionarProduto(prod3);
+
+        // Exibir produtos do pedido
+        ped.exibirPedido();
+
+        // Calcular e exibir total do pedido
+        double total = ped.calcularTotal();
+        System.out.println("Total do pedido: R$ " + total);
+    }
+}
+</code></pre></small>
 
             <br><h4>Classe associativa</h4>
-            <p>Classe derivada de associação para qual seja necessário expressar propriedades em inermédio à relação. O nome da relação em classe associativa precisa ser igual ao nome da classe associativa. Classes associativas geralmente são utilizadas somente na fase de análise do projeto, onde são substituídas por outra classe em intermédio, relacionada com as demais via associação. Classe associativa é representada, em UML, por classe em intermédio entre associação de classes, vinculada à linha contínua de associação, por meio de linha tracejada, possuindo nome da associação igual ao nome da classe associativa de intermédio. Para a fase de projeto, a multiplicidade que está na classe esquerda (em fase de análise) vai para multiplicidade no lado direito da classe gerada por associação, e multiplicidade que está na classe direita (em fase de análise) vai para multiplicidade no lado esquerdo da classe gerada por associação. As multiplicidades das classes esquerda e direita tornam-se 1.<br>No exemplo 1 abaixo, associação entre classes Autor e Livro gera classe associativa Publicacao. Pois, para autor publicar um livro, é necessário ocorrer por meio de publicação, apresentando dados como editora e data da publicação. No exemplo 2 abaixo, tem-se o mesmo exemplo 1, porém aplicado à fase de projeto, onde a classe associativa torna-se classe de intermédio entre associação das envolvidas. Nesse exemplo, autor gera publicação da obra, e livro finalizado possui várias versões de publicações do mesmo.</p>
+            <p>Relação (fraca em fase de análise (classe associativa), forte em fase de projeto (associação)) geralmente utilizada para representar intermédio em associação com multiplicidade muitos-para-muitos (0..* ou 1..* ou n..n) entre 2 outras classes. Classe derivada de associação para qual seja necessário expressar propriedades em intermédio à relação. O nome da relação em classe associativa precisa ser igual ao nome da classe associativa. Classes associativas geralmente são utilizadas somente na fase de análise do projeto, onde são substituídas por outra classe em intermédio, relacionada com as demais via associação. Classe associativa é representada, em UML, por classe em intermédio entre associação de classes, vinculada à linha contínua de associação, por meio de linha tracejada, possuindo nome da associação igual ao nome da classe associativa de intermédio. Para a fase de projeto, a multiplicidade que está na classe esquerda (em fase de análise) vai para multiplicidade no lado direito da classe gerada por associação, e multiplicidade que está na classe direita (em fase de análise) vai para multiplicidade no lado esquerdo da classe gerada por associação. As multiplicidades das classes esquerda e direita tornam-se 1.<br>No exemplo 1 abaixo, associação entre classes Autor e Livro gera classe associativa Publicacao. Pois, para autor publicar um livro, é necessário ocorrer por meio de publicação, apresentando dados como editora e data da publicação. No exemplo 2 abaixo, tem-se o mesmo exemplo 1, porém aplicado à fase de projeto, onde a classe associativa torna-se classe de intermédio entre associação das envolvidas. Nesse exemplo, Publicacao possui 1 ou mais versões, publicadas pelo Autor, e Livro possui 1 publicação da obra.</p>
             <img src="classe_associativa1.png" class="img-fluid" width="400px"><br>
             <img src="classe_associativa2.png" class="img-fluid" width="400px"><br>
+<small><pre><code>
+import java.util.ArrayList;
+import java.util.List;
+
+// Classe Livro
+class Livro {
+    private String titulo;
+    private String isbn;
+
+    public Livro(String titulo, String isbn) {
+        this.titulo = titulo;
+        this.isbn = isbn;
+    }
+
+    public String getTitulo() {return titulo;}
+    public String getIsbn() {return isbn;}
+}
+
+// Classe Autor
+class Autor {
+    private String nome;
+    private String biografia;
+
+    public Autor(String nome, String biografia) {
+        this.nome = nome;
+        this.biografia = biografia;
+    }
+
+    public String getNome() {return nome;}
+    public String getBiografia() {return biografia;}
+}
+
+// Classe associativa LivroAutor (Livro pode ter vários Autores, e Autor pode ter vários Livros)
+class LivroAutor {
+    private Livro livro;
+    private Autor autor;
+    private String papel; // Papel do autor no livro (ex: "Escritor", "Editor")
+
+    public LivroAutor(Livro livro, Autor autor, String papel) {
+        this.livro = livro;
+        this.autor = autor;
+        this.papel = papel;
+    }
+
+    public Livro getLivro() {return livro;}
+    public Autor getAutor() {return autor;}
+    public String getPapel() {return papel;}
+}
+
+public class ExemploClasseAssociativa {
+    public static void main(String[] args) {
+        Livro livro1 = new Livro("Java Programming", "123-456-789");
+        Livro livro2 = new Livro("Advanced Java", "987-654-321");
+        Autor autor1 = new Autor("John Doe", "Experienced Java developer.");
+        Autor autor2 = new Autor("Jane Smith", "Java enthusiast and writer.");
+
+        LivroAutor associacao1 = new LivroAutor(livro1, autor1, "Escritor");
+        LivroAutor associacao2 = new LivroAutor(livro1, autor2, "Co-escritor");
+        LivroAutor associacao3 = new LivroAutor(livro2, autor1, "Editor");
+
+        // Exibir associações
+        System.out.println("Livro: " + associacao1.getLivro().getTitulo() + ", Autor: " + associacao1.getAutor().getNome() + ", Papel: " + associacao1.getPapel());
+        System.out.println("Livro: " + associacao2.getLivro().getTitulo() + ", Autor: " + associacao2.getAutor().getNome() + ", Papel: " + associacao2.getPapel());
+        System.out.println("Livro: " + associacao3.getLivro().getTitulo() + ", Autor: " + associacao3.getAutor().getNome() + ", Papel: " + associacao3.getPapel());
+    }
+}
+</code></pre></small>
 
             <br><h4>Propriedades dos atributos</h4>
             <ul>
@@ -1180,13 +1389,55 @@ public class Biblioteca {
 
             <br><h4>Propriedades dos métodos</h4>
             <ul>
-                <li><b>leaf</b>: folha, indica que método não possuirá redefinição. Também chamado de <b>método final</b>, que pode ser herdado, mas não sobrescrito (modificado);</li>
+                <li><b>leaf</b>: folha, indica que método não possuirá redefinição. Também chamado de <b>método final</b>, que pode ser herdado, mas não sobrescrito (modificado) nas subclasses;</li>
                 <li><b>isQuery</b>: método 'puro', ou seja, não altera estado do sistema;</li>
                 <li><b>sequential</b>: invocadores do método devem coordenar externamente o objeto, garantindo que exista fluxo único no objeto por vez;</li>
                 <li><b>guarded</b>: método garante que várias chamadas serão tratadas como chamadas sequenciais;</li>
                 <li><b>concurrent</b>: método considerado atômico e permite que seja executado concorrentemente com outros métodos.</li>
             </ul>
-            <p>JAVA método final</p>
+<small><pre><code>
+class Animal {
+    protected String nome;
+
+    public Animal(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNome() {return nome;}
+
+    // Método final que não pode ser sobrescrito
+    public final void dormir() {
+        System.out.println(nome + " está dormindo.");
+    }
+
+    // Método que pode ser sobrescrito
+    public void emitirSom() {
+        System.out.println(nome + " está fazendo um som.");
+    }
+}
+
+class Cachorro extends Animal {
+    public Cachorro(String nome) {
+        super(nome);
+    }
+
+    // Sobrescrevendo método emitirSom da classe base Animal
+    @Override
+    public void emitirSom() {
+        System.out.println(nome + " está fazendo: Au Au!");
+    }
+}
+
+public class ExemploMetodoFinal {
+    public static void main(String[] args) {
+        Cachorro cachorro = new Cachorro("Rex");
+
+        // Invocar métodos dormir (final) e emitirSom (sobrescrito)
+        cachorro.dormir();  // Invocar método final da classe base Animal
+        cachorro.emitirSom(); // Invocar método sobrescrito da classe Cachorro
+    }
+}
+</code></pre></small>
 
             <br><h4>Restrições</h4>
             <p>Define limites para objetos, classes, atributos, relacionamentos e associações. Restrição é especificada entre '{}' próximo ao elemento restrito, ou pode ser especificada como comentário do elemento. Restrições servem para limitar e realizar consistência dos elementos podendo tornar-se base para asserções (pré e/ou pós condições) em programação. Em UML, comentário é uma Note vinculada a classe via relação NoteAnchor. Restrições na generalização:</p>
@@ -1198,32 +1449,280 @@ public class Biblioteca {
             </ul>
             <p>No exemplo abaixo, complete indica que não há mais nenhum tipo de usuário de livro, e overlapping indica que um usuário de livro pode ser escritor e leitor ao mesmo tempo.</p>
             <img src="restricoes_generalizacao.png" class="img-fluid" width="200px"><br>
+<small><pre><code>
+interface Pessoa {
+    String getNome();
+}
+
+interface Estudante extends Pessoa {
+    String getCurso();
+}
+
+interface Funcionario extends Pessoa {
+    String getCargo();
+}
+
+// Classe que implementa todas interfaces
+class PessoaEstudanteFuncionario implements Estudante, Funcionario {
+    private String nome;
+    private String curso;
+    private String cargo;
+
+    public PessoaEstudanteFuncionario(String nome, String curso, String cargo) {
+        this.nome = nome;
+        this.curso = curso;
+        this.cargo = cargo;
+    }
+
+    // Implementação do método getNome da interface Pessoa
+    @Override
+    public String getNome() {return nome;}
+
+    // Implementação do método getCurso da interface Estudante
+    @Override
+    public String getCurso() {return curso;}
+
+    // Implementação do método getCargo da interface Funcionario
+    @Override
+    public String getCargo() {return cargo;}
+}
+
+public class ExemploOverlapping {
+    public static void main(String[] args) {
+        PessoaEstudanteFuncionario pessoa = new PessoaEstudanteFuncionario("Ana", "Engenharia", "Estagiária");
+
+        // Usar instância como Pessoa
+        System.out.println("Nome: " + pessoa.getNome());
+
+        // Usar instância como Estudante
+        System.out.println("Curso: " + pessoa.getCurso());
+
+        // Usar instância como Funcionario
+        System.out.println("Cargo: " + pessoa.getCargo());
+    }
+}
+</code></pre></small>
 
 
             <br><h4>Classe abstrata</h4>
-            <p>Classe <b>concreta</b> possui instâncias (objetos). Classe abstrata não possui instâncias. É utilizada na construção de hierarquia de relacionamentos de generalização. Pode, ou não, ter métodos concretos (padrão) ou abstratos. Se tiver <b>métodos abstratos</b>, obrigatoriamente terá de ser abstrata. Os métodos abstratos devem ser implementados nas subclasses concretas da classe abstrata (criado na classe abstrata, mas implementado nas subclasses abstratas concretas). Métodos abstratos, em UML, são identificados em itálico. Método abstrato possui, na superclasse, somente assinatura, e nas subclasses (@override) será informado conteúdo interno. Métodos construtores de classes abstratas não podem ser abstratos. Classe abstrata é representada, em UML, com o nome em itálico, ou com nome normal seguido de estereótipo &lt;&lt;abstract&gt;&gt; acima do nome.</p>
+            <p>Classe <b>concreta</b> possui instâncias (objetos). Classe abstrata não possui instâncias. É utilizada na construção de hierarquia de relacionamentos de generalização. Pode, ou não, ter métodos concretos (padrão) ou abstratos. Se tiver <b>métodos abstratos</b>, obrigatoriamente terá de ser abstrata. Os métodos abstratos devem ser implementados nas subclasses concretas da classe abstrata (criado na classe abstrata, mas implementado nas subclasses abstratas concretas). Métodos abstratos, em UML, são identificados em itálico. Método abstrato possui, na superclasse, somente assinatura, e nas subclasses (@override) será informado conteúdo interno. Métodos construtores de classes abstratas não podem ser abstratos. Classe abstrata é representada, em UML, com o nome em itálico, ou com nome normal seguido de estereótipo '&lt;&lt;abstract&gt;&gt;' acima do nome.</p>
             <p>No exemplo abaixo, Figura e Retangulo são abstratas, e classe Botao é folha. Método 'mostrar()' na classe Figura é método abstrato, implementado na subclasse concreta e folha Botao.</p>
             <img src="classe_abstrata.png" class="img-fluid" width="400px"><br>
             <p>colocar código método abstrato JAVA</p>
+<small><pre><code>
+// Classe abstrata Animal
+abstract class Animal {
+    protected String nome;
+
+    public Animal(String nome) {
+        this.nome = nome;
+    }
+
+    // Método abstrato que deve ser implementado pelas subclasses concretas
+    public abstract void emitirSom();
+
+    // Método concreto
+    public void dormir() {
+        System.out.println(nome + " está dormindo.");
+    }
+
+    public String getNome() {return nome;}
+}
+
+class Cachorro extends Animal {
+    public Cachorro(String nome) {
+        super(nome);
+    }
+
+    // Implementação do método abstrato emitirSom
+    @Override
+    public void emitirSom() {
+        System.out.println(nome + " está fazendo: Au Au!");
+    }
+}
+
+class Gato extends Animal {
+    public Gato(String nome) {
+        super(nome);
+    }
+
+    // Implementação do método abstrato emitirSom
+    @Override
+    public void emitirSom() {
+        System.out.println(nome + " está fazendo: Miau!");
+    }
+}
+
+public class ExemploClasseAbstrata {
+    public static void main(String[] args) {
+        Animal cachorro = new Cachorro("Rex");
+        Animal gato = new Gato("Mimi");
+
+        cachorro.emitirSom();
+        cachorro.dormir();
+
+        gato.emitirSom();
+        gato.dormir();
+    }
+}
+</code></pre></small>
 
             <br><h4>Interface</h4>
-            <p>Estereótipo interface é classe que define conjunto de métodos sem implementação (apenas assinatura). É o contato com o mundo exterior (via abtração), que define o que pode ser feito com um objeto dessa classe. Na interface, todo métodos são public e abstract, que não possuem conteúdo interno (somente assinatura), pelas quais todas as classes que implementarão (implements) 1 ou mais interfaces, terão de carregar (@override) todos métodos abstratos informados (implements). Não precisa informar <i>abstract</i> nos métodos na interface, porque já entende-se que os mesmos nela são abstratos por padrão. Os métodos abstratos podem ter valor de retorno e parâmetros. Também na interface, todos os atributos são atributos de classe e readOnly, sendo static e final. Interface não possui método construtor. Classe herdeira somente pode herdar (extends) de uma classe, abstrata ou não. Uma classe herdeira pode implementar (implements) várias classes simultaneamente.</p>
-            <p>Em UML, interface é representada pelo estereótipo '&lt;&lt;interface&gt;&gt;' acima do nome da classe (boas práticas sugerem nome da interface com 'I' de primeira letra, como 'IPainel'). Da mesma forma, todos seus métodos são representados em itálico (métodos abstract). Alternativamente, em UML, interface pode ser representada por círculo fechado não preenchido, ao invés de quadrado de classe.<br>Ex 1: Painel é interface, Botao (classe concreta) é implementação de Painel, então Botao é um tipo de Painel.</p>
+            <p>Estereótipo interface é classe que define conjunto de métodos sem implementação (apenas assinatura). É o contato com o mundo exterior (via abstração), que define o que pode ser feito com um objeto dessa classe. Na interface, todo métodos são public e abstract, que não possuem conteúdo interno (somente assinatura), pelas quais todas as classes que implementarão (implements) 1 ou mais interfaces, terão de carregar (@override) todos métodos abstratos informados (implements). Não é obrigatório informar "abstract" nos métodos na interface, porque já entende-se que os mesmos nela são abstratos por padrão. Os métodos abstratos podem ter valor de retorno e parâmetros. A partir do Java 8, interfaces também podem conter métodos concretos default (com implementação) e métodos estáticos. A parir do Java 9, interfaces podem conter métodos privados. Também na interface, todos os atributos são atributos de classe (constante) e readOnly, sendo static e final. Interface não possui método construtor. Classe herdeira pode herdar (extends), simultaneamente, somente uma classe, abstrata ou não (Java não suporta herança múltipla de classes). Uma classe herdeira pode implementar (implements) várias interfaces simultaneamente.</p>
+            <p>Em UML, interface é representada pelo estereótipo '&lt;&lt;interface&gt;&gt;' acima do nome da classe (boas práticas sugerem nome da interface com 'I' na 1ª letra, como 'IPainel'). Da mesma forma, todos seus métodos são representados em itálico (métodos abstract). Alternativamente, em UML, interface pode ser representada por círculo fechado não preenchido, ao invés de quadrado padrão de classe.<br>Ex 1: Painel é interface, Botao (classe concreta) é implementação de Painel, então Botao é um tipo de Painel.</p>
             <p><b>Realização</b> é relacionamento fraco onde classe concretiza ou implementa o comportamento de outro. É relacionamento entre interface e classe. Classe realiza comportamento de interface quando ocorre a implementação da mesma na primeira, permitindo assim, relacionamento "é um tipo de".</p>
             <p>Em UML, quando a interface encontra-se como classe estereotipada, relacionamento realização é representado por linha tracejada, onde uma das extremidades possui seta fechada não preenchida, apontando para a interface. Ou, alternativamente, quando interface encontra-se como círculo fechado não preenchido, realização é representado como linha contínua, sem identificação nas extremidades (associação).</p>
             <img src="realizacao.png" class="img-fluid" width="400px"><br>
+            <p><u>Exemplo 1</u>:</p>
+<small><pre><code>
+public interface OperacoesMatematicas {
+    // Constante (atributo final estático)
+    double PI = 3.141592653589793;
+
+    // Método abstrato (deve ser implementado pelas classes concretas)
+    double calcular(double a, double b);
+
+    // Método default (com implementação)
+    default double calcularCircunferencia(double raio) {
+        return 2 * PI * raio;
+    }
+
+    // Método estático (com implementação)
+    static double calcularAreaCirculo(double raio) {
+        return PI * raio * raio;
+    }
+}
+
+public class Soma implements OperacoesMatematicas {
+    // Implementação do método abstrato calcular
+    @Override
+    public double calcular(double a, double b) {
+        return a + b;
+    }
+}
+
+public class Multiplicacao implements OperacoesMatematicas {
+    // Implementação do método abstrato calcular
+    @Override
+    public double calcular(double a, double b) {
+        return a * b;
+    }
+}
+
+public class TestaOperacoesMatematicas {
+    public static void main(String[] args) {
+        OperacoesMatematicas soma = new Soma();
+        OperacoesMatematicas multiplicacao = new Multiplicacao();
+
+        // Utilizar métodos abstratos
+        System.out.println("Soma: " + soma.calcular(5, 3)); // Output: Soma: 8.0
+        System.out.println("Multiplicação: " + multiplicacao.calcular(5, 3)); // Output: Multiplicação: 15.0
+
+        // Utilizar método default
+        System.out.println("Circunferência: " + soma.calcularCircunferencia(3)); // Output: Circunferência: 18.84955592153876
+
+        // Utilizar método estático
+        System.out.println("Área do círculo: " + OperacoesMatematicas.calcularAreaCirculo(3)); // Output: Área do círculo: 28.274333882308138
+    }
+}
+</code></pre></small>
+            <br><p><u>Exemplo 2</u>:</p>
+<small><pre><code>
+public interface OperacoesMatematicas {
+    double calcular(double a, double b);
+}
+
+public interface OperacoesGeometricas {
+    double calcularArea(double raio);
+    double calcularPerimetro(double lado);
+}
+
+public class CalculadoraAvancada implements OperacoesMatematicas, OperacoesGeometricas {
+    // Implementação do método calcular da interface OperacoesMatematicas
+    @Override
+    public double calcular(double a, double b) {
+        return a + b;
+    }
+
+    // Implementação do método calcularArea da interface OperacoesGeometricas
+    @Override
+    public double calcularArea(double raio) {
+        return Math.PI * raio * raio;
+    }
+
+    // Implementação do método calcularPerimetro da interface OperacoesGeometricas
+    @Override
+    public double calcularPerimetro(double lado) {
+        return 4 * lado;
+    }
+
+    // Método adicional para exibir os resultados
+    public void exibirResultados(double a, double b, double raio, double lado) {
+        System.out.println("Soma: " + calcular(a, b));
+        System.out.println("Área do círculo: " + calcularArea(raio));
+        System.out.println("Perímetro do quadrado: " + calcularPerimetro(lado));
+    }
+}
+
+public class TestaCalculadoraAvancada {
+    public static void main(String[] args) {
+        CalculadoraAvancada calculadora = new CalculadoraAvancada();
+
+        double a = 5.0;
+        double b = 3.0;
+        double raio = 2.0;
+        double lado = 4.0;
+
+        calculadora.exibirResultados(a, b, raio, lado);
+    }
+}
+</code></pre></small>
 
             <br><h4>Classe parametrizada</h4>
             <p>Também conhecida como template (modelo) ou classe template. Classe template é usada como conjunto modelo para criar elementos mais específicos a partir dessa.<br>Ex 1: classe template EstanteLivro serve de classe modelo para criação de classe MinhaEstanteLivro, sendo essa mais específica e personalizada;<br>Ex 2: código Java, lista meusLivros é usada como modelo para criar objetos (Livros) mais específicos:</p>
 <small><pre><code>
 public ArrayList&lt;Livro&gt; meusLivros = new ArrayList&lt;Livro&gt;();
 </code></pre></small>
-            <p>Em UML, classe template é representada por pequeno quadrado tracejado no canto superior direito da classe, indicando template ou lista dos parâmetros. O relacionamento fraco entre classe template e classe concreta (nesse caso chamada 'bound element' (elemento ligado)) é representado explicitamente por linha tracejada com seta aberta em uma das extremidades, apontando para a classe template. Tal relação é nomeada pelo estereótipo '&lt;&lt;bind&gt;&gt;', juntamente com indicação do parâmetro para a classe template (template biding), em que o biding aponta seta para o objeto que lhe substituirá. A classe concreta relacionada geralmente não são mostrados atributos e métodos, pois não pode haver qualquer alteração no bound element (apenas indica-se o(s) parâmetro(s)). Na forma explícita, o quadrado tracejado representando template, pode possuir nome, tipo, valor padrão e tipo modificador (ex: 'T:boolean=true'). Na forma implícita, o bound element precisa ter mesmo nome da classe template, e a indicação do(s) parâmetro(s) é feita ao lado do nome do bound element, entre sinais de menor e maior.<br>O exemplo 1 abaixo mostra notação com vinculação explícita.<br>O exemplo 2 abaixo mostra notação com vinculação implícita.</p>
+            <p>Em UML, classe template é representada por pequeno quadrado tracejado no canto superior direito da classe, indicando template ou lista dos parâmetros. O relacionamento fraco entre classe template e classe concreta (nesse caso chamada 'bound element' (elemento ligado)) é representado explicitamente por linha tracejada com seta aberta em uma das extremidades, apontando para a classe template. Tal relação é nomeada pelo estereótipo '&lt;&lt;bind&gt;&gt;', juntamente com indicação do parâmetro para a classe template (template biding), em que o biding aponta seta para o objeto que lhe substituirá. Na classe concreta relacionada, geralmente não são apresentados atributos e métodos, pois não pode haver qualquer alteração no bound element (apenas indica-se o(s) parâmetro(s)). Na forma explícita, o quadrado tracejado representando template, pode possuir nome, tipo, valor padrão e tipo modificador (ex: 'T:boolean=true'). Na forma implícita, o bound element precisa ter mesmo nome da classe template, e a indicação do(s) parâmetro(s) - classe - é feita ao lado do nome do bound element, entre sinais de menor e maior.<br>O exemplo 1 abaixo (à esquerda) mostra notação com vinculação explícita.<br>O exemplo 2 abaixo (à direita) mostra notação com vinculação implícita.<br>Os exemplos 3 abaixo representam outras formas práticas de classe parametrizada.</p>
+            <p>Em Java, classes parametrizadas são denominadas <b>Generics</b>. Generics permitem criação de classes, interfaces e métodos que funcionam com qualquer tipo de dado, proporcionando maior flexibilidade e reusabilidade ao código.</p>
             <img src="template1.png" class="img-fluid" width="400px"><br>
             <img src="template2.png" class="img-fluid" width="520px"><br>
+<small><pre><code>
+public class Caixa&lt;T&gt; {
+    // Variável de instância do tipo genérico T
+    private T item;
 
+    public Caixa(T item) {
+        this.item = item;
+    }
 
+    public T getItem() {return item;}
+    public void setItem(T item) {this.item = item;}
 
+    public void exibirItem() {
+        System.out.println("Item: " + item);
+    }
+}
+
+public class TestaCaixa {
+    public static void main(String[] args) {
+        // Criar instância de Caixa para armazenar Integer
+        Caixa&lt;Integer&gt; caixaInteger = new Caixa&lt;&gt;(123);
+        caixaInteger.exibirItem();
+
+        // Criar instância de Caixa para armazenar String
+        Caixa&lt;String&gt; caixaString = new Caixa&lt;&gt;("Olá Mundo");
+        caixaString.exibirItem();
+
+        // Criar instância de Caixa para armazenar Double
+        Caixa&lt;Double&gt; caixaDouble = new Caixa&lt;&gt;(3.14);
+        caixaDouble.exibirItem();
+
+        caixaString.setItem("Nova String");
+        System.out.println("Item atualizado: " + caixaString.getItem());
+    }
+}
+</code></pre></small>
             <!--VER O QUE linha tracejada depenência 'Usage'-->
             <!--VER O QUE business entity-->
             <!--VER O QUE control, business worker, interfaces-->
