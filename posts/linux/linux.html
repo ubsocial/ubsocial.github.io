@@ -128,14 +128,15 @@
                         <li><b>Desktop</b>: Camada que hospeda aplicações dependentes de GUI para funcionamento.</li>
                     </ol>
 
-                    <h5>Tipos de kernel Linux:</h5>
+                    <h5>Tipos de kernel GNU/Linux:</h5>
                     <ul>
                         <li><b>Generic (Stable)</b>: Padrão de SOs Linux;</li>
                         <li><b>LTS (Longterm)</b>: Maior suporte e estabilidade;</li>
                         <li><b>Zen</b>: Open Source, fork do Generic, objetivo de otimização;</li>
                         <li><b>Liquorix</b>: Similar ao Zen, objetivo de otimização para games e mídia;</li>
                         <li><b>Hardened</b>: Open Source, objetivo de segurança e robustez, menos performance;</li>
-                        <li><b>XanMod</b>: Objetivo de performance.</li>
+                        <li><b>XanMod</b>: Objetivo de performance;</li>
+                        <li><b>HWE</b>: Hardware Enablement (HWE) Kernel, desenvolvido pela Canonical (Ubuntu), consiste em versão do kernel GNU/Linux com partes LTS e, ao mesmo tempo, partes modernas, objetivando funcionamento em hardware antigo e moderno. Faz parte do programa  de Enablement Stack do Ubuntu, que oferece suporte contínuo para hardware novo sem necessidade de atualizar para versão completamente nova do sistema operacional.</li>
                     </ul>
                 </div>
             </div>
@@ -148,7 +149,11 @@
                         <li>Distros <b>versionadas</b> (lançamentos versionados);
                             <ul>
                                 <li>LTS (long term support): Possui atualizações menos frequentes e pacotes mais estáveis. Ex: Ubuntu LTS;</li>
-                                <li>testing: Versão não LTS, possui as mais recentes atualizações publicadas. Ex: Debian Testing;</li>
+                                <li>testing: Versão não LTS, possui as mais recentes atualizações publicadas. Ex: Debian Testing;
+                                    <ul>
+                                        <li>Point release: Versões de distros GNU/Linux lançadas frequentemente, geralmente a cada 6 ou 8 meses (ex: 20.1, 20.2, <s>20.4 é LTS</s>).</li>
+                                    </ul>
+                                </li>
                                 <li>unstable: Possui as atualizações mais recentes e que ainda não foram publicadas (beta). Ex: Debian Unstable.</li>
                             </ul>
                         </li>
@@ -181,7 +186,7 @@
                         </li>
                         <li>Entre outros.</li>
                     </ul>
-                    <p>Em muitas situações, pode-se optar por qual DE instalar na distro. Como, por exemplo, no Debian, optar entre Debian Gnome, Debian KDE, Debian XFCE, etc. Além disso, pode-se instalar um tipo de GUI, com DE não pertencente a mesma (exemplo GUI Gnome Shell em DE XFCE). Distros com DEs como XFCE, LXQt, MATE e Fluxbox são ideais para hardware obsoleto. Distros com DEs como XFCE, KDE e Cinnamon possuem mais similaridade com Windows. Distros com DEs como Pantheon e Deepin DE possuem mais similaridade com MacOS. Linux <b>Mesa</b>/Mesa3D/The Mesa 3D Graphics Library é conjunto de hospedagem de implementações de APIs gráficas opensource (como a OpenGL), para comunicação com drivers gráficos do Kernel Linux, como Intel e NVidia AMD. Linux <b>Proton</b> é a camada de compatibilidade da Valve, para funcionamento de games nas distros. Sistemas GNU/Linux embarcados como Raspberry Pi OS (Raspbian) funcionam em hardware como placas Raspberry Pi.</p>
+                    <p>Em muitas situações, pode-se optar por qual DE instalar na distro. Como, por exemplo, no Debian, optar entre Debian Gnome, Debian KDE, Debian XFCE, etc. Além disso, pode-se instalar um tipo de GUI, com DE não pertencente a mesma (exemplo GUI Gnome Shell em DE XFCE). Distros com DEs como XFCE, LXQt, MATE e Fluxbox são ideais para hardware obsoleto. Distros com DEs como XFCE, KDE e Cinnamon possuem mais similaridade com Windows. Distros com DEs como Pantheon e Deepin DE possuem mais similaridade com MacOS. Linux <b>Mesa</b>/Mesa3D/The Mesa 3D Graphics Library é conjunto de hospedagem de implementações de APIs gráficas opensource (como a OpenGL), para comunicação com drivers gráficos do Kernel Linux, como Intel e NVidia AMD. Linux <b>Proton</b> é a camada de compatibilidade da Valve, para funcionamento de games nas distros. Sistemas GNU/Linux embarcados como Raspberry Pi OS (Raspbian) funcionam em hardware como placas Raspberry Pi. O <b>PulseAudio</b> é servidor de som que age como um intermediário entre aplicações de áudio o hardware de som, permitindo flexibilidade na gestão de fluxos de áudio. O <b>JACK</b> (JACK audio connection kit) é daemon de servidor de som profissional que fornece conexões em tempo real e baixa latência para dados de áudio e MIDI entre aplicativos que implementam sua API. O <b>PipeWire</b> é tecnologia que visa unificar e substituir PulseAudio e JACK, oferecendo um servidor de mídia multimodal na gestão de áudio e vídeo.</p>
                     <h5>Servidores:</h5>
                     <p>Dispositivos com função de prover determinados serviços, de forma segura e eficaz. Geralmente são classificados da seguinte maneira:</p>
                     <ul>
