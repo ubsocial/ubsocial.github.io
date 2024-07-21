@@ -1569,10 +1569,12 @@ public class ExemploClasseAbstrata {
 
             <br><h4>Interface</h4>
             <p>Estereótipo interface é classe que define conjunto de métodos sem implementação (apenas assinatura). É o contato com o mundo exterior (via abstração), que define o que pode ser feito com um objeto dessa classe. Na interface, todo métodos são public e abstract, que não possuem conteúdo interno (somente assinatura), pelas quais todas as classes que implementarão (implements) 1 ou mais interfaces, terão de carregar (@override) todos métodos abstratos informados (implements). Não é obrigatório informar "abstract" nos métodos na interface, porque já entende-se que os mesmos nela são abstratos por padrão. Os métodos abstratos podem ter valor de retorno e parâmetros. A partir do Java 8, interfaces também podem conter métodos concretos default (com implementação) e métodos estáticos. A parir do Java 9, interfaces podem conter métodos privados. Também na interface, todos os atributos são atributos de classe (constante) e readOnly, sendo static e final. Interface não possui método construtor. Classe herdeira pode herdar (extends), simultaneamente, somente uma classe, abstrata ou não (Java não suporta herança múltipla de classes). Uma classe herdeira pode implementar (implements) várias interfaces simultaneamente.</p>
-            <p>Em UML, interface é representada pelo estereótipo '&lt;&lt;interface&gt;&gt;' acima do nome da classe (boas práticas sugerem nome da interface com 'I' na 1ª letra, como 'IPainel'). Da mesma forma, todos seus métodos são representados em itálico (métodos abstract). Alternativamente, em UML, interface pode ser representada por círculo fechado não preenchido, ao invés de quadrado padrão de classe.<br>Ex 1: Painel é interface, Botao (classe concreta) é implementação de Painel, então Botao é um tipo de Painel.</p>
+            <p>Em UML, interface é representada pelo estereótipo '&lt;&lt;interface&gt;&gt;' (normal interface) acima do nome da classe (boas práticas sugerem nome da interface com 'I' na 1ª letra, como 'IPainel'). Da mesma forma, todos seus métodos são representados em itálico (métodos abstract). Alternativamente, em UML, interface pode ser representada por círculo fechado não preenchido, ao invés de quadrado padrão de classe.<br>Ex 1: Painel é interface, Botao (classe concreta) é implementação de Painel, então Botao é um tipo de Painel.</p>
             <p><b>Realização</b> (realization - realize) é relacionamento fraco onde classe concretiza ou implementa o comportamento de outro. É relacionamento entre interface e classe. Classe realiza comportamento de interface quando ocorre a implementação da mesma na primeira, permitindo assim, relacionamento "é um tipo de".</p>
             <p>Em UML, quando a interface encontra-se como classe estereotipada, relacionamento realização é representado por linha tracejada, onde uma das extremidades possui seta fechada não preenchida, apontando para a interface. Ou, alternativamente, quando interface encontra-se como círculo fechado não preenchido, realização é representado como linha contínua, sem identificação nas extremidades (associação).</p>
+            <p><b>Provided interface</b> (interface fornecida, provida) é a interface implementada por uma classe Provider, que será conectada, via associação, à <b>required interface</b> (interface requerida, necessária, obrigatória) de uma classe Consumer, para que possa executar um método com interface provida pela Provider. Em UML, provider interface é a ligação, via associação, entre classe Consumer (em uma extremidade da linha) e gancho/garfo para conexão com interface fornecida (círculo fechado não preenchido), conectada, via associação, à classe Provider (provided interface). Em síntese, Consumer requer (required) interface provida (provided) pela Provider (conforme exemplo abaixo).<br>No exemplo abaixo, classe Consumer requer acesso à interface, e Provider providencia acesso à interface. Nesse caso, Consumer possui método com interface como parâmetro, onde será necessário (required, à esquerda) acesso à interface, provida (provided, à direita) pela Provided.</p>
             <img src="realizacao.png" class="img-fluid" width="400px"><br>
+            <img src="interfaces.png" class="img-fluid" width="300px"><br>
             <p><u>Exemplo 1</u>:</p>
 <small><pre><code>
 public interface OperacoesMatematicas {
@@ -1674,6 +1676,135 @@ public class TestaCalculadoraAvancada {
         double lado = 4.0;
 
         calculadora.exibirResultados(a, b, raio, lado);
+    }
+}
+</code></pre></small>
+            <br><p><u>Exemplo 3</u>:</p>
+<small><pre><code>
+// Interface fornecida (provided interface)
+public interface Service {
+    void execute();
+}
+
+// Interface requerida (required interface)
+public interface Logger {
+    void log(String message);
+}
+
+// Implementação da interface fornecida (provided interface)
+public class ServiceImpl implements Service {
+    private Logger logger; // Interface requerida
+
+    // Injeção da interface requerida via construtor
+    public ServiceImpl(Logger logger) {
+        this.logger = logger;
+    }
+
+    @Override
+    public void execute() {
+        logger.log("Service is being executed.");
+        System.out.println("Service execution logic here.");
+    }
+}
+
+// Implementação da interface requerida (required interface)
+public class ConsoleLogger implements Logger {
+    @Override
+    public void log(String message) {
+        System.out.println("Log: " + message);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Criar instância da implementação da interface requerida
+        Logger logger = new ConsoleLogger();
+
+        // Passar instância da interface requerida para a implementação da interface fornecida
+        Service service = new ServiceImpl(logger);
+
+        // Executar serviço
+        service.execute();
+    }
+}
+</code></pre></small>
+
+            <br><h4>Fronteira</h4>
+            <p>Fronteira/limite (<b>boundary</b>) representa objeto que realiza comunicação entre sistema e mundo externo (outros sistemas, atores, etc). Modela interfaces do sistema com o ambiente externo, sendo dependente do ambiente do sistema (exemplos: AdministradoraCartao, SistemaPonto, Catraca, SensorPresenca). Geralmente vinculado a outra classe via associação ou composição. Atua como interface de entrada/saída do sistema. Em UML, boundary pode ser representado por círculo fechado, não preenchido, com linhas congruentes anexadas à esquerda. Também pode ser representado por classe com estereótipo &lt;&lt;boundary&gt;&gt;. <b>Control</b> é classe que coordena comportamento no sistema (contêm lógica de controle para coordenar operações entre outras classes (boundary e entity)), na execução de processos, fluxos e orquestram outras classes. Cria, ativa, anula e controla a concorrência aos objetos controlados. Classes de controle geralmente são criadas quando o sistema executa um caso de uso e seu ciclo de vida tem duração até que tal caso seja concluído. Em UML, control é representado por cículo fechado, não preenchido, com sinal de menor (&lt;) sob a linha na parte superior do círculo. Também pode ser representado por classe com estereótipo &lt;&lt;control&gt;&gt;. Boundary e control trabalham juntas com classes entity para formar sistema coeso, separando claramente responsabilidades de interação com usuário, controle de fluxo e manipulação de dados.</p>
+            <img src="boundary.png" class="img-fluid" width="100px"><br>
+<small><pre><code>
+// Entity (classe entidade)
+// Representa conta bancária com métodos para depositar, sacar e consultar saldo
+public class Account {
+    private String accountNumber;
+    private double balance;
+
+    public Account(String accountNumber) {
+        this.accountNumber = accountNumber;
+        this.balance = 0.0;
+    }
+
+    public void deposit(double amount) {
+        balance += amount;
+    }
+
+    public void withdraw(double amount) {
+        if (amount &lt;= balance) {
+            balance -= amount;
+        }
+    }
+
+    public double getBalance() {return balance;}
+    public String getAccountNumber() {return accountNumber;}
+}
+
+// Control (classe controle)
+// Gerencia lógica de controle, coordenando criação de contas e consulta de saldos
+public class AccountController {
+    private Account account;
+
+    public void createAccount(String accountNumber) {
+        account = new Account(accountNumber);
+    }
+
+    public double getBalance() {
+        if (account != null) {
+            return account.getBalance();
+        }
+        return 0.0;
+    }
+
+    // Métodos adicionais para depositar e sacar podem ser adicionados aqui
+}
+
+// Boundary (classe fronteira/limite)
+// Interage com usuário, obtendo entradas e exibindo saídas
+import java.util.Scanner;
+public class AccountUI {
+    private AccountController controller;
+    private Scanner scanner;
+
+    public AccountUI() {
+        controller = new AccountController();
+        scanner = new Scanner(System.in);
+    }
+
+    public void createAccount() {
+        System.out.print("Enter account number: ");
+        String accountNumber = scanner.nextLine();
+        controller.createAccount(accountNumber);
+        System.out.println("Account created successfully!");
+    }
+
+    public void displayBalance() {
+        double balance = controller.getBalance();
+        System.out.println("Current balance: " + balance);
+    }
+
+    public static void main(String[] args) {
+        AccountUI ui = new AccountUI();
+        ui.createAccount();
+        ui.displayBalance();
     }
 }
 </code></pre></small>
@@ -1855,6 +1986,139 @@ public class Main {
 }
 </code></pre></small>
 
+            <br><h4>Business</h4>
+            <p><b>BusinessEntity</b> representa classe com dados manuseáveis persistentes no sistema, essencialmente objetos de negócio que contém informações sobre domínio do mesmo. Esses objetos podem ser comparados às entidades em banco de dados, ou objetos de domínio na aplicação. Em UML, BusinessEntity é representada por círculo entity, com linha diagonal, para direira, dentro do círculo. Possui mesmas possibilidades de relacionamentos que entity. <b>BusinessWorker</b> representa papéis ou atividades desempenhadas em processos de negócios, encapsulando lógica de negócios, interagindo com as BusinessEntities para realizar tarefas. BusinessWorker pode ser considerado como classe ou conjunto de operações que manipulam BusinessEntities. Em UML, BusinessWorker é representado por círculo worker, com linha diagonal, para a direita, dentro do círculo. Possui mesmas possibilidades de relacionamentos que worker.<br>No exemplo abaixo, Customer, Order e Product (BusinessEntities) representam dados do sistema, como informações do cliente, detalhes do pedido e informações dos produtos. OrderProcessor (BusinessWorker) contém lógica de negócios para criar e processar pedidos, interagindo com as BusinessEntities.</p>
+            <img src="business.png" class="img-fluid" width="400px"><br>
+<small><pre><code>
+// BusinessEntity
+public class Customer {
+    private String id;
+    private String name;
+
+    public Customer(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public String getId() {return id;}
+    public String getName() {return name;}
+}
+
+// BusinessEntity
+import java.util.List;
+public class Order {
+    private String orderId;
+    private String customerId;
+    private List&lt;Product&gt; productList;
+
+    public Order(String orderId, String customerId, List&lt;Product&gt; productList) {
+        this.orderId = orderId;
+        this.customerId = customerId;
+        this.productList = productList;
+    }
+
+    public String getOrderId() {return orderId;}
+    public String getCustomerId() {return customerId;}
+    public List&lt;Product&gt; getProductList() {return productList;}
+    public double getTotalAmount() {return productList.stream().mapToDouble(Product::getPrice).sum();}
+}
+
+// BusinessEntity
+public class Product {
+    private String productId;
+    private String productName;
+    private double price;
+
+    public Product(String productId, String productName, double price) {
+        this.productId = productId;
+        this.productName = productName;
+        this.price = price;
+    }
+
+    public String getProductId() {return productId;}
+    public String getProductName() {return productName;}
+    public double getPrice() {return price;}
+}
+
+// BusinessWorker
+import java.util.List;
+public class OrderProcessor {
+    public Order createOrder(String orderId, String customerId, List&lt;Product&gt; productList) {
+        return new Order(orderId, customerId, productList);
+    }
+
+    public void processOrder(Order order) {
+        // Implementar lógica para processar order
+        System.out.println("Processing order for customer ID: " + order.getCustomerId());
+        System.out.println("Order total amount: " + order.getTotalAmount());
+    }
+}
+
+// Integração
+import java.util.Arrays;
+public class Main {
+    public static void main(String[] args) {
+        Customer customer = new Customer("C123", "John Doe");
+        Product product1 = new Product("P101", "Laptop", 1200.00);
+        Product product2 = new Product("P102", "Mouse", 25.00);
+
+        OrderProcessor orderProcessor = new OrderProcessor();
+        Order order = orderProcessor.createOrder("O1001", customer.getId(), Arrays.asList(product1, product2));       
+        orderProcessor.processOrder(order);
+    }
+}
+</code></pre></small>
+
+            <br><h4>Specification</h4>
+            <p>Pode-se especificar (InstanceSpecification) instâncias (objetos) concretas de entity (classe), BusinessEntity, Boundary, Control e BusinessWorker. Em UML, Specification é representada pelo elemento visual círculo (conforme seu componente - entity pode ser representada pelo quadrado tradicional, conforme abaixo), cujo nome está sublinhado, antecedido de ':'. Possui mesmas possibilidades de relacionamentos que nos componentes nativos envolvidos na Specification.<br>No exemplo abaixo, ': Book' e ': LibraryMember' são InstanceSpecification (entity) das classes Book e LibraryMember, respectivamente.</p>
+            <img src="specification.png" class="img-fluid" width="300px"><br>
+<small><pre><code>
+// Classes
+public class Book {
+    private String title;
+    private String author;
+    private String isbn;
+
+    public Book(String title, String author, String isbn) {
+        this.title = title;
+        this.author = author;
+        this.isbn = isbn;
+    }
+
+    public String getTitle() {return title;}
+    public String getAuthor() {return author;}
+    public String getIsbn() {return isbn;}
+}
+
+public class LibraryMember {
+    private String name;
+    private String memberId;
+
+    public LibraryMember(String name, String memberId) {
+        this.name = name;
+        this.memberId = memberId;
+    }
+
+    public String getName() {return name;}
+    public String getMemberId() {return memberId;}
+}
+
+// InstanceSpecifications
+public class Main {
+    public static void main(String[] args) {
+        Book book = new Book("1984", "George Orwell", "123456789");
+        LibraryMember member = new LibraryMember("Alice", "M001");
+
+        System.out.println("Book Title: " + book.getTitle());
+        System.out.println("Book Author: " + book.getAuthor());
+        System.out.println("Book ISBN: " + book.getIsbn());
+        
+        System.out.println("Member Name: " + member.getName());
+        System.out.println("Member ID: " + member.getMemberId());
+    }
+}
+</code></pre></small>
+
             <br><h4>Java</h4>
 <small><pre><code>
 public static void main(String[] args) {}
@@ -1867,16 +2131,6 @@ public static void main(String[] args) {}
                 <li><b>String[] args</b>: args é parâmetro do método, sendo array de objetos tipo classe String. Utilizado para receber argumentos de linha de comando quando programa Java é executado, onde cada elemento do arrays 'args' é um argumento passado na linha de comando;</li>
                 <li><b>{}</b>: corpo do método, delimitando bloco de código que compõe o método main. O código entre {} será executado quando método main for invocado, ou seja, quando o programa Java for iniciado pela JVM.</li>
             </ul>
-            <!--
-            FALTA COMPLETAR:
-            - Interface: Interface normal, Required interface, Provided interface
-            - BusinessEntity
-            - Boundary
-            - Control e BusinessWorker
-            - InstanceSpecification: Entity, BusinessEntity, Boundary, Control, BusinessWorker
-            Link sobre Astah UML: https://astah.net/support/astah-pro/user-guide/class-diagrams
-            Download software IBM Rational: https://youtu.be/MHc4yFNp0wI?si=kpQd_TmcHvh3qG6U
-            -->
         </div>
     </div>
 
