@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../icons/logoTit.png">
+    <link rel="stylesheet" href="../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <nav class="navbar rounded-bottom fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="../index.html"><img src="../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../sobre/sobre.html">Sobre</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../livros/livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 text-center" id="titulo">
+            <h1>Formatar pendrive no Linux</h1>
+            <h6><strong>Formatar pendrive no terminal Linux</strong></h6>
+            <a href="../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
+        </div>
+
+        <div class="col-sm-12">
+            <h4>Passo a passo:</h4>
+            <ol>
+                <li>Listar dispositivos: <span class="text-muted">lsblk</span></li>
+                <li>Desmontar pendrive: <span class="text-muted">sudo umount /dev/nomeDispositivo</span></li>
+                <li>Formatar pendrive
+                    <ol>
+                        <li>Formatar FAT32 (comum para compatibilidade com Windows e outros dispositivos): <span class="text-muted"> sudo mkfs.vfat /dev/nomeDispositivo</span></li>
+                        <li>Formatar exFAT (para arquivos maiores que 4GB): <span class="text-muted">sudo mkfs.exfat /dev/nomeDispositivo</span></li>
+                        <li>Formatar NTFS (comum em sistemas Windows): <span class="text-muted">sudo mkfs.ntfs /dev/nomeDispositivo</span></li>
+                        <li>Formatar EXT4 (comum em sistemas Linux): <span class="text-muted">sudo mkfs.ext4 /dev/nomeDispositivo</span></li>
+                    </ol>
+                </li>
+                <li>Verificar funcionamento: <span class="text-muted">lsblk && sudo mount /dev/sdX1 /mnt && ls /mnt && sudo umount /mnt</span></li>
+            </ol>
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center bg-black text-light pt-4 pb-3">
+        <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>
