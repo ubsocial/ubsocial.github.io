@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../icons/logoTit.png">
+    <link rel="stylesheet" href="../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <nav class="navbar rounded-bottom fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="../index.html"><img src="../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../sobre/sobre.html">Sobre</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../livros/livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 text-center" id="titulo">
+            <h1>ID's dos dispositivos</h1>
+            <h6><strong>Localizar ID's dos dispositivos</strong></h6>
+            <a href="../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
+        </div>
+
+        <div class="col-sm-12">
+            <h4>Smartphone</h4>
+            <ul>
+                <li>IMEI: ligar '*#06#'</li>
+            </ul>
+
+            <br><h4>Desktop</h4>
+            <ul>
+                <li>Processor id (Linux): cpu get processorid</li>
+                <li>Product serial number tag (PSNT) (Windows): 'wmic bios get serialnumber' ou 'wmic baseboard get product,Manufacturer,version,serialnumber'
+                    <ul>
+                        <li>Linux: sudo dmidecode -t system | grep Serial</li>
+                        <li>Linux: sudo dmidecode -s system-serial-number</li>
+                    </ul>
+                </li>
+                <li>Dispositivos Dell: etiqueta física EST (Embedded Service Tag)</li>
+                <li>CPU ID: Só funciona se ativado (pode ser desativado pelo usuário, sendo desativado por padrão na maioria dos sistemas por motivos de privacidade)</li>
+                <li>Network MAC address: id das placas físicas de rede do dispositivo, mas pode ser alterado pelo usuário
+                    <ul>
+                        <li>Android: configurações - sobre o telefone ou informações do dispositivo - status ou informações de hardware</li>
+                        <li>iOS: ajustes - geral - sobre - endereço wi-fi</li>
+                        <li>Windows: no CMD, comando 'ipconfig /all' ou 'getmac'</li>
+                        <li>Linux: no shell, comando 'ifconfig' ou 'ip addr show' (em eth0 (cabeada) ou wlan0 (wifi) será o HWaddr ou ether)</li>
+                        <li>macOS: menu superior esquerdo Apple - preferências do sistema - rede - ethernet ou wi-fi - avançado - aba wi-fi ou hardware</li>
+                    </ul>
+                </li>
+                <li>HD serial number: pode ser atualizado ou alterado pelo usuário</li>
+                <li>BIOS, Board serial (Linux):
+                    <ul>
+                        <li>hwinfo --bios</li>
+                        <li>sudo cat /sys/class/dmi/id/board_serial</li>
+                    </ul>
+                </li>
+                <li>Root volume serial number: pode ser reformatado e alterado com ferramentas específicas</li>
+            </ul>
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center bg-black text-light pt-4 pb-3">
+        <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>
