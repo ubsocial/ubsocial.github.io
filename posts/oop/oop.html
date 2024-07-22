@@ -56,13 +56,35 @@
             <p>Diferente de métodos e classes abstratas, significa "enxugar" conteúdo, mantendo ao mesmo só o essencial. Observar elemento(s), avaliando características e propriedades à parte.</p>
 
             <br><h4>Classe</h4>
-            <p>Também chamada de 'entidade'. Define conjunto de objetos que compartilham mesmas caraterísticas (atributos), ações (métodos ou operações), relacionamentos e semântica. <b>Objeto</b> é algo material ou não material (abstrato), que pode ser percebido pelos sentidos e descrito por meio de características (estado atual), possuindo identidade única. Classe instancia (cria) objetos, e objetos são <i>instâncias</i> (criações) de classe. Toda classe é identificada unicamente pelo seu nome. Relacionamentos entre classes determinam conexões entre objetos, fornecendo caminho para comunicação entre os mesmos.</p>
+            <p>Também chamada de 'entidade' (entity). Define conjunto de objetos que compartilham mesmas caraterísticas (atributos), ações (métodos ou operações), relacionamentos e semântica. <b>Objeto</b> (object) é algo material ou não material (abstrato), que pode ser percebido pelos sentidos e descrito por meio de características (estado atual), possuindo identidade única. Classe instancia (cria) objetos, e objetos são <i>instâncias</i> (criações) de classe. Toda classe é identificada unicamente pelo seu nome. Relacionamentos entre classes determinam conexões entre objetos, fornecendo caminho para comunicação entre os mesmos.</p>
             <img src="classe_sintaxe.png" class="img-fluid" width="400px"><br>
-            
+<small><pre><code>
+import java.util.ArrayList;
+import java.util.List;
+
+public class Pessoa {
+    public String nome = "UB Social";
+    private List&lt;String&gt; endereco = new ArrayList&lt;&gt;(2);
+    private final int cpf;
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setEndereco(String endereco, char tipo) {
+        if (this.endereco.size() &lt; 2) {
+            this.endereco.add(endereco + " (" + tipo + ")");
+        } else {
+            System.out.println("Máximo de 2 endereços já atingido.");
+        }
+    }
+}
+</code></pre></small>
+
             <br><h5>Nome da classe:</h5>
             <p>Nome único, padrão CamelCase. Pode ser simples (ex: Livro) ou com caminho via padrão 'NomePacote :: NomeClasse', referenciando o pacote onde a classe encontra-se (ex: SitemaLivraria :: Livro).</p>
             <img src="nome_classe.png" class="img-fluid" width="200px"><br>
-            
+
             <br><h5>Atributos:</h5>
             <p>Cada objeto possui estado, representado pelos valores associados a cada atributo definido pela respectiva classe.<br>Sintaxe atributo (UML): <span class="text-danger">visibilidade</span> <span class="text-success">nome</span> <span class="text-warning">: tipo</span> multiplicidade <span class="text-primary"> = valor inicial</span> <span style="color: blueviolet;">{propriedades e restrições}</span></p>
             <img src="atributo_sintaxe.png" class="img-fluid" width="140px"><br>
