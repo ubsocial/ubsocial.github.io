@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../../icons/logoTit.png">
+    <link rel="stylesheet" href="../../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <nav class="navbar rounded-bottom fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="../../index.html"><img src="../../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../sobre/sobre.html">Sobre</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../livros/livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 text-center" id="titulo">
+            <h1>Inteligência Artificial</h1>
+            <h6><strong>Inteligência Artificial e Machine Learning</strong></h6>
+            <a href="../../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
+        </div>
+
+        <div class="col-sm-12">
+            <h4>Introdução</h4>
+            <p>Inteligência artificial é a área da ciência da computação responsável pelo desenvolvimento de sistemas que simulem a capacidade humana de resolver problemas. Os principais conceitos/áreas são:</p>
+            <ul>
+                <li>Inteligência computacional: Redes neurais, computação evolucionária, lógica nebulosa (fuzzy);</li>
+                <li>Machine learning (ML, aprendizado de Máquina): Métodos matemáticos para treinar algoritmos;</li>
+                <li>Data mining (mineração de dados): Extrair conhecimentos de base de dados, via métodos de machine learning;</li>
+                <li>Neural network (rede neural): Tipo de ML, como um algoritmo;</li>
+                <li>Deep learning (aprendizado profundo): Muito mais dados e processadores mais potentes (rede neural com muitas camadas);</li>
+                <li>Big data: Imenso volume de dados (necessário algoritmos de ML para tratamento dos dados);</li>
+                <li>Data analytics (análise de dados): Inspeção, transformação e modelagem de dados, a fim de obter informações e insights sobre;</li>
+                <li>Data science (ciência de dados): Exploração e análise de dados (data analytics), envolvendo ciência da computação + estatística, além de ML.</li>
+            </ul>
+            <img src="datascience_roadmap.jpg" class="img-fluid rounded" width="250px"><br>
+            <img src="areas_ia.jpg" class="img-fluid rounded" width="400px"><br>
+
+            <br><h4>Machine learning</h4>
+            Tipos de ML:
+            <ul>
+                <li><b>Supervisonada</b> (classificação e regressão);</li>
+                <li><b>Não Supervisonada</b> (associação, agrupamento, detecção de outliers, padrões sequenciais e sumarização);</li>
+                <li><b>Reforço</b>.</li>
+            </ul>
+            Métodos preditivos: Previsão resultante de conjunto de atributos.
+            <ul>
+                <li><b>Classificação</b>: Dividir atributos por determinadas classes (rótulos). Ex: pessoas que gostam de rock e pessoas que não gostam de rock;</li>
+                <li><b>Regressão</b>: Previsão realizada através da análise de valores numéricos, como dados históricos. Ex: com base em valores climáticos, medir previsão do tempo.</li>
+            </ul>
+            Métodos descritivos:
+            <ul>
+                <li><b>Associação</b>: Dados em comum (ex: maior histórico de compra de item x nos sábados);</li>
+                <li><b>Agrupamento</b>: Agrupar dados em comum (ex: grupo de games de ação, grupo de games de terror);</li>
+                <li><b>Detecção de outliers</b> (desvios): Detectar anomalias em grupos de dados (ex: atletas em doping - desempenhando além do normal);</li>
+                <li><b>Descoberta de padrões sequenciais</b>: Detectar relações entre grupos de dados (ex: leitor de Harry Potter tende a gostar de livros de Harry Potter);</li>
+                <li><b>Sumarização</b>: Abstrair dados de um grupo maior, conforme atributos solicitados (ex: BD de clientes, exibir somente cliente maiores de 50 anos);</li>
+            </ul>
+
+            <p>Aprendizagem supervisionada: Classificar se foto refere-se ao Homer ou Bart Simpson. Fase 1 (treino), extraem-se as características de Homer e Bart (montagem do dataset - tabela com dados), após executa-se algoritmo ML (via supervisor), criando-se padrões de Homer e Bart, então tem-se modelo aprendido (distingue-se fotos de Homer e Bart). Fase 2 (teste), sumete-se foto desconhecida, para modelo distinguir se é Homer ou Bart. Fases treino/teste são denominados validação cruzada.</p>
+            <p>Aprendizagem não supervisionada: Análise automática dos dados (associação, agrupamento), sem supervisão, nem treinamento prévio (predição). Necessita somente descrição dos dados (descritiva) e análise para determinar significado dos padrões encontrados (verificar se resultados são pertinentes). Ex: se pessoa que compra x também compra y, então pessoas que comprarão x também comprarão y.</p>
+            <p>Aprendizagem por reforço: Aprender com interações do ambiente (causa e efeito), via experiência própria. Muito utilizada em SMA (sistema multiagente, com vários agentes interagindo no ambiente). Ex: robô automatizado bate em parede e danifica-se. Então, concluirá que deve evitar bater em paredes.</p>
+
+            <br><h4>Variáveis</h4>
+            <p>Em classificação, tem-se dataset (conjunto de dados, similar a tabela excel, geralmente CSV, banco de dados ou JSON). No dataset, cada registro (linha) posssui atributos (colunas) previsores (características, variáveis dependentes) e atributos meta/classe (resultado, variáveis independentes). Na aprendizagem supervisionada, a classe sempre é conhecida. Variável numérica pode ser contínua (número real) e discreta (número inteiro ou conjunto de valores). Variável categórica pode ser nominal (dado não mensurável, sem ordenação/gênero) ou ordinal (dado ordenado categórico (tamanhos p,m,g). Pode ser convertida para discreta via categorias numéricas (p=1,m=2,g=3)).</p>
+
+            <br><h4>Etapas modelo preditivo</h4>
+            <ol>
+                <li>Coleta de dados (via BD, CSV, JSON, big data, etc);</li>
+                <li>Exploração e preparação dos dados (criação do algoritmo para tal);
+                    <ol>
+                        <li>Importar bibliotecas;</li>
+                        <li>Upload do dataset e exploração dos dados brutos;</li>
+                        <li>Visualização dos atributos ordenadamente e em gráficos, a fim de encontrar relações entre previsores;</li>
+                        <li>Domain, separação entre previsores(x) e classes(y);</li>
+                        <li>Tratamento dos dados (valores faltantes, valores inconsistentes(outliers, normalization, standardisation, tipos diferentes));</li>
+                        <li>Divisão dados treinamento (x_train(previsores), y_train(classes)) e teste (x_test(previsoes) e y_test(classes));</li>
+                        <li>Criação do algoritmo IA.</li>
+                    </ol>
+                </li>
+                <li>Treinamento do modelo (submeter dados de treinamento (x_train e y_train) ao algoritmo IA);</li>
+                <li>Avaliação do modelo (comparar dados submetidos de treinamento (x_train e y_train), com dados de teste (x_test e y_test), para identificar precisão de acerto do algoritmo IA);</li>
+                <li>Otimização do modelo (otimizar algoritmo IA, com melhores dados de treinamento, re-verificar precisão do algoritmo IA).</li>
+            </ol>
+
+            <!--
+            INSERIR TERMOS CHAVE do resumo ia.html
+            -->
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center bg-black text-light pt-4 pb-3">
+        <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>

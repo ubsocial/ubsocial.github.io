@@ -68,6 +68,7 @@
         </div>
 
         <div class="col-sm-12">
+            <span class="text-success">
             <h4 id="contIntro">===== INTRODUÇÃO =====</h4>
             <p id="textoPost">Inteligência artificial é a área da ciência da computação responsável pelo desenvolvimento de sistemas que simulem a capacidade humana de resolver problemas. Os principais conceitos/áreas são:</p>
             <ul>
@@ -103,7 +104,7 @@
                 <li><b>Sumarização</b>: Abstrair dados de um grupo maior, conforme atributos solicitados (ex: BD de clientes, exibir somente cliente maiores de 50 anos);</li>
             </ul>
 
-            <p>Aprendizagem supervisionada: Classificar se foto refere-se ao Homer ou Bart Simpson. Fase 1 (treino), extraem-se as características de Homer e Bart (montagem do dataset - tabela com dados), após executa-se algoritmo ML (via supervisor), criando-se padrões de Homer e Bart, então tem-se modelo aprendido (distingue-se fotos de Homer e Bart). Fase 2 (teste), sumete-se foto desconhecida, para modelo distinguir se é Homer ou Bart.</p>
+            <p>Aprendizagem supervisionada: Classificar se foto refere-se ao Homer ou Bart Simpson. Fase 1 (treino), extraem-se as características de Homer e Bart (montagem do dataset - tabela com dados), após executa-se algoritmo ML (via supervisor), criando-se padrões de Homer e Bart, então tem-se modelo aprendido (distingue-se fotos de Homer e Bart). Fase 2 (teste), sumete-se foto desconhecida, para modelo distinguir se é Homer ou Bart. Fases treino/teste são denominados validação cruzada.</p>
             <p>Aprendizagem não supervisionada: Análise automática dos dados (associação, agrupamento), sem supervisão, nem treinamento prévio (predição). Necessita somente descrição dos dados (descritiva) e análise para determinar significado dos padrões encontrados (verificar se resultados são pertinentes). Ex: se pessoa que compra x também compra y, então pessoas que comprarão x também comprarão y.</p>
             <p>Aprendizagem por reforço: Aprender com interações do ambiente (causa e efeito), via experiência própria. Muito utilizada em SMA (sistema multiagente, com vários agentes interagindo no ambiente). Ex: robô automatizado bate em parede e danifica-se. Então, concluirá que deve evitar bater em paredes.</p>
             
@@ -125,6 +126,7 @@
                 <li>Avaliação do modelo (comparar dados submetidos de treinamento (x_train e y_train), com dados de teste (x_test e y_test), para identificar precisão de acerto do algoritmo IA);</li>
                 <li>Otimização do modelo (otimizar algoritmo IA, com melhores dados de treinamento, re-verificar precisão do algoritmo IA).</li>
             </ol>
+            </span>
 
             <br><u>Termos chave</u>:
             <ul>
@@ -135,13 +137,31 @@
                 <li>Algoritmos que precisam dos dados na mesma escala: KNN (K-Nearest Neighbours), Redes Neurais, Regressão Linear, Regressão Logística e SVM;</li>
                 <li>Algoritmos que não precisam dos dados na mesma escala: Árvores de Decisão, Random Forest, AdaBoost, Naïve Bayes, etc (porém, aconselhável testar a normalização ou padronização);</li>
                 <li>Evaluation: Avaliação do algoritmo ML, nível de desempenho (acerto) do modelo;</li>
-                <p class="text-warning">Em construção. <!--Ver meu slide Cap4 (slide6)--></p>
+                <li>LabelLabelEncoder: Tratamento de valores categóricos (string), onde cada tipo de valor no registro será transformado em um número de referência. Problema de somente utilizar LabelEncoder são as inúmeras categorias e valores muito amplos (algoritmo de IA considerará atributo 20 mais importante que 3, pois 20 > 3);</li>
+                <li>OneHotEncoder: Tratamento de valores categóricos (string), onde cada tipo de registro (category) receberá um nº identificador (do tipo Dummy), de acordo com a quantidade de tipos de registros neste atributo (Ex: carros Gol, Pálio e Uno: 3 tipos de registros do atributo 'carro', então Gol = 100, Pálio = 010 e Uno = 001).</li>
+                <li>ConfusionMatrix: Matriz de confusão (matriz de erro) é tabela (contingência 2x2 especial) que permite visualização do desempenho do algoritmo de classificação. Bidimensional: 2 dimensões ("real" e "prevista"), onde linhas (eixo x) são instâncias de uma classe prevista, e colunas (eixo y) são instâncias da classe real;
+                    <ul>
+                        <li>Exemplo: sendo 0 não chove, e 1 chove, tem-se reais = [1,0,1,0,0,0,1,0,1,0] e preditos = [1,0,0,1,0,0,1,1,1,0];</li>
+                        <li>Frequência verdadeiro positivo (true positive - TP): Classe buscada prevista corretamente no conjunto real. Ex: quando realmente chove e o modelo previu corretamente que chove;</li>
+                        <li>Frequência falso positivo (false positive - FP): Classe buscada prevista incorretamente no conjunto real. Ex: quando realmente não chove, mas modelo previu que chove;</li>
+                        <li>Frequência falso verdadeiro/Verdadeiro negativo (true negative - TN): Classe não buscada prevista corretamente no conjunto real. Ex: realmente não chove e o modelo previu corretamente que não chove;</li>
+                        <li>Frequência falso negativo (false negative - FN): Classe não buscada prevista incorretamente no conjunto real. Ex: realmente chove e o modelo previu que não chove.</li>
+                        <li>Exemplo 2: sendo 0 não chove, e 1 chove, tem-se eais = [1,0,1,0,0,0,1,0,1,0] e preditos = [1,0,0,1,0,0,1,1,1,0]
+                            <ul>
+                                <li>Previu chove 3 vezes corretamente;</li>
+                                <li>Previu não chove 4 vezes corretamente;</li>
+                                <li>Previu chove 1 vez incorretamente;</li>
+                                <li>EM CONSTRUÇÃO</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
             </ul>
 
 
             <br><hr><h4 id="contClassificacao">===== CLASSIFICAÇÃO =====</h4>
-            <p id="textoPost">Conforme exemplo análise de risco de crédito. Cada registro (linha) possui atributos (colunas) previsores (características) e atributos classe (resultado). Na aprendizagem supervisionada, a classe sempre é conhecida.</p>
-            <ul>
+            <p id="textoPost" class="text-success">Conforme exemplo análise de risco de crédito. Cada registro (linha) possui atributos (colunas) previsores (características) e atributos classe (resultado). Na aprendizagem supervisionada, a classe sempre é conhecida.</p>
+            <ul class="text-success">
                 <li><b>Atributos previsores</b> (variáveis dependentes): Histórico de crédito (bom, ruim, desconhecido), dívida (baixa, alta), garantias (nenhuma, adequada), renda anual (menor que 15 mil, entre 15 mil e 35 mil, maior que 35 mil);</li>
                 <li><b>Atributos meta/classe</b> (variáveis independentes): risco (baixo, moderado, alto).</li>
             </ul>
@@ -183,7 +203,7 @@
             </div>
 
             <br><h4 id="contPreProcessamento">----- Pré-processamento de dados -----</h4>
-            Variáveis numéricas:
+            <span class="text-success">Variáveis numéricas:
             <ul>
                 <li>contínua: nºs reais (temperatura 30.2);</li>
                 <li>discreta: conjunto finito, valores inteiros (preços [12,4,6], idade 25);</li>
@@ -192,7 +212,7 @@
             <ul>
                 <li>nominal: dados não mensuráveis, sem ordenação (gênero);</li>
                 <li>ordinal: dados ordenados categorizados (tamanhos p,m,g). Convertidas para discretas via categorias numéricas (p=1,m=2,g=3)</li>
-            </ul>
+            </ul></span>
 
             <b>1. Importar bibliotecas:</b>
 <small><pre><code>
