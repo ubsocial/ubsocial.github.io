@@ -1912,7 +1912,7 @@ O nano possibilita a abertura de diversos arquivos ao mesmo tempo
             <div class="card mb-4">
                 <h4 class="card-header">Vim editor</h4>
                 <div class="card-body">
-                    <p>Editor CLI, evolução do <b>vi</b> (visual, visual editor), o <b>vim</b> (Vi IMproved), sendo <b>gVim</b> sua versão GUI e <b>neovim</b> (nvim) sua evolução CLI. O vi é a evolução do <b>ex</b> editor (stands for extended), o qual orginou o modo 'ex' no vim. Dessa forma, o vim possui vários modos, sendo iniciado no <i>ex mode</i> (modo de comandos e visualização. Basicamente, o 'menu' de inicialização), onde as teclas têm função de comandos e somente visualização do conteúdo do arquivo. Para criar/editar conteúdo de arquivo, deve-se entrar no <i>insert mode</i> (modo de inserção/edição), com tecla 'i', onde as teclas têm função de texto comum. Tecla 'esc' sai dos modos, retornando ao ex mode. Arquivo de configuração do vim é '/etc/vim/vimrc'. Sintaxe: <span class="text-danger">vim [parâmetros] [arquivo(s)]</span>. O vim aceita expressões regulares para pesquisa, via comando '/temoOUexpressao' (ou '?termo' para pesquisa reversa). 'enter' para pesquisar. O cursor se moverá para 1ª correspondência que for encontrada. 'n' para seguir às próximas correspondências, 'N' para retroceder. Abaixo, comandos do ex mode:</p>
+                    <p>Editor CLI, evolução do <b>vi</b> (visual, visual editor), o <b>vim</b> (Vi IMproved), sendo <b>gVim</b> sua versão GUI e <b>neovim</b> (nvim) sua evolução CLI. O vi é a evolução do <b>ex</b> editor (stands for extended), o qual originou o modo 'ex' no vim. Dessa forma, o vim possui vários modos, sendo iniciado no <i>ex mode</i> (modo de comandos e visual. Basicamente, o 'menu' de inicialização), onde as teclas têm função de comandos e somente visualização do conteúdo do arquivo. Para criar/editar conteúdo de arquivo, deve-se entrar no <i>insert mode</i> (modo de inserção/edição), com tecla 'i', onde as teclas têm função de texto comum. Tecla 'esc' sai dos modos, retornando ao ex mode. Arquivo de configuração do vim é '/etc/vim/vimrc'. Sintaxe: <span class="text-danger">vim [parâmetros] [arquivo(s)]</span>. O vim aceita expressões regulares para pesquisa, via comando '/temoOUexpressao' (ou '?termo' para pesquisa reversa). 'enter' para pesquisar. O cursor se moverá para 1ª correspondência que for encontrada. 'n' para seguir às próximas correspondências, 'N' para retroceder. Abaixo, comandos do ex mode:</p>
 <small><pre><code>
 <u><b>Atalhos gerais</b></u>:
 (<b>:i</b>) Entrar no modo Inserção
@@ -1921,7 +1921,7 @@ O nano possibilita a abertura de diversos arquivos ao mesmo tempo
 (<b>:w!</b>) Forçar salvar arquivo atual
 (<b>:1</b>) Ir para linha 1 ou qualquer nº fornecido
 (<b>:e arquivo</b>) Abrir arquivo
-(<b>:q</b>) Sair, qiando não há alterações no arquivo
+(<b>:q</b>) Sair, quando não há alterações no arquivo
 (<b>:q!</b>) Sair forçadamente, sem salvar alterações no arquivo
 (<b>:wq</b>) Sair e salvar arquivo (mesmo que ':x')
 (<b>:u</b>) Desfazer última ação
@@ -1993,7 +1993,41 @@ O nano possibilita a abertura de diversos arquivos ao mesmo tempo
 (<b>I</b>) Entrar no modo de inserção no início da linha
 (<b>o</b>) Entrar no modo de inserção 1 linha em branco após cursor
 (<b>O</b>) Entrar no modo de inserção 1 linha em branco antes do cursor
+
+<u><b>Múltiplos arquivos</b></u> (via Ex mode):
+<u>Buffers</u>:
+vim arquivo1 arquivo2
+(<b>:bn</b>) Ir para próximo arquivo
+(<b>:bp</b>) Ir para arquivo anterior
+(<b>:bf</b>) Ir para 1º arquivo
+(<b>:bl</b>) Ir para último arquivo
+(<b>:ls</b>) Listar arquivos abertos
+<u>Janelas</u>:
+(<b>:sp nomeArquivo</b>) Abrir arquivo em janela horizontal dividida
+(<b>:vsp nomeArquivo</b>) Abrir arquivo em janela vertical dividida
+(<b>ctrl+w, h</b>) Ir para janela à esquerda
+(<b>ctrl+w, j</b>) Ir para janela abaixo
+(<b>ctrl+w, k</b>) Ir para janela acima
+(<b>ctrl+w, l</b>) Ir para janela à direita
+(<b>ctrl+w, w</b>) Alternar para próxima janela
+<u>Tabs</u>:
+(<b>:tabnew nomeArquivo</b>) Abrir arquivo em nova guia
+(<b>:tabn</b>) Ir para próxima guia
+(<b>:tabp</b>) Ir para guia anterior
+(<b>:tabfirst</b>) Ir para 1ª guia
+(<b>:tablast</b>) Ir para última guia
+(<b>:tabs</b>) Listar guias
 </small></pre></code>
+                    <h5>Modes:</h5>
+                    <ul>
+                        <li><b>Normal</b>: modo padrão do Vim (ao abrir arquivo), onde pode-se navegar pelo conteúdo interno do arquivo e utilizar comandos para edição, manipulação e movimentação do cursor. Compõe-se do modo command-line. Modo ativado através da tecla 'esc';</li>
+                        <li><b>Insert</b>: modo de inserção, onde pode-se manipular o conteúdo interno do arquivo. Compõe-se do modo visual. Modo ativado, principalmente, através da tecla 'i';</li>
+                        <li><b>Command-line</b>: modo de comandos, onde pode-se utilizar comandos de manipulação do arquivo e editor (habilitar novos modos). Compõe-se do modo visual. Modo ativado através da tecla ':', via normal/ex mode;</li>
+                        <li><b>Visual</b>: modo visual, onde pode-se visualizar e selecionar conteúdo interno do arquivo. Compõe-se do modo select. Modo ativado através da tecla 'v';</li>
+                        <li><b>Replace</b>: modo de substituição, onde pode-se substituir conteúdo interno do arquivo. Compõe-se do modo visual. Modo ativado através da tecla 'R';</li>
+                        <li><b>Select</b>: modo de seleção, onde pode-se visualizar (visual mode) e selecionar conteúdo interno do arquivo. Compõe-se do modo view. Modo ativado, principalmente, através da tecla 'gh';</li>
+                        <li><b>View</b>: modo de exibição, onde pode-se somente visualizar conteúdo interno do arquivo, somente leitura. Modo ativado nativamente ao abrir arquivo.</li>
+                    </ul>
                 </div>
             </div>
 
