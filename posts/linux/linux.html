@@ -1913,7 +1913,6 @@ O nano possibilita a abertura de diversos arquivos ao mesmo tempo
                 <h4 class="card-header">Vim editor</h4>
                 <div class="card-body">
                     <p>Editor CLI, evolução do <b>vi</b> (visual, visual editor), o <b>vim</b> (Vi IMproved), sendo <b>gVim</b> sua versão GUI e <b>neovim</b> (nvim) sua evolução CLI. O vi é a evolução do <b>ex</b> editor (stands for extended), o qual originou o modo 'ex' no vim. Dessa forma, o vim possui vários modos, sendo iniciado no <i>ex mode</i> (modo de comandos e visual. Basicamente, o 'menu' de inicialização), onde as teclas têm função de comandos e somente visualização do conteúdo do arquivo. Para criar/editar conteúdo de arquivo, deve-se entrar no <i>insert mode</i> (modo de inserção/edição), com tecla 'i', onde as teclas têm função de texto comum. Tecla 'esc' sai dos modos, retornando ao ex mode. Arquivo de configuração do vim é '/etc/vim/vimrc'. Sintaxe: <span class="text-danger">vim [parâmetros] [arquivo(s)]</span>. O vim aceita expressões regulares para pesquisa, via comando '/temoOUexpressao' (ou '?termo' para pesquisa reversa). 'enter' para pesquisar. O cursor se moverá para 1ª correspondência que for encontrada. 'n' para seguir às próximas correspondências, 'N' para retroceder. Abaixo, comandos do ex mode:</p>
-                    <a href="https://vim.rtorr.com/lang/pt_br" target="_blank" class="text-decoration-none">Lista de comandos Vim</a>
 <small><pre><code>
 <u><b>Atalhos gerais</b></u>:
 (<b>:i</b>) Entrar no modo Inserção
@@ -1926,7 +1925,8 @@ O nano possibilita a abertura de diversos arquivos ao mesmo tempo
 (<b>:q!</b>) Sair forçadamente, sem salvar alterações no arquivo
 (<b>:wq</b>) Sair e salvar arquivo (mesmo que ':x')
 (<b>:u</b>) Desfazer última ação
-(<b>ctrl+r</b>) Repetir comando
+(<b>ctrl+r</b>) Repetir comando (ou redo-refazer)
+(<b>.</b>) Repetir último comando
 (<b>:X</b>) Criptografar arquivo
 (<b>:set nu</b>) Ativar linhas numeradas (':set nu!' para desativar)
 (<b>:syntax on</b>) Ativar syntax highlighting (para ativar, descomentar linha no arquivo de configuração, removendo as aspas da mesma)
@@ -1941,23 +1941,35 @@ O nano possibilita a abertura de diversos arquivos ao mesmo tempo
 (<b>H</b>) Ir para 1ª linha exibida na tela
 (<b>L</b>) Ir para última linha exibida na tela
 (<b>J</b>) Juntar linha atual com linha seguinte
+(<b>gwip</b>) Refazer parágrafo
 (<b>k</b>) Subir 1 linha
 (<b>j</b>) Descer 1 linha
 (<b>w</b>) 1 palavra para direita ('3w' moverá cursor 3 palavras para direita)
 (<b>b</b>) 1 palavra para esquerda
 (<b>^</b>) Ir para início da linha
 (<b>$</b>) Ir para fim da linha
+(<b>&#125;</b>) Ir para próximo parágrafo
+(<b>&#123;</b>) Ir para parágrafo anterior
 (<b>ctrl+B</b>) Voltar 1 página
 (<b>ctrl+F</b>) Avançar 1 página
-(<b>ctrl+w+s</b>) Criar janelas verticais
-(<b>ctrl+w+v</b>) Criar janelas horizontais
-(<b>ctrl+ww</b>) Movimentar entre janelas
+(<b>ctrl+e</b>) Mover tela 1 linha para baixo (sem mover cursor)
+(<b>ctrl+y</b>) Mover tela 1 linha para cima (sem mover curso)
+(<b>ctrl+b</b>) Mover tela 1 página para cima (cursor na última linha)
+(<b>ctrl+f</b>) Mover tela 1 página para baixo (cursor na 1ª linha)
+(<b>ctrl+d</b>) Mover tela e cursor meia página para baixo
+(<b>ctrl+u</b>) Mover tela e cursor meia página para cima
+(<b>ctrl+w, s</b>) Criar janelas verticais
+(<b>ctrl+w, v</b>) Criar janelas horizontais
+(<b>ctrl+w, w</b>) Movimentar entre janelas
 (<b>F1</b>) Exibir tela de ajuda (':q' para sair)
 
 <u><b>Manipulações</b></u>:
 (<b>u</b>) Desfazer modificação (undo)
+(<b>U</b>) Restaurar linha inteira
+(<b>ctrl+r</b>) Refazer modificação (redo)
 (<b>s</b>) Deletar caractere atual e colar linha
 (<b>S</b>) Deletar linha atual e colar linha
+(<b>xp</b>) Trocar 2 letras (deletar e colar)
 (<b>dgg</b>) Deletar a partir da linha visual do topo até linha do cursor
 (<b>yw</b>) Copiar palavra sob cursor
 (<b>dw</b>) Recortar palavra sob cursor
@@ -1975,16 +1987,29 @@ O nano possibilita a abertura de diversos arquivos ao mesmo tempo
 (<b>3yy</b>) Copiar próximas 3 linhas (sem excluí-las)
 (<b>yw</b>) Copiar próxima linha (sem excluí-la)
 
+<u><b>Identação</b></u>:
+(<b>&gt;&gt;</b>) Indentar (mover para direita) 1 linha
+(<b>&lt;&lt;</b>) Desindentar (mover para esquerda) 1 linha
+(<b>&gt;%</b>) Identar bloco com () ou {} (cursor na chave)
+(<b>&lt;%</b>) Desindentar bloco com () ou {} (cursor na chave)
+(<b>&gt;ib</b>) Dndentar bloco interno com ()
+(<b>&gt;at</b>) Dndentar bloco com tags &lt;&gt;
+(<b>3==</b>) Re-indentar 3 linhas
+(<b>=%</b>) Re-indentar bloco com () ou {} (cursor na chave)
+(<b>=iB</b>) Re-indentar bloco interno com {}
+(<b>gg=G</b>) Re-indentar buffer inteiro
+(<b>]p</b>) Colar e ajustar indentação para linha atual
+
 <u><b>Exclusões</b></u>:
 (<b>x</b>) Excluir caractere sob cursor
 (<b>dd</b>) Excluir linha atual ('3dd' excluir próximas 3 linhas)
 (<b>dw</b>) Excluir palavra atual ('d3w' excluir próximas 3 palavras. 'd4h' excluir 4 caracteres à esquerda)
 
 <u><b>Modificações</b></u>:
-(<b>cc</b>) Mudar linha atual
-(<b>cw</b>) Mudar palavra atual
-(<b>c3w</b>) Mudar próximas 3 palavras
-(<b>c5h</b>) Mudar 5 caracteres para esquerda
+(<b>cc</b>) Substituir linha atual
+(<b>cw</b>) Substituir palavra atual
+(<b>c3w</b>) Substituir próximas 3 palavras
+(<b>c5h</b>) Substituir 5 caracteres para esquerda
 (<b>:%s/termo/termoNovoNome/g</b>) Substituir todos 'termo' por 'termoNovoNome'
 
 <u><b>Insert mode</b></u>:
@@ -1994,6 +2019,53 @@ O nano possibilita a abertura de diversos arquivos ao mesmo tempo
 (<b>I</b>) Entrar no modo de inserção no início da linha
 (<b>o</b>) Entrar no modo de inserção 1 linha em branco após cursor
 (<b>O</b>) Entrar no modo de inserção 1 linha em branco antes do cursor
+(<b>ctrl+h</b>) Apagar caractere antes do cursor
+(<b>ctrl+w</b>) Apagar palavra antes do cursor
+(<b>ctrl+j</b>) Adicionar quebra de linha na posição do cursor
+(<b>ctrl+t</b>) Recuar (mover para direita) 1 linha em um shiftwidth
+(<b>ctrl+d</b>) Desrecuar (mover para esquerda) 1 linha em um shiftwidth
+(<b>ctrl+n</b>) Inserir (auto-completar) próxima correspondência antes do cursor
+(<b>ctrl+p</b>) Inserir (auto-completar) correspondência anterior antes do cursor
+
+<u><b>Visual mode</b></u>:
+(<b>aw</b>) Selecionar palavra
+(<b>ab</b>) Selecionar bloco com ()
+(<b>aB</b>) Selecionar bloco com &#123;&#125;
+(<b>at</b>) Selecionar bloco com tags &lt;&gt;
+(<b>ib</b>) Selecionar bloco interno com ()
+(<b>iB</b>) Selecionar bloco interno com &#123;&#125;
+(<b>it</b>) Selecionar bloco interno com tags &lt;&gt;
+(<b>&gt;</b>) Deslocar texto para direita
+(<b>&lt;</b>) Deslocar texto para esquerda
+(<b>d</b>) Deletar texto marcado
+(<b>~</b>) Alterar entre maiúscula e minúscula
+(<b>u</b>) Alterar texto marcado para minúsculas
+(<b>U</b>) Alterar texto marcado para maiúsculas
+
+<u><b>Marcadores</b></u>:
+(<b>:marks</b>) Listar marcadores
+(<b>ma</b>) Atribuir posição atual no marcador A
+(<b>`</b>) Pular para marcador
+(<b>'</b>) Pular para início da linha do marcador
+(<b>`a</b>) Pular para posição do marcador A
+(<b>y`a</b>) Copiar texto para posição do marcador A
+(<b>`0</b>) Ir para posição onde o Vim foi anteriormente encerrado
+(<b>`"</b>) Ir para posição quando foi editado este arquivo pela última vez
+(<b>`.</b>) Ir para posição da última alteração neste arquivo
+(<b>``</b>) Ir para posição antes do último salto
+(<b>:ju</b>) Listar saltos
+(<b>ctrl+i</b>) Ir para posição mais recente na lista de saltos
+(<b>ctrl+o</b>) Ir para posição mais antiga na lista de saltos
+(<b>:changes</b>) Listar alterações
+(<b>g,</b>) Ir para posição mais recente na lista de alterações
+(<b>g;</b>) Ir para posição mais antiga na lista de alterações
+(<b>ctrl+]</b>) Ir para tag sob o cursor
+
+<u><b>Macros</b></u>:
+(<b>qa</b>) Gravar macro A
+(<b>q</b>) Parar gravação do macro
+(<b>@a</b>) Executar macro
+(<b>@@</b>) Re executar último macro
 
 <u><b>Múltiplos arquivos</b></u> (via Ex mode):
 <u>Buffers</u>:
@@ -2002,6 +2074,7 @@ vim arquivo1 arquivo2
 (<b>:bp</b>) Ir para arquivo anterior
 (<b>:bf</b>) Ir para 1º arquivo
 (<b>:bl</b>) Ir para último arquivo
+(<b>:bd</b>) Deletar 1 buffer (fechar 1 arquivo)
 (<b>:ls</b>) Listar arquivos abertos
 <u>Windows</u>:
 (<b>:sp nomeArquivo</b>) Abrir arquivo em janela horizontal dividida
@@ -2011,10 +2084,20 @@ vim arquivo1 arquivo2
 (<b>ctrl+w, k</b>) Ir para janela acima
 (<b>ctrl+w, l</b>) Ir para janela à direita
 (<b>ctrl+w, w</b>) Alternar para próxima janela
+(<b>ctrl+w, q</b>) Fechar janela
+(<b>ctrl+w, x</b>) Trocar janela atual com a próxima
+(<b>ctrl+w, =</b>) Tornar todas janelas de altura e largura iguais
+(<b>ctrl+w, H</b>) Tornar janela atual com altura total à extrema esquerda (janela vertical mais à esquerda)
+(<b>ctrl+w, L</b>) Tornar janela atual com altura total à extrema direita (janela vertical mais à direita)
+(<b>ctrl+w, J</b>) Tornar janela atual com largura total na parte inferior (janela horizontal mais abaixo)
+(<b>ctrl+w, K</b>) Tornar janela atual com largura total na parte superior (janela horizontal mais acima)
 <u>Tabs</u>:
 (<b>:tabnew nomeArquivo</b>) Abrir arquivo em nova guia
 (<b>:tabn</b>) Ir para próxima guia
 (<b>:tabp</b>) Ir para guia anterior
+(<b>:tabc</b>) Fechar guia atual
+(<b>:tabo</b>) Fechar todas guias, exceto atual
+(<b>:tabdo</b>) Fechar todas guias
 (<b>:tabfirst</b>) Ir para 1ª guia
 (<b>:tablast</b>) Ir para última guia
 (<b>:tabs</b>) Listar guias
@@ -2084,7 +2167,6 @@ vim arquivo1 arquivo2
 <b>Descompactar</b>: gzip -d arquivo.gz
 <b>Empacotar/compactar (tar/gzip)</b>: tar -czf arquivo.tar.gz diretorioArquivosAlvo
 <b>Descompactar/desempacotar (gzip/tar)</b>: tar -xzf arquivo.tar.gz
-<b>Descompactar/desempacotar (bzip2/tar)</b>: tar -xjvf arquivo.tar.bz2
 </code></pre></small>
                                 </li>
                                 <li>bzip2: Compactador de arquivos, tornando-os com final '.bzip2'. Funcionamento similar ao gzip;</li>
@@ -2092,6 +2174,7 @@ vim arquivo1 arquivo2
 <b>Ver arquivo.bz2</b>: bzcat arquivo.bz2 (há também 'bzgrep', 'zless' e 'zmore')
 <b>Compactar empacotado</b>: bzip2 dirEmpacotado.tar (gerará dirEmpacotado.tar.bz2)
 <b>Descompactar</b>: bzip2 -d dirEmpacotado.tar.bz2
+<b>Descompactar/desempacotar (bzip2/tar)</b>: tar -xjvf arquivo.tar.bz2
 </code></pre></small>
                                 <li>xz: Compactador de arquivos, tornando-os com final '.xz'. Funcionamento similar ao gzip;</li>
 <small><pre><code>
