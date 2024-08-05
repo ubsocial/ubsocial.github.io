@@ -2137,7 +2137,7 @@ vim arquivo1 arquivo2
 <b>Desempacotar</b>: tar -xf arquivoPronto.tar
 </code></pre></small>
                                 </li>
-                                <li>zip: Empacotador de arquivos, tornando-os com final '.zip'. Sintaxe: <span class="text-danger">zip &lt;parâmetros&gt; &lt;arquivo&gt; [arquivo2(s)]</span></li>
+                                <li>zip: Empacotador de arquivos, tornando-os com final '.zip'. Sintaxe: <span class="text-danger">zip &lt;parâmetros&gt; &lt;arquivo[.zip]&gt; [arquivo2(s)]</span></li>
 <small><pre><code>
 <b>Empacotar</b>: zip arquivoFinal.zip arquivoEmpacotar
 <b>Empacotar recursivamente</b>: zip -r arquivoFinal.zip diretorioEmpacotar
@@ -2148,7 +2148,7 @@ vim arquivo1 arquivo2
                         </li>
                         <li><b>Compactação</b>: Quando arquivo original é compactado em arquivo menor.
                             <ul>
-                                <li>gzip: Compactador de arquivos, tornando-os com final '.gz'. Sintaxe: <span class="text-danger">gzip &lt;parâmetros&gt; &lt;arquivo&gt; [arquivo2(s)]</span>
+                                <li>gzip: Compactador de arquivos, tornando-os com final '.gz'. Sintaxe: <span class="text-danger">gzip &lt;parâmetros&gt; &lt;arquivo.gz&gt; [arquivo2(s)]</span>
                                     <ul>
                                         <li>(<b>-c</b> ou <b>--stdout</b>): Compactar arquivo;</li>
                                         <li>(<b>-d</b> ou <b>--decompress</b>): Descompactar arquivo.gz;</li>
@@ -2169,7 +2169,7 @@ vim arquivo1 arquivo2
 <b>Descompactar/desempacotar (gzip/tar)</b>: tar -xzf arquivo.tar.gz
 </code></pre></small>
                                 </li>
-                                <li>bzip2: Compactador de arquivos, tornando-os com final '.bzip2'. Funcionamento similar ao gzip;</li>
+                                <li>bzip2: Compactador de arquivos, tornando-os com final '.bz2'. Funcionamento similar ao gzip;</li>
 <small><pre><code>
 <b>Ver arquivo.bz2</b>: bzcat arquivo.bz2 (há também 'bzgrep', 'zless' e 'zmore')
 <b>Compactar empacotado</b>: bzip2 dirEmpacotado.tar (gerará dirEmpacotado.tar.bz2)
