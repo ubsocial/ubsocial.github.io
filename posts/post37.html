@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../icons/logoTit.png">
+    <link rel="stylesheet" href="../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <nav class="navbar rounded-bottom fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="../index.html"><img src="../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../sobre/sobre.html">Sobre</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../livros/livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 text-center" id="titulo">
+            <h1>Astah UML no Fedora</h1>
+            <h6><strong>Instalar e ativar Astah UML no Fedora</strong></h6>
+            <a href="../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
+        </div>
+
+        <div class="col-sm-12">
+            <h4>Baixar Astah UML</h4>
+            <ol>
+                <li>Baixar Astah UML (.rpm): <a href="https://astah.net/downloads" target="_blank" class="text-decoration-none">https://astah.net/downloads</a></li>
+                <li>Instalar Astah UML: <i>sudo dnf install nomeArquivoAstah.rpm</i></li>
+            </ol>
+
+            <br><h4>Obter licença estudante</h4>
+            <ol>
+                <li>Criar email temporário .edu: <a href="https://etempmail.com" target="_blank" class="text-decoration-none">https://etempmail.com</a></li>
+                <li>Preencher formulário de licença estudante Astah, informando email .edu gerado: <a href="https://astah.net/products/free-student-license" target="_blank" class="text-decoration-none">https://astah.net/products/free-student-license</a></li>
+                <li>Acessar caixa de entrada do email .edu, e baixar licença (pasta .zip contendo arquivo .xml de licença)</li>
+                <li>Extrair arquivo de licença (.xml) do zip baixado</li>
+            </ol>
+
+            <br><h4>Baixar JDK específico Adoptium temurin</h4>
+            <p>Instruções conforme site oficial <a href="https://adoptium.net/installation/linux" target="_blank" class="text-decoration-none">https://adoptium.net/installation/linux</a></p>
+            <ol>
+                <li>Entrar modo administrador: <i>sudo su</i></li>
+                <li>Executar comando abaixo (use nome da distribuição abaixo como 'fedora', 'centos' ou 'rhel')
+<small><pre><code>
+DISTRIBUTION_NAME=fedora
+cat &lt;&lt;EOF &gt; /etc/yum.repos.d/adoptium.repo
+[Adoptium]
+name=Adoptium
+baseurl=https://packages.adoptium.net/artifactory/rpm/${DISTRIBUTION_NAME:-$(. /etc/os-release; echo $ID)}/\$releasever/\$basearch
+enabled=1
+gpgcheck=1
+gpgkey=https://packages.adoptium.net/artifactory/api/gpg/key/public
+EOF
+</code></pre></small>
+                </li>
+                <li>Atualizar repositórios: <i>sudo dnf update</i></li>
+                <li>Instalar JDK 8 temurin: <i>sudo dnf install temurin-8-jdk</i></li>
+                <li>Selecionar JDK 8 temurin:
+                    <ul>
+                        <li><i>sudo alternatives --config java</i> <span class="text-muted"># selecionar Java temurin</span></li>
+                        <li><i>sudo alternatives --config javac</i> <span class="text-muted"># selecionar Java temurin</span></li>
+                    </ul>
+                </li>
+            </ol>
+
+            <br><h4>Ativar licença estudante Astah UML:</h4>
+            <ol>
+                <li>Abrir Astah UML, aba Help &gt; License... &gt; Set License Key &gt; Selecionar arquivo .xml de licença</li>
+            </ol>
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center bg-black text-light pt-4 pb-3">
+        <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>
