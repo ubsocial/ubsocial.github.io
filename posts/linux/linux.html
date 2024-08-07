@@ -2185,7 +2185,13 @@ vim arquivo1 arquivo2
 </code></pre></small>
                                 <li>gunzip: Descompactador, similar ao 'gzip -d' (Ex: 'gunzip arquivoCompactado.tar.gz');</li>
                                 <li>bunzip2: Descompactador, similar ao 'bzip2 -d' (Ex: 'bunzip2 arquivoCompactado.tar.bz2');</li>
-                                <li>unxz: Descompactador, similar ao 'xz -d' (Ex: 'unxz arquivoCompactado.tar.xz').</li>
+                                <li>unxz: Descompactador, similar ao 'xz -d' (Ex: 'unxz arquivoCompactado.tar.xz');</li>
+                                <li>compress: Utilitário externo para compactar/descompactar arquivos. Arquivos compactados com o compress possuem final '.Z'.</li>
+<small><pre><code>
+<b>Instalar compress:</b> sudo apt(dnf) install ncompress
+<b>Compactar:</b> compress -c aquivo &gt; arquivo.Z
+<b>Descompactar:</b> uncompress arquivo.Z
+</code></pre></small>
                             </ul>
                         </li>
                     </ul>
