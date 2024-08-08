@@ -42,22 +42,24 @@
             <h4>Passo a passo:</h4>
             <ol>
                 <li><b>Pré-requisito</b> (deb): <i class="text-muted">sudo apt install default-jdk</i></li>
-                <li>Baixar, na pasta Downloads, Eclipse Java oficial (.tar.gz) e extraí-la: <a href="https://www.eclipse.org/downloads/packages" class="text-decoration-none" target="_blank">Acesse</a></li>
-                <li><b>Criar atalho</b>: sudo nano /usr/share/applications/eclipse-java.desktop
-                    <small><pre><code>
-<span class="text-muted">Inserir o seguinte conteúdo no arquivo. Ctrl+k para fechar, e salvá-lo</span>
+                <li>Baixar Eclipse Java oficial (.tar.gz): <a href="https://www.eclipse.org/downloads/packages" class="text-decoration-none" target="_blank">Acesse</a></li>
+                <li>sudo tar xvzf eclipse-*.tar.gz && sudo mv eclipse /opt</li>
+                <li>sudo ln -s /opt/eclipse/eclipse /usr/bin/eclipse-java</li>
+                <li>sudo nano /usr/share/applications/eclipse-java.desktop
+<small><pre><code>
 [Desktop Entry]
 Encoding=UTF-8
-Exec=/home/<b>SEUUSUARIO</b>/Downloads/eclipse/eclipse
-Icon=/home/<b>SEUUSUARIO</b>/Downloads/eclipse/icon.xpm
+Name=Eclipse IDE
 Type=Application
+Exec=/opt/eclipse/eclipse
+Icon=/opt/eclipse/icon.xpm
 Terminal=false
-Comment=Eclipse Integrated Development Environment
-Name=Eclipse
+Comment=Eclipse integrated development environment
 GenericName=Eclipse
 StartupNotify=false
 Categories=Development;IDE;Java;
-                    </code></pre></small>
+Keywords=eclipse;ide;editor;java;
+</code></pre></small>
                 </li>
             </ol>
         </div>
