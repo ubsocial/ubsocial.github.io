@@ -54,7 +54,7 @@
             <ol>
                 <li>Criar projeto DRF:
 <small><pre><code>
-pip3 install djangorestframework markdown django-filter django-cors-headers --break-system-packages
+pip3 install django djangorestframework markdown django-filter django-cors-headers --break-system-packages
 django-admin startproject mylibrary
 cd mylibrary
 python manage.py startapp library
@@ -122,7 +122,7 @@ class BookRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = BookSerializer
 </code></pre></small>
                 </li>
-                <li>Em <b>library/urls.py</b>, criar routes locais:
+                <li>Em <b>library/urls.py</b>, criar arquivo de routes locais:
 <small><pre><code>
 from django.urls import path
 from .views import BookListCreateView, BookRetrieveUpdateDestroyView
@@ -211,7 +211,7 @@ createApp(App).use(VueAxios, axios).mount('#app');
 <small><pre><code>
 &lt;template&gt;
   &lt;div id="app"&gt;
-    &lt;h1&gt;Library fullstack Django e Vue.js UB Social&lt;/h1&gt;
+    &lt;h1&gt;Livraria UB Social&lt;/h1&gt;
     &lt;AddBook @book-added="fetchBooks" /&gt;
     &lt;ListBooks @edit-book="selectBookToEdit" ref="listBooks" /&gt;
     &lt;EditBook v-if="selectedBook" :book="selectedBook" @book-updated="handleBookUpdated" @cancel-edit="cancelEdit" /&gt;
@@ -277,12 +277,12 @@ button &#123;
 <small><pre><code>
 &lt;template&gt;
   &lt;div&gt;
-    &lt;h2&gt;Book List&lt;/h2&gt;
+    &lt;h2&gt;Livros no acervo:&lt;/h2&gt;
     &lt;ul&gt;
       &lt;li v-for="book in books" :key="book.id"&gt;
         &#123;&#123; book.title &#125;&#125; by &#123;&#123; book.author &#125;&#125;
-        &lt;button @click="$emit('edit-book', book)"&gt;Edit&lt;/button&gt;
-        &lt;button @click="deleteBook(book.id)"&gt;Delete&lt;/button&gt;
+        &lt;button @click="$emit('edit-book', book)"&gt;Editar&lt;/button&gt;
+        &lt;button @click="deleteBook(book.id)"&gt;Deletar&lt;/button&gt;
       &lt;/li&gt;
     &lt;/ul&gt;
   &lt;/div&gt;
@@ -298,7 +298,7 @@ export default &#123;
   methods: &#123;
     async fetchBooks() &#123;
       try &#123;
-        const response = await this.axios.get('books/');
+        const response = await this.axios.get(`books/`);
         this.books = response.data;
       &#125; catch (error) &#123;
         console.error('Error fetching books:', error);
@@ -306,7 +306,7 @@ export default &#123;
     &#125;,
     async deleteBook(bookId) &#123;
       try &#123;
-        await this.axios.delete('books/$&#123;bookId&#125;/');
+        await this.axios.delete(`books/$&#123;bookId&#125;/`);
         this.fetchBooks();
       &#125; catch (error) &#123;
         console.error('Error deleting book:', error);
@@ -324,7 +324,7 @@ export default &#123;
 <small><pre><code>
 &lt;template&gt;
   &lt;div v-if="book"&gt;
-    &lt;h2&gt;Edit Book&lt;/h2&gt;
+    &lt;h2&gt;Editar livro:&lt;/h2&gt;
     &lt;form @submit.prevent="updateBook"&gt;
       &lt;input v-model="form.title" placeholder="Title" required /&gt;
       &lt;input v-model="form.author" placeholder="Author" required /&gt;
@@ -333,8 +333,8 @@ export default &#123;
       &lt;input v-model="form.pages" type="number" placeholder="Pages" required /&gt;
       &lt;input v-model="form.cover" placeholder="Cover" /&gt;
       &lt;input v-model="form.language" placeholder="Language" required /&gt;
-      &lt;button type="submit"&gt;Update&lt;/button&gt;
-      &lt;button @click="$emit('cancel-edit')"&gt;Cancel&lt;/button&gt;
+      &lt;button type="submit"&gt;Confirmar&lt;/button&gt;
+      &lt;button @click="$emit('cancel-edit')"&gt;Cancelar&lt;/button&gt;
     &lt;/form&gt;
   &lt;/div&gt;
 &lt;/template&gt;
@@ -357,7 +357,7 @@ export default &#123;
   methods: &#123;
     async updateBook() &#123;
       try &#123;
-        await this.axios.put('books/$&#123;this.book.id&#125;/', this.form);
+        await this.axios.put(`books/$&#123;this.book.id&#125;/`, this.form);
         this.$emit('book-updated');
       &#125; catch (error) &#123;
         console.error('Error updating book:', error);
@@ -372,7 +372,7 @@ export default &#123;
 <small><pre><code>
 &lt;template&gt;
   &lt;div&gt;
-    &lt;h2&gt;Add New Book&lt;/h2&gt;
+    &lt;h2&gt;Adicionar novo livro:&lt;/h2&gt;
     &lt;form @submit.prevent="addBook"&gt;
       &lt;input v-model="form.title" placeholder="Title" required /&gt;
       &lt;input v-model="form.author" placeholder="Author" required /&gt;
@@ -381,7 +381,7 @@ export default &#123;
       &lt;input v-model="form.pages" type="number" placeholder="Pages" required /&gt;
       &lt;input v-model="form.cover" placeholder="Cover" /&gt;
       &lt;input v-model="form.language" placeholder="Language" required /&gt;
-      &lt;button type="submit"&gt;Add&lt;/button&gt;
+      &lt;button type="submit"&gt;Confirmar&lt;/button&gt;
     &lt;/form&gt;
   &lt;/div&gt;
 &lt;/template&gt;
@@ -404,7 +404,7 @@ export default &#123;
   methods: &#123;
     async addBook() &#123;
       try &#123;
-        await this.axios.post('books/', this.form);
+        await this.axios.post(`books/`, this.form);
         this.$emit('book-added');
         this.resetForm();
       &#125; catch (error) &#123;
@@ -430,7 +430,7 @@ export default &#123;
                 <li>Criar componente <b>library-client/src/components/DeleteBook.vue</b> para deleção de book:
 <small><pre><code>
 &lt;template&gt;
-  &lt;button @click="deleteBook"&gt;Confirm Delete&lt;/button&gt;
+  &lt;button @click="deleteBook"&gt;Confirmar deleção&lt;/button&gt;
 &lt;/template&gt;
 
 &lt;script&gt;
@@ -443,7 +443,7 @@ export default &#123;
   methods: &#123;
     async deleteBook() &#123;
       try &#123;
-        await axios.delete('http://localhost:8000/api/books/$&#123;this.bookId&#125;/');
+        await axios.delete(`http://localhost:8000/api/books/$&#123;this.bookId&#125;/`);
         this.$emit('book-deleted');
       &#125; catch (error) &#123;
         console.error('Error deleting book:', error);
