@@ -185,14 +185,14 @@ python manage.py runserver
             </ol>
 
             <br><h4>Front-end (Vue.js):</h4>
-            <p>Criação de projeto Vue.js para consumir, via Axios, API REST Django. Cada componente realizará função específica do sistema.</p>
+            <p>Criação de projeto Vue.js para consumir, via Axios, API REST Django. Cada componente realizará função específica do sistema. Utilização de Bootstrap 5 para estilização dos componentes e página front-end.</p>
             <ol>
                 <li>Criar projeto Vue.js:
 <small><pre><code>
-npm install -g @vue/cli
+npm i -g @vue/cli
 vue create library-client
 cd library-client
-npm install axios vue-axios
+npm i axios vue-axios bootstrap@5.3.3 popper.js
 npm run serve
 </code></pre></small>
                 </li>
@@ -202,6 +202,9 @@ import &#123; createApp &#125; from 'vue';
 import App from './App.vue';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 axios.defaults.baseURL = 'http://localhost:8000/api/';
 createApp(App).use(VueAxios, axios).mount('#app');
@@ -281,8 +284,8 @@ button &#123;
     &lt;ul&gt;
       &lt;li v-for="book in books" :key="book.id"&gt;
         &#123;&#123; book.title &#125;&#125; by &#123;&#123; book.author &#125;&#125;
-        &lt;button @click="$emit('edit-book', book)"&gt;Editar&lt;/button&gt;
-        &lt;button @click="deleteBook(book.id)"&gt;Deletar&lt;/button&gt;
+        &lt;button @click="$emit('edit-book', book)" class="btn btn-warning"&gt;Editar&lt;/button&gt;
+        &lt;button @click="deleteBook(book.id)" class="btn btn-danger"&gt;Deletar&lt;/button&gt;
       &lt;/li&gt;
     &lt;/ul&gt;
   &lt;/div&gt;
@@ -333,7 +336,7 @@ export default &#123;
       &lt;input v-model="form.pages" type="number" placeholder="Pages" required /&gt;
       &lt;input v-model="form.cover" placeholder="Cover" /&gt;
       &lt;input v-model="form.language" placeholder="Language" required /&gt;
-      &lt;button type="submit"&gt;Confirmar&lt;/button&gt;
+      &lt;button type="submit" class="btn btn-success"&gt;Confirmar&lt;/button&gt;
       &lt;button @click="$emit('cancel-edit')"&gt;Cancelar&lt;/button&gt;
     &lt;/form&gt;
   &lt;/div&gt;
@@ -381,7 +384,7 @@ export default &#123;
       &lt;input v-model="form.pages" type="number" placeholder="Pages" required /&gt;
       &lt;input v-model="form.cover" placeholder="Cover" /&gt;
       &lt;input v-model="form.language" placeholder="Language" required /&gt;
-      &lt;button type="submit"&gt;Confirmar&lt;/button&gt;
+      &lt;button type="submit" class="btn btn-success"&gt;Confirmar&lt;/button&gt;
     &lt;/form&gt;
   &lt;/div&gt;
 &lt;/template&gt;
