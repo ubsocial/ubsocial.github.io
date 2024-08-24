@@ -997,7 +997,72 @@ def minimax(board):
 </code></pre></small>
 
             <br><hr><h4 id="knowledge">1.Conhecimento:</h4>
-            <p class="text-muted">Conteúdo em breve.</p>
+            <p>Agentes baseados em conhecimento:</p>
+            <ol>
+                <li>Se não chovesse, Harry visitaria Hagrid hoje;</li>
+                <li>Harry visitou Hagrid ou Dumbledore hoje, mas não ambos;</li>
+                <li>Harry visitou Dumbledore hoje;</li>
+                <p id="textoPost">Com base nas frases, pode-se responder à pergunta "choveu hoje?", embora nenhuma das frases nos diga nada sobre se está chovendo hoje. Porém, na frase 3, sabe-se que Harry visitou Dumbledore. Na frase 2, sabe-se que Harry visitou Dumbledore ou Hagrid, e assim pode-se concluir.</p>
+                <li>Harry não visitou Hagrid;</li>
+                <p id="textoPost">Agora, na frase 1, entende-se que se não chovesse, Harry teria visitado Hagrid. Porém, na frase 4, sabe-se que não é o caso. Portanto, pode-se concluir.</p>
+                <li>Choveu hoje;</li>
+                <p id="textoPost">Frase/sentença é afirmação sobre mundo em linguagem de representação de conhecimento. IA armazena conhecimento via sentença, usando-o para inferir novas informações.</p>
+            </ol>
+
+            <br><h5>Lógica Proposicional:</h5>
+            <p id="textoPost">A lógica proposicional é baseada em proposições, afirmações sobre mundo que podem ser verdadeiras ou falsas, como nas sentenças 1 a 5 acima. Símbolos proposicionais são geralmente letras (P,Q,R) usadas para representar proposição. Conectivos lógicos são símbolos lógicos que conectam símbolos proposicionais, raciocinando de forma mais complexa sobre mundo.</p>
+            <ul>
+                <li id="textoPost"><b>Not ¬</b>: negação inverte valor verdade da proposição. Então, se P: "está chovendo", então ¬P: "não está chovendo";
+                    <ul>
+                        <li>P(false) então ¬P(true);</li>
+                        <li>P(true) então ¬P(false).</li>
+                    </ul>
+                </li>
+                <li id="textoPost"><b>And ∧</b>: "e lógico", conecta 2 proposições diferentes. Quando essas, P e Q, são conectadas por ∧, a proposição resultante P∧Q é verdadeira somente no caso em que todas são verdadeiras;
+                    <ul>
+                        <li>P(false), Q(false) então P∧Q(false);</li>
+                        <li>P(false), Q(true) então P∧Q(false);</li>
+                        <li>P(true), Q(false) então P∧Q(false);</li>
+                        <li>P(true), Q(true) então P∧Q(true).</li>
+                    </ul>
+                </li>
+                <li id="textoPost"><b>Or V</b>: "ou lógico", é verdadeira quando qualquer um dos argumentos for verdadeiro. Então para PVQ ser verdadeira, pelo menos tem que ser verdadeiro;
+                    <ul>
+                        <li>P(false), Q(false) então PVQ(false);</li>
+                        <li>P(false), Q(true) então PVQ(true);</li>
+                        <li>P(true), Q(false) então PVQ(true);</li>
+                        <li>P(true), Q(true) então PVQ(true).</li>
+                    </ul>
+                    <p id="textoPost">Há 2 tipos de Or: Or inclusivo e Or exclusivo (XOR ⊕). Or exclusivo, PVQ é falso se P∧Q for verdadeiro. Um Or exclusivo requer que apenas 1 dos argumentos verdadeiro e não ambos. Or inclusivo é verdadeiro se qualquer P,Q ou P∧Q for verdadeiro. Or(V), a intenção é um Or inclusivo. Or inclusivo: "para comer sobremesa, tem que limpar quarto ou cortar grama". Se fizer ambas tarefas, ainda ganhará biscoitos. Ou exclusivo: "para sobremesa, pode comer biscoitos ou sorvete". Neste caso, não pode comer ambos.</p>
+                </li>
+                <li id="textoPost"><b>Implicação →</b>: Representa estrutura de "se P então Q". Se P: "está chovendo" e Q: "estou dentro de casa", então P→Q é “se está chovendo, então estou dentro de casa”. P implicando Q (P→Q), P é chamado de antecedente e Q é chamado de consequente. Quando antecedente é verdadeiro, toda implicação é verdadeira, no caso em que consequente é verdadeiro (o que faz sentido: se está chovendo e eu estou dentro de casa, então sentença "se está chovendo, então eu estou dentro de casa" é verdadeira). Quando antecedente é verdadeiro, implicação é falsa se consequente for falso (se eu estiver fora enquanto está chovendo, então sentença "se está chovendo, então eu estou dentro de casa" é falsa). No entanto, quando antecedente é falso, implicação é sempre verdadeira, independentemente do consequente. Logicamente, não pode-se aprender nada de implicação (P→Q) se antecedente P for falso. Se não estiver chovendo, implicação não diz nada sobre se estou dentro de casa ou não. Eu poderia ser do tipo que fica em ambientes fechados e nunca anda do lado de fora, mesmo quando não está chovendo, ou eu poderia ser do tipo que fica ao ar livre e fica do lado de fora o tempo todo quando não está chovendo. Quando antecedente é falso, afirma-se que implicação é trivialmente verdadeira;
+                    <ul>
+                        <li>P(false), Q(false) então P→Q(true);</li>
+                        <li>P(false), Q(true) então P→Q(true);</li>
+                        <li>P(true), Q(false) então P→Q(true);</li>
+                        <li>P(true), Q(true) então P→Q(true).</li>
+                    </ul>
+                </li>
+                <li><b>Bicondicional ↔</b>: bicondicional é implicação que vai em ambas direções. Entende-se como "se e somente se". P↔Q é mesmo que P→Q e Q→P juntos. Se P: "está chovendo." e Q: "estou dentro de casa", então P↔Q significa que "se está chovendo, então estou dentro de casa" e "se estou dentro de casa, então está chovendo". Se P for falso, então Q também é falso; se não estiver chovendo, sabe-se que também não estou dentro de casa;
+                    <ul>
+                        <li>P(false), Q(false), então P↔Q(true);</li>
+                        <li>P(false), Q(true), então P↔Q(false);</li>
+                        <li>P(true), Q(false), então P↔Q(false);</li>
+                        <li>P(true), Q(true), então P↔Q(true).</li>
+                    </ul>
+                </li>
+            </ul>
+            <p id="textoPost">Modelo é atribuição de valor verdade para cada proposição. Se P: "está chovendo" e Q: "é terça-feira", modelo é atribuição de valor-verdade: {P=verdadeiro, Q=falso}. Modelo significa que está chovendo, mas não é terça-feira. Há mais modelos possíveis nesta situação (exemplo, {P=verdadeiro, Q=verdadeiro}, está chovendo e é terça-feira). Quantidade de possíveis modelos é 2 elevado à potência da quantidade de proposições. Neste caso, 2 proposições, então 2²=4 modelos possíveis. Base de conhecimento (knowledge base - KB) é conjunto de sentenças conhecidas por agente baseado em conhecimento. Este é conhecimento que IA fornece sobre mundo na forma de sentenças lógicas proposicionais, que podem ser usadas para fazer inferências adicionais sobre mundo. Envolvimento (Entailment - ⊨). Se α ⊨ β (α implica β), então em qualquer mundo onde α é verdadeiro, β também é verdadeiro. Se α: "é terça-feira de janeiro” e β: "é janeiro", então sabe-se que α ⊨ β. Se é verdade que é terça-feira de janeiro, também sabe-se que é janeiro. Envolvimento é diferente de implicação. Envolvimento é conectivo lógico entre 2 proposições, relação que significa que se todas informações em α são verdadeiras, então todas informações em β são verdadeiras.</p>
+
+            <br><h5>Inferência:</h5>
+            <p>Processo de derivar novas sentenças a partir das antigas. No exemplo de Harry Potter, sentenças 4 e 5 foram inferidas das sentenças 1, 2 e 3. Há várias maneiras de inferir novos conhecimentos com base em conhecimentos existentes. Via algoritmo model checking: para determinar se KB ⊨ α ("pode-se concluir que α é verdadeiro com base na base de conhecimento"), enumera-se todos modelos possíveis. Se em cada modelo onde KB é verdadeiro, α também é verdadeiro, então KB implica α (KB ⊨ α).</p>
+
+            <!--
+            PAROU EM:
+            Consider the following example:
+
+            P: It is a Tuesday. Q: It is raining. R: Harry will go for a run. KB: (P ∧ ¬Q) → R (in words, P and not Q imply R) P (P is true) ¬Q (Q is false) Query: R (We want to know whether R is true or false; Does KB ⊨ R?)
+            -->
         </div>
     </div>
 
