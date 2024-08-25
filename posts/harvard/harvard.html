@@ -1045,23 +1045,121 @@ def minimax(board):
                 </li>
                 <li><b>Bicondicional ↔</b>: bicondicional é implicação que vai em ambas direções. Entende-se como "se e somente se". P↔Q é mesmo que P→Q e Q→P juntos. Se P: "está chovendo." e Q: "estou dentro de casa", então P↔Q significa que "se está chovendo, então estou dentro de casa" e "se estou dentro de casa, então está chovendo". Se P for falso, então Q também é falso; se não estiver chovendo, sabe-se que também não estou dentro de casa;
                     <ul>
-                        <li>P(false), Q(false), então P↔Q(true);</li>
-                        <li>P(false), Q(true), então P↔Q(false);</li>
-                        <li>P(true), Q(false), então P↔Q(false);</li>
-                        <li>P(true), Q(true), então P↔Q(true).</li>
+                        <li>P(false), Q(false) então P↔Q(true);</li>
+                        <li>P(false), Q(true) então P↔Q(false);</li>
+                        <li>P(true), Q(false) então P↔Q(false);</li>
+                        <li>P(true), Q(true) então P↔Q(true).</li>
                     </ul>
                 </li>
             </ul>
             <p id="textoPost">Modelo é atribuição de valor verdade para cada proposição. Se P: "está chovendo" e Q: "é terça-feira", modelo é atribuição de valor-verdade: {P=verdadeiro, Q=falso}. Modelo significa que está chovendo, mas não é terça-feira. Há mais modelos possíveis nesta situação (exemplo, {P=verdadeiro, Q=verdadeiro}, está chovendo e é terça-feira). Quantidade de possíveis modelos é 2 elevado à potência da quantidade de proposições. Neste caso, 2 proposições, então 2²=4 modelos possíveis. Base de conhecimento (knowledge base - KB) é conjunto de sentenças conhecidas por agente baseado em conhecimento. Este é conhecimento que IA fornece sobre mundo na forma de sentenças lógicas proposicionais, que podem ser usadas para fazer inferências adicionais sobre mundo. Envolvimento (Entailment - ⊨). Se α ⊨ β (α implica β), então em qualquer mundo onde α é verdadeiro, β também é verdadeiro. Se α: "é terça-feira de janeiro” e β: "é janeiro", então sabe-se que α ⊨ β. Se é verdade que é terça-feira de janeiro, também sabe-se que é janeiro. Envolvimento é diferente de implicação. Envolvimento é conectivo lógico entre 2 proposições, relação que significa que se todas informações em α são verdadeiras, então todas informações em β são verdadeiras.</p>
 
             <br><h5>Inferência:</h5>
-            <p>Processo de derivar novas sentenças a partir das antigas. No exemplo de Harry Potter, sentenças 4 e 5 foram inferidas das sentenças 1, 2 e 3. Há várias maneiras de inferir novos conhecimentos com base em conhecimentos existentes. Via algoritmo model checking: para determinar se KB ⊨ α ("pode-se concluir que α é verdadeiro com base na base de conhecimento"), enumera-se todos modelos possíveis. Se em cada modelo onde KB é verdadeiro, α também é verdadeiro, então KB implica α (KB ⊨ α).</p>
+            <p>Processo de derivar novas sentenças a partir das antigas. No exemplo de Harry Potter, sentenças 4 e 5 foram inferidas das sentenças 1, 2 e 3. Há várias maneiras de inferir novos conhecimentos com base em conhecimentos existentes. Via algoritmo model checking: para determinar se KB ⊨ α ("pode-se concluir que α é verdadeiro com base na base de conhecimento"), enumera-se todos modelos possíveis. Se em cada modelo onde KB é verdadeiro, α também é verdadeiro, então KB implica α (KB ⊨ α).Exemplo: P: é terça-feira. Q: está chovendo. R: harry vai correr. KB: (P∧¬Q)→R (P e não Q implicam R) P (P é verdadeiro) ¬Q (Q é falso) consulta: R (descobrir se R é verdadeiro ou falso; KB⊨R?). A resposta via algoritmo de verificação de modelo, enumera-se todos modelos possíveis.</p>
+            <ul>
+                <li>P(false), Q(false), R(false) então KB(?);</li>
+                <li>P(false), Q(false), R(true) então KB(?);</li>
+                <li>P(false), Q(true), R(false) então KB(?);</li>
+                <li>P(false), Q(true), R(true) então KB(?);</li>
+                <li>P(true), Q(false), R(false) então KB(?);</li>
+                <li>P(true), Q(false), R(true) então KB(?);</li>
+                <li>P(true), Q(true), R(false) então KB(?);</li>
+                <li>P(true), Q(true), R(true) então KB(?).</li>
+            </ul>
+            <p id="textoPost">Em seguida, examina-se cada modelo e verifica-se se ele é verdadeiro, conforme base de conhecimento. Em KB, sabe-se que P é verdadeiro. Então, pode-se afirmar que KB é falsa em todos modelos onde P não é verdadeiro.</p>
+            <ul>
+                <li>P(false), Q(false), R(false) então KB(false);</li>
+                <li>P(false), Q(false), R(true) então KB(false);</li>
+                <li>P(false), Q(true), R(false) então KB(false);</li>
+                <li>P(false), Q(true), R(true) então KB(false);</li>
+                <li>P(true), Q(false), R(false) então KB(?);</li>
+                <li>P(true), Q(false), R(true) então KB(?);</li>
+                <li>P(true), Q(true), R(false) então KB(?);</li>
+                <li>P(true), Q(true), R(true) então KB(?).</li>
+            </ul>
+            <p id="textoPost">Após, sabe-se que Q é falso. Então, pode-se afirmar que KB é falso em todos modelos onde Q é verdadeiro.</p>
+            <ul>
+                <li>P(false), Q(false), R(false) então KB(false);</li>
+                <li>P(false), Q(false), R(true) então KB(false);</li>
+                <li>P(false), Q(true), R(false) então KB(false);</li>
+                <li>P(false), Q(true), R(true) então KB(false);</li>
+                <li>P(true), Q(false), R(false) então KB(?);</li>
+                <li>P(true), Q(false), R(true) então KB(?);</li>
+                <li>P(true), Q(true), R(false) então KB(false);</li>
+                <li>P(true), Q(true), R(true) então KB(false).</li>
+            </ul>
+            <p id="textoPost">Então, há 2 modelos. Em ambos, P é verdadeiro e Q é falso. Em um modelo R é verdadeiro e no outro R é falso. Devido a (P∧¬Q)→R estar em KB, sabe-se que, no caso em que P é verdadeiro e Q é falso, R deve ser verdadeiro. Então, afirma-se que KB é falsa para modelo em que R é falso, e verdadeira para modelo em que R é verdadeiro.</p>
+            <ul>
+                <li>P(false), Q(false), R(false) então KB(false);</li>
+                <li>P(false), Q(false), R(true) então KB(false);</li>
+                <li>P(false), Q(true), R(false) então KB(false);</li>
+                <li>P(false), Q(true), R(true) então KB(false);</li>
+                <li>P(true), Q(false), R(false) então KB(false);</li>
+                <li>P(true), Q(false), R(true) então KB(true);</li>
+                <li>P(true), Q(true), R(false) então KB(false);</li>
+                <li>P(true), Q(true), R(true) então KB(false).</li>
+            </ul>
+            <p id="textoPost">Conferindo a tabela, há apenas 1 modelo em que a base de conhecimento é verdadeira. Neste modelo, percebe-se que R também é verdadeiro. Na definição de implicação, se R é verdadeiro em todos modelos em que KB é verdadeiro, então KB⊨R. A aplicação da lógica em código:</p>
+<small><pre><code>
+from logic import *
 
+# Criar novas classes, cada uma com nome, ou símbolo, representando cada proposição
+rain = Symbol("rain")  # está chovendo
+hagrid = Symbol("hagrid")  # harry visitou hagrid
+dumbledore = Symbol("dumbledore")  # harry visitou dumbledore
+
+# Salvar sentença em KB
+knowledge = And(  # Iniciar pelo conectivo lógico "and", pois cada proposição representa conhecimento que sabemos ser verdadeiro
+
+    Implication(Not(rain), hagrid),  # ¬(está chovendo) → (harry visitou hagrid)
+
+    Or(hagrid, dumbledore),  # (harry visitou hagrid) V (harry visitou dumbledore)
+
+    Not(And(hagrid, dumbledore)),  # ¬(harry visitou hagrid ∧ harry visitou dumbledore) ou seja, harry não visitou hagrid e dumbledore
+
+    dumbledore  # harry visitou dumbledore. Enquanto proposições anteriores continham múltiplos símbolos com conectores, esta proposição consiste em símbolo. Ou seja, toma-se como fato, neste KB, que harry visitou dumbledore
+    )
+</code></pre></small>
+            <p id="textoPost">Informações necessárias para executar algoritmo de verificação do modelo:</p>
+            <ul>
+                <li>Base de conhecimento, que será usada para tirar inferências;</li>
+                <li>Uma consulta (query), ou proposição que interessa saber se está implicada pela KB;</li>
+                <li>Símbolos, uma lista de todos símbolos (ou proposições atômicas) usados (nesse caso, chuva, hagrid e dumbledore);</li>
+                <li>Modelo, atribuição de valores verdadeiros e falsos aos símbolos.</li>
+            </ul>
+            <p>Algoritmo de verificação do modelo:</p>
+<small><pre><code>
+def check_all(knowledge, query, symbols, model):
+
+    # Se modelo tiver atribuição para cada símbolo
+    # Lógica do algoritmo: inicia com lista de símbolos. Função recursiva e, toda vez que invocada, extrai símbolo da lista de símbolos, gerando modelos a partir deste. Então, quando lista de símbolos está vazia, sabe-se que termina-se de gerar modelos com todas atribuições de verdade possíveis de símbolos
+    if not symbols:
+
+        # Se base de conhecimento for verdadeira no modelo, então consulta também deve ser verdadeira
+        if knowledge.evaluate(model):
+            return query.evaluate(model)
+        return True
+    else:
+
+        # Escolher um dos símbolos restantes não utilizados
+        remaining = symbols.copy()
+        p = remaining.pop()
+
+        # Criar modelo onde símbolo seja verdadeiro
+        model_true = model.copy()
+        model_true[p] = True
+
+        # Criar modelo onde símbolo seja falso
+        model_false = model.copy()
+        model_false[p] = False
+
+        # Garantir que implicação se mantenha em ambos modelos
+        return(check_all(knowledge, query, remaining, model_true) and check_all(knowledge, query, remaining, model_false))
+</code></pre></small>
+            <p id="textoPost">Interessa-se apenas modelos em que KB é verdadeiro. Se KB for falso, então condições que sabemos serem verdadeiras não estão ocorrendo nesses modelos, tornando-os irrelevantes para o caso.</p>
             <!--
             PAROU EM:
-            Consider the following example:
-
-            P: It is a Tuesday. Q: It is raining. R: Harry will go for a run. KB: (P ∧ ¬Q) → R (in words, P and not Q imply R) P (P is true) ¬Q (Q is false) Query: R (We want to know whether R is true or false; Does KB ⊨ R?)
+            An example from outside lecture: Let P: Harry plays seeker, 
             -->
         </div>
     </div>
