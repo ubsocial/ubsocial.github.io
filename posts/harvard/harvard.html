@@ -1156,11 +1156,101 @@ def check_all(knowledge, query, symbols, model):
         # Garantir que implicação se mantenha em ambos modelos
         return(check_all(knowledge, query, remaining, model_true) and check_all(knowledge, query, remaining, model_false))
 </code></pre></small>
-            <p id="textoPost">Interessa-se apenas modelos em que KB é verdadeiro. Se KB for falso, então condições que sabemos serem verdadeiras não estão ocorrendo nesses modelos, tornando-os irrelevantes para o caso.</p>
-            <!--
-            PAROU EM:
-            An example from outside lecture: Let P: Harry plays seeker, 
-            -->
+            <p id="textoPost">Interessa-se apenas modelos em que KB é verdadeiro. Se KB for falso, então condições que sabemos serem verdadeiras não estão ocorrendo nesses modelos, tornando-os irrelevantes para o caso. Seja P: harry joga como apanhador, Q: oliver joga como goleiro, R: grifinória vence. KB especifica que P Q (P∧Q)→R. Ou seja, sabe-se que P é verdadeiro (harry joga como apanhador), Q é verdadeiro (oliver joga como goleiro), P e Q verdadeiros, então R também é verdadeiro (grifinória vence partida). Modelo em que harry jogou como batedor em vez de apanhador (harry não jogou como apanhador, ¬P). Então, importa se grifinória venceu (seja R verdadeiro ou não), porque tem-se informação em KB que harry jogou como apanhador e não como batedor. Interessa apenas modelos em que, como nesse caso, P e Q são verdadeiros. Função check_all é recursiva, recolhendo símbolo, criando 2 modelos, em um o símbolo é verdadeiro, no outro, falso. Então chama-se novamente, agora com 2 modelos diferentes pela atribuição de verdade deste símbolo. Função continuará fazendo até que todos símbolos tenham recebido valores de verdade nos modelos, deixando lista de símbolos vazia. Ao esvaziar (conforme identificado pela linha if not symbols), em cada instância da função (onde cada instância contém modelo diferente), função verifica se KB é verdadeira conforme modelo. Se KB for verdadeira neste modelo, função verifica se consulta é verdadeira, conforme descrito anteriormente.</p>
+
+            <br><h5>Engenharia do conhecimento:</h5>
+            <p id="textoPost">Processo de descobrir como representar proposições e lógica em IA. No jogo Clue, assassinato foi cometido por pessoa, usando ferramenta em local. Pessoas, ferramentas e locais são representados por cartas. Carta de cada categoria é escolhida aleatoriamente e colocada em envelope, cabendo aos participantes descobrir o culpado, via cartas e deduzindo dessas pistas o que deve estar no envelope. Algoritmo Model Checking para descobrir mistério. No modelo, marca-se como true os itens que sabe-se que estão relacionados ao assassinato e false os demais. Há 3 pessoas: Mustard, Plum e Scarlet, 3 ferramentas: faca, revólver e chave inglesa, e 3 locais: salão de baile, cozinha e biblioteca. Inicia-se criando base de conhecimento, adicionando regras do jogo. Sabe-se que 1 pessoa é assassino, que 1 ferramenta foi usada e que assassinato aconteceu em 1 local. Isso pode ser representado em lógica proposicional assim:</p>
+            <ul>
+                <li>(Mustard V Plum V Scarlet)</li>
+                <li>(faca V revólver V chave inglesa)</li>
+                <li>(salão de baile V cozinha V biblioteca)</li>
+            </ul>
+            <p id="textoPost">Jogo inicia com cada jogador vendo 1 pessoa, ferramenta e local, concluindo que eles não se relacionam ao assassinato. Jogadores não compartilham informações vistas nas cartas. Jogador recebe cartas de Mostarda, cozinha e revólver. Estas não estão relacionadas ao assassinato, adicionando isso ao KB.</p>
+            <ul>
+                <li>¬(Mustard)</li>
+                <li>¬(cozinha)</li>
+                <li>¬(revólver)</li>
+            </ul>
+            <p id="textoPost">Em outras situações no jogo, pode-se fazer um palpite, sugerindo uma combinação de pessoa, ferramenta e local. Em situações do jogo, pode-se palpitar. Palpite sendo scarlet usou chave inglesa na biblioteca. Se palpite estiver errado, então pode ser adicionado à KB:</p>
+            <ul>
+                <li>(¬Scarlet V ¬biblioteca V ¬chave inglesa)</li>
+            </ul>
+            <p id="textoPost">Agora, suponha que alguém mostre carta Plum. Assim, pode-se adicionar à KB:</p>
+            <ul>
+                <li>¬(Plum)</li>
+            </ul>
+            <p id="textoPost">Conclui-se que assassino é Scarlet, que está entre Mustard, Plum e Scarlet, e que os 2 primeiros não são. Adicionando pedaço de conhecimento, por exemplo, que não é salão de baile, tem-se mais informações. Atualiza-se KB:</p>
+            <ul>
+                <li>¬(salão de baile)</li>
+            </ul>
+            <p id="textoPost">Com dados anteriores, deduz-se que Scarlet cometeu assassinato com faca na biblioteca. Deduz-se que é biblioteca pois deve ser salão de baile, cozinha ou biblioteca, e 2 primeiros foram provados não serem locais. Porém, quando alguém chutou Scarlet, biblioteca, chave inglesa, palpite foi falso. Então, pelo menos 1 dos elementos nesta declaração será falso. Scarlet e biblioteca são verdadeiras, então chave inglesa é falsa aqui. 1 dos 3 instrumentos é verdadeiro, não sendo chave inglesa nem revólver, então é faca. Segue algoritmo:</p>
+<small><pre><code>
+# Adicionar Clues ao KB
+knowledge = And(
+
+    # Iniciar condições do jogo: 1 item em cada 1 das 3 categorias é verdadeiro
+    Or(mustard, plum, scarlet),
+    Or(ballroom, kitchen, library),
+    Or(knife, revolver, wrench),
+
+    # Adicionar informações das 3 cartas iniciais
+    Not(mustard),
+    Not(kitchen),
+    Not(revolver),
+
+    # Adicionar palpite que Scarlet usou chave inglesa na biblioteca
+    Or(Not(scarlet), Not(library), Not(wrench)),
+
+    # Adicionar cartas expostas
+    Not(plum),
+    Not(ballroom)
+)
+</code></pre></small>
+            <p id="textoPost">Outro exemplo: 4 pessoas, Gilderoy, Pomona, Minerva e Horace, designadas para 4 casas diferentes, Grifinória, Lufa-Lufa, Corvinal e Sonserina, 1 pessoa em cada casa. Representar as condições do quebra-cabeça em lógica proposicional é bastante trabalhoso. Condições em lógica proporcional faz-se atribuições possíveis em proposição de si mesma: MinervaGrifinória, MinervaLufa-Lufa, MinervaCorvinal, MinervaSonserina, PomonaGrifinória. Após, para representando cada pessoa pertencendo a 1 casa, declaração OR é necessária com todas atribuições de casa possíveis por pessoa.</p>
+            <ul>
+                <li>(MinervaGryffindor V MinervaHufflepuff V MinervaRavenclaw V MinervaSlytherin), repetindo para todas pessoas</li>
+            </ul>
+            <p id="textoPost">Então, para codificar se pessoa é designada para casa, ela não é designada para as outras:</p>
+            <ul>
+                <li>(MinervaGryffindor → ¬MinervaHufflepuff) ∧ (MinervaGryffindor → ¬MinervaRavenclaw) ∧ (MinervaGryffindor → ¬MinervaSlytherin) ∧ (MinervaHufflepuff → ¬MinervaGryffindor)...</li>
+            </ul>
+            <p id="textoPost">E assim por diante para todas casas e pessoas. Solução para essa ineficiência é lógica de 1ª ordem. Contudo, esse tipo de enigma ainda pode ser resolvido com qualquer tipo de lógica, dadas pistas suficientes. Outro tipo de quebra-cabeça resolvido via lógica proposicional é Mastermind. No jogo, jogador 1 organiza cores em determinada ordem, e então jogador 2 tem que adivinhar a ordem. Cada turno, jogador 2 faz palpite, e jogador 1 devolve nº, indicando quantas cores jogador 2 acertou. Em jogo com 4 cores. Suponha-se que jogador dois sugira seguinte ordenação:</p>
+            <img src="1.knowledge/knowledge1.png" class="img-fluid rounded" width="200px">
+            <p id="textoPost">Jogador 1 informa "dois". Assim, sabe-se que 2 das cores estão na posição correta, e outras 2 estão erradas. Com isso, jogador 2 tenta trocar localizações de 2 cores.</p>
+            <img src="1.knowledge/knowledge2.png" class="img-fluid rounded" width="200px">
+            <p id="textoPost">Então, jogador 1 diz "zero". Então, jogador 2 sabe que cores trocadas estavam no local certo inicialmente, e 2 cores intocadas estavam no local errado. O jogador 2 as troca.</p>
+            <img src="1.knowledge/knowledge3.png" class="img-fluid rounded" width="200px">
+            <p id="textoPost">Jogador 1 diz "quatro" e jogo acaba. Lógica proposicional exige (nº de cores)² proposições atômicas. Em 4 cores, tem-se proposições vermelho0, vermelho1, vermelho2, vermelho3, azul0... representando cor e posição. Então, representa-se regras do jogo em lógica proposicional (há 1 cor em cada posição, nenhuma cor se repete) e adicioná-las a KB. Por fim, adiciona-se todas dicas a KB. No 1º palpite, 2 posições estavam erradas e 2 certas. No 2 palpite, nenhuma estava certa. Nesse conhecimento, algoritmo de verificação de modelo fornece solução para jogo.</p>
+
+            <br><h5>Regras de inferência:</h5>
+            <p id="textoPost">Model checking não é algoritmo eficiente, pois considera todos modelos possíveis antes de dar resposta (consulta R é verdadeira se sob todos modelos (atribuições de verdade) onde KB é verdadeiro, R também é verdadeiro). Regras de inferência permitem gerar novas informações, baseadas no conhecimento existente, sem considerar todos modelos possíveis. Regras de inferência são representadas por barra horizontal, separando parte superior (premissa) da parte inferior (conclusão). Premissa é qualquer conhecimento, e conclusão é qual conhecimento pode ser gerado com base na premissa.</p>
+            <img src="1.knowledge/knowledge4.png" class="img-fluid rounded" width="200px">
+            <p>Acima, premissa consiste nas proposições:</p>
+            <ul>
+                <li>Se estiver chovendo, então harry está dentro;</li>
+                <li>Está chovendo.</li>
+            </ul>
+            <p>Assim, conclui-se que:</p>
+            <ul>
+                <li>Harry está dentro.</li>
+            </ul>
+            <p id="textoPost">Regra de inferência usada no exemplo é Modus Ponens, maneira exibir que sebe-se que implicação e seu antecedente são verdadeiros, então consequente também é verdadeiro.</p>
+            <img src="1.knowledge/knowledge5.png" class="img-fluid rounded" width="130px">
+            <p id="textoPost">And eliminação: se proposição E é verdadeira, então qualquer proposição atômica dentro dela também é verdadeira. Exemplo, harry é amigo de ron e hermione, conclui-se que harry é amigo de hermione.</p>
+            <img src="1.knowledge/knowledge6.png" class="img-fluid rounded" width="130px">
+            <p id="textoPost">Eliminação de dupla negação: proposição negada 2 vezes é verdadeira. Proposição "Não é verdade que harry não passou no teste". Analisa-se: "não é verdade que (harry não passou no teste)", ou "¬(harry não passou no teste)", e, finalmente "¬(¬(harry passou no teste))." Ambas negações cancelam-se, tornando proposição "Harry passou no teste" verdadeira.</p>
+            <img src="1.knowledge/knowledge7.png" class="img-fluid rounded" width="130px">
+            <p id="textoPost">Eliminação de implicações: implicação é equivalente a relação OR entre antecedente negado e consequente. Proposição "se está chovendo, harry está dentro" equive-se à proposição "(não está chovendo) ou (harry está dentro)".</p>
+            <img src="1.knowledge/knowledge8.png" class="img-fluid rounded" width="130px">
+            <p>Seguindo tabela verdade:</p>
+            <ul>
+                <li>P(false) Q(false), então P→Q(true), ¬PVQ(true)</li>
+                <li>P(false) Q(true), então P→Q(true), ¬PVQ(true)</li>
+                <li>P(true) Q(false), então P→Q(false), ¬PVQ(false)</li>
+                <li>P(true) Q(true), então P→Q(true), ¬PVQ(true)</li>
+            </ul>
+            <p id="textoPost">Como P→Q e ¬PVQ têm mesma atribuição de valor-verdade, sabe-se que são equivalentes logicamente. Outra forma é implicação verdadeira se qualquer uma das condições possíveis for atendida: 1º, se antecedente é falso, implicação é verdadeira, representado pelo antecedente negado P em ¬PVQ, onde proposição é sempre verdadeira se P for falsa. 2º, implicação verdadeira quando antecedente é verdadeiro somente quando consequente também é verdadeiro. Se P e Q são verdadeiros, então ¬PVQ é verdadeiro. Se P é verdadeiro e Q não é, então ¬PVQ é falso.</p>
+            <p id="textoPost">Eliminação bicondicional: Em breve<!--COMPLETAR AQUI EM A biconditional proposition is equivalent to an implication and its inverse with an And connective. For example, “It is raining if and only if Harry is inside” is equivalent to (“If it is raining, Harry is inside” And “If Harry is inside, it is raining”).--></p>
         </div>
     </div>
 
