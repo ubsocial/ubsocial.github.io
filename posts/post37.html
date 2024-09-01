@@ -33,16 +33,25 @@
 
     <div class="row">
         <div class="col-sm-12 text-center" id="titulo">
-            <h1>Astah UML no Fedora</h1>
-            <h6><strong>Instalar e ativar Astah UML no Fedora</strong></h6>
+            <h1>Astah UML no Linux</h1>
+            <h6><strong>Instalar e ativar Astah UML no Linux</strong></h6>
             <a href="../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
         </div>
 
         <div class="col-sm-12">
             <h4>Baixar Astah UML</h4>
             <ol>
-                <li>Baixar Astah UML (.rpm): <a href="https://astah.net/downloads" target="_blank" class="text-decoration-none">https://astah.net/downloads</a></li>
-                <li>Instalar Astah UML: <i>sudo dnf install nomeArquivoAstah.rpm</i></li>
+                <li>Baixar Astah UML ('.deb' ou '.rpm'): <a href="https://astah.net/downloads" target="_blank" class="text-decoration-none">https://astah.net/downloads</a></li>
+                <li>Instalar Astah UML:
+                    <ul>
+                        <li>Debian: <i>sudo dpkg -i nomeArquivoAstah.deb</i>
+                            <ul>
+                                <li>Em caso de erro de falta de dependências: <i>sudo apt -f install</i></li>
+                            </ul>
+                        </li>
+                        <li>RHEL: <i>sudo dnf install nomeArquivoAstah.rpm</i></li>
+                    </ul>
+                </li>
             </ol>
 
             <br><h4>Obter licença estudante</h4>
@@ -56,6 +65,14 @@
             <br><h4>Baixar JDK específico Adoptium temurin</h4>
             <p>Instruções conforme site oficial <a href="https://adoptium.net/installation/linux" target="_blank" class="text-decoration-none">https://adoptium.net/installation/linux</a></p>
             <ol>
+                <u>Debian</u>:
+                <li>Instalar pré-requisitos: <i>sudo apt install -y wget apt-transport-https gpg</i></li>
+                <li>Adicionar chave autenticação: <i>wget -O - https://packages.adoptium.net/artifactory/api/gpg/key/public | sudo apt-key add -</i></li>
+                <li>Adicionar repositório: <i>echo "deb https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION_CODENAME/{print$2}' /etc/os-release) main" | sudo tee /etc/apt/sources.list.d/adoptium.list && sudo apt update</i></li>
+                <li>Instalar JDK temurin: <i>sudo apt install -y temurin-8-jdk</i></li>
+            </ol>
+            <ol>
+                <u>RHEL</u>:
                 <li>Entrar modo administrador: <i>sudo su</i></li>
                 <li>Executar comando abaixo (use nome da distribuição abaixo como 'fedora', 'centos' ou 'rhel')
 <small><pre><code>
@@ -74,8 +91,12 @@ EOF
                 <li>Instalar JDK 8 temurin: <i>sudo dnf install temurin-8-jdk</i></li>
                 <li>Selecionar JDK 8 temurin:
                     <ul>
-                        <li><i>sudo alternatives --config java</i> <span class="text-muted"># selecionar Java temurin</span></li>
-                        <li><i>sudo alternatives --config javac</i> <span class="text-muted"># selecionar Java temurin</span></li>
+                        <u>Debian</u>:
+                        <li><i>sudo update-alternatives --config java</i> <span class="text-muted"># selecionar Java temurin</span></li>
+                        <li><i>sudo update-alternatives --config javac</i> <span class="text-muted"># selecionar Java temurin</span></li>
+                        <u>RHEL</u>:
+                        <li><i>sudo alternatives --config java</i></li>
+                        <li><i>sudo alternatives --config javac</i></li>
                     </ul>
                 </li>
             </ol>
