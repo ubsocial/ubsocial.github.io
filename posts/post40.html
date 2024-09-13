@@ -78,7 +78,7 @@ test_data = test_data.batch(BATCH_SIZE)
 
             <br><p>Criação do modelo, com camadas Conv2D e MaxPooling2D:</p>
 <small><pre><code>
-    model = models.Sequential([
+model = models.Sequential([
     layers.Conv2D(32, (3, 3), activation='relu', input_shape=(IMG_SIZE, IMG_SIZE, 3)),
     layers.MaxPooling2D(2, 2),
     layers.Conv2D(64, (3, 3), activation='relu'),
