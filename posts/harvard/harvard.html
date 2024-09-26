@@ -45,6 +45,7 @@
             <ol start="0">
                 <li><a href="#search" class="text-decoration-none">Search</a></li>
                 <li><a href="#knowledge" class="text-decoration-none">Knowledge</a></li>
+                <li><a href="#Uncertainty" class="text-decoration-none">Uncertainty</a></li>
             </ol>
 
             <br><hr><h4 id="search">0.Search:</h4>
@@ -1052,7 +1053,7 @@ def minimax(board):
                     </ul>
                 </li>
             </ul>
-            <p id="textoPost">Modelo é atribuição de valor verdade para cada proposição. Se P: "está chovendo" e Q: "é terça-feira", modelo é atribuição de valor-verdade: {P=verdadeiro, Q=falso}. Modelo significa que está chovendo, mas não é terça-feira. Há mais modelos possíveis nesta situação (exemplo, {P=verdadeiro, Q=verdadeiro}, está chovendo e é terça-feira). Quantidade de possíveis modelos é 2 elevado à potência da quantidade de proposições. Neste caso, 2 proposições, então 2²=4 modelos possíveis. Base de conhecimento (knowledge base - KB) é conjunto de sentenças conhecidas por agente baseado em conhecimento. Este é conhecimento que IA fornece sobre mundo na forma de sentenças lógicas proposicionais, que podem ser usadas para fazer inferências adicionais sobre mundo. Envolvimento (Entailment - ⊨). Se α ⊨ β (α implica β), então em qualquer mundo onde α é verdadeiro, β também é verdadeiro. Se α: "é terça-feira de janeiro” e β: "é janeiro", então sabe-se que α ⊨ β. Se é verdade que é terça-feira de janeiro, também sabe-se que é janeiro. Envolvimento é diferente de implicação. Envolvimento é conectivo lógico entre 2 proposições, relação que significa que se todas informações em α são verdadeiras, então todas informações em β são verdadeiras.</p>
+            <p id="textoPost">Modelo é atribuição de valor verdade para cada proposição. Se P: "está chovendo" e Q: "é terça-feira", modelo é atribuição de valor-verdade: &#123;P=verdadeiro, Q=falso&#125;. Modelo significa que está chovendo, mas não é terça-feira. Há mais modelos possíveis nesta situação (exemplo, &#123;P=verdadeiro, Q=verdadeiro&#125;, está chovendo e é terça-feira). Quantidade de possíveis modelos é 2 elevado à potência da quantidade de proposições. Neste caso, 2 proposições, então 2²=4 modelos possíveis. Base de conhecimento (knowledge base - KB) é conjunto de sentenças conhecidas por agente baseado em conhecimento. Este é conhecimento que IA fornece sobre mundo na forma de sentenças lógicas proposicionais, que podem ser usadas para fazer inferências adicionais sobre mundo. Envolvimento (Entailment - ⊨). Se α ⊨ β (α implica β), então em qualquer mundo onde α é verdadeiro, β também é verdadeiro. Se α: "é terça-feira de janeiro” e β: "é janeiro", então sabe-se que α ⊨ β. Se é verdade que é terça-feira de janeiro, também sabe-se que é janeiro. Envolvimento é diferente de implicação. Envolvimento é conectivo lógico entre 2 proposições, relação que significa que se todas informações em α são verdadeiras, então todas informações em β são verdadeiras.</p>
 
             <br><h5>Inferência:</h5>
             <p>Processo de derivar novas sentenças a partir das antigas. No exemplo de Harry Potter, sentenças 4 e 5 foram inferidas das sentenças 1, 2 e 3. Há várias maneiras de inferir novos conhecimentos com base em conhecimentos existentes. Via algoritmo model checking: para determinar se KB ⊨ α ("pode-se concluir que α é verdadeiro com base na base de conhecimento"), enumera-se todos modelos possíveis. Se em cada modelo onde KB é verdadeiro, α também é verdadeiro, então KB implica α (KB ⊨ α).Exemplo: P: é terça-feira. Q: está chovendo. R: harry vai correr. KB: (P∧¬Q)→R (P e não Q implicam R) P (P é verdadeiro) ¬Q (Q é falso) consulta: R (descobrir se R é verdadeiro ou falso; KB⊨R?). A resposta via algoritmo de verificação de modelo, enumera-se todos modelos possíveis.</p>
@@ -1250,7 +1251,1309 @@ knowledge = And(
                 <li>P(true) Q(true), então P→Q(true), ¬PVQ(true)</li>
             </ul>
             <p id="textoPost">Como P→Q e ¬PVQ têm mesma atribuição de valor-verdade, sabe-se que são equivalentes logicamente. Outra forma é implicação verdadeira se qualquer uma das condições possíveis for atendida: 1º, se antecedente é falso, implicação é verdadeira, representado pelo antecedente negado P em ¬PVQ, onde proposição é sempre verdadeira se P for falsa. 2º, implicação verdadeira quando antecedente é verdadeiro somente quando consequente também é verdadeiro. Se P e Q são verdadeiros, então ¬PVQ é verdadeiro. Se P é verdadeiro e Q não é, então ¬PVQ é falso.</p>
-            <p id="textoPost">Eliminação bicondicional: Em breve<!--COMPLETAR AQUI EM A biconditional proposition is equivalent to an implication and its inverse with an And connective. For example, “It is raining if and only if Harry is inside” is equivalent to (“If it is raining, Harry is inside” And “If Harry is inside, it is raining”).--></p>
+            <p id="textoPost">Eliminação bicondicional: proposição bicondicional é equivalente a implicação e sua inversa com conectivo And. Por exemplo, "está chovendo se e somente se harry estiver dentro" é equivalente a ("se estiver chovendo, harry está dentro" e "se harry estiver dentro, está chovendo").</p>
+            <img src="1.knowledge/knowledge9.png" class="img-fluid rounded" width="130px">
+            <p id="textoPost">Lei de De Morgan: É possível transformar conectivo And em conectivo Or. Em "não é verdade que harry e ron passaram no teste". Conclui-se que "não é verdade que harry passou no teste" ou "não é verdade que ron passou no teste". Ou seja, para que proposição And anterior seja verdadeira, pelo menos 1 das proposições nas proposições Or deve ser verdadeira.</p>
+            <img src="1.knowledge/knowledge10.png" class="img-fluid rounded" width="130px">
+            <p id="textoPost">Similarmente, é possível concluir o inverso. Em "não é verdade que harry ou ron passaram no teste" pode ser reformulado como "harry não passou no teste" e "ron não passou no teste".</p>
+            <img src="1.knowledge/knowledge11.png" class="img-fluid rounded" width="130px">
+            <p id="textoPost">Propriedade distributiva: Proposição com 2 elementos agrupados com conectivos And ou Or pode ser distribuída ou dividida em unidades menores consistindo de And e Or.</p>
+            <img src="1.knowledge/knowledge12.png" class="img-fluid rounded" width="130px"><br><br>
+            <img src="1.knowledge/knowledge13.png" class="img-fluid rounded" width="130px">
+            <p id="textoPost">Problemas de conhecimento e pesquisa: Inferência pode ser vista como problema de busca com seguintes propriedades:</p>
+            <ul>
+                <li>Estado inicial: iniciando base de conhecimento;</li>
+                <li>Ações: regras de inferência;</li>
+                <li>Modelo de transição: nova base de conhecimento após a inferência;</li>
+                <li>Teste de meta: verificando se declaração a ser provada está na KB;</li>
+                <li>Função de custo do caminho: quantidade de etapas na prova.</li>
+            </ul>
+            <p id="textoPost">Isso mostra o quão versáteis são algoritmos de busca, permitindo derivar novas informações com base no conhecimento existente usando regras de inferência.</p>
+
+            <br><h5>Resolução:</h5>
+            <p>Resolução é regra de inferência que afirma que se 1 das 2 proposições atômicas em 1 proposição Or for falsa, a outra tem que ser verdadeira. Exemplo, dada a proposição "ron está no grande salão" Ou "hermione está na biblioteca", além da proposição "ron não está no grande salão”, conclui-se que "hermione está na biblioteca". Pode-se definir resolução da seguinte maneira:</p>
+            <img src="1.knowledge/knowledge14.png" class="img-fluid rounded" width="150px">
+            <p id="textoPost">Resolução depende de literais complementares, 2 das mesmas proposições atômicas onde uma é negada e outra não, como P e ¬P. Resolução pode ser ainda mais generalizada. Suponha que, além da proposição "ron está no grande salão" Ou "hermione está na biblioteca", também sabe-se que "ron não está no grande salão" Ou "harry está dormindo". Pode-se inferir disso, usando resolução, que "hermione está na biblioteca" Ou "harry está dormindo". Formalmente:</p>
+            <img src="1.knowledge/knowledge15.png" class="img-fluid rounded" width="150px">
+            <p id="textoPost">Literais complementares permitem gerar novas sentenças por meio de inferências por resolução. Algoritmos de inferência localizam literais complementares para gerar novos conhecimentos. Disjunção de literais (símbolo proposicional ou negação de símbolo proposicional, como P, ¬P). Disjunção consiste em proposições conectadas com conectivo Or (P V Q V R). Conjunção consiste em proposições conectadas com conectivo And (P ∧ Q ∧ R). Cláusulas permitem converter qualquer declaração lógica em Forma Normal Conjuntiva (CNF), conjunção de cláusulas, exemplo: (A V B V C) ∧ (D V ¬E) ∧ (F V G). Etapas na conversão de proposições para forma normal conjuntiva:</p>
+            <ol>
+                <li>Eliminar bicondicionais:
+                    <ul>
+                        <li>Transformar (α ↔ β) em (α → β) ∧ (β → α).</li>
+                    </ul>
+                </li>
+                <li>Eliminar implicações:
+                    <ul>
+                        <li>Transformar (α → β) em ¬α V β.</li>
+                    </ul>
+                </li>
+                <li>Mover negação para dentro até que apenas literais sejam negados (e não cláusulas), via Leis de De Morgan:
+                    <ul>
+                        <li>Transformar ¬(α ∧ β) em ¬α V ¬β.</li>
+                    </ul>
+                </li>
+            </ol>
+            <p id="textoPost">Exemplo de conversão de (P V Q) → R para Forma Normal Conjuntiva:</p>
+            <ol>
+                <li>(P V Q) → R</li>
+                <li>¬(P V Q) V R /Eliminar implicação</li>
+                <li>(¬P ∧ ¬Q) V R /Lei de De Morgan</li>
+                <li>(¬P V R) ∧ (¬Q V R) /Lei Distributiva</li>
+            </ol>
+            <p id="textoPost">Neste ponto, pode-se executar algoritmo de inferência na forma normal conjuntiva. Ocasionalmente, através de inferência por resolução, pode-se acaba em casos onde uma cláusula contém mesmo literal 2 vezes. Nesses casos, processo chamado fatoração é usado, onde literal duplicado é removido. Exemplo, (P V Q V S) ∧ (¬P V R V S) permite inferir por resolução que (Q V S V R V S). S duplicado pode ser removido para oferecer (Q V R V S). Resolver literal e sua negação, ou seja, ¬P e P, fornece a cláusula vazia (), sempre falsa, fazendo sentido pois é impossível que P e ¬P sejam verdadeiros. Tal fato é usado pelo algoritmo de resolução. Para determinar se KB ⊨ α:</p>
+            <ol>
+                <li>Verificar: (KB ∧ ¬α) é contradição?
+                    <ol>
+                        <li>Se sim, então KB ⊨ α;</li>
+                        <li>Senão, não há implicação.</li>
+                    </ol>
+                </li>
+            </ol>
+            <p id="textoPost">Prova por contradição é ferramenta usada frequentemente em ciência da computação. Se base de conhecimento for verdadeira, e contradizer ¬α, significa que ¬α é falsa, e, portanto, α deve ser verdadeira. Algoritmo executa seguintes ações para determinar se KB ⊨ α:</p>
+            <ol>
+                <li>Converter (KB ∧ ¬α) para Forma Normal Conjuntiva;</li>
+                <li>Continuar verificando para ver se pode-se usar resolução para produzir nova cláusula;</li>
+                <li>Se alguma vez produz cláusula vazia (equivalente a False), então chegou-se a contradição, provando que KB ⊨ α;</li>
+                <li>Entretanto, se contradição não for alcançada e nenhuma outra cláusula puder ser inferida, então não há implicação.</li>
+            </ol>
+            <p id="textoPost">Exemplo de funcionamento do algoritmo:</p>
+            <ol>
+                <li>(A V B) ∧ (¬B V C) ∧ (¬C) implica A?</li>
+                <li>Primeiro, para provar por contradição, assume-se que A é falso. Assim, conclui-se (A V B) ∧ (¬B V C) ∧ (¬C) ∧ (¬A).</li>
+                <li>Agora, geram-se novas informações. Sabe-se que C é falso (¬C), única maneira de (¬B V C) ser verdadeiro é se B também for falso. Então, adiciona-se (¬B) à KB;</li>
+                <li>Em seguida, sabe-se (¬B), única maneira de (A V B) ser verdadeiro é se A for verdadeiro. Então, adiciona-se (A) à KB;</li>
+                <li>KB possui 2 literais complementares, (A) e (¬A). Resolve-se, chegando ao conjunto vazio, (). Conjunto vazio é falso por definição, então chega-se a contradição.</li>
+            </ol>
+
+            <br><h5>Lógica de Primeira Ordem:</h5>
+            <p id="textoPost">Tipo de lógica que permite expressar ideias complexas de forma mais sucinta do que lógica proposicional. Usa 2 tipos de símbolos: Símbolos Constantes e Predicados. Símbolos constantes representam objetos, símbolos predicados são como relações ou funções que recebem argumento e retornam valor verdadeiro ou falso. Exemplo, quebra-cabeça lógico com diferentes pessoas e atribuições de casas em hogwarts. Símbolos constantes são pessoas ou casas, como minerva, pomona, grifinória, lufa-lufa, etc. Símbolos predicados são propriedades que mantêm verdadeiro ou falso de alguns símbolos constantes. Exemplo, pode-se expressar ideia de que minerva é pessoa usando frase Pessoa(minerva). Da mesma forma, pode-se expressar ideia de que Grifinória é casa usando frase Casa(grifinória). Todos conectivos lógicos funcionam na lógica de primeira ordem da mesma forma que antes. Exemplo, ¬Casa(minerva) expressa ideia que minerva não é casa. Símbolo predicado também pode pegar 2 ou mais argumentos e expressar relação entre ambos. Exemplo, pertence a expressa relação entre 2 argumentos, pessoa e casa à qual pessoa pertence. Assim, ideia que minerva pertence à grifinória pode ser expressa como Pertence a(minerva, grifinória). Lógica de primeira ordem permite ter símbolo para cada pessoa e símbolo para cada casa, sendo mais sucinto do que lógica proposicional, onde cada atribuição de pessoa-casa exige símbolo diferente.</p>
+            <p id="textoPost">Quantificação Universal: Quantificação é ferramenta usada na lógica de primeira ordem para representar sentenças sem usar símbolo constante específico. Quantificação universal usa símbolo ∀ para expressar "para todos". Exemplo, sentença ∀x. Pertence a(x, gryffindor) → ¬Pertence a(x, hufflepuff) expressa ideia que é verdade para todo símbolo que se esse símbolo pertence a gryffindor, ele não pertence a hufflepuff.</p>
+            <p id="textoPost">Quantificação Existencial: Quantificação existencial é ideia paralela à quantificação universal. Porém, enquanto quantificação universal foi usada para criar sentenças que são verdadeiras para todo x, quantificação existencial é usada para criar sentenças que são verdadeiras para pelo menos 1 x. Expressa via símbolo ∃. Exemplo, sentença ∃x. Casa(x) ∧ Pertence a(minerva, x) significa que há pelo menos 1 símbolo que é casa e que minerva pertence a ela, expressa ideia que minerva pertence a uma casa. Quantificação existencial e universal podem ser usadas na mesma sentença. Exemplo, sentença ∀x. Pessoa(x) → (∃y. Casa(y) ∧ Pertence a(x, y)) expressa a ideia que se x é pessoa, então há pelo menos uma casa, y, à qual essa pessoa pertence, significando que toda pessoa pertence a uma casa. Há outros tipos de lógica também, e o ponto em comum entre eles é que todos objetivam representar informações.</p>
+
+            <br><h5>Código fonte:</h5>
+            <p>clue.py:</p>
+<small><pre><code>
+import termcolor
+
+from logic import *
+
+mustard = Symbol("ColMustard")
+plum = Symbol("ProfPlum")
+scarlet = Symbol("MsScarlet")
+characters = [mustard, plum, scarlet]
+
+ballroom = Symbol("ballroom")
+kitchen = Symbol("kitchen")
+library = Symbol("library")
+rooms = [ballroom, kitchen, library]
+
+knife = Symbol("knife")
+revolver = Symbol("revolver")
+wrench = Symbol("wrench")
+weapons = [knife, revolver, wrench]
+
+symbols = characters + rooms + weapons
+
+def check_knowledge(knowledge):
+    for symbol in symbols:
+        if model_check(knowledge, symbol):
+            termcolor.cprint(f"&#123;symbol&#125;: YES", "green")
+        elif not model_check(knowledge, Not(symbol)):
+            print(f"&#123;symbol&#125;: MAYBE")
+
+# There must be a person, room, and weapon.
+knowledge = And(
+    Or(mustard, plum, scarlet),
+    Or(ballroom, kitchen, library),
+    Or(knife, revolver, wrench)
+)
+
+# Initial cards
+knowledge.add(And(
+    Not(mustard), Not(kitchen), Not(revolver)
+))
+
+# Unknown card
+knowledge.add(Or(
+    Not(scarlet), Not(library), Not(wrench)
+))
+
+# Known cards
+knowledge.add(Not(plum))
+knowledge.add(Not(ballroom))
+
+check_knowledge(knowledge)
+</code></pre></small>
+            <p>harry.py:</p>
+<small><pre><code>
+from logic import *
+
+rain = Symbol("rain")
+hagrid = Symbol("hagrid")
+dumbledore = Symbol("dumbledore")
+
+knowledge = And(
+    Implication(Not(rain), hagrid),
+    Or(hagrid, dumbledore),
+    Not(And(hagrid, dumbledore)),
+    dumbledore
+)
+
+print(model_check(knowledge, rain))
+</code></pre></small>
+            <p>logic.py:</p>
+<small><pre><code>
+import itertools
+
+class Sentence():
+
+    def evaluate(self, model):
+        """Evaluates the logical sentence."""
+        raise Exception("nothing to evaluate")
+
+    def formula(self):
+        """Returns string formula representing logical sentence."""
+        return ""
+
+    def symbols(self):
+        """Returns a set of all symbols in the logical sentence."""
+        return set()
+
+    @classmethod
+    def validate(cls, sentence):
+        if not isinstance(sentence, Sentence):
+            raise TypeError("must be a logical sentence")
+
+    @classmethod
+    def parenthesize(cls, s):
+        """Parenthesizes an expression if not already parenthesized."""
+        def balanced(s):
+            """Checks if a string has balanced parentheses."""
+            count = 0
+            for c in s:
+                if c == "(":
+                    count += 1
+                elif c == ")":
+                    if count &lt;= 0:
+                        return False
+                    count -= 1
+            return count == 0
+        if not len(s) or s.isalpha() or (
+            s[0] == "(" and s[-1] == ")" and balanced(s[1:-1])
+        ):
+            return s
+        else:
+            return f"(&#123;s&#125;)"
+
+class Symbol(Sentence):
+
+    def __init__(self, name):
+        self.name = name
+
+    def __eq__(self, other):
+        return isinstance(other, Symbol) and self.name == other.name
+
+    def __hash__(self):
+        return hash(("symbol", self.name))
+
+    def __repr__(self):
+        return self.name
+
+    def evaluate(self, model):
+        try:
+            return bool(model[self.name])
+        except KeyError:
+            raise EvaluationException(f"variable &#123;self.name&#125; not in model")
+
+    def formula(self):
+        return self.name
+
+    def symbols(self):
+        return &#123;self.name&#125;
+
+class Not(Sentence):
+    def __init__(self, operand):
+        Sentence.validate(operand)
+        self.operand = operand
+
+    def __eq__(self, other):
+        return isinstance(other, Not) and self.operand == other.operand
+
+    def __hash__(self):
+        return hash(("not", hash(self.operand)))
+
+    def __repr__(self):
+        return f"Not(&#123;self.operand&#125;)"
+
+    def evaluate(self, model):
+        return not self.operand.evaluate(model)
+
+    def formula(self):
+        return "Â¬" + Sentence.parenthesize(self.operand.formula())
+
+    def symbols(self):
+        return self.operand.symbols()
+
+class And(Sentence):
+    def __init__(self, *conjuncts):
+        for conjunct in conjuncts:
+            Sentence.validate(conjunct)
+        self.conjuncts = list(conjuncts)
+
+    def __eq__(self, other):
+        return isinstance(other, And) and self.conjuncts == other.conjuncts
+
+    def __hash__(self):
+        return hash(
+            ("and", tuple(hash(conjunct) for conjunct in self.conjuncts))
+        )
+
+    def __repr__(self):
+        conjunctions = ", ".join(
+            [str(conjunct) for conjunct in self.conjuncts]
+        )
+        return f"And(&#123;conjunctions&#125;)"
+
+    def add(self, conjunct):
+        Sentence.validate(conjunct)
+        self.conjuncts.append(conjunct)
+
+    def evaluate(self, model):
+        return all(conjunct.evaluate(model) for conjunct in self.conjuncts)
+
+    def formula(self):
+        if len(self.conjuncts) == 1:
+            return self.conjuncts[0].formula()
+        return " âˆ§ ".join([Sentence.parenthesize(conjunct.formula())
+                           for conjunct in self.conjuncts])
+
+    def symbols(self):
+        return set.union(*[conjunct.symbols() for conjunct in self.conjuncts])
+
+class Or(Sentence):
+    def __init__(self, *disjuncts):
+        for disjunct in disjuncts:
+            Sentence.validate(disjunct)
+        self.disjuncts = list(disjuncts)
+
+    def __eq__(self, other):
+        return isinstance(other, Or) and self.disjuncts == other.disjuncts
+
+    def __hash__(self):
+        return hash(
+            ("or", tuple(hash(disjunct) for disjunct in self.disjuncts))
+        )
+
+    def __repr__(self):
+        disjuncts = ", ".join([str(disjunct) for disjunct in self.disjuncts])
+        return f"Or(&#123;disjuncts&#125;)"
+
+    def evaluate(self, model):
+        return any(disjunct.evaluate(model) for disjunct in self.disjuncts)
+
+    def formula(self):
+        if len(self.disjuncts) == 1:
+            return self.disjuncts[0].formula()
+        return " âˆ¨  ".join([Sentence.parenthesize(disjunct.formula())
+                            for disjunct in self.disjuncts])
+
+    def symbols(self):
+        return set.union(*[disjunct.symbols() for disjunct in self.disjuncts])
+
+class Implication(Sentence):
+    def __init__(self, antecedent, consequent):
+        Sentence.validate(antecedent)
+        Sentence.validate(consequent)
+        self.antecedent = antecedent
+        self.consequent = consequent
+
+    def __eq__(self, other):
+        return (isinstance(other, Implication)
+                and self.antecedent == other.antecedent
+                and self.consequent == other.consequent)
+
+    def __hash__(self):
+        return hash(("implies", hash(self.antecedent), hash(self.consequent)))
+
+    def __repr__(self):
+        return f"Implication(&#123;self.antecedent&#125;, &#123;self.consequent&#125;)"
+
+    def evaluate(self, model):
+        return ((not self.antecedent.evaluate(model))
+                or self.consequent.evaluate(model))
+
+    def formula(self):
+        antecedent = Sentence.parenthesize(self.antecedent.formula())
+        consequent = Sentence.parenthesize(self.consequent.formula())
+        return f"&#123;antecedent&#125; =&gt; &#123;consequent&#125;"
+
+    def symbols(self):
+        return set.union(self.antecedent.symbols(), self.consequent.symbols())
+
+class Biconditional(Sentence):
+    def __init__(self, left, right):
+        Sentence.validate(left)
+        Sentence.validate(right)
+        self.left = left
+        self.right = right
+
+    def __eq__(self, other):
+        return (isinstance(other, Biconditional)
+                and self.left == other.left
+                and self.right == other.right)
+
+    def __hash__(self):
+        return hash(("biconditional", hash(self.left), hash(self.right)))
+
+    def __repr__(self):
+        return f"Biconditional(&#123;self.left&#125;, &#123;self.right&#125;)"
+
+    def evaluate(self, model):
+        return ((self.left.evaluate(model)
+                 and self.right.evaluate(model))
+                or (not self.left.evaluate(model)
+                    and not self.right.evaluate(model)))
+
+    def formula(self):
+        left = Sentence.parenthesize(str(self.left))
+        right = Sentence.parenthesize(str(self.right))
+        return f"&#123;left&#125; &lt;=&gt; &#123;right&#125;"
+
+    def symbols(self):
+        return set.union(self.left.symbols(), self.right.symbols())
+
+def model_check(knowledge, query):
+    """Checks if knowledge base entails query."""
+
+    def check_all(knowledge, query, symbols, model):
+        """Checks if knowledge base entails query, given a particular model."""
+
+        # If model has an assignment for each symbol
+        if not symbols:
+
+            # If knowledge base is true in model, then query must also be true
+            if knowledge.evaluate(model):
+                return query.evaluate(model)
+            return True
+        else:
+
+            # Choose one of the remaining unused symbols
+            remaining = symbols.copy()
+            p = remaining.pop()
+
+            # Create a model where the symbol is true
+            model_true = model.copy()
+            model_true[p] = True
+
+            # Create a model where the symbol is false
+            model_false = model.copy()
+            model_false[p] = False
+
+            # Ensure entailment holds in both models
+            return (check_all(knowledge, query, remaining, model_true) and
+                    check_all(knowledge, query, remaining, model_false))
+
+    # Get all symbols in both knowledge and query
+    symbols = set.union(knowledge.symbols(), query.symbols())
+
+    # Check that knowledge entails query
+    return check_all(knowledge, query, symbols, dict())
+</code></pre></small>
+            <p>mastermind.py:</p>
+<small><pre><code>
+from logic import *
+
+colors = ["red", "blue", "green", "yellow"]
+symbols = []
+for i in range(4):
+    for color in colors:
+        symbols.append(Symbol(f"&#123;color&#125;&#123;i&#125;"))
+
+knowledge = And()
+
+# Each color has a position.
+for color in colors:
+    knowledge.add(Or(
+        Symbol(f"&#123;color&#125;0"),
+        Symbol(f"&#123;color&#125;1"),
+        Symbol(f"&#123;color&#125;2"),
+        Symbol(f"&#123;color&#125;3")
+    ))
+
+# Only one position per color.
+for color in colors:
+    for i in range(4):
+        for j in range(4):
+            if i != j:
+                knowledge.add(Implication(
+                    Symbol(f"&#123;color&#125;&#123;i&#125;"), Not(Symbol(f"&#123;color&#125;&#123;j&#125;"))
+                ))
+
+# Only one color per position.
+for i in range(4):
+    for c1 in colors:
+        for c2 in colors:
+            if c1 != c2:
+                knowledge.add(Implication(
+                    Symbol(f"&#123;c1&#125;&#123;i&#125;"), Not(Symbol(f"&#123;c2&#125;&#123;i&#125;"))
+                ))
+
+knowledge.add(Or(
+    And(Symbol("red0"), Symbol("blue1"), Not(Symbol("green2")), Not(Symbol("yellow3"))),
+    And(Symbol("red0"), Symbol("green2"), Not(Symbol("blue1")), Not(Symbol("yellow3"))),
+    And(Symbol("red0"), Symbol("yellow3"), Not(Symbol("blue1")), Not(Symbol("green2"))),
+    And(Symbol("blue1"), Symbol("green2"), Not(Symbol("red0")), Not(Symbol("yellow3"))),
+    And(Symbol("blue1"), Symbol("yellow3"), Not(Symbol("red0")), Not(Symbol("green2"))),
+    And(Symbol("green2"), Symbol("yellow3"), Not(Symbol("red0")), Not(Symbol("blue1")))
+))
+
+knowledge.add(And(
+    Not(Symbol("blue0")),
+    Not(Symbol("red1")),
+    Not(Symbol("green2")),
+    Not(Symbol("yellow3"))
+))
+
+for symbol in symbols:
+    if model_check(knowledge, symbol):
+        print(symbol)
+</code></pre></small>
+            <p>puzzle.py:</p>
+<small><pre><code>
+from logic import *
+
+people = ["Gilderoy", "Pomona", "Minerva", "Horace"]
+houses = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]
+
+symbols = []
+
+knowledge = And()
+
+for person in people:
+    for house in houses:
+        symbols.append(Symbol(f"&#123;person&#125;&#123;house&#125;"))
+
+# Each person belongs to a house.
+for person in people:
+    knowledge.add(Or(
+        Symbol(f"&#123;person&#125;Gryffindor"),
+        Symbol(f"&#123;person&#125;Hufflepuff"),
+        Symbol(f"&#123;person&#125;Ravenclaw"),
+        Symbol(f"&#123;person&#125;Slytherin")
+    ))
+
+# Only one house per person.
+for person in people:
+    for h1 in houses:
+        for h2 in houses:
+            if h1 != h2:
+                knowledge.add(
+                    Implication(Symbol(f"&#123;person&#125;&#123;h1&#125;"), Not(Symbol(f"&#123;person&#125;&#123;h2&#125;")))
+                )
+
+# Only one person per house.
+for house in houses:
+    for p1 in people:
+        for p2 in people:
+            if p1 != p2:
+                knowledge.add(
+                    Implication(Symbol(f"&#123;p1&#125;&#123;house&#125;"), Not(Symbol(f"&#123;p2&#125;&#123;house&#125;")))
+                )
+
+knowledge.add(
+    Or(Symbol("GilderoyGryffindor"), Symbol("GilderoyRavenclaw"))
+)
+
+knowledge.add(
+    Not(Symbol("PomonaSlytherin"))
+)
+
+knowledge.add(
+    Symbol("MinervaGryffindor")
+)
+
+for symbol in symbols:
+    if model_check(knowledge, symbol):
+        print(symbol)
+</code></pre></small>
+
+            <br><h5>Quiz:</h5>
+            <ol>
+                <li>Considere estas frases lógicas:
+                    <ol>
+                        <li>Se hermione está na biblioteca, então harry está na biblioteca;</li>
+                        <li>Hermione está na biblioteca;</li>
+                        <li>Ron está na biblioteca e ron não está na biblioteca;</li>
+                        <li>Harry está na biblioteca;</li>
+                        <li>Harry não está na biblioteca ou hermione está na biblioteca;</li>
+                        <li>Ron está na biblioteca ou hermione está na biblioteca.</li>
+                    </ol>
+                    Qual das seguintes implicações lógicas é verdadeira?
+                    <ul>
+                        <li>Sentença 6 implica sentença 2;</li>
+                        <li>Sentença 1 implica sentença 4;</li>
+                        <li>Sentença 6 implica sentença 3;</li>
+                        <li>Sentença 2 implica sentença 5;</li>
+                        <li>Sentença 1 implica sentença 2;</li>
+                        <li>Sentença 5 implica sentença 6.</li>
+                        <li><b>Resposta</b>: Sentença 2 implica sentença 5.</li>
+                    </ul>
+                </li>
+                <li>Há outros conectivos lógicos além dos abordados. Um dos mais comuns é "Exclusive Or" (Ou Exclusivo, representado via símbolo ⊕). Expressão A ⊕ B representa frase "A ou B, mas não ambos". Qual dos seguintes é logicamente equivalente a A ⊕ B?
+                    <ul>
+                        <li>(A V B) ∧ ¬ (A ∧ B)</li>
+                        <li>(A ∧ B) V ¬ (A V B)</li>
+                        <li>(A V B) ∧ (A ∧ B)</li>
+                        <li>(A V B) ∧ ¬ (A V B)</li>
+                        <li><b>Resposta</b>: (A V B) ∧ ¬ (A ∧ B).</li>
+                    </ul>
+                </li>
+                <li>Seja variável proposicional R "está chovendo", variável C "está nublado" e variável S "está ensolarado". Qual das seguintes é representação lógica proposicional da frase "Se está chovendo, então está nublado e não ensolarado"?
+                    <ul>
+                        <li>(R → C) ∧ ¬S</li>
+                        <li>R → C → ¬S</li>
+                        <li>R ∧ C ∧ ¬S</li>
+                        <li>R → (C ∧ ¬S)</li>
+                        <li>(C V ¬S) → R</li>
+                        <li><b>Resposta</b>: R → (C ∧ ¬S).</li>
+                    </ul>
+                </li>
+                <li>Considere, na lógica de primeira ordem, seguintes símbolos de predicado. Aluno(x) representa predicado de que "x é um aluno". Curso(x) representa predicado de que "x é um curso". Matriculado(x, y) representa predicado de que "x está matriculado em y". Qual das seguintes é tradução lógica de primeira ordem da frase "Há um curso em que harry e hermione estão matriculados"?
+                    <ul>
+                        <li>∃x. Curso(x) ∧ Matriculado(Harry, x) ∧ Matriculado(hermione, x)</li>
+                        <li>∀x. Curso(x) ∧ Matriculado(Harry, x) ∧ Matriculado(hermione, x)</li>
+                        <li>∃x. Matriculado(Harry, x) ∧ ∃y. Matriculado(hermione, y)</li>
+                        <li>∀x. Matriculado(Harry, x) ∧ ∀y. Matriculado(hermione, y)</li>
+                        <li>∃x. Matriculado(Harry, x) V Matriculado(hermione, x)</li>
+                        <li>∀x. Matriculado(Harry, x) V Matriculado(hermione, x)</li>
+                        <li><b>Resposta</b>: ∃x. Curso(x) ∧ Matriculado(harry, x) ∧ Matriculado(hermione, x).</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <br><h5>Projeto Knights:</h5>
+            <p>logic.py:</p>
+<small><pre><code>
+class Sentence():
+    def evaluate(self, model):
+        raise Exception("Empty")
+
+    def form(self):
+        return ""
+
+    def symbols(self):
+        return set()
+
+    @classmethod
+    def validate(cls, sent):
+        if not isinstance(sent, Sentence):
+            raise TypeError("Not is a logical sentence")
+
+    @classmethod
+    def parenthesize(cls, text):
+        def balanced(text):
+            count = 0
+            for char in text:
+                if char == "(":
+                    count = count + 1
+                elif char == ")":
+                    if count &lt;= 0:
+                        return False
+                    count = count - 1
+            return count == 0
+        if not len(text) or text.isalpha() or (text[0] == "(" and text[-1] == ")" and balanced(text[1:-1])):
+            return text
+        else:
+            return f"(&#123;text&#125;)"
+
+
+class Symbol(Sentence):
+    def __init__(self, name):
+        self.name = name
+
+    def __eq__(self, other):
+        return isinstance(other, Symbol) and self.name == other.name
+
+    def __hash__(self):
+        return hash(("Symbol", self.name))
+
+    def __repr__(self):
+        return self.name
+
+    def evaluate(self, model):
+        try:
+            return bool(model[self.name])
+        except KeyError:
+            raise Exception(f"Variable &#123;self.name&#125; not in model")
+
+    def form(self):
+        return self.name
+
+    def symbols(self):
+        return &#123;self.name&#125;
+
+
+class Not(Sentence):
+    def __init__(self, operand):
+        Sentence.validate(operand)
+        self.operand = operand
+
+    def __eq__(self, other):
+        return isinstance(other, Not) and self.operand == other.operand
+
+    def __hash__(self):
+        return hash(("not", hash(self.operand)))
+
+    def __repr__(self):
+        return f"Not(&#123;self.operand&#125;)"
+
+    def evaluate(self, model):
+        return not self.operand.evaluate(model)
+
+    def form(self):
+        return "Formule: ¬" + Sentence.parenthesize(self.operand.form())
+
+    def symbols(self):
+        return self.operand.symbols()
+
+
+class And(Sentence):
+    def __init__(self, *conjuncts):
+        for conj in conjuncts:
+            Sentence.validate(conj)
+        self.conjuncts = list(conjuncts)
+
+    def __eq__(self, other):
+        return isinstance(other, And) and self.conjuncts == other.conjuncts
+
+    def __hash__(self):
+        return hash(("and", tuple(hash(conjunct) for conjunct in self.conjuncts)))
+
+    def __repr__(self):
+        conjunctions = ", ".join([str(conjunct) for conjunct in self.conjuncts])
+        return f"And(&#123;conjunctions&#125;)"
+
+    def add(self, conjunct):
+        Sentence.validate(conjunct)
+        self.conjuncts.append(conjunct)
+
+    def evaluate(self, model):
+        return all(conjunct.evaluate(model) for conjunct in self.conjuncts)
+
+    def form(self):
+        if len(self.conjuncts) == 1:
+            return self.conjuncts[0].form()
+        return " ∧ ".join([Sentence.parenthesize(conj.form()) for conj in self.conjuncts])
+
+    def symbols(self):
+        return set.union(*[conj.symbols() for conj in self.conjuncts])
+
+
+class Or(Sentence):
+    def __init__(self, *disjuncts):
+        for disj in disjuncts:
+            Sentence.validate(disj)
+        self.disjuncts = list(disjuncts)
+
+    def __eq__(self, other):
+        return isinstance(other, Or) and self.disjuncts == other.disjuncts
+
+    def __hash__(self):
+        return hash(("or", tuple(hash(disj) for disj in self.disjuncts)))
+
+    def __repr__(self):
+        disjuncts = ", ".join([str(disj) for disj in self.disjuncts])
+        return f"Or(&#123;disjuncts&#125;)"
+
+    def evaluate(self, model):
+        return any(disj.evaluate(model) for disj in self.disjuncts)
+
+    def form(self):
+        if len(self.disjuncts) == 1:
+            return self.disjuncts[0].form()
+        return " v ".join([Sentence.parenthesize(disj.form()) for disj in self.disjuncts])
+
+    def symbols(self):
+        return set.union(*[disj.symbols() for disj in self.disjuncts])
+
+
+class Implication(Sentence):
+    def __init__(self, first, second):
+        Sentence.validate(first)
+        Sentence.validate(second)
+        self.first = first
+        self.second = second
+
+    def __eq__(self, other):
+        return (isinstance(other, Implication) and self.first == other.first and self.second == other.second)
+
+    def __hash__(self):
+        return hash(("implies", hash(self.first), hash(self.second)))
+
+    def __repr__(self):
+        return f"Implication(&#123;self.first&#125;, &#123;self.second&#125;)"
+
+    def evaluate(self, model):
+        return ((not self.first.evaluate(model)) or self.second.evaluate(model))
+
+    def form(self):
+        first = Sentence.parenthesize(self.first.form())
+        second = Sentence.parenthesize(self.second.form())
+        return f"&#123;first&#125; => &#123;second&#125;"
+
+    def symbols(self):
+        return set.union(self.first.symbols(), self.second.symbols())
+
+
+class Biconditional(Sentence):
+    def __init__(self, left, right):
+        Sentence.validate(left)
+        Sentence.validate(right)
+        self.left = left
+        self.right = right
+
+    def __eq__(self, other):
+        return (isinstance(other, Biconditional) and self.left == other.left and self.right == other.right)
+
+    def __hash__(self):
+        return hash(("biconditional", hash(self.left), hash(self.right)))
+
+    def __repr__(self):
+        return f"Biconditional(&#123;self.left&#125;, &#123;self.right&#125;)"
+
+    def evaluate(self, model):
+        return ((self.left.evaluate(model) and self.right.evaluate(model)) or (not self.left.evaluate(model) and not self.right.evaluate(model)))
+
+    def form(self):
+        left = Sentence.parenthesize(str(self.left))
+        right = Sentence.parenthesize(str(self.right))
+        return f"&#123;left&#125; &lt;=&gt; &#123;right&#125;"
+
+    def symbols(self):
+        return set.union(self.left.symbols(), self.right.symbols())
+
+
+def model_check(knowledge, query):
+    def check_all(knowledge, query, symbols, model):
+        if not symbols:
+            if knowledge.evaluate(model):
+                return query.evaluate(model)
+            return True
+        else:
+
+            remaining = symbols.copy()
+            pop = remaining.pop()
+
+            modelTrue = model.copy()
+            modelTrue[pop] = True
+
+            modelFalse = model.copy()
+            modelFalse[pop] = False
+
+            return (check_all(knowledge, query, remaining, modelTrue) and check_all(knowledge, query, remaining, modelFalse))
+
+    symbols = set.union(knowledge.symbols(), query.symbols())
+    return check_all(knowledge, query, symbols, dict())
+</code></pre></small>
+            <p>puzzle.py:</p>
+<small><pre><code>
+from logic import *
+
+AKnight = Symbol("A is a knight")
+AKnave = Symbol("A is a knave")
+BKnight = Symbol("B is a knight")
+BKnave = Symbol("B is a knave")
+CKnight = Symbol("C is a knight")
+CKnave = Symbol("C is a knave")
+
+knowledge0 = And(
+    Or(AKnave, AKnight),
+    Not(And(AKnave, AKnight)),
+    Biconditional(AKnight, And(AKnight, AKnave))
+)
+
+knowledge1 = And(
+    Or(AKnave, AKnight),
+    Or(BKnave, BKnight),
+    Not(And(AKnave, AKnight)),
+    Not(And(BKnave, BKnight)),
+    Biconditional(AKnight, And(AKnave, BKnave))
+)
+
+knowledge2 = And(
+    Or(AKnave, AKnight),
+    Or(BKnave, BKnight),
+    Not(And(AKnave, AKnight)),
+    Not(And(BKnave, BKnight)),
+    Biconditional(AKnight, Or(And(AKnave, BKnave), And(AKnight, BKnight))),
+    Biconditional(BKnight, Or(And(AKnave, BKnight), And(AKnight, BKnave)))
+)
+
+knowledge3 = And(
+    Or(AKnave, AKnight),
+    Or(BKnave, BKnight),
+    Or(CKnave, CKnight),
+    Not(And(AKnave, AKnight)),
+    Not(And(BKnave, BKnight)),
+    Not(And(CKnave, CKnight)),
+    Biconditional(Or(AKnight, AKnave), Or(AKnight, AKnave)),
+    Biconditional(BKnight, Biconditional(AKnight, AKnave)),
+    Biconditional(BKnight, CKnave),
+    Biconditional(CKnight, AKnight)
+)
+
+
+def main():
+    symbols = [AKnight, AKnave, BKnight, BKnave, CKnight, CKnave]
+    puzzles = [("Puzzle 0", knowledge0), ("Puzzle 1", knowledge1), ("Puzzle 2", knowledge2), ("Puzzle 3", knowledge3)]
+    for p, k in puzzles:
+        print(p)
+        if len(k.conjuncts) == 0:
+            print(" not implemented")
+        else:
+            for s in symbols:
+                if model_check(k, s):
+                    print(f" &#123;s&#125;")
+
+
+if __name__ == "__main__":
+    main()
+</code></pre></small>
+            
+            <br><h5>Projeto Minesweeper:</h5>
+            <p>minesweeper.py:</p>
+<small><pre><code>
+import random
+
+
+class Minesweeper:
+    def __init__(self, height=8, width=8, mines=8):
+        self.height = height
+        self.width = width
+        self.mines = set()
+        self.board = []
+
+        for h in range(self.height):
+            row = []
+            for w in range(self.width):
+                row.append(False)
+            self.board.append(row)
+
+        while len(self.mines) != mines:
+            h = random.randrange(height)
+            w = random.randrange(width)
+            
+            if not self.board[h][w]:
+                self.mines.add((h, w))
+                self.board[h][w] is True
+        self.mines_found = set()
+
+    def print(self):
+        for x in range(self.height):
+            print("--" * self.width + "-")
+            for y in range(self.width):
+                if self.board[x][y]:
+                    print("|X", end="")
+                else:
+                    print("| ", end="")
+            print("|")
+        print("--" * self.width + "-")
+
+    def is_mine(self, cell):
+        x, y = cell
+        return self.board[x][y]
+
+    def nearby_mines(self, cell):
+        c = 0
+
+        for x in range(cell[0] - 1, cell[0] + 2):
+            for y in range(cell[1] - 1, cell[1] + 2):
+                if (x, y) == cell:
+                    continue
+
+                if 0 &lt;= x &lt; self.height and 0 &lt;= y &lt; self.width:
+                    if self.board[x][y]:
+                        c = c + 1
+        return c
+
+    def won(self):
+        return self.mines_found == self.mines
+
+
+class Sentence():
+    def __init__(self, cells, count):
+        self.cells = set(cells)
+        self.count = count
+
+    def __eq__(self, other):
+        return self.cells == other.cells and self.count == other.count
+
+    def __str__(self):
+        return f"&#123;self.cells&#125; = &#123;self.count&#125;"
+
+    def __hash__(self):
+        return hash(len(self.cells) + self.count)
+
+    def known_mines(self):
+        if len(self.cells) == self.count:
+            return set(self.cells)
+        else:
+            return set()
+
+    def known_safes(self):
+        if self.count == 0:
+            return set(self.cells)
+        else:
+            return set()
+
+    def mark_mine(self, cell):
+        if cell in self.cells:
+            self.cells.remove(cell)
+            self.count = self.count - 1
+            return 1
+        else:
+            return 0
+
+    def mark_safe(self, cell):
+        if cell in self.cells:
+            self.cells.remove(cell)
+            return 1
+        else:
+            return 0
+
+
+class MinesweeperAI():
+    def __init__(self, height=8, width=8):
+        self.height = height
+        self.width = width
+        self.moves_made = set()
+        self.mines = set()
+        self.safes = set()
+        self.knowledge = []
+
+    def mark_mine(self, cell):
+        c = 0
+        self.mines.add(cell)
+        for sentence in self.knowledge:
+            c = c + sentence.mark_mine(cell)
+        return c
+
+    def mark_safe(self, cell):
+        c = 0
+        self.safes.add(cell)
+        for sentence in self.knowledge:
+            c = c + sentence.mark_safe(cell)
+        return c
+
+    def add_knowledge(self, cell, count):
+        self.moves_made.add(cell)
+        self.mark_safe(cell)
+        a, b = cell
+        neighC = set()
+        
+        for y in range(max(a - 1, 0), min(a + 2, self.height)):
+            for x in range(max(b - 1, 0),  min(b + 2, self.width)):
+                if (a, b) != (y, x):
+                    neighC.add((y, x))
+
+        self.knowledge.append(Sentence(neighC, count))
+        self.mark_safe_or_mines()
+        inf = self.inference()
+
+        while inf:
+            for sentence in inf:
+                self.knowledge.append(sentence)
+            
+            self.mark_safe_or_mines()
+            inf = self.inference()
+
+    def make_safe_move(self):
+        for m in self.safes:
+            if m not in self.moves_made and m not in self.mines:
+                return m
+        return None
+
+    def make_random_move(self):
+        for x in range(0, self.height):
+            for y in range(0, self.width):
+                m = (x, y)
+                if m not in self.moves_made and m not in self.mines:
+                    return m
+        return None
+
+    def mark_safe_or_mines(self):
+        time = 1
+        
+        while time:
+            time = 0
+            
+            for s in self.knowledge:
+                for cell in s.known_safes():
+                    self.mark_safe(cell)
+                    time = time + 1
+                for cell in s.known_mines():
+                    self.mark_mine(cell)
+                    time = time + 1
+
+            for c in self.safes:
+                time = time + self.mark_safe(c)
+            for c in self.mines:
+                time = time + self.mark_mine(c)
+
+    def inference(self):
+        inf = []
+        empty = []
+
+        for s1 in self.knowledge:
+            if s1.cells == set():
+                empty.append(s1)
+                continue
+            
+            for s2 in self.knowledge:
+                if s2.cells == set():
+                    empty.append(s2)
+                    continue
+                
+                if s1 is not s2:
+                    if s2.cells.issubset(s1.cells):
+                        newS = s1.cells.difference(s2.cells)
+                        newC = s1.count - s2.count
+                        newSent = Sentence(newS, newC)
+
+                        if newSent not in self.knowledge:
+                            inf.append(newSent)
+
+        self.knowledge = [x for x in self.knowledge if x not in empty]
+        return inf
+</code></pre></small>
+            <p>runner.py:</p>
+<small><pre><code>
+import pygame
+import sys
+import time
+
+from minesweeper2 import Minesweeper, MinesweeperAI
+
+HEIGHT = 8
+WIDTH = 8
+MINES = 8
+
+# Colors
+BLACK = (0, 0, 0)
+GRAY = (180, 180, 180)
+WHITE = (255, 255, 255)
+
+# Create game
+pygame.init()
+size = width, height = 600, 400
+screen = pygame.display.set_mode(size)
+
+# Fonts
+OPEN_SANS = "assets/fonts/OpenSans-Regular.ttf"
+smallFont = pygame.font.Font(OPEN_SANS, 20)
+mediumFont = pygame.font.Font(OPEN_SANS, 28)
+largeFont = pygame.font.Font(OPEN_SANS, 40)
+
+# Compute board size
+BOARD_PADDING = 20
+board_width = ((2 / 3) * width) - (BOARD_PADDING * 2)
+board_height = height - (BOARD_PADDING * 2)
+cell_size = int(min(board_width / WIDTH, board_height / HEIGHT))
+board_origin = (BOARD_PADDING, BOARD_PADDING)
+
+# Add images
+flag = pygame.image.load("assets/images/flag.png")
+flag = pygame.transform.scale(flag, (cell_size, cell_size))
+mine = pygame.image.load("assets/images/mine.png")
+mine = pygame.transform.scale(mine, (cell_size, cell_size))
+
+# Create game and AI agent
+game = Minesweeper(height=HEIGHT, width=WIDTH, mines=MINES)
+ai = MinesweeperAI(height=HEIGHT, width=WIDTH)
+
+# Keep track of revealed cells, flagged cells, and if a mine was hit
+revealed = set()
+flags = set()
+lost = False
+
+# Show instructions initially
+instructions = True
+
+while True:
+
+    # Check if game quit
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            sys.exit()
+
+    screen.fill(BLACK)
+
+    # Show game instructions
+    if instructions:
+
+        # Title
+        title = largeFont.render("Play Minesweeper", True, WHITE)
+        titleRect = title.get_rect()
+        titleRect.center = ((width / 2), 50)
+        screen.blit(title, titleRect)
+
+        # Rules
+        rules = [
+            "Click a cell to reveal it.",
+            "Right-click a cell to mark it as a mine.",
+            "Mark all mines successfully to win!"
+        ]
+        for i, rule in enumerate(rules):
+            line = smallFont.render(rule, True, WHITE)
+            lineRect = line.get_rect()
+            lineRect.center = ((width / 2), 150 + 30 * i)
+            screen.blit(line, lineRect)
+
+        # Play game button
+        buttonRect = pygame.Rect((width / 4), (3 / 4) * height, width / 2, 50)
+        buttonText = mediumFont.render("Play Game", True, BLACK)
+        buttonTextRect = buttonText.get_rect()
+        buttonTextRect.center = buttonRect.center
+        pygame.draw.rect(screen, WHITE, buttonRect)
+        screen.blit(buttonText, buttonTextRect)
+
+        # Check if play button clicked
+        click, _, _ = pygame.mouse.get_pressed()
+        if click == 1:
+            mouse = pygame.mouse.get_pos()
+            if buttonRect.collidepoint(mouse):
+                instructions = False
+                time.sleep(0.3)
+
+        pygame.display.flip()
+        continue
+
+    # Draw board
+    cells = []
+    for i in range(HEIGHT):
+        row = []
+        for j in range(WIDTH):
+
+            # Draw rectangle for cell
+            rect = pygame.Rect(
+                board_origin[0] + j * cell_size,
+                board_origin[1] + i * cell_size,
+                cell_size, cell_size
+            )
+            pygame.draw.rect(screen, GRAY, rect)
+            pygame.draw.rect(screen, WHITE, rect, 3)
+
+            # Add a mine, flag, or number if needed
+            if game.is_mine((i, j)) and lost:
+                screen.blit(mine, rect)
+            elif (i, j) in flags:
+                screen.blit(flag, rect)
+            elif (i, j) in revealed:
+                neighbors = smallFont.render(
+                    str(game.nearby_mines((i, j))),
+                    True, BLACK
+                )
+                neighborsTextRect = neighbors.get_rect()
+                neighborsTextRect.center = rect.center
+                screen.blit(neighbors, neighborsTextRect)
+
+            row.append(rect)
+        cells.append(row)
+
+    # AI Move button
+    aiButton = pygame.Rect(
+        (2 / 3) * width + BOARD_PADDING, (1 / 3) * height - 50,
+        (width / 3) - BOARD_PADDING * 2, 50
+    )
+    buttonText = mediumFont.render("AI Move", True, BLACK)
+    buttonRect = buttonText.get_rect()
+    buttonRect.center = aiButton.center
+    pygame.draw.rect(screen, WHITE, aiButton)
+    screen.blit(buttonText, buttonRect)
+
+    # Reset button
+    resetButton = pygame.Rect(
+        (2 / 3) * width + BOARD_PADDING, (1 / 3) * height + 20,
+        (width / 3) - BOARD_PADDING * 2, 50
+    )
+    buttonText = mediumFont.render("Reset", True, BLACK)
+    buttonRect = buttonText.get_rect()
+    buttonRect.center = resetButton.center
+    pygame.draw.rect(screen, WHITE, resetButton)
+    screen.blit(buttonText, buttonRect)
+
+    # Display text
+    text = "Lost" if lost else "Won" if game.mines == flags else ""
+    text = mediumFont.render(text, True, WHITE)
+    textRect = text.get_rect()
+    textRect.center = ((5 / 6) * width, (2 / 3) * height)
+    screen.blit(text, textRect)
+
+    move = None
+
+    left, _, right = pygame.mouse.get_pressed()
+
+    # Check for a right-click to toggle flagging
+    if right == 1 and not lost:
+        mouse = pygame.mouse.get_pos()
+        for i in range(HEIGHT):
+            for j in range(WIDTH):
+                if cells[i][j].collidepoint(mouse) and (i, j) not in revealed:
+                    if (i, j) in flags:
+                        flags.remove((i, j))
+                    else:
+                        flags.add((i, j))
+                    time.sleep(0.2)
+
+    elif left == 1:
+        mouse = pygame.mouse.get_pos()
+
+        # If AI button clicked, make an AI move
+        if aiButton.collidepoint(mouse) and not lost:
+            move = ai.make_safe_move()
+            if move is None:
+                move = ai.make_random_move()
+                if move is None:
+                    flags = ai.mines.copy()
+                    print("No moves left to make.")
+                else:
+                    print("No known safe moves, AI making random move.")
+            else:
+                print("AI making safe move.")
+            time.sleep(0.2)
+
+        # Reset game state
+        elif resetButton.collidepoint(mouse):
+            game = Minesweeper(height=HEIGHT, width=WIDTH, mines=MINES)
+            ai = MinesweeperAI(height=HEIGHT, width=WIDTH)
+            revealed = set()
+            flags = set()
+            lost = False
+            continue
+
+        # User-made move
+        elif not lost:
+            for i in range(HEIGHT):
+                for j in range(WIDTH):
+                    if (cells[i][j].collidepoint(mouse)
+                            and (i, j) not in flags
+                            and (i, j) not in revealed):
+                        move = (i, j)
+
+    # Make move and update AI knowledge
+    if move:
+        if game.is_mine(move):
+            lost = True
+        else:
+            nearby = game.nearby_mines(move)
+            revealed.add(move)
+            ai.add_knowledge(move, nearby)
+
+    pygame.display.flip()
+</code></pre></small>
+
+            <br><hr><h4 id="Uncertainty">2.Uncertainty:</h4>
+            <p>Em breve.</p>
         </div>
     </div>
 
