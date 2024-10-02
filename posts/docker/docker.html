@@ -237,7 +237,7 @@ CMD flask run --host 0.0.0.0
                     <li class="text-muted">Existem outros componentes de Docker Compose. Para mais detalhes, visite a documentação oficial Docker na última versão.</li>
                 </ul>
                 
-                <p><b>Exemplo docker-compose.yml:</b></p>
+                <p><b>Exemplo 1 docker-compose.yml:</b></p>
 <small><pre><code>
 version: "3.7"
 services:
@@ -278,10 +278,39 @@ volumes:
 <b>Executar containers do docker-compose:</b> docker-compose up (-d executa em background, build ao invés de up somente fará build das Imagens, -f seguido do diretório especificará o local e nome de arquivo do docker-compose.yml)
 <b>Listar containers via docker-compose:</b> docker-compose ps
 <b>Listar logs de container no docker-compose:</b> docker-compose logs -f nomeContainer
-<b>Parar docker-compose/containers:</b> docker-compose stop (Ou down, para parar e remover container e componentes, start inicia e restart reinicia
+<b>Parar docker-compose/containers:</b> docker-compose stop (Ou down, para parar e remover container e componentes, start inicia e restart reinicia)
 <b>Entrar em container via docker-compose:</b> docker-compose exec nomeContainer bash
 <b>Aumentar réplicas de container:</b> docker-compose scale
 (Pode-se, dentro, citar outros containers pelos nomes personalizados)
+</code></pre></small>
+                <p><b>Exemplo 2 docker-compose.yml:</b></p>
+<small><pre><code>
+# Criar 2 containers, um servidor com nginx e um cliente debian, que acessará o servidor nginx
+version: '3'
+
+services:
+    nginx:
+        image: nginx:latest
+        container_name: servidor_nginx
+        ports:
+            - "8080:80"
+        networks:
+            - rede
+        command: ["bash", "-c", "echo '&lt;h1&gt;Aplicação web&lt;/h1&gt;' &gt; /usr/share/nginx/html/index.html && nginx -g 'daemon off;'; sleep infinity"]
+    
+    debian:
+        image: debian:latest
+        container_name: cliente_debian
+        networks:
+            - rede
+        command: ["bash", "-c", "apt update; apt install -y curl; sleep infinity;"]
+networks:
+    rede:
+        driver: bridge
+
+# 1. Executar ambiente: docker-compose up -d
+# 2. Acessar container cliente: docker exec -it cliente_debian bash
+# 3. Via container cliente, acessar container servidor: curl http://servidor_nginx
 </code></pre></small>
             </div>
         </div>
