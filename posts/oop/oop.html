@@ -199,16 +199,19 @@ public class Livro {
 </code></pre></small>
 
             <br><h4>Static</h4>
-            <p>Elemento que pode ser modificado, mas será sempre valor estático mutável, porém único entre todos seus semelhantes que o encapsulam (valor salvo no mesmo local de memória). Não possui dependência de terceiros. Se utilizado em atributos, o atributo vira 'atributo de classe'. Método static pertence somente à classe em si, em vez de aos objetos da mesma. Esse método pode ser invocado sem necessidade de criar objeto da classe para tal. Método static não pode acessar ou modificar diretamente atributos do objeto (não tem acesso via self ou this). Métodos static podem acessar e modificar variáveis estáticas da classe. Em diagrama de classes UML, elementos static são representados por sublinhado.</p>
+            <p>Elemento que pertence à classe e não a instâncias individuais da classe, sendo compartilhado com entre todas instâncias da classe, ou seja, todas instâncias acessam e modificam o mesmo valor (valor salvo no mesmo local de memória - valor estático mutável), único entre todos seus semelhantes que o encapsulam. Não possui dependência de terceiros. Se utilizado em atributos, o atributo vira 'atributo de classe'. Método static pertence somente à classe em si, em vez de aos objetos da mesma. Método static pode ser invocado (chamado) sem criar instância da mesma. Método static não pode acessar ou modificar diretamente atributos do objeto (não tem acesso via self ou this). Métodos static podem acessar e modificar variáveis estáticas da classe. No exemplo, 'contador' é compartilhado entre todas instâncias da classe 'Exemplo'. Em diagrama de classes UML, elementos static são representados por sublinhado. Pode-se usar static e final para definir constante de classe, onde cria-se valor imutável pertencente a classe. No exemplo 2, atributo 'pi' é constante pertencente a classe 'Exemplo2', e seu valor não pode ser alterado. <b>static</b> define que membro (atributo ou método) pertence à classe, e não a instâncias. <b>final</b> define que valor (para atributos) ou comportamento (para métodos ou classes) não pode ser alterado. <b>static final</b> define constante de classe, com valor imutável compartilhado entre todas instâncias da mesma.</p>
 <small><pre><code>
-public class Utilidade {
-    static int atributoEstatico;
+class Exemplo {
+    static int contador = 0;
 
-    public static int soma(int a, int b) {
-        return a + b;
+    static void incrementar() {
+        contador++;
     }
 }
-int resultado = Utilidade.soma(5, 3);
+
+class Exemplo2 {
+    static final double PI = 3.14;
+}
 </code></pre></small>
 
             <br><h4>Atributo de objeto</h4>
