@@ -103,7 +103,7 @@ public class Pessoa {
                 <li>(-) <b>private</b>: privado, visível somente na própria classe;</li>
                 <li>(~) <b>package</b>: pacote, visível nas classes do próprio pacote.</li>
             </ul>
-            <p>Exemplo: atributo privado é visível (acessível) somente na própria classe, ou seja, pode ser acessado/referenciado somente pelos métodos da própria classe. Geralmente atributos privados são acessados por métodos especiais acessores get e set (encapsulamento).</p>
+            <p>Exemplo: atributo privado é visível (acessível) somente na própria classe, ou seja, pode ser acessado/referenciado somente pelos métodos da própria classe. Geralmente atributos privados são acessados por métodos especiais assessores get e set (encapsulamento).</p>
             <p><b>Classes</b>: Em Java, quando não é explicitamente especificada visibilidade de classe, o modificador de acesso padrão é "package-private" ou "default". Isso significa que a classe é acessível apenas dentro do mesmo pacote. A classe não será acessível fora do pacote, mas todas as outras classes no mesmo pacote poderão acessá-la.</p>
 
             <br><h5>Tipo:</h5>
@@ -135,7 +135,7 @@ public class Pessoa {
 
             <br><h5>Propriedades e restrições:</h5>
             <ul>
-                <li><b>Propriedades</b>: compreendem conjunto de tags pré-definindas, que descrevem determinadas características ao atributo, como <i>read-only</i> e <i>add-only</i>;</li>
+                <li><b>Propriedades</b>: compreendem conjunto de tags pré-definidas, que descrevem determinadas características ao atributo, como <i>read-only</i> e <i>add-only</i>;</li>
                 <li><b>Restrições</b>: permitem indicar 1 ou mais restrições sobre o atributo. Podem ser escritas em linguagem natural ou com uso de gramática formal, como OCL (ex: '- idade: int {idade>18}').</li>
             </ul>
 
@@ -199,7 +199,7 @@ public class Livro {
 </code></pre></small>
 
             <br><h4>Static</h4>
-            <p>Elemento que pode ser modificado, mas será sempre valor estático mutável, porém único entre todos seus semelhantes que o encapsularem (valor salvo no mesmo local de memória). Não possui dependência de terceiros. Se utlizado em atributos, o atributo vira 'atributo de classe'. Método static pertene somente à classe em si, em vez de aos objetos da mesma. Esse método pode ser invocado sem necessidade de criar objeto da classe para tal. Método static não pode acessar ou modificar diretamente atributos do objeto (não tem acesso via self ou this). Métodos static podem acessar e modificar variáveis estáticas da classe.</p>
+            <p>Elemento que pode ser modificado, mas será sempre valor estático mutável, porém único entre todos seus semelhantes que o encapsulam (valor salvo no mesmo local de memória). Não possui dependência de terceiros. Se utilizado em atributos, o atributo vira 'atributo de classe'. Método static pertence somente à classe em si, em vez de aos objetos da mesma. Esse método pode ser invocado sem necessidade de criar objeto da classe para tal. Método static não pode acessar ou modificar diretamente atributos do objeto (não tem acesso via self ou this). Métodos static podem acessar e modificar variáveis estáticas da classe.</p>
 <small><pre><code>
 public class Utilidade {
     public static int soma(int a, int b) {
@@ -282,7 +282,7 @@ public class Retangulo {
 </code></pre></small>
 
             <br><h4>Método</h4>
-            <p>Também chamado de operação ou ação. Serviço que pode ser requisitado a qualquer objeto da classe, afetando seu comportamento. A execução de método por um objeto pode resultar na alteração do valor de seus atributos. Geralmente, seu nome é verbo, indicando ação (ex: lerLivro, fazerAniversario, calcularSoma). Exemplo, em classe Aluno, método calcularMedia utilizará atributo listaNotas para calcular média de notas presentes em listaNotas desse objeto Aluno, e acoplará valor final de média no atributo media do mesmo. Geralmente, toda classe comum possui método especial construtor (construct, criador, instancia objetos) e, para cada atributo comum, tem-se métodos especiais get (getNomeAtributo, acessor, retorna valor do atributo) e método set (setNomeAtributo, modificador, modifica valor do atributo).<br>Sintaxe: <span class="text-danger">visibilidade</span> <span class="text-success">nome</span> <span class="text-primary">(parametro: tipo, parametro: tipo)</span> : tipo-retorno <span class="text-warning">{propriedades}</span></p>
+            <p>Também chamado de operação ou ação. Serviço que pode ser requisitado a qualquer objeto da classe, afetando seu comportamento. A execução de método por um objeto pode resultar na alteração do valor de seus atributos. Geralmente, seu nome é verbo, indicando ação (ex: lerLivro, fazerAniversario, calcularSoma). Exemplo, em classe Aluno, método calcularMedia utilizará atributo listaNotas para calcular média de notas presentes em listaNotas desse objeto Aluno, e acoplará valor final de média no atributo media do mesmo. Geralmente, toda classe comum possui método especial construtor (construct, criador, instancia objetos) e, para cada atributo comum, tem-se métodos especiais get (getNomeAtributo, assessor, retorna valor do atributo) e método set (setNomeAtributo, modificador, modifica valor do atributo).<br>Sintaxe: <span class="text-danger">visibilidade</span> <span class="text-success">nome</span> <span class="text-primary">(parametro: tipo, parametro: tipo)</span> : tipo-retorno <span class="text-warning">{propriedades}</span></p>
             <img src="metodo_sintaxe.png" class="img-fluid" width="400px"><br>
             <ul>
                 <li><span class="text-danger">+</span> <span class="text-success">getTitulo</span> <span class="text-primary">()</span> : String</li>
@@ -421,7 +421,7 @@ public class ContaBancaria {
             <p>Conjunto de tags pré-definindas que descrevem características da operação, como <i>isQuery</i>, <i>guarded</i> e <i>leaf</i>.</p>
 
             <br><h4>Métodos especiais</h4>
-            <p>Métodos com operações individuais, diferentes dos demais (comuns). get (acessor), set (modificador), construct (construtor, criador). Cada atributo da classe possui um método especial get para acessar seu valor ('getNomeAtributo()'), e um método especial set para modificar seu valor ('setNomeAtributo(novoValor)'). Em UML, getAll e setAll são utilizados para substituir, implicitamente, os métodos get e set de todos atributos da classe.</p>
+            <p>Métodos com operações individuais, diferentes dos demais (comuns). get (assessor), set (modificador), construct (construtor, criador). Cada atributo da classe possui um método especial get para acessar seu valor ('getNomeAtributo()'), e um método especial set para modificar seu valor ('setNomeAtributo(novoValor)'). Em UML, getAll e setAll são utilizados para substituir, implicitamente, os métodos get e set de todos atributos da classe.</p>
 <small><pre><code>
 public class Livro {
     private String titulo;
