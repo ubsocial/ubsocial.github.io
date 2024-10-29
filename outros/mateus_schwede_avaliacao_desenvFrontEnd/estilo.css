@@ -1,0 +1,12 @@
+#titulo {padding-top: 80px;}
+#textoPost {text-align: justify;}
+#video {max-width: 100%;}
+
+@media (min-width: 768px) {
+    .foto {
+        height: auto;
+        transition: transform 0.3s ease;
+    }
+
+    .foto:hover {transform: scale(1.2);}
+}
