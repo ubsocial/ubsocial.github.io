@@ -36,6 +36,14 @@
         </header>
     </section>
 
+    <div id="progressBarContainer">
+        <div id="progressBar">
+            <img src="assets/carro.png" id="icon" width="50px">
+        </div>
+    </div>
+    <img src="assets/arco.png" id="fixedIcon" width="43px">
+
+
     <section id="introducao">
         <div class="row">
             <div class="col-sm-12 text-center" id="titulo">
@@ -180,4 +188,19 @@
 
     tamanhoTela();
     window.addEventListener('resize', tamanhoTela);
+
+    window.onscroll = function() { updateProgressBar() };
+    function updateProgressBar() {
+        const progressBar = document.getElementById("progressBar");
+        const pageHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrollPosition = document.documentElement.scrollTop;
+        const scrollPercent = (scrollPosition / pageHeight) * 100;
+        progressBar.style.width = scrollPercent + "%";
+        const iconPosition = scrollPercent;
+        icon.style.right = (100 - iconPosition) + "%";
+        
+        if (iconPosition >= 100) {
+            icon.style.right = "20px"; // Encostar no ícone fixo
+        }
+    }
 </script>
