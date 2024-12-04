@@ -47,11 +47,22 @@
             <img src="jenkinsGUI4.png" class="img-fluid rounded mb-1" width="500px"><br>
 
             <br><h4>Infraestrutura</h4>
-            <p id="textoPost">Máquinas Master Server, realiza controle de pipelines e agendamento de builds. Máquinas Agents/Minions/Slaves performam os builds. Exemplo, Master realiza pipeline de commit do projeto ao Github, Agent seleciona configurações da pipeline e a executa. Agents podem ser permanentes (servidores dedicados para executar jobs, como Debian GNU/Linux e Windows Server) ou cloud (dinâmicos, sob demanda, como AWS, Docker e Kubernetes). Estrutura de diretórios do Jenkins:</p>
+            <p id="textoPost">Máquinas Master Server, realiza controle de pipelines e agendamento de builds. Máquinas Agents/Minions/Slaves performam os builds. Exemplo, Master realiza pipeline de commit do projeto ao Github, Agent seleciona configurações da pipeline e a executa. Agents podem ser permanentes (servidores dedicados para executar jobs, como Debian GNU/Linux e Windows Server) ou cloud (dinâmicos, sob demanda, como AWS, Docker e Kubernetes). Diretório padrão do Jenkins no GNU/Linux é '/var/lib/jenkins' ou '/var/jenkins_home'.</p>
             <ul>
-                <li><span class="text-danger">ESTRUTURA DE DIRETÓRIOS JENKINKS AQUI</span></li>
+                <li><b>/var/jenkins_home/builds</b>: builds, contém builds de jobs (cada build possui subdiretório próprio), logs, etc;</li>
+                <li><b>/var/jenkins_home/caches</b>: caches, contém arquivos de caches de execução (dependências de libraries ou artefatos temporários), etc;</li>
+                <li><b>/var/jenkins_home/config.xml</b>: configuração do Jenkins, arquivo de configuração do Jenkins (ex</b>: nº máximo de builds em fila e permissões), etc;</li>
+                <li><b>/var/jenkins_home/fingerprints</b>: fingerprints, contém arquivos de impressões digitais e compartilhados de builds (identificação de builds), etc;</li>
+                <li><b>/var/jenkins_home/jobs</b>: jobs, contém configurações de jobs em arquivo de configuração 'config.xml', logs, etc;</li>
+                <li><b>/var/jenkins_home/logs</b>: logs, contém arquivos de logs de execução, etc;</li>
+                <li><b>/var/jenkins_home/nodes</b>: configuração das máquinas (nodes agents/slaves), onde cada agent possui próprio subdiretório;</li>
+                <li><b>/var/jenkins_home/plugins</b>: plugins, contém plugins instalados (arquivos .jpi ou .hpi), etc;</li>
+                <li><b>/var/jenkins_home/queue</b>: fila de execução de builds e jobs, etc;</li>
+                <li><b>/var/jenkins_home/secrets</b>: senhas, contém senhas de acesso (master.key e hudson.util.Secret), etc;</li>
+                <li><b>/var/jenkins_home/updates</b>: atualizações, contém arquivos de atualizações de plugins e Jenkins, etc;</li>
+                <li><b>/var/jenkins_home/users</b>: usuários, contém configurações de usuários (cada usuário possui subdiretório e configurações de tokens de APIs), etc;</li>
+                <li><b>/var/jenkins_home/workspace</b>: workspace, contém arquivos de jobs (cada job possui subdiretório próprio), logs, etc.</li>
             </ul>
-            <!--VER VÍDEO (https://www.youtube.com/watch?v=6YZvp2GwT0A) parou as 33:40 setting up docker cloud agents-->
 
             <br><h4>Tipos de builds</h4>
             <ul>
@@ -62,7 +73,11 @@
             <br><h4>Instalação</h4>
             <p id="textoPost">Instalação do Jenkins via Docker (necessário Docker):</p>
             <ul>
-                <li>Comando Docker container Jenkins: "docker run -u root -d --name jenkins -p 8080:8080 -p 50000:50000 -v "C:\Users\NOME_USUARIO\Desktop\jenkins_home:/var/jenkins_home" jenkins/jenkins"</li>
+                <li>Comando Docker container Jenkins:
+<small><pre><code>
+"docker run -u root -d --name jenkins -p 8080:8080 -p 50000:50000 -v "C:\Users\NOME_USUARIO\Desktop\jenkins_home:/var/jenkins_home" jenkins/jenkins"
+</code></pre></small>
+                </li>
                 <li>(opcional) Localizar senha 1º acesso: "docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword"</li>
                 <li>Acessar Jenkins GUI no navegador: <a href="http://localhost:8080" target="_blank" class="text-decoration-none">http://localhost:8080</a></li>
                 <li>No Jenkins GUI, informar senha 1º acesso, selecionar Instalar extensões sugeridas</li>
@@ -150,6 +165,12 @@ pipeline &#123;
                 </li>
                 <li>Realizar build da Pipeline, clicar em Construir Agora</li>
             </ol>
+
+            <br><h4>Agents Cloud</h4>
+            <p id="textoPost"><span class="text-danger">Em breve.</span></p>
+
+            <br><h4>Triggers</h4>
+            <p id="textoPost"><span class="text-danger">Em breve.</span></p>
         </div>
     </div>
 
@@ -157,3 +178,6 @@ pipeline &#123;
 </div>
 </body>
 </html>
+
+
+<!--VER VÍDEO (https://www.youtube.com/watch?v=6YZvp2GwT0A) parou as 33:40 setting up docker cloud agents-->
