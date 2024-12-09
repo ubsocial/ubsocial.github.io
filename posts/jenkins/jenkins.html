@@ -78,7 +78,9 @@
 "docker run -u root -d --name jenkins -p 8080:8080 -p 50000:50000 -v "C:\Users\NOME_USUARIO\Desktop\jenkins_home:/var/jenkins_home" jenkins/jenkins"
 </code></pre></small>
                 </li>
-                <li>(opcional) Localizar senha 1º acesso: "docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword"</li>
+                <li>(opcional) Localizar senha 1º acesso:
+<small><pre><code>"docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword"</code></pre></small>
+                </li>
                 <li>Acessar Jenkins GUI no navegador: <a href="http://localhost:8080" target="_blank" class="text-decoration-none">http://localhost:8080</a></li>
                 <li>No Jenkins GUI, informar senha 1º acesso, selecionar Instalar extensões sugeridas</li>
                 <li>Informe credeciais de usuário admin, de sua preferência</li>
