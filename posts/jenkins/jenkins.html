@@ -169,8 +169,22 @@ pipeline &#123;
             <br><h4>Agents Cloud</h4>
             <p id="textoPost"><span class="text-danger">Em breve.</span></p>
 
-            <br><h4>Triggers</h4>
-            <p id="textoPost"><span class="text-danger">Em breve.</span></p>
+            <br><h4>Triggers <span class="text-danger">Em construção</span></h4>
+            <p id="textoPost">Criar inicialização automatizada de job. Exemplo abaixo, execução de pipeline a cada 5 minutos após construção..</p>
+            <ol>
+                <u>Construir pipeline</u>:
+                <ol>
+                    <li><span class="text-danger">Em breve.</span></li>
+                </ol>
+                <br><u>Configurar triggers</u>:
+                <li>Acessar job, configure</li>
+                <li>Nas configurações, seção Build Triggers, habilitar Construir periodicamente, e preencher Schedule:
+<small><pre><code>
+H/1 * * * *
+</code></pre></small>
+                </li>
+                <li>Confirmar salvamento</li>
+            </ol>
         </div>
     </div>
 
@@ -180,4 +194,4 @@ pipeline &#123;
 </html>
 
 
-<!--VER VÍDEO (https://www.youtube.com/watch?v=6YZvp2GwT0A) parou as 33:40 setting up docker cloud agents-->
+<!--VER VÍDEO (https://youtu.be/6YZvp2GwT0A?si=JgK5fSSYcDHgURUi) parou as 47:30 triggers-->
