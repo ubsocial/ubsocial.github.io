@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../../icons/logoTit.png">
+    <link rel="stylesheet" href="../../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <nav class="navbar rounded-bottom fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="../../index.html"><img src="../../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../sobre/sobre.html">Sobre</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../livros/livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 text-center" id="titulo">
+            <h1>IA câncer de mama</h1>
+            <h6><strong>Algoritmo ML de diagnóstico de câncer de mama</strong></h6>
+            <a href="../../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a><br>
+            <a href="" class="btn btn-link text-decoration-none disabled" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="1.3em" height="1.3em" fill="currentColor" class="bi bi-youtube text-danger" viewBox="0 0 16 16"><path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.007 2.007 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.007 2.007 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31.4 31.4 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.007 2.007 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A99.788 99.788 0 0 1 7.858 2h.193zM6.4 5.209v4.818l4.157-2.408L6.4 5.209z"/></svg> Conteúdo disponível</a><br>
+        </div>
+
+        <div class="col-sm-12">
+            <h4>Descrição</h4>
+            <p id="textoPost">Objetivo é construir modelo para predizer quando pessoa tem câncer conforme exame de sequenciamento do RNA. Os dados são reais e foram devidamente anonimizados. No dataframe, Cada linha representa amostra retirada de pessoa. Colunas são tipos de microRNA, cada registro representando intensidade com que tal microRNA está expresso. Valores de expressão variam entre  [0,n]. Valores próximos a 0 indicam baixa expressão, enquanto que contrário indica alta expressão. Dados também apresentam rótulos respostas (class) sendo TP (primary solid tumor) indicando tumor e NT (normal tissue).</p>
+            <ul>
+                <li>TP: apresenta tumor de câncer de mama;</li>
+                <li>NT: não apresenta tumor de câncer de mama.</li>
+            </ul>
+            <p id="textoPost">O notebook e dados foram referenciados do <a href="https://www.cancer.gov/ccg/research/genome-sequencing/tcga" target="_blank" class="text-decoration-none">The Cancer Genome Atlas Program (TCGA)</a> e <a href="https://ebaconline.com.br" target="_blank" class="text-decoration-none">Escola Britânica de Artes Criativas & Tecnologia (EBAC)</a>. Baixe o dataframe CSV <a href="brca_mirnaseq.csv" class="text-decoration-none">brca_mirnaseq.csv</a>.</p>
+
+            <br><h4>notebook.ipynb</h4>
+<small><pre><code>
+<span class="text-muted"><b># Importar dependências:</b></span>
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import balanced_accuracy_score
+from sklearn.model_selection import cross_val_score
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.feature_selection import SelectKBest
+from sklearn.feature_selection import chi2
+from sklearn.decomposition import PCA
+
+<span class="text-muted"><b># Carregar dados:</b></span>
+df = pd.read_csv("brca_mirnaseq.csv", sep=';', header=0, decimal=',')
+df.head()
+df.info()
+df <span class="text-muted"># 842 linhas, 898 colunas</span>
+df.shape
+
+<span class="text-muted"><b># Análise exploratória:</b></span>
+ax = sns.countplot(x="class", data=df)
+df["class"].value_counts() <span class="text-muted"># 755 TP (apresenta tumor), 87 NT (não apresenta tumor)</span>
+df["class"].value_counts(normalize=True) <span class="text-muted"># 0.8962 TP (89.62%), 0.1038 NT (10.38%)</span>
+df.describe() <span class="text-muted"># média, desvio padrão, mínimo, 25%, 50%, 75%, máximo</span>
+
+<span class="text-muted"><b># Baseline (modelo simples para o problema):</b></span>
+X = df.drop("class", axis=1)
+y = df["class"]
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.30, stratify=y, random_state=42) <span class="text-muted"># 70% treino, 30% teste, random_state garante reprodutibilidade dos resultados (resultados iguais toda vez que executar o modelo)</span>
+y_train.value_counts(normalize=True) <span class="text-muted"># Base treino: TP 0.896435 (89.64%), NT 0.103565 (10.36%)</span>
+y_test.value_counts(normalize=True) <span class="text-muted"># Base testes: TP 0.897233 (89.72%), NT 0.102767 (10.28%)</span>
+
+lrc = LogisticRegression(random_state=42) <span class="text-muted"># modelo de regressão logística</span>
+
+cv_list_lr_baseline = cross_val_score(
+    lrc,
+    X_train,
+    y_train,
+    cv=10,
+    scoring="balanced_accuracy"
+) <span class="text-muted"># 10-fold cross-validation, balanced_accuracy como métrica de avaliação</span>
+
+mean_cv_lr_baseline = np.mean(cv_list_lr_baseline) <span class="text-muted"># média dos resultados de validação cruzada (bac) para modelo de regressão logística</span>
+std_cv_lr_baseline = np.std(cv_list_lr_baseline) <span class="text-muted"># desvio padrão dos resultados de validação cruzada (bac) para modelo de regressão logística</span>
+print(f"Performance (bac): {round(mean_cv_lr_baseline, 4)} +- {round(std_cv_lr_baseline, 4)}") <span class="text-muted"># Performance (bac): 0.9201 +- 0.046</span>
+
+<span class="text-muted"><b># Modelagem:</b></span>
+knn = Pipeline(
+    [
+        ('mms', MinMaxScaler()),
+        ('skb', SelectKBest(chi2, k=10)),
+        ('knn', KNeighborsClassifier(
+            n_neighbors=3,
+            p=2,
+            weights="uniform",
+        ))
+    ]
+) <span class="text-muted"># pipeline para modelo KNN, MinMaxScaler, SelectKBest e KNeighborsClassifier, k=10 (10 melhores features) e n_neighbors=3 (3 vizinhos), p=2 (distância euclidiana), weights="uniform" (pesos iguais para todos vizinhos)</span>
+
+cv_list_knn_euclid = cross_val_score(
+    knn,
+    X_train,
+    y_train,
+    cv=10,
+    scoring="balanced_accuracy"
+) <span class="text-muted"># 10-fold cross-validation, balanced_accuracy como métrica de avaliação para modelo KNN</span>
+
+mean_cv_knn_euclid = np.mean(cv_list_knn_euclid) <span class="text-muted"># média dos resultados de validação cruzada (bac) para modelo KNN</span>
+std_cv_knn_euclid = np.std(cv_list_lr_baseline) <span class="text-muted"># desvio padrão dos resultados de validação cruzada (bac) para modelo KNN</span>
+print(f"Performance (bac): {round(mean_cv_knn_euclid, 4)} +- {round(std_cv_knn_euclid, 4)}") <span class="text-muted"># Performance (bac): 0.9703 +- 0.046</span>
+
+knn = Pipeline(
+    [
+        ('mms', MinMaxScaler()),
+        ('skb', SelectKBest(chi2, k=10)),
+        ('knn', KNeighborsClassifier(
+            n_neighbors=3,
+            p=1,
+            weights="uniform",
+        ))
+    ]
+) <span class="text-muted"># pipeline para modelo KNN, MinMaxScaler, SelectKBest e KNeighborsClassifier, k=10 (10 melhores features) e n_neighbors=3 (3 vizinhos), p=1 (distância manhattan), weights="uniform" (pesos iguais para todos vizinhos)</span>
+<span class="text-muted"># distância euclidiana utiliza linha reta para calcular distância entre 2 pontos, enquanto que distância manhattan utiliza somente linhas horizontais e verticais (mais efiiciente para dados com muitas dimensões e outliers)</span>
+
+cv_list_knn_man = cross_val_score(
+    knn,
+    X_train,
+    y_train,
+    cv=10,
+    scoring="balanced_accuracy"
+) <span class="text-muted"># 10-fold cross-validation, balanced_accuracy como métrica de avaliação para modelo KNN</span>
+
+mean_cv_knn_man = np.mean(cv_list_knn_man) <span class="text-muted"># média dos resultados de validação cruzada (bac) para modelo</span>
+std_cv_knn_man = np.std(cv_list_knn_man) <span class="text-muted"># desvio padrão dos resultados de validação cruzada (bac) para modelo</span>
+print(f"Performance (bac): {round(mean_cv_knn_man, 4)} +- {round(std_cv_knn_man, 4)}") <span class="text-muted"># Performance (bac): 0.9638 +- 0.0407</span>
+
+lr = Pipeline(
+    [
+     ('scaler', StandardScaler()),
+     ('lr', LogisticRegression(
+         penalty="l2", <span class="text-muted"># penalidade, usado para evitar overfitting</span>
+         C=1, <span class="text-muted"># força de regularização do modelo. Valores pequenos implicam em regularização mais forte</span>
+         fit_intercept=True, <span class="text-muted"># bias ou intercepto do modelo</span>
+         class_weight="balanced", <span class="text-muted"># peso das classes. Útil para datasets desbalanceados</span>
+         random_state=42
+         )
+     )
+     ])
+
+
+cv_list_lr_l2 = cross_val_score(
+    lr,
+    X_train,
+    y_train,
+    cv=10,
+    scoring="balanced_accuracy"
+) <span class="text-muted"># 10-fold cross-validation, balanced_accuracy como métrica de avaliação para modelo de regressão logística com regularização L2</span>
+
+mean_cv_lr_l2 = np.mean(cv_list_lr_l2) <span class="text-muted"># média dos resultados de validação cruzada (bac) para modelo de regressão logística com regularização L2</span>
+std_cv_lr_l2 = np.std(cv_list_lr_l2) <span class="text-muted"># desvio padrão dos resultados de validação cruzada (bac) para modelo de regressão logística com regularização L2</span>
+print(f"Preformance (bac): {round(mean_cv_lr_l2, 4)} +- {round(std_cv_lr_l2, 4)}") <span class="text-muted"># Preformance (bac): 0.9655 +- 0.0391</span>
+
+lr = Pipeline(
+    [
+     ('scaler', StandardScaler()),
+     ('lr', LogisticRegression(
+         penalty="l1", <span class="text-muted"># penalidade, usado para evitar overfitting</span>
+         C=1, <span class="text-muted"># força de regularização do modelo. Valores pequenos implicam em regularização mais forte</span>
+         fit_intercept=True, <span class="text-muted"># bias ou intercepto do modelo</span>
+         class_weight="balanced", <span class="text-muted"># peso das classes. Útil para datasets desbalanceados</span>
+         solver="liblinear",
+         random_state=42
+         )
+     )
+     ])
+
+
+cv_list_lr_l1 = cross_val_score(
+    lr,
+    X_train,
+    y_train,
+    cv=10,
+    scoring="balanced_accuracy"
+) <span class="text-muted"># 10-fold cross-validation, balanced_accuracy como métrica de avaliação para modelo de regressão logística com regularização L1</span>
+
+mean_cv_lr_l1 = np.mean(cv_list_lr_l1) <span class="text-muted"># média dos resultados de validação cruzada (bac) para modelo de regressão logística com regularização L1</span>
+std_cv_lr_l1 = np.std(cv_list_lr_l1) <span class="text-muted"># desvio padrão dos resultados de validação cruzada (bac) para modelo de regressão logística com regularização L1</span>
+print(f"Preformance (bac): {round(mean_cv_lr_l1, 4)} +- {round(std_cv_lr_l1, 4)}") <span class="text-muted"># Preformance (bac): 0.9665 +- 0.0373</span>
+
+lr = Pipeline(
+    [
+        ('scaler', StandardScaler()),
+        ('pca', PCA(n_components=10)),
+        ('lr', LogisticRegression(
+            penalty="l2",
+            C=1,
+            fit_intercept=True,
+            class_weight="balanced",
+            random_state=42
+        ))
+    ]
+) <span class="text-muted"># pipeline para modelo de regressão logística com PCA, StandardScaler e LogisticRegression, n_components=10 (10 componentes principais)</span>
+
+cv_list_lr_pca = cross_val_score(
+    lr,
+    X_train,
+    y_train,
+    cv=10,
+    scoring="balanced_accuracy"
+) <span class="text-muted"># 10-fold cross-validation, balanced_accuracy como métrica de avaliação para modelo de regressão logística com PCA e regularização L2</span>
+
+mean_cv_lr_pca = np.mean(cv_list_lr_pca) <span class="text-muted"># média dos resultados de validação cruzada (bac) para modelo de regressão logística com PCA</span>
+std_cv_lr_pca = np.std(cv_list_lr_pca) <span class="text-muted"># desvio padrão dos resultados de validação cruzada (bac) para modelo de regressão logística com PCA</span>
+print(f"Preformance (bac): {round(mean_cv_lr_pca, 4)} +- {round(std_cv_lr_pca, 4)}") <span class="text-muted"># Preformance (bac): 0.9822 +- 0.0228</span>
+
+<span class="text-muted"><b># Avaliação experimental:</b></span>
+<span class="text-muted"># resultados da cross-validacao:</span>
+df_result_cv = pd.DataFrame(
+    [cv_list_lr_baseline, cv_list_knn_euclid, cv_list_knn_man, cv_list_lr_l2, cv_list_lr_l1, cv_list_lr_pca],
+    index=["baseline", "kNN-eucli", "kNN-man","LR-L2", "LR-L1", "LR-PCA"]
+).T <span class="text-muted"># dataframe com resultados de validação cruzada para cada modelo desenvolvido</span>
+
+df_result_cv <span class="text-muted"># resultados de validação cruzada para cada modelo desenvolvido</span>
+
+df_res = df_result_cv.stack().to_frame("balanced_accuracy") <span class="text-muted"># transformar dataframe em série e renomear coluna para balanced_accuracy (bac)</span>
+df_res.index.rename(["fold", "pipelines"], inplace=True) <span class="text-muted"># renomear índices para fold e pipelines (modelos)</span>
+df_res = df_res.reset_index() <span class="text-muted"># resetar índices do dataframe df_res para visualização dos resultados de validação cruzada para cada modelo desenvolvido (fold, pipelines, balanced_accuracy)</span>
+df_res.head(12) <span class="text-muted"># visualizar primeiros 12 resultados de validação cruzada para cada modelo desenvolvido (fold, pipelines, balanced_accuracy)</span>
+
+plt.figure(figsize=(10,10)) <span class="text-muted"># tamanho da figura</span>
+ax = sns.boxplot(x="pipelines", y="balanced_accuracy", data=df_res) <span class="text-muted"># boxplot para visualização dos resultados de validação cruzada para cada modelo desenvolvido (pipelines, balanced_accuracy)</span>
+ax = sns.swarmplot(x="pipelines", y="balanced_accuracy", data=df_res, color=".40") <span class="text-muted"># swarmplot para visualização dos resultados de validação cruzada para cada modelo desenvolvido (pipelines, balanced_accuracy)</span>
+
+plt.figure(figsize=(10,10))
+sns.catplot(x="pipelines", y="balanced_accuracy", kind="violin", data=df_res) <span class="text-muted"># violinplot para visualização dos resultados de validação cruzada para cada modelo desenvolvido (pipelines, balanced_accuracy)</span>
+
+<span class="text-muted"><b># Avaliação de performance:</b></span>
+lr = Pipeline(
+    [
+     ('scaler', StandardScaler()),
+     ('pca', PCA(n_components=10)),
+     ('lr', LogisticRegression(
+         penalty="l2",
+         C=1,
+         fit_intercept=True,
+         class_weight="balanced",
+         random_state=42
+         )
+     )
+]) <span class="text-muted"># pipeline para modelo de regressão logística com PCA, StandardScaler e LogisticRegression, n_components=10 (10 componentes principais) e regularização L2, C=1 (força de regularização), class_weight="balanced" (peso das classes), random_state=42 (garante reprodutibilidade dos resultados) e fit_intercept=True (bias ou intercepto do modelo)</span>
+
+lr.fit(X_train, y_train) <span class="text-muted"># treinar modelo de regressão logística com PCA e regularização L2 para base de treino (X_train, y_train)</span>
+y_pred = lr.predict(X_test) <span class="text-muted"># prever rótulos de resposta para base de teste (X_test), y_pred são rótulos preditos pelo modelo de regressão logística com PCA e regularização L2</span>
+lr_pca_test = balanced_accuracy_score(y_test, y_pred) <span class="text-muted"># balanced_accuracy para modelo de regressão logística com PCA e regularização L2 na base de teste (X_test, y_test)</span>
+print("Performance: ", round(lr_pca_test, 4)) <span class="text-muted"># Performance:  0.972 (97.2%)</span>
+
+from sklearn.metrics import ConfusionMatrixDisplay <span class="text-muted"># Confusion matrix para avaliação de performance do modelo, matriz de confusão</span>
+ConfusionMatrixDisplay.from_estimator(lr, X_test, y_test)
+plt.show() <span class="text-muted"># exibir matriz de confusão para avaliação de performance do modelo</span>
+
+ConfusionMatrixDisplay.from_estimator(lr, X_test, y_test, normalize='true') <span class="text-muted"># matriz de confusão normalizada (dados em porcentagem)</span>
+plt.show() <span class="text-muted"></span>
+
+<span class="text-muted"># Resultados confusion matrix:
+true,predict
+(errou) TP,NT: 4
+(errou) TP,NT: 0.018 (0.018%)
+(acertou) NT,NT: 25
+(acertou) NT,NT: 0.96 (96%)
+(acertou) TP,TP: 223
+(acertou) TP,TP: 0.98 (98%)
+(errou) NT,TP: 1
+(errou) NT,TP: 0.038 (3.8%)</span>
+
+<span class="text-muted"><b># Testar modelo com novos dados:</b></span>
+novo_dado_1 = np.array([[0.5, 0.8, 0.6, 0.9, 0.7, 0.8, 0.6, 0.9, 0.7, 0.8]]) <span class="text-muted"># chance de apresentar tumor (TP)</span>
+predicao_1 = lr.predict(novo_dado_1)
+print(f"Predição para novo dado 1: {predicao_1[0]}") <span class="text-muted"># TP ou NT</span>
+
+novo_dado_2 = np.array([[0.1, 0.2, 0.3, 0.1, 0.2, 0.3, 0.1, 0.2, 0.3, 0.1]]) <span class="text-muted"># sem chance de apresentar tumor (NT)</span>
+predicao_2 = lr.predict(novo_dado_2)
+print(f"Predição para novo dado 2: {predicao_2[0]}") <span class="text-muted"># TP ou NT</span>
+</code></pre></small>
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center bg-black text-light pt-4 pb-3">
+        <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>
