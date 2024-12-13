@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../../icons/logoTit.png">
+    <link rel="stylesheet" href="../../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <nav class="navbar rounded-bottom fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="../../index.html"><img src="../../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../sobre/sobre.html">Sobre</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../livros/livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 text-center" id="titulo">
+            <h1>API REST OpenWeather com Vue.js</h1>
+            <h6><strong>Consumir API REST OpenWeather com Vue.js</strong></h6>
+            <a href="../../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a><br>
+            <a href="" class="btn btn-link text-decoration-none disabled" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="1.3em" height="1.3em" fill="currentColor" class="bi bi-youtube text-danger" viewBox="0 0 16 16"><path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.007 2.007 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.007 2.007 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31.4 31.4 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.007 2.007 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A99.788 99.788 0 0 1 7.858 2h.193zM6.4 5.209v4.818l4.157-2.408L6.4 5.209z"/></svg> Conteúdo disponível</a><br>
+        </div>
+
+        <div class="col-sm-12">
+            <h4>Objetivo</h4>
+            <p>Consumir, via Vue.js, API REST online <a href="https://openweathermap.org" target="_blank" class="text-decoration-none">OpenWeather</a>. Necessário criar conta no OpenWeather, para obter chave de conexão da API.</p>
+
+            <br><h4>Passo a passo</h4>
+            <ol>
+                <li>Criar projeto: vue create apiClima</li>
+                <li>Acessar projeto: cd apiClima</li>
+                <li>Instalar Axios: npm install axios</li>
+                <li>Criar arquivos (components) abaixo</li>
+                <li>Executar projeto: npm run serve</li>
+            </ol>
+
+            <br><h4>components/Weather.vue</h4>
+<small><pre><code>
+&lt;template&gt;
+    &lt;div&gt;
+        &lt;input 
+            v-model="city" 
+            placeholder="Nome da cidade" 
+            @input="fetchWeatherForecast" 
+        /&gt;
+
+        &lt;div v-if="forecast" class="forecast-info"&gt;
+            &lt;section&gt;
+                &lt;h2&gt;Cidade:&lt;/h2&gt;
+                &lt;p&gt;Nome: &#123;&#123; forecast.city.name &#125;&#125;&lt;/p&gt;
+                &lt;p&gt;País: &#123;&#123; forecast.city.country &#125;&#125;&lt;/p&gt;
+                &lt;p&gt;Latitude: &#123;&#123; forecast.city.coord.lat &#125;&#125;&lt;/p&gt;
+                &lt;p&gt;Longitude: &#123;&#123; forecast.city.coord.lon &#125;&#125;&lt;/p&gt;
+                &lt;p&gt;População: &#123;&#123; forecast.city.population &#125;&#125;&lt;/p&gt;
+                &lt;p&gt;Fuso Horário: &#123;&#123; forecast.city.timezone &#125;&#125;&lt;/p&gt;
+                &lt;p&gt;Nascer do Sol: &#123;&#123; formatDateTime(forecast.city.sunrise, true) &#125;&#125;&lt;/p&gt;
+                &lt;p&gt;Pôr do Sol: &#123;&#123; formatDateTime(forecast.city.sunset, true) &#125;&#125;&lt;/p&gt;
+            &lt;/section&gt;
+
+            &lt;section&gt;
+                &lt;h2&gt;Previsão:&lt;/h2&gt;
+                &lt;div v-for="item in forecast.list" :key="item.dt" class="forecast-item"&gt;
+                    &lt;p&gt;Data e Hora: &#123;&#123; formatDateTime(item.dt, true) &#125;&#125;&lt;/p&gt;
+                    &lt;p&gt;Temperatura Atual: &#123;&#123; item.main.temp &#125;&#125; °C&lt;/p&gt;
+                    &lt;p&gt;Sensação Térmica: &#123;&#123; item.main.feels_like &#125;&#125; °C&lt;/p&gt;
+                    &lt;p&gt;Temperatura Mínima: &#123;&#123; item.main.temp_min &#125;&#125; °C&lt;/p&gt;
+                    &lt;p&gt;Temperatura Máxima: &#123;&#123; item.main.temp_max &#125;&#125; °C&lt;/p&gt;
+                    &lt;p&gt;Pressão Atmosférica: &#123;&#123; item.main.pressure &#125;&#125; hPa&lt;/p&gt;
+                    &lt;p&gt;Umidade: &#123;&#123; item.main.humidity &#125;&#125;%&lt;/p&gt;
+                    &lt;p&gt;Descrição do Clima: &#123;&#123; item.weather[0].description &#125;&#125;&lt;/p&gt;
+                    &lt;img :src="getWeatherIcon(item.weather[0].icon)" :alt="item.weather[0].description" /&gt;
+                    &lt;p&gt;Nuvens: &#123;&#123; item.clouds.all &#125;&#125;%&lt;/p&gt;
+                    &lt;p&gt;Velocidade do Vento: &#123;&#123; item.wind.speed &#125;&#125; m/s&lt;/p&gt;
+                    &lt;p&gt;Direção do Vento: &#123;&#123; item.wind.deg &#125;&#125;°&lt;/p&gt;
+                    &lt;p&gt;Precipitação (3h): &#123;&#123; item.rain?.['3h'] || 'Sem Dados' &#125;&#125; mm&lt;/p&gt;
+                    &lt;p&gt;Visibilidade: &#123;&#123; item.visibility &#125;&#125; metros&lt;/p&gt;
+                    &lt;p&gt;Probabilidade de Precipitação: &#123;&#123; item.pop * 100 &#125;&#125;%&lt;/p&gt;
+                    &lt;hr&gt;
+                &lt;/div&gt;
+            &lt;/section&gt;
+        &lt;/div&gt;
+
+        &lt;div v-else-if="errorMessage" class="error-message"&gt;
+            &lt;p&gt;&#123;&#123; errorMessage &#125;&#125;&lt;/p&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+    import axios from "axios";
+
+    export default &#123;
+        data() &#123;
+            return &#123;
+                city: "",
+                forecast: null,
+                errorMessage: null,
+            &#125;;
+        &#125;,
+        methods: &#123;
+            async fetchWeatherForecast() &#123;
+                if (!this.city.trim()) &#123;
+                    this.forecast = null;
+                    this.errorMessage = "Digite o nome de uma cidade para buscar.";
+                    return;
+                &#125;
+
+                const apiKey = "SUA_CHAVE_API";
+                const url = `https://api.openweathermap.org/data/2.5/forecast?q=$&#123;this.city&#125;&appid=$&#123;apiKey&#125;&units=metric&lang=pt_br`;
+
+                try &#123;
+                    const response = await axios.get(url);
+
+                    if (response.status === 200 && response.data.cod === "200") &#123;
+                        this.forecast = response.data;
+                        this.errorMessage = null;
+                    &#125;
+                &#125; catch (error) &#123;
+                    this.forecast = null;
+
+                    if (error.response) &#123;
+                        const apiMessage = error.response.data.message;
+                        this.errorMessage = apiMessage === "city not found" 
+                            ? "Cidade não encontrada. Verifique o nome e tente novamente." 
+                            : apiMessage || "Erro ao buscar cidade.";
+                        &#125; else if (error.request) &#123;
+                            this.errorMessage = "Nenhuma resposta recebida. Verifique a conexão.";
+                        &#125; else &#123;
+                            this.errorMessage = "Erro inesperado ao buscar dados.";
+                        &#125;
+                    console.error("Erro ao buscar a API:", error);
+                &#125;
+            &#125;,
+            formatDateTime(dateTime) &#123;
+                return new Date(dateTime * 1000).toLocaleString("pt-BR", &#123;
+                    dateStyle: "short",
+                    timeStyle: "short",
+                &#125;);
+            &#125;,
+            getWeatherIcon(icon) &#123;
+                return `https://openweathermap.org/img/wn/$&#123;icon&#125;@2x.png`;
+            &#125;,
+        &#125;,
+    &#125;;
+&lt;/script&gt;
+
+&lt;style&gt;
+    .forecast-info &#123;
+        font-family: Arial, sans-serif;
+        margin-top: 20px;
+    &#125;
+    .error-message &#123;
+        color: red;
+        font-weight: bold;
+    &#125;
+    .forecast-item &#123;
+        margin-bottom: 20px;
+    &#125;
+&lt;/style&gt;
+</code></pre></small>
+
+        <br><h4>App.vue</h4>
+<small><pre><code>
+&lt;script setup lang="ts"&gt;
+    import Weather from './components/Weather.vue';
+&lt;/script&gt;
+
+&lt;template&gt;
+    &lt;h1&gt;Previsão do tempo&lt;/h1&gt;
+    &lt;Weather/&gt;
+&lt;/template&gt;
+
+&lt;style&gt;
+&lt;/style&gt;
+</code></pre></small>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center bg-black text-light pt-4 pb-3">
+        <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>
