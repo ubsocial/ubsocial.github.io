@@ -61,9 +61,9 @@ python3 manage.py runserver
                 <li>Rotas de acesso:
 <small><pre><code>
 <b>Listar musics</b>: (GET) http://localhost:8000/api/musics/
-<b>Adicionar music</b>: (POST) http://localhost:8000/api/musics/ (json) { "title": "Nome da música", "artist": "Nome do artista" }
+<b>Adicionar music</b>: (POST) http://localhost:8000/api/musics/ (json) &#123; "title": "Nome da música", "artist": "Nome do artista" &#125;
 <b>Ver music 1</b>: (GET) http://localhost:8000/api/musics/1/
-<b>Atualizar music 1</b>: (PUT) http://localhost:8000/api/musics/1/ (json) { "title": "Nome da música", "artist": "Nome do artista" }
+<b>Atualizar music 1</b>: (PUT) http://localhost:8000/api/musics/1/ (json) &#123; "title": "Nome da música", "artist": "Nome do artista" &#125;
 <b>Deletar music 1</b>: (DELETE) http://localhost:8000/api/musics/1/
 </code></pre></small>
                 </li>
@@ -72,7 +72,7 @@ python3 manage.py runserver
             <br><h4>Vue.js:</h4>
             <ol>
                 <li>No mesmo diretório em que encontra-se pasta da API REST Django, criar projeto Vue.js: vue create music-vue</li>
-                <li>Entrar na pasta do projeto (music-vue), e instalar Axios: vue create music-vue</li>
+                <li>Entrar na pasta do projeto (music-vue), e instalar Axios: npm install axios</li>
                 <li>Informar conteúdo nos arquivos, conforme abaixo</li>
                 <li>Executar projeto: npm run dev</li>
             </ol>
@@ -91,16 +91,16 @@ app.mount('#app');
             <br><p>src/App.vue:</p>
 <small><pre><code>
 &lt;template&gt;
-    &lt;div id="app"&gt;
-        &lt;ListMusic /&gt;
-    &lt;/div&gt;
+  &lt;div id="app"&gt;
+      &lt;ListMusic /&gt;
+  &lt;/div&gt;
 &lt;/template&gt;
 
 &lt;script&gt;
 import ListMusic from './components/ListMusic.vue';
 
 export default &#123;
-    components: &#123; ListMusic &#125;,
+  components: &#123; ListMusic &#125;,
 &#125;;
 &lt;/script&gt;
 </code></pre></small>
@@ -114,6 +114,7 @@ export default &#123;
             &lt;input v-model="title" placeholder="Título" required&gt;
             &lt;input v-model="artist" placeholder="Artista" required&gt;
             &lt;button type="submit"&gt;Adicionar&lt;/button&gt;
+            &lt;button type="button" @click="$emit('cancel')"&gt;Cancelar&lt;/button&gt;
         &lt;/form&gt;
     &lt;/div&gt;
 &lt;/template&gt;
@@ -173,27 +174,27 @@ export default &#123;
 &lt;/template&gt;
 
 &lt;script&gt;
-export default &#123;
-    props: &#123;
-        music: &#123;
+export default &#123
+    props: &#123
+        music: &#123
             type: Object,
             required: true,
         &#125;,
     &#125;,
-    data() &#123;
-        return &#123;
-            editedMusic: &#123; ...this.music &#125;,
+    data() &#123
+        return &#123
+            editedMusic: &#123 ...this.music &#125;,
         &#125;;
     &#125;,
-    methods: &#123;
-        async updateMusic() &#123;
-            try &#123;
-                await this.$axios.put(`http://localhost:8000/api/musics/$&#123;this.editedMusic.id&#125;/`, &#123;
+    methods: &#123
+        async updateMusic() &#123
+            try &#123
+                await this.$axios.put(`http://localhost:8000/api/musics/$&#123this.editedMusic.id&#125;/`, &#123
                     title: this.editedMusic.title,
                     artist: this.editedMusic.artist,
                 &#125;);
                 this.$emit('updated');
-            &#125; catch (error) &#123;
+            &#125; catch (error) &#123
                 console.error('Erro ao atualizar música:', error);
             &#125;
         &#125;,
@@ -202,11 +203,20 @@ export default &#123;
 &lt;/script&gt;
 </code></pre></small>
 
-            <br><p>/src/components/ListMusic.vue:</p>
+            <br><p>src/components/ListMusic.vue:</p>
 <small><pre><code>
 &lt;template&gt;
     &lt;div&gt;
         &lt;h1&gt;Lista de Músicas&lt;/h1&gt;
+
+        &lt;div v-if="activeForm === null"&gt;
+            &lt;button @click="showForm('add')"&gt;Adicionar Música&lt;/button&gt;
+        &lt;/div&gt;
+
+        &lt;AddMusic v-if="activeForm === 'add'" @music-added="onMusicAdded" @close="closeForm" @cancel="closeForm" /&gt;
+
+        &lt;EditMusic v-if="activeForm === 'edit'" :music="editingMusic" @updated="onMusicUpdated" @cancel="closeForm" /&gt;
+
         &lt;ul&gt;
             &lt;li v-for="music in musics" :key="music.id"&gt;
                 &#123;&#123; music.title &#125;&#125; - &#123;&#123; music.artist &#125;&#125;
@@ -215,16 +225,8 @@ export default &#123;
             &lt;/li&gt;
         &lt;/ul&gt;
 
-        &lt;EditMusic v-if="activeForm === 'edit'" :music="editingMusic" @updated="onMusicUpdated" @cancel="closeForm" /&gt;
-
-        &lt;AddMusic v-if="activeForm === 'add'" @music-added="onMusicAdded" @close="closeForm" /&gt;
-
         &lt;ConfirmDialog v-if="showConfirmDialog" :message="'Deseja realmente excluir esta música?'"
             @confirm="deleteMusic" @cancel="closeConfirmDialog" /&gt;
-
-        &lt;div v-if="activeForm === null"&gt;
-            &lt;button @click="showForm('add')"&gt;Adicionar Música&lt;/button&gt;
-        &lt;/div&gt;
     &lt;/div&gt;
 &lt;/template&gt;
 
