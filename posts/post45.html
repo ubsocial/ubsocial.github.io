@@ -72,233 +72,509 @@ python3 manage.py runserver
             <br><h4>Vue.js:</h4>
             <ol>
                 <li>No mesmo diretório em que encontra-se pasta da API REST Django, criar projeto Vue.js: vue create music-vue</li>
-                <li>Entrar na pasta do projeto (music-vue), e instalar Axios: npm install axios</li>
+                <li>Entrar na pasta do projeto (music-vue), instalar Axios e Router: npm install axios vue-router</li>
                 <li>Informar conteúdo nos arquivos, conforme abaixo</li>
                 <li>Executar projeto: npm run dev</li>
             </ol>
 
-            <br><p>src/main.js:</p>
+            <br><p>/src/assets/styles/global.css:</p>
 <small><pre><code>
-import &#123; createApp &#125; from 'vue';
-import App from './App.vue';
+.error &#123;
+    color: red;
+    font: 14px;
+&#125;
+</code></pre></small>
+
+            <br><p>/src/components/AddMusic.vue:</p>
+<small><pre><code>
+&lt;template&gt;
+    &lt;h1&gt;Adicionar Música&lt;/h1&gt;
+    &lt;form @submit.prevent="addMusic"&gt;
+        &lt;input type="text" placeholder="Título" v-model="newMusic.title" required&gt;
+        &lt;input type="text" placeholder="Artista" v-model="newMusic.artist" required&gt;
+        &lt;button type="submit"&gt;Confirmar&lt;/button&gt;
+        &lt;p v-if="errorMessage" class="error"&gt;&#123;&#123; errorMessage &#125;&#125;&lt;/p&gt;
+    &lt;/form&gt;
+    &lt;button @click="goBack"&gt;Cancelar&lt;/button&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+import &#123; ref &#125; from 'vue';
 import axios from 'axios';
-
-const app = createApp(App);
-app.config.globalProperties.$axios = axios;
-app.mount('#app');
-</code></pre></small>
-
-            <br><p>src/App.vue:</p>
-<small><pre><code>
-&lt;template&gt;
-  &lt;div id="app"&gt;
-      &lt;ListMusic /&gt;
-  &lt;/div&gt;
-&lt;/template&gt;
-
-&lt;script&gt;
-import ListMusic from './components/ListMusic.vue';
+import &#123; useRouter &#125; from 'vue-router';
 
 export default &#123;
-  components: &#123; ListMusic &#125;,
-&#125;;
-&lt;/script&gt;
-</code></pre></small>
+    setup() &#123;
+        const newMusic = ref(&#123; title: '', artist: '' &#125;);
+        const errorMessage = ref('');
+        const router = useRouter();
 
-            <br><p>src/components/AddMusic.vue:</p>
-<small><pre><code>
-&lt;template&gt;
-    &lt;div&gt;
-        &lt;h2&gt;Adicionar Música&lt;/h2&gt;
-        &lt;form @submit.prevent="addMusic"&gt;
-            &lt;input v-model="title" placeholder="Título" required&gt;
-            &lt;input v-model="artist" placeholder="Artista" required&gt;
-            &lt;button type="submit"&gt;Adicionar&lt;/button&gt;
-            &lt;button type="button" @click="$emit('cancel')"&gt;Cancelar&lt;/button&gt;
-        &lt;/form&gt;
-    &lt;/div&gt;
-&lt;/template&gt;
+        const addMusic = async () =&gt; &#123;
+            try &#123;
+                const response = await axios.get('http://localhost:8000/api/musics/', &#123;
+                    params: &#123;
+                        title: newMusic.value.title,
+                        artist: newMusic.value.artist,
+                    &#125;,
+                &#125;);
 
-&lt;script&gt;
-export default &#123;
-    data() &#123;
+                const musicExists = response.data.some(
+                    (music) =&gt;
+                        music.title === newMusic.value.title &&
+                        music.artist === newMusic.value.artist
+                );
+
+                if (musicExists) &#123;
+                    errorMessage.value = 'Música já cadastrada';
+                &#125; else &#123;
+                    await axios.post('http://localhost:8000/api/musics/', newMusic.value);
+                    router.push(&#123; name: 'list-music' &#125;);
+                &#125;
+            &#125; catch (error) &#123;
+                console.error("Erro ao adicionar música", error);
+                errorMessage.value = 'Erro ao adicionar música';
+            &#125;
+        &#125;;
+
+        const goBack = () =&gt; &#123;
+            router.push(&#123; name: 'list-music' &#125;);
+        &#125;;
+
         return &#123;
-            title: '',
-            artist: '',
+            newMusic,
+            errorMessage,
+            addMusic,
+            goBack,
         &#125;;
     &#125;,
-    methods: &#123;
-        async addMusic() &#123;
-            await this.$axios.post('http://localhost:8000/api/musics/', &#123;
-                title: this.title,
-                artist: this.artist,
-            &#125;);
-            this.$emit('music-added');
-            this.title = '';
-            this.artist = '';
-        &#125;,
-    &#125;,
 &#125;;
 &lt;/script&gt;
+
+&lt;style scoped&gt;&lt;/style&gt;
 </code></pre></small>
 
-            <br><p>src/components/ConfirmDialog.vue:</p>
+            <br><p>src/components/ConfirmDialogDelete.vue:</p>
 <small><pre><code>
 &lt;template&gt;
     &lt;div class="confirm-dialog"&gt;
-        &lt;p&gt;&#123;&#123; message &#125;&#125;&lt;/p&gt;
-        &lt;button @click="$emit('confirm')"&gt;Sim&lt;/button&gt;
-        &lt;button @click="$emit('cancel')"&gt;Não&lt;/button&gt;
+        &lt;p&gt;Excluir música "&#123;&#123; music.title &#125;&#125;" (id: &#123;&#123; music.id &#125;&#125;)?&lt;/p&gt;
+        &lt;button @click="cancel"&gt;Cancelar&lt;/button&gt;
+        &lt;button @click="confirm"&gt;Confirmar&lt;/button&gt;
     &lt;/div&gt;
 &lt;/template&gt;
 
 &lt;script&gt;
 export default &#123;
-    props: ['message'],
-&#125;;
-&lt;/script&gt;
-</code></pre></small>
-
-            <br><p>src/components/EditMusic.vue:</p>
-<small><pre><code>
-&lt;template&gt;
-    &lt;div&gt;
-        &lt;h2&gt;Editar Música&lt;/h2&gt;
-        &lt;form @submit.prevent="updateMusic"&gt;
-            &lt;input v-model="editedMusic.title" placeholder="Título da música" required&gt;
-            &lt;input v-model="editedMusic.artist" placeholder="Artista" required&gt;
-            &lt;button type="submit"&gt;Salvar&lt;/button&gt;
-            &lt;button type="button" @click="$emit('cancel')"&gt;Cancelar&lt;/button&gt;
-        &lt;/form&gt;
-    &lt;/div&gt;
-&lt;/template&gt;
-
-&lt;script&gt;
-export default &#123
-    props: &#123
-        music: &#123
+    props: &#123;
+        music: &#123;
             type: Object,
-            required: true,
-        &#125;,
-    &#125;,
-    data() &#123
-        return &#123
-            editedMusic: &#123 ...this.music &#125;,
-        &#125;;
-    &#125;,
-    methods: &#123
-        async updateMusic() &#123
-            try &#123
-                await this.$axios.put(`http://localhost:8000/api/musics/$&#123this.editedMusic.id&#125;/`, &#123
-                    title: this.editedMusic.title,
-                    artist: this.editedMusic.artist,
-                &#125;);
-                this.$emit('updated');
-            &#125; catch (error) &#123
-                console.error('Erro ao atualizar música:', error);
-            &#125;
-        &#125;,
-    &#125;,
-&#125;;
-&lt;/script&gt;
-</code></pre></small>
-
-            <br><p>src/components/ListMusic.vue:</p>
-<small><pre><code>
-&lt;template&gt;
-    &lt;div&gt;
-        &lt;h1&gt;Lista de Músicas&lt;/h1&gt;
-
-        &lt;div v-if="activeForm === null"&gt;
-            &lt;button @click="showForm('add')"&gt;Adicionar Música&lt;/button&gt;
-        &lt;/div&gt;
-
-        &lt;AddMusic v-if="activeForm === 'add'" @music-added="onMusicAdded" @close="closeForm" @cancel="closeForm" /&gt;
-
-        &lt;EditMusic v-if="activeForm === 'edit'" :music="editingMusic" @updated="onMusicUpdated" @cancel="closeForm" /&gt;
-
-        &lt;ul&gt;
-            &lt;li v-for="music in musics" :key="music.id"&gt;
-                &#123;&#123; music.title &#125;&#125; - &#123;&#123; music.artist &#125;&#125;
-                &lt;button @click="editMusic(music)"&gt;Editar&lt;/button&gt;
-                &lt;button @click="confirmDelete(music.id)"&gt;Excluir&lt;/button&gt;
-            &lt;/li&gt;
-        &lt;/ul&gt;
-
-        &lt;ConfirmDialog v-if="showConfirmDialog" :message="'Deseja realmente excluir esta música?'"
-            @confirm="deleteMusic" @cancel="closeConfirmDialog" /&gt;
-    &lt;/div&gt;
-&lt;/template&gt;
-
-&lt;script&gt;
-import AddMusic from './AddMusic.vue';
-import EditMusic from './EditMusic.vue';
-import ConfirmDialog from './ConfirmDialog.vue';
-
-export default &#123;
-    components: &#123; AddMusic, EditMusic, ConfirmDialog &#125;,
-    data() &#123;
-        return &#123;
-            musics: [],
-            showConfirmDialog: false,
-            musicToDelete: null,
-            editingMusic: null,
-            activeForm: null,
-        &#125;;
+            required: true
+        &#125;
     &#125;,
     methods: &#123;
-        async fetchMusics() &#123;
+        cancel() &#123;
+            this.$emit('cancel');
+        &#125;,
+        confirm() &#123;
+            this.$emit('confirm', this.music.id);
+        &#125;
+    &#125;
+&#125;;
+&lt;/script&gt;
+
+&lt;style scoped&gt;&lt;/style&gt;
+</code></pre></small>
+
+            <br><p>src/components/DeleteMusic.vue:</p>
+<small><pre><code>
+&lt;template&gt;
+    &lt;h1&gt;Exclusão&lt;/h1&gt;
+    &lt;p&gt;Excluir música?&lt;/p&gt;
+    &lt;p&gt;Id: &#123;&#123; music.id &#125;&#125;&lt;/p&gt;
+    &lt;p&gt;Título: &#123;&#123; music.title &#125;&#125;&lt;/p&gt;
+    &lt;p&gt;Artista: &#123;&#123; music.artist &#125;&#125;&lt;/p&gt;
+    &lt;button @click="confirmDelete"&gt;Confirmar&lt;/button&gt;
+    &lt;button @click="cancel"&gt;Cancelar&lt;/button&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+import &#123; ref, onMounted &#125; from 'vue';
+import axios from 'axios';
+import &#123; useRouter &#125; from 'vue-router';
+
+export default &#123;
+    setup() &#123;
+        const router = useRouter();
+        const music = ref(&#123;&#125;);
+        const musicId = router.currentRoute.value.params.id;
+
+        const fetchMusicDetails = async () =&gt; &#123;
             try &#123;
-                const response = await this.$axios.get('http://localhost:8000/api/musics/');
-                this.musics = response.data;
+                const response = await axios.get(`http://localhost:8000/api/musics/$&#123;musicId&#125;/`);
+                music.value = response.data;
             &#125; catch (error) &#123;
-                console.error('Erro ao buscar músicas:', error);
+                console.error('Erro ao buscar dados da música:', error);
             &#125;
-        &#125;,
-        showForm(formType) &#123;
-            this.activeForm = formType;
-            this.closeConfirmDialog();
-        &#125;,
-        closeForm() &#123;
-            this.activeForm = null;
-            this.editingMusic = null;
-        &#125;,
-        editMusic(music) &#123;
-            this.editingMusic = &#123; ...music &#125;;
-            this.showForm('edit');
-        &#125;,
-        onMusicUpdated() &#123;
-            this.closeForm();
-            this.fetchMusics();
-        &#125;,
-        onMusicAdded() &#123;
-            this.closeForm();
-            this.fetchMusics();
-        &#125;,
-        confirmDelete(id) &#123;
-            this.closeForm();
-            this.musicToDelete = id;
-            this.showConfirmDialog = true;
-        &#125;,
-        async deleteMusic() &#123;
+        &#125;;
+
+        const confirmDelete = async () =&gt; &#123;
             try &#123;
-                await this.$axios.delete(`http://localhost:8000/api/musics/$&#123;this.musicToDelete&#125;/`);
-                this.fetchMusics();
-                this.closeConfirmDialog();
+                await axios.delete(`http://localhost:8000/api/musics/$&#123;musicId&#125;/`);
+                router.push(&#123; name: 'list-music' &#125;);
             &#125; catch (error) &#123;
                 console.error('Erro ao excluir música:', error);
             &#125;
-        &#125;,
-        closeConfirmDialog() &#123;
-            this.showConfirmDialog = false;
-            this.musicToDelete = null;
-        &#125;,
-    &#125;,
-    created() &#123;
-        this.fetchMusics();
+        &#125;;
+
+        const cancel = () =&gt; &#123;
+            router.push(&#123; name: 'list-music' &#125;);
+        &#125;;
+
+        onMounted(fetchMusicDetails);
+        return &#123;
+            music,
+            confirmDelete,
+            cancel,
+        &#125;;
     &#125;,
 &#125;;
 &lt;/script&gt;
+
+&lt;style scoped&gt;&lt;/style&gt;
+</code></pre></small>
+
+            <br><p>/src/components/EditMusic.vue:</p>
+<small><pre><code>
+&lttemplate&gt;
+    &lth1&gt;Editar música&lt/h1&gt;
+    &ltform @submit.prevent="submitEdit"&gt;
+        &ltinput type="text" placeholder="Título" v-model="music.title" required&gt;
+        &ltinput type="text" placeholder="Artista" v-model="music.artist" required&gt;
+        &ltbutton type="submit"&gt;Confirmar&lt/button&gt;
+        &ltbutton @click="cancelEdit"&gt;Cancelar&lt/button&gt;
+    &lt/form&gt;
+
+    &ltdiv v-if="errorMessage" class="error"&gt;&#123;&#123; errorMessage &#125;&#125;&lt/div&gt;
+&lt/template&gt;
+
+&ltscript&gt;
+import &#123; ref, onMounted &#125; from 'vue';
+import axios from 'axios';
+import &#123; useRoute, useRouter &#125; from 'vue-router';
+
+export default &#123;
+    setup() &#123;
+        const music = ref(&#123; title: '', artist: '' &#125;);
+        const originalMusic = ref(&#123; title: '', artist: '' &#125;);
+        const errorMessage = ref('');
+        const router = useRouter();
+        const route = useRoute();
+        const musicId = route.params.id;
+        const musics = ref([]);
+
+        const fetchMusics = async () =&gt; &#123;
+            try &#123;
+                const response = await axios.get('http://localhost:8000/api/musics/');
+                musics.value = response.data;
+            &#125; catch (error) &#123;
+                console.error('Erro ao buscar música', error);
+            &#125;
+        &#125;;
+
+        const fetchMusic = async () =&gt; &#123;
+            try &#123;
+                const response = await axios.get(`http://localhost:8000/api/musics/$&#123;musicId&#125;/`);
+                music.value = response.data;
+                originalMusic.value = &#123; ...response.data &#125;;
+            &#125; catch (error) &#123;
+                console.error('Erro ao buscar música', error);
+            &#125;
+        &#125;;
+
+        const validateMusic = () =&gt; &#123;
+            if (music.value.title === originalMusic.value.title && music.value.artist === originalMusic.value.artist) &#123;
+                return true;
+            &#125;
+
+            const existingMusic = musics.value.find(
+                (m) =&gt; m.title === music.value.title && m.artist === music.value.artist && m.id !== musicId
+            );
+            if (existingMusic) &#123;
+                errorMessage.value = 'Música já cadastrada';
+                return false;
+            &#125;
+
+            errorMessage.value = '';
+            return true;
+        &#125;;
+
+        const submitEdit = async () =&gt; &#123;
+            if (!validateMusic()) &#123;
+                return;
+            &#125;
+
+            try &#123;
+                await axios.put(`http://localhost:8000/api/musics/$&#123;musicId&#125;/`, music.value);
+                router.push(&#123; name: 'list-music' &#125;);
+            &#125; catch (error) &#123;
+                console.error('Erro ao editar música', error);
+            &#125;
+        &#125;;
+
+        const cancelEdit = () =&gt; &#123;
+            router.push(&#123; name: 'list-music' &#125;);
+        &#125;;
+
+        onMounted(() =&gt; &#123;
+            fetchMusics();
+            fetchMusic();
+            
+        &#125;);
+
+        return &#123;
+            music,
+            errorMessage,
+            submitEdit,
+            cancelEdit,
+        &#125;;
+    &#125;,
+&#125;;
+&lt/script&gt;
+
+&ltstyle scoped&gt;&lt/style&gt;
+</code></pre></small>
+
+            <br><p>/src/components/ListMusic.vue:</p>
+<small><pre><code>
+&lt;template&gt;
+    &lt;div v-if="musics.length === 0"&gt;
+        &lt;p&gt;Não há músicas disponíveis.&lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;ul v-else&gt;
+        &lt;li v-for="music in musics" :key="music.id"&gt;
+            &lt;div v-if="!confirmingMusicId || confirmingMusicId !== music.id"&gt;
+                Id: &#123;&#123; music.id &#125;&#125;
+                Título: &#123;&#123; music.title &#125;&#125;
+                Artista: &#123;&#123; music.artist &#125;&#125;
+                &lt;button @click="viewMusic(music.id)"&gt;Ver&lt;/button&gt;
+                &lt;button @click="goToEditMusic(music.id)"&gt;Editar&lt;/button&gt;
+                &lt;button @click="goToDeleteMusic(music.id)"&gt;Excluir&lt;/button&gt;
+                &lt;button @click="startConfirmDelete(music.id)"&gt;ExcluirDiretamente&lt;/button&gt;
+            &lt;/div&gt;
+
+            &lt;ConfirmDialogDelete v-if="confirmingMusicId === music.id" :music="music" @cancel="cancelDelete" @confirm="confirmDelete" /&gt;
+        &lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;button @click="goToAddMusic"&gt;Adicionar música&lt;/button&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+import &#123; ref, onMounted &#125; from 'vue';
+import axios from 'axios';
+import &#123; useRouter &#125; from 'vue-router';
+import ConfirmDialogDelete from './ConfirmDialogDelete.vue';
+
+export default &#123;
+    components: &#123;
+        ConfirmDialogDelete
+    &#125;,
+    setup() &#123;
+        const musics = ref([]);
+        const confirmingMusicId = ref(null);
+        const router = useRouter();
+
+        const fetchMusics = async () =&gt; &#123;
+            try &#123;
+                const response = await axios.get('http://localhost:8000/api/musics/');
+                musics.value = response.data;
+            &#125; catch (error) &#123;
+                console.error('Erro ao buscar música', error);
+            &#125;
+        &#125;;
+
+        onMounted(fetchMusics);
+
+        const viewMusic = (id) =&gt; &#123;
+            router.push(&#123; name: 'music-detail', params: &#123; id &#125; &#125;);
+        &#125;;
+
+        const goToDeleteMusic = (id) =&gt; &#123;
+            router.push(&#123; name: 'delete-music', params: &#123; id &#125; &#125;);
+        &#125;;
+
+        const goToEditMusic = (id) =&gt; &#123;
+            router.push(&#123; name: 'edit-music', params: &#123; id &#125; &#125;);
+        &#125;;
+
+        const goToAddMusic = () =&gt; &#123;
+            router.push(&#123; name: 'add-music' &#125;);
+        &#125;;
+
+        const startConfirmDelete = (id) =&gt; &#123;
+            confirmingMusicId.value = id;
+        &#125;;
+
+        const cancelDelete = () =&gt; &#123;
+            confirmingMusicId.value = null;
+        &#125;;
+
+        const confirmDelete = async (id) =&gt; &#123;
+            try &#123;
+                await axios.delete(`http://localhost:8000/api/musics/$&#123;id&#125;/`);
+                musics.value = musics.value.filter((music) =&gt; music.id !== id);
+                confirmingMusicId.value = null;
+            &#125; catch (error) &#123;
+                console.error('Erro ao excluir música', error);
+            &#125;
+        &#125;;
+
+        return &#123;
+            musics,
+            confirmingMusicId,
+            viewMusic,
+            goToDeleteMusic,
+            goToEditMusic,
+            goToAddMusic,
+            startConfirmDelete,
+            cancelDelete,
+            confirmDelete,
+        &#125;;
+    &#125;,
+&#125;;
+&lt;/script&gt;
+
+&lt;style scoped&gt;&lt;/style&gt;
+</code></pre></small>
+
+            <br><p>/src/components/ShowMusic.vue:</p>
+<small><pre><code>
+&lt;template&gt;
+    &lt;h1&gt;Música:&lt;/h1&gt;
+    &lt;p&gt;Id: &#123;&#123; music.id &#125;&#125;&lt;/p&gt;
+    &lt;p&gt;Título: &#123;&#123; music.title &#125;&#125;&lt;/p&gt;
+    &lt;p&gt;Artista: &#123;&#123; music.artist &#125;&#125;&lt;/p&gt;
+    &lt;button @click="goBack"&gt;Voltar&lt;/button&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+import &#123; ref, onMounted &#125; from 'vue';
+import axios from 'axios';
+import &#123; useRouter &#125; from 'vue-router';
+
+export default &#123;
+    setup() &#123;
+        const music = ref(&#123;&#125;);
+        const router = useRouter();
+        const musicId = router.currentRoute.value.params.id;
+
+        const fetchMusicDetails = async () =&gt; &#123;
+            try &#123;
+                const response = await axios.get(`http://localhost:8000/api/musics/$&#123;musicId&#125;/`);
+                music.value = response.data;
+            &#125; catch (error) &#123;
+                console.error("Erro ao buscar dados da música:", error);
+            &#125;
+        &#125;;
+
+        onMounted(fetchMusicDetails);
+
+        const goBack = () =&gt; &#123;
+            router.push(&#123; name: 'list-music' &#125;);
+        &#125;;
+        return &#123;
+            music,
+            goBack,
+        &#125;;
+    &#125;,
+&#125;;
+&lt;/script&gt;
+
+&lt;style scoped&gt;&lt;/style&gt;
+</code></pre></small>
+
+            <br><p>/src/router/index.js:</p>
+<small><pre><code>
+import &#123; createRouter, createWebHistory &#125; from "vue-router";
+import ListMusic from '../components/ListMusic.vue';
+import ShowMusic from '../components/ShowMusic.vue';
+import EditMusic from '../components/EditMusic.vue';
+import AddMusic from '../components/AddMusic.vue';
+import DeleteMusic from '../components/DeleteMusic.vue';
+
+const routes = [
+    &#123;
+        path: '/',
+        name: 'list-music',
+        component: ListMusic,
+    &#125;,
+    &#123;
+        path: '/music/:id',
+        name: 'music-detail',
+        component: ShowMusic,
+    &#125;,
+    &#123;
+        path: '/edit/:id',
+        name: 'edit-music',
+        component: EditMusic,
+    &#125;,
+    &#123;
+        path: '/add',
+        name: 'add-music',
+        component: AddMusic,
+    &#125;,
+    &#123;
+        path: '/delete/:id',
+        name: 'delete-music',
+        component: DeleteMusic,
+    &#125;,
+];
+
+const router = createRouter(&#123;
+    history: createWebHistory(process.env.BASE_URL),
+    routes,
+&#125;);
+
+export default router;
+</code></pre></small>
+
+            <br><p>/src/App.vue:</p>
+<small><pre><code>
+&lttemplate&gt;
+    &ltdiv id="app"&gt;
+        &lth1&gt;Lista de músicas UB Social&lt/h1&gt;
+        &ltrouter-view&gt;&lt/router-view&gt;
+    &lt/div&gt;
+&lt/template&gt;
+
+&ltscript&gt;
+export default &#123;
+    name: 'App',
+&#125;;
+&lt/script&gt;
+
+&lt;style scoped&gt;&lt;/style&gt;
+</code></pre></small>
+
+            <br><p>/src/main.js:</p>
+<small><pre><code>
+import &#123; createApp &#125; from 'vue';
+import App from './App.vue';
+import router from './router';
+import './assets/styles/global.css';
+
+const app = createApp(App);
+app.use(router);
+app.mount('#app');
+</code></pre></small>
+
+            <br><p>vue.config.js:</p>
+<small><pre><code>
+const &#123; defineConfig &#125; = require('@vue/cli-service')
+module.exports = defineConfig(&#123;
+    transpileDependencies: true
+&#125;)
 </code></pre></small>
         </div>
     </div>
