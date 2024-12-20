@@ -47,6 +47,11 @@
                 <li><b>Desenvolvimento</b>: Ambiente onde é desenvolvida a aplicação. Totalmente interno, destina-se à livre criação do software, resolução de problemas tradicionais, refatoração, implementação prática de novos códigos e tecnologias. Após a finalização do código, a aplicação é repassada ao próximo ambiente;</li>
                 <li><b>Homologação/Testes/Stage/Pre-Prod</b>: 'Encenar ambiente de produção', testando todas as possibilidades e cenários em que a aplicação será utilizada, em busca de bugs e demais problemas. Tal ambiente deve ser o mais similar possível com o ambiente de produção, nos quuesitos software, hardware, libraries, etc. Entre os testes, tem-se performance, vulnerabilidades, segurança e análise de risco, integração (Código e acesso à base de dados). Além disso, o ambiente também é utilizado para terceiros (Gerentes, demais equipes, clientes) avaliarem o software, em busca de melhorias, features, UAT (User Acceptance Testing - Determinado número de usuários diferentes testam e avaliam a aplicação, informando feedback à equipe de desenvolvimento). Em alguns casos, tal ambiente também pode ser usado para treinamento com o cliente. Features com bugs encontrados no Staging serão desenvolvidas para o Development;</li>
                 <li><b>Produção</b>: Ambiente de utilização real da aplicação, onde não são tolerados erros/falhas na mesma. Falhas na aplicação podem quebrá-la, gerando vazamento de dados, perdas financeiras e até de vidas (Sistemas críticos). Dessa forma, nesse ambiente permanecem somente aplicação com features finalizadas, efetivamente disponíveis para uso (Descartam-se, desse ambiente, versões alfa, beta e dados de teste).</li>
+
+                <hr>
+                <p><b>Build</b> (construir): Selecionar todos códigos/artefatos do projeto e prepará-los (compilar, empacotar, push) para Deploy.</p>
+                <p><b>Deploy</b> (implantar): Enviar (push) build para servidor (produção), executando o projeto, tornando-o acessível e pronto para cliente.</p>
+                <p>O passos de build e deploy podem ser automatizados via arquivos de código, denominados <b>Pipelines</b>.</p>
             </ol>
         </div>
     </div>
