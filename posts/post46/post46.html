@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../../icons/logoTit.png">
+    <link rel="stylesheet" href="../../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <nav class="navbar rounded-bottom fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="../../index.html"><img src="../../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../sobre/sobre.html">Sobre</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../livros/livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 text-center" id="titulo">
+            <h1>MySQL BD Restaurante</h1>
+            <h6><strong>Diagramação e codificação</strong></h6>
+            <a href="../../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a><br>
+            <a href="" class="btn btn-link text-decoration-none disabled" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="1.3em" height="1.3em" fill="currentColor" class="bi bi-youtube text-danger" viewBox="0 0 16 16"><path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.007 2.007 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.007 2.007 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31.4 31.4 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.007 2.007 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A99.788 99.788 0 0 1 7.858 2h.193zM6.4 5.209v4.818l4.157-2.408L6.4 5.209z"/></svg> Conteúdo disponível</a><br>
+        </div>
+
+        <div class="col-sm-12">
+            <h4>Problemática</h4>
+            <p id="textoPost">O restaurante do Papai Noel, localizado no coração do Polo Norte, enfrenta desafios para gerenciar o fluxo mágico de clientes durante a temporada de Natal. Com elfos atendentes, renas como clientes e itens exclusivos do cardápio inspirados no espírito natalino, o restaurante precisa de uma base de dados eficiente para organizar suas operações. Os desafios incluem:</p>
+            <ul>
+                <li>Gerenciar clientes, com registro da atividade no restaurante e identificação de quem atua como atendente.</li>
+                <li>Gerenciar categorias de itens mágicos, como "Bebidas Quentes do Pólo" (ex.: chocolate quente com canela encantada), "Doces de Natal" (ex.: biscoitos de gengibre animados) e "Pratos Festivos" (ex.: peru assado com glacê estrelado).</li>
+                <li>Gerenciar comandas das mesas, desde abertura até encerramento, registrando pedidos personalizados, como bebidas e sobremesas com mensagens mágicas.</li>
+                <li>Associar cada pedido ao atendente, permitindo identificar quem realizou o atendimento para premiar os melhores elfos no final da temporada natalina.</li>
+            </ul>
+            <p id="textoPost">Um banco de dados relacional robusto e encantado será a base para organizar todas essas informações e garantir que o restaurante do Papai Noel continue a oferecer uma experiência mágica e impecável durante o Natal.</p>
+            
+            <br><h4>Pré-requisitos</h4>
+            <ul>
+                <li>XAMPP;</li>
+                <li>Códigos MySQL via phpMyAdmin.</li>
+            </ul>
+
+            <br><h4>Modelo ER</h4>
+            <img src="modelo_er.png" class="img-fluid" width="500px"><br>
+            
+            <br>
+            <ul>
+                <u>Entidades e atributos:</u>
+                <li><b>Cliente</b>: cpf (PK), nome, ativo, atendente.</li>
+                <li><b>Categoria</b>: codigo (PK), descricao.</li>
+                <li><b>Item</b>: codigo (PK), descricao, valor, ativo, qtdEstoque, codCategoria (FK -&gt; Categoria.codigo).</li>
+                <li><b>Comanda</b>: codigo (PK), mesa, estado, dtHrAbertura, dtHrEncerramento, valorTotal, cpfCliente (FK -&gt; Cliente.cpf), cpfAtendente (FK -&gt; Cliente.cpf).</li>
+                <li><b>Comanda_Item</b>: codComanda (FK -&gt; Comanda.codigo), codItem (FK -&gt; Item.codigo), qtdItem, obs.</li>
+            </ul>
+
+            <ul>
+                <u>Relacionamentos e multiplicidades:</u>
+                <li><b>Cliente ↔ Comanda</b>: 1 cliente pode ter várias comandas (1:N); 1 comanda pertence a exatamente 1 cliente (N:1).</li>
+                <li><b>Categoria ↔ Item</b>: 1 categoria pode conter vários itens (1:N); 1 item pertence a exatamente 1 categoria (N:1).</li>
+                <li><b>Comanda ↔ Comanda_Item</b>: 1 comanda pode ter vários itens associados (1:N); 1 item pode estar associado a várias comandas (N:M, intermediado pela tabela Comanda_Item).</li>
+                <li><b>Item ↔ Comanda_Item</b>: 1 item pode aparecer em várias comandas (1:N); 1 entrada de comanda pode referenciar exatamente 1 item (N:1).</li>
+                <li><b>Cliente (como Atendente) ↔ Comanda</b>: 1 atendente pode estar associado a várias comandas (1:N); 1 comanda tem exatamente 1 atendente responsável (N:1).</li>
+            </ul>
+
+            <br><h4>Queries</h4>
+            <ul>
+                <li>Queries DDL (Data Definition Language):</li>
+                    <ul>
+                        <li>CREATE TABLE cliente;</li>
+                        <li>CREATE TABLE categoria;</li>
+                        <li>CREATE TABLE item;</li>
+                        <li>CREATE TABLE comanda;</li>
+                        <li>CREATE TABLE comanda_item.</li>
+                    </ul>
+                </li>
+                <li>Queries DML (Data Manipulation Language):
+                    <ul>
+                        <li>INSERT INTO cliente (cpf, nome);</li>
+                        <li>INSERT INTO cliente (cpf, nome, atendente);</li>
+                        <li>INSERT INTO categoria (descricao);</li>
+                        <li>INSERT INTO item (descricao, valor, qtdEstoque, codCategoria);</li>
+                        <li>INSERT INTO comanda (mesa, cpfCliente, cpfAtendente);</li>
+                        <li>INSERT INTO comanda_item (codComanda, codItem, qtdItem);</li>
+                        <li>INSERT INTO comanda_item (codComanda, codItem, qtdItem, obs).</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <br><h4>Códigos</h4>
+<small><pre><code>
+CREATE DATABASE restaurante;
+USE restaurante;
+
+CREATE TABLE cliente (
+    cpf VARCHAR(11) PRIMARY KEY,
+    nome VARCHAR(50) NOT NULL,
+    ativo BOOLEAN NOT NULL DEFAULT 1,
+    atendente BOOLEAN NOT NULL DEFAULT 0
+);
+
+CREATE TABLE categoria (
+    codigo INTEGER AUTO_INCREMENT PRIMARY KEY,
+    descricao VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE item (
+    codigo INTEGER AUTO_INCREMENT PRIMARY KEY,
+    descricao VARCHAR(50) NOT NULL,
+    valor FLOAT NOT NULL DEFAULT 0,
+    ativo BOOLEAN NOT NULL DEFAULT 1,
+    qtdEstoque FLOAT NOT NULL DEFAULT 0,
+    codCategoria INTEGER NOT NULL,
+    FOREIGN KEY(codCategoria) REFERENCES categoria(codigo)
+);
+
+CREATE TABLE comanda (
+    codigo INTEGER AUTO_INCREMENT PRIMARY KEY,
+    mesa INTEGER NOT NULL,
+    estado VARCHAR(20) NOT NULL DEFAULT 'aberta',
+    dtHrAbertura DATETIME NOT NULL DEFAULT NOW(),
+    dtHrEncerramento DATETIME,
+    valorTotal FLOAT NOT NULL DEFAULT 0,
+    cpfCliente VARCHAR(11) NOT NULL,
+    cpfAtendente VARCHAR(11) NOT NULL,
+    FOREIGN KEY(cpfCliente) REFERENCES cliente(cpf),
+    FOREIGN KEY(cpfAtendente) REFERENCES cliente(cpf)
+);
+
+CREATE TABLE comanda_item (
+    codComanda INTEGER NOT NULL,
+    codItem INTEGER NOT NULL,
+    qtdItem FLOAT NOT NULL,
+    obs VARCHAR(100),
+    FOREIGN KEY(codComanda) REFERENCES comanda(codigo),
+    FOREIGN KEY(codItem) REFERENCES item(codigo)
+);
+
+# Inserção de dados de clientes:
+INSERT INTO cliente (cpf, nome) VALUES
+('12345678901', 'Rodolfo, o Renegado'),
+('23456789012', 'Maria, a Estrela Guia'),
+('34567890123', 'Jingle Bells'),
+('45678901234', 'Clara, a Mãe Natalina');
+
+# Inserção de dados de atendentes:
+INSERT INTO cliente (cpf, nome, atendente) VALUES
+('56789012345', 'Filó, o Mordomo', 1),
+('67890123456', 'Lúcia, a Mamãe Noel', 1);
+
+# Inserção de categorias:
+INSERT INTO categoria (descricao) VALUES
+('Ceia dos Elfos'),
+('Delícias do Trenó'),
+('Sabores do Pólo Norte');
+
+# Inserção de itens:
+INSERT INTO item (descricao, valor, qtdEstoque, codCategoria) VALUES
+('Pernil do Papai Noel', 49.90, 100, 1),
+('Rabanada Encantada', 19.90, 150, 2),
+('Sopa de Neve Mágica', 29.90, 80, 1),
+('Torta do Treno', 24.90, 120, 2),
+('Capuccino do Pólo Norte', 9.90, 200.4, 3);
+
+# Inserção de comandas:
+INSERT INTO comanda (mesa, cpfCliente, cpfAtendente) VALUES
+(1, '12345678901', '56789012345'),
+(2, '23456789012', '67890123456');
+
+# Inserção de itens em comandas:
+INSERT INTO comanda_item (codComanda, codItem, qtdItem) VALUES (2, 3, 1);
+
+INSERT INTO comanda_item (codComanda, codItem, qtdItem, obs) VALUES
+(1, 2, 4, 'Rabanadas com bengalas doces'),
+(2, 4, 2, 'Torta de chocolate e frutas vermelhas');
+</code></pre></small>
+
+            <br><h4>Exportar BD</h4>
+            <p id="textoPost">Exportar base de dados via phpMyAdmin</p>
+            <ol>
+                <li>Selecionar banco de dados;</li>
+                <li>Aba "Exportar";</li>
+                <li>Selecionar "Rápido" ou "Personalizado";</li>
+                <li>Selecionar formato SQL ("Executar");</li>
+                <li>Baixe o arquivo.</li>
+            </ol>
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center bg-black text-light pt-4 pb-3">
+        <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>
