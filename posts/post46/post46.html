@@ -188,6 +188,90 @@ INSERT INTO comanda_item (codComanda, codItem, qtdItem) VALUES (2, 3, 1);
 INSERT INTO comanda_item (codComanda, codItem, qtdItem, obs) VALUES
 (1, 2, 4, 'Rabanadas com bengalas doces'),
 (2, 4, 2, 'Torta de chocolate e frutas vermelhas');
+
+# Ver descrição, código e categoria:
+SELECT i.*, c.descricao FROM item as i, categoria as c WHERE i.codCategoria = c.codigo;
+
+# Ver CPFs com seus nomes:
+SELECT 
+    c.mesa, 
+    ca.cpf AS cpf_atendente, 
+    ca.nome AS nome_atendente, 
+    cl.cpf AS cpf_cliente, 
+    cl.nome AS nome_cliente
+FROM 
+    comanda c, cliente ca, cliente cl
+WHERE 
+    c.cpfAtendente = ca.cpf
+    AND c.cpfCliente = cl.cpf;
+
+# Ver itens de comandas:
+SELECT ci.codComanda, ci.codItem, i.descricao, ci.qtdItem, ci.obs FROM comanda_item as ci, item as i WHERE ci.codItem = i.codigo;
+
+# Ver comandas abertas:
+SELECT
+    c.codigo AS comanda_codigo,
+    c.mesa,
+    c.estado,
+    c.dtHrAbertura,
+    c.dtHrEncerramento,
+    c.valorTotal,
+    c.cpfCliente AS cpf_cliente,
+    cl.nome AS nome_cliente,
+    c.cpfAtendente AS cpf_atendente,
+    a.nome AS nome_atendente,
+    ci.codItem AS item_codigo,
+    i.descricao AS item_nome,
+    ci.qtdItem,
+    ci.obs
+FROM comanda c
+JOIN cliente cl ON c.cpfCliente = cl.cpf
+JOIN cliente a ON c.cpfAtendente = a.cpf
+JOIN comanda_item ci ON c.codigo = ci.codComanda
+JOIN item i ON ci.codItem = i.codigo
+WHERE c.estado="aberta"
+ORDER BY codComanda;
+
+# Fechar comanda aberta:
+UPDATE comanda SET estado="fechada", dtHrEncerramento=NOW() WHERE codigo=1;
+
+# Atualizar valor total da comanda fechada (valor total é a soma do valor total dos seus itens (qtdItem * valor)):
+UPDATE comanda c
+JOIN (
+    SELECT 
+        ci.codComanda,
+        SUM(ci.qtdItem * i.valor) AS total
+    FROM 
+        comanda_item ci
+    JOIN 
+        item i ON ci.codItem = i.codigo
+    GROUP BY 
+        ci.codComanda
+) AS subquery ON c.codigo = subquery.codComanda
+SET 
+    c.valorTotal = subquery.total
+WHERE 
+    c.codigo = 1;
+
+# Fechar comanda 2:
+UPDATE comanda SET estado="fechada", dtHrEncerramento=NOW() WHERE codigo=2;
+
+UPDATE comanda c
+JOIN (
+    SELECT 
+        ci.codComanda,
+        SUM(ci.qtdItem * i.valor) AS total
+    FROM 
+        comanda_item ci
+    JOIN 
+        item i ON ci.codItem = i.codigo
+    GROUP BY 
+        ci.codComanda
+) AS subquery ON c.codigo = subquery.codComanda
+SET 
+    c.valorTotal = subquery.total
+WHERE 
+    c.codigo = 2;
 </code></pre></small>
 
             <br><h4>Exportar BD</h4>
