@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../../icons/logoTit.png">
+    <link rel="stylesheet" href="../../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <nav class="navbar rounded-bottom fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="../../index.html"><img src="../../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../sobre/sobre.html">Sobre</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../livros/livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 text-center" id="titulo">
+            <h1>TypeScript</h1>
+            <h6><strong>Sintaxe TypeScript</strong></h6>
+            <a href="../../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
+        </div>
+
+        <div class="col-sm-12">
+            <h4>Conceito:</h4>
+            <p id="textoPost">Linguagem da Microsoft, transpilada em JavaScript, atribuída de conceitos OOP como classes, módulos, interfaces, genéricos e (opcional) tipagem estática para JavaScript. Arquivos TypeScript possuem final '<b>.ts</b>'. Todo código JavaScript é TypeScript válido, podendo ser adicionado a qualquer projeto. Pode ser testado no <a href="https://www.typescriptlang.org/Playground" target="_blank" class="text-decoration-none">playground</a> online.</p>
+
+            <br><h4>Tipos de dados:</h4>
+<small><pre><code>
+console.log("Olá!"); // Imprimir no console
+var isDone: boolean = false; // Booleano true ou false
+var lines: number = 42; // Números inteiros ou decimais
+var name: string = "Anders"; // String com aspas duplas ou simples
+
+var notSure: any = 4; // Qualquer tipo
+notSure = "maybe a string instead";
+notSure = false;
+
+var list: number[] = [1, 2, 3]; // Matriz
+var list: Array&lt;number&gt; = [1, 2, 3]; // Matriz genérica
+
+// Percorrer valores da matriz
+for (var i = 0; i &lt; list.length; i++) &#123;
+    console.log(list[i]);
+&#125;
+for (var i in list) &#123;
+    console.log(list[i]);
+&#125;
+for (var i of list) &#123;
+    console.log(i);
+&#125;
+
+var x: [string, number]; // Tupla
+x = ["hello", 10]; // OK
+x = [10, "hello"]; // Erro
+
+enum Color &#123;Red, Green, Blue&#125;; // Enumeração
+var c: Color = Color.Green; // 1
+var colorName: string = Color[2]; // Blue
+
+var notSure: unknown = 4; // Tipo desconhecido
+var u: undefined = undefined; // Indefinido
+var n: null = null; // Nulo
+
+function bigHorribleAlert(): void &#123; // Vazio (sem retorno)
+    alert("I'm a little annoying box!");
+&#125;
+</code></pre></small>
+
+            <br><h4>Funções:</h4>
+<small><pre><code>
+// Função com tipagem e parâmetros obrigatórios
+function soma(x: number, y: number): number &#123;
+    return x + y;
+&#125;
+soma(1, 2); // 3
+
+// Função com parâmetros opcionais
+function buildName(firstName: string, lastName?: string): string &#123;
+    if (lastName)
+        return firstName + " " + lastName;
+    else
+        return firstName;
+&#125;
+
+// Função anônima
+var f1 = function(i: number): number { return i * i; }
+
+// Tipo de retorno inferido
+var f2 = function(i: number) { return i * i; }
+var f3 = (i: number): number =&gt; { return i * i; }
+
+// Tipo de retorno inferido
+var f4 = (i: number) =&gt; { return i * i; }
+
+// Tipo de retorno inferido, one-liner significa nenhuma palavra-chave retorno necessário
+var f5 = (i: number) =&gt;  i * i;
+console.log(f5(2)); // 4
+</code></pre></small>
+
+            <br><h4>Interfaces:</h4>
+<small><pre><code>
+interface Pessoa &#123;
+    nome: string;
+    idade: number;
+    sexo?: string; // Opcional
+    [propName: string]: any; // Propriedades dinâmicas
+&#125;
+
+function printPessoa(pessoa: Pessoa) &#123;
+    console.log(pessoa.nome);
+    console.log(pessoa.idade);
+    console.log(pessoa.sexo);
+&#125;
+
+var p1 = &#123;nome: "João", idade: 25&#125;;
+printPessoa(p1);
+
+// Interfaces como tipo de função
+interface SearchFunc {
+    (source: string, subString: string): boolean;
+}
+console.log(SearchFunc("abc", "a")); // true
+console.log(SearchFunc("abc", "d")); // false
+
+var mySearch: SearchFunc;
+mySearch = function(src: string, sub: string) {
+    return src.search(sub) != -1;
+}
+console.log(mySearch("abc", "a")); // true
+console.log(mySearch("abc", "d")); // false
+</code></pre></small>
+
+            <br><h4>Objetos:</h4>
+<small><pre><code>
+// Implementação de interface
+interface Usuario {
+    id: number;
+    nome: string;
+    email: string;
+}
+
+// Objeto que implementa interface Usuario
+const user: Usuario = {
+    id: 1,
+    nome: "Maria",
+    email: "maria@email.com"
+};
+
+// Objeto com propriedades dinâmicas
+const obj: { [key: string]: string } = {
+    nome: "João",
+    idade: "25"
+};
+
+// Objeto construído através de classe
+class Pessoa &#123;
+    nome: string;
+    idade: number;
+    constructor(nome: string, idade: number) &#123;
+        this.nome = nome;
+        this.idade = idade;
+    &#125;
+    printPessoa() &#123;
+        console.log(this.nome);
+        console.log(this.idade);
+    &#125;
+&#125;
+
+var p1 = new Pessoa("João", 25);
+p1.printPessoa();
+var p: Pessoa = &#123;nome: "João", idade: 25&#125;; // Objeto que implementa interface Pessoa
+
+var p: Person = { name: "Bobby", move: () =&gt; {} };
+var validPerson: Person = { name: "Bobby", age: 42, move: () =&gt; {} }; // Propriedade opcional
+var invalidPerson: Person = { name: "Bobby", age: true }; // Não é Person porque age não é número
+</code></pre></small>
+
+            <br><h4>Classes:</h4>
+<small><pre><code>
+class Animal &#123;
+    nome: string;
+
+    constructor(nome: string, public idade: number = 0) &#123;
+        this.nome = nome;
+    &#125;
+    
+    move(metros: number = 0) &#123;
+        console.log(this.nome + " moveu " + metros + "m");
+    &#125;
+
+    static origin = new Animal("Origem", 0);
+&#125;
+
+var a = new Animal("Cachorro", 2);
+a.move(10); // Cachorro moveu 10m
+a.origin; // Origem moveu 0m
+a.origin.move(0); // Origem moveu 0m
+var b = new Animal("Gato");
+console.log(b.idade); // idade é 0
+</code></pre></small>
+
+            <br><h4>Herança:</h4>
+<small><pre><code>
+class Cachorro extends Animal &#123;
+    latir() &#123;
+        console.log("Au au!");
+    &#125;
+&#125;
+
+var c = new Cachorro("Rex", 3);
+c.move(10); // Rex moveu 10m
+c.latir(); // Au au!
+
+class Gato extends Animal &#123;
+    constructor(nome: string, idade: number, public cor: string) &#123;
+        super(nome, idade);
+    &#125;
+    miar() &#123;
+        console.log("Miau!");
+    &#125;
+&#125;
+
+var g = new Gato("Mingau", 1, "preto");
+g.move(5); // Mingau moveu 5m
+g.miar(); // Miau!
+
+class Point {
+    x: number;
+
+    constructor(x: number, public y: number = 0) {
+        this.x = x;
+    }
+
+    dist() { return Math.sqrt(this.x * this.x + this.y * this.y); }
+    static origin = new Point(0, 0);
+}
+
+var p1 = new Point(10 ,20);
+var p2 = new Point(25);
+
+// Herança
+class Point3D extends Point {
+    constructor(x: number, y: number, public z: number = 0) {
+        super(x, y);
+    }
+
+    // Sobrescrever
+    dist() {
+        var d = super.dist();
+        return Math.sqrt(d * d + this.z * this.z);
+    }
+}
+
+var p3 = new Point3D(10, 20, 30);
+console.log(p3.dist()); // 37.416573867739416
+console.log(Point.origin); // Point { x: 0, y: 0 }
+console.log(Point3D.origin); // Point { x: 0, y: 0 }
+console.log(Point3D.origin.dist()); // 0
+console.log(Point3D.origin.z); // undefined
+console.log(Point3D.origin.x); // 0
+</code></pre></small>
+
+            <br><h4>Módulos:</h4>
+<small><pre><code>
+module Geometry {
+  export class Square {
+    constructor(public sideLength: number = 0) {
+    }
+    area() {
+      return Math.pow(this.sideLength, 2);
+    }
+  }
+}
+
+var s1 = new Geometry.Square(5); // 25 ("." pode ser utilizado como separador de sub módulos)
+
+import G = Geometry; // Alias no local para fazer referência a um módulo
+var s2 = new G.Square(10);
+console.log(s2.area()); // 100
+console.log(G.Square); // [Function: Square]
+console.log(G.Square.prototype.area); // [Function: area]
+console.log(G.Square.prototype.area()); // NaN
+console.log(G.Square.prototype.area.call(s2)); // 100
+console.log(G.Square.prototype.area.call(G.Square(5))); // NaN
+</code></pre></small>
+
+            <br><h4>Genéricos:</h4>
+<small><pre><code>
+<b class="text-danger">CONTINUA AQUI</b>
+<!--
+LINKS:
+https://chatgpt.com/share/67797530-e440-8013-9fe2-fbde557c2da3
+https://learnxinyminutes.com/pt-br/typescript
+-->
+</code></pre></small>
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center bg-black text-light pt-4 pb-3">
+        <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>
