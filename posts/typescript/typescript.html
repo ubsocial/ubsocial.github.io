@@ -40,7 +40,13 @@
 
         <div class="col-sm-12">
             <h4>Conceito:</h4>
-            <p id="textoPost">Linguagem da Microsoft, transpilada em JavaScript, atribuída de conceitos OOP como classes, módulos, interfaces, genéricos e (opcional) tipagem estática para JavaScript. Arquivos TypeScript possuem final '<b>.ts</b>'. Todo código JavaScript é TypeScript válido, podendo ser adicionado a qualquer projeto. Pode ser testado no <a href="https://www.typescriptlang.org/Playground" target="_blank" class="text-decoration-none">playground</a> online.</p>
+            <p id="textoPost">Linguagem da Microsoft, transpilada em JavaScript, atribuída de conceitos OOP como classes, módulos, interfaces, genéricos e (opcional) tipagem estática para JavaScript. Arquivos TypeScript possuem final '<b>.ts</b>'. Todo código JavaScript é TypeScript válido, podendo ser adicionado a qualquer projeto. Pode ser testado no <a href="https://www.typescriptlang.org/Playground" target="_blank" class="text-decoration-none">playground</a> online. Para transpirar arquivos TS para JS, utiliza-se comando "tsc arquivo.ts".</p>
+
+            <br><h4>Instalação:</h4>
+<small><pre><code>
+npm install -g typescript
+tsc -v
+</code></pre></small>
 
             <br><h4>Tipos de dados:</h4>
 <small><pre><code>
@@ -304,13 +310,273 @@ console.log(G.Square.prototype.area.call(G.Square(5))); // NaN
 
             <br><h4>Genéricos:</h4>
 <small><pre><code>
-<b class="text-danger">CONTINUA AQUI</b>
-<!--
-LINKS:
-https://chatgpt.com/share/67797530-e440-8013-9fe2-fbde557c2da3
-https://learnxinyminutes.com/pt-br/typescript
--->
+function retornaElemento&lt;T&gt;(elemento: T): T {
+  return elemento;
+}
+
+const numero = retornaElemento&lt;number&gt;(42);
+const texto = retornaElemento&lt;string&gt;("Olá, TypeScript!");
+
+console.log(numero); // 42
+console.log(texto); // Olá, TypeScript!
+console.log(retornaElemento&lt;boolean&gt;(true)); // true
+
+// Classes
+class Tuple&lt;T1, T2&gt; {
+    constructor(public item1: T1, public item2: T2) {
+    }
+}
+
+var t = new Tuple&lt;number, string&gt;(1, "Hello");
+console.log(t.item1); // 1
+console.log(t.item2); // Hello
+console.log(t); // Tuple { item1: 1, item2: 'Hello' }
+
+// Interfaces
+interface Pair&lt;T&gt; {
+    item1: T;
+    item2: T;
+}
+
+console.log({ item1: 1, item2: 2 } as Pair&lt;number&gt;); // { item1: 1, item2: 2 }
+console.log({ item1: "Hello", item2: "World" } as Pair&lt;string&gt;); // { item1: 'Hello', item2: 'World' }
+
+// Funções
+var pairToTuple = function&lt;T&gt;(p: Pair&lt;T&gt;) {
+    return new Tuple(p.item1, p.item2);
+};
+
+var tuple = pairToTuple({ item1:"hello", item2:"world"});
+console.log(tuple); // Tuple { item1: 'hello', item2: 'world' }
 </code></pre></small>
+
+            <br><h4>Union Types:</h4>
+<small><pre><code>
+function imprimirId(id: number | string): void {
+  console.log(`ID: ${id}`);
+}
+
+imprimirId(123);
+imprimirId("abc123");
+</code></pre></small>
+
+            <br><h4>Intersection Types:</h4>
+<small><pre><code>
+interface A {
+    a: number;
+}
+
+interface B {
+    b: number;
+}
+
+type AB = A & B;
+
+function imprimirAB(ab: AB): void {
+    console.log(`A: ${ab.a}, B: ${ab.b}`);
+}
+
+imprimirAB({ a: 1, b: 2 }); // A: 1, B: 2
+</code></pre></small>
+
+            <br><h4>Literal/Alieases Types:</h4>
+<small><pre><code>
+type Direction = "left" | "right" | "up" | "down";
+
+function move(direction: Direction): void {
+    console.log(`Moving ${direction}`);
+}
+
+move("left"); // Moving left
+move("right"); // Moving right
+move("up"); // Moving up
+move("down"); // Moving down
+
+type ID = number | string;
+
+let meuId: ID = 123;
+meuId = "abc";
+</code></pre></small>
+
+            <br><h4>Enum:</h4>
+<small><pre><code>
+enum Cor {
+    Vermelho = "Red",
+    Azul = "Blue",
+    Verde = "Green",
+}
+
+const minhaCor: Cor = Cor.Vermelho;
+console.log(minhaCor); // Output: "Red"
+</code></pre></small>
+
+            <br><h4>Decorators:</h4>
+<small><pre><code>
+function log(target: any, key: string) {
+    console.log(key);
+}
+
+class Foo {
+    @log
+    bar: string;
+}
+
+const foo = new Foo();
+foo.bar = "Hello, TypeScript!";
+console.log(foo.bar); // Output: "Hello, TypeScript!"
+</code></pre></small>
+
+            <br><h4>Namespaces:</h4>
+<small><pre><code>
+namespace Geometry {
+    export interface Vector2D {
+        x: number;
+        y: number;
+    }
+
+    export interface Vector3D {
+        x: number;
+        y: number;
+        z: number;
+    }
+}
+
+const vector2D: Geometry.Vector2D = { x: 1, y: 2 };
+const vector3D: Geometry.Vector3D = { x: 1, y: 2, z: 3 };
+
+console.log(vector2D); // { x: 1, y: 2 }
+console.log(vector3D); // { x: 1, y: 2, z: 3 }
+</code></pre></small>
+
+            <br><h4>Referência de arquivo:</h4>
+<small><pre><code>
+/// &lt;reference path="arquivo.ts" /&gt;
+</code></pre></small>
+
+            <br><hr><h4>Projeto prático (To-Do List):</h4>
+            <ol>
+                <li>Criar projeto:
+<small><pre><code>
+mkdir to-do-list
+cd to-do-list
+mkdir src src/models src/services
+npm init -y
+npm install --save-dev typescript
+npm install --save-dev @types/node
+npx tsc --init
+</code></pre></small>
+                </li>
+                <li>Editar arquivo tsconfig.json:
+<small><pre><code>
+{
+    "compilerOptions": {
+        "target": "ES6",
+        "module": "commonjs",
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "strict": true,
+        "esModuleInterop": true
+    },
+    "include": ["src/**/*"]
+}
+</code></pre></small>
+                </li>
+                <li>Arquivo src/models/Task.ts:
+<small><pre><code>
+export interface Task {
+    id: number;
+    title: string;
+    completed: boolean;
+    createdAt: Date;
+}
+</code></pre></small>
+                </li>
+                <li>Arquivo src/services/TaskService.ts:
+<small><pre><code>
+import { Task } from "../models/Task";
+
+export class TaskService {
+    private tasks: Task[] = [];
+    private nextId: number = 1;
+
+    addTask(title: string): Task {
+        const newTask: Task = {
+            id: this.nextId++,
+            title,
+            completed: false,
+            createdAt: new Date(),
+        };
+        this.tasks.push(newTask);
+        return newTask;
+    }
+
+    listTasks(): Task[] {
+        return this.tasks;
+    }
+
+    completeTask(id: number): boolean {
+        const task = this.tasks.find((task) => task.id === id);
+        if (task) {
+            task.completed = true;
+            return true;
+        }
+        return false;
+    }
+
+    removeTask(id: number): boolean {
+        const index = this.tasks.findIndex((task) => task.id === id);
+        if (index !== -1) {
+            this.tasks.splice(index, 1);
+            return true;
+        }
+        return false;
+    }
+}
+</code></pre></small>
+                </li>
+                <li>Arquivo src/index.ts:
+<small><pre><code>
+import { TaskService } from "./services/TaskService";
+
+const taskService = new TaskService();
+
+console.log("Adicionando tarefas:");
+const task1 = taskService.addTask("Estudar TypeScript");
+const task2 = taskService.addTask("Desenvolver um projeto");
+console.log(task1);
+console.log(task2);
+
+console.log("\nLista de tarefas:");
+console.log(taskService.listTasks());
+
+console.log("\nConcluindo a tarefa com ID 1:");
+taskService.completeTask(1);
+console.log(taskService.listTasks());
+
+console.log("\nRemovendo a tarefa com ID 2:");
+taskService.removeTask(2);
+console.log(taskService.listTasks());
+</code></pre></small>
+                </li>
+                <li>Compilar e executar:
+<small><pre><code>
+npx tsc
+node dist/index.js
+</code></pre></small>
+                </li>
+                <li>(Opcional) Adicionar Scripts ao package.json:
+<small><pre><code>
+"scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js"
+}
+</code></pre></small>
+                    <ul>
+                        <li>Compilar: npm run build</li>
+                        <li>Executar: npm start</li>
+                    </ul>
+                </li>
+            </ol>
         </div>
     </div>
 
