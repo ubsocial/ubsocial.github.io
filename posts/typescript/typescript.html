@@ -176,11 +176,24 @@ const user: Usuario = &#123;
     email: "maria@email.com"
 &#125;;
 
+console.log("Usuário:");
+console.log(`ID: $&#123;user.id&#125;`);
+console.log(`Nome: $&#123;user.nome&#125;`);
+console.log(`Email: $&#123;user.email&#125;`);
+
 <span class="text-muted">// Objeto com propriedades dinâmicas</span>
 const obj: &#123; [key: string]: string &#125; = &#123;
     nome: "João",
     idade: "25"
 &#125;;
+
+<span class="text-muted">// Exibir dados do objeto com propriedades dinâmicas</span>
+console.log("\nObjeto com propriedades dinâmicas:");
+for (const key in obj) &#123;
+    if (obj.hasOwnProperty(key)) &#123;
+        console.log(`$&#123;key&#125;: $&#123;obj[key]&#125;`);
+    &#125;
+&#125;
 
 <span class="text-muted">// Objeto construído através de classe</span>
 class Pessoa &#123;
