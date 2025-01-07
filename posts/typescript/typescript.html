@@ -44,25 +44,25 @@
 
             <br><h4>Instalação:</h4>
 <small><pre><code>
-npm install -g typescript
+npm install -g typescript <span class="text-muted">// Pré-requisito Node.js</span>
 tsc -v
 </code></pre></small>
 
             <br><h4>Tipos de dados:</h4>
 <small><pre><code>
-console.log("Olá!"); // Imprimir no console
-var isDone: boolean = false; // Booleano true ou false
-var lines: number = 42; // Números inteiros ou decimais
-var name: string = "Anders"; // String com aspas duplas ou simples
+console.log("Olá!"); <span class="text-muted">// Imprimir no console</span>
+var isDone: boolean = false; <span class="text-muted">// Booleano true ou false</span>
+var lines: number = 42; <span class="text-muted">// Números inteiros ou decimais</span>
+var name: string = "Anders"; <span class="text-muted">// String com aspas duplas ou simples</span>
 
-var notSure: any = 4; // Qualquer tipo
+var notSure: any = 4; <span class="text-muted">// Qualquer tipo</span>
 notSure = "maybe a string instead";
 notSure = false;
 
-var list: number[] = [1, 2, 3]; // Matriz
-var list: Array&lt;number&gt; = [1, 2, 3]; // Matriz genérica
+var list: number[] = [1, 2, 3]; <span class="text-muted">// Matriz</span>
+var list: Array&lt;number&gt; = [1, 2, 3]; <span class="text-muted">// Matriz genérica</span>
 
-// Percorrer valores da matriz
+<span class="text-muted">// Percorrer valores da matriz</span>
 for (var i = 0; i &lt; list.length; i++) &#123;
     console.log(list[i]);
 &#125;
@@ -73,32 +73,32 @@ for (var i of list) &#123;
     console.log(i);
 &#125;
 
-var x: [string, number]; // Tupla
-x = ["hello", 10]; // OK
-x = [10, "hello"]; // Erro
+var x: [string, number]; <span class="text-muted">// Tupla</span>
+x = ["hello", 10]; <span class="text-muted">// OK</span>
+x = [10, "hello"]; <span class="text-muted">// Erro</span>
 
-enum Color &#123;Red, Green, Blue&#125;; // Enumeração
-var c: Color = Color.Green; // 1
-var colorName: string = Color[2]; // Blue
+enum Color &#123;Red, Green, Blue&#125;; <span class="text-muted">// Enumeração</span>
+var c: Color = Color.Green; <span class="text-muted">// 1</span>
+var colorName: string = Color[2]; <span class="text-muted">// Blue</span>
 
-var notSure: unknown = 4; // Tipo desconhecido
-var u: undefined = undefined; // Indefinido
-var n: null = null; // Nulo
+var notSure: unknown = 4; <span class="text-muted">// Tipo desconhecido</span>
+var u: undefined = undefined; <span class="text-muted">// Indefinido</span>
+var n: null = null; <span class="text-muted">// Nulo</span>
 
-function bigHorribleAlert(): void &#123; // Vazio (sem retorno)
+function bigHorribleAlert(): void &#123; <span class="text-muted">// Vazio (sem retorno)</span>
     alert("I'm a little annoying box!");
 &#125;
 </code></pre></small>
 
             <br><h4>Funções:</h4>
 <small><pre><code>
-// Função com tipagem e parâmetros obrigatórios
+<span class="text-muted">// Função com tipagem e parâmetros obrigatórios</span>
 function soma(x: number, y: number): number &#123;
     return x + y;
 &#125;
-soma(1, 2); // 3
+soma(1, 2); <span class="text-muted">// 3</span>
 
-// Função com parâmetros opcionais
+<span class="text-muted">// Função com parâmetros opcionais</span>
 function buildName(firstName: string, lastName?: string): string &#123;
     if (lastName)
         return firstName + " " + lastName;
@@ -106,19 +106,19 @@ function buildName(firstName: string, lastName?: string): string &#123;
         return firstName;
 &#125;
 
-// Função anônima
+<span class="text-muted">// Função anônima</span>
 var f1 = function(i: number): number { return i * i; }
 
-// Tipo de retorno inferido
+<span class="text-muted">// Tipo de retorno inferido</span>
 var f2 = function(i: number) { return i * i; }
 var f3 = (i: number): number =&gt; { return i * i; }
 
-// Tipo de retorno inferido
+<span class="text-muted">// Tipo de retorno inferido</span>
 var f4 = (i: number) =&gt; { return i * i; }
 
-// Tipo de retorno inferido, one-liner significa nenhuma palavra-chave retorno necessário
+<span class="text-muted">// Tipo de retorno inferido, one-liner significa nenhuma palavra-chave retorno necessário</span>
 var f5 = (i: number) =&gt;  i * i;
-console.log(f5(2)); // 4
+console.log(f5(2)); <span class="text-muted">// 4</span>
 </code></pre></small>
 
             <br><h4>Interfaces:</h4>
@@ -126,8 +126,8 @@ console.log(f5(2)); // 4
 interface Pessoa &#123;
     nome: string;
     idade: number;
-    sexo?: string; // Opcional
-    [propName: string]: any; // Propriedades dinâmicas
+    sexo?: string; <span class="text-muted">// Opcional</span>
+    [propName: string]: any; <span class="text-muted">// Propriedades dinâmicas</span>
 &#125;
 
 function printPessoa(pessoa: Pessoa) &#123;
@@ -139,44 +139,44 @@ function printPessoa(pessoa: Pessoa) &#123;
 var p1 = &#123;nome: "João", idade: 25&#125;;
 printPessoa(p1);
 
-// Interfaces como tipo de função
+<span class="text-muted">// Interfaces como tipo de função</span>
 interface SearchFunc {
     (source: string, subString: string): boolean;
 }
-console.log(SearchFunc("abc", "a")); // true
-console.log(SearchFunc("abc", "d")); // false
+console.log(SearchFunc("abc", "a")); <span class="text-muted">// true</span>
+console.log(SearchFunc("abc", "d")); <span class="text-muted">// false</span>
 
 var mySearch: SearchFunc;
 mySearch = function(src: string, sub: string) {
     return src.search(sub) != -1;
 }
-console.log(mySearch("abc", "a")); // true
-console.log(mySearch("abc", "d")); // false
+console.log(mySearch("abc", "a")); <span class="text-muted">// true</span>
+console.log(mySearch("abc", "d")); <span class="text-muted">// false</span>
 </code></pre></small>
 
             <br><h4>Objetos:</h4>
 <small><pre><code>
-// Implementação de interface
+<span class="text-muted">// Implementação de interface</span>
 interface Usuario {
     id: number;
     nome: string;
     email: string;
 }
 
-// Objeto que implementa interface Usuario
+<span class="text-muted">// Objeto que implementa interface Usuario</span>
 const user: Usuario = {
     id: 1,
     nome: "Maria",
     email: "maria@email.com"
 };
 
-// Objeto com propriedades dinâmicas
+<span class="text-muted">// Objeto com propriedades dinâmicas</span>
 const obj: { [key: string]: string } = {
     nome: "João",
     idade: "25"
 };
 
-// Objeto construído através de classe
+<span class="text-muted">// Objeto construído através de classe</span>
 class Pessoa &#123;
     nome: string;
     idade: number;
@@ -192,11 +192,11 @@ class Pessoa &#123;
 
 var p1 = new Pessoa("João", 25);
 p1.printPessoa();
-var p: Pessoa = &#123;nome: "João", idade: 25&#125;; // Objeto que implementa interface Pessoa
+var p: Pessoa = &#123;nome: "João", idade: 25&#125;; <span class="text-muted">// Objeto que implementa interface Pessoa</span>
 
 var p: Person = { name: "Bobby", move: () =&gt; {} };
-var validPerson: Person = { name: "Bobby", age: 42, move: () =&gt; {} }; // Propriedade opcional
-var invalidPerson: Person = { name: "Bobby", age: true }; // Não é Person porque age não é número
+var validPerson: Person = { name: "Bobby", age: 42, move: () =&gt; {} }; <span class="text-muted">// Propriedade opcional</span>
+var invalidPerson: Person = { name: "Bobby", age: true }; <span class="text-muted">// Não é Person porque age não é número</span>
 </code></pre></small>
 
             <br><h4>Classes:</h4>
@@ -216,11 +216,11 @@ class Animal &#123;
 &#125;
 
 var a = new Animal("Cachorro", 2);
-a.move(10); // Cachorro moveu 10m
-a.origin; // Origem moveu 0m
-a.origin.move(0); // Origem moveu 0m
+a.move(10); <span class="text-muted">// Cachorro moveu 10m</span>
+a.origin; <span class="text-muted">// Origem moveu 0m</span>
+a.origin.move(0); <span class="text-muted">// Origem moveu 0m</span>
 var b = new Animal("Gato");
-console.log(b.idade); // idade é 0
+console.log(b.idade); <span class="text-muted">// idade é 0</span>
 </code></pre></small>
 
             <br><h4>Herança:</h4>
@@ -232,8 +232,8 @@ class Cachorro extends Animal &#123;
 &#125;
 
 var c = new Cachorro("Rex", 3);
-c.move(10); // Rex moveu 10m
-c.latir(); // Au au!
+c.move(10); <span class="text-muted">// Rex moveu 10m</span>
+c.latir(); <span class="text-muted">// Au au!</span>
 
 class Gato extends Animal &#123;
     constructor(nome: string, idade: number, public cor: string) &#123;
@@ -245,8 +245,8 @@ class Gato extends Animal &#123;
 &#125;
 
 var g = new Gato("Mingau", 1, "preto");
-g.move(5); // Mingau moveu 5m
-g.miar(); // Miau!
+g.move(5); <span class="text-muted">// Mingau moveu 5m</span>
+g.miar(); <span class="text-muted">// Miau!</span>
 
 class Point {
     x: number;
@@ -262,13 +262,13 @@ class Point {
 var p1 = new Point(10 ,20);
 var p2 = new Point(25);
 
-// Herança
+<span class="text-muted">// Herança</span>
 class Point3D extends Point {
     constructor(x: number, y: number, public z: number = 0) {
         super(x, y);
     }
 
-    // Sobrescrever
+    <span class="text-muted">// Sobrescrever</span>
     dist() {
         var d = super.dist();
         return Math.sqrt(d * d + this.z * this.z);
@@ -276,12 +276,12 @@ class Point3D extends Point {
 }
 
 var p3 = new Point3D(10, 20, 30);
-console.log(p3.dist()); // 37.416573867739416
-console.log(Point.origin); // Point { x: 0, y: 0 }
-console.log(Point3D.origin); // Point { x: 0, y: 0 }
-console.log(Point3D.origin.dist()); // 0
-console.log(Point3D.origin.z); // undefined
-console.log(Point3D.origin.x); // 0
+console.log(p3.dist()); <span class="text-muted">// 37.416573867739416</span>
+console.log(Point.origin); <span class="text-muted">// Point { x: 0, y: 0 }</span>
+console.log(Point3D.origin); <span class="text-muted">// Point { x: 0, y: 0 }</span>
+console.log(Point3D.origin.dist()); <span class="text-muted">// 0</span>
+console.log(Point3D.origin.z); <span class="text-muted">// undefined</span>
+console.log(Point3D.origin.x); <span class="text-muted">// 0</span>
 </code></pre></small>
 
             <br><h4>Módulos:</h4>
@@ -296,16 +296,16 @@ module Geometry {
   }
 }
 
-var s1 = new Geometry.Square(5); // 25 ("." pode ser utilizado como separador de sub módulos)
+var s1 = new Geometry.Square(5); <span class="text-muted">// 25 ("." pode ser utilizado como separador de sub módulos)</span>
 
-import G = Geometry; // Alias no local para fazer referência a um módulo
+import G = Geometry; <span class="text-muted">// Alias no local para fazer referência a um módulo</span>
 var s2 = new G.Square(10);
-console.log(s2.area()); // 100
-console.log(G.Square); // [Function: Square]
-console.log(G.Square.prototype.area); // [Function: area]
-console.log(G.Square.prototype.area()); // NaN
-console.log(G.Square.prototype.area.call(s2)); // 100
-console.log(G.Square.prototype.area.call(G.Square(5))); // NaN
+console.log(s2.area()); <span class="text-muted">// 100</span>
+console.log(G.Square); <span class="text-muted">// [Function: Square]</span>
+console.log(G.Square.prototype.area); <span class="text-muted">// [Function: area]</span>
+console.log(G.Square.prototype.area()); <span class="text-muted">// NaN</span>
+console.log(G.Square.prototype.area.call(s2)); <span class="text-muted">// 100</span>
+console.log(G.Square.prototype.area.call(G.Square(5))); <span class="text-muted">// NaN</span>
 </code></pre></small>
 
             <br><h4>Genéricos:</h4>
@@ -317,37 +317,37 @@ function retornaElemento&lt;T&gt;(elemento: T): T {
 const numero = retornaElemento&lt;number&gt;(42);
 const texto = retornaElemento&lt;string&gt;("Olá, TypeScript!");
 
-console.log(numero); // 42
-console.log(texto); // Olá, TypeScript!
-console.log(retornaElemento&lt;boolean&gt;(true)); // true
+console.log(numero); <span class="text-muted">// 42</span>
+console.log(texto); <span class="text-muted">// Olá, TypeScript!</span>
+console.log(retornaElemento&lt;boolean&gt;(true)); <span class="text-muted">// true</span>
 
-// Classes
+<span class="text-muted">// Classes</span>
 class Tuple&lt;T1, T2&gt; {
     constructor(public item1: T1, public item2: T2) {
     }
 }
 
 var t = new Tuple&lt;number, string&gt;(1, "Hello");
-console.log(t.item1); // 1
-console.log(t.item2); // Hello
-console.log(t); // Tuple { item1: 1, item2: 'Hello' }
+console.log(t.item1); <span class="text-muted">// 1</span>
+console.log(t.item2); <span class="text-muted">// Hello</span>
+console.log(t); <span class="text-muted">// Tuple { item1: 1, item2: 'Hello' }</span>
 
-// Interfaces
+<span class="text-muted">// Interfaces</span>
 interface Pair&lt;T&gt; {
     item1: T;
     item2: T;
 }
 
-console.log({ item1: 1, item2: 2 } as Pair&lt;number&gt;); // { item1: 1, item2: 2 }
-console.log({ item1: "Hello", item2: "World" } as Pair&lt;string&gt;); // { item1: 'Hello', item2: 'World' }
+console.log({ item1: 1, item2: 2 } as Pair&lt;number&gt;); <span class="text-muted">// { item1: 1, item2: 2 }</span>
+console.log({ item1: "Hello", item2: "World" } as Pair&lt;string&gt;); <span class="text-muted">// { item1: 'Hello', item2: 'World' }</span>
 
-// Funções
+<span class="text-muted">// Funções</span>
 var pairToTuple = function&lt;T&gt;(p: Pair&lt;T&gt;) {
     return new Tuple(p.item1, p.item2);
 };
 
 var tuple = pairToTuple({ item1:"hello", item2:"world"});
-console.log(tuple); // Tuple { item1: 'hello', item2: 'world' }
+console.log(tuple); <span class="text-muted">// Tuple { item1: 'hello', item2: 'world' }</span>
 </code></pre></small>
 
             <br><h4>Union Types:</h4>
@@ -376,7 +376,7 @@ function imprimirAB(ab: AB): void {
     console.log(`A: ${ab.a}, B: ${ab.b}`);
 }
 
-imprimirAB({ a: 1, b: 2 }); // A: 1, B: 2
+imprimirAB({ a: 1, b: 2 }); <span class="text-muted">// A: 1, B: 2</span>
 </code></pre></small>
 
             <br><h4>Literal/Alieases Types:</h4>
@@ -387,10 +387,10 @@ function move(direction: Direction): void {
     console.log(`Moving ${direction}`);
 }
 
-move("left"); // Moving left
-move("right"); // Moving right
-move("up"); // Moving up
-move("down"); // Moving down
+move("left"); <span class="text-muted">// Moving left</span>
+move("right"); <span class="text-muted">// Moving right</span>
+move("up"); <span class="text-muted">// Moving up</span>
+move("down"); <span class="text-muted">// Moving down</span>
 
 type ID = number | string;
 
@@ -407,7 +407,7 @@ enum Cor {
 }
 
 const minhaCor: Cor = Cor.Vermelho;
-console.log(minhaCor); // Output: "Red"
+console.log(minhaCor); <span class="text-muted">// Output: "Red"</span>
 </code></pre></small>
 
             <br><h4>Decorators:</h4>
@@ -423,7 +423,7 @@ class Foo {
 
 const foo = new Foo();
 foo.bar = "Hello, TypeScript!";
-console.log(foo.bar); // Output: "Hello, TypeScript!"
+console.log(foo.bar); <span class="text-muted">// Output: "Hello, TypeScript!"</span>
 </code></pre></small>
 
             <br><h4>Namespaces:</h4>
@@ -444,13 +444,13 @@ namespace Geometry {
 const vector2D: Geometry.Vector2D = { x: 1, y: 2 };
 const vector3D: Geometry.Vector3D = { x: 1, y: 2, z: 3 };
 
-console.log(vector2D); // { x: 1, y: 2 }
-console.log(vector3D); // { x: 1, y: 2, z: 3 }
+console.log(vector2D); <span class="text-muted">// { x: 1, y: 2 }</span>
+console.log(vector3D); <span class="text-muted">// { x: 1, y: 2, z: 3 }</span>
 </code></pre></small>
 
             <br><h4>Referência de arquivo:</h4>
 <small><pre><code>
-/// &lt;reference path="arquivo.ts" /&gt;
+/<span class="text-muted">// &lt;reference path="arquivo.ts" /&gt;</span>
 </code></pre></small>
 
             <br><hr><h4>Projeto prático (To-Do List):</h4>
