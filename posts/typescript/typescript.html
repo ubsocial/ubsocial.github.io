@@ -92,11 +92,10 @@ function bigHorribleAlert(): void &#123; <span class="text-muted">// Vazio (sem 
 
             <br><h4>Funções:</h4>
 <small><pre><code>
-<span class="text-muted">// Função com tipagem e parâmetros obrigatórios</span>
 function soma(x: number, y: number): number &#123;
     return x + y;
 &#125;
-soma(1, 2); <span class="text-muted">// 3</span>
+console.log(soma(1, 2)); <span class="text-muted">// 3</span>
 
 <span class="text-muted">// Função com parâmetros opcionais</span>
 function buildName(firstName: string, lastName?: string): string &#123;
@@ -105,19 +104,26 @@ function buildName(firstName: string, lastName?: string): string &#123;
     else
         return firstName;
 &#125;
+console.log(buildName("John")); <span class="text-muted">// John</span>
+console.log(buildName("John", "Doe")); <span class="text-muted">// John Doe</span>
 
 <span class="text-muted">// Função anônima</span>
-var f1 = function(i: number): number { return i * i; }
+var f1 = function (i: number): number &#123; return i * i; &#125;
+console.log(f1(3)); <span class="text-muted">// 9</span>
 
 <span class="text-muted">// Tipo de retorno inferido</span>
-var f2 = function(i: number) { return i * i; }
-var f3 = (i: number): number =&gt; { return i * i; }
+var f2 = function (i: number) &#123; return i * i; &#125;
+console.log(f2(4)); <span class="text-muted">// 16</span>
+
+var f3 = (i: number): number => &#123; return i * i; &#125;
+console.log(f3(5)); <span class="text-muted">// 25</span>
 
 <span class="text-muted">// Tipo de retorno inferido</span>
-var f4 = (i: number) =&gt; { return i * i; }
+var f4 = (i: number) => &#123; return i * i; &#125;
+console.log(f4(6)); <span class="text-muted">// 36</span>
 
 <span class="text-muted">// Tipo de retorno inferido, one-liner significa nenhuma palavra-chave retorno necessário</span>
-var f5 = (i: number) =&gt;  i * i;
+var f5 = (i: number) => i * i;
 console.log(f5(2)); <span class="text-muted">// 4</span>
 </code></pre></small>
 
@@ -140,16 +146,16 @@ var p1 = &#123;nome: "João", idade: 25&#125;;
 printPessoa(p1);
 
 <span class="text-muted">// Interfaces como tipo de função</span>
-interface SearchFunc {
+interface SearchFunc &#123;
     (source: string, subString: string): boolean;
-}
+&#125;
 console.log(SearchFunc("abc", "a")); <span class="text-muted">// true</span>
 console.log(SearchFunc("abc", "d")); <span class="text-muted">// false</span>
 
 var mySearch: SearchFunc;
-mySearch = function(src: string, sub: string) {
+mySearch = function(src: string, sub: string) &#123;
     return src.search(sub) != -1;
-}
+&#125;
 console.log(mySearch("abc", "a")); <span class="text-muted">// true</span>
 console.log(mySearch("abc", "d")); <span class="text-muted">// false</span>
 </code></pre></small>
@@ -157,24 +163,24 @@ console.log(mySearch("abc", "d")); <span class="text-muted">// false</span>
             <br><h4>Objetos:</h4>
 <small><pre><code>
 <span class="text-muted">// Implementação de interface</span>
-interface Usuario {
+interface Usuario &#123;
     id: number;
     nome: string;
     email: string;
-}
+&#125;
 
 <span class="text-muted">// Objeto que implementa interface Usuario</span>
-const user: Usuario = {
+const user: Usuario = &#123;
     id: 1,
     nome: "Maria",
     email: "maria@email.com"
-};
+&#125;;
 
 <span class="text-muted">// Objeto com propriedades dinâmicas</span>
-const obj: { [key: string]: string } = {
+const obj: &#123; [key: string]: string &#125; = &#123;
     nome: "João",
     idade: "25"
-};
+&#125;;
 
 <span class="text-muted">// Objeto construído através de classe</span>
 class Pessoa &#123;
@@ -194,9 +200,9 @@ var p1 = new Pessoa("João", 25);
 p1.printPessoa();
 var p: Pessoa = &#123;nome: "João", idade: 25&#125;; <span class="text-muted">// Objeto que implementa interface Pessoa</span>
 
-var p: Person = { name: "Bobby", move: () =&gt; {} };
-var validPerson: Person = { name: "Bobby", age: 42, move: () =&gt; {} }; <span class="text-muted">// Propriedade opcional</span>
-var invalidPerson: Person = { name: "Bobby", age: true }; <span class="text-muted">// Não é Person porque age não é número</span>
+var p: Person = &#123; name: "Bobby", move: () =&gt; &#123;&#125; &#125;;
+var validPerson: Person = &#123; name: "Bobby", age: 42, move: () =&gt; &#123;&#125; &#125;; <span class="text-muted">// Propriedade opcional</span>
+var invalidPerson: Person = &#123; name: "Bobby", age: true &#125;; <span class="text-muted">// Não é Person porque age não é número</span>
 </code></pre></small>
 
             <br><h4>Classes:</h4>
@@ -248,37 +254,37 @@ var g = new Gato("Mingau", 1, "preto");
 g.move(5); <span class="text-muted">// Mingau moveu 5m</span>
 g.miar(); <span class="text-muted">// Miau!</span>
 
-class Point {
+class Point &#123;
     x: number;
 
-    constructor(x: number, public y: number = 0) {
+    constructor(x: number, public y: number = 0) &#123;
         this.x = x;
-    }
+    &#125;
 
-    dist() { return Math.sqrt(this.x * this.x + this.y * this.y); }
+    dist() &#123; return Math.sqrt(this.x * this.x + this.y * this.y); &#125;
     static origin = new Point(0, 0);
-}
+&#125;
 
 var p1 = new Point(10 ,20);
 var p2 = new Point(25);
 
 <span class="text-muted">// Herança</span>
-class Point3D extends Point {
-    constructor(x: number, y: number, public z: number = 0) {
+class Point3D extends Point &#123;
+    constructor(x: number, y: number, public z: number = 0) &#123;
         super(x, y);
-    }
+    &#125;
 
     <span class="text-muted">// Sobrescrever</span>
-    dist() {
+    dist() &#123;
         var d = super.dist();
         return Math.sqrt(d * d + this.z * this.z);
-    }
-}
+    &#125;
+&#125;
 
 var p3 = new Point3D(10, 20, 30);
 console.log(p3.dist()); <span class="text-muted">// 37.416573867739416</span>
-console.log(Point.origin); <span class="text-muted">// Point { x: 0, y: 0 }</span>
-console.log(Point3D.origin); <span class="text-muted">// Point { x: 0, y: 0 }</span>
+console.log(Point.origin); <span class="text-muted">// Point &#123; x: 0, y: 0 &#125;</span>
+console.log(Point3D.origin); <span class="text-muted">// Point &#123; x: 0, y: 0 &#125;</span>
 console.log(Point3D.origin.dist()); <span class="text-muted">// 0</span>
 console.log(Point3D.origin.z); <span class="text-muted">// undefined</span>
 console.log(Point3D.origin.x); <span class="text-muted">// 0</span>
@@ -286,15 +292,15 @@ console.log(Point3D.origin.x); <span class="text-muted">// 0</span>
 
             <br><h4>Módulos:</h4>
 <small><pre><code>
-module Geometry {
-  export class Square {
-    constructor(public sideLength: number = 0) {
-    }
-    area() {
+module Geometry &#123;
+  export class Square &#123;
+    constructor(public sideLength: number = 0) &#123;
+    &#125;
+    area() &#123;
       return Math.pow(this.sideLength, 2);
-    }
-  }
-}
+    &#125;
+  &#125;
+&#125;
 
 var s1 = new Geometry.Square(5); <span class="text-muted">// 25 ("." pode ser utilizado como separador de sub módulos)</span>
 
@@ -310,9 +316,9 @@ console.log(G.Square.prototype.area.call(G.Square(5))); <span class="text-muted"
 
             <br><h4>Genéricos:</h4>
 <small><pre><code>
-function retornaElemento&lt;T&gt;(elemento: T): T {
+function retornaElemento&lt;T&gt;(elemento: T): T &#123;
   return elemento;
-}
+&#125;
 
 const numero = retornaElemento&lt;number&gt;(42);
 const texto = retornaElemento&lt;string&gt;("Olá, TypeScript!");
@@ -322,39 +328,39 @@ console.log(texto); <span class="text-muted">// Olá, TypeScript!</span>
 console.log(retornaElemento&lt;boolean&gt;(true)); <span class="text-muted">// true</span>
 
 <span class="text-muted">// Classes</span>
-class Tuple&lt;T1, T2&gt; {
-    constructor(public item1: T1, public item2: T2) {
-    }
-}
+class Tuple&lt;T1, T2&gt; &#123;
+    constructor(public item1: T1, public item2: T2) &#123;
+    &#125;
+&#125;
 
 var t = new Tuple&lt;number, string&gt;(1, "Hello");
 console.log(t.item1); <span class="text-muted">// 1</span>
 console.log(t.item2); <span class="text-muted">// Hello</span>
-console.log(t); <span class="text-muted">// Tuple { item1: 1, item2: 'Hello' }</span>
+console.log(t); <span class="text-muted">// Tuple &#123; item1: 1, item2: 'Hello' &#125;</span>
 
 <span class="text-muted">// Interfaces</span>
-interface Pair&lt;T&gt; {
+interface Pair&lt;T&gt; &#123;
     item1: T;
     item2: T;
-}
+&#125;
 
-console.log({ item1: 1, item2: 2 } as Pair&lt;number&gt;); <span class="text-muted">// { item1: 1, item2: 2 }</span>
-console.log({ item1: "Hello", item2: "World" } as Pair&lt;string&gt;); <span class="text-muted">// { item1: 'Hello', item2: 'World' }</span>
+console.log(&#123; item1: 1, item2: 2 &#125; as Pair&lt;number&gt;); <span class="text-muted">// &#123; item1: 1, item2: 2 &#125;</span>
+console.log(&#123; item1: "Hello", item2: "World" &#125; as Pair&lt;string&gt;); <span class="text-muted">// &#123; item1: 'Hello', item2: 'World' &#125;</span>
 
 <span class="text-muted">// Funções</span>
-var pairToTuple = function&lt;T&gt;(p: Pair&lt;T&gt;) {
+var pairToTuple = function&lt;T&gt;(p: Pair&lt;T&gt;) &#123;
     return new Tuple(p.item1, p.item2);
-};
+&#125;;
 
-var tuple = pairToTuple({ item1:"hello", item2:"world"});
-console.log(tuple); <span class="text-muted">// Tuple { item1: 'hello', item2: 'world' }</span>
+var tuple = pairToTuple(&#123; item1:"hello", item2:"world"&#125;);
+console.log(tuple); <span class="text-muted">// Tuple &#123; item1: 'hello', item2: 'world' &#125;</span>
 </code></pre></small>
 
             <br><h4>Union Types:</h4>
 <small><pre><code>
-function imprimirId(id: number | string): void {
-  console.log(`ID: ${id}`);
-}
+function imprimirId(id: number | string): void &#123;
+  console.log(`ID: $&#123;id&#125;`);
+&#125;
 
 imprimirId(123);
 imprimirId("abc123");
@@ -362,30 +368,30 @@ imprimirId("abc123");
 
             <br><h4>Intersection Types:</h4>
 <small><pre><code>
-interface A {
+interface A &#123;
     a: number;
-}
+&#125;
 
-interface B {
+interface B &#123;
     b: number;
-}
+&#125;
 
 type AB = A & B;
 
-function imprimirAB(ab: AB): void {
-    console.log(`A: ${ab.a}, B: ${ab.b}`);
-}
+function imprimirAB(ab: AB): void &#123;
+    console.log(`A: $&#123;ab.a&#125;, B: $&#123;ab.b&#125;`);
+&#125;
 
-imprimirAB({ a: 1, b: 2 }); <span class="text-muted">// A: 1, B: 2</span>
+imprimirAB(&#123; a: 1, b: 2 &#125;); <span class="text-muted">// A: 1, B: 2</span>
 </code></pre></small>
 
             <br><h4>Literal/Alieases Types:</h4>
 <small><pre><code>
 type Direction = "left" | "right" | "up" | "down";
 
-function move(direction: Direction): void {
-    console.log(`Moving ${direction}`);
-}
+function move(direction: Direction): void &#123;
+    console.log(`Moving $&#123;direction&#125;`);
+&#125;
 
 move("left"); <span class="text-muted">// Moving left</span>
 move("right"); <span class="text-muted">// Moving right</span>
@@ -400,11 +406,11 @@ meuId = "abc";
 
             <br><h4>Enum:</h4>
 <small><pre><code>
-enum Cor {
+enum Cor &#123;
     Vermelho = "Red",
     Azul = "Blue",
     Verde = "Green",
-}
+&#125;
 
 const minhaCor: Cor = Cor.Vermelho;
 console.log(minhaCor); <span class="text-muted">// Output: "Red"</span>
@@ -412,14 +418,14 @@ console.log(minhaCor); <span class="text-muted">// Output: "Red"</span>
 
             <br><h4>Decorators:</h4>
 <small><pre><code>
-function log(target: any, key: string) {
+function log(target: any, key: string) &#123;
     console.log(key);
-}
+&#125;
 
-class Foo {
+class Foo &#123;
     @log
     bar: string;
-}
+&#125;
 
 const foo = new Foo();
 foo.bar = "Hello, TypeScript!";
@@ -428,24 +434,24 @@ console.log(foo.bar); <span class="text-muted">// Output: "Hello, TypeScript!"</
 
             <br><h4>Namespaces:</h4>
 <small><pre><code>
-namespace Geometry {
-    export interface Vector2D {
+namespace Geometry &#123;
+    export interface Vector2D &#123;
         x: number;
         y: number;
-    }
+    &#125;
 
-    export interface Vector3D {
+    export interface Vector3D &#123;
         x: number;
         y: number;
         z: number;
-    }
-}
+    &#125;
+&#125;
 
-const vector2D: Geometry.Vector2D = { x: 1, y: 2 };
-const vector3D: Geometry.Vector3D = { x: 1, y: 2, z: 3 };
+const vector2D: Geometry.Vector2D = &#123; x: 1, y: 2 &#125;;
+const vector3D: Geometry.Vector3D = &#123; x: 1, y: 2, z: 3 &#125;;
 
-console.log(vector2D); <span class="text-muted">// { x: 1, y: 2 }</span>
-console.log(vector3D); <span class="text-muted">// { x: 1, y: 2, z: 3 }</span>
+console.log(vector2D); <span class="text-muted">// &#123; x: 1, y: 2 &#125;</span>
+console.log(vector3D); <span class="text-muted">// &#123; x: 1, y: 2, z: 3 &#125;</span>
 </code></pre></small>
 
             <br><h4>Referência de arquivo:</h4>
@@ -468,75 +474,75 @@ npx tsc --init
                 </li>
                 <li>Editar arquivo tsconfig.json:
 <small><pre><code>
-{
-    "compilerOptions": {
+&#123;
+    "compilerOptions": &#123;
         "target": "ES6",
         "module": "commonjs",
         "outDir": "./dist",
         "rootDir": "./src",
         "strict": true,
         "esModuleInterop": true
-    },
+    &#125;,
     "include": ["src/**/*"]
-}
+&#125;
 </code></pre></small>
                 </li>
                 <li>Arquivo src/models/Task.ts:
 <small><pre><code>
-export interface Task {
+export interface Task &#123;
     id: number;
     title: string;
     completed: boolean;
     createdAt: Date;
-}
+&#125;
 </code></pre></small>
                 </li>
                 <li>Arquivo src/services/TaskService.ts:
 <small><pre><code>
-import { Task } from "../models/Task";
+import &#123; Task &#125; from "../models/Task";
 
-export class TaskService {
+export class TaskService &#123;
     private tasks: Task[] = [];
     private nextId: number = 1;
 
-    addTask(title: string): Task {
-        const newTask: Task = {
+    addTask(title: string): Task &#123;
+        const newTask: Task = &#123;
             id: this.nextId++,
             title,
             completed: false,
             createdAt: new Date(),
-        };
+        &#125;;
         this.tasks.push(newTask);
         return newTask;
-    }
+    &#125;
 
-    listTasks(): Task[] {
+    listTasks(): Task[] &#123;
         return this.tasks;
-    }
+    &#125;
 
-    completeTask(id: number): boolean {
+    completeTask(id: number): boolean &#123;
         const task = this.tasks.find((task) => task.id === id);
-        if (task) {
+        if (task) &#123;
             task.completed = true;
             return true;
-        }
+        &#125;
         return false;
-    }
+    &#125;
 
-    removeTask(id: number): boolean {
+    removeTask(id: number): boolean &#123;
         const index = this.tasks.findIndex((task) => task.id === id);
-        if (index !== -1) {
+        if (index !== -1) &#123;
             this.tasks.splice(index, 1);
             return true;
-        }
+        &#125;
         return false;
-    }
-}
+    &#125;
+&#125;
 </code></pre></small>
                 </li>
                 <li>Arquivo src/index.ts:
 <small><pre><code>
-import { TaskService } from "./services/TaskService";
+import &#123; TaskService &#125; from "./services/TaskService";
 
 const taskService = new TaskService();
 
@@ -566,10 +572,10 @@ node dist/index.js
                 </li>
                 <li>(Opcional) Adicionar Scripts ao package.json:
 <small><pre><code>
-"scripts": {
+"scripts": &#123;
     "build": "tsc",
     "start": "node dist/index.js"
-}
+&#125;
 </code></pre></small>
                     <ul>
                         <li>Compilar: npm run build</li>
