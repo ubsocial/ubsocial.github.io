@@ -149,8 +149,6 @@ printPessoa(p1);
 interface SearchFunc &#123;
     (source: string, subString: string): boolean;
 &#125;
-console.log(SearchFunc("abc", "a")); <span class="text-muted">// true</span>
-console.log(SearchFunc("abc", "d")); <span class="text-muted">// false</span>
 
 var mySearch: SearchFunc;
 mySearch = function(src: string, sub: string) &#123;
