@@ -324,6 +324,34 @@ console.log(G.Square.prototype.area); <span class="text-muted">// [Function: are
 console.log(G.Square.prototype.area()); <span class="text-muted">// NaN</span>
 console.log(G.Square.prototype.area.call(s2)); <span class="text-muted">// 100</span>
 console.log(G.Square.prototype.area.call(G.Square(5))); <span class="text-muted">// NaN</span>
+
+<span class="text-muted">// Export:</span>
+export interface StringValidator &#123;
+    isAcceptable(s: string): boolean;
+&#125;
+
+export class ZipCodeValidator implements StringValidator &#123;
+    isAcceptable(s: string) &#123;
+        return s.length === 5;
+    &#125;
+&#125;
+
+const validator = new ZipCodeValidator();
+
+const testStrings = ["12345", "abcd", "678", "987654"];
+testStrings.forEach((testString) =&tg; &#123;
+    console.log(`"$&#123;testString&#125;" é aceitável? $&#123;validator.isAcceptable(testString)&#125;`);
+&#125;);
+
+<span class="text-muted">// Import:</span>
+import &#123; ZipCodeValidator &#125; from "./ZipCodeValidator";
+
+let myValidator = new ZipCodeValidator();
+let testStrings = ["12345", "9876", "ABCDE", "54321"];
+
+testStrings.forEach((testString) =&gt; &#123;
+    console.log(`"$&#123;testString&#125;" é aceitável? $&#123;myValidator.isAcceptable(testString)&#125;`);
+&#125;);
 </code></pre></small>
 
             <br><h4>Genéricos:</h4>
@@ -397,6 +425,17 @@ function imprimirAB(ab: AB): void &#123;
 imprimirAB(&#123; a: 1, b: 2 &#125;); <span class="text-muted">// A: 1, B: 2</span>
 </code></pre></small>
 
+            <br><h4>Type Assertions:</h4>
+<small><pre><code>
+let someValue: any = "this is a string";
+let strLength: number = (&lt;string&gt;someValue).length;
+let strLength2: number = (someValue as string).length;
+
+console.log(`Valor de someValue: "$&#123;someValue&#125;"`);
+console.log(`Comprimento da string (usando &lt;string&gt;): $&#123;strLength&#125;`);
+console.log(`Comprimento da string (usando as string): $&#123;strLength2&#125;`);
+</code></pre></small>
+
             <br><h4>Literal/Alieases Types:</h4>
 <small><pre><code>
 type Direction = "left" | "right" | "up" | "down";
@@ -416,6 +455,78 @@ let meuId: ID = 123;
 meuId = "abc";
 </code></pre></small>
 
+            <br><h4>Utility Types:</h4>
+<small><pre><code>
+<span class="text-muted">// Partial:</span>
+interface User &#123;
+    id: number;
+    name: string;
+    age: number;
+&#125;
+
+let partialUser: Partial&lt;User&gt; = &#123;
+    name: "Alice",
+&#125;;
+
+console.log("Objeto parcial de User:");
+console.log(`Nome: $&#123;partialUser.name&#125;`);
+console.log(`ID: $&#123;partialUser.id ?? "não definido"&#125;`);
+console.log(`Idade: $&#123;partialUser.age ?? "não definida"&#125;`);
+
+<span class="text-muted">// Readonly:</span>
+interface User &#123;
+    id: number;
+    name: string;
+    age: number;
+&#125;
+
+let readonlyUser: Readonly&lt;User&gt; = &#123;
+    id: 1,
+    name: "Bob",
+    age: 25,
+&#125;;
+
+// readonlyUser.age = 26; // Error: cannot reassign a readonly property
+console.log("Objeto Readonly&lt;User&gt;:");
+console.log(`ID: $&#123;readonlyUser.id&#125;`);
+console.log(`Nome: $&#123;readonlyUser.name&#125;`);
+console.log(`Idade: $&#123;readonlyUser.age&#125;`);
+
+<span class="text-muted">// Pick:</span>
+interface User &#123;
+    id: number;
+    name: string;
+    age: number;
+&#125;
+
+type UserName = Pick&lt;User, "name"&gt;;
+
+let userName: UserName = &#123;
+    name: "Charlie",
+&#125;;
+
+console.log("Objeto UserName:");
+console.log(`Nome: $&#123;userName.name&#125;`);
+
+<span class="text-muted">// Omit:</span>
+interface User &#123;
+    id: number;
+    name: string;
+    age: number;
+&#125;
+
+type UserWithoutAge = Omit&lt;User, "age"&gt;;
+
+let userWithoutAge: UserWithoutAge = &#123;
+    id: 2,
+    name: "Dave",
+&#125;;
+
+console.log("Objeto UserWithoutAge:");
+console.log(`ID: $&#123;userWithoutAge.id&#125;`);
+console.log(`Nome: $&#123;userWithoutAge.name&#125;`);
+</code></pre></small>
+
             <br><h4>Enum:</h4>
 <small><pre><code>
 enum Cor &#123;
@@ -430,18 +541,107 @@ console.log(minhaCor); <span class="text-muted">// Output: "Red"</span>
 
             <br><h4>Decorators:</h4>
 <small><pre><code>
-function log(target: any, key: string) &#123;
-    console.log(key);
+<span class="text-muted">// Class Decorator:</span>
+function sealed(constructor: Function) &#123;
+    console.log("Sealing constructor:", constructor.name);
+    Object.seal(constructor);
+    Object.seal(constructor.prototype);
 &#125;
 
-class Foo &#123;
-    @log
-    bar: string;
+@sealed
+class Greeter &#123;
+    greeting: string;
+    constructor(message: string) &#123;
+        this.greeting = message;
+        console.log("Greeter constructor called with message:", message);
+    &#125;
+    greet() &#123;
+        return "Hello, " + this.greeting;
+    &#125;
 &#125;
 
-const foo = new Foo();
-foo.bar = "Hello, TypeScript!";
-console.log(foo.bar); <span class="text-muted">// Output: "Hello, TypeScript!"</span>
+console.log("Greeter class:", Greeter);
+const greeterInstance = new Greeter("world");
+console.log("Greeter instance:", greeterInstance);
+console.log("Greet method output:", greeterInstance.greet());
+
+try &#123;
+    greeterInstance.newProperty = "test";
+&#125; catch (e) &#123;
+    console.error("Error adding property to sealed instance:", e.message);
+&#125;
+
+try &#123;
+    Greeter.prototype.newMethod = function () &#123;
+        return "This shouldn't work.";
+    &#125;;
+&#125; catch (e) &#123;
+    console.error("Error adding method to sealed class prototype:", e.message);
+&#125;
+
+
+<span class="text-muted">// Method Decorator:</span>
+function enumerable(value: boolean) &#123;
+    return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) &#123;
+        console.log(`Setting enumerable to $&#123;value&#125; for method: $&#123;propertyKey&#125;`);
+        descriptor.enumerable = value;
+    &#125;;
+&#125;
+
+class Greeter &#123;
+    greeting: string;
+    constructor(message: string) &#123;
+        this.greeting = message;
+        console.log("Greeter constructor called with message:", message);
+    &#125;
+
+    @enumerable(false)
+    greet() &#123;
+        return "Hello, " + this.greeting;
+    &#125;
+&#125;
+
+console.log("Greeter prototype:", Object.getPrototypeOf(Greeter));
+
+const greeterInstance = new Greeter("world");
+console.log("Greeter instance:", greeterInstance);
+console.log("Greet method output:", greeterInstance.greet());
+
+console.log(
+    "Is greet enumerable?",
+    Object.prototype.propertyIsEnumerable.call(greeterInstance, "greet")
+);
+
+console.log("Enumerable properties of Greeter instance:", Object.keys(greeterInstance));
+
+console.log(
+    "All properties of Greeter prototype:",
+    Object.getOwnPropertyNames(Object.getPrototypeOf(greeterInstance))
+);
+
+
+<span class="text-muted">// Async/Await Decorator:</span>
+async function fetchData(url: string) &#123;
+    console.log("Fetching data from URL:", url);
+    let response = await fetch(url);
+    console.log("Response status:", response.status);
+    let data = await response.json();
+    console.log("Data received:", data);
+    return data;
+&#125;
+
+const testFetchData = async () => &#123;
+    try &#123;
+        const url = "https://jsonplaceholder.typicode.com/todos/1";
+        console.log("Starting fetchData test...");
+        const result = await fetchData(url);
+        console.log("Final result from fetchData:", result);
+    &#125; catch (error) &#123;
+        console.error("Error during fetchData:", error);
+    &#125;
+&#125;;
+
+testFetchData();
 </code></pre></small>
 
             <br><h4>Namespaces:</h4>
