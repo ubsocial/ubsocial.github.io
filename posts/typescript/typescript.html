@@ -339,7 +339,7 @@ export class ZipCodeValidator implements StringValidator &#123;
 const validator = new ZipCodeValidator();
 
 const testStrings = ["12345", "abcd", "678", "987654"];
-testStrings.forEach((testString) =&tg; &#123;
+testStrings.forEach((testString) =&gt; &#123;
     console.log(`"$&#123;testString&#125;" é aceitável? $&#123;validator.isAcceptable(testString)&#125;`);
 &#125;);
 
