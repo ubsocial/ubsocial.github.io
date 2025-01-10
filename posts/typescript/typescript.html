@@ -565,20 +565,6 @@ const greeterInstance = new Greeter("world");
 console.log("Greeter instance:", greeterInstance);
 console.log("Greet method output:", greeterInstance.greet());
 
-try &#123;
-    greeterInstance.newProperty = "test";
-&#125; catch (e) &#123;
-    console.error("Error adding property to sealed instance:", e.message);
-&#125;
-
-try &#123;
-    Greeter.prototype.newMethod = function () &#123;
-        return "This shouldn't work.";
-    &#125;;
-&#125; catch (e) &#123;
-    console.error("Error adding method to sealed class prototype:", e.message);
-&#125;
-
 
 <span class="text-muted">// Method Decorator:</span>
 function enumerable(value: boolean) &#123;
@@ -667,8 +653,16 @@ console.log(vector3D); <span class="text-muted">// &#123; x: 1, y: 2, z: 3 &#125
 </code></pre></small>
 
             <br><h4>Referência de arquivo:</h4>
+            <p id="textoPost">Pode ocorrer via export/import, ou via reference (exemplo abaixo).</p>
 <small><pre><code>
-<span class="text-muted">/// &lt;reference path="arquivo.ts" /&gt;</span>
+<b><u>utils.ts</u></b>:
+function greet(name: string): string &#123;
+  return `Hello, $&#123;name&#125;!`;
+&#125;
+
+<b><u>app.ts</u>:</b>
+///&lt;reference path="./utils.ts" /&gt;
+console.log(greet("Alice"));
 </code></pre></small>
 
             <br><hr><h4>Projeto prático (To-Do List):</h4>
