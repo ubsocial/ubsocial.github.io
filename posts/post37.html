@@ -69,7 +69,7 @@
                 <li>Instalar pré-requisitos: <i>sudo apt install -y wget apt-transport-https gpg</i></li>
                 <li>Adicionar chave autenticação: <i>wget -O - https://packages.adoptium.net/artifactory/api/gpg/key/public | sudo apt-key add -</i></li>
                 <li>Adicionar repositório: <i>echo "deb https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION_CODENAME/{print$2}' /etc/os-release) main" | sudo tee /etc/apt/sources.list.d/adoptium.list && sudo apt update</i></li>
-                <li>Instalar JDK temurin: <i>sudo apt install -y temurin-8-jdk</i></li>
+                <li>Instalar JDK 21 temurin: <i>sudo apt install -y temurin-21-jdk</i></li>
             </ol>
             <ol>
                 <u>RHEL</u>:
@@ -88,8 +88,8 @@ EOF
 </code></pre></small>
                 </li>
                 <li>Atualizar repositórios: <i>sudo dnf update</i></li>
-                <li>Instalar JDK 8 temurin: <i>sudo dnf install temurin-8-jdk</i></li>
-                <li>Selecionar JDK 8 temurin:
+                <li>Instalar JDK 21 temurin: <i>sudo dnf install temurin-21-jdk</i></li>
+                <li>Selecionar JDK 21 temurin:
                     <ul>
                         <u>Debian</u>:
                         <li><i>sudo update-alternatives --config java</i> <span class="text-muted"># selecionar Java temurin</span></li>
