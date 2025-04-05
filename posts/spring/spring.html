@@ -40,11 +40,64 @@
         </div>
 
         <div class="col-sm-12">
-            <h4>Pré-requisitos:</h4>
-            <ul>
-                <li>JDK</li>
-                <li>Gradle</li>
-            </ul>
+            <h4>Pré-requisitos (Windows):</h4>
+            <ol>
+                <li>JDK
+                    <ol>
+                        <li>Baixar e instalar JDK Oracle</li>
+                        <li>Win + R, digite "SystemPropertiesAdvanced", acessar Variáveis de Ambiente</li>
+                        <li>Aba "Variáveis do sistema", em Novo, criar/editar variáveis:
+                            <ul>
+                                Criar:
+                                <li>Nome: JAVA_HOME</li>
+                                <li>Valor: Caminho da pasta com JDK instalado (Ex: "C:\Program Files\Java\jdk-24")</li>
+                                <li>Confirmar criação OK</li>
+                                <br>
+                                Editar:
+                                <li>Nome: Path</li>
+                                <li>Clicar em Novo</li>
+                                <li>Valor: %JAVA_HOME%\bin</li>
+                                <li>Confirmar criação OK</li>
+                            </ul>
+                        </li>
+                        <li>Verificar instalação no CMD, com comando "java -version"</li>
+                    </ol>
+                </li>
+                <li>Gradle
+                    <ol>
+                        <li>Baixar e instalar Gradle: site oficial Gradle, Install, Install manually, Step 1, baixar Binary-only</li>
+                        <li>Diretório "C:/", crie pasta "Gradle", e descompacte o Gradle dentro dela</li>
+                        <li>Win + R, digite "SystemPropertiesAdvanced", acessar Variáveis de Ambiente</li>
+                        <li>Aba "Variáveis do sistema", editar variável Path:
+                            Editar:
+                            <ul>
+                                <li>Nome: Path</li>
+                                <li>Clicar em Novo</li>
+                                <li>Valor: C:\Gradle\gradle-VERSAO\bin</li>
+                                <li>Confirmar criação OK</li>
+                            </ul>
+                        </li>
+                        <li>Verificar instalação: Win + R, digitar CMD, e informar comando "gradle -v"</li>
+                    </ol>
+                </li>
+                <li>Maven
+                    <ol>
+                        <li>Baixar e instalar Maven: site oficial Maven, página de Download, em Files, baixar de "Binary zip archive"</li>
+                        <li>Diretório "C:/", crie pasta "Maven", e descompacte o Gradle dentro dela</li>
+                        <li>Win + R, digite "SystemPropertiesAdvanced", acessar Variáveis de Ambiente</li>
+                        <li>Aba "Variáveis do sistema", editar variável Path:
+                            Editar:
+                            <ul>
+                                <li>Nome: Path</li>
+                                <li>Clicar em Novo</li>
+                                <li>Valor: C:\Maven\apache-maven-VERSAO\bin</li>
+                                <li>Confirmar criação OK</li>
+                            </ul>
+                        </li>
+                        <li>Verificar instalação: Win + R, digitar CMD, e informar comando "mvn -v"</li>
+                    </ol>
+                </li>
+            </ol>
         </div>
     </div>
 
