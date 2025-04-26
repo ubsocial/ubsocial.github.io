@@ -100,6 +100,55 @@
                 </li>
                 <li>VSCode com extensões Java Coding Pack: <a href="https://code.visualstudio.com/docs/languages/java" target="_blank" class="text-decoration-none">Acesse</a></li>
             </ol>
+
+            <br><h4>Pré-requisitos (Ubuntu):</h4>
+            <ol>
+                <li>JDK: sudo apt install openjdk -y</li>
+                <li>Configurar variáveis de ambiente:
+                    <ul>
+                        <li>Conferir caminho do JDK: readlink -f $(which java) // Somente /usr/lib/jvm/java-VERSAO-openjdk-amd64</li>
+                        <li>Abrir arquivo de variáveis (nano ~/.bashrc) e acrescentar linhas:
+<small><pre><code>
+# Java:
+export JAVA_HOME=/usr/lib/jvm/java-VERSAO-openjdk-amd64
+export PATH=$JAVA_HOME/bin:$PATH
+</code></pre></small>
+                        </li>
+                        <li>Aplicar mudanças: source ~/.bashrc</li>
+                        <li>Testar funcionamento: echo $JAVA_HOME && java -version</li>
+                    </ul>
+                </li>
+                <li>Gradle: <a href="https://gradle.org/install/#manually" target="_blank" class="text-decoration-none">Acesse</a>
+                    <ol>
+                        <li>Baixar e instalar Gradle: site oficial Gradle, Install, Install manually, Step 1, baixar Binary-only</li>
+                        <li>Criar pasta do Gradle: sudo mkdir /opt/gradle</li>
+                        <li>Descompactar Gradle: sudo unzip gradle-VERSAO-bin.zip -d /opt/gradle/</li>
+                        <li>Abrir arquivo de variáveis (nano ~/.bashrc) e acrescentar linhas:
+<small><pre><code>
+# Gradle:
+export PATH=$PATH:/opt/gradle/gradle-VERSAO/bin
+</code></pre></small>
+                        </li>
+                        <li>Aplicar mudanças: source ~/.bashrc</li>
+                        <li>Testar funcionamento: gradle -v</li>
+                    </ol>
+                </li>
+                <li>Maven: <a href="https://maven.apache.org/download.cgi" target="_blank" class="text-decoration-none">Acesse</a>
+                    <ol>
+                        <li>Baixar e instalar Maven: site oficial Maven, página de Download, em Files, baixar de "Binary zip archive"</li>
+                        <li>Criar pasta do Maven: sudo mkdir /opt/maven</li>
+                        <li>Descompactar Maven: sudo unzip ~/Downloads/apache-maven-VERSAO-bin.zip -d /opt/maven</li>
+                        <li>Abrir arquivo de variáveis (nano ~/.bashrc) e acrescentar linhas:
+                            <small><pre><code>
+# Maven:
+export PATH=$PATH:/opt/maven/apache-maven-VERSAO/bin
+</code></pre></small>
+                        </li>
+                        <li>Aplicar mudanças: source ~/.bashrc</li>
+                        <li>Testar funcionamento: mvn -v</li>
+                    </ol>
+                </li>
+            </ol>
         </div>
     </div>
 
