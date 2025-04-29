@@ -40,7 +40,10 @@
         </div>
 
         <div class="col-sm-12">
-            <h4>Pré-requisitos (Windows):</h4>
+            <h4>Spring Boot:</h4>
+            <p id="textoPost">Camada que atua sob framework Spring, simplificando-o e modernizando-o, seguindo padrão MVC.</p>
+
+            <br><h4>Pré-requisitos (Windows):</h4>
             <p id="textoPost"><b>JDK</b> (Java Development Kit) é kit de ferramentas e bibliotecas para desenvolver aplicações Java. <b>Gradle</b> é automatizador de build moderno que usa linguagem baseada em Groovy ou Kotlin para configurar projetos. <b>Maven</b> é mais antigo que Gradle, gerenciando builds e dependências para projetos Java baseada em estrutura padronizada e arquivos XML de configuração.</p>
             <ol>
                 <li>JDK: <a href="https://www.oracle.com/br/java/technologies/downloads" target="_blank" class="text-decoration-none">Acesse</a>
@@ -149,6 +152,53 @@ export PATH=$PATH:/opt/maven/apache-maven-VERSAO/bin
                     </ol>
                 </li>
             </ol>
+
+            <br><h4>Padrão MVC:</h4>
+            <ul>
+                <li><b>Model</b>: camada de modelo/negócios responsável por implementar regras de negócio da aplicação, definição das entidades e relacionamentos, implementando comportamento e camada de dados;</li>
+                <li><b>View</b>: camada de visão, responsável pela implementação e exibição de interface com usuário;</li>
+                <li><b>Controller</b>: camada de controle, classe OOP responsável pelo intermédio entre Model e View, pois elas nunca comunicam-se diretamente.</li>
+            </ul>
+            <u>Fluxo</u>:
+            <ol>
+                <li>Controller recebe requisição HTTP;</li>
+                <li>Controller trata dados da requisição, interagindo com Model (se necessário);</li>
+                <li>Controller prepara/envia resposta HTTP ao cliente, geralmente invocando View para tal.</li>
+            </ol>
+            <u>Spring Boot</u>:
+            <p id="textoPost">Recomenda-se separar camadas criando-as em diferentes pacotes, dentro do pacote principal (ex: pacote Controller ficará em "projeto/src/main/java/pacotePrincipal/pacoteController").</p>
+
+            <br><h4>Estrutura:</h4>
+            <ul>
+                <li>projeto/
+                    <ul>
+                        <li>build.gradle: dependências para projeto e testes com o mesmo;</li>
+                        <li>src/
+                            <ul>
+                                <li>main/: arquivos programados da aplicação;
+                                    <ul>
+                                        <li>resources/
+                                            <ul>
+                                                <li>application.properties: variáveis de configuração do projeto;</li>
+                                            </ul>
+                                        </li>
+                                        <li>java/: armazena o pacote principal do projeto;
+                                            <ul>
+                                                <li>pacoteProjeto/:
+                                                    <ul>
+                                                        <li>ClassePrincipal.java: classe principal do projeto, com método "main", que iniciará a aplicação;</li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>test/: arquivos de testes unitários;</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </div>
 
