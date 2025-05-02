@@ -36,22 +36,24 @@
         <div class="col-sm-12 text-center" id="titulo">
             <h1>IA câncer de mama</h1>
             <h6><strong>Algoritmo ML de diagnóstico de câncer de mama</strong></h6>
-            <a href="../../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a><br>
-            <a href="https://youtu.be/nC4Q2d8OKws?si=-7kR_aaFXmjQQg4X" class="btn btn-link text-decoration-none" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="1.3em" fill="currentColor" class="bi bi-youtube text-danger" viewBox="0 0 16 16"><path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.007 2.007 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.007 2.007 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31.4 31.4 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.007 2.007 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A99.788 99.788 0 0 1 7.858 2h.193zM6.4 5.209v4.818l4.157-2.408L6.4 5.209z"/></svg> Conteúdo disponível</a><br>
+            <a href="../../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
         </div>
 
         <div class="col-sm-12">
-            <h4>Descrição</h4>
+            <h4>Material complementar:</h4>
+            <ul>
+                <li>Conteúdo no YouTube: <a href="https://youtu.be/nC4Q2d8OKws?si=-7kR_aaFXmjQQg4X" target="_blank" class="text-decoration-none">Acesse</a></li>
+                <li>Notebook Python: <a href="https://github.com/ubsocial/ubsocial.github.io/blob/main/posts/post43/notebook_cancer_mama_ubsocial.ipynb" target="_blank" class="text-decoration-none">Acesse</a></li>
+                <li>Dataset: <a href="brca_mirnaseq.csv" target="_blank" class="text-decoration-none">Acesse</a></li>
+            </ul>
+
+            <br><h4>Descrição</h4>
             <p id="textoPost">Objetivo é construir modelo para predizer quando pessoa tem câncer conforme exame de sequenciamento do RNA. Os dados são reais e foram devidamente anonimizados. No dataframe, Cada linha representa amostra retirada de pessoa. Colunas são tipos de microRNA, cada registro representando intensidade com que tal microRNA está expresso. Valores de expressão variam entre  [0,n]. Valores próximos a 0 indicam baixa expressão, enquanto que contrário indica alta expressão. Dados também apresentam rótulos respostas (class) sendo TP (primary solid tumor) indicando tumor e NT (normal tissue).</p>
             <ul>
                 <li>TP: apresenta tumor de câncer de mama;</li>
                 <li>NT: não apresenta tumor de câncer de mama.</li>
             </ul>
             <p id="textoPost">O notebook e dados foram referenciados do <a href="https://www.cancer.gov/ccg/research/genome-sequencing/tcga" target="_blank" class="text-decoration-none">The Cancer Genome Atlas Program (TCGA)</a> e <a href="https://ebaconline.com.br" target="_blank" class="text-decoration-none">Escola Britânica de Artes Criativas & Tecnologia (EBAC)</a>.</p>
-            <ul>
-                <li>Notebook Python: <a href="https://github.com/ubsocial/ubsocial.github.io/blob/main/posts/post43/notebook_cancer_mama_ubsocial.ipynb" target="_blank" class="text-decoration-none">baixar</a></li>
-                <li>Data frame CSV: <a href="brca_mirnaseq.csv" target="_blank" class="text-decoration-none">baixar</a></li>
-            </ul>
 
             <br><h4>notebook.ipynb</h4>
 <small><pre><code>
