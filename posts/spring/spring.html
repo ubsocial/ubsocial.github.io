@@ -101,56 +101,7 @@
                         <li>Verificar instalação: Win + R, digitar CMD, e informar comando "mvn -v"</li>
                     </ol>
                 </li>
-                <li>VSCode com extensões Java Coding Pack: <a href="https://code.visualstudio.com/docs/languages/java" target="_blank" class="text-decoration-none">Acesse</a></li>
-            </ol>
-
-            <br><h4>Pré-requisitos (Ubuntu):</h4>
-            <ol>
-                <li>JDK: sudo apt install openjdk -y</li>
-                <li>Configurar variáveis de ambiente:
-                    <ul>
-                        <li>Conferir caminho do JDK: readlink -f $(which java) // Somente /usr/lib/jvm/java-VERSAO-openjdk-amd64</li>
-                        <li>Abrir arquivo de variáveis (nano ~/.bashrc) e acrescentar linhas:
-<small><pre><code>
-# Java:
-export JAVA_HOME=/usr/lib/jvm/java-VERSAO-openjdk-amd64
-export PATH=$JAVA_HOME/bin:$PATH
-</code></pre></small>
-                        </li>
-                        <li>Aplicar mudanças: source ~/.bashrc</li>
-                        <li>Testar funcionamento: echo $JAVA_HOME && java -version</li>
-                    </ul>
-                </li>
-                <li>Gradle: <a href="https://gradle.org/install/#manually" target="_blank" class="text-decoration-none">Acesse</a>
-                    <ol>
-                        <li>Baixar e instalar Gradle: site oficial Gradle, Install, Install manually, Step 1, baixar Binary-only</li>
-                        <li>Criar pasta do Gradle: sudo mkdir /opt/gradle</li>
-                        <li>Descompactar Gradle: sudo unzip gradle-VERSAO-bin.zip -d /opt/gradle/</li>
-                        <li>Abrir arquivo de variáveis (nano ~/.bashrc) e acrescentar linhas:
-<small><pre><code>
-# Gradle:
-export PATH=$PATH:/opt/gradle/gradle-VERSAO/bin
-</code></pre></small>
-                        </li>
-                        <li>Aplicar mudanças: source ~/.bashrc</li>
-                        <li>Testar funcionamento: gradle -v</li>
-                    </ol>
-                </li>
-                <li>Maven: <a href="https://maven.apache.org/download.cgi" target="_blank" class="text-decoration-none">Acesse</a>
-                    <ol>
-                        <li>Baixar e instalar Maven: site oficial Maven, página de Download, em Files, baixar de "Binary zip archive"</li>
-                        <li>Criar pasta do Maven: sudo mkdir /opt/maven</li>
-                        <li>Descompactar Maven: sudo unzip ~/Downloads/apache-maven-VERSAO-bin.zip -d /opt/maven</li>
-                        <li>Abrir arquivo de variáveis (nano ~/.bashrc) e acrescentar linhas:
-                            <small><pre><code>
-# Maven:
-export PATH=$PATH:/opt/maven/apache-maven-VERSAO/bin
-</code></pre></small>
-                        </li>
-                        <li>Aplicar mudanças: source ~/.bashrc</li>
-                        <li>Testar funcionamento: mvn -v</li>
-                    </ol>
-                </li>
+                <li>Recomenda-se utilizar IDE Jetbrains IntelliJ: <a href="https://www.jetbrains.com/idea" class="text-decoration-none" target="_blank">Acesse</a></li>
             </ol>
 
             <br><h4>Padrão MVC:</h4>
@@ -168,37 +119,67 @@ export PATH=$PATH:/opt/maven/apache-maven-VERSAO/bin
             <u>Spring Boot</u>:
             <p id="textoPost">Recomenda-se separar camadas criando-as em diferentes pacotes, dentro do pacote principal (ex: pacote Controller ficará em "projeto/src/main/java/pacotePrincipal/pacoteController").</p>
 
-            <br><h4>Estrutura:</h4>
-            <ul>
-                <li>projeto/
+            <br><h4>Criar projeto Spring Boot:</h4>
+            <p id="textoPost">Acesse o site <a href="https://start.spring.io/" target="_blank" class="text-decoration-none">Spring Initializr</a>, e preencha os campos:</p>
+            <ol>
+                <li>Project: Gradle - Groovy</li>
+                <li>Project Metadata
                     <ul>
-                        <li>build.gradle: dependências para projeto e testes com o mesmo;</li>
-                        <li>src/
+                        <li>Group: grupoExemplo.com</li>
+                        <li>Artifact: nomeProjeto</li>
+                        <li>Name: nomeProjeto (igual no Artifact)</li>
+                        <li>Package name: grupoExemplo.com.nomeProjeto</li>
+                    </ul>
+                </li>
+                <li>Java: versão do JDK instalado na máquina</li>
+                <li>Dependencies:
+                    <li>DevTools</li>
+                    <li>Spring Web</li>
+                </li>
+                <li>Generate (o projeto será gerado)</li>
+                <li>Extrair projeto localmente, abrir com editor, e executar terminal na pasta raíz do projeto (mesmo local do 'gradlew'): "gradlew bootRun"
+                    <ul>
+                        <li>Quando a execução ficar em "80% EXECUTING", acesse em "http://localhost:8080"</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <br><h4>Estrutura:</h4>
+            <img src="estrutura_spring.png" class="img-fluid mt-2 mb-3 rounded" width="220px">
+            <ul>
+                <li>raizProjeto/
+                    <ul>
+                        <li>src/: códigos do projeto
                             <ul>
-                                <li>main/: arquivos programados da aplicação;
+                                <li>main/: arquivos para programar
                                     <ul>
-                                        <li>resources/
+                                        <li>java/: armazena pacote principal do projeto
                                             <ul>
-                                                <li>application.properties: variáveis de configuração do projeto;</li>
-                                            </ul>
-                                        </li>
-                                        <li>java/: armazena o pacote principal do projeto;
-                                            <ul>
-                                                <li>pacoteProjeto/:
+                                                <li>pacotePrincipal.com/: pacote principal do projeto, aqui dentro ficam outros pacotes de controllers, com seus respectivos controllers (Arquivos.java)
                                                     <ul>
-                                                        <li>ClassePrincipal.java: classe principal do projeto, com método "main", que iniciará a aplicação;</li>
+                                                        <li>NomeAplicacao.java: classe principal do pacote principal</li>
                                                     </ul>
                                                 </li>
                                             </ul>
                                         </li>
+                                        <li>resources/:
+                                            <ul>
+                                                <li>application.properties: variáveis de configuração do projeto</li>
+                                            </ul>
+                                        </li>
                                     </ul>
                                 </li>
-                                <li>test/: arquivos de testes unitários;</li>
+                                <li>tests/: arquivos de testes unitários</li>
                             </ul>
                         </li>
+                        <li>build.gradle: dependências do projeto e testes</li>
+                        <li>gradlew: executar servidor Gradle</li>
                     </ul>
                 </li>
             </ul>
+
+            <br><h4>Projeto inicial:</h4>
+            <p class="text-warning">Em breve</p>
         </div>
     </div>
 
