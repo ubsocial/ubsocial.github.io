@@ -40,8 +40,13 @@
         </div>
 
         <div class="col-sm-12">
-            <h4>Spring Boot:</h4>
-            <p id="textoPost">Camada que atua sob framework Spring, simplificando-o e modernizando-o, seguindo padrão MVC.</p>
+            <h4>Material complementar:</h4>
+            <ul>
+                <li>Conteúdo no GitHub: <a href="http://github.com/mateusschwede/spring_boot" target="_blank" class="text-decoration-none">Acesse</a></li>
+            </ul>
+
+            <br><h4>Spring Boot:</h4>
+            <p id="textoPost">Camada que atua sob framework Spring, simplificando-o e modernizando-o, seguindo padrão MVC. Spring implementa padrão IoC (Inversion of Control), onde os objetos (Spring Beans / Beans) são instanciados automaticamente pelo container do Spring, dispensando criação manual</p>
 
             <br><h4>Pré-requisitos (Windows):</h4>
             <p id="textoPost"><b>JDK</b> (Java Development Kit) é kit de ferramentas e bibliotecas para desenvolver aplicações Java. <b>Gradle</b> é automatizador de build moderno que usa linguagem baseada em Groovy ou Kotlin para configurar projetos. <b>Maven</b> é mais antigo que Gradle, gerenciando builds e dependências para projetos Java baseada em estrutura padronizada e arquivos XML de configuração.</p>
@@ -117,7 +122,12 @@
                 <li>Controller prepara/envia resposta HTTP ao cliente, geralmente invocando View para tal.</li>
             </ol>
             <u>Spring Boot</u>:
-            <p id="textoPost">Recomenda-se separar camadas criando-as em diferentes pacotes, dentro do pacote principal (ex: pacote Controller ficará em "projeto/src/main/java/pacotePrincipal/pacoteController").</p>
+            <p id="textoPost">Recomenda-se separar camadas criando-as em diferentes pacotes, dentro do pacote principal.</p>
+<small><pre><code>
+Pacote Controller ficará em "projeto/src/main/java/pacotePrincipal/pacoteController"
+Nome do pacotePrincipal: grupoExemplo.com.nomeProjeto
+Nome do pacoteController: grupoExemplo.com.nomeProjeto.pacoteController
+</code></pre></small>
 
             <br><h4>Estrutura:</h4>
             <img src="estrutura_spring.png" class="img-fluid mt-2 mb-3 rounded" width="220px">
@@ -160,9 +170,9 @@
                 <li>Project Metadata
                     <ul>
                         <li>Group: grupoExemplo.com</li>
-                        <li>Artifact: nomeProjeto</li>
-                        <li>Name: nomeProjeto (igual no Artifact)</li>
-                        <li>Package name: grupoExemplo.com.nomeProjeto</li>
+                        <li>Artifact: proj1</li>
+                        <li>Name: proj1 (igual no Artifact)</li>
+                        <li>Package name: grupoExemplo.com.proj1</li>
                     </ul>
                 </li>
                 <li>Java: versão do JDK instalado na máquina</li>
@@ -180,8 +190,73 @@
                 </li>
             </ol>
 
-            <br><h4>1.Projeto inicial:</h4>
-            <p class="text-warning">Em breve</p>
+            <br><hr><h4>Projeto 1:</h4>
+            <p id="textoPost">Projeto para conhecimento de estrutura Spring Boot, e geração de controllers. Gerar projeto Spring Boot Gradle-Groovy, com dados:</p>
+            <ul>
+                <li>Group: ubsocial.com</li>
+                <li>Artifact: proj1</li>
+                <li>Name: proj1</li>
+                <li>Package: ubsocial.com.proj1</li>
+                <li>Dependencies:
+                    <ul>
+                        <li>DevTools</li>
+                        <li>Spring Web</li>
+                    </ul>
+                </li>
+                <li>Generate (projeto será gerado), extrair, e abrir com IntelliJ</li>
+                <li>No IntelliJ, dentro da pasta do pacote principal (ubsocial.com.proj1), criar pacote "controller": ubsocial.com.proj1.controller</li>
+                <li>Dentro do pacote "controller", criar controller (classe) "HelloController.java", com o conteúdo:
+<small><pre><code>
+package ubsocial.com.proj1.controller;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class HelloController &#123;
+
+    @GetMapping("/hello")
+    public String hello() &#123;
+        return "Hello World!";
+    &#125;
+
+&#125;
+</code></pre></small>
+                </li>
+                <li>Na mesma pasta de "gradlew", executar projeto: ".\gradlew bootRun"
+                    <ul>
+                        <li>Testar em: <a href="http://localhost:8080/hello" class="text-decoration-none" target="_blank">http://localhost:8080/hello</a></li>
+                    </ul>
+                </li>
+                <li>Dentro do pacote controller, criar pacote CalendarController (será classe CalendarController.java), com o conteúdo:
+<small><pre><code>
+package ubsocial.com.proj1.controller;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class CalendarController {
+
+    @GetMapping("/today")
+    public String today() {
+        return "Hoje é " + java.time.LocalDate.now();
+    }
+
+    @GetMapping("/tomorrow")
+    public String tomorrow() {
+        return "Amanhã é " + java.time.LocalDate.now().plusDays(1);
+    }
+
+}
+</code></pre></small>
+                </li>
+                <li>Na mesma pasta de "gradlew", executar projeto: ".\gradlew bootRun"</li>
+                <ul>
+                    <li>Testar em: <a href="http://localhost:8080/today" class="text-decoration-none" target="_blank">http://localhost:8080/today</a></li>
+                    <li>Testar em: <a href="http://localhost:8080/tomorrow" class="text-decoration-none" target="_blank">http://localhost:8080/tomorrow</a></li>
+                </ul>
+            </ul>
         </div>
     </div>
 
