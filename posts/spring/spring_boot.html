@@ -46,68 +46,7 @@
             </ul>
 
             <br><h4>Spring Boot:</h4>
-            <p id="textoPost">Camada que atua sob framework Spring, simplificando-o e modernizando-o, seguindo padrão MVC. Spring implementa padrão IoC (Inversion of Control), onde os objetos (Spring Beans / Beans) são instanciados automaticamente pelo container do Spring, dispensando criação manual</p>
-
-            <br><h4>Pré-requisitos (Windows):</h4>
-            <p id="textoPost"><b>JDK</b> (Java Development Kit) é kit de ferramentas e bibliotecas para desenvolver aplicações Java. <b>Gradle</b> é automatizador de build moderno que usa linguagem baseada em Groovy ou Kotlin para configurar projetos. <b>Maven</b> é mais antigo que Gradle, gerenciando builds e dependências para projetos Java baseada em estrutura padronizada e arquivos XML de configuração.</p>
-            <ol>
-                <li>JDK: <a href="https://www.oracle.com/br/java/technologies/downloads" target="_blank" class="text-decoration-none">Acesse</a>
-                    <ol>
-                        <li>Baixar e instalar JDK Oracle</li>
-                        <li>Win + R, digite "SystemPropertiesAdvanced", acessar Variáveis de Ambiente</li>
-                        <li>Aba "Variáveis do sistema", em Novo, criar/editar variáveis:
-                            <ul>
-                                Criar:
-                                <li>Nome: JAVA_HOME</li>
-                                <li>Valor: Caminho da pasta com JDK instalado (Ex: "C:\Program Files\Java\jdk-24")</li>
-                                <li>Confirmar criação OK</li>
-                                <br>
-                                Editar:
-                                <li>Nome: Path</li>
-                                <li>Clicar em Novo</li>
-                                <li>Valor: %JAVA_HOME%\bin</li>
-                                <li>Confirmar criação OK</li>
-                            </ul>
-                        </li>
-                        <li>Verificar instalação no CMD, com comando "java -version"</li>
-                    </ol>
-                </li>
-                <li>Gradle: <a href="https://gradle.org/install/#manually" target="_blank" class="text-decoration-none">Acesse</a>
-                    <ol>
-                        <li>Baixar e instalar Gradle: site oficial Gradle, Install, Install manually, Step 1, baixar Binary-only</li>
-                        <li>Diretório "C:/", crie pasta "Gradle", e descompacte o Gradle dentro dela</li>
-                        <li>Win + R, digite "SystemPropertiesAdvanced", acessar Variáveis de Ambiente</li>
-                        <li>Aba "Variáveis do sistema", editar variável Path:
-                            Editar:
-                            <ul>
-                                <li>Nome: Path</li>
-                                <li>Clicar em Novo</li>
-                                <li>Valor: C:\Gradle\gradle-VERSAO\bin</li>
-                                <li>Confirmar criação OK</li>
-                            </ul>
-                        </li>
-                        <li>Verificar instalação: Win + R, digitar CMD, e informar comando "gradle -v"</li>
-                    </ol>
-                </li>
-                <li>Maven: <a href="https://maven.apache.org/download.cgi" target="_blank" class="text-decoration-none">Acesse</a>
-                    <ol>
-                        <li>Baixar e instalar Maven: site oficial Maven, página de Download, em Files, baixar de "Binary zip archive"</li>
-                        <li>Diretório "C:/", crie pasta "Maven", e descompacte o Gradle dentro dela</li>
-                        <li>Win + R, digite "SystemPropertiesAdvanced", acessar Variáveis de Ambiente</li>
-                        <li>Aba "Variáveis do sistema", editar variável Path:
-                            Editar:
-                            <ul>
-                                <li>Nome: Path</li>
-                                <li>Clicar em Novo</li>
-                                <li>Valor: C:\Maven\apache-maven-VERSAO\bin</li>
-                                <li>Confirmar criação OK</li>
-                            </ul>
-                        </li>
-                        <li>Verificar instalação: Win + R, digitar CMD, e informar comando "mvn -v"</li>
-                    </ol>
-                </li>
-                <li>Recomenda-se utilizar IDE Jetbrains IntelliJ: <a href="https://www.jetbrains.com/idea" class="text-decoration-none" target="_blank">Acesse</a></li>
-            </ol>
+            <p id="textoPost">Camada que atua sob framework Spring, simplificando-o e modernizando-o, seguindo padrão MVC. Spring implementa padrão IoC (Inversion of Control), onde os objetos (Spring Beans / Beans) são instanciados automaticamente pelo container do Spring, dispensando criação manual. Instalar pré-requisitos (Ubuntu): sudo apt install -y default-jdk gradle maven</p>
 
             <br><h4>Padrão MVC:</h4>
             <ul>
@@ -183,7 +122,7 @@ Nome do pacoteController: grupoExemplo.com.nomeProjeto.pacoteController
                     </ul>
                 </li>
                 <li>Generate (o projeto será gerado)</li>
-                <li>Extrair projeto localmente, abrir com editor, e executar terminal na pasta raíz do projeto (mesmo local do 'gradlew'): "gradlew bootRun"
+                <li>Extrair projeto localmente, abrir com editor, e executar terminal na pasta raíz do projeto (mesmo local do 'gradlew'): "./gradlew bootRun"
                     <ul>
                         <li>Quando a execução ficar em "80% EXECUTING", acesse em "http://localhost:8080"</li>
                     </ul>
@@ -223,7 +162,7 @@ public class HelloController &#123;
 &#125;
 </code></pre></small>
                 </li>
-                <li>Na mesma pasta de "gradlew", executar projeto: ".\gradlew bootRun"
+                <li>Na mesma pasta de "gradlew", executar projeto: "./gradlew bootRun"
                     <ul>
                         <li>Testar em: <a href="http://localhost:8080/hello" class="text-decoration-none" target="_blank">http://localhost:8080/hello</a></li>
                     </ul>
@@ -251,7 +190,7 @@ public class CalendarController {
 }
 </code></pre></small>
                 </li>
-                <li>Na mesma pasta de "gradlew", executar projeto: ".\gradlew bootRun"</li>
+                <li>Na mesma pasta de "gradlew", executar projeto: "./gradlew bootRun"</li>
                 <ul>
                     <li>Testar em: <a href="http://localhost:8080/today" class="text-decoration-none" target="_blank">http://localhost:8080/today</a></li>
                     <li>Testar em: <a href="http://localhost:8080/tomorrow" class="text-decoration-none" target="_blank">http://localhost:8080/tomorrow</a></li>
