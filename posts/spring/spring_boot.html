@@ -197,8 +197,118 @@ public class CalendarController {
                 </ul>
             </ul>
 
-            <br><h4>Projeto 2: Models</h4>
-            <p id="textoPost">Projeto de operadoras telefônicas, com objetivo de criar aplicação com Models e incorporar, em código, relacionamentos entre classes Java.</p>
+            <br><hr><h4>Projeto 2: Models</h4>
+            <img src="umlProjeto2.png" class="img-fluid mb-3 rounded" width="700px">
+            <p id="textoPost">Projeto de operadora telefônica, com objetivo de criar aplicação com Models e incorporar, em código, relacionamentos entre classes Java, conforme acima. Relacionamentos unidirecionais (agregação, composição), somente o todo (losango) conhece sua parte (linha com seta), então será criado dado na classe do todo, cujo nome é o nome do relacionamento apontando para parte. Gerar projeto Spring Boot Gradle-Groovy, com dados:</p>
+            <ul>
+                <li>Group: ubsocial.com</li>
+                <li>Artifact: telefonia</li>
+                <li>Name: telefonia</li>
+                <li>Package: ubsocial.com.telefonia</li>
+                <li>Dependencies:
+                    <ul>
+                        <li>DevTools</li>
+                        <li>Spring Web</li>
+                    </ul>
+                </li>
+                <li>Generate (projeto será gerado), extrair, e abrir com IntelliJ</li>
+                <li>No IntelliJ, dentro da pasta do pacote principal (ubsocial.com.telefonia), criar pacote "model": ubsocial.com.telefonia.model</li>
+                <li>Dentro do pacote "model", criar pacote de entidades "entity": ficará model.entity</li>
+                <li>Dentro do pacote "model.entity", criar Model (entidade) Operadora:
+<small><pre><code>
+package ubsocial.com.telefonia.model.entity;
+
+public class Operadora &#123;
+    private String nome;
+&#125;
+</code></pre></small>
+                </li>
+                <li>Dentro do pacote "model.entity", criar pacote "pessoal": ficará model.entity.pessoal</li>
+                <li>Dentro do pacote "pessoal", criar Model Cliente:
+<small><pre><code>
+package ubsocial.com.telefonia.model.entity.pessoal;
+
+public class Cliente &#123;
+    private String nome;
+    private String endereco;
+&#125;
+</code></pre></small>
+                </li>
+                <li>Dentro do pacote "pessoal", criar Model ClientePessoaFisica:
+<small><pre><code>
+package ubsocial.com.telefonia.model.entity.pessoal;
+
+public class ClientePessoaFisica extends Cliente &#123;
+    private String cpf;
+&#125;
+</code></pre></small>
+                </li>
+                <li>Dentro do pacote "pessoal", criar Model ClientePessoaJuridica:
+<small><pre><code>
+package ubsocial.com.telefonia.model.entity.pessoal;
+
+public class ClientePessoaJuridica extends Cliente &#123;
+    private String cnpj;
+&#125;
+</code></pre></small>
+                </li>
+                <li>Dentro do pacote "model.entity", criar pacote "comercial": ficará model.entity.comercial</li>
+                <li>Dentro do pacote "comercial", criar Model Celular:
+<small><pre><code>
+package ubsocial.com.telefonia.model.entity.comercial;
+import ubsocial.com.telefonia.model.entity.pessoal.Cliente;
+import java.util.Set;
+
+public class Celular &#123;
+    private long numero;
+    private Cliente cliente;
+    private Set<Ligacao> ligacoes;
+    private Plano plano;
+&#125;
+</code></pre></small>
+                </li>
+                <li>Dentro do pacote "comercial", criar Model CelularPosPago:
+<small><pre><code>
+package ubsocial.com.telefonia.model.entity.comercial;
+
+public class CelularPosPago extends Celular &#123;
+    private int diaVencimento;
+&#125;
+</code></pre></small>
+                </li>
+                <li>Dentro do pacote "comercial", criar Model CelularPrePago:
+<small><pre><code>
+package ubsocial.com.telefonia.model.entity.comercial;
+import java.util.Date;
+
+public class CelularPrePago extends Celular &#123;
+    private double saldo;
+    private Date dataDeValidade;
+&#125;
+</code></pre></small>
+                </li>
+                <li>Dentro do pacote "comercial", criar Model Ligacao:
+<small><pre><code>
+package ubsocial.com.telefonia.model.entity.comercial;
+import java.util.Date;
+
+public class Ligacao &#123;
+    private Date data;
+    private int duracao;
+&#125;
+</code></pre></small>
+                </li>
+                <li>Dentro do pacote "comercial", criar Model Plano:
+<small><pre><code>
+package ubsocial.com.telefonia.model.entity.comercial;
+
+public class Plano &#123;
+    private String nome;
+    private double valorPorMinuto;
+&#125;
+</code></pre></small>
+                </li>
+            </ul>
         </div>
     </div>
 
