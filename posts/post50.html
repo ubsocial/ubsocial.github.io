@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../icons/logoTit.png">
+    <link rel="stylesheet" href="../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <nav class="navbar rounded-bottom fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="../index.html"><img src="../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../sobre/sobre.html">Sobre</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../cursos.html" id="navCursos">Cursos</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../livros/livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 text-center" id="titulo">
+            <h1>Agent-to-Agent (A2A)</h1>
+            <h6><strong>Utilização do A2A Agent em IA</strong></h6>
+            <a href="../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
+        </div>
+
+        <div class="col-sm-12">
+            <h4>Conceito:</h4>
+            <p id="textoPost">A2A (Agent-to-Agent), comunicação entre agentes autônomos. Em Inteligência Artificial distribuída, agentes são entidades de software que atuam de forma autônoma, tomam decisões, comunicam-se com outros agentes e cooperam ou competem para atingir objetivos. A comunicação é central em sistemas multiagentes (MAS). Protocolo utilizado para comunicação é XMPP (Extensible Messaging and Presence Protocol), via XML, onde cada agent possui 'nome@servidor'. Framework SPADE utiliza tal protocolo, onde cada agent conecta-se a servidor, possibilitando enviar e receber mensagens.</p>
+
+            <br><h4>Exemplo prático XMPP:</h4>
+            <p id="textoPost">Criação de agents XMPP via framework SPADE, em notebook Python, para comunicação entre agentUser (solicitará dados de local geográfico) e agentMaps (responderá com informações geográficas).</p>
+            <ol>
+                <li>Criar 2 cadastros em <a href="https://xmpp.jp" class="text-decoration-none" target="_blank">https://xmpp.jp</a>:
+                    <ul>
+                        <li>Usuário: agentUser@xmpp.jp - Senha: "abc123"</li>
+                        <li>Usuário: agentMaps@xmpp.jp - Senha: "def456"</li>
+                    </ul>
+                </li>
+                <li>Obter keys API Google Maps (Geocoding API):
+                    <ul>
+                        <li>Crie conta gratuita no Google Cloud, requer cadastro de cartão de crédito (US$ 200 mensais gratuitos), o exemplo básico não gerará custos. Consulte a <a href="https://developers.google.com/maps/billing-and-pricing/pricing?hl=pt-br" class="text-decoration-none" target="_blank">lista de preços</a>;</li>
+                        <li>No console <a href="https://console.cloud.google.com" class="text-decoration-none" target="_blank">https://console.cloud.google.com</a>, crie novo projeto;</li>
+                        <li>No menu "APIs e serviços", em "Biblioteca", ative Geocoding API;</li>
+                        <li>No menu "Credenciais", crie chave de API, e copie-a;</li>
+                    </ul>
+                </li>
+                <li>Crie notebook Python 'a2a.ipynb', com conteúdo:
+<small><pre><code>
+!pip install -q spade requests
+import asyncio
+import requests
+from spade.agent import Agent
+from spade.behaviour import CyclicBehaviour
+from spade.message import Message
+
+GOOGLE_API_KEY = "CHAVE_GOOGLE_MAPS"
+agent_maps_jid = "agentMaps@xmpp.jp"
+agent_maps_pwd = "def456"
+agent_user_jid = "agentUser@xmpp.jp"
+agent_user_pwd = "abc123"
+
+class AgentMaps(Agent):
+    class respostaLocal(CyclicBehaviour):
+        async def run(self):
+            msg = await self.receive(timeout=15)
+            if msg:
+                local = msg.body
+                print(f"[agentMaps] Local recebido: &#123;local&#125;")
+                resposta = self.buscar_maps(local)
+                reply = Message(to=str(msg.sender))
+                reply.body = resposta
+                await self.send(reply)
+                print("[agentMaps] Resposta enviada.")
+            else:
+                print("[agentMaps] Aguardando mensagem")
+
+        def buscar_maps(self, local):
+            url = "https://maps.googleapis.com/maps/api/geocode/json"
+            params = &#123;"address": local, "key": GOOGLE_API_KEY&#125;
+            r = requests.get(url, params=params)
+            data = r.json()
+            if data["status"] == "OK":
+                resultado = data["results"][0]
+                nome = resultado["formatted_address"]
+                lat = resultado["geometry"]["location"]["lat"]
+                lng = resultado["geometry"]["location"]["lng"]
+                link = f"https://www.google.com/maps/search/?api=1&query=&#123;lat&#125;,&#123;lng&#125;"
+                return f"Endereço: &#123;nome&#125;\nLatitude: &#123;lat&#125;\nLongitude: &#123;lng&#125;\nLink: &#123;link&#125;"
+            else:
+                return "Local não encontrado."
+
+    async def setup(self):
+        print("[agentMaps] Iniciado")
+        self.add_behaviour(self.respostaLocal())
+
+class agentUser(Agent):
+    class enviarConsulta(CyclicBehaviour):
+        async def run(self):
+            print("[agentUser] Enviando consulta...")
+            msg = Message(to=agent_maps_jid)
+            msg.body = "Cristo Redentor, Rio de Janeiro"
+            await self.send(msg)
+            resposta = await self.receive(timeout=15)
+            if resposta:
+                print("[agentUser] Resposta recebida:\n" + resposta.body)
+            else:
+                print("[agentUser] Nenhuma resposta recebida.")
+
+    async def setup(self):
+        print("[agentUser] Iniciado")
+        self.add_behaviour(self.enviarConsulta())
+
+maps_agent = AgentMaps(agent_maps_jid, agent_maps_pwd)
+user_agent = agentUser(agent_user_jid, agent_user_pwd)
+
+async def main():
+    await maps_agent.start(auto_register=True)
+    await user_agent.start(auto_register=True)
+    await asyncio.sleep(20)
+    await user_agent.stop()
+    await maps_agent.stop()
+
+asyncio.run(main())
+</code></pre></small>
+                </li>
+                <li>Saída esperada:
+<small><pre><code>
+[agentMaps] Iniciado
+[agentUser] Iniciado
+[agentUser] Enviando consulta...
+[agentMaps] Local recebido: Cristo Redentor, Rio de Janeiro
+[agentMaps] Resposta enviada.
+[agentUser] Resposta recebida:
+Endereço: Parque Nacional da Tijuca - Alto da Boa Vista, Rio de Janeiro - RJ, Brasil
+Latitude: -22.951916
+Longitude: -43.2104872
+Link: https://www.google.com/maps/search/?api=1&query=-22.951916,-43.2104872
+</code></pre></small>
+                </li>
+            </ol>
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center bg-black text-light pt-4 pb-3">
+        <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>
