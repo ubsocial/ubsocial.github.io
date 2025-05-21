@@ -1,8 +1,6 @@
 #titulo {padding-top: 80px;}
 #textoPost {text-align: justify;}
 #workover {background: linear-gradient(to left, #6a5fff, #b1469f);}
-#navCursos {background: linear-gradient(to left, #6a5fff, #b1469f); background-clip: text; color: transparent;}
-#navCursos2 {background: linear-gradient(to left, #b1469f, #6a5fff); background-clip: text; color: transparent;}
 
 /* Especial Disney */
 @font-face {
