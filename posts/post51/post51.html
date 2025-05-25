@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../../icons/logoTit.png">
+    <link rel="stylesheet" href="../../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <nav class="navbar rounded-bottom fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="../../index.html"><img src="../../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../sobre/sobre.html">Sobre</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../cursos.html">Cursos</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../livros/livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 text-center" id="titulo">
+            <h1>Engenharia de Prompt</h1>
+            <h6><strong>Criação de Prompts IA</strong><br><br><span class="badge bg-warning text-dark">Resumo em construção</span></h6>
+            <a href="../../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
+        </div>
+
+        <div class="col-sm-12">
+            <h4>LLM:</h4>
+            <p id="textoPost">Large Language Model (LLM) é modelo de linguagem treinado em grandes volumes de parâmetros textuais (sequência de palavras), capaz de gerar e compreender texto de forma contextualizada, sem necessidade de programação (aprendizado autônomo). O apredizado ocorre via padrões e estruturas de linguagem humana, presente nos dados de treinamento. Modelos atuais utilizam Natural Language Processing (NLP ou PLN). LLMs são capazes de responder perguntas (texto, imagens, áudio, vídeos, etc) em diversos formatos de resposta (texto, imagens, áudio, vídeos, etc). Principais LLMs:</p>
+            <ul>
+                <li>GPT (OpenAI): Usado no ChatGPT. Modelos como GPT-3.5, GPT-4 e GPT-4o são amplamente utilizados;</li>
+                <li>Gemini (Google): Inúmeras funcionalidades de multimodalidade;</li>
+                <li>Copilot (Microsoft): Assistente de programação que sugere trechos de código;</li>
+                <li>LLaMA (Meta): Utilizado em pesquisas e aplicações open source.</li>
+                <li>Claude (Anthropic): Modelo com foco em segurança e respostas mais "alinhadas";</li>
+            </ul>
+            <p id="textoPost">LLMs têm limitações, como "alucinação" (inventar respostas falsas com confiança), dificuldade em responder dados extremamente recentes, dependência da qualidade do prompt de entrada, podem reproduzir vieses (vício em resposta específica) oriundos dos dados de treino. Engenharia de Prompt é prática de criar prompts de entrada para LLMs, de forma organizada a fim de obter melhor acurácia de resposta, controlando, consequentemente, comportamento do LLM. Prompts bem estruturados melhoram qualidade das respostas geradas.</p>
+
+            <br><h4>Componentes de Prompt:</h4>
+            <ul>
+                <li>Instrução: Especificação que usuário deseja que LLM faça (ex: "Resuma o texto a seguir:");</li>
+                <li>Few-shot learning (exemplos): Pares entrada e saída esperadas (ex: "Texto original": "Resumo");</li>
+                <li>Role Assignment (contexto ou configuração): Papel ou cenário do LLM (ex: "Você é assistente de pesquisa jurídica");</li>
+                <li>Restrições ou Limitações: Limitações de resposta (extensão ou escopo) que LLM deve seguir (ex: "Use até 50 palavras");</li>
+                <li>Conteúdo principal: Conteúdo ou informações (anexos, etc) centrais para processamento de LLM (ex: "Texto a ser resumido");</li>
+                <li>Modular: dividir prompt em partes ou usar abordagem progressiva (ex: "Primeiro, resuma o texto. Depois, forneça exemplos.");</li>
+                <li>Indicações: Diretrizes LLM direcionar saídas específicas (ex: "Mantenha um tom formal");</li>
+                <li>Formato de saída: Estrutura ou tipo de resposta que LLM deve gerar (ex: "Resposta em formato Markdown");</li>
+                <li>Conteúdo de suporte: Informações extras (datas, anexos, estatísticas, etc) que ajudam LLM entender a tarefa (ex: "Texto de fundo sobre o assunto");</li>
+                <li>Feedback: Respostas de LLM que ajudam a ajustar e melhorar prompts futuros (ex: "A resposta foi útil?").</li>
+            </ul>
+            <u>Exemplos:</u>
+            <ul>
+                <li>Prompt ruim: "Escreva uma redação".</li>
+                <li>Prompt bom: "Escreva uma redação de 500 palavras sobre a importância da educação ambiental, incluindo pelo menos três exemplos práticos e propondo soluções para problemas ambientais atuais."</li>
+            </ul>
+
+            <br><h4>Tipos de Prompt:</h4>
+            <ul>
+                <li>Direct Prompting: instruem LLM realizar tarefa específica de forma clara e direta (ex: "Resuma o texto a seguir");</li>
+                <li>Few-shot Prompting: apresenta exemplos antes de fazer solicitação (ex: "Maçã": "Fruta");</li>
+                <li>Zero-shot Prompting: não fornece exemplos, mas descreve tarefa (ex: "Classifique o texto a seguir como positivo ou negativo");</li>
+                <li>Chain-of-Thought Prompting: induz LLM a explicar raciocínio passo a passo antes da resposta final (ex: "Para resolver este problema, primeiro precisamos entender...");</li>
+                <li>Role Prompting: começa com instrução que define quem o LLM deve simular, influenciando tom, vocabulário e foco da resposta (ex: "Você é um especialista em direito ambiental");</li>
+                <li>Prompt Templates: prompts com estrutura padrão, através de parâmetros fixos (ex: "Complete o seguinte texto: [texto]");</li>
+                <li>Prompt Tuning (Manual/Automático - Iteractive): testar versão inicial do prompt, avaliar sua resposta e fazer ajustes progressivos para melhorá-lo (ex: "A resposta foi útil?").</li>
+                <li>Multi-Prompting: usa múltiplos prompts para obter respostas variadas e escolher a melhor (ex: "Resuma o texto de três maneiras diferentes").</li>
+            </ul>
+            <!-- VER 1.7 – Encadeamento de Prompts (Prompt Chaining) -->
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center bg-black text-light pt-4 pb-3">
+        <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>
