@@ -190,6 +190,127 @@ Nome do pacoteController: grupoExemplo.com.nomeProjeto.pacoteController
                 </li>
             </ol>
 
+            <br><h4>ORM:</h4>
+            <p id="textoPost">Object-Relational Mapping é padrão para integrar SQL ao código Java na aplicação, sem necessidade de códigos SQL (opcional). ORM visa abstrair camda de dados da aplicação. Tables geradas via definição de classes. Diferença entre OOP e SQL, respectivamente:</p>
+            <ul><u>Transformações</u>:
+                <li>Classe/Entidade - tabela;</li>
+                <li>Atributo - coluna;</li>
+                <li>Objeto - registro;</li>
+                <li>Cada tabela possui chave primária.</li>
+            </ul>
+            <ul><u>Relacionamentos</u>:
+                <li>(1:n): table com 'n' recebe chave estrangeira referenciando chave primária da table '1'. Ex: Item(n) e Pedido(1), cria-se fk 'idPedido' em Item;</li>
+                <li>(1:1): escolhe-se 1 table para receber chave estrangeira referenciando chave primária da outra table. Ex: Servidor(1) e Campus(1), escolheu-se criar fk 'idCampus' em Servidor;</li>
+                <li>(n:n): cria-se nova table, referenciando relacionamento ocorrido, contendo 2 chaves estrangeiras, cada uma referenciando chave primária das tables relacionadas.</li>
+            </ul>
+
+            <br><h4>Hibernate:</h4>
+            <p id="textoPost">Framework Java que implementa ORM, via padrão e pacotes JPA (Java Persistence API). Incorporar Hibernate JPA e MySQL em projeto Spring Boot:</p>
+            <ol>
+                <li>'build.gradle', em 'dependencies', incluir linhas:
+<small><pre><code>
+implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+runtimeOnly 'com.mysql:mysql-connector-j'
+</code></pre></small>
+                </li>
+                <li>Criar BD via MySQL diretamente (CREATE DATABASE 'nomeBD');</li>
+                <li>Em 'src/main/resources/application.properties', informar:
+                    <ol>
+                        <li>Modo de criação das tables, escolhendo:
+                        <ul>
+                            <li>create: quando aplicação iniciada, criará tables (se inexistentes);</li>
+                            <li>create-drop: quando aplicação iniciada, criará tables (se inexistentes), e quando aplicação finalizada, excluirá tables;</li>
+                            <li>update: semelhante ao <i>create</i>, verificando também necessidade de novas atualizações nas tables criadas;</li>
+                            <li>none: nada é feito em BD.</li>
+                        </ul>
+<small><pre><code>
+spring.jpa.hibernate.ddl-auto=update
+</code></pre></small>
+                        </li>
+                        <li>URL conexão BD:
+<small><pre><code>
+spring.datasource.url=jdbc:mysql://localhost:3306/nomeBD
+</code></pre></small>
+                        </li>
+                        <li>Login do BD:
+<small><pre><code>
+spring.datasource.username=nomeUsuarioBD
+spring.datasource.password=senhaUsuarioBD
+</code></pre></small>
+                        </li>
+                        <li>Driver JDBC:
+<small><pre><code>
+spring.datasource.driver-class-name = com.mysql.cj.jdbc.Driver
+</code></pre></small>
+                        </li>
+                    </ol>
+                <li>Mapear classes entidades (somente entidades usarão Hibernate)
+                    <ol>
+                        <li>Informar '@Entity' acima da delcaração da classe entidade e importar Jakarta:
+<small><pre><code>
+import jakarta.persistence.Entity;
+
+@Entity
+public class NomeEntidade &#123;
+&#125;
+</code></pre></small>
+                        </li>
+                        <li>Indicar atributo da entidade que criará chave primária. Geralmente, cria-se atributo 'id' e referencia-o com @Id (herdará nas subclasses, importá-lo somente na superclasse), com notação de gerá-lo automaticamente e importar pacotes necessários:
+<small><pre><code>
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
+public class Plano &#123;
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private long id;
+&#125;
+</code></pre></small>
+                        </li>
+                        <li>Atributos Date e Calendar, informar anotação '@Temporal' acima da respectiva declaração:
+                            <ul>
+                                <li>TemporalType.DATE: somente data;</li>
+                                <li>TemporalType.TIME: somente hora;</li>
+                                <li>TemporalType.TIMESTAMP: data e hora.</li>
+                            </ul>
+<small><pre><code>
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
+public class Plano &#123;
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private long id;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dataHora;
+
+    @Column(name="NOME_PLANO", length=50, nullable=false, unique=false)
+    private String nome;
+
+    @Enumerated(EnumType.STRING)
+    private Gender genero;
+
+    @Transient
+    private Integer idade; // Não armazenado em BD
+&#125;
+</code></pre></small>
+                        </li>
+                    </ol>
+                    <li>Mapear relacionamentos entre entidades:
+                        <ul>
+                            <li>(1:n) unilateral: entidade <i>todo</i>, informar '@OneToMany' no atributo que indica <i>parte</i> do relacionamento <span class="text-danger"><b>CONTINUA AQUI</b></span> <!-- PAROU NO ÚLTIMO TÓPICO DA PÁGINA 17pdf APOSTILA --></li>
+                        </ul>
+                    </li>
+                </li>
+            </ol>
+
             <br><hr><h4>Projeto 1: Controllers</h4>
             <p id="textoPost">Projeto para conhecimento de estrutura Spring Boot, e geração de controllers. Gerar projeto Spring Boot Gradle-Groovy, com dados:</p>
             <ul>
