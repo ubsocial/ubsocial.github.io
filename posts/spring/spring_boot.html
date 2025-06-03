@@ -305,7 +305,108 @@ public class Plano &#123;
                     </ol>
                     <li>Mapear relacionamentos entre entidades:
                         <ul>
-                            <li>(1:n) unilateral: entidade <i>todo</i>, informar '@OneToMany' no atributo que indica <i>parte</i> do relacionamento <span class="text-danger"><b>CONTINUA AQUI</b></span> <!-- PAROU NO ÚLTIMO TÓPICO DA PÁGINA 17pdf APOSTILA --></li>
+                            <li>(1:n) unidirecional: entidade <i>todo</i> (da relação 1), informar '@OneToMany' no atributo que indica <i>parte</i> do relacionamento, seguido da identificação da chave estrangeira presente na tabela <i>parte</i> (da relação n);
+<small><pre><code>
+@Entity
+public class Operadora &#123;
+    @OneToMany
+    @JoinColumn(name="operadora_id")
+    Set&lt;Plano&gt; planos;
+&#125;
+</code></pre></small>
+                            </li>
+                            <li>(1:n) bidirecional: entidade <i>parte</i>, informar '@ManyToOne', criando chave estrangeira na tabela parte. Entidade <i>todo</i>, informar '@OneToMany' e mapeamento através do atributo chave estrangeira. Considere Endereco (parte) e Cliente (todo);
+<small><pre><code>
+@Entity
+public class Endereco &#123;
+    @ManyToOne
+    Cliente cliente;
+&#125;
+
+@Entity
+public class Cliente &#123;
+    @OneToMany(mappedBy="cliente")
+    Set&lt;Endereco&gt; enderecos;
+&#125;
+</code></pre></small>
+                            </li>
+                            <li>(n:1) unidirecional: entidade <i>todo</i>, informar '@ManyToOne' no atributo da <i>parte</i>. Considere Endereco a 1 Cliente, Cliente a n Endereços, porém desconheça seus Endereços, então Endereco é <i>todo</i>;
+<small><pre><code>
+@Entity
+public class Endereco &#123;
+    @ManyToOne
+    Cliente cliente;
+&#125;
+</code></pre></small>
+                            </li>
+                            <li>(n:1) bidirecional: semelhante ao 1:n bidirecional;</li>
+                            <li>(n:n) unidirecional: entidade <i>todo</i>, informar '@ManyToMany' no atributo da <i>parte</i>. Considere Conta n (<i>todo</i>) e Cliente n (<i>parte</i>), e Cliente desconheça suas Contas;
+<small><pre><code>
+@Entity
+public class Conta &#123;
+    @ManyToMany
+    Set&lt;Cliente&gt; clientes;
+&#125;
+</code></pre></small>
+                            </li>
+                            <li>(n:n) bidirecional: informar '@ManyToMany' em ambas entidades nos atributos correspondentes, e informar mapeamento na entidade <i>parte</i>. Conta n (<i>todo</i>) e Cliente n (<i>parte</i>);
+<small><pre><code>
+@Entity
+public class Conta &#123;
+    @ManyToMany
+    Set&lt;Cliente&gt; clientes;
+&#125;
+
+@Entity
+public class Cliente &#123;
+    @ManyToMany(mappedBy = "clientes")
+    Set&lt;Conta&gt; contas;
+&#125;
+</code></pre></small>
+                            </li>
+                            <li>(1:1) unidirecional: entidade <i>todo</i>, informar '@OneToOne' no atributo da <i>parte</i>. Considere Campus (<i>todo</i>) e Servidor (<i>parte</i>), e Servidor desconheça Campus;
+<small><pre><code>
+@Entity
+public class Campus &#123;
+    @OneToOne
+    Servidor diretor;
+&#125;
+</code></pre></small>
+                            </li>
+                            <li>(1:1) bidirecional: informar '@OneToOne' em ambas entidades nos atributos correspondentes, e informar mapeamento na entidade <i>parte</i>. Campus n (<i>todo</i>) e Servidor n (<i>parte</i>);
+<small><pre><code>
+@Entity
+public class Campus &#123;
+    @OneToOne
+    Servidor diretor;
+&#125;
+
+@Entity
+public class Servidor &#123;
+    @OneToOne(mappedBy = "diretor")
+    Campus campusDirigido;
+&#125;
+</code></pre></small>
+                            </li>
+                            <li>Herança: <i>single table</i>, onde cria-se tabela única para todas subclasses com superclasse em comum, contendo colunas para cada atributo da superclasse, colunas para cada atributo das subclasses, e coluna "descriminatória" determinando a qual entidade "pertence" cada registro. Superclasse, informar anotação de herança single table e de coluna descriminatória. Subclasses, informar anotação de valor descriminador, apontando valor para coluna descriminatória da superclasse. Conforme abaixo, gerará tabela única para as 3 entidades, contendo colunas para atributos de Cliente, colunas para atributos de ClientePessoaFisica, colunas para atributos de ClientePessoaJuridica, e coluna descriminatória com nome <i>class</i>. Registros de ClientePessoaFisica serão armazenados em <i>class</i> com valor ClientePessoaFisica, e o mesmo para ClientePessoaJuridica, possibilitando queries SELECT com WHERE="ClientePessoaFisica" e "ClientePessoaJuridica".
+<small><pre><code>
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "class")
+public class Cliente &#123;
+&#125;
+
+@Entity
+@DiscriminatorValue(value="ClientePessoaFisica")
+public class ClientePessoaFisica &#123;
+&#125;
+
+@Entity
+@DiscriminatorValue(value="ClientePessoaJuridica")
+public class ClientePessoaJuridica &#123;
+&#125;
+</code></pre></small>
+                            </li>
                         </ul>
                     </li>
                 </li>
