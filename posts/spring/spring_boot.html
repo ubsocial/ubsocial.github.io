@@ -183,7 +183,7 @@ Nome do pacoteController: grupoExemplo.com.nomeProjeto.pacoteController
                     </ul>
                 </li>
                 <li>Generate (o projeto será gerado)</li>
-                <li>Extrair projeto localmente, abrir com editor, e executar terminal na pasta raíz do projeto (mesmo local do 'gradlew'): "./gradlew bootRun"
+                <li>Extrair projeto localmente, abrir com editor, e executar terminal na pasta raíz do projeto (mesmo local do 'gradlew'): ".\gradlew bootRun"
                     <ul>
                         <li>Quando a execução ficar em "80% EXECUTING", acesse em "http://localhost:8080"</li>
                     </ul>
@@ -445,7 +445,7 @@ public class HelloController &#123;
 &#125;
 </code></pre></small>
                 </li>
-                <li>Na mesma pasta de "gradlew", executar projeto: "./gradlew bootRun"
+                <li>Na mesma pasta de "gradlew", executar projeto: ".\gradlew bootRun"
                     <ul>
                         <li>Testar em: <a href="http://localhost:8080/hello" class="text-decoration-none" target="_blank">http://localhost:8080/hello</a></li>
                     </ul>
@@ -473,7 +473,7 @@ public class CalendarController {
 }
 </code></pre></small>
                 </li>
-                <li>Na mesma pasta de "gradlew", executar projeto: "./gradlew bootRun"</li>
+                <li>Na mesma pasta de "gradlew", executar projeto: ".\gradlew bootRun"</li>
                 <ul>
                     <li>Testar em: <a href="http://localhost:8080/today" class="text-decoration-none" target="_blank">http://localhost:8080/today</a></li>
                     <li>Testar em: <a href="http://localhost:8080/tomorrow" class="text-decoration-none" target="_blank">http://localhost:8080/tomorrow</a></li>
@@ -588,6 +588,231 @@ package ubsocial.com.telefonia.model.entity.comercial;
 public class Plano &#123;
     private String nome;
     private double valorPorMinuto;
+&#125;
+</code></pre></small>
+                </li>
+            </ul>
+
+            <br><hr><h4>Projeto 3: ORM</h4>
+            <img src="umlProjeto2.png" class="img-fluid mb-3 rounded" width="700px">
+            <p id="textoPost">Inclusão de padrões Hibernate JPA ORM no projeto 2.</p>
+            <ol>
+                <li>Criar banco de dados MySQL: CREATE DATABASE telefonia;</li>
+                <li>'build.gradle', adicionar novas dependencies:
+<small><pre><code>
+implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+runtimeOnly 'com.mysql:mysql-connector-j'
+</code></pre></small>
+                </li>
+                <li>'src/main/resources/application.properties':
+<small><pre><code>
+spring.application.name=telefonia
+spring.jpa.hibernate.ddl-auto=update
+spring.datasource.url=jdbc:mysql://localhost:3306/telefonia
+spring.datasource.username=root
+spring.datasource.password=root
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+</code></pre></small>
+                </li>
+                <li>Na mesma pasta de "gradlew", executar projeto: ".\gradlew bootRun";</li>
+                <li>Mapear classes (conforme códigos no final):
+                    <ol>
+                        <li>Mapear classes como Entity (com exceção de 'TelefoniaApplication');</li>
+                        <li>Informar atributo 'id' e gerador (com exceção das subclasses);</li>
+                        <li>Formatar valores com data;</li>
+                        <li>Mapear relacionamentos entre entidades;</li>
+                    </ol>
+                </li>
+                <li>Na mesma pasta de "gradlew", executar projeto: ".\gradlew bootRun";
+                    <ul>
+                        <li>Verificar tables criadas no banco de dados MySQL</li>
+                    </ul>
+                </li>
+            </ol>
+            <ul>
+                <li>Operadora:
+<small><pre><code>
+package ubsocial.com.telefonia.model.entity;
+import ubsocial.com.telefonia.model.entity.comercial.Celular;
+import ubsocial.com.telefonia.model.entity.comercial.Plano;
+import ubsocial.com.telefonia.model.entity.pessoal.Cliente;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import java.util.Set;
+
+@Entity
+public class Operadora &#123;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+    private String nome;
+    @OneToMany
+    @JoinColumn(name = "operadora_id")
+    private Set&lt;Cliente&gt; clientes;
+    @OneToMany
+    @JoinColumn(name = "operadora_id")
+    private Set&lt;Celular&gt; celulares;
+    @OneToMany
+    @JoinColumn(name = "operadora_id")
+    private Set&lt;Plano&gt; planos;
+&#125;
+</code></pre></small>
+                </li>
+                <li>comercial/Celular:
+<small><pre><code>
+package ubsocial.com.telefonia.model.entity.comercial;
+import ubsocial.com.telefonia.model.entity.pessoal.Cliente;
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import java.util.Set;
+
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "class")
+@Entity
+public class Celular &#123;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+    private long numero;
+    @ManyToOne
+    private Cliente cliente;
+    @OneToMany
+    @JoinColumn(name = "celular_id")
+    private Set&lt;Ligacao&gt; ligacoes;
+    @ManyToOne
+    private Plano plano;
+&#125;
+</code></pre></small>
+                </li>
+                <li>comercial/CelularPosPago:
+<small><pre><code>
+package ubsocial.com.telefonia.model.entity.comercial;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+
+@Entity
+@DiscriminatorValue(value = "CelularPosPago")
+public class CelularPosPago extends Celular &#123;
+    private int diaVencimento;
+&#125;
+</code></pre></small>
+                </li>
+                <li>comercial/CelularPrePago:
+<small><pre><code>
+package ubsocial.com.telefonia.model.entity.comercial;
+import java.util.Date;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+
+@Entity
+@DiscriminatorValue(value = "CelularPrePago")
+public class CelularPrePago extends Celular &#123;
+    private double saldo;
+    @Temporal(TemporalType.DATE)
+    private Date dataDeValidade;
+&#125;
+</code></pre></small>
+                </li>
+                <li>Ligacao:
+<small><pre><code>
+package ubsocial.com.telefonia.model.entity.comercial;
+import java.util.Date;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+
+@Entity
+public class Ligacao &#123;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date data;
+    private int duracao;
+&#125;
+</code></pre></small>
+                </li>
+                <li>Plano:
+<small><pre><code>
+package ubsocial.com.telefonia.model.entity.comercial;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
+public class Plano &#123;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+    private String nome;
+    private double valorPorMinuto;
+&#125;
+</code></pre></small>
+                </li>
+                <li>pessoal/Cliente:
+<small><pre><code>
+package ubsocial.com.telefonia.model.entity.pessoal;
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "class")
+@Entity
+public class Cliente &#123;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+    private String nome;
+    private String endereco;
+&#125;
+</code></pre></small>
+                </li>
+                <li>pessoal/ClientePessoaFisica:
+<small><pre><code>
+package ubsocial.com.telefonia.model.entity.pessoal;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+
+@Entity
+@DiscriminatorValue(value = "ClientePessoaFisica")
+public class ClientePessoaFisica extends Cliente &#123;
+    private String cpf;
+&#125;
+</code></pre></small>
+                </li>
+                <li>cliente/PessoaJuridica:
+<small><pre><code>
+package ubsocial.com.telefonia.model.entity.pessoal;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+
+@Entity
+@DiscriminatorValue(value = "ClientePessoaJuridica")
+public class ClientePessoaJuridica extends Cliente &#123;
+    private String cnpj;
 &#125;
 </code></pre></small>
                 </li>
