@@ -191,7 +191,7 @@ Nome do pacoteController: grupoExemplo.com.nomeProjeto.pacoteController
             </ol>
 
             <br><h4>ORM:</h4>
-            <p id="textoPost">Object-Relational Mapping é padrão para integrar SQL ao código Java na aplicação, sem necessidade de códigos SQL (opcional). ORM visa abstrair camda de dados da aplicação. Tables geradas via definição de classes. Diferença entre OOP e SQL, respectivamente:</p>
+            <p id="textoPost">Object-Relational Mapping é padrão para integrar SQL ao código Java na aplicação, sem necessidade de códigos SQL (opcional). ORM visa abstrair camada de dados da aplicação. Tables geradas via definição de classes. Diferença entre OOP e SQL, respectivamente:</p>
             <ul><u>Transformações</u>:
                 <li>Classe/Entidade - tabela;</li>
                 <li>Atributo - coluna;</li>
@@ -244,9 +244,9 @@ spring.datasource.driver-class-name = com.mysql.cj.jdbc.Driver
 </code></pre></small>
                         </li>
                     </ol>
-                <li>Mapear classes entidades (somente entidades usarão Hibernate)
+                <li>Mapear classes entidades (somente entidades usarão Hibernate);
                     <ol>
-                        <li>Informar '@Entity' acima da delcaração da classe entidade e importar Jakarta:
+                        <li>Informar '@Entity' acima da declaração da classe entidade e importar Jakarta:
 <small><pre><code>
 import jakarta.persistence.Entity;
 
@@ -315,7 +315,7 @@ public class Operadora &#123;
 &#125;
 </code></pre></small>
                             </li>
-                            <li>(1:n) bidirecional: entidade <i>parte</i>, informar '@ManyToOne', criando chave estrangeira na tabela parte. Entidade <i>todo</i>, informar '@OneToMany' e mapeamento através do atributo chave estrangeira. Considere Endereco (parte) e Cliente (todo);
+                            <li>(1:n) bidirecional: entidade <i>parte</i>, informar '@ManyToOne', criando chave estrangeira na tabela parte. Entidade <i>todo</i>, informar '@OneToMany' e mapeamento através do atributo chave estrangeira. Considere Endereco (<i>parte</i>) e Cliente (<i>todo</i>);
 <small><pre><code>
 @Entity
 public class Endereco &#123;
@@ -388,7 +388,7 @@ public class Servidor &#123;
 &#125;
 </code></pre></small>
                             </li>
-                            <li>Herança: <i>single table</i>, onde cria-se tabela única para todas subclasses com superclasse em comum, contendo colunas para cada atributo da superclasse, colunas para cada atributo das subclasses, e coluna "descriminatória" determinando a qual entidade "pertence" cada registro. Superclasse, informar anotação de herança single table e de coluna descriminatória. Subclasses, informar anotação de valor descriminador, apontando valor para coluna descriminatória da superclasse. Conforme abaixo, gerará tabela única para as 3 entidades, contendo colunas para atributos de Cliente, colunas para atributos de ClientePessoaFisica, colunas para atributos de ClientePessoaJuridica, e coluna descriminatória com nome <i>class</i>. Registros de ClientePessoaFisica serão armazenados em <i>class</i> com valor ClientePessoaFisica, e o mesmo para ClientePessoaJuridica, possibilitando queries SELECT com WHERE="ClientePessoaFisica" e "ClientePessoaJuridica".
+                            <li>Herança: <i>single table</i>, onde cria-se tabela única para todas subclasses com superclasse em comum, contendo colunas para cada atributo da superclasse, colunas para cada atributo das subclasses, e coluna "discriminatória" determinando a qual entidade "pertence" cada registro. Superclasse, informar anotação de herança single table e de coluna discriminatória. Subclasses, informar anotação de valor discriminador, apontando valor para coluna discriminatória da superclasse. Conforme abaixo, gerará tabela única para as 3 entidades, contendo colunas para atributos de Cliente, colunas para atributos de ClientePessoaFisica, colunas para atributos de ClientePessoaJuridica, e coluna discriminatória com nome <i>class</i>. Registros de ClientePessoaFisica serão armazenados em <i>class</i> com valor ClientePessoaFisica, e o mesmo para ClientePessoaJuridica, possibilitando queries SELECT com WHERE="ClientePessoaFisica" e "ClientePessoaJuridica".
 <small><pre><code>
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
