@@ -597,7 +597,11 @@ public class Plano &#123;
             <img src="umlProjeto2.png" class="img-fluid mb-3 rounded" width="700px">
             <p id="textoPost">Inclusão de padrões Hibernate JPA ORM no projeto 2.</p>
             <ol>
-                <li>Criar banco de dados MySQL: CREATE DATABASE telefonia;</li>
+                <li>Criar banco de dados MySQL: CREATE DATABASE telefonia;
+                    <ul>
+                        <li>Nesse exemplo, usou-se MySQL do XAMPP, cujo padrão user=root e não possui password.</li>
+                    </ul>
+                </li>
                 <li>'build.gradle', adicionar novas dependencies:
 <small><pre><code>
 implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -610,7 +614,7 @@ spring.application.name=telefonia
 spring.jpa.hibernate.ddl-auto=update
 spring.datasource.url=jdbc:mysql://localhost:3306/telefonia
 spring.datasource.username=root
-spring.datasource.password=root
+spring.datasource.password=
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 </code></pre></small>
                 </li>
