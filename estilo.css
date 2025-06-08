@@ -5,10 +5,10 @@
 /* Especial Disney */
 @font-face {
     font-family: 'disney';
-    src: url('disney/disneyTituloFont.otf') format('opentype');
+    src: url('posts/disney/disneyTituloFont.otf') format('opentype');
 }
 
 @font-face {
     font-family: 'disney2';
-    src: url('disney/disney2.otf') format('opentype');
+    src: url('posts/disney/disney2.otf') format('opentype');
 }

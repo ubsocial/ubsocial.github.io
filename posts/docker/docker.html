@@ -48,20 +48,20 @@
 
             <br><h4>Conceito:</h4>
             <p id="textoPost">Docker é software container engine. Há orquestradores de Container, de arquitetura distribuída, como o <i>Kubernetes</i>. Containers são pequenos pacotes de software, isolados, leves e fáceis de movimentar, diferenciando-se de VM. São baseados em <b>Imagens</b> que possuem camadas, que podem ser compartilhadas. Descartam pré configuração de ambiente físico. Além disso, ocasionam deploy mais ágil, facilitam escalabilidade, previnem erros e causam economia, sendo ideais para cloud e microservices. Os <b>namespaces</b> isolam os containers, <b>cgroups</b> limitam acesso a recursos de hardware da máquina host e <b>union mounting</b> criam camadas no sistema de arquivos, que podem ser compartilhadas nos demais containers, reduzindo uso de recursos. O repositório oficial do Docker é o <a href="https://hub.docker.com" target="_blank" class="text-decoration-none">docker hub</a>, composto de inúmeras imagens. O Docker fica salvo no diretório <i>/etc/</i>. A rede do Docker fica do 172.17.0.2 até 172.17.0.254 (172.17.0.1 é o host docker). Passo a passo oficial para instalação do Docker pode ser encontrado no <a href="https://docs.docker.com/engine/install" target="_blank" class="text-decoration-none">site oficial</a>.</p>
-            <img src="estrutura.png" class="img-fluid rounded" width="440px">
+            <img src="estrutura.png" class="img-fluid mb-3 rounded" width="440px">
         </div>
     </div>
 
     <div class="row">
         <div class="col-sm-12">
-            <br><h4>Imagem</h4>
+            <br><h4>Imagem:</h4>
             <p id="textoPost">Pacote com dados para construção do container (configurações, libraries, variáveis, arquivos, etc). Possui conceito de camadas, onde, por exemplo, imagem PHP é baseada em imagem Apache, que é baseada em imagem Debian. O passo a passo de criação de uma imagem é um arquivo chamado <b>Dockerfile</b>. <i>Entrypoint</i> são scripts que o container executa prévio à sua instalação, como receber variáveis de ambiente, geralmente pré solicitadas na construção de containers.</p>
-            <p class="text-danger">Dockerfile (constrói)-&gt; Imagem (constrói)-&gt; container</p>
+            <p class="text-danger">Dockerfile (constrói) -&gt; Imagem (constrói) -&gt; container</p>
         </div>
 
         <div class="row">
             <div class="col-sm-12">
-                <br><h4>Dockerfile</h4>
+                <br><h4>Dockerfile:</h4>
                 <p id="textoPost">Arquivo de nome <i>Dockerfile</i>, com configurações da Imagem, para sua construção. Facilmente compartilhado e pode ser registrado no Docker Hub. Registry é um repositório de imagens (ex: docker hub). Para subir imagens (push), é necessário login no docker hub, com comando <i>docker login</i>.</p>
 <small><pre><code>
 <b>MODELO/SINTAXE:</b>
@@ -88,7 +88,7 @@ CMD flask run --host 0.0.0.0
 
         <div class="row">
             <div class="col-sm-12">
-                <br><h4>Comandos Docker</h4>
+                <br><h4>Comandos Docker:</h4>
 <small><pre><code>
 <b><u>IMAGEM</u></b>
 <span class="text-muted">Sintaxe nomeImagem: usuario/nomeImagem:versaoImagem (versão padrão é latest)</span>
@@ -142,7 +142,7 @@ CMD flask run --host 0.0.0.0
 
         <div class="row">
             <div class="col-sm-12">
-                <br><h4>Volume</h4>
+                <br><h4>Volume:</h4>
                 <p id="textoPost">Local/pasta onde ficam os dados do container, que podem ser transferidos, além do ciclo de seu vida (Ex: Dados de BD, códigos e arquivos, etc), e compartilhados com demais containers (Ao adicionar container, muda-se a porta do host docker. Cada container funciona em uma porta). Pode ser diretório local ou externo. Um Volume pode ser usado por 1 ou mais Containers. Por padrão, Volumes no Docker ficam em '/var/lib/docker/volumes/'. Para alterar o diretório padrão, basta, ao criar Container, trocar o nome do Volume pelo seu novo diretório (<i>docker container run --name db -v /outro/diretorio/:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=root -d mysql</i>).</p>
 <small><pre><code>
 <b>Criar Volume:</b> docker volume create nomeVolume
@@ -174,7 +174,7 @@ CMD flask run --host 0.0.0.0
 
         <div class="row">
             <div class="col-sm-12">
-                <br><h4>Exemplo prático</h4>
+                <br><h4>Exemplo prático:</h4>
                 <p id="textoPost">Ambiente para Windows 10, com MySQL, Nodejs e Php. E usuários com MacOS e Linux.</p>
                 <ol>
                     <li>Pasta raíz do projeto, crie pasta 'website', contendo arquivo 'index.php', com código '&lt;?php echo 'ola' ?&gt;'</li>
@@ -196,7 +196,7 @@ CMD flask run --host 0.0.0.0
 
         <div class="row">
             <div class="col-sm-12">
-                <br><h4>Limitar recursos de hardware</h4>
+                <br><h4>Limitar recursos de hardware:</h4>
                 <p id="textoPost">O uso de CPU será proporcional à quantidade de containers presentes, com relação ao percentual da soma de CPU entre os mesmos. Ex: 3 containers, abc com 1024 (50%), def com 512 (25%) e ghi com 512 (50%). Cada unitário desses valores será 1 cpu-shares. Ex: container abc possui 1024 cpu-shares.</p>
 <small><pre><code>
 <b>Alterar limite de memória do container (parado):</b> docker run -ti -m 512m --name nomeContainer debian (512 MegaBytes)
@@ -209,7 +209,7 @@ CMD flask run --host 0.0.0.0
 
         <div class="row">
             <div class="col-sm-12">
-                <br><h4>Docker Compose</h4>
+                <br><h4>Docker Compose:</h4>
                 <p id="textoPost">Arquivo do tipo <i>yaml</i> chamado '<i>docker-compose.yml</i>', contendo composto (infraestrutura IAC) de configurações para automatização docker e comunicação entre containers (via nome estabelecido) e volumes, podendo haver versionamento e, com isso, melhor organização.</p>
 
                 <p><b>Estrutura:</b></p>

@@ -40,14 +40,14 @@
         </div>
 
         <div class="col-sm-12">
-            <h4>Conceito</h4>
+            <h4>Conceito:</h4>
             <p id="textoPost">Sistema de automatização de tarefas (build, test e deploy) via Pipelines (similar ao GitHub Actions), utilizado para CI/CD, desenvolvido em Java, com inúmeros plugins e integrações. Criado via arquivo WAR ou executado em webserver. Possui GUI web e via APIs de conexão, além de suporte a arquivo declarativo (Jenkinsfile). Além disso, pode-se gerar relatórios (output) dos passos (jobs) executados, CRON (tasks automatizadas) para criar jobs automatizados via triggers e com timers (independente de pipeline), criar novas máquinas nodes slaves, e configurar instâncias clouds para provisionar agents. Pipeline é trilha ou passo a passo de etapas (stages) de execução de tarefas (steps). Pode ser criada via Jenkinsfile. Na representação GUI dos job do Jenkins, linhas são stages e colunas são pipelines.</p>
-            <img src="jenkinsGUI1.png" class="img-fluid rounded mb-1" width="500px"><br>
-            <img src="jenkinsGUI2.png" class="img-fluid rounded mb-1" width="500px"><br>
-            <img src="jenkinsGUI3.png" class="img-fluid rounded mb-1" width="500px"><br>
-            <img src="jenkinsGUI4.png" class="img-fluid rounded mb-1" width="500px"><br>
+            <img src="jenkinsGUI1.png" class="img-fluid mb-3 rounded" width="500px">
+            <img src="jenkinsGUI2.png" class="img-fluid mb-3 rounded" width="500px">
+            <img src="jenkinsGUI3.png" class="img-fluid mb-3 rounded" width="500px">
+            <img src="jenkinsGUI4.png" class="img-fluid mb-3 rounded" width="500px">
 
-            <br><h4>Infraestrutura</h4>
+            <br><h4>Infraestrutura:</h4>
             <p id="textoPost">Máquinas Master Server, realiza controle de pipelines e agendamento de builds. Máquinas Agents/Minions/Slaves performam os builds. Exemplo, Master realiza pipeline de commit do projeto ao Github, Agent seleciona configurações da pipeline e a executa. Agents podem ser permanentes (servidores dedicados para executar jobs, como Debian GNU/Linux e Windows Server) ou cloud (dinâmicos, sob demanda, como AWS, Docker e Kubernetes). Diretório padrão do Jenkins no GNU/Linux é '/var/lib/jenkins' ou '/var/jenkins_home'.</p>
             <ul>
                 <li><b>/var/jenkins_home/builds</b>: builds, contém builds de jobs (cada build possui subdiretório próprio), logs, etc;</li>
@@ -65,13 +65,13 @@
                 <li><b>/var/jenkins_home/workspace</b>: workspace, contém arquivos de jobs (cada job possui subdiretório próprio), logs, etc.</li>
             </ul>
 
-            <br><h4>Tipos de builds</h4>
+            <br><h4>Tipos de builds:</h4>
             <ul>
                 <li><b>Freestyle build</b>: forma simples e aberta de criar builds, geralmente composto de comandos shell script;</li>
                 <li><b>Pipeline</b>: usa sintaxe Groovy, composto de stages (e steps) para separar componentes do build.</li>
             </ul>
 
-            <br><h4>Instalação</h4>
+            <br><h4>Instalação:</h4>
             <p id="textoPost">Instalação do Jenkins via Docker (necessário Docker):</p>
             <ul>
                 <li>Comando Docker container Jenkins:
@@ -91,7 +91,7 @@
                 <li>(opcional) Ver logs do container: "docker logs jenkins"</li>
             </ul>
 
-            <br><h4>Exemplo prático</h4>
+            <br><h4>Exemplo prático:</h4>
             <p id="textoPost">Criar job de automatização de projeto Django.</p>
             <ol>
                 <li>No Jenkins GUI (<a href="http://localhost:8080" target="_blank" class="text-decoration-none">http://localhost:8080</a>), 'Nova Tarefa (job)', informar nome do job (ex: 'teste_django_ubsocial'), selecionar tipo 'Pipeline', e confirmar. A Pipeline abaixo baixará (clone) projeto de API REST Django do Github, instalará pacotes na máquina do projeto, acessará API REST Django e a executará, criará testes (via curl) de acessos a API REST via métodos POST (inserir música) e GET (listar músicas) e, por fim, mostrará feedback de concluído.</li>
@@ -169,10 +169,10 @@ pipeline &#123;
                 <li>Realizar build da Pipeline, clicar em Construir Agora</li>
             </ol>
 
-            <br><h4>Agents Cloud</h4>
+            <br><h4>Agents Cloud:</h4>
             <p id="textoPost"><span class="text-danger">Em breve.</span></p>
 
-            <br><h4>Triggers <span class="text-danger">Em construção</span></h4>
+            <br><h4>Triggers <span class="text-danger">Em construção</span>:</h4>
             <p id="textoPost">Criar inicialização automatizada de job. Exemplo abaixo, execução de pipeline a cada 5 minutos após construção..</p>
             <ol>
                 <u>Construir pipeline</u>:

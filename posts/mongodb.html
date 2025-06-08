@@ -46,44 +46,47 @@
                 <li>Curso gratuito e com certificado na Udemy (Curso rápido de MongoDB: Teoria e Prática): <a href="https://www.udemy.com/course/curso-mongodb-teoria-pratica" target="_blank" class="text-decoration-none">Acesse</a></li>
             </ul>            
 
-            <br><h4>Estrutura</h4>
-            <p id="textoPost"><b>MySQL:</b> <small>Database -> Table -> Row -> Column e Value -> Index</small><br><b>MongoDB:</b> <small>Database -> Collection -> Document -> Field e Value -> Index</small></p>
+            <br><h4>Estrutura:</h4>
+            <p id="textoPost"><b>MySQL:</b> <small>Database -&gt; Table -&gt; Row -&gt; Column e Value -&gt; Index</small><br><b>MongoDB:</b> <small>Database -&gt; Collection -&gt; Document -&gt; Field e Value -&gt; Index</small></p>
             <p id="textoPost">No MongoDB os dados são do tipo BSON, similar ao JSON. Todo document possui um field 'id', gerado automaticamente, que serve como uma primary key, para relacionar e identificá-lo. Cada document tem um field com value, possuindo um tipo específico.</p>
             <ul>
                 <li>MongoDB CLI: <a href="https://www.mongodb.com/docs/manual/administration/install-on-linux" class="text-decoration-none" target="_blank">Acesse</a></li>
                 <li>MongoDB Compass (GUI): <a href="https://www.mongodb.com/docs/compass/current/install" class="text-decoration-none" target="_blank">Acesse</a></li>
             </ul>
             
-            <br><h4>Exemplo de document</h4>
+            <br><h4>Exemplo de document:</h4>
 <small><pre><code>
-{
+&#123;
     _id: ObjectId("509a8fb2f3f4948bd2f983a0"),
     nome: "fulano",
     idade: 55,
     status: 'A'
-}
-</code></pre></small><br>
-            <h4>Comandos do MongoDB</h4>
+&#125;
+</code></pre></small>
+
+            <br><h4>Comandos MongoDB:</h4>
 <small><pre><code>
 <b>Start:</b> sudo systemctl start mongod
 <b>Status:</b> sudo systemctl status mongod / sudo systemctl enable mongod
 <b>Stop:</b> sudo systemctl stop mongod
 <b>Restart:</b> sudo systemctl restart mongod
 <b>Shell/Status:</b> mongo
-</code></pre></small><br>
-            <h4>Comandos Shell MongoDB</h4>
+</code></pre></small>
+
+            <br><h4>Comandos Shell MongoDB:</h4>
 <small><pre><code>
 <b>show dbs:</b> ver dbs existentes
 <b>use nomeDB:</b> criar/acessar BD
 <b>show collections:</b> ver collections do db em questão
 <b>exit:</b> sai do shell
 <b>db.getUsers():</b> lista usuários do mongo
-<b>db.createUser({user:"nome",pwd:"senha",customData:{db:"aula"},roles:[{role:"readWrite",db:"aula"}]})</b>
+<b>db.createUser(&#123;user:"nome",pwd:"senha",customData:&#123;db:"aula"&#125;,roles:[&#123;role:"readWrite",db:"aula"&#125;]&#125;)</b>
 <span class="text-muted">//cria user com regra de acesso, customData é o bd exclusivo em que o user pd acessar(pd ser db,collection,document...)</span>
 <b>db.auth("nomeUser","senhaUser"):</b> Autentica user(feedback 1 para autenticado / 0 para barrado)
 <b>db.dropUser("nomUser"):</b> Deleta user
-</code></pre></small><br>
-            <h4>Create Table</h4>
+</code></pre></small>
+
+            <br><h4>Create Table:</h4>
 <small><pre><code>
 <b>MySQL</b>
 CREATE DATABASE teste
@@ -100,13 +103,14 @@ CREATE TABLE people (
 use teste <span class="text-muted">(cria db automaticamente qndo cria collection nele)</span>
 
 db.createCollection("people")
-db.people.insertOne({
+db.people.insertOne(&#123;
     user_id: "abc123",
     age: 55,
     status: "A"
-})
-</code></pre></small><br>
-            <h4>Alter Table</h4>
+&#125;)
+</code></pre></small>
+
+            <br><h4>Alter Table:</h4>
 <small><pre><code>
 <b>MySQL</b>
 ALTER TABLE people ADD join_date DATETIME
@@ -115,12 +119,13 @@ CREATE INDEX idx_user_id_asc ON people(user_id)
 CREATE INDEX idx_user_id_asc_age_desc ON people(user_id, age DESC)
 
 <b>MongoDB</b>
-db.people.updateMany( { },{$set:{join_date:new Date()} })
-db.people.updateMany( { },{$unset:{"join_date":""} })
-db.people.createIndex( {user_id:1} )
-db.people.createIndex( {user_id:1,age:-1} )
-</code></pre></small><br>
-            <h4>Drop Table</h4>
+db.people.updateMany( &#123; &#125;,&#123;$set:&#123;join_date:new Date()&#125; &#125;)
+db.people.updateMany( &#123; &#125;,&#123;$unset:&#123;"join_date":""&#125; &#125;)
+db.people.createIndex( &#123;user_id:1&#125; )
+db.people.createIndex( &#123;user_id:1,age:-1&#125; )
+</code></pre></small>
+
+            <br><h4>Drop Table:</h4>
 <small><pre><code>
 <b>MySQL</b>
 DROP TABLE people
@@ -129,18 +134,20 @@ DROP DATABASE teste
 <b>MongoDB</b>
 db.people.drop()
 use teste; db.dropDatabase()
-</code></pre></small><br>
-            <h4>Insert Into</h4>
+</code></pre></small>
+
+            <br><h4>Insert Into:</h4>
 <small><pre><code>
 <b>MySQL</b>
 INSERT INTO people(user_id,age,status) VALUES ("bcd001",45,"A")
 INSERT INTO people(user_id,age,status) VALUES ("bcd001",45,"A"),("vvv",30,"B")
 
 <b>MongoDB</b>
-db.people.insertOne({ user_id:"bcd001", age:45, status:"A" })
-db.people.insertMany( {user_id:"bcd001",age:45,status:"A"},{user_id:"vvv",age:30,status:"B"} )
-</code></pre></small><br>
-            <h4>Select</h4>
+db.people.insertOne(&#123; user_id:"bcd001", age:45, status:"A" &#125;)
+db.people.insertMany( &#123;user_id:"bcd001",age:45,status:"A"&#125;,&#123;user_id:"vvv",age:30,status:"B"&#125; )
+</code></pre></small>
+
+            <br><h4>Select:</h4>
 <small><pre><code>
 <b>MySQL</b>
 1.SELECT * FROM people
@@ -168,29 +175,30 @@ db.people.insertMany( {user_id:"bcd001",age:45,status:"A"},{user_id:"vvv",age:30
 <b>MongoDB</b>
 1.db.people.find()
 1.1.db.aluno.find().pretty() <span class="text-muted">//em formato json</span>
-2.db.people.find({ },{ user_id:1, status:1 })
-3.db.people.find({ },{ user_id:1, status:1, _id:0 })
-4.db.people.find({ status:"A" })
-5.db.people.find({ status:"A" },{ user_id:1, status:1, _id:0 })
-6.db.people.find({ status: { $ne:"A" } })
-7.db.people.find({ status:"A", age:50 })
-8.db.people.find({ $or: [ {status:"A"} , {age:50} ] })
-9.db.people.find({ age: {$gt:25} })
-10.db.people.find({ age: {$lt:25} })
-11.db.people.find({ age: { $gt:25, $lte:50 } })
-12.db.people.find( { user_id:/bc/ } )
-13.db.people.find( { user_id:/^bc/ } )
-14.db.people.find( {status:"A"} ).sort( {user_id:1} )
-15.db.people.find( {status:"A"} ).sort( {user_id:-1} )
+2.db.people.find(&#123; &#125;,&#123; user_id:1, status:1 &#125;)
+3.db.people.find(&#123; &#125;,&#123; user_id:1, status:1, _id:0 &#125;)
+4.db.people.find(&#123; status:"A" &#125;)
+5.db.people.find(&#123; status:"A" &#125;,&#123; user_id:1, status:1, _id:0 &#125;)
+6.db.people.find(&#123; status: &#123; $ne:"A" &#125; &#125;)
+7.db.people.find(&#123; status:"A", age:50 &#125;)
+8.db.people.find(&#123; $or: [ &#123;status:"A"&#125; , &#123;age:50&#125; ] &#125;)
+9.db.people.find(&#123; age: &#123;$gt:25&#125; &#125;)
+10.db.people.find(&#123; age: &#123;$lt:25&#125; &#125;)
+11.db.people.find(&#123; age: &#123; $gt:25, $lte:50 &#125; &#125;)
+12.db.people.find( &#123; user_id:/bc/ &#125; )
+13.db.people.find( &#123; user_id:/^bc/ &#125; )
+14.db.people.find( &#123;status:"A"&#125; ).sort( &#123;user_id:1&#125; )
+15.db.people.find( &#123;status:"A"&#125; ).sort( &#123;user_id:-1&#125; )
 16.db.people.count()
-17.db.people.count( { user_id: {$exists:true} } )
-18.db.people.count( { age: {$gt:30} } )
-19.db.people.aggregate([ { $group:{_id:"$status"} } ])
+17.db.people.count( &#123; user_id: &#123;$exists:true&#125; &#125; )
+18.db.people.count( &#123; age: &#123;$gt:30&#125; &#125; )
+19.db.people.aggregate([ &#123; $group:&#123;_id:"$status"&#125; &#125; ])
 20.db.people.findOne()
 21.1.db.people.find().limit(5).skip(10)
-21.2.db.people.find( {status:"A"} ).explain()
-</code></pre></small><br>
-            <h4>Update</h4>
+21.2.db.people.find( &#123;status:"A"&#125; ).explain()
+</code></pre></small>
+
+            <br><h4>Update:</h4>
 <small><pre><code>
 <b>MySQL</b>
 UPDATE people SET status = "C" WHERE age &gt; 25
@@ -198,11 +206,12 @@ UPDATE people SET age = age + 3 WHERE status = "A"
 
 <b>MongoDB</b>
 <i class="text-muted">updateOne: Atualiza somente o 1º document</i>
-db.people.updateMany({ age: {$gt:25} },{ $set: {status:"C"} })
-db.people.updateMany({ status:"A" } ,{ $inc: {age:3} })
+db.people.updateMany(&#123; age: &#123;$gt:25&#125; &#125;,&#123; $set: &#123;status:"C"&#125; &#125;)
+db.people.updateMany(&#123; status:"A" &#125; ,&#123; $inc: &#123;age:3&#125; &#125;)
 db.tableX.renameCollection("tableY") //renomear collection
-</code></pre></small><br>
-            <h4>Delete</h4>
+</code></pre></small>
+
+            <br><h4>Delete:</h4>
 <small><pre><code>
 <b>MySQL</b>
 DELETE FROM people WHERE status = "D"
@@ -210,37 +219,39 @@ DELETE * FROM people
 
 <b>MongoDB</b>
 <i class="text-muted">deleteOne: Deleta somente o 1º document</i>
-db.people.deleteMany( {status:"D"} )
-db.people.deleteMany({})
-</code></pre></small><br>
-            <h4>Bulk (Transação)</h4>
+db.people.deleteMany( &#123;status:"D"&#125; )
+db.people.deleteMany(&#123;&#125;)
+</code></pre></small>
+
+            <br><h4>Bulk (Transação):</h4>
 <small><pre><code>
 <i class="text-muted">Ou faz tudo, ou não faz nada</i>
-try {db.characters.bulkWrite([
-    {insertOne: {"document": {"_id":4, "char":"Dithras", "class":"barbarian", "lvl":4}}},
-    {insertOne: {"document": {"_id":5, "char":"Taeln", "class":"fighter", "lvl":3}}},
-    {updateOne: {"filter": {"char":"Eldon"},"update": {$set: {"status":"Critical Injury"} }}},
-    {deleteOne: {"filter": {"char":"Brisbane"} }},
-    {replaceOne: {"filter": {"char":"Meldane"},"replacement": {"char":"Tanys", "class":"oracle", "lvl":4 }}}]);
-}catch(e) {print(e);}
-</code></pre></small><br>
-            <h4>Cursor (Variável)</h4>
+try &#123;db.characters.bulkWrite([
+    &#123;insertOne: &#123;"document": &#123;"_id":4, "char":"Dithras", "class":"barbarian", "lvl":4&#125;&#125;&#125;,
+    &#123;insertOne: &#123;"document": &#123;"_id":5, "char":"Taeln", "class":"fighter", "lvl":3&#125;&#125;&#125;,
+    &#123;updateOne: &#123;"filter": &#123;"char":"Eldon"&#125;,"update": &#123;$set: &#123;"status":"Critical Injury"&#125; &#125;&#125;&#125;,
+    &#123;deleteOne: &#123;"filter": &#123;"char":"Brisbane"&#125; &#125;&#125;,
+    &#123;replaceOne: &#123;"filter": &#123;"char":"Meldane"&#125;,"replacement": &#123;"char":"Tanys", "class":"oracle", "lvl":4 &#125;&#125;&#125;]);
+&#125;catch(e) &#123;print(e);&#125;
+</code></pre></small>
+
+            <br><h4>Cursor (Variável)</h4>
 <small><pre><code>
-var myCursor = db.users.find( {type:2} );
+var myCursor = db.users.find( &#123;type:2&#125; );
 myCursor
 
-var myCursor = db.users.find( {type:2} );
-while (myCursor.hasNext()) {
+var myCursor = db.users.find( &#123;type:2&#125; );
+while (myCursor.hasNext()) &#123;
     print(tojson(myCursor.next()));
-}
+&#125;
 
-var myCursor = db.users.find( {type:2} );
+var myCursor = db.users.find( &#123;type:2&#125; );
 myCursor.forEach(printjson);
 
-var myCursor = db.inventory.find( {type:2} );
+var myCursor = db.inventory.find( &#123;type:2&#125; );
 var documentArray = myCursor.toArray();
 var myDocument = documentArray[3]; <span class="text-muted">//print em array(aqui o index3)</span>
-var myCursor = db.users.find( {type:2} );
+var myCursor = db.users.find( &#123;type:2&#125; );
 var myDocument = myCursor[1]; <span class="text-muted">//usa menos memória</span>
 
 var myCursor = db.users.find().noCursorTimeout(); <span class="text-muted">//troca o timeout do cursor(padrão é 10min)</span>
@@ -248,12 +259,14 @@ var myCursor = db.users.find().noCursorTimeout(); <span class="text-muted">//tro
 var myCursor = db.inventory.find();
 var myFirstDocument = myCursor.hasNext() ? myCursor.next() : null;
 myCursor.objsLeftInBatch(); <span class="text-muted">//com if's</span>
-</code></pre></small><br>
-            <h4>Import de dados CSV(Excel)</h4>
+</code></pre></small>
+
+            <br><h4>Import de dados CSV (Excel):</h4>
 <small><pre><code>
 <i class="text-muted">Importa arquivo para determinada collection de db. Headerline pega os títulos das colunas e transforma em nome de parâmetros nos documents.</i>
 mongoimport -d dbNome -c nomeCollection --type csv --file arquivo.csv --headerline
 </code></pre></small>
+
         </div>
     </div>
 

@@ -46,10 +46,10 @@
                 <li>Curso gratuito e com certificado na Udemy (Curso rápido de Vagrant: Teoria e Prática): <a href="https://www.udemy.com/course/curso-vagrant-teoria-pratica" target="_blank" class="text-decoration-none">Acesse</a></li>
             </ul>
 
-            <br><h4>Introdução</h4>
+            <br><h4>Introdução:</h4>
             <p id="textoPost">Solução de gerenciamento automatizado e construção de laboratórios de máquinas virtuais (VMs), via arquivo único ('Vagrantfile'), descartando todas etapas de interações com SO e suas necessidades, conectado a um Provider (Hypervisor como VirtualBox). Pode ser conectado localmente ou até mesmo em Clouds (AWS, Azure, GCP, Digital Ocean, etc). Utiliza linguagem HCL (Hashicorp Configuration Language), baseada em Ruby. Para a criação de Boxes, recomenda-se o software Packer, ao invés dos Boxes na Vagrant, pois os mesmos tendem a possuir vulnerabilidades. Códigos conforme documentação oficial: <a href="https://www.vagrantup.com" class="text-decoration-none" target="_blank">Site oficial</a>.</p>
 
-            <h4>Conceitos</h4>
+            <br><h4>Conceitos:</h4>
             <ul>
                 <li><b>Box</b>: Componente com SO definido no início do projeto, juntamente com suas configurações, que terá sua imagem baixada pelo Vagrant na VM. O VagrantUp é o repositório oficial dos Boxes (Vagrant Cloud), também há o Vagrantbox.es, que armazena vários Boxes: <a href="https://app.vagrantup.com" class="text-decoration-none" target="_blank">Vagrant Cloud</a>, <a href="https://www.vagrantbox.es/" class="text-decoration-none" target="_blank">Vagrantbox.es</a>;</li>
                 <li><b>Host</b> e <b>Guest</b>: Host é o SO que está executando o Vagrant (SO da máquina local). Guest é o SO da VM;</li>
@@ -60,7 +60,7 @@
                 <li><b>Vagrantfile</b>: Arquivo de configuração do Vagrant, onde são definidas configurações da VM, versão do SO, memória, ip, etc;</li>
             </ul>
 
-            <br><h4>Comandos básicos</h4>
+            <br><h4>Comandos básicos:</h4>
 <small><pre><code>
 <b>Instalação (Debian):</b> sudo apt install vagrant <span class="text-muted">#Comando '<i>vagrant version</i>' para verificar instalação, ou 'vagrant -h' para ajuda. Também opção de Download na página oficial.</span>
 <b>vagrant init</b>: Gerar novo Vagrantfile baseado em uma Box ('-m' após init especifica criação mínima. '-f' para sobrescrever criação)
@@ -79,7 +79,7 @@
 <b>vagrant port [name|id]</b>: Listar portas disponíveis/abertas das Boxes
 </code></pre></small>
 
-            <br><h4>Vagrantfile</h4>
+            <br><h4>Vagrantfile:</h4>
             <p id="textoPost">Estrutura do arquivo Vagrantfile e exemplo passo a passo de sua construção (Comando '<i>vagrant validate</i>' valida o Vagrantfile):</p>
 <small><pre><code>
 <b>1.<u>Estrutura básica</u>:</b>
@@ -118,7 +118,7 @@
 <b>end</b>
 </code></pre></small>
 
-            <br><h4>Synced Folders</h4>
+            <br><h4>Synced Folders:</h4>
             <p id="textoPost">O diretório em que encontra-se o Vagrantfile (Host), e o diretório '/vagrant' (Guest) são sincronizados por padrão. Para testar, crie, na VM, algo dentro do '/vagrant', saia da VM e vá ao diretório do Vagrantfile do Host para verificar se sua criação também encontra-se lá. Pode-se usar tipos personalizados, como NFS, RSync, SMB e via VirtualBox diretamente. Para modificar os padrões, segue linha de código no Vagrantfile:</p>
 <small><pre><code>
 <b>Vagrant.configure("2") do |config|</b>
@@ -130,7 +130,7 @@
 vagrant upload source [destination] [name|id]
 </code></pre></small>
 
-            <br><h4>Vagrant Cloud</h4>
+            <br><h4>Vagrant Cloud:</h4>
             <p id="textoPost">Pode-se interagir com o Vagrant Cloud, hospedando novos Boxes diretamente do mesmo. Para isso, precisa-se cadastro no Vagrant Cloud, conforme links acima. Pode-se interagir, inclusive, usando comandos 'cloud_init' no Vagrantfile. Os comandos abaixo entre colchetes são parâmetros opcionais. Os comandos abaixo possuem outros parâmetros de refinamento, que podem ser acessados na documentação oficial.</p>
 <small><pre><code>
 <b>Autenticação:</b>
@@ -163,7 +163,7 @@ vagrant cloud version update ORGANIZATION/BOX-NAME VERSION
 vagrant cloud publish briancain/supertest 1.0.0 virtualbox boxes/my/virtualbox.box -d "Descrição aqui" --version-description "Versão 1" --release --short-description "Download me!"
 </code></pre></small>
 
-            <br><h4>Vagrant Share</h4>
+            <br><h4>Vagrant Share:</h4>
             <p id="textoPost">Compartilhar ambiente Vagrant, via padrão/http/ssh.</p>
 <small><pre><code>
 <b>Instalação:</b>
@@ -180,7 +180,7 @@ vagrant share --full <span class="text-muted">#Ver todas portas possíveis para 
 vagrant connect --ssh NAME <span class="text-muted">#Criará IP estático para conexões</span>
 </code></pre></small>
 
-            <br><h4>Packages</h4>
+            <br><h4>Packages:</h4>
             <p id="textoPost">Após criar o Vagrantfile, pode-se empacotá-lo para futuro compartilhamento, conforme códigos abaixo:</p>
 <small><pre><code>
 <b>Empacotar Vagrantfile:</b>
@@ -189,7 +189,7 @@ vagrant package --base idBox <span class="text-muted">#Gerará arquivo 'package.
 vagrant package --vagrantfile Vagrantfile.pkg <span class="text-muted">#Pacote de Vagrantfile</span>
 </code></pre></small>
 
-            <br><h4>Plugins</h4>
+            <br><h4>Plugins:</h4>
             <p id="textoPost">Complementos personalizados para Boxes Vagrant</p>
 <small><pre><code>
 <b>Instalar:</b>
@@ -207,7 +207,7 @@ vagrant plugin update [&lt;name&gt;]
 vagrant plugin list
 </code></pre></small>
 
-            <br><h4>Hardware</h4>
+            <br><h4>Hardware:</h4>
             <p id="textoPost">Pode-se configurar discos, memória, CPUs das Boxes, particionando-os e configurando-os de forma personalizada, via Vagrantfile, conforme trechos de comandos abaixo. Entre os tipos de discos, tem-se 'disk', 'dvd' e 'floppy'. Para remover o disco, precisa-se remover a linha no Vagrantfile e executar '<i>vagrant reload</i>'. Pode-se relacionar os discos com Providers, como VirtualBox, Hyper-V e VMWare.</p>
 <small><pre><code>
 <b>Definir discos:</b>
@@ -223,7 +223,7 @@ config.vm.provider "virtualbox" do |vb|
 end
 </code></pre></small>
 
-            <br><h4>Múltiplos Boxes</h4>
+            <br><h4>Múltiplos Boxes:</h4>
             <p id="textoPost">Criar ambiente com múltiplas máquinas, conforme exemplo abaixo:</p>
 <small><pre><code>
 <b>Vagrant.configure("2") do |config|</b>
@@ -242,7 +242,7 @@ end
 vagrant ssh apache
 </code></pre></small>
 
-            <br><h4>Snapshots</h4>
+            <br><h4>Snapshots:</h4>
             <p id="textoPost">Snapshots preservam a VM em determinado estado/condições, assim como seus dados nela.</p>
 <small><pre><code>
 vagrant snapshot save [vm-name] NAME <span class="text-muted">#Criar Snapshot (Similar: <i>vagrant snapshot push</i>)</span>
@@ -251,7 +251,7 @@ vagrant snapshot delete [vm-name] NAME <span class="text-muted">#Deletar Snapsho
 vagrant snapshot list <span class="text-muted">#Listar Snapshots</span>
 </code></pre></small>
 
-            <br><h4>Push</h4>
+            <br><h4>Push:</h4>
             <p id="textoPost">Publicar aplicação em determinado servidor. Primeiro, define-se o servidor e suas respectivas configurações, para então executar comando Push, conforme códigos abaixo:</p>
 <small><pre><code>
 <b>1. Configurar Server:</b>
@@ -342,7 +342,7 @@ Vagrantfile
 end
 </code></pre></small>
 
-            <br><h4>Exemplo prático</h4>
+            <br><h4>Exemplo prático:</h4>
 <small><pre><code>
 <b>1. Criar Vagrantfile</b>:
 vagrant init -m ubuntu/bionic64

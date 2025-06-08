@@ -35,11 +35,17 @@
     <div class="row">
         <div class="col-sm-12 text-center" id="titulo">
             <h1>Ansible</h1>
-            <h6><strong>Automatização simplificada de SOs</strong></h6>
+            <h6><strong>Automatização simplificada de SOs</strong><br><br><span class="badge bg-warning text-dark">Resumo em construção</span></h6>
             <a href="../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
         </div>
 
         <div class="col-sm-12">
+            <h4>Material complementar:</h4>
+            <ul>
+                <li>Conteúdo no GitHub: <a href="https://github.com/mateusschwede/ansible" target="_blank" class="text-decoration-none">Acesse</a></li>
+            </ul>
+
+            <br><h4>Conceito:</h4>
             <p id="textoPost">Ferramenta Agentless para automatizar a gestão (Instalações, configurações, provisionamento, etc) de CD (Continuous Delivery) em diferentes SOs simultaneamente. Entre vários nodes (Nós-Máquinas), tem-se o <i>master node</i> (Controlador), onde o Ansible é usado, informando os demais nodes e respectivas credenciais/configurações. Para isso, recomenda-se SSH ativo nos demais nodes (<i>workers</i> ou <i>Slaves</i> - Controlados). O Ansible possui vários Módulos, que exercem funções específicas. Ansible Automation Controller, contendo o Ansible Tower, é a ferramenta oficial GUI do Ansible, recurso premium (AWX é a versão community).</p>
             <ul>
                 <li>Instalação: <span class="text-muted">sudo apt install ansible</span></li>
@@ -51,10 +57,9 @@
                     </ul>
                 </li>
                 <li>VSCode extensão oficial Ansible</li>
-                <li>Github dos materiais: <a href="https://github.com/mateusschwede/ansible" target="_blank" class="text-decoration-none">Acesse</a></li>
             </ul>
 
-            <br><h4>Comandos</h4>
+            <br><h4>Comandos:</h4>
             <ul>
                 <b>Sintaxes</b>
                 <li>Executar módulo em um host: <span class="text-muted">ansible -m [module] -a [argumentos] [host]</span></li>
@@ -67,7 +72,7 @@
                 <li>Executar tarefas em playbook a partir de tarefa específica: <span class="text-muted">ansible-playbook -i ansible-inventory -l hostname -vvv –start-at-task=”task_name” ansible-playbook.yml</span></li>
             </ul>
 
-            <br><h4>Playbook</h4>
+            <br><h4>Playbook:</h4>
             <p id="textoPost">Arquivo YAML (nomePlaybook.yml) com informações para a gestão do Ansible nos nodes. Após criado o arquivo, executa-se o comando 'ansible-playbook nomePlaybook.yml'. Pode-se colocar vários códigos de playbooks dentro de um mesmo arquivo de playbook (O exemplo abaixo possui somente 1 código). O código abaixo instalará, via módulo 'package', o nginx nos workers (Após executado, pode-se testar com 'curl ipWorker'):</p>
 <small><pre><code>
 - name: Instalar o nginx
@@ -106,7 +111,7 @@ tasks:
 - name: Criando o usuário
 become: true
 user:
-name: {{ user_name }}
+name: &#123;&#123; user_name &#125;&#125;
 </code></pre></small>
 
             <br><b>Playbook com variáveis externas:</b>
@@ -125,23 +130,23 @@ tasks:
 - name: Criando o usuário
 become: true
 user:
-name: {{ username }}
+name: &#123;&#123; username &#125;&#125;
 </code></pre></small>
 
-            <br><h4>Facts</h4>
+            <br><h4>Facts:</h4>
             <p id="textoPost">Informações coletadas pelo Ansible quando executado em workers. Com isso, pode-se refinar comandos (Ex: Verificar se o worker é Ubuntu e, se sim, execute o 'apt update').</p>
 <small><pre><code>
 ansible debian -m setup <span class="text-muted">#Mostrará informações dos hosts do grupo</span>
 ansible debian -m setup -a "filter=ansible_distribution" <span class="text-muted">#Com filtragem de informações</span>
 </code></pre></small>
 
-            <br><h4>Templates</h4>
+            <br><h4>Templates:</h4>
             <ul>
                 <li><b>Job template</b>: Conjunto definido pelo arquivo de inventário, projeto de aplicação e playbook relacionada;</li>
                 <li><b>Workflow template</b>: Agrupamento de job templates, organizados de forma ordenada, possibilitando, com isso, execução de vários templates, ordenadamente, via único workflow template.</li>
             </ul>
 
-            <br><h4>Loops</h4>
+            <br><h4>Loops:</h4>
             <p id="textoPost">Utilizar loops em playbooks para repetição de tasks (Playbook 3b abaixo). Após criado o arquivo, executá-lo com 'ansible-playbook playbook3.yml'. Pode-se verificar a instalação dos pacotes no CentOS com 'ansible centos -m shell -a "rpm -qa | egrep 'wget|vim|tree'" '. No Debian, pode-se verificar com 'ansible debian -m shell -a "dpkg -l | egrep 'wget|git|figlet'" '.</p>
 <small><pre><code>
 <b><u>playbook3.yml</u>:</b>
@@ -156,7 +161,7 @@ ansible debian -m setup -a "filter=ansible_distribution" <span class="text-muted
     - name: Instalar pacotes
       become: true
       yum:
-        name: "{{ packages }}"
+        name: "&#123;&#123; packages &#125;&#125;"
 
 <b><u>playbook3b.yml</u>:</b>
 - name: Instalar pacotes no Debian
@@ -165,14 +170,14 @@ ansible debian -m setup -a "filter=ansible_distribution" <span class="text-muted
     - name: Instalar pacotes Debian
       become: true
       apt:
-        name: "{{ item }}"
+        name: "&#123;&#123; item &#125;&#125;"
       loop:
         - wget
         - git
         - figlet
 </code></pre></small>
 
-            <br><h4>Condicionais (when)</h4>
+            <br><h4>Condicionais (when):</h4>
             <p id="textoPost">Pode-se utilizar condicionais 'when' para aplicar filtros em playbooks, conforme abaixo.</p>
 <small><pre><code>
 - name: Instalar pacotes
@@ -181,7 +186,7 @@ ansible debian -m setup -a "filter=ansible_distribution" <span class="text-muted
     - name: Instalar pacotes
       become: true
       apt:
-        name: "{{ item }}"
+        name: "&#123;&#123; item &#125;&#125;"
       loop:
         - wget
         - git
@@ -189,7 +194,7 @@ ansible debian -m setup -a "filter=ansible_distribution" <span class="text-muted
       when: ansible_distribution == "Debian"
 </code></pre></small>
 
-            <br><hr><h4>Exemplos de playbooks</h4>
+            <br><hr><h4>Exemplos de playbooks:</h4>
 <small><pre><code>
 <b><u>frontend.yml</u>:</b>
 ---
@@ -206,7 +211,7 @@ ansible debian -m setup -a "filter=ansible_distribution" <span class="text-muted
   - name: Copiar os artefatos de frontend
     copy:
       src: app-src/public/
-      dest: "{{ frontend_deploy_dest }}"
+      dest: "&#123;&#123; frontend_deploy_dest &#125;&#125;"
       setype: httpd_sys_content_t
     notify:
     - Reiniciar o serviço do Nginx
@@ -262,25 +267,25 @@ backend_bind_port: 8080
 ---
 - name: Instalando dependências (pacotes)
   package:
-    name: "{{ backend_required_packages }}"
+    name: "&#123;&#123; backend_required_packages &#125;&#125;"
     state: present
 - name: Instalando ambiente de execução Deno (binário)
   unarchive:
-    src: "https://github.com/denoland/deno/releases/download/{{ backend_deno_version }}/deno-x86_64-unknown-linux-gnu.zip"
+    src: "https://github.com/denoland/deno/releases/download/&#123;&#123; backend_deno_version &#125;&#125;/deno-x86_64-unknown-linux-gnu.zip"
     dest: /usr/local/bin
     remote_src: yes
   notify:
   - Reiniciar serviço de backend
 - name: Copiar artefatos de backend para diretório de final
   copy:
-    src: "{{ backend_src_path }}"
-    dest: "{{ backend_deploy_dest }}"
+    src: "&#123;&#123; backend_src_path &#125;&#125;"
+    dest: "&#123;&#123; backend_deploy_dest &#125;&#125;"
   notify:
   - Reiniciar serviço de backend
 - name: Configurar backend para ambiente produtivo
   template:
     src: env.j2
-    dest: "{{ backend_deploy_dest }}/.env"
+    dest: "&#123;&#123; backend_deploy_dest &#125;&#125;/.env"
   notify:
   - Reiniciar serviço de backend
 - name: Configurar systemd como supervisor do backend
@@ -298,24 +303,24 @@ backend_bind_port: 8080
     daemon_reload: yes
 
 <b>roles/backend/templates/systemd-unit.js:</b>
-# {{ ansible_managed }}
+# &#123;&#123; ansible_managed &#125;&#125;
 
 [Unit]
 Description=Deno Backend Service
 
 [Service]
-WorkingDirectory={{ backend_deploy_dest }}
-ExecStart=/usr/local/bin/deno run {{ backend_runtime_args }} {{ backend_entrypoint }}
+WorkingDirectory=&#123;&#123; backend_deploy_dest &#125;&#125;
+ExecStart=/usr/local/bin/deno run &#123;&#123; backend_runtime_args &#125;&#125; &#123;&#123; backend_entrypoint &#125;&#125;
 Restart=always
 
 [Install]
 WantedBy=multi-user.target
 
 <b>roles/backend/templates/env.j2:</b>
-# {{ ansible_managed }}
+# &#123;&#123; ansible_managed &#125;&#125;
 
-HOST={{ backend_bind_address }}
-PORT={{ backend_bind_port }}
+HOST=&#123;&#123; backend_bind_address &#125;&#125;
+PORT=&#123;&#123; backend_bind_port &#125;&#125;
 
 
 <b><u>playbook_remove.yml</u>:</b>
@@ -327,7 +332,7 @@ PORT={{ backend_bind_port }}
   tasks:
   - name: Parar os serviços
     service:
-      name: "{{ item }}"
+      name: "&#123;&#123; item &#125;&#125;"
       state: stopped
       enabled: no
     loop:
@@ -354,7 +359,7 @@ PORT={{ backend_bind_port }}
       state: absent
   - name: Remover diretórios de implantação
     file:
-      path: "{{ item }}"
+      path: "&#123;&#123; item &#125;&#125;"
       state: absent
     loop:
     - /srv/frontend
@@ -370,7 +375,7 @@ PORT={{ backend_bind_port }}
   tasks:
   - name: Executando requisição HTTP
     uri: <span class="text-muted">#Verificar se frontend subiu, e retornar o h1 em caso de falha</span>
-      url: "http://{{ ansible_host }}:{{ frontend_bind_port }}"
+      url: "http://&#123;&#123; ansible_host &#125;&#125;:&#123;&#123; frontend_bind_port &#125;&#125;"
       return_content: yes
     register: response
     failed_when: "'&lt;h1&gt;Youtube Chapter Extractor&lt;/h1&gt;' not in response.content"
@@ -386,14 +391,14 @@ PORT={{ backend_bind_port }}
   tasks:
   - name: Executando requisição HTTP
     uri:
-      url: "http://{{ ansible_host }}:{{ backend_bind_port }}/api/v1/video-chapters/notreal"
+      url: "http://&#123;&#123; ansible_host &#125;&#125;:&#123;&#123; backend_bind_port &#125;&#125;/api/v1/video-chapters/notreal"
     register: response
     retries: 3
     delay: 3
     until: response.status == 200
 </code></pre></small>
 
-            <br><hr><h4>Laboratório prático</h4>
+            <br><hr><h4>Laboratório prático:</h4>
             <p id="textoPost">Ambiente Vagrant composto por master node (Ubuntu - 'ansible') e 2 workers (Debian e CentOS - 'machine01 e machine02').</p>
             <ol><b><u>Preparo</u></b>
                 <li>Instalar requisitos: <span class="text-muted">sudo apt install virtualbox vagrant</span></li>

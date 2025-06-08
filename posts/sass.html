@@ -37,17 +37,16 @@
             <h1>Sass</h1>
             <h6><strong>Conceitos e sintaxe da linguagem Sass</strong></h6>
             <a href="../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
-            <a href="https://sass-lang.com" target="_blank" class="btn btn-link text-decoration-none">Sass Oficial</a>
         </div>
 
         <div class="col-sm-12">
-            <h4>O que é Sass?</h4>
-            <p id="textoPost">Sass<small> (Syntactically Awesome Style Sheets)</small> é uma sintaxe extendida e convertida para CSS, nos quais estão presentes a adição de algumas funções bem interessantes às folhas de estilo, deixando-as mais logicamente dinâmicas: Como o próprio site oficial diz "CSS com superpoderes". O Sass possui 2 sintaxes, sendo a '<strong>.sass</strong>', na qual estão <i>ausentes</i> o uso de chaves e ponto-e-vírgula, sendo os blocos descritos somente por identação. Há também a sintaxe aderida como oficial, a '<strong>.scss</strong>'(usaremos aqui), na qual estão <i>presentes</i> as chaves e ponto-e-vírgula nos blocos, como em um CSS comum. Os arquivos sass possuem extensão '<i>.scss</i>', independente de seu tipo de sintaxe. O site oficial do Sass encontra-se abaixo, com exemplos, passos para instalação e documentação da linguagem. Arquivos Sass parciais que contêm pequenos trechos de CSS podem ser incluídos em outros arquivos Sass. O nome do arquivo deve ser <strong>_nomearquivo.scss</strong>. O underline informa ao Sass que o arquivo é parcial e que não deve ser gerado em um arquivo CSS.</p>
+            <h4>Conceito:</h4>
+            <p id="textoPost">Sass<small> (Syntactically Awesome Style Sheets)</small> é uma sintaxe extendida e convertida para CSS, nos quais estão presentes a adição de algumas funções bem interessantes às folhas de estilo, deixando-as mais logicamente dinâmicas: Como o próprio site oficial diz "CSS com superpoderes". O Sass possui 2 sintaxes, sendo a '<strong>.sass</strong>', na qual estão <i>ausentes</i> o uso de chaves e ponto-e-vírgula, sendo os blocos descritos somente por identação. Há também a sintaxe aderida como oficial, a '<strong>.scss</strong>'(usaremos aqui), na qual estão <i>presentes</i> as chaves e ponto-e-vírgula nos blocos, como em um CSS comum. Os arquivos sass possuem extensão '<i>.scss</i>', independente de seu tipo de sintaxe. O site oficial do Sass encontra-se abaixo, com exemplos, passos para instalação e documentação da linguagem. Arquivos Sass parciais que contêm pequenos trechos de CSS podem ser incluídos em outros arquivos Sass. O nome do arquivo deve ser <strong>_nomearquivo.scss</strong>. O underline informa ao Sass que o arquivo é parcial e que não deve ser gerado em um arquivo CSS. Mais informações, acesse no <a href="https://sass-lang.com" target="_blank" class="text-decoration-none">site oficial</a>.</p>
 
-            <br><br><h4>Sintaxe</h4>
+            <br><h4>Sintaxe:</h4>
 <small><pre><code>
 <h6><b>===== SINTAXE SCSS =====</b></h6>
-@mixin button-base() {
+@mixin button-base() &#123;
     @include typography(button);
     @include ripple-surface;
     @include ripple-radius-bounded;
@@ -56,13 +55,13 @@
     height: $button-height;
     border: none;
     vertical-align: middle;
-    &:hover { cursor: pointer; }
-    &:disabled {
+    &:hover &#123; cursor: pointer; &#125;
+    &:disabled &#123;
     color: $mdc-button-disabled-ink-color;
     cursor: default;
     pointer-events: none;
-    }
-}
+    &#125;
+&#125;
 
 
 <h6><b>===== COMENTÁRIOS =====</b></h6>
@@ -71,282 +70,282 @@
 /* But this comment will, except in compressed mode. */
 
 /* It can also contain interpolation:
-    * 1 + 1 = #{1 + 1} */
+    * 1 + 1 = #&#123;1 + 1&#125; */
 
 /*! This comment will be included even in compressed mode. */
 
 p /* Multi-line comments can be written anywhere
-    * whitespace is allowed. */ .sans {
+    * whitespace is allowed. */ .sans &#123;
     font: Helvetica, // So can single-line commments.
         sans-serif;
-}
+&#125;
 
 
 <h6><b>===== COMENTÁRIOS DE DOCUMENTO =====</b></h6>
 /// Computes an exponent.
 ///
-/// @param {number} $base
+/// @param &#123;number&#125; $base
 ///   The number to multiply by itself.
-/// @param {integer (unitless)} $exponent
+/// @param &#123;integer (unitless)&#125; $exponent
 ///   The number of '$base's to multiply together.
-/// @return {number} '$base' to the power of '$exponent'.
-@function pow($base, $exponent) {
+/// @return &#123;number&#125; '$base' to the power of '$exponent'.
+@function pow($base, $exponent) &#123;
     $result: 1;
-    @for $_ from 1 through $exponent {
+    @for $_ from 1 through $exponent &#123;
     $result: $result * $base;
-    }
+    &#125;
     @return $result;
-}
+&#125;
 
 
 <h6><b>===== FUNÇÕES ESPECIAIS =====</b></h6>
 <b>=== URL() ===</b>
 $roboto-font-path: "../fonts/roboto";
-@font-face {
+@font-face &#123;
     // This is parsed as a normal function call that takes a quoted string.
-    src: url("#{$roboto-font-path}/Roboto-Thin.woff2") format("woff2");
+    src: url("#&#123;$roboto-font-path&#125;/Roboto-Thin.woff2") format("woff2");
     font-family: "Roboto";
     font-weight: 100;
-}
-@font-face {
+&#125;
+@font-face &#123;
     // This is parsed as a normal function call that takes an arithmetic expression.
     src: url($roboto-font-path + "/Roboto-Light.woff2") format("woff2");
     font-family: "Roboto";
     font-weight: 300;
-}
-@font-face {
+&#125;
+@font-face &#123;
     // This is parsed as an interpolated special function.
-    src: url(#{$roboto-font-path}/Roboto-Regular.woff2) format("woff2");
+    src: url(#&#123;$roboto-font-path&#125;/Roboto-Regular.woff2) format("woff2");
     font-family: "Roboto";
     font-weight: 400;
-}
+&#125;
 
 <b>=== CALC(), ELEMENT(), PROGID(), EXPRESSION() ===</b>
-.logo {
+.logo &#123;
     $width: 800px;
     width: $width;
     position: absolute;
-    left: calc(50% - #{$width / 2});
+    left: calc(50% - #&#123;$width / 2&#125;);
     top: 0;
-}
+&#125;
 
 <b>=== MIN(), MAX() ===</b>
 $padding: 12px;
-.post {
+.post &#123;
     // Since these max() calls don't use any Sass features other than
     // interpolation, they're compiled to CSS max() calls.
-    padding-left: max(#{$padding}, env(safe-area-inset-left));
-    padding-right: max(#{$padding}, env(safe-area-inset-right));
-}
-.sidebar {
+    padding-left: max(#&#123;$padding&#125;, env(safe-area-inset-left));
+    padding-right: max(#&#123;$padding&#125;, env(safe-area-inset-right));
+&#125;
+.sidebar &#123;
     // Since these refer to a Sass variable without interpolation, they call
     // Sass's built-in max() function.
     padding-left: max($padding, 20px);
     padding-right: max($padding, 20px);
-}
+&#125;
 
 
 <h6><b>===== REGRAS DE ESTILO =====</b></h6>
 <b>=== NESTING(Aninhamento) ===</b>
-nav {
-    ul {
+nav &#123;
+    ul &#123;
         margin: 0;
         padding: 0;
         list-style: none;
-    }
-    li { display: inline-block; }
-    a {
+    &#125;
+    li &#123; display: inline-block; &#125;
+    a &#123;
         display: block;
         padding: 6px 12px;
         text-decoration: none;
-    }
-}
+    &#125;
+&#125;
 
 <b>=== SELETOR LIST ===</b>
-.alert, .warning {
-    ul, p {
+.alert, .warning &#123;
+    ul, p &#123;
     margin-right: 0;
     margin-left: 0;
     padding-bottom: 0;
-    }
-}
+    &#125;
+&#125;
 
 <b>=== SELETOR COMBINATIORS ===</b>
-ul > {
-    li {
+ul > &#123;
+    li &#123;
     list-style-type: none;
-    }
-}
-h2 {
-    + p {
+    &#125;
+&#125;
+h2 &#123;
+    + p &#123;
     border-top: 1px solid gray;
-    }
-}
-p {
-    ~ {
-    span {
+    &#125;
+&#125;
+p &#123;
+    ~ &#123;
+    span &#123;
         opacity: 0.8;
-    }
-    }
-}
+    &#125;
+    &#125;
+&#125;
 
 <b>=== INTERPOLAÇÃO ===</b>
-@mixin define-emoji($name, $glyph) {
-    span.emoji-#{$name} {
+@mixin define-emoji($name, $glyph) &#123;
+    span.emoji-#&#123;$name&#125; &#123;
     font-family: IconFont;
     font-variant: normal;
     font-weight: normal;
     content: $glyph;
-    }
-}
+    &#125;
+&#125;
 @include define-emoji("women-holding-hands", "👭");
 
 
 <h6><b>===== PROPRIEDADES DECLARATIVAS =====</b></h6>
-.circle {
+.circle &#123;
     $size: 100px;
     width: $size;
     height: $size;
     border-radius: $size / 2;
-}
+&#125;
 
 <b>=== INTERPOLAÇÃO ===</b>
-@mixin prefix($property, $value, $prefixes) {
-    @each $prefix in $prefixes {
-    -#{$prefix}-#{$property}: $value;
-    }
-    #{$property}: $value;
-}
-.gray {
+@mixin prefix($property, $value, $prefixes) &#123;
+    @each $prefix in $prefixes &#123;
+    -#&#123;$prefix&#125;-#&#123;$property&#125;: $value;
+    &#125;
+    #&#123;$property&#125;: $value;
+&#125;
+.gray &#123;
     @include prefix(filter, grayscale(50%), moz webkit);
-}
+&#125;
 
 <b>=== NESTING(Aninhamento) ===</b>
-.enlarge {
+.enlarge &#123;
     font-size: 14px;
-    transition: {
+    transition: &#123;
         property: font-size;
         duration: 4s;
         delay: 2s;
-    }
-    &:hover { font-size: 36px; }
-}
+    &#125;
+    &:hover &#123; font-size: 36px; &#125;
+&#125;
 
 <b>=== DECLARAÇÕES OCULTAS ===</b>
 $rounded-corners: false;
-.button {
+.button &#123;
     border: 1px solid black;
     border-radius: if($rounded-corners, 5px, null);
-}
+&#125;
 
 <b>=== PROPRIEDADES CUSTOMIZÁVEIS ===</b>
 $primary: #81899b;
 $accent: #302e24;
 $warn: #dfa612;
-:root {
-    --primary: #{$primary};
-    --accent: #{$accent};
-    --warn: #{$warn};
+:root &#123;
+    --primary: #&#123;$primary&#125;;
+    --accent: #&#123;$accent&#125;;
+    --warn: #&#123;$warn&#125;;
     // Even though this looks like a Sass variable, it's valid CSS so it's not evaluated.
     --consumed-by-js: $primary;
-}
+&#125;
 
 
 <h6><b>===== SELETORES PAIS(&) =====</b></h6>
-.alert {
+.alert &#123;
     // The parent selector can be used to add pseudo-classes to the outer selector.
-    &:hover {
+    &:hover &#123;
         font-weight: bold;
-    }
+    &#125;
     // It can also be used to style the outer selector in a certain context, such as a body set to use a right-to-left language.
-    [dir=rtl] & {
+    [dir=rtl] & &#123;
         margin-left: 0;
         margin-right: 10px;
-    }
+    &#125;
     // You can even use it as an argument to pseudo-class selectors.
-    :not(&) {
+    :not(&) &#123;
         opacity: 0.8;
-    }
-}
+    &#125;
+&#125;
 
 <b>=== ADICIONANDO SUFIXOS ===</b>
-.accordion {
+.accordion &#123;
     max-width: 600px;
     margin: 4rem auto;
     width: 90%;
     font-family: "Raleway", sans-serif;
     background: #f4f4f4;
-    &__copy {
+    &__copy &#123;
         display: none;
         padding: 1rem 1.5rem 2rem 1.5rem;
         color: gray;
         line-height: 1.6;
         font-size: 14px;
         font-weight: 500;
-        &--open {
+        &--open &#123;
             display: block;
-        }
-    }
-}
+        &#125;
+    &#125;
+&#125;
 
 <b>=== ANINHAMENTO AVANÇADO ===</b>
 @use "sass:selector";
-@mixin unify-parent($child) {
-    @at-root #{selector.unify(&, $child)} {
+@mixin unify-parent($child) &#123;
+    @at-root #&#123;selector.unify(&, $child)&#125; &#123;
         @content;
-    }
-}
-.wrapper .field {
-    @include unify-parent("input") {
+    &#125;
+&#125;
+.wrapper .field &#123;
+    @include unify-parent("input") &#123;
         /* ... */
-    }
-    @include unify-parent("select") {
+    &#125;
+    @include unify-parent("select") &#123;
         /* ... */
-    }
-}
+    &#125;
+&#125;
 
 
 <h6><b>===== SELETORES COMPLEMENTARES(%) =====</b></h6>
-.alert:hover, %strong-alert {
+.alert:hover, %strong-alert &#123;
     font-weight: bold;
-}
-%strong-alert:hover {
+&#125;
+%strong-alert:hover &#123;
     color: red;
-}
+&#125;
 
-%toolbelt {
+%toolbelt &#123;
     box-sizing: border-box;
     border-top: 1px rgba(#000, .12) solid;
     padding: 16px 0;
     width: 100%;
-    &:hover { border: 2px rgba(#000, .5) solid; }
-}
-.action-buttons {
+    &:hover &#123; border: 2px rgba(#000, .5) solid; &#125;
+&#125;
+.action-buttons &#123;
     @extend %toolbelt;
     color: #4285f4;
-}
-.reset-buttons {
+&#125;
+.reset-buttons &#123;
     @extend %toolbelt;
     color: #cddc39;
-}
+&#125;
 
 
 <h6><b>===== VARIÁVEIS($) =====</b></h6>
 $base-color: #c6538c;
 $border-dark: rgba($base-color, 0.88);
-.alert {
+.alert &#123;
     border: 1px solid $border-dark;
-}
+&#125;
 
 <b>=== VALORES PADRÃO ===</b>
 // _library.scss
 $black: #000 !default;
 $border-radius: 0.25rem !default;
 $box-shadow: 0 0.5rem 1rem rgba($black, 0.15) !default;
-code {
+code &#123;
     border-radius: $border-radius;
     box-shadow: $box-shadow;
-}
+&#125;
 
 // style.scss
 @use 'library' with (
@@ -361,49 +360,49 @@ math.$pi: 0;
 
 <b>=== ESCOPO ===</b>
 $global-variable: global value;
-.content {
+.content &#123;
     $local-variable: local value;
     global: $global-variable;
     local: $local-variable;
-}
-.sidebar {
+&#125;
+.sidebar &#123;
     global: $global-variable;
     // This would fail, because $local-variable isn't in scope:
     // local: $local-variable;
-}
+&#125;
 
 <b>=== SOMBREAMENTO ===</b>
 $variable: global value;
-.content {
+.content &#123;
     $variable: local value;
     value: $variable;
-}
-.sidebar {
+&#125;
+.sidebar &#123;
     value: $variable;
-}
+&#125;
 
 $variable: first global value;
-.content {
+.content &#123;
     $variable: second global value !global;
     value: $variable;
-}
-.sidebar {
+&#125;
+.sidebar &#123;
     value: $variable;
-}
+&#125;
 
 <b>=== CONTROLE DE ESCOPO ===</b>
 $dark-theme: true !default;
 $primary-color: #f8bbd0 !default;
 $accent-color: #6a1b9a !default;
-@if $dark-theme {
+@if $dark-theme &#123;
     $primary-color: darken($primary-color, 60%);
     $accent-color: lighten($accent-color, 60%);
-}
-.button {
+&#125;
+.button &#123;
     background-color: $primary-color;
     border: 1px solid $accent-color;
     border-radius: 3px;
-}
+&#125;
 
 <b>=== VARIÁVEIS EM FUNÇÕES AVANÇADAS ===</b>
 @use "sass:map";
@@ -412,47 +411,47 @@ $theme-colors: (
     "info": #17a2b8,
     "warning": #ffc107,
 );
-.alert {
-    // Instead of $theme-color-#{warning}
+.alert &#123;
+    // Instead of $theme-color-#&#123;warning&#125;
     background-color: map.get($theme-colors, "warning");
-}
+&#125;
 
 
-<h6><b>===== INTERPOLAÇÃO(#{}) =====</b></h6>
-@mixin corner-icon($name, $top-or-bottom, $left-or-right) {
-    .icon-#{$name} {
-        background-image: url("/icons/#{$name}.svg");
+<h6><b>===== INTERPOLAÇÃO(#&#123;&#125;) =====</b></h6>
+@mixin corner-icon($name, $top-or-bottom, $left-or-right) &#123;
+    .icon-#&#123;$name&#125; &#123;
+        background-image: url("/icons/#&#123;$name&#125;.svg");
         position: absolute;
-        #{$top-or-bottom}: 0;
-        #{$left-or-right}: 0;
-    }
-}
+        #&#123;$top-or-bottom&#125;: 0;
+        #&#123;$left-or-right&#125;: 0;
+    &#125;
+&#125;
 @include corner-icon("mail", top, left);
 
 <b>=== STRINGS ===</b>
-.example {
-    unquoted: #{"string"};
-}
+.example &#123;
+    unquoted: #&#123;"string"&#125;;
+&#125;
 
 
 <h6><b>===== REGRAS GERAIS CHAMADORAS =====</b></h6>=
 <b>=== @USE ===</b>
 // foundation/_code.scss
-code {
+code &#123;
     padding: .25em;
     line-height: 0;
-}
+&#125;
 
 // foundation/_lists.scss
-ul, ol {
+ul, ol &#123;
     text-align: left;
-    & & {
-        padding: {
+    & & &#123;
+        padding: &#123;
             bottom: 0;
             left: 0;
-        }
-    }
-}
+        &#125;
+    &#125;
+&#125;
 
 // style.scss
 @use 'foundation/code';
@@ -461,68 +460,68 @@ ul, ol {
 <b>== Carregando Membros ==</b>
 // src/_corners.scss
 $radius: 3px;
-@mixin rounded {
+@mixin rounded &#123;
     border-radius: $radius;
-}
+&#125;
 
 // style.scss
 @use "src/corners";
-.button {
+.button &#123;
     @include corners.rounded;
     padding: 5px + corners.$radius;
-}
+&#125;
 
 <b>== Escolhendo um Namespace ==</b>
 // src/_corners.scss
 $radius: 3px;
-@mixin rounded {
+@mixin rounded &#123;
     border-radius: $radius;
-}
+&#125;
 
 // style.scss
 @use "src/corners" as c;
-.button {
+.button &#123;
     @include c.rounded;
     padding: 5px + c.$radius;
-}
+&#125;
 
 // src/_corners.scss
 $radius: 3px;
-@mixin rounded {
+@mixin rounded &#123;
     border-radius: $radius;
-}
+&#125;
 
 // style.scss
 @use "src/corners" as *;
-.button {
+.button &#123;
     @include rounded;
     padding: 5px + $radius;
-}
+&#125;
 
 <b>== Membros Privados ==</b>
 // src/_corners.scss
 $-radius: 3px;
-@mixin rounded {
+@mixin rounded &#123;
     border-radius: $-radius;
-}
+&#125;
 
 // style.scss
 @use "src/corners";
-.button {
+.button &#123;
     @include corners.rounded;
     // This is an error! $-radius isn't visible outside of '_corners.scss'.
     padding: 5px + corners.$-radius;
-}
+&#125;
 
 <b>== Configuração ==</b>
 // _library.scss
 $black: #000 !default;
 $border-radius: 0.25rem !default;
 $box-shadow: 0 0.5rem 1rem rgba($black, 0.15) !default;
-code {
+code &#123;
     border-radius: $border-radius;
     box-shadow: $box-shadow;
-}
+&#125;
 
 // style.scss
 @use 'library' with (
@@ -537,26 +536,26 @@ $-border-radius: 0.25rem;
 $-box-shadow: null;
 /// If the user has configured '$-box-shadow', returns their configured value.
 /// Otherwise returns a value derived from '$-black'.
-@function -box-shadow() {
+@function -box-shadow() &#123;
     @return $-box-shadow or (0 0.5rem 1rem rgba($-black, 0.15));
-}
-@mixin configure($black: null, $border-radius: null, $box-shadow: null) {
-    @if $black {
+&#125;
+@mixin configure($black: null, $border-radius: null, $box-shadow: null) &#123;
+    @if $black &#123;
         $-black: $black !global;
-    }
-    @if $border-radius {
+    &#125;
+    @if $border-radius &#123;
         $-border-radius: $border-radius !global;
-    }
-    @if $box-shadow {
+    &#125;
+    @if $box-shadow &#123;
         $-box-shadow: $box-shadow !global;
-    }
-}
-@mixin styles {
-    code {
+    &#125;
+&#125;
+@mixin styles &#123;
+    code &#123;
         border-radius: $-border-radius;
         box-shadow: -box-shadow();
-    }
-}
+    &#125;
+&#125;
 
 // style.scss
 @use 'library';
@@ -568,21 +567,21 @@ $-box-shadow: null;
 
 <b>== Pesquisando Módulo, Index ==</b>
 // foundation/_code.scss
-code {
+code &#123;
     padding: .25em;
     line-height: 0;
-}
+&#125;
 
 // foundation/_lists.scss
-ul, ol {
+ul, ol &#123;
     text-align: left;
-    & & {
-        padding: {
+    & & &#123;
+        padding: &#123;
             bottom: 0;
             left: 0;
-        }
-    }
-}
+        &#125;
+    &#125;
+&#125;
 
 // foundation/_index.scss
 @use 'code';
@@ -593,10 +592,10 @@ ul, ol {
 
 <b>== Carregando Css ==</b>
 // code.css
-code {
+code &#123;
     padding: .25em;
     line-height: 0;
-}
+&#125;
 
 // style.scss
 @use 'code';
@@ -604,56 +603,56 @@ code {
 <b>=== @FOWARD ===</b>
 Encaminha, juntamente com códigos, @uses, @functions, @mixins e $vars
 // src/_list.scss
-@mixin list-reset {
+@mixin list-reset &#123;
     margin: 0;
     padding: 0;
     list-style: none;
-}
+&#125;
 
 // bootstrap.scss
 @forward "src/list";
 
 // styles.scss
 @use "bootstrap";
-li {
+li &#123;
     @include bootstrap.list-reset;
-}
+&#125;
 
 <b>== Adicionando um Prefixo ==</b>
 // src/_list.scss
-@mixin reset {
+@mixin reset &#123;
     margin: 0;
     padding: 0;
     list-style: none;
-}
+&#125;
 
 // bootstrap.scss
 @forward "src/list" as list-*;
 
 // styles.scss
 @use "bootstrap";
-li {
+li &#123;
     @include bootstrap.list-reset;
-}
+&#125;
 
 <b>== Controlando Visibilidade ===</b>
 // src/_list.scss
 $horizontal-list-gap: 2em;
-@mixin list-reset {
+@mixin list-reset &#123;
     margin: 0;
     padding: 0;
     list-style: none;
-}
-@mixin list-horizontal {
+&#125;
+@mixin list-horizontal &#123;
     @include reset;
-    li {
+    li &#123;
         display: inline-block;
-        margin: {
+        margin: &#123;
             left: -2px;
             right: $horizontal-list-gap;
-        }
-    }
-}
+        &#125;
+    &#125;
+&#125;
 
 // bootstrap.scss
 @forward "src/list" hide list-reset, $horizontal-list-gap;
@@ -663,10 +662,10 @@ $horizontal-list-gap: 2em;
 $black: #000 !default;
 $border-radius: 0.25rem !default;
 $box-shadow: 0 0.5rem 1rem rgba($black, 0.15) !default;
-code {
+code &#123;
     border-radius: $border-radius;
     box-shadow: $box-shadow;
-}
+&#125;
 
 // _opinionated.scss
 @forward 'library' with (
@@ -680,42 +679,42 @@ code {
 <b>=== @IMPORT ===</b>
 Importar arquivo(s) CSS e SASS com funções, vars, uses...
 // foundation/_code.scss
-code {
+code &#123;
     padding: .25em;
     line-height: 0;
-}
+&#125;
 
 // foundation/_lists.scss
-ul, ol {
+ul, ol &#123;
     text-align: left;
-    & & {
-        padding: {
+    & & &#123;
+        padding: &#123;
             bottom: 0;
             left: 0;
-        }
-    }
-}
+        &#125;
+    &#125;
+&#125;
 
 // style.scss
 @import 'foundation/code', 'foundation/lists';
 
 <b>== Arquivo Index ==</b>
 // foundation/_code.scss
-code {
+code &#123;
     padding: .25em;
     line-height: 0;
-}
+&#125;
 
 // foundation/_lists.scss
-ul, ol {
+ul, ol &#123;
     text-align: left;
-    & & {
-        padding: {
+    & & &#123;
+        padding: &#123;
             bottom: 0;
             left: 0;
-        }
-    }
-}
+        &#125;
+    &#125;
+&#125;
 
 // foundation/_index.scss
 @import 'code', 'lists';
@@ -725,22 +724,22 @@ ul, ol {
 
 <b>== Aninhamento ==</b>
 // _theme.scss
-pre, code {
+pre, code &#123;
     font-family: 'Source Code Pro', Helvetica, Arial;
     border-radius: 4px;
-}
+&#125;
 
 // style.scss
-.theme-sample {
+.theme-sample &#123;
     @import "theme";
-}
+&#125;
 
 <b>== Importar Css ==</b>
 // code.css
-code {
+code &#123;
     padding: .25em;
     line-height: 0;
-}
+&#125;
 
 // style.scss
 @import 'code';
@@ -752,21 +751,21 @@ code {
 @import "landscape" screen and (orientation: landscape);
 
 <b>== Interpolação ==</b>
-@mixin google-font($family) {
-    @import url("http://fonts.googleapis.com/css?family=#{$family}");
-}
+@mixin google-font($family) &#123;
+    @import url("http://fonts.googleapis.com/css?family=#&#123;$family&#125;");
+&#125;
 @include google-font("Droid Sans");
 
 <b>== Importar e Módulos ==</b>
 // _reset.scss
 // Module system users write '@include reset.list()'.
-@mixin list() {
-    ul {
+@mixin list() &#123;
+    ul &#123;
         margin: 0;
         padding: 0;
         list-style: none;
-    }
-}
+    &#125;
+&#125;
 
 // _reset.import.scss
 // Legacy import users can keep writing '@include reset-list()'.
@@ -775,9 +774,9 @@ code {
 <b>== Configurando Módulos com @import ==</b>
 // _library.scss
 $color: blue !default;
-a {
+a &#123;
     color: $color;
-}
+&#125;
 
 // _library.import.scss
 @forward 'library' as lib-*;
@@ -788,86 +787,86 @@ $lib-color: green;
 
 <b>== @MIXIN e @INCLUDE ==</b>
 Definir estilos e reutilizá-los através de CSS
-@mixin reset-list {
+@mixin reset-list &#123;
     margin: 0;
     padding: 0;
     list-style: none;
-}
-@mixin horizontal-list {
+&#125;
+@mixin horizontal-list &#123;
     @include reset-list;
-    li {
+    li &#123;
         display: inline-block;
-        margin: {
+        margin: &#123;
             left: -2px;
             right: 2em;
-        }
-    }
-}
-nav ul {
+        &#125;
+    &#125;
+&#125;
+nav ul &#123;
     @include horizontal-list;
-}
+&#125;
 
 <b>== Argumentos ==</b>
-@mixin rtl($property, $ltr-value, $rtl-value) {
-    #{$property}: $ltr-value;
-    [dir=rtl] & {
-        #{$property}: $rtl-value;
-    }
-}
-.sidebar {
+@mixin rtl($property, $ltr-value, $rtl-value) &#123;
+    #&#123;$property&#125;: $ltr-value;
+    [dir=rtl] & &#123;
+        #&#123;$property&#125;: $rtl-value;
+    &#125;
+&#125;
+.sidebar &#123;
     @include rtl(float, left, right);
-}
+&#125;
 
 <b>== Argumentos Opcionais ==</b>
-@mixin replace-text($image, $x: 50%, $y: 50%) {
+@mixin replace-text($image, $x: 50%, $y: 50%) &#123;
     text-indent: -99999em;
     overflow: hidden;
     text-align: left;
-    background: {
+    background: &#123;
         image: $image;
         repeat: no-repeat;
         position: $x $y;
-    }
-}
-.mail-icon {
+    &#125;
+&#125;
+.mail-icon &#123;
     @include replace-text(url("/images/mail.svg"), 0);
-}
+&#125;
 
 <b>== Argumentos de Teclado ==</b>
-@mixin square($size, $radius: 0) {
+@mixin square($size, $radius: 0) &#123;
     width: $size;
     height: $size;
-    @if $radius != 0 {
+    @if $radius != 0 &#123;
         border-radius: $radius;
-    }
-}
-.avatar {
+    &#125;
+&#125;
+.avatar &#123;
     @include square(100px, $radius: 4px);
-}
+&#125;
 
 <b>== Argumentos Arbitrários ==</b>
-@mixin order($height, $selectors...) {
-    @for $i from 0 to length($selectors) {
-        #{nth($selectors, $i + 1)} {
+@mixin order($height, $selectors...) &#123;
+    @for $i from 0 to length($selectors) &#123;
+        #&#123;nth($selectors, $i + 1)&#125; &#123;
             position: absolute;
             height: $height;
             margin-top: $i * $height;
-        }
-    }
-}
+        &#125;
+    &#125;
+&#125;
 @include order(150px, "input.name", "input.address", "input.zip");
 
 <b>== Argumentos de Teclado Arbitrários ==</b>
 @use "sass:meta";
-@mixin syntax-colors($args...) {
+@mixin syntax-colors($args...) &#123;
     @debug meta.keywords($args);
     // (string: #080, comment: #800, variable: #60b)
-    @each $name, $color in meta.keywords($args) {
-        pre span.stx-#{$name} {
+    @each $name, $color in meta.keywords($args) &#123;
+        pre span.stx-#&#123;$name&#125; &#123;
             color: $color;
-        }
-    }
-}
+        &#125;
+    &#125;
+&#125;
 @include syntax-colors(
     $string: #080,
     $comment: #800,
@@ -879,94 +878,94 @@ $form-selectors: "input.name", "input.address", "input.zip" !default;
 @include order(150px, $form-selectors...);
 
 <b>== Blocos de Conteúdo ==</b>
-@mixin hover {
-    &:not([disabled]):hover {
+@mixin hover &#123;
+    &:not([disabled]):hover &#123;
         @content;
-    }
-}
-.button {
+    &#125;
+&#125;
+.button &#123;
     border: 1px solid black;
-    @include hover {
+    @include hover &#123;
         border-width: 2px;
-    }
-}
+    &#125;
+&#125;
 
 <b>== Passando Argumentos à Blocos de Conteúdo ==</b>
-@mixin media($types...) {
-    @each $type in $types {
-        @media #{$type} {
+@mixin media($types...) &#123;
+    @each $type in $types &#123;
+        @media #&#123;$type&#125; &#123;
             @content($type);
-        }
-    }
-}
-@include media(screen, print) using ($type) {
-    h1 {
+        &#125;
+    &#125;
+&#125;
+@include media(screen, print) using ($type) &#123;
+    h1 &#123;
         font-size: 40px;
-        @if $type == print {
+        @if $type == print &#123;
             font-family: Calluna;
-        }
-    }
-}
+        &#125;
+    &#125;
+&#125;
 
 <b>=== @FUNCTION ===</b>
-@function pow($base, $exponent) {
+@function pow($base, $exponent) &#123;
     $result: 1;
-    @for $_ from 1 through $exponent {
+    @for $_ from 1 through $exponent &#123;
         $result: $result * $base;
-    }
+    &#125;
     @return $result;
-}
-.sidebar {
+&#125;
+.sidebar &#123;
     float: left;
     margin-left: pow(4, 3) * 1px;
-}
+&#125;
 
 <b>== Argumentos Opcionais ==</b>
-@function invert($color, $amount: 100%) {
+@function invert($color, $amount: 100%) &#123;
     $inverse: change-color($color, $hue: hue($color) + 180);
     @return mix($inverse, $color, $amount);
-}
+&#125;
 $primary-color: #036;
-.header {
+.header &#123;
     background-color: invert($primary-color, 80%);
-}
+&#125;
 
 <b>== Argumentos de Teclado ==</b>
 $primary-color: #036;
-.banner {
+.banner &#123;
     background-color: $primary-color;
     color: scale-color($primary-color, $lightness: +40%);
-}
+&#125;
 
 <b>== Obtendo Argumentos Arbitrários ==</b>
-@function sum($numbers...) {
+@function sum($numbers...) &#123;
     $sum: 0;
-    @each $number in $numbers {
+    @each $number in $numbers &#123;
         $sum: $sum + $number;
-    }
+    &#125;
     @return $sum;
-}
-.micro {
+&#125;
+.micro &#123;
     width: sum(50px, 30px, 100px);
-}
+&#125;
 
 <b>== Passando Argumentos Arbitrários ==</b>
 $widths: 50px, 30px, 100px;
-.micro {
+.micro &#123;
     width: min($widths...);
-}
+&#125;
 
 <b>== @return ==</b>
 @use "sass:string";
-@function str-insert($string, $insert, $index) {
+@function str-insert($string, $insert, $index) &#123;
     // Avoid making new strings if we don't need to.
-    @if string.length($string) == 0 {
+    @if string.length($string) == 0 &#123;
         @return $insert;
-    }
+    &#125;
     $before: string.slice($string, 0, $index);
     $after: string.slice($string, $index);
     @return $before + $insert + $after;
-}
+&#125;
 
 <b>== Funções de Pano CSS ==</b>
 @debug var(--main-bg-color); // var(--main-bg-color)
@@ -979,59 +978,59 @@ $accent: #e1d7d2;
     Oh no! You've been hacked!
 &lt;/div&gt;
 
-.error {
+.error &#123;
     border: 1px #f00;
     background-color: #fdd;
-}
-.error--serious {
+&#125;
+.error--serious &#123;
     border-width: 3px;
-}
+&#125;
 
-.error {
+.error &#123;
     border: 1px #f00;
     background-color: #fdd;
-    &--serious {
+    &--serious &#123;
         @extend .error;
         border-width: 3px;
-    }
-}
+    &#125;
+&#125;
 
-.error:hover {
+.error:hover &#123;
     background-color: #fee;
-}
-.error--serious {
+&#125;
+.error--serious &#123;
     @extend .error;
     border-width: 3px;
-}
+&#125;
 
 <b>== Como Trabalhar ==</b>
-.content nav.sidebar {
+.content nav.sidebar &#123;
     @extend .info;
-}
+&#125;
 // This won't be extended, because 'p' is incompatible with 'nav'.
-p.info {
+p.info &#123;
     background-color: #dee9fc;
-}
+&#125;
 // There's no way to know whether '&lt;div class="guide"&gt;' will be inside or outside '&lt;div class="content"&gt;', so Sass generates both to be safe.
-.guide .info {
+.guide .info &#123;
     border: 1px solid rgba(#000, 0.8);
     border-radius: 2px;
-}
+&#125;
 // Sass knows that every element matching "main.content" also matches ".content" and avoids generating unnecessary interleaved selectors.
-main.content .info {
+main.content .info &#123;
     font-size: 0.8em;
-}
+&#125;
 
 <b>== Seletores Marcadores ==</b>
-.alert:hover, %strong-alert {
+.alert:hover, %strong-alert &#123;
     font-weight: bold;
-}
-%strong-alert:hover {
+&#125;
+%strong-alert:hover &#123;
     color: red;
-}
+&#125;
 
 <b>== Limitações ==</b>
-.alert {
+.alert &#123;
     @extend .message.info;
     //      ^^^^^^^^^^^^^
     // Error: Write @extend .message, .info instead.
@@ -1039,13 +1038,13 @@ main.content .info {
     @extend .main .info;
     //      ^^^^^^^^^^^
     // Error: write @extend .info instead.
-}
+&#125;
 
 <b>== Heurísticas Html ==</b>
-header .warning li {
+header .warning li &#123;
     font-weight: bold;
-}
-aside .notice dd {
+&#125;
+aside .notice dd &#123;
     // Sass doesn't generate CSS to match the &lt;dd&gt; in
     //
     // &lt;header&gt;
@@ -1061,45 +1060,45 @@ aside .notice dd {
     // because matching all elements like that would require us to generate nine
     // new selectors instead of just two.
     @extend li;
-}
+&#125;
 
 <b>== Extendendo em @media ==</b>
-@media screen and (max-width: 600px) {
-    .error--serious {
+@media screen and (max-width: 600px) &#123;
+    .error--serious &#123;
         @extend .error;
         //      ^^^^^^
         // Error: ".error" was extended in @media, but used outside it.
-    }
-}
-.error {
+    &#125;
+&#125;
+.error &#123;
     border: 1px #f00;
     background-color: #fdd;
-}
+&#125;
 
 <b>=== @ERROR ===</b>
-@mixin reflexive-position($property, $value) {
-    @if $property != left and $property != right {
-        @error "Property #{$property} must be either left or right.";
-    }
+@mixin reflexive-position($property, $value) &#123;
+    @if $property != left and $property != right &#123;
+        @error "Property #&#123;$property&#125; must be either left or right.";
+    &#125;
     $left-value: if($property == right, initial, $value);
     $right-value: if($property == right, $value, initial);
     left: $left-value;
     right: $right-value;
-    [dir=rtl] & {
+    [dir=rtl] & &#123;
         left: $right-value;
         right: $left-value;
-    }
-}
-.sidebar {
+    &#125;
+&#125;
+.sidebar &#123;
     @include reflexive-position(top, 12px);
     //       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     // Error: Property top must be either left or right.
-}
+&#125;
 
 (Erro Exibido)
 Error: "Property top must be either left or right."
     ╷
-3 │     @error "Property #{$property} must be either left or right.";
+3 │     @error "Property #&#123;$property&#125; must be either left or right.";
     │     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     ╵
     example.scss 3:5   reflexive-position()
@@ -1107,19 +1106,19 @@ Error: "Property top must be either left or right."
 
 <b>=== @WARN ===</b>
 $known-prefixes: webkit, moz, ms, o;
-@mixin prefix($property, $value, $prefixes) {
-    @each $prefix in $prefixes {
-        @if not index($known-prefixes, $prefix) {
-            @warn "Unknown prefix #{$prefix}.";
-        }
-        -#{$prefix}-#{$property}: $value;
-    }
-    #{$property}: $value;
-}
-.tilt {
+@mixin prefix($property, $value, $prefixes) &#123;
+    @each $prefix in $prefixes &#123;
+        @if not index($known-prefixes, $prefix) &#123;
+            @warn "Unknown prefix #&#123;$prefix&#125;.";
+        &#125;
+        -#&#123;$prefix&#125;-#&#123;$property&#125;: $value;
+    &#125;
+    #&#123;$property&#125;: $value;
+&#125;
+.tilt &#123;
     // Oops, we typo'd "webkit" as "wekbit"!
     @include prefix(transform, rotate(15deg), wekbit ms);
-}
+&#125;
 
 (Warn Exibido)
 Warning: Unknown prefix wekbit.
@@ -1127,222 +1126,222 @@ Warning: Unknown prefix wekbit.
     example.scss 16:3  root stylesheet
 
 <b>=== @DEBUG ===</b>
-@mixin inset-divider-offset($offset, $padding) {
+@mixin inset-divider-offset($offset, $padding) &#123;
     $divider-offset: (2 * $padding) + $offset;
-    @debug "divider offset: #{$divider-offset}";
+    @debug "divider offset: #&#123;$divider-offset&#125;";
     margin-left: $divider-offset;
-    width: calc(100% - #{$divider-offset});
-}
+    width: calc(100% - #&#123;$divider-offset&#125;);
+&#125;
 
 (Debug Exibido)
 test.scss:3 Debug: divider offset: 132px
 
 <b>=== @AT-ROOT ===</b>
 @use "sass:selector";
-@mixin unify-parent($child) {
-    @at-root #{selector.unify(&, $child)} {
+@mixin unify-parent($child) &#123;
+    @at-root #&#123;selector.unify(&, $child)&#125; &#123;
         @content;
-    }
-}
-.wrapper .field {
-    @include unify-parent("input") {
+    &#125;
+&#125;
+.wrapper .field &#123;
+    @include unify-parent("input") &#123;
         /* ... */
-    }
-    @include unify-parent("select") {
+    &#125;
+    @include unify-parent("select") &#123;
         /* ... */
-    }
-}
+    &#125;
+&#125;
 
 <b>== Entre Regras de Estilo ==</b>
-@media print {
-    .page {
+@media print &#123;
+    .page &#123;
         width: 8in;
-        @at-root (without: media) {
+        @at-root (without: media) &#123;
             color: #111;
-        }
-        @at-root (with: rule) {
+        &#125;
+        @at-root (with: rule) &#123;
             font-size: 1.2em;
-        }
-    }
-}
+        &#125;
+    &#125;
+&#125;
 
 
 <h6><b>===== CONTROLE DE FLUXO =====</b></h6>
 <b>=== @IF e @ELSE ===</b>
 (If)
-@mixin avatar($size, $circle: false) {
+@mixin avatar($size, $circle: false) &#123;
     width: $size;
     height: $size;
-    @if $circle {
+    @if $circle &#123;
         border-radius: $size / 2;
-    }
-}
-.square-av {
+    &#125;
+&#125;
+.square-av &#123;
     @include avatar(100px, $circle: false);
-}
-.circle-av {
+&#125;
+.circle-av &#123;
     @include avatar(100px, $circle: true);
-}
+&#125;
 
 (Else)
 $light-background: #f2ece4;
 $light-text: #036;
 $dark-background: #6b717f;
 $dark-text: #d2e1dd;
-@mixin theme-colors($light-theme: true) {
-    @if $light-theme {
+@mixin theme-colors($light-theme: true) &#123;
+    @if $light-theme &#123;
         background-color: $light-background;
         color: $light-text;
-    } @else {
+    &#125; @else &#123;
         background-color: $dark-background;
         color: $dark-text;
-    }
-}
-.banner {
+    &#125;
+&#125;
+.banner &#123;
     @include theme-colors($light-theme: true);
-    body.dark & {
+    body.dark & &#123;
         @include theme-colors($light-theme: false);
-    }
-}
+    &#125;
+&#125;
 
 (Else If)
-@mixin triangle($size, $color, $direction) {
+@mixin triangle($size, $color, $direction) &#123;
     height: 0;
     width: 0;
     border-color: transparent;
     border-style: solid;
     border-width: $size / 2;
-    @if $direction == up {
+    @if $direction == up &#123;
         border-bottom-color: $color;
-    } @else if $direction == right {
+    &#125; @else if $direction == right &#123;
         border-left-color: $color;
-    } @else if $direction == down {
+    &#125; @else if $direction == down &#123;
         border-top-color: $color;
-    } @else if $direction == left {
+    &#125; @else if $direction == left &#123;
         border-right-color: $color;
-    } @else {
-        @error "Unknown direction #{$direction}.";
-    }
-}
-.next {
+    &#125; @else &#123;
+        @error "Unknown direction #&#123;$direction&#125;.";
+    &#125;
+&#125;
+.next &#123;
     @include triangle(5px, black, right);
-}
+&#125;
 
 <b>=== @EACH(Foreach) ===</b>
 $sizes: 40px, 50px, 80px;
-@each $size in $sizes {
-    .icon-#{$size} {
+@each $size in $sizes &#123;
+    .icon-#&#123;$size&#125; &#123;
         font-size: $size;
         height: $size;
         width: $size;
-    }
-}
+    &#125;
+&#125;
 
 <b>== Com Mapas ==</b>
 $icons: ("eye": "\f112", "start": "\f12e", "stop": "\f12f");
-@each $name, $glyph in $icons {
-    .icon-#{$name}:before {
+@each $name, $glyph in $icons &#123;
+    .icon-#&#123;$name&#125;:before &#123;
         display: inline-block;
         font-family: "Icon Font";
         content: $glyph;
-    }
-}
+    &#125;
+&#125;
 
 <b>== Desestruturando ==</b>
 $icons:
     "eye" "\f112" 12px,
     "start" "\f12e" 16px,
     "stop" "\f12f" 10px;
-@each $name, $glyph, $size in $icons {
-    .icon-#{$name}:before {
+@each $name, $glyph, $size in $icons &#123;
+    .icon-#&#123;$name&#125;:before &#123;
         display: inline-block;
         font-family: "Icon Font";
         content: $glyph;
         font-size: $size;
-    }
-}
+    &#125;
+&#125;
 
 <b>=== @FOR ===</b>
 $base-color: #036;
-@for $i from 1 through 3 {
-    ul:nth-child(3n + #{$i}) {
+@for $i from 1 through 3 &#123;
+    ul:nth-child(3n + #&#123;$i&#125;) &#123;
         background-color: lighten($base-color, $i * 5%);
-    }
-}
+    &#125;
+&#125;
 
 <b>=== @WHILE ===</b>
 /// Divides '$value' by '$ratio' until it's below '$base'.
-@function scale-below($value, $base, $ratio: 1.618) {
-    @while $value > $base {
+@function scale-below($value, $base, $ratio: 1.618) &#123;
+    @while $value > $base &#123;
         $value: $value / $ratio;
-    }
+    &#125;
     @return $value;
-}
+&#125;
 $normal-font-size: 16px;
-sup {
+sup &#123;
     font-size: scale-below(20px, 16px);
-}
+&#125;
 
 
 <h6><b>===== REGRAS CSS =====</b></h6>
 @namespace svg url(http://www.w3.org/2000/svg);
-@font-face {
+@font-face &#123;
     font-family: "Open Sans";
     src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2");
-}
-@counter-style thumbs {
+&#125;
+@counter-style thumbs &#123;
     system: cyclic;
     symbols: "\1F44D";
-}
+&#125;
 
-.print-only {
+.print-only &#123;
     display: none;
-    @media print { display: block; }
-}
+    @media print &#123; display: block; &#125;
+&#125;
 
 <b>=== @MEDIA ===</b>
 $layout-breakpoint-small: 960px;
-@media (min-width: $layout-breakpoint-small) {
-    .hide-extra-small {
+@media (min-width: $layout-breakpoint-small) &#123;
+    .hide-extra-small &#123;
         display: none;
-    }
-}
+    &#125;
+&#125;
 
-@media (hover: hover) {
-    .button:hover {
+@media (hover: hover) &#123;
+    .button:hover &#123;
         border: 2px solid black;
-        @media (color) {
+        @media (color) &#123;
             border-color: #036;
-        }
-    }
-}
+        &#125;
+    &#125;
+&#125;
 
 <b>=== @SUPPORTS ===</b>
-@mixin sticky-position {
+@mixin sticky-position &#123;
     position: fixed;
-    @supports (position: sticky) {
+    @supports (position: sticky) &#123;
         position: sticky;
-    }
-}
-.banner {
+    &#125;
+&#125;
+.banner &#123;
     @include sticky-position;
-}
+&#125;
 
 <b>=== @KEYFRAMES ===</b>
-@keyframes slide-in {
-    from {
+@keyframes slide-in &#123;
+    from &#123;
         margin-left: 100%;
         width: 300%;
-    }
-    70% {
+    &#125;
+    70% &#123;
         margin-left: 90%;
         width: 150%;
-    }
-    to {
+    &#125;
+    to &#123;
         margin-left: 0%;
         width: 100%;
-    }
-}
+    &#125;
+&#125;
 
 
 <h6><b>===== VALORES =====</b></h6>
@@ -1370,17 +1369,17 @@ $degrees-per-second: 20deg/1s;
 // Error: Incompatible units s and in.
 
 $transition-speed: 1s/50px;
-@mixin move($left-start, $left-stop) {
+@mixin move($left-start, $left-stop) &#123;
     position: absolute;
     left: $left-start;
     transition: left ($left-stop - $left-start) * $transition-speed;
-    &:hover {
+    &:hover &#123;
         left: $left-stop;
-    }
-}
-.slider {
+    &#125;
+&#125;
+.slider &#123;
     @include move(10px, 120px);
-}
+&#125;
 
 <b>=== Precisão ===</b>
 @debug 0.012345678912345; // 0.0123456789
@@ -1406,7 +1405,7 @@ $transition-speed: 1s/50px;
 @debug "\"Don't Fear the Reaper\""; // "\"Don't Fear the Reaper\""
 @debug "line1\a line2"; // "line1\a line2"
 $roboto-variant: "Mono";
-@debug "Roboto #{$roboto-variant}"; // "Roboto Mono"
+@debug "Roboto #&#123;$roboto-variant&#125;"; // "Roboto Mono"
 
 <b>=== Unquoted ===</b>
 <i>(Ver regras de Unquoted no site oficial)</i>
@@ -1414,7 +1413,7 @@ $roboto-variant: "Mono";
 @debug -webkit-flex; // -webkit-flex
 @debug --123; // --123
 $prefix: ms;
-@debug -#{$prefix}-flex; // -ms-flex
+@debug -#&#123;$prefix&#125;-flex; // -ms-flex
 
 <b>=== Escapes ===</b>
 @use "sass:string";
@@ -1449,13 +1448,13 @@ $venus: #998099;
 
 <b>=== Percorrendo ===</b>
 $sizes: 40px, 50px, 80px;
-@each $size in $sizes {
-    .icon-#{$size} {
+@each $size in $sizes &#123;
+    .icon-#&#123;$size&#125; &#123;
         font-size: $size;
         height: $size;
         width: $size;
-    }
-}
+    &#125;
+&#125;
 
 <b>=== Adicionando Elemento ===</b>
 @debug append(10px 12px 16px, 25px); // 10px 12px 16px 25px
@@ -1468,37 +1467,37 @@ $sizes: 40px, 50px, 80px;
 
 @use "sass:list";
 $valid-sides: top, bottom, left, right;
-@mixin attach($side) {
-    @if not list.index($valid-sides, $side) {
-        @error "#{$side} is not a valid side. Expected one of #{$valid-sides}.";
-    }
+@mixin attach($side) &#123;
+    @if not list.index($valid-sides, $side) &#123;
+        @error "#&#123;$side&#125; is not a valid side. Expected one of #&#123;$valid-sides&#125;.";
+    &#125;
     // ...
-}
+&#125;
 
 <b>=== Imutabilidade ===</b>
 @use "sass:list";
 @use "sass:map";
 $prefixes-by-browser: ("firefox": moz, "safari": webkit, "ie": ms);
-@function prefixes-for-browsers($browsers) {
+@function prefixes-for-browsers($browsers) &#123;
     $prefixes: ();
-    @each $browser in $browsers {
+    @each $browser in $browsers &#123;
         $prefixes: list.append($prefixes, map.get($prefixes-by-browser, $browser));
-    }
+    &#125;
     @return $prefixes;
-}
+&#125;
 @debug prefixes-for-browsers("firefox" "ie"); // moz ms
 
 <b>=== Lists de Argumentos ===</b>
 @use "sass:meta";
-@mixin syntax-colors($args...) {
+@mixin syntax-colors($args...) &#123;
     @debug meta.keywords($args);
     // (string: #080, comment: #800, variable: #60b)
-    @each $name, $color in meta.keywords($args) {
-        pre span.stx-#{$name} {
+    @each $name, $color in meta.keywords($args) &#123;
+        pre span.stx-#&#123;$name&#125; &#123;
             color: $color;
-        }
-    }
-}
+        &#125;
+    &#125;
+&#125;
 @include syntax-colors(
     $string: #080,
     $comment: #800,
@@ -1513,13 +1512,13 @@ $font-weights: ("regular": 400, "medium": 500, "bold": 700);
 
 <b>=== Percorrendo Maps ===</b>
 $icons: ("eye": "\f112", "start": "\f12e", "stop": "\f12f");
-@each $name, $glyph in $icons {
-    .icon-#{$name}:before {
+@each $name, $glyph in $icons &#123;
+    .icon-#&#123;$name&#125;:before &#123;
         display: inline-block;
         font-family: "Icon Font";
         content: $glyph;
-    }
-}
+    &#125;
+&#125;
 
 <b>=== Adicionando Elemento ===</b>
 @use "sass:map";
@@ -1543,9 +1542,9 @@ $weights: ("light": 300, "medium": 500);
 <b>=== Imutabilidade ===</b>
 @use "sass:map";
 $prefixes-by-browser: ("firefox": moz, "safari": webkit, "ie": ms);
-@mixin add-browser-prefix($browser, $prefix) {
+@mixin add-browser-prefix($browser, $prefix) &#123;
     $prefixes-by-browser: map.merge($prefixes-by-browser, ($browser: $prefix)) !global;
-}
+&#125;
 @include add-browser-prefix("opera", o);
 @debug $prefixes-by-browser;
 // ("firefox": moz, "safari": webkit, "ie": ms, "opera": o)
@@ -1565,19 +1564,19 @@ $prefixes-by-browser: ("firefox": moz, "safari": webkit, "ie": ms);
 @debug not false; // true
 
 <b>=== Aplicando ===</b>
-@mixin avatar($size, $circle: false) {
+@mixin avatar($size, $circle: false) &#123;
     width: $size;
     height: $size;
-    @if $circle {
+    @if $circle &#123;
         border-radius: $size / 2;
-    }
-}
-.square-av {
+    &#125;
+&#125;
+.square-av &#123;
     @include avatar(100px, $circle: false);
-}
-.circle-av {
+&#125;
+.circle-av &#123;
     @include avatar(100px, $circle: true);
-}
+&#125;
 
 <b>=== Com If ===</b>
 @debug if(true, 10px, 30px); // 10px
@@ -1591,52 +1590,52 @@ $prefixes-by-browser: ("firefox": moz, "safari": webkit, "ie": ms);
 @debug &; // null
 
 $fonts: ("serif": "Helvetica Neue", "monospace": "Consolas");
-h3 {
+h3 &#123;
     font: 18px bold map-get($fonts, "sans");
-}
+&#125;
 
 $fonts: ("serif": "Helvetica Neue", "monospace": "Consolas");
-h3 {
-    font: {
+h3 &#123;
+    font: &#123;
         size: 18px;
         weight: bold;
         family: map-get($fonts, "sans");
-    }
-}
+    &#125;
+&#125;
 
-@mixin app-background($color) {
-    #{if(&, '&.app-background', '.app-background')} {
+@mixin app-background($color) &#123;
+    #&#123;if(&, '&.app-background', '.app-background')&#125; &#123;
         background-color: $color;
         color: rgba(#fff, 0.75);
-    }
-}
+    &#125;
+&#125;
 @include app-background(#036);
-.sidebar {
+.sidebar &#123;
     @include app-background(#c6538c);
-}
+&#125;
 
 <b>==== FUNCTIONS ====</b>
 @use "sass:list";
 @use "sass:meta";
 @use "sass:string";
 /// Return a copy of $list with all elements for which $condition returns 'true' removed.
-@function remove-where($list, $condition) {
+@function remove-where($list, $condition) &#123;
     $new-list: ();
     $separator: list.separator($list);
-    @each $element in $list {
-        @if not meta.call($condition, $element) {
+    @each $element in $list &#123;
+        @if not meta.call($condition, $element) &#123;
             $new-list: list.append($new-list, $element, $separator: $separator);
-        }
-    }
+        &#125;
+    &#125;
     @return $new-list;
-}
+&#125;
 $fonts: Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
-content {
-    @function contains-helvetica($string) {
+content &#123;
+    @function contains-helvetica($string) &#123;
         @return string.index($string, "Helvetica");
-    }
+    &#125;
     font-family: remove-where($fonts, meta.get-function("contains-helvetica"));
-}
+&#125;
 
 
 <h6><b>===== OPERADORES =====</b></h6>
@@ -1695,12 +1694,12 @@ $theme: ("venus": #998099, "nebula": #d2e1dd);
 <b>=== Operações ===</b>
 @debug 15px / 30px; // 15px/30px
 @debug (10px + 5px) / 30px; // 0.5
-@debug #{10px + 5px} / 30px; // 15px/30px
+@debug #&#123;10px + 5px&#125; / 30px; // 15px/30px
 $result: 15px / 30px;
 @debug $result; // 0.5
-@function fifteen-divided-by-thirty() {
+@function fifteen-divided-by-thirty() &#123;
     @return 15px / 30px;
-}
+&#125;
 @debug fifteen-divided-by-thirty(); // 0.5
 @debug (15px/30px); // 0.5
 @debug (bold 15px/30px sans-serif); // bold 15px/30px sans-serif
@@ -1722,22 +1721,22 @@ $degrees-per-second: 20deg/1s;
 // Error: Incompatible units s and in.
 
 $transition-speed: 1s/50px;
-@mixin move($left-start, $left-stop) {
+@mixin move($left-start, $left-stop) &#123;
     position: absolute;
     left: $left-start;
     transition: left ($left-stop - $left-start) * $transition-speed;
-    &:hover {
+    &:hover &#123;
         left: $left-stop;
-    }
-}
-.slider {
+    &#125;
+&#125;
+.slider &#123;
     @include move(10px, 120px);
-}
+&#125;
 
 <b>==== STRINGS ====</b>
 @debug "Helvetica" + " Neue"; // "Helvetica Neue"
 @debug sans- + serif; // sans-serif
-@debug #{10px + 5px} / 30px; // 15px/30px
+@debug #&#123;10px + 5px&#125; / 30px; // 15px/30px
 @debug sans - serif; // sans-serif
 @debug "Elapsed time: " + 10s; // "Elapsed time: 10s";
 @debug true + " is a boolean value"; // "true is a boolean value";
@@ -2289,19 +2288,19 @@ random($limit: null) //=&gt; number
 meta.load-css($url, $with: null)
 // dark-theme/_code.scss
 $border-contrast: false !default;
-code {
+code &#123;
     background-color: #6b717f;
     color: #d2e1dd;
-    @if $border-contrast {
+    @if $border-contrast &#123;
         border-color: #dadbdf;
-    }
-}
+    &#125;
+&#125;
 // style.scss
 @use "sass:meta";
-body.dark {
+body.dark &#123;
     @include meta.load-css("dark-theme/code",
         $with: ("border-contrast": true));
-}
+&#125;
 
 <b>=== Funções ===</b>
 meta.call($function, $args...)
@@ -2310,34 +2309,34 @@ call($function, $args...)
 @use "sass:meta";
 @use "sass:string";
 /// Return a copy of $list with all elements for which $condition returns 'true' removed.
-@function remove-where($list, $condition) {
+@function remove-where($list, $condition) &#123;
     $new-list: ();
     $separator: list.separator($list);
-    @each $element in $list {
-        @if not meta.call($condition, $element) {
+    @each $element in $list &#123;
+        @if not meta.call($condition, $element) &#123;
             $new-list: list.append($new-list, $element, $separator: $separator);
-        }
-    }
+        &#125;
+    &#125;
     @return $new-list;
-}
+&#125;
 $fonts: Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
-content {
-    @function contains-helvetica($string) {
+content &#123;
+    @function contains-helvetica($string) &#123;
         @return string.index($string, "Helvetica");
-    }
+    &#125;
     font-family: remove-where($fonts, meta.get-function("contains-helvetica"));
-}
+&#125;
 
 meta.content-exists()
 content-exists() //=&gt; boolean
-@mixin debug-content-exists {
+@mixin debug-content-exists &#123;
     @debug meta.content-exists();
     @content;
-}
+&#125;
 @include debug-content-exists; // false
-@include debug-content-exists { // true
+@include debug-content-exists &#123; // true
     // Content!
-}
+&#125;
 
 meta.feature-exists($feature)
 feature-exists($feature) //=&gt; boolean
@@ -2348,9 +2347,9 @@ meta.function-exists($name)
 function-exists($name) //=&gt; boolean
 @debug meta.function-exists("scale-color"); // true
 @debug meta.function-exists("add"); // false
-@function add($num1, $num2) {
+@function add($num1, $num2) &#123;
     @return $num1 + $num2;
-}
+&#125;
 @debug meta.function-exists("add"); // true
 
 meta.get-function($name, $css: false, $module: null)
@@ -2359,34 +2358,34 @@ get-function($name, $css: false, $module: null) //=&gt; function
 @use "sass:meta";
 @use "sass:string";
 /// Return a copy of $list with all elements for which $condition returns 'true' removed.
-@function remove-where($list, $condition) {
+@function remove-where($list, $condition) &#123;
     $new-list: ();
     $separator: list.separator($list);
-    @each $element in $list {
-        @if not meta.call($condition, $element) {
+    @each $element in $list &#123;
+        @if not meta.call($condition, $element) &#123;
             $new-list: list.append($new-list, $element, $separator: $separator);
-        }
-    }
+        &#125;
+    &#125;
     @return $new-list;
-}
+&#125;
 $fonts: Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
-content {
-    @function contains-helvetica($string) {
+content &#123;
+    @function contains-helvetica($string) &#123;
         @return string.index($string, "Helvetica");
-    }
+    &#125;
     font-family: remove-where($fonts, meta.get-function("contains-helvetica"));
-}
+&#125;
 
 meta.global-variable-exists($name, $module: null)
 global-variable-exists($name, $module: null) //=&gt; boolean
 @debug meta.global-variable-exists("var1"); // false
 $var1: value;
 @debug meta.global-variable-exists("var1"); // true
-h1 {
+h1 &#123;
     // $var2 is local.
     $var2: value;
     @debug meta.global-variable-exists("var2"); // false
-}
+&#125;
 
 meta.inspect($value)
 inspect($value) //=&gt; unquoted string
@@ -2398,15 +2397,15 @@ inspect($value) //=&gt; unquoted string
 meta.keywords($args)
 keywords($args) //=&gt; map
 @use "sass:meta";
-@mixin syntax-colors($args...) {
+@mixin syntax-colors($args...) &#123;
     @debug meta.keywords($args);
     // (string: #080, comment: #800, variable: #60b)
-    @each $name, $color in meta.keywords($args) {
-        pre span.stx-#{$name} {
+    @each $name, $color in meta.keywords($args) &#123;
+        pre span.stx-#&#123;$name&#125; &#123;
             color: $color;
-        }
-    }
-}
+        &#125;
+    &#125;
+&#125;
 @include syntax-colors(
     $string: #080,
     $comment: #800,
@@ -2416,20 +2415,20 @@ keywords($args) //=&gt; map
 meta.mixin-exists($name, $module: null)
 mixin-exists($name, $module: null) //=&gt; boolean
 @debug meta.mixin-exists("shadow-none"); // false
-@mixin shadow-none {
+@mixin shadow-none &#123;
     box-shadow: none;
-}
+&#125;
 @debug meta.mixin-exists("shadow-none"); // true
 
 meta.module-functions($module) //=&gt; map
 // _functions.scss
-@function pow($base, $exponent) {
+@function pow($base, $exponent) &#123;
     $result: 1;
-    @for $_ from 1 through $exponent {
+    @for $_ from 1 through $exponent &#123;
         $result: $result * $base;
-    }
+    &#125;
     @return $result;
-}
+&#125;
 @use "sass:map";
 @use "sass:meta";
 @use "functions";
@@ -2461,11 +2460,11 @@ variable-exists($name) //=&gt; boolean
 @debug meta.variable-exists("var1"); // false
 $var1: value;
 @debug meta.variable-exists("var1"); // true
-h1 {
+h1 &#123;
     // $var2 is local.
     $var2: value;
     @debug meta.variable-exists("var2"); // true
-}
+&#125;
 
 <b>==== SASS:SELECTOR ====</b>
 <b>=== Selector Values ===</b>
@@ -2490,9 +2489,9 @@ selector-append($selectors...) //=&gt; selector
 
 selector.extend($selector, $extendee, $extender)
 selector-extend($selector, $extendee, $extender) //=&gt; selector
-#{$extender} {
-    @extend #{$extendee};
-}
+#&#123;$extender&#125; &#123;
+    @extend #&#123;$extendee&#125;;
+&#125;
 @debug selector.extend("a.disabled", "a", ".link"); // a.disabled, .link.disabled
 @debug selector.extend("a.disabled", "h1", "h2"); // a.disabled
 @debug selector.extend(".guide .info", ".info", ".content nav.sidebar");
@@ -2583,64 +2582,60 @@ unquote($string) //=&gt; string
 
 <h6><b>===== EXTENDENDO SELETORES COMPOSTOS =====</b></h6>
 // These should both be extended, but they won't be.
-.message {
+.message &#123;
     border: 1px solid black;
-}
-.info {
+&#125;
+.info &#123;
     font-size: 1.5rem;
-}
-.heads-up {
+&#125;
+.heads-up &#123;
     @extend .message.info;
-}
+&#125;
 
-.message {
+.message &#123;
     border: 1px solid black;
-}
-.info {
+&#125;
+.info &#123;
     font-size: 1.5rem;
-}
-.heads-up {
+&#125;
+.heads-up &#123;
     @extend .message, .info;
-}
+&#125;
 
 // Instead of just '.message.info'.
-%message-info, .message.info {
+%message-info, .message.info &#123;
     border: 1px solid black;
     font-size: 1.5rem;
-}
-.heads-up {
+&#125;
+.heads-up &#123;
     // Instead of '.message.info'.
     @extend %message-info;
-}
+&#125;
 
 
 <h6><b>===== CSS Sintaxe Variada =====</b></h6>
-:root {
-    --flex-theme: {
+:root &#123;
+    --flex-theme: &#123;
         border: 1px solid var(--theme-dark-blue);
         font-family: var(--theme-font-family);
         padding: var(--theme-wide-padding);
         background-color: var(--theme-light-blue);
-    };
-}
+    &#125;;
+&#125;
 
 $accent-color: #fbbc04;
-:root {
+:root &#123;
     // WRONG, will not work in recent Sass versions.
     --accent-color-wrong: $accent-color;
     // RIGHT, will work in all Sass versions.
-    --accent-color-right: #{$accent-color};
-}
+    --accent-color-right: #&#123;$accent-color&#125;;
+&#125;
 
 @use "sass:meta";
 $font-family-monospace: Menlo, Consolas, "Courier New", monospace;
-:root {
-    --font-family-monospace: #{meta.inspect($font-family-monospace)};
-}
-
-
-<h6><b>===== OUTROS CONCEITOS =====</b></h6>
-Para conceitos de Linha de Comando e API JS, visite o site oficial da linguagem.
+:root &#123;
+    --font-family-monospace: #&#123;meta.inspect($font-family-monospace)&#125;;
+&#125;
 </code></pre></small>
         </div>
     </div>

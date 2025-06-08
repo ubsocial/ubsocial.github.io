@@ -40,7 +40,7 @@
         </div>
 
         <div class="col-sm-12">
-            <h4>API</h4>
+            <h4>API:</h4>
             <p id="textoPost">Application Programming Interface tem função de intermediar comunicação universal entre diferentes sistemas, assim como do banco de dados com o próprio sistema (interno ou externo), utilizando protocolo de comunicação HTTP (XML/JSON), requisitados via URL específica, independente da tecnologia do sistema que irá consumí-la (acessá-la).</p>
             <ul>
                 <li>URL: <span class="text-muted">http://www.sistema.com</span></li>
@@ -49,10 +49,10 @@
                 <li>Endpoint individual: <span class="text-muted">/api/produtos/2</span></li>
             </ul>
 
-            <br><h4>Estrutura de URL</h4>
+            <br><h4>Estrutura de URL:</h4>
             <img src="estrutura_url.jpg" class="img-fluid rounded" width="330px"><br>
 
-            <br><h4>REST</h4>
+            <br><h4>REST:</h4>
             <p id="textoPost">Representational State Transfer. Técnica que consiste em princípios que, quando seguidos, permitem a criação de projetos (web services) com interfaces/arquitetura bem definidas (padrão REST), utilizando novos métodos/verbos REST HTTP:</p>
             <ul>
                 <li>POST: Create
@@ -82,7 +82,7 @@
             </ul>
             <p>Nativamente, o HTTP é <i>Stateless</i> (Não guarda estado). Com o uso de REST, permitirá que as requisições HTTP armazenem dados (estados). Os Web services que estão em conformidade com o estilo arquitetural REST são denominados Web services <b>RESTful</b>. Um sistema é considerado RESTful quando segue corretamente o padrão REST.</p>
 
-            <br><h4>HTTP Request e Response</h4>
+            <br><h4>HTTP Request e Response:</h4>
             <br><b>Request:</b>
             <p>Requisição HTTP do dispositivo ao servidor web. Incluem dados de pares chave/valor na URI (query string).<br>Ex: /api/produtos<b>?order=desc&limit=5</b></p>
             
@@ -145,7 +145,7 @@
                 </li>
             </ul>
 
-            <br><h4>Segurança em APIs</h4>
+            <br><h4>Segurança em APIs:</h4>
             <ul>
                 <li>Uso de cache para requests: Cliente faz requisição ao servidor, que enviará a resposta e a armazenará em memória. As próximas requisições similares consultarão diretamente o cache, dispensando acesso ao servidor todas as vezes. O Redis é um exemplo de ferramenta que constrói tal estrutura.</li>
                 <li>Limitar quantidade de requests no servidor para evitar queda do mesmo.</li>
@@ -161,7 +161,7 @@
             <p id="textoPost">Aplicação Front-end envia requisição HTTP com métodos REST para Back-end, que, de acordo com a URL, realizará determinadas rotinas e gerará um JSON de resposta com os resultados da requisição. Essa requisição, geralmente, será reenviada ao Front-end, que o 'consumirá' em um layout interativo ao usuário.</p>
             <p id="textoPost"><u>Exemplo consultar dados de cliente</u>: Usuário clica em Consultar Cliente, que enviará URL requisitando dados do cliente ao Back-end. Conforme parâmetros na URI requisitada (ID do usuário, URL via método GET) (Request), dinâmica e denominada <i>endpoint</i>, com isso, o Back-end, por meio da API REST (Métodos e padrões de código) com Laravel, consultará BD e criará JSON com resultado dos dados do cliente solicitado e o enviará de volta ao Front-end (Response), que lerá o JSON (Consumir API REST) com React, mostrando os dados do cliente em interface gráfica agradável para o usuário.</p>
 
-            <br><h4>Pré-instalações</h4>
+            <br><h4>Pré-instalações:</h4>
             <ol>
                 <li>Instalar Laravel: <a href="../laravel/laravel.html" class="text-decoration-none" target="_blank">Instruções</a></li>
                 <li>Instalar Postman: <a href="../post22.html" class="text-decoration-none" target="_blank">Instruções</a></li>
@@ -170,7 +170,7 @@
                 <li>Configurar BD em .env: '<i>DB_DATABASE=artigos</i>'</li>
             </ol>
 
-            <br><h4>Passo a passo</h4>
+            <br><h4>Passo a passo:</h4>
             <a href="https://github.com/mateusschwede/laravel" class="text-decoration-none btn btn-link" target="_blank">Github projeto</a>
             <ol>
                 <li>Criar Model, migration e Controller: <i>php artisan make:model Artigo -m php artisan make:controller ArtigoController --resource</i></li>
