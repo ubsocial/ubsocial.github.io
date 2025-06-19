@@ -204,7 +204,7 @@ Nome do pacoteController: grupoExemplo.com.nomeProjeto.pacoteController
                 <li>(n:n): cria-se nova table, referenciando relacionamento ocorrido, contendo 2 chaves estrangeiras, cada uma referenciando chave primária das tables relacionadas.</li>
             </ul>
 
-            <br><h4>Hibernate:</h4>
+            <br><h5>Hibernate:</h5>
             <p id="textoPost">Framework Java que implementa padrão ORM, via especificações e pacotes JPA (Java Persistence API). Incorporar Hibernate JPA e MySQL em projeto Spring Boot:</p>
             <ol>
                 <li>'build.gradle', em 'dependencies', incluir linhas:
@@ -411,6 +411,9 @@ public class ClientePessoaJuridica &#123;
                     </li>
                 </li>
             </ol>
+
+            <br><h4>REST controllers:</h4>
+            <p id="textoPost">DAO (Data Access Object) é repositório classe que implementa métodos CRUD no banco de dados. Repositório JPA é interface que disponibiliza todos métodos necessários às operações CRUD para entidade.</p>
 
             <br><hr><h4>Projeto 1: Controllers</h4>
             <p id="textoPost">Projeto para conhecimento de estrutura Spring Boot, e geração de controllers. Gerar projeto Spring Boot Gradle-Groovy, com dados:</p>
@@ -820,6 +823,138 @@ public class ClientePessoaJuridica extends Cliente &#123;
 &#125;
 </code></pre></small>
                 </li>
+            </ul>
+
+            <br><hr><h4>Projeto 4: REST controllers</h4>
+            <p id="textoPost">Adaptação do projeto 3 para funcionamento DAO e REST.</p>
+            <ul>
+                <li>No pacote "model", criar pacote "repositories.commercial"</li>
+                <li>No pacote "repositories.commercial", criar interface PlanoRepository:
+<small><pre><code>
+package ubsocial.com.telefonia.model.repositories.commercial;
+import ubsocial.com.telefonia.model.entity.comercial.Plano;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface PlanoRepository extends JpaRepository&lt;Plano, Long&gt; &#123;
+&#125;
+</code></pre></small>
+                </li>
+                <li>Pacote principal "ubsocial.com", criar pacote "controller.commercial"</li>
+                <li>Pacote "controller.commercial", criar classe PlanoController ou PlanoResource:
+<small><pre><code>
+package ubsocial.com.telefonia.controller.commercial;
+import ubsocial.com.telefonia.model.repositories.commercial.PlanoRepository;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/plano")
+public class PlanoResource &#123;
+    private PlanoRepository planoRepository;
+
+    public PlanoResource(PlanoRepository planoRepository) &#123;
+        this.planoRepository = planoRepository;
+    &#125;
+
+    @GetMapping
+    public List&lt;Plano&gt; get() &#123;
+        return planoRepository.findAll();
+    &#125;
+
+    @GetMapping("/{id}")
+    public Plano get(@PathVariable Long id) &#123;
+        return planoRepository.getById(id);
+    &#125;
+
+    @PostMapping
+    public Plano create(@RequestBody Plano plano) &#123;
+        return planoRepository.save(plano);
+    &#125;
+
+    @PutMapping("/{id}")
+    public Plano update(@PathVariable Long id, @RequestBody Plano plano) &#123;
+        Plano planoAux = planoRepository.getById(id);
+        planoAux.setNome(plano.getNome());
+        planoAux.setValorPorMinuto(plano.getValorPorMinuto());
+        return planoRepository.save(planoAux);
+    &#125;
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) &#123;
+        planoRepository.deleteById(id);
+    &#125;
+&#125;
+</code></pre></small>
+                </li>
+                <li>Classe "Plano", criar método construtor:
+<small><pre><code>
+public Plano(String nome, double valorPorMinuto) &#123;
+&#125;
+</code></pre></small>
+                </li>
+                <li>Em "application.properties", informar relação Plano com Operadora (ao buscar Plano, busca-se também Operadora):
+<small><pre><code>
+spring.jackson.serialization.fail-on-empty-beans=false
+</code></pre></small>
+                </li>
+                <li>Na mesma pasta de "gradlew", executar projeto: ".\gradlew bootRun"
+                    <ul>
+                        <li>Testar em: <a href="http://localhost:8080" class="text-decoration-none" target="_blank">http://localhost:8080</a></li>
+                    </ul>
+                </li>
+                <li>Teste Postman (create):
+                    <ul>
+                        <li>URL: <a href="http://localhost:8080/plano" class="text-decoration-none" target="_blank">http://localhost:8080/plano</a></li>
+                        <li>Método: POST</li>
+                        <li>Body raw (JSON):
+<small><pre><code>
+{
+    "nome": "Plano Teste1",
+    "valorPorMinuto": 2.99
+}
+</code></pre></small>
+                        </li>
+                        <li>Enviar (Send)</li>
+                    </ul>
+                </li>
+                <li>Teste Postman (get individual):
+                    <ul>
+                        <li>URL: <a href="http://localhost:8080/plano/1" class="text-decoration-none" target="_blank">http://localhost:8080/plano/1</a></li>
+                        <li>Método: GET</li>
+                        <li>Enviar (Send)</li>
+                    </ul>
+                </li>
+                <li>Teste Postman (get all):
+                    <ul>
+                        <li>URL: <a href="http://localhost:8080/plano" class="text-decoration-none" target="_blank">http://localhost:8080/plano</a></li>
+                        <li>Método: GET</li>
+                        <li>Enviar (Send)</li>
+                    </ul>
+                </li>
+                <li>Teste Postman (update):
+                    <ul>
+                        <li>URL: <a href="http://localhost:8080/plano/1" class="text-decoration-none" target="_blank">http://localhost:8080/plano/1</a></li>
+                        <li>Método: PUT</li>
+                        <li>Body raw (JSON):
+<small></small><pre><code>
+{
+    "nome": "Plano Teste1 atualizado",
+    "valorPorMinuto": 2.99
+}
+</code></pre></small>
+                        </li>
+                        <li>Enviar (Send)</li>
+                    </ul>
+                </li>
+                <li>Teste Postman (delete):
+                    <ul>
+                        <li>URL: <a href="http://localhost:8080/plano/1" class="text-decoration-none" target="_blank">http://localhost:8080/plano/1</a></li>
+                        <li>Método: DELETE</li>
+                        <li>Enviar (Send)</li>
+                    </ul>
+                </li>
+                <li><b><span class="text-warning">Finalizar VALIDAÇÃO DE DADOS</span></b></li>
+                <!-- Terminar em 1.5 Validação de dados -->
             </ul>
         </div>
     </div>
