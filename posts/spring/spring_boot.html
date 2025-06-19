@@ -266,7 +266,7 @@ import jakarta.persistence.Id;
 public class Plano &#123;
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private long id;
+    private Long id;
 &#125;
 </code></pre></small>
                         </li>
@@ -286,7 +286,7 @@ import jakarta.persistence.Id;
 public class Plano &#123;
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private long id;
+    private Long id;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataHora;
@@ -552,7 +552,7 @@ import ubsocial.com.telefonia.model.entity.pessoal.Cliente;
 import java.util.Set;
 
 public class Celular &#123;
-    private long numero;
+    private Long numero;
     private Cliente cliente;
     private Set<Ligacao> ligacoes;
     private Plano plano;
@@ -661,7 +661,7 @@ import java.util.Set;
 public class Operadora &#123;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
     private String nome;
     @OneToMany
     @JoinColumn(name = "operadora_id")
@@ -697,8 +697,8 @@ import java.util.Set;
 public class Celular &#123;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-    private long numero;
+    private Long id;
+    private Long numero;
     @ManyToOne
     private Cliente cliente;
     @OneToMany
@@ -755,7 +755,7 @@ import jakarta.persistence.TemporalType;
 public class Ligacao &#123;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
     @Temporal(TemporalType.TIMESTAMP)
     private Date data;
     private int duracao;
@@ -774,7 +774,7 @@ import jakarta.persistence.Id;
 public class Plano &#123;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
     private String nome;
     private double valorPorMinuto;
 &#125;
@@ -797,7 +797,7 @@ import jakarta.persistence.InheritanceType;
 public class Cliente &#123;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
     private String nome;
     private String endereco;
 &#125;
@@ -834,29 +834,60 @@ public class ClientePessoaJuridica extends Cliente &#123;
             <br><hr><h4>Projeto 4: REST controllers</h4>
             <p id="textoPost">Adaptação do projeto 3 para funcionamento DAO e REST.</p>
             <ul>
-                <li>Em "build.gradle", bloco "dependencies" adicionar linha
+                <li>Em "build.gradle", bloco "dependencies" adicionar linha:
 <small><pre><code>
 implementation 'org.springframework.boot:spring-boot-starter-validation'
+</code></pre></small>
+                </li>
+                <li>Em "application.properties", informar relação Plano com Operadora (ao buscar Plano, busca-se também Operadora):
+<small><pre><code>
+spring.jackson.serialization.fail-on-empty-beans=false
 </code></pre></small>
                 </li>
                 <li>Classe "Plano", aplicar validações nos atributos: <a href="https://jakarta.ee/learn/docs/jakartaee-tutorial/current/beanvalidation/bean-validation/bean-validation.html" class="text-decoration-none" target="_blank">lista validações</a>
 <small><pre><code>
 package ubsocial.com.telefonia.model.entity.comercial;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+@Entity
 public class Plano &#123;
-    public Plano(String nome, double valorPorMinuto) &#123;
+
+    public Plano() &#123;
     &#125;
 
-    @NotNull(message = "O nome do plano não pode ser nulo")
-    @NotBlank(message = "O nome do plano não pode estar em branco")
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @NotNull
+    @NotBlank
     private String nome;
 
     @NotNull
-    @DecimalMin(value = "0.10", message = "O valor por minuto deve ser maior que dez centavos")
+    @DecimalMin(value = "1.49")
     private double valorPorMinuto;
+
+    public String getNome() &#123;
+        return nome;
+    &#125;
+
+    public void setNome(String nome) &#123;
+        this.nome = nome;
+    &#125;
+
+    public double getValorPorMinuto() &#123;
+        return valorPorMinuto;
+    &#125;
+
+    public void setValorPorMinuto(double valorPorMinuto) &#123;
+        this.valorPorMinuto = valorPorMinuto;
+    &#125;
 &#125;
 </code></pre></small>
                 </li>
@@ -871,10 +902,11 @@ public interface PlanoRepository extends JpaRepository&lt;Plano, Long&gt; &#123;
 &#125;
 </code></pre></small>
                 </li>
-                <li>Pacote principal "ubsocial.com", criar pacote "controller.commercial"</li>
+                <li>Pacote principal "ubsocial.com.telefonia", criar pacote "controller.commercial"</li>
                 <li>Pacote "controller.commercial", criar classe PlanoController ou PlanoResource:
 <small><pre><code>
 package ubsocial.com.telefonia.controller.commercial;
+import ubsocial.com.telefonia.model.entity.comercial.Plano;
 import ubsocial.com.telefonia.model.repositories.commercial.PlanoRepository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -883,9 +915,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/plano")
@@ -901,20 +936,19 @@ public class PlanoResource &#123;
         return planoRepository.findAll();
     &#125;
 
+    /* Método get sem tratamento de erros:
     @GetMapping("/&#123;id&#125;")
     public Plano get(@PathVariable Long id) &#123;
         return planoRepository.getById(id);
-    &#125;
+    &#125;*/
 
     // Método get específico com tratamento de erros:
     @GetMapping("/&#123;id&#125;")
     public ResponseEntity&lt;Plano&gt; get(@PathVariable Long id) &#123;
         Optional&lt;Plano&gt; optional = planoRepository.findById(id);
-        
         if(!optional.isPresent()) &#123;
             return new ResponseEntity&lt;Plano&gt;(HttpStatus.NOT_FOUND);
         &#125;
-
         return new ResponseEntity&lt;Plano&gt;(optional.get(), HttpStatus.OK);
     &#125;
 
@@ -923,33 +957,33 @@ public class PlanoResource &#123;
         return planoRepository.save(plano);
     &#125;
 
+    /* Método update sem tratamento de erros:
     @PutMapping("/&#123;id&#125;")
     public Plano update(@PathVariable Long id, @RequestBody Plano plano) &#123;
         Plano planoAux = planoRepository.getById(id);
         planoAux.setNome(plano.getNome());
         planoAux.setValorPorMinuto(plano.getValorPorMinuto());
         return planoRepository.save(planoAux);
-    &#125;
+    &#125;*/
 
     // Método update específico com tratamento de erros:
     @PutMapping("/&#123;id&#125;")
     public ResponseEntity&lt;Plano&gt; update(@PathVariable Long id, @RequestBody @Valid Plano plano) &#123;
         Optional&lt;Plano&gt; optional = planoRepository.findById(id);
-        
         if(!optional.isPresent()) &#123;
             return new ResponseEntity&lt;Plano&gt;(HttpStatus.NOT_FOUND);
         &#125;
-
         Plano planoAux = optional.get();
         planoAux.setNome(plano.getNome());
         planoAux.setValorPorMinuto(plano.getValorPorMinuto());
         return new ResponseEntity&lt;Plano&gt;(planoAux, HttpStatus.OK);
     &#125;
 
+    /* Método delete sem tratamento de erros:
     @DeleteMapping("/&#123;id&#125;")
     public void delete(@PathVariable Long id) &#123;
         planoRepository.deleteById(id);
-    &#125;
+    &#125;*/
 
     // Método delete específico com tratamento de erros:
     @DeleteMapping("/&#123;id&#125;")
@@ -957,16 +991,10 @@ public class PlanoResource &#123;
         if(!planoRepository.existsById(id)) &#123;
             return new ResponseEntity&lt;Plano&gt;(HttpStatus.NOT_FOUND);
         &#125;
-
         planoRepository.deleteById(id);
         return new ResponseEntity&lt;Plano&gt;(HttpStatus.NO_CONTENT);
     &#125;
 &#125;
-</code></pre></small>
-                </li>
-                <li>Em "application.properties", informar relação Plano com Operadora (ao buscar Plano, busca-se também Operadora):
-<small><pre><code>
-spring.jackson.serialization.fail-on-empty-beans=false
 </code></pre></small>
                 </li>
                 <li>Na mesma pasta de "gradlew", executar projeto: ".\gradlew bootRun"
@@ -989,16 +1017,16 @@ spring.jackson.serialization.fail-on-empty-beans=false
                         <li>Enviar (Send)</li>
                     </ul>
                 </li>
-                <li>Teste Postman (get individual):
+                <li>Teste Postman (get all):
                     <ul>
-                        <li>URL: <a href="http://localhost:8080/plano/1" class="text-decoration-none" target="_blank">http://localhost:8080/plano/1</a></li>
+                        <li>URL: <a href="http://localhost:8080/plano" class="text-decoration-none" target="_blank">http://localhost:8080/plano</a></li>
                         <li>Método: GET</li>
                         <li>Enviar (Send)</li>
                     </ul>
                 </li>
-                <li>Teste Postman (get all):
+                <li>Teste Postman (get individual):
                     <ul>
-                        <li>URL: <a href="http://localhost:8080/plano" class="text-decoration-none" target="_blank">http://localhost:8080/plano</a></li>
+                        <li>URL: <a href="http://localhost:8080/plano/1" class="text-decoration-none" target="_blank">http://localhost:8080/plano/1</a></li>
                         <li>Método: GET</li>
                         <li>Enviar (Send)</li>
                     </ul>
