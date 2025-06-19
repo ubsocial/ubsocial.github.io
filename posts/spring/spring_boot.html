@@ -413,7 +413,13 @@ public class ClientePessoaJuridica &#123;
             </ol>
 
             <br><h4>REST controllers:</h4>
-            <p id="textoPost">DAO (Data Access Object) é repositório classe que implementa métodos CRUD no banco de dados. Repositório JPA é interface que disponibiliza todos métodos necessários às operações CRUD para entidade.</p>
+            <p id="textoPost">DAO (Data Access Object) é repositório classe que implementa métodos CRUD no banco de dados. Repositório JPA é interface que disponibiliza todos métodos necessários às operações CRUD para entidade. Operações CRUD, tem-se GET (@GetMapping), POST (@PostMapping), PUT (@PutMapping) e DELETE (@DeleteMapping). Para tratamento de dados, de forma mais complexa, utilizam-se services, exceções e tratamento de exceções por meio de ControllerAdvices.</p>
+
+            <br><b><span class="text-warning"><h4>COMPLEMENTOS FALTANTES:</h4>
+            <li>Tratamento de dados via services, exceções e tratamento de exceções por meio de ControllerAdvices;</li>
+            <li>Ordenação;</li>
+            <li>Paginação;</li>
+            <li>Busca/pesquisa por atributos (busca por nome, por exemplo).</li></b></span>
 
             <br><hr><h4>Projeto 1: Controllers</h4>
             <p id="textoPost">Projeto para conhecimento de estrutura Spring Boot, e geração de controllers. Gerar projeto Spring Boot Gradle-Groovy, com dados:</p>
@@ -461,19 +467,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class CalendarController {
+public class CalendarController &#123;
 
     @GetMapping("/today")
-    public String today() {
+    public String today() &#123;
         return "Hoje é " + java.time.LocalDate.now();
-    }
+    &#125;
 
     @GetMapping("/tomorrow")
-    public String tomorrow() {
+    public String tomorrow() &#123;
         return "Amanhã é " + java.time.LocalDate.now().plusDays(1);
-    }
+    &#125;
 
-}
+&#125;
 </code></pre></small>
                 </li>
                 <li>Na mesma pasta de "gradlew", executar projeto: ".\gradlew bootRun"</li>
@@ -828,6 +834,32 @@ public class ClientePessoaJuridica extends Cliente &#123;
             <br><hr><h4>Projeto 4: REST controllers</h4>
             <p id="textoPost">Adaptação do projeto 3 para funcionamento DAO e REST.</p>
             <ul>
+                <li>Em "build.gradle", bloco "dependencies" adicionar linha
+<small><pre><code>
+implementation 'org.springframework.boot:spring-boot-starter-validation'
+</code></pre></small>
+                </li>
+                <li>Classe "Plano", aplicar validações nos atributos: <a href="https://jakarta.ee/learn/docs/jakartaee-tutorial/current/beanvalidation/bean-validation/bean-validation.html" class="text-decoration-none" target="_blank">lista validações</a>
+<small><pre><code>
+package ubsocial.com.telefonia.model.entity.comercial;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+public class Plano &#123;
+    public Plano(String nome, double valorPorMinuto) &#123;
+    &#125;
+
+    @NotNull(message = "O nome do plano não pode ser nulo")
+    @NotBlank(message = "O nome do plano não pode estar em branco")
+    private String nome;
+
+    @NotNull
+    @DecimalMin(value = "0.10", message = "O valor por minuto deve ser maior que dez centavos")
+    private double valorPorMinuto;
+&#125;
+</code></pre></small>
+                </li>
                 <li>No pacote "model", criar pacote "repositories.commercial"</li>
                 <li>No pacote "repositories.commercial", criar interface PlanoRepository:
 <small><pre><code>
@@ -846,6 +878,14 @@ package ubsocial.com.telefonia.controller.commercial;
 import ubsocial.com.telefonia.model.repositories.commercial.PlanoRepository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 
 @RestController
 @RequestMapping("/plano")
@@ -861,17 +901,29 @@ public class PlanoResource &#123;
         return planoRepository.findAll();
     &#125;
 
-    @GetMapping("/{id}")
+    @GetMapping("/&#123;id&#125;")
     public Plano get(@PathVariable Long id) &#123;
         return planoRepository.getById(id);
     &#125;
 
+    // Método get específico com tratamento de erros:
+    @GetMapping("/&#123;id&#125;")
+    public ResponseEntity&lt;Plano&gt; get(@PathVariable Long id) &#123;
+        Optional&lt;Plano&gt; optional = planoRepository.findById(id);
+        
+        if(!optional.isPresent()) &#123;
+            return new ResponseEntity&lt;Plano&gt;(HttpStatus.NOT_FOUND);
+        &#125;
+
+        return new ResponseEntity&lt;Plano&gt;(optional.get(), HttpStatus.OK);
+    &#125;
+
     @PostMapping
-    public Plano create(@RequestBody Plano plano) &#123;
+    public Plano create(@RequestBody @Valid Plano plano) &#123;
         return planoRepository.save(plano);
     &#125;
 
-    @PutMapping("/{id}")
+    @PutMapping("/&#123;id&#125;")
     public Plano update(@PathVariable Long id, @RequestBody Plano plano) &#123;
         Plano planoAux = planoRepository.getById(id);
         planoAux.setNome(plano.getNome());
@@ -879,16 +931,36 @@ public class PlanoResource &#123;
         return planoRepository.save(planoAux);
     &#125;
 
-    @DeleteMapping("/{id}")
+    // Método update específico com tratamento de erros:
+    @PutMapping("/&#123;id&#125;")
+    public ResponseEntity&lt;Plano&gt; update(@PathVariable Long id, @RequestBody @Valid Plano plano) &#123;
+        Optional&lt;Plano&gt; optional = planoRepository.findById(id);
+        
+        if(!optional.isPresent()) &#123;
+            return new ResponseEntity&lt;Plano&gt;(HttpStatus.NOT_FOUND);
+        &#125;
+
+        Plano planoAux = optional.get();
+        planoAux.setNome(plano.getNome());
+        planoAux.setValorPorMinuto(plano.getValorPorMinuto());
+        return new ResponseEntity&lt;Plano&gt;(planoAux, HttpStatus.OK);
+    &#125;
+
+    @DeleteMapping("/&#123;id&#125;")
     public void delete(@PathVariable Long id) &#123;
         planoRepository.deleteById(id);
     &#125;
-&#125;
-</code></pre></small>
-                </li>
-                <li>Classe "Plano", criar método construtor:
-<small><pre><code>
-public Plano(String nome, double valorPorMinuto) &#123;
+
+    // Método delete específico com tratamento de erros:
+    @DeleteMapping("/&#123;id&#125;")
+    public ResponseEntity&lt;Plano&gt; delete(@PathVariable Long id) &#123;
+        if(!planoRepository.existsById(id)) &#123;
+            return new ResponseEntity&lt;Plano&gt;(HttpStatus.NOT_FOUND);
+        &#125;
+
+        planoRepository.deleteById(id);
+        return new ResponseEntity&lt;Plano&gt;(HttpStatus.NO_CONTENT);
+    &#125;
 &#125;
 </code></pre></small>
                 </li>
@@ -908,10 +980,10 @@ spring.jackson.serialization.fail-on-empty-beans=false
                         <li>Método: POST</li>
                         <li>Body raw (JSON):
 <small><pre><code>
-{
+&#123;
     "nome": "Plano Teste1",
     "valorPorMinuto": 2.99
-}
+&#125;
 </code></pre></small>
                         </li>
                         <li>Enviar (Send)</li>
@@ -936,11 +1008,11 @@ spring.jackson.serialization.fail-on-empty-beans=false
                         <li>URL: <a href="http://localhost:8080/plano/1" class="text-decoration-none" target="_blank">http://localhost:8080/plano/1</a></li>
                         <li>Método: PUT</li>
                         <li>Body raw (JSON):
-<small></small><pre><code>
-{
+<small><pre><code>
+&#123;
     "nome": "Plano Teste1 atualizado",
     "valorPorMinuto": 2.99
-}
+&#125;
 </code></pre></small>
                         </li>
                         <li>Enviar (Send)</li>
@@ -953,8 +1025,6 @@ spring.jackson.serialization.fail-on-empty-beans=false
                         <li>Enviar (Send)</li>
                     </ul>
                 </li>
-                <li><b><span class="text-warning">Finalizar VALIDAÇÃO DE DADOS</span></b></li>
-                <!-- Terminar em 1.5 Validação de dados -->
             </ul>
         </div>
     </div>
