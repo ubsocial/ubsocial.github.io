@@ -339,6 +339,7 @@ public class LivroResource &#123;
         livroAux.setPages(livro.getPages());
         livroAux.setCover(livro.getCover());
         livroAux.setLanguage(livro.getLanguage());
+        livroRepository.save(livroAux);
         return new ResponseEntity&lt;Livro&gt;(livroAux, HttpStatus.OK);
     &#125;
 
@@ -364,7 +365,7 @@ public class LivroResource &#123;
                         <li>Método: POST</li>
                         <li>Body raw (JSON):
 <small><pre><code>
-{
+&#123;
     "title": "O Senhor dos Anéis",
     "author": "J.R.R. Tolkien",
     "published_date": "1954-07-29",
@@ -372,7 +373,7 @@ public class LivroResource &#123;
     "pages": 1178,
     "cover": "Ficção",
     "language": "Português"
-}
+&#125;
 </code></pre></small>
                         </li>
                         <li>Enviar (Send)</li>
@@ -398,7 +399,7 @@ public class LivroResource &#123;
                         <li>Método: PUT</li>
                         <li>Body raw (JSON):
                             <small><pre><code>
-{
+&#123;
     "title": "O Senhor dos Anéis - Edição Atualizada",
     "author": "J.R.R. Tolkien",
     "published_date": "1954-07-29",
@@ -406,7 +407,7 @@ public class LivroResource &#123;
     "pages": 1178,
     "cover": "Ficção",
     "language": "Português"
-}
+&#125;
 </code></pre></small>
                         </li>
                         <li>Enviar (Send)</li>
