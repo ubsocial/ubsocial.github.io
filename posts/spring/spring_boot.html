@@ -976,6 +976,7 @@ public class PlanoResource &#123;
         Plano planoAux = optional.get();
         planoAux.setNome(plano.getNome());
         planoAux.setValorPorMinuto(plano.getValorPorMinuto());
+        planoRepository.save(planoAux);
         return new ResponseEntity&lt;Plano&gt;(planoAux, HttpStatus.OK);
     &#125;
 
