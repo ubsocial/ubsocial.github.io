@@ -105,6 +105,32 @@ server.error.include-message=always
 server.error.include-binding-errors=always
 </code></pre></small>
                 </li>
+                <li>Dentro do pacote principal do projeto (ubsocial.com.biblioteca), criar pacote "config": ficará ubsocial.com.biblioteca.config</li>
+                <li>Dentro do pacote "config", criar classe WebConfig para conexão com frontend Vue.js:
+<small><pre><code>
+package ubsocial.com.biblioteca.config;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+@Configuration
+public class WebConfig &#123;
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() &#123;
+        return new WebMvcConfigurer() &#123;
+
+            @Override
+            public void addCorsMappings(CorsRegistry registry) &#123;
+                registry.addMapping("/**")
+                        .allowedOrigins("http://localhost:8081")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
+            &#125;
+        &#125;;
+    &#125;
+&#125;
+</code></pre></small>
                 <li>Dentro do pacote principal do projeto (ubsocial.com.biblioteca), criar pacote "model": ficará ubsocial.com.biblioteca.model</li>
                 <li>Dentro do pacote "model", criar pacote de entidades "entity": ficará model.entity</li>
                 <li>Dentro do pacote "model.entity", criar Model (entidade) Livro:
@@ -418,6 +444,300 @@ public class LivroResource &#123;
                         <li>URL: <a href="http://localhost:8080/books/1" class="text-decoration-none" target="_blank">http://localhost:8080/books/1</a></li>
                         <li>Método: DELETE</li>
                         <li>Enviar (Send)</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <br><h4>Frontend (Vue.js):</h4>
+            <ol>
+                <li>Pré-requisitos:
+                    <ul>
+                        <li>Instalar python3 (habilitar privilégios de administrador);</li>
+                        <li>Instalar nodejs (npm);</li>
+                        <li>Instalar Vue: npm install -g @vue/cli</li>
+                    </ul>
+                </li>
+                <li>Comandos para criar projeto Vue.js:
+<small><pre><code>
+vue create bibliotecafrontend
+cd bibliotecafrontend
+npm i axios vue-axios bootstrap@5.3.3 popper.js
+npm run serve
+</code></pre></small>
+                </li>
+                <li>Em bibliotecafrontend/src/main.js, alterar conteúdo, vinculando-o a API REST Spring Boot:
+<small><pre><code>
+import &#123; createApp &#125; from 'vue';
+import App from './App.vue';
+import axios from 'axios';
+import VueAxios from 'vue-axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
+axios.defaults.baseURL = 'http://localhost:8080/books/';
+createApp(App).use(VueAxios, axios).mount('#app');
+</code></pre></small>
+                </li>
+                <li>Em bibliotecafrontend/src/App.vue, alterar conteúdo do arquivo de componente principal, para incorporar todos os demais componentes do projeto:
+<small><pre><code>
+&lt;template&gt;
+    &lt;div id="app"&gt;
+        &lt;h1&gt;Livraria UB Social&lt;/h1&gt;
+        &lt;AddBook @book-added="fetchBooks" /&gt;
+        &lt;ListBooks @edit-book="selectBookToEdit" ref="listBooks" /&gt;
+        &lt;EditBook v-if="selectedBook" :book="selectedBook" @book-updated="handleBookUpdated" @cancel-edit="cancelEdit" /&gt;
+    &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+import ListBooks from './components/ListBooks.vue';
+import AddBook from './components/AddBook.vue';
+import EditBook from './components/EditBook.vue';
+
+export default &#123;
+    components: &#123;
+        ListBooks,
+        AddBook,
+        EditBook,
+    &#125;,
+    data() &#123;
+        return &#123;
+            selectedBook: null,
+        &#125;;
+    &#125;,
+    methods: &#123;
+        fetchBooks() &#123;
+            this.$refs.listBooks.fetchBooks();
+        &#125;,
+        selectBookToEdit(book) &#123;
+            this.selectedBook = book;
+        &#125;,
+        handleBookUpdated() &#123;
+            this.selectedBook = null;
+            this.fetchBooks();
+        &#125;,
+        cancelEdit() &#123;
+            this.selectedBook = null;
+        &#125;,
+    &#125;,
+&#125;;
+&lt;/script&gt;
+
+&lt;style&gt;
+#app &#123;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+&#125;
+
+form input &#123;
+    display: block;
+    margin: 10px 0;
+    padding: 5px;
+&#125;
+
+button &#123;
+    margin: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+&#125;
+&lt;/style&gt;
+</code></pre></small>
+                </li>
+                <li>Criar componente library-client/src/components/ListBooks.vue para listagem de books:
+<small><pre><code>
+&lt;template&gt;
+    &lt;div&gt;
+        &lt;h2&gt;Livros no acervo:&lt;/h2&gt;
+        &lt;ul&gt;
+            &lt;li v-for="book in books" :key="book.id"&gt;
+                &#123;&#123; book.title &#125;&#125; by &#123;&#123; book.author &#125;&#125;
+                &lt;button @click="$emit('edit-book', book)" class="btn btn-warning"&gt;Editar&lt;/button&gt;
+                &lt;button @click="deleteBook(book.id)" class="btn btn-danger"&gt;Deletar&lt;/button&gt;
+            &lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default &#123;
+    data() &#123;
+        return &#123;
+            books: [],
+        &#125;;
+    &#125;,
+    methods: &#123;
+        async fetchBooks() &#123;
+            try &#123;
+                const response = await this.axios.get(`books/`);
+                this.books = response.data;
+            &#125; catch (error) &#123;
+                console.error('Error fetching books:', error);
+            &#125;
+        &#125;,
+        async deleteBook(bookId) &#123;
+            try &#123;
+                await this.axios.delete(`books/$&#123;bookId&#125;/`);
+                this.fetchBooks();
+            &#125; catch (error) &#123;
+                console.error('Error deleting book:', error);
+            &#125;
+        &#125;,
+    &#125;,
+    mounted() &#123;
+        this.fetchBooks();
+    &#125;,
+&#125;;
+&lt;/script&gt;
+</code></pre></small>
+                </li>
+                <li>Criar componente library-client/src/components/EditBook.vue para edição de book:
+<small><pre><code>
+&lt;template&gt;
+    &lt;div v-if="book"&gt;
+        &lt;h2&gt;Editar livro:&lt;/h2&gt;
+        &lt;form @submit.prevent="updateBook"&gt;
+            &lt;input v-model="form.title" placeholder="Title" required /&gt;
+            &lt;input v-model="form.author" placeholder="Author" required /&gt;
+            &lt;input v-model="form.published_date" type="date" placeholder="Published Date" required /&gt;
+            &lt;input v-model="form.isbn" placeholder="ISBN" required /&gt;
+            &lt;input v-model="form.pages" type="number" placeholder="Pages" required /&gt;
+            &lt;input v-model="form.cover" placeholder="Cover" /&gt;
+            &lt;input v-model="form.language" placeholder="Language" required /&gt;
+            &lt;button type="submit" class="btn btn-success"&gt;Confirmar&lt;/button&gt;
+            &lt;button @click="$emit('cancel-edit')"&gt;Cancelar&lt;/button&gt;
+        &lt;/form&gt;
+    &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default &#123;
+    props: &#123;
+        book: Object,
+    &#125;,
+    data() &#123;
+        return &#123;
+            form: &#123; ...this.book &#125;,
+        &#125;;
+    &#125;,
+    watch: &#123;
+        book(newBook) &#123;
+            this.form = &#123; ...newBook &#125;;
+        &#125;,
+    &#125;,
+    methods: &#123;
+        async updateBook() &#123;
+            try &#123;
+                await this.axios.put(`books/$&#123;this.book.id&#125;/`, this.form);
+                this.$emit('book-updated');
+            &#125; catch (error) &#123;
+                console.error('Error updating book:', error);
+            &#125;
+        &#125;,
+    &#125;,
+&#125;;
+&lt;/script&gt;
+</code></pre></small>
+                </li>
+                <li>Criar componente library-client/src/components/AddBook.vue para adição de book:
+<small><pre><code>
+&lt;template&gt;
+    &lt;div&gt;
+        &lt;h2&gt;Adicionar novo livro:&lt;/h2&gt;
+        &lt;form @submit.prevent="addBook"&gt;
+            &lt;input v-model="form.title" placeholder="Title" required /&gt;
+            &lt;input v-model="form.author" placeholder="Author" required /&gt;
+            &lt;input v-model="form.published_date" type="date" placeholder="Published Date" required /&gt;
+            &lt;input v-model="form.isbn" placeholder="ISBN" required /&gt;
+            &lt;input v-model="form.pages" type="number" placeholder="Pages" required /&gt;
+            &lt;input v-model="form.cover" placeholder="Cover" /&gt;
+            &lt;input v-model="form.language" placeholder="Language" required /&gt;
+            &lt;button type="submit" class="btn btn-success"&gt;Confirmar&lt;/button&gt;
+        &lt;/form&gt;
+    &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default &#123;
+    data() &#123;
+        return &#123;
+            form: &#123;
+                title: '',
+                author: '',
+                published_date: '',
+                isbn: '',
+                pages: '',
+                cover: '',
+                language: '',
+            &#125;,
+        &#125;;
+    &#125;,
+    methods: &#123;
+        async addBook() &#123;
+            try &#123;
+                await this.axios.post(`books/`, this.form);
+                this.$emit('book-added');
+                this.resetForm();
+            &#125; catch (error) &#123;
+                console.error('Error adding book:', error);
+            &#125;
+        &#125;,
+        resetForm() &#123;
+            this.form = &#123;
+                title: '',
+                author: '',
+                published_date: '',
+                isbn: '',
+                pages: '',
+                cover: '',
+                language: '',
+            &#125;;
+        &#125;,
+    &#125;,
+&#125;;
+&lt;/script&gt;
+</code></pre></small>
+                </li>
+                <li>Criar componente library-client/src/components/DeleteBook.vue para deleção de book:
+<small><pre><code>
+&lt;template&gt;
+    &lt;button @click="deleteBook"&gt;Confirmar deleção&lt;/button&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+import axios from 'axios';
+
+export default &#123;
+    props: &#123;
+        bookId: Number,
+    &#125;,
+    methods: &#123;
+        async deleteBook() &#123;
+            try &#123;
+                await axios.delete(`http://localhost:8080/books/$&#123;this.bookId&#125;/`);
+                this.$emit('book-deleted');
+            &#125; catch (error) &#123;
+                console.error('Error deleting book:', error);
+            &#125;
+        &#125;,
+    &#125;,
+&#125;;
+&lt;/script&gt;
+</code></pre></small>
+                </li>
+            </ol>
+
+            <br><h4>Integração do sistema:</h4>
+            <p id="textoPost">Integrar (juntar) backend Spring com frontend Vue.js, para tornar sistema unificado.</p>
+            <ol>
+                <li>Pasta do projeto backend Spring Boot, executar servidor Gradle: .\gradlew bootRun
+                    <ul>
+                        <li>Acessar API back-end (Spring Boot): <a href="http://localhost:8080/books" class="text-decoration-none" target="_blank">http://localhost:8080/books</a></li>
+                    </ul>
+                </li>
+                <li>Pasta do projeto frontend Vue.js, executar servidor Vue.js: npm run serve
+                    <ul>
+                        <li>Acessar front-end (vuejs): <a href="http://localhost:8081" class="text-decoration-none" target="_blank">http://localhost:8081</a></li>
                     </ul>
                 </li>
             </ol>
