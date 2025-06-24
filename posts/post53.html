@@ -452,276 +452,471 @@ public class LivroResource &#123;
             <ol>
                 <li>Pré-requisitos:
                     <ul>
-                        <li>Instalar python3 (habilitar privilégios de administrador);</li>
                         <li>Instalar nodejs (npm);</li>
-                        <li>Instalar Vue: npm install -g @vue/cli</li>
+                        <li>Instalar Vue: npm install -g @vue/cli vue-router@4</li>
                     </ul>
                 </li>
                 <li>Comandos para criar projeto Vue.js:
 <small><pre><code>
-vue create bibliotecafrontend
-cd bibliotecafrontend
-npm i axios vue-axios bootstrap@5.3.3 popper.js
+vue create biblioteca-frontend
+-  Escolher features manualmente: Choose Vue version, Babel, Linter / Formatter e TypeScript
+– Use class-style component syntax? No
+– Use Babel alongside TypeScript? Yes
+– Pick a linter / formatter config: Prettier
+– Pick additional lint features: Lint on save
+– Where do you prefer placing config files? In dedicated config files
+– Save this for future project? No
+
+cd biblioteca-frontend
+npm i bootstrap jquery popper.js axios
 npm run serve
 </code></pre></small>
                 </li>
-                <li>Em bibliotecafrontend/src/main.js, alterar conteúdo, vinculando-o a API REST Spring Boot:
+                <li>src/main.ts:
 <small><pre><code>
-import &#123; createApp &#125; from 'vue';
-import App from './App.vue';
-import axios from 'axios';
-import VueAxios from 'vue-axios';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import &#123; createApp &#125; from "vue";
+import App from "@/App.vue";
+import router from "@/router";
+import "bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-axios.defaults.baseURL = 'http://localhost:8080/books/';
-createApp(App).use(VueAxios, axios).mount('#app');
+createApp(App).use(router).mount("#app");
 </code></pre></small>
                 </li>
-                <li>Em bibliotecafrontend/src/App.vue, alterar conteúdo do arquivo de componente principal, para incorporar todos os demais componentes do projeto:
+                <li>src/http-common.ts:
+<small><pre><code>
+import axios, &#123; AxiosInstance &#125; from "axios";
+
+const apiClient: AxiosInstance = axios.create(&#123;
+    baseURL: "http://localhost:8080",
+    headers: &#123;
+        "Content-type": "application/json",
+    &#125;,
+&#125;);
+
+export default apiClient;
+</code></pre></small>
+                </li>
+                <li>src/shims-vue.d.ts:
+<small><pre><code>
+declare module "*.vue" &#123;
+    import &#123; DefineComponent &#125; from "vue";
+    const component: DefineComponent&lt;&#123;&#125;, &#123;&#125;, any&gt;;
+    export default component;
+&#125;
+</code></pre></small>
+                </li>
+                <li>.eslintrc.js:
+<small><pre><code>
+module.exports = &#123;
+    root: true,
+    env: &#123;
+        node: true,
+    &#125;,
+    extends: [
+        "plugin:vue/vue3-essential",
+        "eslint:recommended",
+        "@vue/typescript/recommended",
+        //"plugin:prettier/recommended",
+    ],
+    parserOptions: &#123;
+        ecmaVersion: 2020,
+    &#125;,
+    rules: &#123;
+        '@typescript-eslint/no-explicit-any': 'off',
+        '@typescript-eslint/ban-types': 'off',
+        '@typescript-eslint/no-unused-vars': 'warn',
+    &#125;,
+&#125;;
+</code></pre></small>
+                </li>
+                <li>vue.config.js:
+<small><pre><code>
+module.exports = &#123;
+    devServer: &#123;
+        port: 8081,
+    &#125;,
+&#125;;
+</code></pre></small>
+                </li>
+                <li>src/router.ts:
+<small><pre><code>
+import &#123; createWebHistory, createRouter &#125; from "vue-router";
+import &#123; RouteRecordRaw &#125; from "vue-router";
+
+const routes: Array&lt;RouteRecordRaw&gt; = [
+    &#123;
+        path: "/",
+        alias: "/books",
+        name: "books",
+        component: () =&gt; import("./components/BooksList.vue"),
+    &#125;,
+    &#123;
+        path: "/books/:id",
+        name: "book-details",
+        component: () =&gt; import("./components/BookDetails.vue"),
+    &#125;,
+    &#123;
+        path: "/add",
+        name: "add",
+        component: () =&gt; import("./components/AddBook.vue"),
+    &#125;,
+];
+
+const router = createRouter(&#123;
+    history: createWebHistory(),
+    routes,
+&#125;);
+
+export default router;
+</code></pre></small>
+                </li>
+                <li>src/components/AddBook.vue:
+<small><pre><code>
+&lt;template&gt;
+    &lt;h3&gt;Novo livro:&lt;/h3&gt;
+    &lt;form @submit.prevent="saveBook"&gt;
+        &lt;input type="text" class="form-control" placeholder="Título" id="title" required v-model="book.title"
+            name="title" /&gt;
+        &lt;div class="form-group"&gt;
+            &lt;input type="text" class="form-control" placeholder="Autor(a)" id="author" required v-model="book.author"
+                name="author" /&gt;
+        &lt;/div&gt;
+        &lt;div class="form-group"&gt;
+            &lt;label for="published_date"&gt;Publicação:&lt;/label&gt;
+            &lt;input type="date" class="form-control" id="published_date" :max="new Date().toISOString().split('T')[0]"
+                required v-model="book.published_date" name="published_date" /&gt;
+        &lt;/div&gt;
+        &lt;div class="form-group"&gt;
+            &lt;input type="text" class="form-control" placeholder="ISBN" pattern="^\d&#123;13&#125;$" id="isbn" required
+                v-model="book.isbn" name="isbn" /&gt;
+        &lt;/div&gt;
+        &lt;div class="form-group"&gt;
+            &lt;input type="number" class="form-control" placeholder="Páginas" id="pages" min="1" required
+                v-model="book.pages" name="pages" /&gt;
+        &lt;/div&gt;
+        &lt;div class="form-group"&gt;
+            &lt;input type="text" class="form-control" placeholder="Capa" id="cover" v-model="book.cover" name="cover" /&gt;
+        &lt;/div&gt;
+        &lt;div class="form-group"&gt;
+            &lt;input type="text" class="form-control" placeholder="Idioma" id="language" required v-model="book.language"
+                name="language" /&gt;
+        &lt;/div&gt;
+        &lt;button type="button" @click="$router.push('/books')" class="btn btn-secondary"&gt;Cancelar&lt;/button&gt;
+        &lt;button type="submit" class="btn btn-success"&gt;Adicionar&lt;/button&gt;
+    &lt;/form&gt;
+&lt;/template&gt;
+
+&lt;script lang="ts"&gt;
+import &#123; defineComponent &#125; from "vue";
+import BookDataService from "@/services/BookDataService";
+import Book from "@/types/Book";
+import ResponseData from "@/types/ResponseData";
+
+export default defineComponent(&#123;
+    name: "add-book",
+    data() &#123;
+        return &#123;
+            book: &#123;
+                title: "",
+                author: "",
+                published_date: new Date(),
+                isbn: "",
+                pages: 0,
+                cover: "",
+                language: "",
+            &#125; as Book,
+        &#125;;
+    &#125;,
+    methods: &#123;
+        saveBook() &#123;
+            let data = &#123;
+                title: this.book.title,
+                author: this.book.author,
+                published_date: this.book.published_date,
+                isbn: this.book.isbn,
+                pages: this.book.pages,
+                cover: this.book.cover,
+                language: this.book.language,
+            &#125;;
+
+            BookDataService.create(data)
+                .then((response: ResponseData) =&gt; &#123;
+                    this.book.id = response.data.id;
+                    this.$router.push(&#123; name: "books" &#125;);
+                &#125;)
+                .catch((e: Error) =&gt; &#123;
+                    console.log(e);
+                &#125;);
+        &#125;,
+    &#125;,
+&#125;);
+&lt;/script&gt;
+
+&lt;style&gt;&lt;/style&gt;
+</code></pre></small>
+                </li>
+                <li>src/components/BookDetails.vue:
+<small><pre><code>
+&lt;template&gt;
+    &lt;div v-if="currentBook.id"&gt;
+        &lt;h4&gt;Livro &#123;&#123; currentBook.id &#125;&#125; - &#123;&#123; currentBook.title &#125;&#125;&lt;/h4&gt;
+        &lt;form @submit.prevent="updateBook"&gt;
+            &lt;input type="text" class="form-control" placeholder="Título" id="title" required v-model="currentBook.title"
+                name="title" /&gt;
+            &lt;div class="form-group"&gt;
+                &lt;input type="text" class="form-control" placeholder="Autor(a)" id="author" required
+                    v-model="currentBook.author" name="author" /&gt;
+            &lt;/div&gt;
+            &lt;div class="form-group"&gt;
+                &lt;label for="published_date"&gt;Publicação:&lt;/label&gt;
+                &lt;input type="date" class="form-control" id="published_date"
+                    :max="new Date().toISOString().split('T')[0]" required v-model="currentBook.published_date"
+                    name="published_date" /&gt;
+            &lt;/div&gt;
+            &lt;div class="form-group"&gt;
+                &lt;input type="text" class="form-control" placeholder="ISBN" pattern="^\d&#123;13&#125;$" id="isbn" required
+                    v-model="currentBook.isbn" name="isbn" /&gt;
+            &lt;/div&gt;
+            &lt;div class="form-group"&gt;
+                &lt;input type="number" class="form-control" placeholder="Páginas" id="pages" min="1" required
+                    v-model="currentBook.pages" name="pages" /&gt;
+            &lt;/div&gt;
+            &lt;div class="form-group"&gt;
+                &lt;input type="text" class="form-control" placeholder="Capa" id="cover" v-model="currentBook.cover"
+                    name="cover" /&gt;
+            &lt;/div&gt;
+            &lt;div class="form-group"&gt;
+                &lt;input type="text" class="form-control" placeholder="Idioma" id="language" required
+                    v-model="currentBook.language" name="language" /&gt;
+            &lt;/div&gt;
+            &lt;button type="button" @click="$router.push('/books')" class="btn btn-secondary"&gt;Cancelar&lt;/button&gt;
+            &lt;button type="submit" class="btn btn-warning"&gt;Confirmar&lt;/button&gt;
+        &lt;/form&gt;
+        &lt;p&gt;&#123;&#123; message &#125;&#125;&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script lang="ts"&gt;
+import &#123; defineComponent &#125; from "vue";
+import BookDataService from "@/services/BookDataService";
+import Book from "@/types/Book";
+import ResponseData from "@/types/ResponseData";
+
+export default defineComponent(&#123;
+    name: "BookDetails",
+    data() &#123;
+        return &#123;
+            currentBook: &#123;&#125; as Book,
+            message: "",
+        &#125;;
+    &#125;,
+    methods: &#123;
+        getBook(id: any) &#123;
+            BookDataService.get(id)
+                .then((response: ResponseData) =&gt; &#123;
+                    this.currentBook = response.data;
+                &#125;)
+                .catch((e: Error) =&gt; &#123;
+                    console.log(e);
+                &#125;);
+        &#125;,
+
+        updateBook() &#123;
+            BookDataService.update(this.currentBook.id, this.currentBook)
+                .then((response: ResponseData) =&gt; &#123;
+                    this.$router.push(&#123; name: "books" &#125;);
+                &#125;)
+                .catch((e: Error) =&gt; &#123;
+                    console.log(e);
+                    this.message = "Erro ao adicionar livro";
+                &#125;);
+        &#125;,
+
+        deleteBook(id: number) &#123;
+            BookDataService.delete(this.currentBook.id)
+                .then((response: ResponseData) =&gt; &#123;
+                    console.log(response.data);
+                    this.$router.push(&#123; name: "books" &#125;);
+                &#125;)
+                .catch((e: Error) =&gt; &#123;
+                    console.log(e);
+                &#125;);
+        &#125;,
+    &#125;,
+    mounted() &#123;
+        this.message = "";
+        this.getBook(this.$route.params.id);
+    &#125;,
+&#125;);
+&lt;/script&gt;
+
+&lt;style&gt;&lt;/style&gt;
+</code></pre></small>
+                </li>
+                <li>src/components/BooksList.vue:
+<small><pre><code>
+&lt;template&gt;
+        &lt;h4&gt;Lista de livros:&lt;/h4&gt;
+
+        &lt;input type="text" class="form-control mb-3" placeholder="Pesquisar" v-model="searchTitle"&gt;
+
+        &lt;ul&gt;
+            &lt;li :class="&#123; active: index === currentIndex &#125;" v-for="(book, index) in filteredBooks" :key="book.id"&gt;
+                &#123;&#123; book.title &#125;&#125;
+                &lt;button class="btn btn-primary btn-sm" @click="setActiveBook(book, index)"&gt;Ver&lt;/button&gt;
+                &lt;router-link :to="'/books/' + book.id" class="btn btn-warning btn-sm"&gt;Editar&lt;/router-link&gt;
+                &lt;button class="btn btn-danger btn-sm" @click="deleteBook(book.id)"&gt;Excluir&lt;/button&gt;
+            &lt;/li&gt;
+        &lt;/ul&gt;
+
+        &lt;div v-if="currentBook.id"&gt;
+            &lt;h4&gt;Livro &#123;&#123; currentBook.id &#125;&#125;:&lt;/h4&gt;
+            &lt;p&gt;Título: &#123;&#123; currentBook.title &#125;&#125;&lt;/p&gt;
+            &lt;p&gt;Autor(a): &#123;&#123; currentBook.author &#125;&#125;&lt;/p&gt;
+            &lt;p&gt;Publicação: &#123;&#123; currentBook.published_date &#125;&#125;&lt;/p&gt;
+            &lt;p&gt;ISBN: &#123;&#123; currentBook.isbn &#125;&#125;&lt;/p&gt;
+            &lt;p&gt;Páginas: &#123;&#123; currentBook.pages &#125;&#125;&lt;/p&gt;
+            &lt;p&gt;Capa: &#123;&#123; currentBook.cover &#125;&#125;&lt;/p&gt;
+            &lt;p&gt;Idioma: &#123;&#123; currentBook.language &#125;&#125;&lt;/p&gt;
+            &lt;router-link :to="'/books/' + currentBook.id" class="btn btn-warning btn-sm"&gt;Editar&lt;/router-link&gt;
+            &lt;button @click="deleteBook(currentBook.id)" class="btn btn-danger btn-sm"&gt;Excluir&lt;/button&gt;
+        &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script lang="ts"&gt;
+import &#123; defineComponent &#125; from "vue";
+import BookDataService from "@/services/BookDataService";
+import Book from "@/types/Book";
+import ResponseData from "@/types/ResponseData";
+
+export default defineComponent(&#123;
+    name: "books-list",
+    data() &#123;
+        return &#123;
+            books: [] as Book[],
+            currentBook: &#123;&#125; as Book,
+            currentIndex: -1,
+            searchTitle: "",
+        &#125;;
+    &#125;,
+    computed: &#123;
+        filteredBooks(): Book[] &#123;
+            return this.books.filter(book =&gt;
+                book.title.toLowerCase().includes(this.searchTitle.toLowerCase())
+            );
+        &#125;,
+    &#125;,
+    methods: &#123;
+        retrieveBooks() &#123;
+            BookDataService.getAll()
+                .then((response: ResponseData) =&gt; &#123;
+                    this.books = response.data;
+                &#125;)
+                .catch((e: Error) =&gt; &#123;
+                    console.log(e);
+                &#125;);
+        &#125;,
+
+        refreshList() &#123;
+            this.retrieveBooks();
+            this.currentBook = &#123;&#125; as Book;
+            this.currentIndex = -1;
+        &#125;,
+
+        setActiveBook(book: Book, index = -1) &#123;
+            this.currentBook = book;
+            this.currentIndex = index;
+        &#125;,
+
+        deleteBook(id: number) &#123;
+            BookDataService.delete(id)
+                .then((response: ResponseData) =&gt; &#123;
+                    this.refreshList();
+                &#125;)
+                .catch((e: Error) =&gt; &#123;
+                    console.log(e);
+                &#125;);
+        &#125;,
+    &#125;,
+    mounted() &#123;
+        this.retrieveBooks();
+    &#125;,
+&#125;);
+&lt;/script&gt;
+
+&lt;style&gt;&lt;/style&gt;
+</code></pre></small>
+                </li>
+                <li>src/services/BookDataService.ts:
+<small><pre><code>
+import http from "@/http-common";
+import Book from "@/types/Book";
+import ResponseData from "@/types/ResponseData";
+
+class BookDataService &#123;
+    getAll(): Promise&lt;ResponseData&gt; &#123;
+        return http.get("/books");
+    &#125;
+
+    get(id: number): Promise&lt;ResponseData&gt; &#123;
+        return http.get(`/books/$&#123;id&#125;`);
+    &#125;
+
+    create(data: Partial&lt;Book&gt;): Promise&lt;ResponseData&gt; &#123;
+        return http.post("/books", data);
+    &#125;
+
+    update(id: number, data: Partial&lt;Book&gt;): Promise&lt;ResponseData&gt; &#123;
+        return http.put(`/books/$&#123;id&#125;`, data);
+    &#125;
+
+    delete(id: number): Promise&lt;ResponseData&gt; &#123;
+        return http.delete(`/books/$&#123;id&#125;`);
+    &#125;
+&#125;
+
+export default new BookDataService();
+</code></pre></small>
+                </li>
+                <li>src/types/Book.ts:
+<small><pre><code>
+export default interface Book &#123;
+    id: number;
+    title: string;
+    author: string;
+    published_date: Date;
+    isbn: string;
+    pages: number;
+    cover: string;
+    language: string;
+&#125;
+</code></pre></small>
+                </li>
+                <li>src/types/ResponseData.ts:
+<small><pre><code>
+export default interface ResponseData&lt;T = any&gt; &#123;
+    data: T;
+&#125;
+</code></pre></small>
+                </li>
+                <li>src/App.vue:
 <small><pre><code>
 &lt;template&gt;
     &lt;div id="app"&gt;
         &lt;h1&gt;Livraria UB Social&lt;/h1&gt;
-        &lt;AddBook @book-added="fetchBooks" /&gt;
-        &lt;ListBooks @edit-book="selectBookToEdit" ref="listBooks" /&gt;
-        &lt;EditBook v-if="selectedBook" :book="selectedBook" @book-updated="handleBookUpdated" @cancel-edit="cancelEdit" /&gt;
+        &lt;router-link to="/" class="btn btn-primary"&gt;Home&lt;/router-link&gt;
+        &lt;router-link to="/add" class="btn btn-success"&gt;Adicionar livro&lt;/router-link&gt;
+        &lt;router-view /&gt;
     &lt;/div&gt;
 &lt;/template&gt;
 
-&lt;script&gt;
-import ListBooks from './components/ListBooks.vue';
-import AddBook from './components/AddBook.vue';
-import EditBook from './components/EditBook.vue';
+&lt;script lang="ts"&gt;
+import &#123; defineComponent &#125; from "vue";
 
-export default &#123;
-    components: &#123;
-        ListBooks,
-        AddBook,
-        EditBook,
-    &#125;,
-    data() &#123;
-        return &#123;
-            selectedBook: null,
-        &#125;;
-    &#125;,
-    methods: &#123;
-        fetchBooks() &#123;
-            this.$refs.listBooks.fetchBooks();
-        &#125;,
-        selectBookToEdit(book) &#123;
-            this.selectedBook = book;
-        &#125;,
-        handleBookUpdated() &#123;
-            this.selectedBook = null;
-            this.fetchBooks();
-        &#125;,
-        cancelEdit() &#123;
-            this.selectedBook = null;
-        &#125;,
-    &#125;,
-&#125;;
-&lt;/script&gt;
-
-&lt;style&gt;
-#app &#123;
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-&#125;
-
-form input &#123;
-    display: block;
-    margin: 10px 0;
-    padding: 5px;
-&#125;
-
-button &#123;
-    margin: 5px;
-    padding: 5px 10px;
-    cursor: pointer;
-&#125;
-&lt;/style&gt;
-</code></pre></small>
-                </li>
-                <li>Criar componente library-client/src/components/ListBooks.vue para listagem de books:
-<small><pre><code>
-&lt;template&gt;
-    &lt;div&gt;
-        &lt;h2&gt;Livros no acervo:&lt;/h2&gt;
-        &lt;ul&gt;
-            &lt;li v-for="book in books" :key="book.id"&gt;
-                &#123;&#123; book.title &#125;&#125; by &#123;&#123; book.author &#125;&#125;
-                &lt;button @click="$emit('edit-book', book)" class="btn btn-warning"&gt;Editar&lt;/button&gt;
-                &lt;button @click="deleteBook(book.id)" class="btn btn-danger"&gt;Deletar&lt;/button&gt;
-            &lt;/li&gt;
-        &lt;/ul&gt;
-    &lt;/div&gt;
-&lt;/template&gt;
-
-&lt;script&gt;
-export default &#123;
-    data() &#123;
-        return &#123;
-            books: [],
-        &#125;;
-    &#125;,
-    methods: &#123;
-        async fetchBooks() &#123;
-            try &#123;
-                const response = await this.axios.get(`books/`);
-                this.books = response.data;
-            &#125; catch (error) &#123;
-                console.error('Error fetching books:', error);
-            &#125;
-        &#125;,
-        async deleteBook(bookId) &#123;
-            try &#123;
-                await this.axios.delete(`books/$&#123;bookId&#125;/`);
-                this.fetchBooks();
-            &#125; catch (error) &#123;
-                console.error('Error deleting book:', error);
-            &#125;
-        &#125;,
-    &#125;,
-    mounted() &#123;
-        this.fetchBooks();
-    &#125;,
-&#125;;
-&lt;/script&gt;
-</code></pre></small>
-                </li>
-                <li>Criar componente library-client/src/components/EditBook.vue para edição de book:
-<small><pre><code>
-&lt;template&gt;
-    &lt;div v-if="book"&gt;
-        &lt;h2&gt;Editar livro:&lt;/h2&gt;
-        &lt;form @submit.prevent="updateBook"&gt;
-            &lt;input v-model="form.title" placeholder="Title" required /&gt;
-            &lt;input v-model="form.author" placeholder="Author" required /&gt;
-            &lt;input v-model="form.published_date" type="date" placeholder="Published Date" required /&gt;
-            &lt;input v-model="form.isbn" placeholder="ISBN" required /&gt;
-            &lt;input v-model="form.pages" type="number" placeholder="Pages" required /&gt;
-            &lt;input v-model="form.cover" placeholder="Cover" /&gt;
-            &lt;input v-model="form.language" placeholder="Language" required /&gt;
-            &lt;button type="submit" class="btn btn-success"&gt;Confirmar&lt;/button&gt;
-            &lt;button @click="$emit('cancel-edit')"&gt;Cancelar&lt;/button&gt;
-        &lt;/form&gt;
-    &lt;/div&gt;
-&lt;/template&gt;
-
-&lt;script&gt;
-export default &#123;
-    props: &#123;
-        book: Object,
-    &#125;,
-    data() &#123;
-        return &#123;
-            form: &#123; ...this.book &#125;,
-        &#125;;
-    &#125;,
-    watch: &#123;
-        book(newBook) &#123;
-            this.form = &#123; ...newBook &#125;;
-        &#125;,
-    &#125;,
-    methods: &#123;
-        async updateBook() &#123;
-            try &#123;
-                await this.axios.put(`books/$&#123;this.book.id&#125;/`, this.form);
-                this.$emit('book-updated');
-            &#125; catch (error) &#123;
-                console.error('Error updating book:', error);
-            &#125;
-        &#125;,
-    &#125;,
-&#125;;
-&lt;/script&gt;
-</code></pre></small>
-                </li>
-                <li>Criar componente library-client/src/components/AddBook.vue para adição de book:
-<small><pre><code>
-&lt;template&gt;
-    &lt;div&gt;
-        &lt;h2&gt;Adicionar novo livro:&lt;/h2&gt;
-        &lt;form @submit.prevent="addBook"&gt;
-            &lt;input v-model="form.title" placeholder="Title" required /&gt;
-            &lt;input v-model="form.author" placeholder="Author" required /&gt;
-            &lt;input v-model="form.published_date" type="date" placeholder="Published Date" required /&gt;
-            &lt;input v-model="form.isbn" placeholder="ISBN" required /&gt;
-            &lt;input v-model="form.pages" type="number" placeholder="Pages" required /&gt;
-            &lt;input v-model="form.cover" placeholder="Cover" /&gt;
-            &lt;input v-model="form.language" placeholder="Language" required /&gt;
-            &lt;button type="submit" class="btn btn-success"&gt;Confirmar&lt;/button&gt;
-        &lt;/form&gt;
-    &lt;/div&gt;
-&lt;/template&gt;
-
-&lt;script&gt;
-export default &#123;
-    data() &#123;
-        return &#123;
-            form: &#123;
-                title: '',
-                author: '',
-                published_date: '',
-                isbn: '',
-                pages: '',
-                cover: '',
-                language: '',
-            &#125;,
-        &#125;;
-    &#125;,
-    methods: &#123;
-        async addBook() &#123;
-            try &#123;
-                await this.axios.post(`books/`, this.form);
-                this.$emit('book-added');
-                this.resetForm();
-            &#125; catch (error) &#123;
-                console.error('Error adding book:', error);
-            &#125;
-        &#125;,
-        resetForm() &#123;
-            this.form = &#123;
-                title: '',
-                author: '',
-                published_date: '',
-                isbn: '',
-                pages: '',
-                cover: '',
-                language: '',
-            &#125;;
-        &#125;,
-    &#125;,
-&#125;;
-&lt;/script&gt;
-</code></pre></small>
-                </li>
-                <li>Criar componente library-client/src/components/DeleteBook.vue para deleção de book:
-<small><pre><code>
-&lt;template&gt;
-    &lt;button @click="deleteBook"&gt;Confirmar deleção&lt;/button&gt;
-&lt;/template&gt;
-
-&lt;script&gt;
-import axios from 'axios';
-
-export default &#123;
-    props: &#123;
-        bookId: Number,
-    &#125;,
-    methods: &#123;
-        async deleteBook() &#123;
-            try &#123;
-                await axios.delete(`http://localhost:8080/books/$&#123;this.bookId&#125;/`);
-                this.$emit('book-deleted');
-            &#125; catch (error) &#123;
-                console.error('Error deleting book:', error);
-            &#125;
-        &#125;,
-    &#125;,
-&#125;;
+export default defineComponent(&#123;
+    name: "App",
+&#125;);
 &lt;/script&gt;
 </code></pre></small>
                 </li>

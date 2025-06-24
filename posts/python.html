@@ -71,10 +71,10 @@ Resto da Divisão(%): 4%2 (0)
 Potenciação(**): 4**2 (16)
 
 <b>===== SAÍDA FORMATADA =====</b>
-print('A soma vale{}'.format(soma))
-print('{1} {0}'.format('one', 'two')) #"two one"
-print('{0!s} {0!f}'.format(Data()) #"str float"
-print('{:06.2f}'.format(3.141592653589793)) #003.14
+print('A soma vale&#123;&#125;'.format(soma))
+print('&#123;1&#125; &#123;0&#125;'.format('one', 'two')) #"two one"
+print('&#123;0!s&#125; &#123;0!f&#125;'.format(Data()) #"str float"
+print('&#123;:06.2f&#125;'.format(3.141592653589793)) #003.14
 #:06(qtde de espaços: esquerda p/ direita), .2f(nº float com 2 casas decimais)
 
 <b>===== CONDIÇÃO =====</b>
@@ -134,7 +134,7 @@ coisas = ("Max",39,25.5)
 
 Percorrer tupla:
 for comida in lanche:
-    print(f"Eu vou comer {comida}")
+    print(f"Eu vou comer &#123;comida&#125;")
 
 Deletar tupla:
 del(lanche)
@@ -214,11 +214,11 @@ pessoas.clear()
 <b>===== DICIONÁRIOS =====</b>
 #possui chave e valor
 #pode-se inserir dicionários dentro de listas
-pessoa = {
+pessoa = &#123;
     "nome": "joão",
     "idade": 60,
     "prog": ["python","php"]
-}
+&#125;
 print(pessoa["nome"])
 print(pessoa["idade"])
 print(pessoa["prog"])
@@ -230,17 +230,17 @@ Remover valores:
 del pessoa['idade']
 
 Dicionário dinâmico:
-dic = {}
+dic = &#123;&#125;
 dic['name'] = "joao"
 dic['age']  = "39"
 
 Percorrer dicionários:
-dic = {'a': 'apple', 'b': 'berry', 'c': 'cherry'}
+dic = &#123;'a': 'apple', 'b': 'berry', 'c': 'cherry'&#125;
 for i in dic:
     print i+" "+dic[i]
 
 for i,j in dic:
-    print(f'O {i} é {j}') #o 'a' é 'apple'
+    print(f'O &#123;i&#125; é &#123;j&#125;') #o 'a' é 'apple'
 print(lista[0]['filme']) #dict filmes em 'lista'
 
 Ver itens:
@@ -255,7 +255,7 @@ dic.values() #(['apple','berry','cherry'])
 
 <b>===== CONJUNTOS =====</b>
 #lista misturada com dicionário. Conjunto ñ tem itens repetidos, ñ tem indíces(ñ é ordenado). Mais ágil para percorrer, pesquisas...
-conjunto = {'Gui','João'}
+conjunto = &#123;'Gui','João'&#125;
 conjunto.remove('João')
 
 <b>===== LAMBDAS =====</b>
@@ -352,9 +352,9 @@ requisicao = requests.get('https://google.com')
 print(requisicao.text) #codigo fonte
 conteudo = requisicao.text
 
-cabecalho = {'User-agent':'Windows 12','Referer':'https://Microsoft.com'}
-meusCookies = {'Visita':'10-10-2020'}
-dados = {'user':'mateus','senha':'abc'}
+cabecalho = &#123;'User-agent':'Windows 12','Referer':'https://Microsoft.com'&#125;
+meusCookies = &#123;'Visita':'10-10-2020'&#125;
+dados = &#123;'user':'mateus','senha':'abc'&#125;
 requisicao = requests.post('https://google.com',headers=cabecalho,cookies=meusCookies,data=dados)
 
 <b>===== API JSON =====</b>
@@ -429,10 +429,10 @@ x,y = list(map(int,unput().split()))
 
 
 <b>===== SAÍDA FORMATADA =====</b>=
-print('A soma vale{}'.format(soma))
-'{1} {0}'.format('one', 'two') #"two one"
-print('{0!s} {0!f}'.format(Data()) #"str float"
-print('{:06.2f}'.format(3.141592653589793)) #003.14
+print('A soma vale&#123;&#125;'.format(soma))
+'&#123;1&#125; &#123;0&#125;'.format('one', 'two') #"two one"
+print('&#123;0!s&#125; &#123;0!f&#125;'.format(Data()) #"str float"
+print('&#123;:06.2f&#125;'.format(3.141592653589793)) #003.14
 #:06(qtde de espaços: esquerda p/ direita), .2f(nº float com 2 casas decimais)
 
 
@@ -587,7 +587,7 @@ coisas = ("Max",39,25.5)
 
 Percorrer tupla:
 for comida in lanche:
-    print(f"Eu vou comer {comida}")
+    print(f"Eu vou comer &#123;comida&#125;")
 
 Deletar tupla:
 del(lanche)
@@ -659,11 +659,11 @@ print(pessoas[1][0]) #Maria
 Limpar Lista:
 pessoas.clear()
 DICIONÁRIOS (dictionaries):
-pessoa = {
+pessoa = &#123;
     "nome": "joão",
     "idade": 60,
     "prog": ["python","php"]
-}
+&#125;
 print(pessoa["nome"])
 print(pessoa["prog"])
 
@@ -674,17 +674,17 @@ Remover valores:
 del pessoa['idade']
 
 Dicionário dinâmico:
-dic = {}
+dic = &#123;&#125;
 dic['name'] = "joao"
 dic['age']  = "39"
 
 Percorrer dicionários:
-dic = {'a': 'apple', 'b': 'berry', 'c': 'cherry'}
+dic = &#123;'a': 'apple', 'b': 'berry', 'c': 'cherry'&#125;
 for i in dic:
     print i+" "+dic[i]
 
 for i,j in dic:
-    print(f'O {i} é {j}') #o 'a' é 'apple'
+    print(f'O &#123;i&#125; é &#123;j&#125;') #o 'a' é 'apple'
 #pode-se inserir dicionários dentro de listas
 print(lista[0]['filme']) #dict filmes em 'lista'
 
