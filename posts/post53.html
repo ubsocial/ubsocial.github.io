@@ -54,7 +54,7 @@
             <ol>
                 <li>Pré-requisitos:
                     <ul>
-                        <li>JDK (e path);</li>
+                        <li>JDK 21 (e path);</li>
                         <li>Gradle (e path);</li>
                         <li>MySQL;</li>
                         <li>Postman web e Postman desktop agent.</li>
@@ -64,19 +64,21 @@
                     <ul>
                         <li>Em <a href="https://start.spring.io" target="_blank" class="text-decoration-none">Spring Initializr</a>, selecione as dependências:
                             <ul>
-                                <li>Project: Gradle - Groovy</li>
+                                <li>Project: Gradle - Kotlin</li>
+                                <li>Language: Kotlin</li>
                                 <li>Project Metadata
                                     <ul>
                                         <li>Group: ubsocial.com</li>
                                         <li>Artifact: biblioteca</li>
                                         <li>Name: biblioteca (igual no Artifact)</li>
                                         <li>Package name: ubsocial.com.biblioteca</li>
-                                        <li>Java: versão do JDK instalado na máquina</li>
+                                        <li>Java: versão do JDK instalado na máquina (21)</li>
                                     </ul>
                                 </li>
                                 <li>Dependencies:
                                     <ul>
                                         <li>Spring Web</li>
+                                        <li>Spring Data JPA</li>
                                     </ul>
                                 </li>
                                 <li>Generate (projeto será gerado, abra-o no editor)</li>
@@ -85,11 +87,17 @@
                     </ul>
                 </li>
                 <li>Criar banco de dados MySQL: CREATE DATABASE biblioteca;</li>
-                <li>'build.gradle', em 'dependencies', adicionar novas dependencies:
+                <li>'build.gradle.kts', em 'dependencies', adicionar dependencies:
 <small><pre><code>
-implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-runtimeOnly 'com.mysql:mysql-connector-j'
-implementation 'org.springframework.boot:spring-boot-starter-validation'
+implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+implementation("org.springframework.boot:spring-boot-starter-web")
+implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+implementation("org.springframework.boot:spring-boot-starter-validation")
+implementation("org.jetbrains.kotlin:kotlin-reflect")
+testImplementation("org.springframework.boot:spring-boot-starter-test")
+testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
+testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+runtimeOnly("com.mysql:mysql-connector-j")
 </code></pre></small>
                 </li>
                 <li>'src/main/resources/application.properties':
@@ -103,279 +111,149 @@ spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 spring.jackson.serialization.fail-on-empty-beans=false
 server.error.include-message=always
 server.error.include-binding-errors=always
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+server.port=8080
 </code></pre></small>
                 </li>
                 <li>Dentro do pacote principal do projeto (ubsocial.com.biblioteca), criar pacote "config": ficará ubsocial.com.biblioteca.config</li>
-                <li>Dentro do pacote "config", criar classe WebConfig para conexão com frontend Vue.js:
+                <li>Dentro do pacote "config", criar classe WebConfig.kt para conexão com frontend Vue.js:
 <small><pre><code>
-package ubsocial.com.biblioteca.config;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+package ubsocial.com.biblioteca.config
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+import org.springframework.web.servlet.config.annotation.CorsRegistry
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 @Configuration
-public class WebConfig &#123;
+class WebConfig &#123;
 
     @Bean
-    public WebMvcConfigurer corsConfigurer() &#123;
-        return new WebMvcConfigurer() &#123;
-
-            @Override
-            public void addCorsMappings(CorsRegistry registry) &#123;
+    fun corsConfigurer(): WebMvcConfigurer &#123;
+        return object : WebMvcConfigurer &#123;
+            override fun addCorsMappings(registry: CorsRegistry) &#123;
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:8081")
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
+                    .allowedOrigins("http://localhost:8081")
+                    .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
             &#125;
-        &#125;;
+        &#125;
     &#125;
 &#125;
 </code></pre></small>
                 <li>Dentro do pacote principal do projeto (ubsocial.com.biblioteca), criar pacote "model": ficará ubsocial.com.biblioteca.model</li>
                 <li>Dentro do pacote "model", criar pacote de entidades "entity": ficará model.entity</li>
-                <li>Dentro do pacote "model.entity", criar Model (entidade) Livro:
+                <li>Dentro do pacote "model.entity", criar Model (entidade) Livro.kt:
 <small><pre><code>
-package ubsocial.com.biblioteca.model.entity;
-import java.util.Date;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+package ubsocial.com.biblioteca.model.entity
+import com.fasterxml.jackson.annotation.JsonFormat
+import jakarta.persistence.*
+import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotNull
+import jakarta.validation.constraints.Size
+import java.time.LocalDate
 
 @Entity
-public class Livro &#123;
-    
+data class Livro(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    val id: Long? = null,
 
-    private String title;
-    private String author;
-    
-    @Temporal(TemporalType.DATE)
-    private Date published_date;
-
-    private String isbn;
-    private int pages;
-    private String cover;
-    private String language;
-&#125;
-</code></pre></small>
-                </li>
-                <li>Na mesma pasta de "gradlew", executar projeto: ".\gradlew bootRun"
-                    <ul>
-                        <li>Verificar no banco de dados, se table Livro foi criada.</li>
-                    </ul>
-                </li>
-                <li>Complementar model (entidade) Livro, com novos códigos:
-<small><pre><code>
-package ubsocial.com.biblioteca.model.entity;
-import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-
-@Entity
-public class Livro &#123;
-
-    public Livro() &#123;
-    &#125;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    @NotBlank // NotBlank também é automaticamente NotNull
-    @Size(min = 1, max = 255, message = "Título precisa ter entre 1 e 255 caracteres")
+    @field:NotBlank
+    @field:Size(min = 1, max = 255, message = "Título precisa ter entre 1 e 255 caracteres")
     @Column(length = 255)
-    private String title;
+    val title: String = "",
 
-    @NotBlank
-    @Size(min = 1, max = 255, message = "Autor precisa ter entre 1 e 255 caracteres")
+    @field:NotBlank
+    @field:Size(min = 1, max = 255, message = "Autor precisa ter entre 1 e 255 caracteres")
     @Column(length = 255)
-    private String author;
-    
-    @NotNull
+    val author: String = "",
+
+    @field:NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    @Temporal(TemporalType.DATE)
-    private Date published_date;
+    @Column(name = "published_date")
+    val publishedDate: LocalDate = LocalDate.now(),
 
-    @NotBlank
+    @field:NotBlank
+    @field:Size(min = 13, max = 13, message = "ISBN precisa ter 13 caracteres")
     @Column(unique = true)
-    @Size(min = 13, max = 13, message = "ISBN precisa ter 13 caracteres")
-    private String isbn;
-    
-    private int pages;
-    
-    @Size(min = 1, max = 255, message = "Gênero precisa ter entre 1 e 255 caracteres")
+    val isbn: String = "",
+
+    val pages: Int = 0,
+
+    @field:Size(min = 1, max = 255, message = "Gênero precisa ter entre 1 e 255 caracteres")
     @Column(length = 255)
-    private String cover;
+    val cover: String? = null,
 
-    @NotBlank
-    @Size(min = 1, max = 255, message = "Idioma precisa ter entre 1 e 255 caracteres")
+    @field:NotBlank
+    @field:Size(min = 1, max = 255, message = "Idioma precisa ter entre 1 e 255 caracteres")
     @Column(length = 255)
-    public String language;
-
-    public Long getId() &#123;
-        return id;
-    &#125;
-    
-    public void setId(Long id) &#123;
-        this.id = id;
-    &#125;
-    
-    public String getTitle() &#123;
-        return title;
-    &#125;
-
-    public void setTitle(String title) &#123;
-        this.title = title;
-    &#125;
-
-    public String getAuthor() &#123;
-        return author;
-    &#125;
-
-    public void setAuthor(String author) &#123;
-        this.author = author;
-    &#125;
-
-    public Date getPublishedDate() &#123;
-        return published_date;
-    &#125;
-
-    public void setPublishedDate(Date published_date) &#123;
-        this.published_date = published_date;
-    &#125;
-
-    public String getIsbn() &#123;
-        return isbn;
-    &#125;
-
-    public void setIsbn(String isbn) &#123;
-        this.isbn = isbn;
-    &#125;
-
-    public int getPages() &#123;
-        return pages;
-    &#125;
-
-    public void setPages(int pages) &#123;
-        this.pages = pages;
-    &#125;
-
-    public String getCover() &#123;
-        return cover;
-    &#125;
-
-    public void setCover(String cover) &#123;
-        this.cover = cover;
-    &#125;
-
-    public String getLanguage() &#123;
-        return language;
-    &#125;
-
-    public void setLanguage(String language) &#123;
-        this.language = language;
-    &#125;
-&#125;
+    val language: String = ""
+)
 </code></pre></small>
                 </li>
                 <li>No pacote "model", criar pacote "repositories": ficará model.repositories</li>
-                <li>No pacote "repositories", criar interface LivroRepository:
+                <li>No pacote "repositories", criar interface LivroRepository.kt:
 <small><pre><code>
-package ubsocial.com.biblioteca.model.repositories;
-import ubsocial.com.biblioteca.model.entity.Livro;
-import org.springframework.data.jpa.repository.JpaRepository;
+package ubsocial.com.biblioteca.model.repositories
+import org.springframework.data.jpa.repository.JpaRepository
+import ubsocial.com.biblioteca.model.entity.Livro
 
-public interface LivroRepository extends JpaRepository&lt;Livro, Long&gt; &#123;
-&#125;
+interface LivroRepository : JpaRepository&lt;Livro, Long&gt;
 </code></pre></small>
                 </li>
                 <li>Pacote principal "ubsocial.com.biblioteca", criar pacote "controller"</li>
-                <li>Pacote "controller", criar classe LivroResource:
+                <li>Pacote "controller", criar classe LivroResource.kt:
 <small><pre><code>
-package ubsocial.com.biblioteca.controller;
-import java.util.List;
-import java.util.Optional;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import jakarta.validation.Valid;
-import ubsocial.com.biblioteca.model.entity.Livro;
-import ubsocial.com.biblioteca.model.repositories.LivroRepository;
+package ubsocial.com.biblioteca.controller
+import jakarta.validation.Valid
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
+import ubsocial.com.biblioteca.model.entity.Livro
+import ubsocial.com.biblioteca.model.repositories.LivroRepository
 
 @RestController
 @RequestMapping("/books")
-public class LivroResource &#123;
-    private LivroRepository livroRepository;
-
-    public LivroResource(LivroRepository livroRepository) &#123;
-        this.livroRepository = livroRepository;
-    &#125;
+class LivroResource(private val livroRepository: LivroRepository) &#123;
 
     @GetMapping
-    public List&lt;Livro&gt; get() &#123;
-        return livroRepository.findAll();
-    &#125;
+    fun getAll(): List&lt;Livro&gt; = livroRepository.findAll()
 
     @GetMapping("/&#123;id&#125;")
-    public ResponseEntity&lt;Livro&gt; get(@PathVariable Long id) &#123;
-        Optional&lt;Livro&gt; optional = livroRepository.findById(id);
-        if(!optional.isPresent()) &#123;
-            return new ResponseEntity&lt;Livro&gt;(HttpStatus.NOT_FOUND);
-        &#125;
-        return new ResponseEntity&lt;Livro&gt;(optional.get(), HttpStatus.OK);
+    fun getById(@PathVariable id: Long): ResponseEntity&lt;Livro&gt; &#123;
+        val livro = livroRepository.findById(id)
+        return if (livro.isPresent) ResponseEntity.ok(livro.get())
+        else ResponseEntity.notFound().build()
     &#125;
 
     @PostMapping
-     public Livro create(@RequestBody @Valid Livro livro) &#123;
-        return livroRepository.save(livro);
-    &#125;
+    fun create(@RequestBody @Valid livro: Livro): Livro = livroRepository.save(livro)
 
     @PutMapping("/&#123;id&#125;")
-    public ResponseEntity&lt;Livro&gt; update(@PathVariable Long id, @RequestBody @Valid Livro livro) &#123;
-        Optional&lt;Livro&gt; optional = livroRepository.findById(id);
-        if(!optional.isPresent()) &#123;
-            return new ResponseEntity&lt;Livro&gt;(HttpStatus.NOT_FOUND);
-        &#125;
-        Livro livroAux = optional.get();
-        livroAux.setTitle(livro.getTitle());
-        livroAux.setAuthor(livro.getAuthor());
-        livroAux.setPublishedDate(livro.getPublishedDate());
-        livroAux.setIsbn(livro.getIsbn());
-        livroAux.setPages(livro.getPages());
-        livroAux.setCover(livro.getCover());
-        livroAux.setLanguage(livro.getLanguage());
-        livroRepository.save(livroAux);
-        return new ResponseEntity&lt;Livro&gt;(livroAux, HttpStatus.OK);
+    fun update(@PathVariable id: Long, @RequestBody @Valid livro: Livro): ResponseEntity&lt;Livro&gt; &#123;
+        val optional = livroRepository.findById(id)
+        if (optional.isEmpty) return ResponseEntity.notFound().build()
+
+        val updated = optional.get().copy(
+            title = livro.title,
+            author = livro.author,
+            publishedDate = livro.publishedDate,
+            isbn = livro.isbn,
+            pages = livro.pages,
+            cover = livro.cover,
+            language = livro.language
+        )
+        return ResponseEntity.ok(livroRepository.save(updated))
     &#125;
 
     @DeleteMapping("/&#123;id&#125;")
-    public ResponseEntity&lt;Livro&gt; delete(@PathVariable Long id) &#123;
-        if(!livroRepository.existsById(id)) &#123;
-            return new ResponseEntity&lt;Livro&gt;(HttpStatus.NOT_FOUND);
+    fun delete(@PathVariable id: Long): ResponseEntity&lt;Void&gt; &#123;
+        return if (livroRepository.existsById(id)) &#123;
+            livroRepository.deleteById(id)
+            ResponseEntity.noContent().build()
+        &#125; else &#123;
+            ResponseEntity.notFound().build()
         &#125;
-        livroRepository.deleteById(id);
-        return new ResponseEntity&lt;Livro&gt;(HttpStatus.NO_CONTENT);
     &#125;
 &#125;
 </code></pre></small>
