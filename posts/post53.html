@@ -35,14 +35,14 @@
     <div class="row">
         <div class="col-sm-12 text-center" id="titulo">
             <h1>Projeto biblioteca fullstack Spring Boot e Vue.js</h1>
-            <h6><strong>Criação de projeto de biblioteca fullstack Spring Boot e Vue.js<br><br><span class="badge bg-danger">Resumo com correções pendentes</span></strong></h6>
+            <h6><strong>Criação de projeto de biblioteca fullstack Spring Boot e Vue.js</strong></h6>
             <a href="../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
         </div>
 
         <div class="col-sm-12">
             <h4>Material complementar:</h4>
             <ul>
-                <li>Conteúdo no YouTube: <a target="_blank" class="text-decoration-none">Acesse em breve</a></li>
+                <li>Conteúdo no YouTube: <a href="https://youtube.com/playlist?list=PLnPZ9TE1Tj4ApOuc3PD_OZI_-heXqxBuW&si=5vZV06FTVOU4hB9v" target="_blank" class="text-decoration-none">Acesse</a></li>
                 <li>Conteúdo no GitHub: <a href="https://github.com/mateusschwede/spring_boot/tree/main/biblioteca_fullstack" target="_blank" class="text-decoration-none">Acesse</a></li>
                 <li>Curso gratuito e com certificado na Udemy (Biblioteca fullstack: Spring Boot + Vue.js + Postman + Bootstrap): <a target="_blank" class="text-decoration-none">Acesse em breve</a></li>
             </ul>
@@ -134,7 +134,7 @@ class WebConfig &#123;
             override fun addCorsMappings(registry: CorsRegistry) &#123;
                 registry.addMapping("/**")
                     .allowedOrigins("http://localhost:8081")
-                    .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                    .allowedMethods("GET","POST","PUT","DELETE","OPTIONS")
             &#125;
         &#125;
     &#125;
@@ -171,7 +171,7 @@ data class Livro(
     @field:NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Column(name = "published_date")
-    val publishedDate: LocalDate = LocalDate.now(),
+    val published_date: LocalDate = LocalDate.now(),
 
     @field:NotBlank
     @field:Size(min = 13, max = 13, message = "ISBN precisa ter 13 caracteres")
@@ -180,7 +180,7 @@ data class Livro(
 
     val pages: Int = 0,
 
-    @field:Size(min = 1, max = 255, message = "Gênero precisa ter entre 1 e 255 caracteres")
+    @field:Size(min = 1, max = 255, message = "Capa/Gênero precisa ter entre 1 e 255 caracteres")
     @Column(length = 255)
     val cover: String? = null,
 
@@ -218,7 +218,7 @@ class LivroResource(private val livroRepository: LivroRepository) &#123;
 
     @GetMapping
     fun getAll(): List&lt;Livro&gt; = livroRepository.findAll()
-
+    
     @GetMapping("/&#123;id&#125;")
     fun getById(@PathVariable id: Long): ResponseEntity&lt;Livro&gt; &#123;
         val livro = livroRepository.findById(id)
@@ -237,7 +237,7 @@ class LivroResource(private val livroRepository: LivroRepository) &#123;
         val updated = optional.get().copy(
             title = livro.title,
             author = livro.author,
-            publishedDate = livro.publishedDate,
+            published_date = livro.published_date,
             isbn = livro.isbn,
             pages = livro.pages,
             cover = livro.cover,
@@ -347,6 +347,7 @@ vue create biblioteca-frontend
 
 cd biblioteca-frontend
 npm i bootstrap jquery popper.js axios
+npm install vue-router@4
 npm run serve
 </code></pre></small>
                 </li>
@@ -357,7 +358,6 @@ import App from "@/App.vue";
 import router from "@/router";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-
 createApp(App).use(router).mount("#app");
 </code></pre></small>
                 </li>
@@ -454,55 +454,58 @@ export default router;
 &lt;template&gt;
     &lt;h3&gt;Novo livro:&lt;/h3&gt;
     &lt;form @submit.prevent="saveBook"&gt;
-        &lt;input type="text" class="form-control" placeholder="Título" id="title" required v-model="book.title"
-            name="title" /&gt;
         &lt;div class="form-group"&gt;
-            &lt;input type="text" class="form-control" placeholder="Autor(a)" id="author" required v-model="book.author"
+            &lt;input type="text" class="form-control" v-model="book.title" placeholder="Título" required id="title"
+                name="title" /&gt;
+        &lt;/div&gt;
+        &lt;div class="form-group"&gt;
+            &lt;input type="text" class="form-control" v-model="book.author" placeholder="Autor(a)" required id="author"
                 name="author" /&gt;
         &lt;/div&gt;
         &lt;div class="form-group"&gt;
             &lt;label for="published_date"&gt;Publicação:&lt;/label&gt;
-            &lt;input type="date" class="form-control" id="published_date" :max="new Date().toISOString().split('T')[0]"
-                required v-model="book.published_date" name="published_date" /&gt;
+            &lt;input type="date" class="form-control" v-model="book.published_date" required id="published_date"
+                name="published_date" :max="new Date().toISOString().split('T')[0]" /&gt;
         &lt;/div&gt;
         &lt;div class="form-group"&gt;
-            &lt;input type="text" class="form-control" placeholder="ISBN" pattern="^\d&#123;13&#125;$" id="isbn" required
-                v-model="book.isbn" name="isbn" /&gt;
+            &lt;input type="text" class="form-control" v-model="book.isbn" placeholder="ISBN" required id="isbn"
+                name="isbn" pattern="^\d&#123;13&#125;$" /&gt;
         &lt;/div&gt;
         &lt;div class="form-group"&gt;
-            &lt;input type="number" class="form-control" placeholder="Páginas" id="pages" min="1" required
-                v-model="book.pages" name="pages" /&gt;
+            &lt;input type="number" class="form-control" v-model="book.pages" placeholder="Páginas" required id="pages"
+                name="pages" min="1" /&gt;
         &lt;/div&gt;
         &lt;div class="form-group"&gt;
-            &lt;input type="text" class="form-control" placeholder="Capa" id="cover" v-model="book.cover" name="cover" /&gt;
+            &lt;input type="text" name="cover" class="form-control" v-model="book.cover" placeholder="Capa" required
+                id="cover" /&gt;
         &lt;/div&gt;
         &lt;div class="form-group"&gt;
-            &lt;input type="text" class="form-control" placeholder="Idioma" id="language" required v-model="book.language"
+            &lt;input type="text" class="form-control" v-model="book.language" placeholder="Idioma" required id="language"
                 name="language" /&gt;
         &lt;/div&gt;
-        &lt;button type="button" @click="$router.push('/books')" class="btn btn-secondary"&gt;Cancelar&lt;/button&gt;
+        &lt;button type="button" class="btn btn-secondary" @click="$router.push('/books')"&gt;Cancelar&lt;/button&gt;
         &lt;button type="submit" class="btn btn-success"&gt;Adicionar&lt;/button&gt;
     &lt;/form&gt;
 &lt;/template&gt;
 
 &lt;script lang="ts"&gt;
-import &#123; defineComponent &#125; from "vue";
-import BookDataService from "@/services/BookDataService";
-import Book from "@/types/Book";
-import ResponseData from "@/types/ResponseData";
+import &#123; defineComponent &#125; from 'vue';
+import BookDataService from '@/services/BookDataService';
+import Book from '@/types/Book';
+import ResponseData from '@/types/ResponseData';
 
 export default defineComponent(&#123;
-    name: "add-book",
+    name: 'add-book',
     data() &#123;
         return &#123;
             book: &#123;
-                title: "",
-                author: "",
+                title: '',
+                author: '',
                 published_date: new Date(),
-                isbn: "",
+                isbn: '',
                 pages: 0,
-                cover: "",
-                language: "",
+                cover: '',
+                language: ''
             &#125; as Book,
         &#125;;
     &#125;,
@@ -524,7 +527,7 @@ export default defineComponent(&#123;
                     this.$router.push(&#123; name: "books" &#125;);
                 &#125;)
                 .catch((e: Error) =&gt; &#123;
-                    console.log(e);
+                    console.error(e);
                 &#125;);
         &#125;,
     &#125;,
@@ -540,35 +543,36 @@ export default defineComponent(&#123;
     &lt;div v-if="currentBook.id"&gt;
         &lt;h4&gt;Livro &#123;&#123; currentBook.id &#125;&#125; - &#123;&#123; currentBook.title &#125;&#125;&lt;/h4&gt;
         &lt;form @submit.prevent="updateBook"&gt;
-            &lt;input type="text" class="form-control" placeholder="Título" id="title" required v-model="currentBook.title"
-                name="title" /&gt;
             &lt;div class="form-group"&gt;
-                &lt;input type="text" class="form-control" placeholder="Autor(a)" id="author" required
-                    v-model="currentBook.author" name="author" /&gt;
+                &lt;input type="text" class="form-control" v-model="currentBook.title" placeholder="Título" required
+                    id="title" name="title" /&gt;
+            &lt;/div&gt;
+            &lt;div class="form-group"&gt;
+                &lt;input type="text" class="form-control" v-model="currentBook.author" placeholder="Autor(a)" required
+                    id="author" name="author" /&gt;
             &lt;/div&gt;
             &lt;div class="form-group"&gt;
                 &lt;label for="published_date"&gt;Publicação:&lt;/label&gt;
-                &lt;input type="date" class="form-control" id="published_date"
-                    :max="new Date().toISOString().split('T')[0]" required v-model="currentBook.published_date"
-                    name="published_date" /&gt;
+                &lt;input type="date" class="form-control" v-model="currentBook.published_date" required
+                    id="published_date" name="published_date" :max="new Date().toISOString().split('T')[0]" /&gt;
             &lt;/div&gt;
             &lt;div class="form-group"&gt;
-                &lt;input type="text" class="form-control" placeholder="ISBN" pattern="^\d&#123;13&#125;$" id="isbn" required
-                    v-model="currentBook.isbn" name="isbn" /&gt;
+                &lt;input type="text" class="form-control" v-model="currentBook.isbn" placeholder="ISBN" required id="isbn"
+                    name="isbn" pattern="^\d&#123;13&#125;$" /&gt;
             &lt;/div&gt;
             &lt;div class="form-group"&gt;
-                &lt;input type="number" class="form-control" placeholder="Páginas" id="pages" min="1" required
-                    v-model="currentBook.pages" name="pages" /&gt;
+                &lt;input type="number" class="form-control" v-model="currentBook.pages" placeholder="Páginas" required
+                    id="pages" name="pages" min="1" /&gt;
             &lt;/div&gt;
             &lt;div class="form-group"&gt;
-                &lt;input type="text" class="form-control" placeholder="Capa" id="cover" v-model="currentBook.cover"
-                    name="cover" /&gt;
+                &lt;input type="text" name="cover" class="form-control" v-model="currentBook.cover" placeholder="Capa"
+                    required id="cover" /&gt;
             &lt;/div&gt;
             &lt;div class="form-group"&gt;
-                &lt;input type="text" class="form-control" placeholder="Idioma" id="language" required
-                    v-model="currentBook.language" name="language" /&gt;
+                &lt;input type="text" class="form-control" v-model="currentBook.language" placeholder="Idioma" required
+                    id="language" name="language" /&gt;
             &lt;/div&gt;
-            &lt;button type="button" @click="$router.push('/books')" class="btn btn-secondary"&gt;Cancelar&lt;/button&gt;
+            &lt;button type="button" class="btn btn-secondary" @click="$router.push('/books')"&gt;Cancelar&lt;/button&gt;
             &lt;button type="submit" class="btn btn-warning"&gt;Confirmar&lt;/button&gt;
         &lt;/form&gt;
         &lt;p&gt;&#123;&#123; message &#125;&#125;&lt;/p&gt;
@@ -576,13 +580,13 @@ export default defineComponent(&#123;
 &lt;/template&gt;
 
 &lt;script lang="ts"&gt;
-import &#123; defineComponent &#125; from "vue";
-import BookDataService from "@/services/BookDataService";
-import Book from "@/types/Book";
-import ResponseData from "@/types/ResponseData";
+import &#123; defineComponent &#125; from 'vue';
+import BookDataService from '@/services/BookDataService';
+import Book from '@/types/Book';
+import ResponseData from '@/types/ResponseData';
 
 export default defineComponent(&#123;
-    name: "BookDetails",
+    name: 'bookDetails',
     data() &#123;
         return &#123;
             currentBook: &#123;&#125; as Book,
@@ -596,21 +600,19 @@ export default defineComponent(&#123;
                     this.currentBook = response.data;
                 &#125;)
                 .catch((e: Error) =&gt; &#123;
-                    console.log(e);
+                    console.error(e);
                 &#125;);
         &#125;,
-
         updateBook() &#123;
             BookDataService.update(this.currentBook.id, this.currentBook)
                 .then((response: ResponseData) =&gt; &#123;
                     this.$router.push(&#123; name: "books" &#125;);
                 &#125;)
                 .catch((e: Error) =&gt; &#123;
-                    console.log(e);
-                    this.message = "Erro ao adicionar livro";
+                    console.error(e);
+                    this.message = "Erro ao atualizar o livro: " + e.message;
                 &#125;);
         &#125;,
-
         deleteBook(id: number) &#123;
             BookDataService.delete(this.currentBook.id)
                 .then((response: ResponseData) =&gt; &#123;
@@ -618,7 +620,7 @@ export default defineComponent(&#123;
                     this.$router.push(&#123; name: "books" &#125;);
                 &#125;)
                 .catch((e: Error) =&gt; &#123;
-                    console.log(e);
+                    console.error(e);
                 &#125;);
         &#125;,
     &#125;,
@@ -635,41 +637,41 @@ export default defineComponent(&#123;
                 <li>src/components/BooksList.vue:
 <small><pre><code>
 &lt;template&gt;
-        &lt;h4&gt;Lista de livros:&lt;/h4&gt;
+    &lt;h4&gt;Lista de livros:&lt;/h4&gt;
 
-        &lt;input type="text" class="form-control mb-3" placeholder="Pesquisar" v-model="searchTitle"&gt;
+    &lt;input type="text" class="form-control mb-3" placeholder="Pesquisar" v-model="searchTitle" /&gt;
 
-        &lt;ul&gt;
-            &lt;li :class="&#123; active: index === currentIndex &#125;" v-for="(book, index) in filteredBooks" :key="book.id"&gt;
-                &#123;&#123; book.title &#125;&#125;
-                &lt;button class="btn btn-primary btn-sm" @click="setActiveBook(book, index)"&gt;Ver&lt;/button&gt;
-                &lt;router-link :to="'/books/' + book.id" class="btn btn-warning btn-sm"&gt;Editar&lt;/router-link&gt;
-                &lt;button class="btn btn-danger btn-sm" @click="deleteBook(book.id)"&gt;Excluir&lt;/button&gt;
-            &lt;/li&gt;
-        &lt;/ul&gt;
+    &lt;ul&gt;
+        &lt;li :class="&#123; active: index === currentIndex &#125;" v-for="(book, index) in filteredBooks" :key="book.id"&gt;
+            &#123;&#123; book.title &#125;&#125;
+            &lt;button class="btn btn-primary btn-sm" @click="setActiveBook(book, index)"&gt;Ver&lt;/button&gt;
+            &lt;router-link :to="'/books/' + book.id" class="btn btn-warning btn-sm"&gt;Editar&lt;/router-link&gt;
+            &lt;button class="btn btn-danger btn-sm" @click="deleteBook(book.id)"&gt;Excluir&lt;/button&gt;
+        &lt;/li&gt;
+    &lt;/ul&gt;
 
-        &lt;div v-if="currentBook.id"&gt;
-            &lt;h4&gt;Livro &#123;&#123; currentBook.id &#125;&#125;:&lt;/h4&gt;
-            &lt;p&gt;Título: &#123;&#123; currentBook.title &#125;&#125;&lt;/p&gt;
-            &lt;p&gt;Autor(a): &#123;&#123; currentBook.author &#125;&#125;&lt;/p&gt;
-            &lt;p&gt;Publicação: &#123;&#123; currentBook.published_date &#125;&#125;&lt;/p&gt;
-            &lt;p&gt;ISBN: &#123;&#123; currentBook.isbn &#125;&#125;&lt;/p&gt;
-            &lt;p&gt;Páginas: &#123;&#123; currentBook.pages &#125;&#125;&lt;/p&gt;
-            &lt;p&gt;Capa: &#123;&#123; currentBook.cover &#125;&#125;&lt;/p&gt;
-            &lt;p&gt;Idioma: &#123;&#123; currentBook.language &#125;&#125;&lt;/p&gt;
-            &lt;router-link :to="'/books/' + currentBook.id" class="btn btn-warning btn-sm"&gt;Editar&lt;/router-link&gt;
-            &lt;button @click="deleteBook(currentBook.id)" class="btn btn-danger btn-sm"&gt;Excluir&lt;/button&gt;
-        &lt;/div&gt;
+    &lt;div v-if="currentBook.id"&gt;
+        &lt;h4&gt;Livro &#123;&#123; currentBook.id &#125;&#125;&lt;/h4&gt;
+        &lt;p&gt;Título: &#123;&#123; currentBook.title &#125;&#125;&lt;/p&gt;
+        &lt;p&gt;Autor(a): &#123;&#123; currentBook.author &#125;&#125;&lt;/p&gt;
+        &lt;p&gt;Publicação: &#123;&#123; currentBook.published_date &#125;&#125;&lt;/p&gt;
+        &lt;p&gt;ISBN: &#123;&#123; currentBook.isbn &#125;&#125;&lt;/p&gt;
+        &lt;p&gt;Páginas: &#123;&#123; currentBook.pages &#125;&#125;&lt;/p&gt;
+        &lt;p&gt;Capa: &#123;&#123; currentBook.cover &#125;&#125;&lt;/p&gt;
+        &lt;p&gt;Idioma: &#123;&#123; currentBook.language &#125;&#125;&lt;/p&gt;
+        &lt;router-link :to="'/books/' + currentBook.id" class="btn btn-warning btn-sm"&gt;Editar&lt;/router-link&gt;
+        &lt;button @click="deleteBook(currentBook.id)" class="btn btn-danger btn-sm"&gt;Excluir&lt;/button&gt;
+    &lt;/div&gt;
 &lt;/template&gt;
 
 &lt;script lang="ts"&gt;
-import &#123; defineComponent &#125; from "vue";
-import BookDataService from "@/services/BookDataService";
-import Book from "@/types/Book";
-import ResponseData from "@/types/ResponseData";
+import &#123; defineComponent &#125; from 'vue';
+import BookDataService from '@/services/BookDataService';
+import Book from '@/types/Book';
+import ResponseData from '@/types/ResponseData';
 
 export default defineComponent(&#123;
-    name: "books-list",
+    name: 'books-list',
     data() &#123;
         return &#123;
             books: [] as Book[],
@@ -692,28 +694,25 @@ export default defineComponent(&#123;
                     this.books = response.data;
                 &#125;)
                 .catch((e: Error) =&gt; &#123;
-                    console.log(e);
+                    console.error(e);
                 &#125;);
         &#125;,
-
         refreshList() &#123;
             this.retrieveBooks();
             this.currentBook = &#123;&#125; as Book;
             this.currentIndex = -1;
         &#125;,
-
         setActiveBook(book: Book, index = -1) &#123;
             this.currentBook = book;
             this.currentIndex = index;
         &#125;,
-
         deleteBook(id: number) &#123;
             BookDataService.delete(id)
                 .then((response: ResponseData) =&gt; &#123;
                     this.refreshList();
                 &#125;)
                 .catch((e: Error) =&gt; &#123;
-                    console.log(e);
+                    console.error(e);
                 &#125;);
         &#125;,
     &#125;,
@@ -790,12 +789,14 @@ export default interface ResponseData&lt;T = any&gt; &#123;
 &lt;/template&gt;
 
 &lt;script lang="ts"&gt;
-import &#123; defineComponent &#125; from "vue";
+import &#123; defineComponent &#125; from 'vue';
 
 export default defineComponent(&#123;
-    name: "App",
+    name: 'App',
 &#125;);
 &lt;/script&gt;
+
+&lt;style&gt;&lt;/style&gt;
 </code></pre></small>
                 </li>
             </ol>
