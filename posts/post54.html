@@ -1,0 +1,598 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../icons/logoTit.png">
+    <link rel="stylesheet" href="../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <nav class="navbar rounded-bottom fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="../index.html"><img src="../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../sobre/sobre.html">Sobre</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../cursos.html">Cursos</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../livros/livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 text-center" id="titulo">
+            <h1>Consumir API Spotify com Vue.js e Ionic</h1>
+            <h6><strong>Consumir API do Spotify com Vue.js e Ionic<br><br><span class="badge bg-warning text-dark">Resumo em construção</span></strong></h6>
+            <a href="../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
+        </div>
+
+        <div class="col-sm-12">
+            <h4>Material complementar:</h4>
+            <ul>
+                <li>Conteúdo no YouTube: <a target="_blank" class="text-decoration-none">Acesse em breve</a></li>
+                <li>Conteúdo no GitHub: <a href="https://github.com/mateusschwede/vuejs/tree/main/api_spotify_vuejs/prjSpotify" target="_blank" class="text-decoration-none">Acesse</a></li>
+                <li>Curso gratuito e com certificado na Udemy (Consumir API Spotify com Vue.js e Ionic): <a target="_blank" class="text-decoration-none">Acesse em breve</a></li>
+            </ul>
+
+            <br><h4>Conceito:</h4>
+            <p id="textoPost">Criar projeto frontend Ionic com Vue.js para consumir a API REST do Spotify, com Vue Router e TypeScript. Objetivo é usuário informar ID playlist, e mostrará informações da mesma. Projeto baseado na <a href="https://developer.spotify.com/console/get-playlist" target="_blank" class="text-decoration-none">API REST oficial do Spotify</a>.</p>
+
+            <br><h4>Passo a passo:</h4>
+            <ol>
+                <li>Nodejs (npm);</li>
+                <li>Ionic Vue, router e TypeScript: npm install -g @ionic/cli @vue/cli typescript vue-router@4</li>
+                <li>Criar projeto: ionic start prjSpotify blank --type=vue</li>
+                <li>Entrar no projeto: cd prjSpotify</li>
+                <li>Axios no projeto: npm install axios</li>
+                <li>Programar arquivos, conforme abaixo</li>
+                <li>No projeto, instalar dependências: npm install</li>
+                <li>Executar projeto: ionic serve --host=127.0.0.1
+                    <ul>
+                        <li>Testar no browser: <a href="http://127.0.0.1:8100" target="_blank" class="text-decoration-none">http://127.0.0.1:8100</a></li>
+                    </ul>
+                </li>
+                <li>Em <a href="https://developer.spotify.com/dashboard" target="_blank" class="text-decoration-none">Spotify Developers</a>, Create App:
+                    <ul>
+                        <li>name: prjSpotify</li>
+                        <li>description: Projeto para consumir API REST do Spotify com Vue.js (vue router e TypeScript) e Ionic</li>
+                        <li>Redirect URIs: <a href="http://127.0.0.1:8100/callback" target="_blank" class="text-decoration-none">http://127.0.0.1:8100/callback</a></li>
+                        <li>Which API/SDKs are you planning to use: Web API</li>
+                        <li>Aceitar termos, Save, e copiar Client ID e Client secret (OAuth 2)</li>
+                        <li>Adicione seu login Spotify aos usuários autorizados desse App</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <br><h4>src/components/PlaylistForm.vue:</h4>
+<small><pre><code>
+&lt;template&gt;
+    &lt;ion-page&gt;
+        &lt;ion-header&gt;
+            &lt;ion-toolbar color="primary"&gt;
+                &lt;ion-title class="ion-text-center "&gt;Spotify Playlist&lt;/ion-title&gt;
+            &lt;/ion-toolbar&gt;
+        &lt;/ion-header&gt;
+
+        &lt;ion-content class="ion-padding"&gt;
+
+            &lt;ion-card v-if="!hasToken" class="ion-text-center"&gt;
+                &lt;ion-card-header&gt;
+                    &lt;ion-card-title&gt;Conectar ao Spotify&lt;/ion-card-title&gt;
+                    &lt;ion-card-subtitle&gt;Acesse suas playlists públicas&lt;/ion-card-subtitle&gt;
+                &lt;/ion-card-header&gt;
+                &lt;ion-button expand="block" color="success" @click="loginWithSpotify"&gt;
+                    Login com Spotify
+                &lt;/ion-button&gt;
+            &lt;/ion-card&gt;
+
+            &lt;ion-card v-if="hasToken"&gt;
+                &lt;ion-card-header&gt;
+                    &lt;ion-card-title&gt;Buscar Playlist&lt;/ion-card-title&gt;
+                &lt;/ion-card-header&gt;
+                &lt;ion-card-content&gt;
+                    &lt;ion-item&gt;
+                        &lt;ion-label position="stacked"&gt;URL da Playlist&lt;/ion-label&gt;
+                        &lt;ion-input v-model="url" placeholder="https://open.spotify.com/playlist/..."
+                            clear-input&gt;&lt;/ion-input&gt;
+                    &lt;/ion-item&gt;
+                    &lt;ion-button expand="block" class="ion-margin-top" :disabled="!url" @click="submit"&gt;
+                        Ver Playlist
+                    &lt;/ion-button&gt;
+                &lt;/ion-card-content&gt;
+            &lt;/ion-card&gt;
+
+            &lt;div v-if="loading" class="ion-text-center ion-margin-top"&gt;
+                &lt;ion-spinner name="crescent" /&gt;
+                &lt;p&gt;Carregando playlist...&lt;/p&gt;
+            &lt;/div&gt;
+
+            &lt;div v-if="playlist"&gt;
+                &lt;ion-grid&gt;
+                    &lt;ion-row class="ion-justify-content-center"&gt;
+                        &lt;ion-col size="12" size-md="6" size-lg="4"&gt;
+                            &lt;ion-card class="playlist-cover-card ion-text-center ion-padding"&gt;
+                                &lt;ion-img :src="playlist.images[0]?.url" alt="Capa da Playlist" /&gt;
+                                &lt;h1&gt;&#123;&#123; playlist.name &#125;&#125;&lt;/h1&gt;
+                                &lt;p&gt;&#123;&#123; playlist.description || 'Sem descrição disponível' &#125;&#125;&lt;/p&gt;
+                            &lt;/ion-card&gt;
+                        &lt;/ion-col&gt;
+                    &lt;/ion-row&gt;
+
+                    &lt;ion-row&gt;
+                        &lt;ion-col v-for="item in playlist.tracks.items" :key="item.track.id" size="12" size-sm="6"
+                            size-md="4" size-lg="3" class="ion-padding"&gt;
+                            &lt;ion-card class="track-card ion-text-light"&gt;
+                                &lt;ion-img :src="item.track.album.images[1]?.url || item.track.album.images[0]?.url"
+                                    alt="Capa do Álbum" /&gt;
+                                &lt;ion-card-header&gt;
+                                    &lt;ion-card-title&gt;&#123;&#123; item.track.name &#125;&#125;&lt;/ion-card-title&gt;
+                                    &lt;ion-card-subtitle&gt;&#123;&#123;item.track.artists.map(a =&gt; a.name).join(', ')
+                                        &#125;&#125;&lt;/ion-card-subtitle&gt;
+                                &lt;/ion-card-header&gt;
+                                &lt;ion-card-content class="ion-text-center"&gt;
+                                    &lt;ion-button expand="block" color="success" shape="round" fill="solid"
+                                        :href="item.track.external_urls.spotify" target="_blank"
+                                        rel="noopener noreferrer"&gt;
+                                        Ouvir
+                                        &lt;ion-icon name="play-outline" slot="end" /&gt;
+                                    &lt;/ion-button&gt;
+                                &lt;/ion-card-content&gt;
+                            &lt;/ion-card&gt;
+                        &lt;/ion-col&gt;
+                    &lt;/ion-row&gt;
+                &lt;/ion-grid&gt;
+            &lt;/div&gt;
+
+        &lt;/ion-content&gt;
+    &lt;/ion-page&gt;
+&lt;/template&gt;
+
+&lt;script lang="ts" setup&gt;
+import &#123; ref &#125; from 'vue';
+import axios from 'axios';
+import &#123;
+    IonPage,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonInput,
+    IonItem,
+    IonButton,
+    IonCard,
+    IonCardHeader,
+    IonCardTitle,
+    IonCardSubtitle,
+    IonCardContent,
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonSpinner,
+    IonIcon,
+    IonImg
+&#125; from '@ionic/vue';
+
+import &#123; redirectToSpotifyLogin, getAccessToken &#125; from '../services/auth';
+import &#123; playOutline &#125; from 'ionicons/icons';
+import &#123; addIcons &#125; from 'ionicons';
+
+addIcons(&#123; 'play-outline': playOutline &#125;);
+
+const url = ref('');
+const playlist = ref&lt;any | null&gt;(null);
+const loading = ref(false);
+const hasToken = ref(!!getAccessToken());
+
+function loginWithSpotify() &#123;
+    redirectToSpotifyLogin();
+&#125;
+
+async function submit() &#123;
+    const token = getAccessToken();
+    if (!token) &#123;
+        alert('Você precisa estar logado no Spotify.');
+        return;
+    &#125;
+
+    const match = url.value.match(/playlist\/([a-zA-Z0-9]+)/);
+    if (!match) &#123;
+        alert('URL inválida.');
+        return;
+    &#125;
+
+    const playlistId = match[1];
+    loading.value = true;
+    playlist.value = null;
+
+    try &#123;
+        const &#123; data &#125; = await axios.get(`https://api.spotify.com/v1/playlists/$&#123;playlistId&#125;`, &#123;
+            headers: &#123; Authorization: `Bearer $&#123;token&#125;` &#125;
+        &#125;);
+        playlist.value = data;
+    &#125; catch &#123;
+        alert('Erro ao buscar playlist. Verifique se a playlist é pública ou seu token está válido.');
+    &#125; finally &#123;
+        loading.value = false;
+    &#125;
+&#125;
+&lt;/script&gt;
+
+&lt;style scoped&gt;
+ion-card.track-card &#123;
+    border-radius: 16px;
+    overflow: hidden;
+    background-color: #222;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin: 0 12px 20px 12px;
+&#125;
+
+ion-card.track-card:hover &#123;
+    transform: translateY(-6px);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.9);
+&#125;
+
+ion-card.track-card ion-img &#123;
+    height: 200px;
+    object-fit: cover;
+&#125;
+
+ion-card.track-card ion-card-title &#123;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #fff;
+&#125;
+
+ion-card.track-card ion-card-subtitle &#123;
+    font-size: 1rem;
+    color: #bbb;
+&#125;
+
+ion-card.playlist-cover-card &#123;
+    border-radius: 20px;
+    background-color: #1e1e1e;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8);
+    margin: 24px auto 32px auto;
+    max-width: 100%;
+    color: #eee;
+    transition: box-shadow 0.3s ease;
+&#125;
+
+ion-card.playlist-cover-card:hover &#123;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 1);
+&#125;
+
+ion-card.playlist-cover-card ion-img &#123;
+    max-width: 220px;
+    height: auto;
+    border-radius: 24px;
+    object-fit: cover;
+    margin: 0 auto 20px auto;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.7);
+&#125;
+
+ion-card.playlist-cover-card h1 &#123;
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 12px;
+    color: #fff;
+&#125;
+
+ion-card.playlist-cover-card p &#123;
+    font-size: 1.1rem;
+    color: #ccc;
+    padding: 0 12px;
+    line-height: 1.4;
+    user-select: text;
+&#125;
+&lt;/style&gt;
+</code></pre></small>
+
+            <br><h4>src/router/index.ts:</h4>
+<small><pre><code>
+import &#123; createRouter, createWebHistory &#125; from 'vue-router';
+import HomeView from '../views/HomeView.vue';
+import CallbackView from '../views/CallbackView.vue';
+
+const routes = [
+    &#123;
+        path: '/',
+        name: 'Home',
+        component: HomeView
+    &#125;,
+    &#123;
+        path: '/callback',
+        name: 'Callback',
+        component: CallbackView
+    &#125;
+];
+
+const router = createRouter(&#123;
+    history: createWebHistory(),
+    routes
+&#125;);
+
+export default router;
+</code></pre></small>
+
+            <br><h4>src/services/auth.ts:</h4>
+<small><pre><code>
+const CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
+const REDIRECT_URI = 'http://127.0.0.1:8100/callback';
+const SCOPES = ['playlist-read-private', 'playlist-read-collaborative'];
+const AUTH_ENDPOINT = 'https://accounts.spotify.com/authorize';
+const TOKEN_ENDPOINT = 'https://accounts.spotify.com/api/token';
+
+function generateCodeVerifier(): string &#123;
+    const array = new Uint8Array(64);
+    crypto.getRandomValues(array);
+    return btoa(String.fromCharCode(...array))
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=+$/, '');
+&#125;
+
+async function generateCodeChallenge(verifier: string): Promise&lt;string&gt; &#123;
+    const data = new TextEncoder().encode(verifier);
+    const digest = await crypto.subtle.digest('SHA-256', data);
+    const base64 = btoa(String.fromCharCode(...new Uint8Array(digest)));
+    return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+&#125;
+
+export async function redirectToSpotifyLogin() &#123;
+    const verifier = generateCodeVerifier();
+    const challenge = await generateCodeChallenge(verifier);
+
+    const params = new URLSearchParams(&#123;
+        response_type: 'code',
+        client_id: CLIENT_ID,
+        scope: SCOPES.join(' '),
+        redirect_uri: REDIRECT_URI,
+        code_challenge_method: 'S256',
+        code_challenge: challenge,
+        state: verifier
+    &#125;);
+
+    window.location.href = `$&#123;AUTH_ENDPOINT&#125;?$&#123;params.toString()&#125;`;
+&#125;
+
+export async function fetchAccessToken(code: string, verifier: string): Promise&lt;string&gt; &#123;
+    const body = new URLSearchParams(&#123;
+        grant_type: 'authorization_code',
+        code,
+        redirect_uri: REDIRECT_URI,
+        client_id: CLIENT_ID,
+        code_verifier: verifier
+    &#125;);
+
+    console.log('Enviando requisição para token com corpo:', Object.fromEntries(body.entries()));
+
+    const response = await fetch(TOKEN_ENDPOINT, &#123;
+        method: 'POST',
+        headers: &#123;
+            'Content-Type': 'application/x-www-form-urlencoded'
+        &#125;,
+        body
+    &#125;);
+
+    const data = await response.json();
+    console.log('Resposta do token:', data);
+
+    if (!response.ok) &#123;
+        throw new Error(`Erro ao obter token: $&#123;response.status&#125; - $&#123;JSON.stringify(data)&#125;`);
+    &#125;
+
+    if (!data.access_token) &#123;
+        throw new Error('access_token ausente na resposta');
+    &#125;
+
+    localStorage.setItem('access_token', data.access_token);
+    return data.access_token;
+&#125;
+
+export function getAccessToken(): string | null &#123;
+    return localStorage.getItem('access_token');
+&#125;
+
+export function logout() &#123;
+    localStorage.removeItem('access_token');
+&#125;
+</code></pre></small>
+
+            <br><h4>src/theme/variables.css:</h4>
+<small><pre><code>
+:root &#123;
+    --ion-color-primary: #3880ff;
+    --ion-color-primary-rgb: 56, 128, 255;
+    --ion-color-primary-contrast: #ffffff;
+    --ion-color-primary-contrast-rgb: 255, 255, 255;
+    --ion-color-primary-shade: #3171e0;
+    --ion-color-primary-tint: #4c8dff;
+    --ion-color-secondary: #3dc2ff;
+    --ion-color-secondary-rgb: 61, 194, 255;
+    --ion-color-secondary-contrast: #ffffff;
+    --ion-color-secondary-contrast-rgb: 255, 255, 255;
+    --ion-color-secondary-shade: #36abe0;
+    --ion-color-secondary-tint: #50c8ff;
+    --ion-color-tertiary: #5260ff;
+    --ion-color-tertiary-rgb: 82, 96, 255;
+    --ion-color-tertiary-contrast: #ffffff;
+    --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+    --ion-color-tertiary-shade: #4854e0;
+    --ion-color-tertiary-tint: #6370ff;
+    --ion-color-success: #2dd36f;
+    --ion-color-warning: #ffc409;
+    --ion-color-danger: #eb445a;
+    --ion-color-dark: #222428;
+    --ion-color-medium: #92949c;
+    --ion-color-light: #f4f5f8;
+&#125;
+
+@media (prefers-color-scheme: dark) &#123;
+    :root &#123;
+        --ion-background-color: #121212;
+        --ion-text-color: #ffffff;
+        --ion-color-primary: #4c8dff;
+        --ion-color-secondary: #50c8ff;
+        --ion-color-tertiary: #6370ff;
+        --ion-color-success: #2fdf75;
+        --ion-color-warning: #ffd534;
+        --ion-color-danger: #ff4961;
+        --ion-color-dark: #f4f5f8;
+        --ion-color-medium: #989aa2;
+        --ion-color-light: #222428;
+    &#125;
+&#125;
+</code></pre></small>
+
+            <br><h4>src/views/CallbackView.vue:</h4>
+<small><pre><code>
+&lt;template&gt;
+    &lt;ion-page&gt;
+        &lt;ion-header&gt;
+            &lt;ion-toolbar&gt;
+                &lt;ion-title&gt;Autenticando...&lt;/ion-title&gt;
+            &lt;/ion-toolbar&gt;
+        &lt;/ion-header&gt;
+
+        &lt;ion-content class="ion-padding"&gt;
+            &lt;ion-spinner name="crescent" /&gt;
+            &lt;p&gt;Autenticando com Spotify...&lt;/p&gt;
+        &lt;/ion-content&gt;
+    &lt;/ion-page&gt;
+&lt;/template&gt;
+
+&lt;script lang="ts" setup&gt;
+import &#123; onMounted &#125; from 'vue';
+import &#123; useRoute, useRouter &#125; from 'vue-router';
+import &#123; fetchAccessToken &#125; from '../services/auth';
+
+const route = useRoute();
+const router = useRouter();
+
+onMounted(async () =&gt; &#123;
+    const code = route.query.code as string;
+    const verifier = route.query.state as string; // ← novo
+
+    if (!code || !verifier) &#123;
+        alert('Código de autorização ou estado ausente.');
+        router.replace('/');
+        return;
+    &#125;
+
+    try &#123;
+        console.log('Código recebido na URL:', code);
+        console.log('Verifier recebido via state:', verifier);
+        const token = await fetchAccessToken(code, verifier);
+        console.log('Token recebido com sucesso:', token);
+    &#125; catch (error) &#123;
+        console.error('Erro ao obter access_token:', error);
+        alert('Erro ao autenticar com o Spotify.');
+    &#125; finally &#123;
+        router.replace('/');
+    &#125;
+&#125;);
+&lt;/script&gt;
+</code></pre></small>
+
+            <b><h4>src/views/HomeView.vue:</h4></b>
+<small><pre><code>
+&lt;template&gt;
+    &lt;PlaylistForm /&gt;
+&lt;/template&gt;
+
+&lt;script lang="ts" setup&gt;
+    import PlaylistForm from '../components/PlaylistForm.vue';
+&lt;/script&gt;
+</code></pre></small>
+
+            <br><h4>App.vue:</h4>
+<small><pre><code>
+&lt;template&gt;
+    &lt;ion-app&gt;
+        &lt;ion-content class="ion-padding"&gt;
+            &lt;router-view /&gt;
+        &lt;/ion-content&gt;
+    &lt;/ion-app&gt;
+&lt;/template&gt;
+
+&lt;script lang="ts" setup&gt;
+import &#123; IonApp, IonContent &#125; from '@ionic/vue';
+&lt;/script&gt;
+
+&lt;style scoped&gt;
+ion-content &#123;
+    --background: var(--ion-background-color);
+    color: var(--ion-text-color);
+&#125;
+&lt;/style&gt;
+</code></pre></small>
+
+            <br><h4>main.ts:</h4>
+<small><pre><code>
+import &#123; createApp &#125; from 'vue'
+import App from './App.vue'
+import router from './router'
+import &#123; IonicVue &#125; from '@ionic/vue'
+import '@ionic/vue/css/core.css'
+import '@ionic/vue/css/normalize.css'
+import '@ionic/vue/css/structure.css'
+import '@ionic/vue/css/typography.css'
+import '@ionic/vue/css/padding.css'
+import '@ionic/vue/css/float-elements.css'
+import '@ionic/vue/css/text-alignment.css'
+import '@ionic/vue/css/text-transformation.css'
+import '@ionic/vue/css/flex-utils.css'
+import '@ionic/vue/css/display.css'
+//import '@ionic/vue/css/palettes/dark.system.css'
+import '@ionic/vue/css/palettes/dark.always.css'
+import './theme/variables.css'
+
+const app = createApp(App)
+    .use(IonicVue)
+    .use(router)
+
+router.isReady().then(() =&gt; &#123;
+    app.mount('#app')
+&#125;)
+</code></pre></small>
+
+            <br><h4>.env:</h4>
+<small><pre><code>
+VITE_SPOTIFY_CLIENT_ID=seu_client_id_aqui
+VITE_SPOTIFY_CLIENT_SECRET=seu_client_secret_aqui
+</code></pre></small>
+
+            <br><h4>.gitignore (acrescentar linhas):</h4>
+<small><pre><code>
+node_modules/
+dist/
+.env
+</code></pre></small>
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center bg-black text-light pt-4 pb-3">
+        <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>
