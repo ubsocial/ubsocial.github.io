@@ -63,7 +63,7 @@ python manage.py startapp cafes
                 <li>Em paris_cafes/settings.py, informar conteúdo faltante:
 <small><pre><code>
 INSTALLED_APPS = [
-    # Outros conteúdo
+    # Outro conteúdo
     'rest_framework',
     'corsheaders',
     'cafes',
@@ -292,10 +292,10 @@ export default api
     &lt;div class="container mt-4"&gt;
         &lt;h2&gt;Adicionar Cafeteria:&lt;/h2&gt;
         &lt;b-form @submit.prevent="addCafe"&gt;
-            &lt;b-form-input v-model="form.nome" placeholder="Nome" class="mb-2" maxlength="255" required /&gt;
-            &lt;b-form-input v-model="form.data_inauguracao" type="date" class="mb-2" :max="new Date().toLocaleDateString('sv-SE')" required /&gt;
-            &lt;b-form-textarea v-model="form.endereco" placeholder="Endereço" class="mb-2" maxlength="255" required /&gt;
-            &lt;b-form-input v-model.number="form.avaliacao" type="number" step="0.01" min="0" max="10" class="mb-2"
+            &lt;b-form-input v-model="form.nome" placeholder="Nome" name="nome" class="mb-2" maxlength="255" required /&gt;
+            &lt;b-form-input v-model="form.data_inauguracao" type="date" name="data_inauguracao" class="mb-2" :max="new Date().toLocaleDateString('sv-SE')" required /&gt;
+            &lt;b-form-textarea v-model="form.endereco" placeholder="Endereço" name="endereco" class="mb-2" maxlength="255" required /&gt;
+            &lt;b-form-input v-model.number="form.avaliacao" type="number" step="0.01" min="0" max="10" name="avaliacao" class="mb-2"
                 required /&gt;
             &lt;b-button type="submit" variant="success" class="me-2"&gt;Confirmar&lt;/b-button&gt;
             &lt;router-link to="/" class="btn btn-secondary"&gt;Cancelar&lt;/router-link&gt;
@@ -324,10 +324,10 @@ const addCafe = async () =&gt; &#123;
     &lt;div class="container mt-4"&gt;
         &lt;h2&gt;Editar Cafeteria &#123;&#123; form.id &#125;&#125;:&lt;/h2&gt;
         &lt;b-form @submit.prevent="updateCafe"&gt;
-            &lt;b-form-input v-model="form.nome" class="mb-2" maxlength="255" required /&gt;
-            &lt;b-form-input v-model="form.data_inauguracao" type="date" class="mb-2" :max="new Date().toLocaleDateString('sv-SE')" required /&gt;
-            &lt;b-form-textarea v-model="form.endereco" class="mb-2" maxlength="255" required /&gt;
-            &lt;b-form-input v-model.number="form.avaliacao" type="number" step="0.01" min="0" max="10" class="mb-2"
+            &lt;b-form-input v-model="form.nome" name="nome" class="mb-2" maxlength="255" required /&gt;
+            &lt;b-form-input v-model="form.data_inauguracao" type="date" name="data_inauguracao" class="mb-2" :max="new Date().toLocaleDateString('sv-SE')" required /&gt;
+            &lt;b-form-textarea v-model="form.endereco" name="endereco" class="mb-2" maxlength="255" required /&gt;
+            &lt;b-form-input v-model.number="form.avaliacao" type="number" step="0.01" min="0" max="10" name="avaliacao" class="mb-2"
                 required /&gt;
             &lt;b-button type="submit" variant="success" class="btn btn-success me-2"&gt;Confirmar&lt;/b-button&gt;
             &lt;router-link to="/" class="btn btn-secondary"&gt;Cancelar&lt;/router-link&gt;
@@ -490,6 +490,122 @@ app.mount('#app')
                     </ol>
                 </li>
             </ol>
+
+            <br><h4>Testes frontend:</h4>
+            <p>Testes unitários via test runner Vitest.</p>
+            <ol>
+                <li>No projeto frontend, instalar dependências: npm install --save-dev vitest @vitest/ui jsdom @vue/test-utils</li>
+                <li>Em src/, criar diretórios tests/unit/</li>
+                <li>Modificar vite.config.ts:
+<small><pre><code>
+import &#123; fileURLToPath, URL &#125; from 'node:url'
+import &#123; defineConfig &#125; from 'vite'
+import vue from '@vitejs/plugin-vue'
+import vueDevTools from 'vite-plugin-vue-devtools'
+
+export default defineConfig(&#123;
+    plugins: [
+        vue(),
+        vueDevTools(),
+    ],
+    resolve: &#123;
+        alias: &#123;
+            '@': fileURLToPath(new URL('./src', import.meta.url))
+        &#125;,
+    &#125;,
+    test: &#123;
+        globals: true,
+        environment: 'jsdom',
+        setupFiles: ['./src/tests/setup.ts'],
+    &#125;,
+&#125;)
+</code></pre></small>
+                </li>
+                <li>Em package.json, adicionar trecho de script de testes:
+<small><pre><code>
+"scripts": &#123;
+    # Outro conteúdo
+    "test": "vitest",
+    "test:ui": "vitest --ui"
+&#125;
+</code></pre></small>
+                </li>
+                <li>Em src/tests/setup.ts, informar configurações de arquivos de testes:
+<small><pre><code>
+import &#123; beforeAll &#125; from 'vitest'
+
+beforeAll(() =&gt; &#123;
+    Object.defineProperty(window, 'matchMedia', &#123;
+        writable: true,
+        value: (query: string) =&gt; (&#123;
+            matches: false,
+            media: query,
+            onchange: null,
+            addListener: () =&gt; &#123; &#125;,
+            removeListener: () =&gt; &#123; &#125;,
+            addEventListener: () =&gt; &#123; &#125;,
+            removeEventListener: () =&gt; &#123; &#125;,
+            dispatchEvent: () =&gt; false,
+        &#125;),
+    &#125;)
+&#125;)
+</code></pre></small>
+                </li>
+                <li>Em src/tests/unit/ViewCafe.spec.ts, criar arquivo de testes unitários para tela ViewCafe:
+<small><pre><code>
+import &#123; mount &#125; from '@vue/test-utils'
+import ViewCafe from '../../views/ViewCafe.vue'
+import &#123; describe, it, expect, vi &#125; from 'vitest'
+import &#123; createMemoryHistory, createRouter &#125; from 'vue-router'
+import api from '@/services/api'
+
+vi.mock('@/services/api')
+
+const mockCafe = &#123;
+    id: 1,
+    nome: 'Café de Flore',
+    data_inauguracao: '1887-01-01',
+    endereco: '172 Boulevard Saint-Germain, Paris',
+    avaliacao: 9.5,
+&#125;
+
+const router = createRouter(&#123;
+    history: createMemoryHistory(),
+    routes: [&#123; path: '/view/:id', component: ViewCafe &#125;],
+&#125;)
+
+describe('ViewCafe.vue', () =&gt; &#123;
+    it('exibe detalhes da cafeteria', async () =&gt; &#123;
+        (api.get as any).mockResolvedValue(&#123; data: mockCafe &#125;)
+
+        router.push('/view/1')
+        await router.isReady()
+
+        const wrapper = mount(ViewCafe, &#123;
+            global: &#123;
+                plugins: [router],
+            &#125;,
+        &#125;)
+
+        await new Promise(resolve =&gt; setTimeout(resolve, 0))
+        expect(wrapper.text()).toContain('Café de Flore')
+        expect(wrapper.text()).toContain('1887')
+        expect(wrapper.text()).toContain('172 Boulevard Saint-Germain')
+        expect(wrapper.text()).toContain('9.5')
+    &#125;)
+&#125;)
+</code></pre></small>
+                </li>
+                <li>Executar testes:
+                    <ol>
+                        <li>Via terminal CLI: npx vitest</li>
+                        <li>Via interface gráfica: npx vitest --ui</li>
+                    </ol>
+                </li>
+                <li>Sugerem-se, como próximos passos, configurar CI/CD para os testes (GitHub Actions, GitLab CI, etc).</li>
+            </ol>
+
+            <br><h4>Testes backend:</h4>
         </div>
     </div>
 
@@ -504,3 +620,10 @@ app.mount('#app')
 </div>
 </body>
 </html>
+
+
+<!--
+TESTES UNITÁRIOS VUE.JS:
+- AddCafe.vue: Informar atributos name nos inputs
+- EditCafe.vue: Informar atributos name nos inputs
+-->
