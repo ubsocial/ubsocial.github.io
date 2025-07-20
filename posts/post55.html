@@ -48,19 +48,19 @@
             </ul>
 
             <br><h4>Conceito:</h4>
-            <p id="textoPost">Criar sistema web RESTful fullstack, com backend Django REST Framework - DRF (viewsets e routers) e frontend Vue.js TypeScript (vue router), com funções de CRUD (criar, listar, ver específico, editar e excluir) de cafés Parisienses. Testes através do Postman, estilização frontend através do Bootstrap (Bootstrap vue next). Possui os projetos "paris_cafes" (backend Django REST Framework) e "cafe_frontend" (frontend Vue.js TypeScript) integrados como sistema RESTful fullstack.</p>
+            <p id="textoPost">Criar sistema web RESTful fullstack, com backend Django REST Framework - DRF (viewsets e routers) e frontend Vue.js TypeScript (vue router), com funções de CRUD (criar, listar, ver específico, editar e excluir) de cafés Parisienses. Testes através do Postman, estilização frontend através do Bootstrap (Bootstrap vue next). Possui os projetos "paris_cafe" (backend Django REST Framework) e "cafe_frontend" (frontend Vue.js TypeScript) integrados como sistema RESTful fullstack.</p>
 
             <br><h4>Backend (Django REST Framework):</h4>
             <ol>
                 <li>Criar projeto DRF:
 <small><pre><code>
-pip3 install django djangorestframework markdown django-filter django-cors-headers --break-system-packages
-django-admin startproject paris_cafes
-cd paris_cafes
+pip3 install django djangorestframework markdown django-filter django-cors-headers pytest pytest-django model_bakery --break-system-packages
+django-admin startproject paris_cafe
+cd paris_cafe
 python manage.py startapp cafes
 </code></pre></small>
                 </li>
-                <li>Em paris_cafes/settings.py, informar conteúdo faltante:
+                <li>Em paris_cafe/settings.py, informar conteúdo faltante:
 <small><pre><code>
 INSTALLED_APPS = [
     # Outro conteúdo
@@ -140,7 +140,7 @@ urlpatterns = [
 ]
 </code></pre></small>
                 </li>
-                <li>Em paris_cafes/urls.py, editar arquivo de routes globais:
+                <li>Em paris_cafe/urls.py, editar arquivo de routes globais:
 <small><pre><code>
 from django.contrib import admin
 from django.urls import path, include
@@ -205,7 +205,7 @@ python manage.py runserver
     "data_inauguracao": "1884-01-01",
     "endereco": "6 Pl. Saint-Germain des Prés, 75006 Paris, França",
     "avaliacao": 9.8
-}
+&#125;
                             </code></pre></small>
                         </li>
                         <li>Send (enviar)</li>
@@ -491,11 +491,98 @@ app.mount('#app')
                 </li>
             </ol>
 
+            <br><h4>Testes backend:</h4>
+            <p>Testes unitários e de integração, via pytest.</p>
+            <ol>
+                <li>Pasta do projeto backend, criar arquivo pytest.ini:
+<small><pre><code>
+[pytest]
+DJANGO_SETTINGS_MODULE = paris_cafe.settings
+python_files = tests.py test_*.py *_tests.py
+</code></pre></small>
+                </li>
+                <li>Em pasta App 'paris_cafe', criar diretório tests/</li>
+                <li>Em tests/, criar arquivo conftest.py para uso de fixtures compartilhadas:
+<small><pre><code>
+import pytest
+from model_bakery import baker
+
+@pytest.fixture
+def cafe():
+    return baker.make("paris_cafe.Cafeteria")
+</code></pre></small>
+                </li>
+                <li>Em tests/, criar diretório unit/ para testes unitários</li>
+                <li>Em tests/unit/, criar arquivo test_models.py para testar models:
+<small><pre><code>
+import pytest
+from cafes.models import Cafeteria
+
+@pytest.mark.django_db
+def test_cria_cafeteria():
+    cafe = Cafeteria.objects.create(
+        nome="Café do Centro",
+        data_inauguracao="2020-01-01",
+        endereco="Rua Principal, 123",
+        avaliacao=9.5,
+    )
+    assert cafe.nome == "Café do Centro"
+    assert cafe.avaliacao == 9.5
+</code></pre></small>
+                </li>
+                <li>Em tests/unit/, criar arquivo test_serializers.py para testar serializers:
+<small><pre><code>
+from cafes.serializers import CafeteriaSerializer
+
+def test_cafe_serializer_valid_data():
+    data = &#123;
+        "nome": "Café Central",
+        "data_inauguracao": "2021-01-01",
+        "endereco": "Av. Principal, 456",
+        "avaliacao": 8.7
+    &#125;
+    serializer = CafeteriaSerializer(data=data)
+    assert serializer.is_valid()
+    assert serializer.validated_data["nome"] == "Café Central"
+</code></pre></small>
+                </li>
+                <li>Em tests/, criar diretório integration/ para testes de integração</li>
+                <li>Em tests/integration/, criar arquivo test_views.py para testar views:
+<small><pre><code>
+import pytest
+from rest_framework.test import APIClient
+from model_bakery import baker
+
+@pytest.mark.django_db
+def test_lista_cafeterias():
+    baker.make("cafes.Cafeteria", _quantity=3)
+    client = APIClient()
+    response = client.get("/cafes/")
+    assert response.status_code == 200
+    assert len(response.data) == 3
+
+@pytest.mark.django_db
+def test_cria_cafeteria_api():
+    client = APIClient()
+    data = &#123;
+        "nome": "API Café",
+        "data_inauguracao": "2023-06-15",
+        "endereco": "Avenida API, 789",
+        "avaliacao": 7.2,
+    &#125;
+    response = client.post("/cafes/", data=data, format='json')
+    assert response.status_code == 201
+    assert response.data["nome"] == "API Café"
+</code></pre></small>
+                </li>
+                <li>Executar testes: pytest</li>
+            </ol>
+
             <br><h4>Testes frontend:</h4>
-            <p>Testes unitários via test runner Vitest.</p>
+            <p>Testes unitários e de integração, via test runner Vitest.</p>
             <ol>
                 <li>No projeto frontend, instalar dependências: npm install --save-dev vitest @vitest/ui jsdom @vue/test-utils</li>
-                <li>Em src/, criar diretórios tests/unit/</li>
+                <li>Em src/, criar diretórios tests/unit/ para testes unitários</li>
                 <li>Modificar vite.config.ts:
 <small><pre><code>
 import &#123; fileURLToPath, URL &#125; from 'node:url'
@@ -596,16 +683,67 @@ describe('ViewCafe.vue', () =&gt; &#123;
 &#125;)
 </code></pre></small>
                 </li>
+                <li>Em tests/, criar diretório integration/ para testes de integração</li>
+                <li>Em tests/integration/, criar arquivo ViewCafe.integration.spec.ts para teste de exibição de detalhes da cafeteria:
+<small><pre><code>
+import &#123; mount &#125; from '@vue/test-utils'
+import ViewCafe from '../../views/ViewCafe.vue'
+import api from '@/services/api'
+import &#123; describe, it, expect, vi &#125; from 'vitest'
+
+const mockCafe = &#123;
+    id: 1,
+    nome: 'Café Teste',
+    data_inauguracao: '2023-07-20',
+    endereco: 'Rua Teste, 123',
+    avaliacao: 8.5,
+&#125;
+
+vi.mock('@/services/api', () =&gt; (&#123;
+    default: &#123;
+        get: vi.fn(() =&gt; Promise.resolve(&#123; data: mockCafe &#125;)),
+    &#125;,
+&#125;))
+
+vi.mock('vue-router', () =&gt; (&#123;
+    useRoute: () =&gt; (&#123;
+        params: &#123; id: '1' &#125;,
+    &#125;),
+&#125;))
+
+describe('ViewCafe - teste de integração', () =&gt; &#123;
+    it('exibe os detalhes da cafeteria corretamente', async () =&gt; &#123;
+        const wrapper = mount(ViewCafe, &#123;
+            global: &#123;
+                stubs: ['router-link'],
+            &#125;,
+        &#125;)
+
+        await wrapper.vm.$nextTick()
+        await wrapper.vm.$nextTick()
+
+        expect(wrapper.text()).toContain('Café Teste')
+        expect(wrapper.text()).toContain('20/07/2023')
+        expect(wrapper.text()).toContain('Rua Teste, 123')
+        expect(wrapper.text()).toContain('8.5')
+    &#125;)
+&#125;)
+</code></pre></small>
+                </li>
                 <li>Executar testes:
                     <ol>
-                        <li>Via terminal CLI: npx vitest</li>
-                        <li>Via interface gráfica: npx vitest --ui</li>
+                        <li>Executar todos testes via terminal CLI: npx vitest</li>
+                        <li>Executar testes unitários via terminal CLI: npx vitest run tests/unit</li>
+                        <li>Executar testes de integração via terminal CLI: npx vitest --run tests/integration</li>
+                        <li>Executar todos testes via interface gráfica GUI: npx vitest --ui</li>
+                        <li>Executar testes unitários via interface gráfica GUI: npx vitest --ui tests/unit</li>
+                        <li>Executar testes de integração via interface gráfica GUI: npx vitest --ui tests/integration</li>
                     </ol>
                 </li>
+
+                <br><h4>Testes E2E:</h4>
                 <li>Sugerem-se, como próximos passos, configurar CI/CD para os testes (GitHub Actions, GitLab CI, etc).</li>
             </ol>
-
-            <br><h4>Testes backend:</h4>
         </div>
     </div>
 
@@ -620,10 +758,3 @@ describe('ViewCafe.vue', () =&gt; &#123;
 </div>
 </body>
 </html>
-
-
-<!--
-TESTES UNITÁRIOS VUE.JS:
-- AddCafe.vue: Informar atributos name nos inputs
-- EditCafe.vue: Informar atributos name nos inputs
--->
