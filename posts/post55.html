@@ -54,7 +54,7 @@
             <ol>
                 <li>Criar projeto DRF:
 <small><pre><code>
-pip3 install django djangorestframework markdown django-filter django-cors-headers pytest pytest-django model_bakery --break-system-packages
+pip3 install django djangorestframework markdown django-filter django-cors-headers pytest pytest-django pytest-html model_bakery --break-system-packages
 django-admin startproject paris_cafe
 cd paris_cafe
 python manage.py startapp cafes
@@ -227,9 +227,10 @@ python manage.py runserver
 npm install -g @vue/cli
 npm init vue@latest =&gt; Nome: cafe-frontend, Escolha: TypeScript, Router (SPA development)
 cd cafe-frontend
-npm install axios bootstrap bootstrap-vue-next
+npm install axios bootstrap bootstrap-vue-next --save-dev cypress vitest @vitest/ui jsdom @vue/test-utils
 </code></pre></small>
                 </li>
+                <li>Em 'package.json' remover linha: "type": "module",</li>
                 <li>Em src/components/CafeItem.vue, criar componente item de cafeteria:
 <small><pre><code>
 &lt;template&gt;
@@ -479,15 +480,10 @@ app.component('BCard', BCard);
 app.mount('#app');
 </code></pre></small>
                 </li>
-                <li>Executar projeto:
-                    <ol>
-                        <li>npm install</li>
-                        <li>npm run dev # ou 'npx vite'</li>
-                            <ul>
-                                <li>Acessar projeto: <a href="http://localhost:5173" target="_blank" class="text-decoration-none">http://localhost:5173</a></li>
-                            </ul>
-                        </li>
-                    </ol>
+                <li>Executar projeto: npm run dev # ou 'npx vite'
+                    <ul>
+                        <li>Acessar projeto: <a href="http://localhost:5173" target="_blank" class="text-decoration-none">http://localhost:5173</a></li>
+                    </ul>
                 </li>
             </ol>
 
@@ -501,7 +497,7 @@ DJANGO_SETTINGS_MODULE = paris_cafe.settings
 python_files = tests.py test_*.py *_tests.py
 </code></pre></small>
                 </li>
-                <li>Em pasta App 'paris_cafe', criar diretório tests/</li>
+                <li>Em pasta App 'cafes', criar diretório tests/</li>
                 <li>Em tests/, criar arquivo conftest.py para uso de fixtures compartilhadas:
 <small><pre><code>
 import pytest
@@ -509,7 +505,7 @@ from model_bakery import baker
 
 @pytest.fixture
 def cafe():
-    return baker.make("paris_cafe.Cafeteria")
+    return baker.make("cafes.Cafeteria") # 'cafes' é nome da App do projeto
 </code></pre></small>
                 </li>
                 <li>Em tests/, criar diretório unit/ para testes unitários</li>
@@ -575,13 +571,21 @@ def test_cria_cafeteria_api():
     assert response.data["nome"] == "API Café"
 </code></pre></small>
                 </li>
-                <li>Executar testes: pytest</li>
+                <li>Executar testes:
+                    <ul>
+                        <li>Via terminal CLI: pytest</li>
+                        <li>Via terminal CLI com relatório HTML: pytest --html=relatorio.html
+                            <ul>
+                                <li>Abrir no Browser: start relatorio.html</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
             </ol>
 
             <br><h4>Testes frontend:</h4>
             <p>Testes unitários e de integração, via test runner Vitest.</p>
             <ol>
-                <li>No projeto frontend, instalar dependências: npm install --save-dev cypress vitest @vitest/ui jsdom @vue/test-utils</li>
                 <li>Em src/, criar diretórios tests/unit/ para testes unitários</li>
                 <li>Modificar vite.config.ts:
 <small><pre><code>
@@ -747,7 +751,6 @@ describe('ViewCafe - teste de integração', () =&gt; &#123;
             <ol>
                 <li>Pré-requisitos: executar servidores backend e frontend;</li>
                 <li>Criar estrutura de pastas cypress e abrir Cypress GUI: npx cypress open</li>
-                <li>No projeto frontend, 'package.json' remover linha: "type": "module",</li>
                 <li>Pasta raíz do projeto frontend, editar arquivo 'cypress.config.ts':
 <small><pre><code>
 import &#123; defineConfig &#125; from 'cypress'
