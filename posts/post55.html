@@ -133,7 +133,7 @@ from rest_framework.routers import DefaultRouter
 from .views import CafeteriaViewSet
 
 router = DefaultRouter()
-router.register(r'cafeterias', CafeteriaViewSet)
+router.register(r'cafes', CafeteriaViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
@@ -147,7 +147,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('cafes.urls')),
+    path('', include('cafes.urls')),
 ]
 </code></pre></small>
                 </li>
@@ -158,28 +158,28 @@ python manage.py migrate
 python manage.py runserver
 </code></pre></small>
                 </li>
-                <li>Acessar projeto: <a href="http://127.0.0.1:8000/api/" target="_blank" class="text-decoration-none">http://127.0.0.1:8000/api/</a></li>
+                <li>Acessar projeto: <a href="http://localhost:8000/cafes/" target="_blank" class="text-decoration-none">http://localhost:8000/cafes/</a></li>
             </ol>
 
             <br><h4>Testes no Postman:</h4>
             <ol>
                 <li>Listar cafeterias (GET list):
                     <ul>
-                        <li>URL: <a href="http://127.0.0.1:8000/api/cafeterias/" target="_blank" class="text-decoration-none">http://127.0.0.1:8000/api/cafeterias/</a></li>
+                        <li>URL: <a href="http://localhost:8000/cafes/" target="_blank" class="text-decoration-none">http://localhost:8000/cafes/</a></li>
                         <li>Método: GET</li>
                         <li>Send (enviar)</li>
                     </ul>
                 </li>
                 <li>Ver cafeteria 1 (GET detail):
                     <ul>
-                        <li>URL: <a href="http://127.0.0.1:8000/api/cafeterias/1/" target="_blank" class="text-decoration-none">http://127.0.0.1:8000/api/cafeterias/1/</a></li>
+                        <li>URL: <a href="http://localhost:8000/cafes/1/" target="_blank" class="text-decoration-none">http://localhost:8000/cafes/1/</a></li>
                         <li>Método: GET</li>
                         <li>Send (enviar)</li>
                     </ul>
                 </li>
                 <li>Adicionar cafeteria (POST create):
                     <ul>
-                        <li>URL: <a href="http://127.0.0.1:8000/api/cafeterias/" target="_blank" class="text-decoration-none">http://127.0.0.1:8000/api/cafeterias/</a></li>
+                        <li>URL: <a href="http://localhost:8000/cafes/" target="_blank" class="text-decoration-none">http://localhost:8000/cafes/</a></li>
                         <li>Método: POST</li>
                         <li>Body (JSON):
 <small><pre><code>
@@ -196,11 +196,11 @@ python manage.py runserver
                 </li>
                 <li>Editar cafeteria 1 (PUT update):
                     <ul>
-                        <li>URL: <a href="http://127.0.0.1:8000/api/cafeterias/1/" target="_blank" class="text-decoration-none">http://127.0.0.1:8000/api/cafeterias/1/</a></li>
+                        <li>URL: <a href="http://127.0.0.1:/cafes/1/" target="_blank" class="text-decoration-none">http://127.0.0.1:/cafes/1/</a></li>
                         <li>Método: PUT</li>
                         <li>Body (JSON):
                             <small><pre><code>
-{
+&#123;
     "nome": "Les Deux Magots ATUALIZADO",
     "data_inauguracao": "1884-01-01",
     "endereco": "6 Pl. Saint-Germain des Prés, 75006 Paris, França",
@@ -213,7 +213,7 @@ python manage.py runserver
                 </li>
                 <li>Excluir cafeteria 1 (DELETE):
                     <ul>
-                        <li>URL: <a href="http://127.0.0.1:8000/api/cafeterias/1/" target="_blank" class="text-decoration-none">http://127.0.0.1:8000/api/cafeterias/1/</a></li>
+                        <li>URL: <a href="http://127.0.0.1:/cafes/1/" target="_blank" class="text-decoration-none">http://127.0.0.1:/cafes/1/</a></li>
                         <li>Método: DELETE</li>
                         <li>Send (enviar)</li>
                     </ul>
@@ -280,7 +280,7 @@ export default createRouter(&#123;
 import axios from 'axios'
 
 const api = axios.create(&#123;
-    baseURL: 'http://localhost:8000/api/',
+    baseURL: 'http://127.0.0.1:8000/',
 &#125;)
 
 export default api
@@ -312,7 +312,7 @@ const router = useRouter()
 const form = ref(&#123; nome: '', data_inauguracao: '', endereco: '', avaliacao: 0 &#125;)
 
 const addCafe = async () =&gt; &#123;
-    await api.post('cafeterias/', form.value)
+    await api.post('cafes/', form.value)
     router.push('/')
 &#125;
 &lt;/script&gt;
@@ -345,12 +345,12 @@ const router = useRouter()
 const form = ref&lt;any&gt;(&#123;&#125;)
 
 onMounted(async () =&gt; &#123;
-    const &#123; data &#125; = await api.get(`cafeterias/$&#123;route.params.id&#125;/`)
+    const &#123; data &#125; = await api.get(`cafes/$&#123;route.params.id&#125;/`)
     form.value = data
 &#125;)
 
 const updateCafe = async () =&gt; &#123;
-    await api.put(`cafeterias/$&#123;route.params.id&#125;/`, form.value)
+    await api.put(`cafes/$&#123;route.params.id&#125;/`, form.value)
     router.push('/')
 &#125;
 &lt;/script&gt;
@@ -383,13 +383,13 @@ const cafesOriginais = ref&lt;any[]&gt;([])
 const ordenado = ref(false)
 
 const fetchCafes = async () =&gt; &#123;
-    const &#123; data &#125; = await api.get('cafeterias/')
+    const &#123; data &#125; = await api.get('cafes/')
     cafesOriginais.value = [...data]
     cafes.value = [...data]
 &#125;
 
 const deleteCafe = async (id: number) =&gt; &#123;
-    await api.delete(`cafeterias/$&#123;id&#125;/`)
+    await api.delete(`cafes/$&#123;id&#125;/`)
     await fetchCafes()
     if (ordenado.value) &#123;
         ordenarPorAvaliacao()
@@ -435,7 +435,7 @@ const cafe = ref&lt;any&gt;(null)
 const route = useRoute()
 
 onMounted(async () =&gt; &#123;
-    const &#123; data &#125; = await api.get(`cafeterias/$&#123;route.params.id&#125;/`)
+    const &#123; data &#125; = await api.get(`cafes/$&#123;route.params.id&#125;/`)
     cafe.value = data
 &#125;)
 &lt;/script&gt;
@@ -454,12 +454,12 @@ onMounted(async () =&gt; &#123;
                 </li>
                 <li>Em src/main.ts, configurar dependências:
 <small><pre><code>
-import &#123; createApp &#125; from 'vue'
-import App from './App.vue'
-import router from './router'
-import * as BootstrapVueNext from 'bootstrap-vue-next'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap-vue-next/dist/bootstrap-vue-next.css'
+import &#123; createApp &#125; from "vue";
+import App from './App.vue';
+import router from './router';
+import * as BootstrapVueNext from 'bootstrap-vue-next';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap-vue-next/dist/bootstrap-vue-next.css';
 
 import &#123;
     BButton,
@@ -467,22 +467,22 @@ import &#123;
     BFormInput,
     BFormTextarea,
     BCard
-&#125; from 'bootstrap-vue-next'
+&#125; from 'bootstrap-vue-next';
 
-const app = createApp(App)
-app.use(router)
-app.component('BButton', BButton)
-app.component('BForm', BForm)
-app.component('BFormInput', BFormInput)
-app.component('BFormTextarea', BFormTextarea)
-app.component('BCard', BCard)
-app.mount('#app')
+const app = createApp(App);
+app.use(router);
+app.component('BButton', BButton);
+app.component('BForm', BForm);
+app.component('BFormInput', BFormInput);
+app.component('BFormTextarea', BFormTextarea);
+app.component('BCard', BCard);
+app.mount('#app');
 </code></pre></small>
                 </li>
                 <li>Executar projeto:
                     <ol>
                         <li>npm install</li>
-                        <li>npm run dev
+                        <li>npm run dev # ou 'npx vite'</li>
                             <ul>
                                 <li>Acessar projeto: <a href="http://localhost:5173" target="_blank" class="text-decoration-none">http://localhost:5173</a></li>
                             </ul>
@@ -581,7 +581,7 @@ def test_cria_cafeteria_api():
             <br><h4>Testes frontend:</h4>
             <p>Testes unitários e de integração, via test runner Vitest.</p>
             <ol>
-                <li>No projeto frontend, instalar dependências: npm install --save-dev vitest @vitest/ui jsdom @vue/test-utils</li>
+                <li>No projeto frontend, instalar dependências: npm install --save-dev cypress vitest @vitest/ui jsdom @vue/test-utils</li>
                 <li>Em src/, criar diretórios tests/unit/ para testes unitários</li>
                 <li>Modificar vite.config.ts:
 <small><pre><code>
@@ -731,18 +731,62 @@ describe('ViewCafe - teste de integração', () =&gt; &#123;
 </code></pre></small>
                 </li>
                 <li>Executar testes:
-                    <ol>
-                        <li>Executar todos testes via terminal CLI: npx vitest</li>
-                        <li>Executar testes unitários via terminal CLI: npx vitest run tests/unit</li>
-                        <li>Executar testes de integração via terminal CLI: npx vitest --run tests/integration</li>
-                        <li>Executar todos testes via interface gráfica GUI: npx vitest --ui</li>
-                        <li>Executar testes unitários via interface gráfica GUI: npx vitest --ui tests/unit</li>
-                        <li>Executar testes de integração via interface gráfica GUI: npx vitest --ui tests/integration</li>
-                    </ol>
+                    <ul>
+                        <li>Todos testes via terminal CLI: npx vitest</li>
+                        <li>Testes unitários via terminal CLI: npx vitest run tests/unit</li>
+                        <li>Testes de integração via terminal CLI: npx vitest --run tests/integration</li>
+                        <li>Todos testes via interface gráfica GUI: npx vitest --ui</li>
+                        <li>Testes unitários via interface gráfica GUI: npx vitest --ui tests/unit</li>
+                        <li>Testes de integração via interface gráfica GUI: npx vitest --ui tests/integration</li>
+                    </ul>
                 </li>
+            </ol>
 
-                <br><h4>Testes E2E:</h4>
-                <li>Sugerem-se, como próximos passos, configurar CI/CD para os testes (GitHub Actions, GitLab CI, etc).</li>
+            <br><h4>Testes E2E:</h4>
+            <p>Testes End-to-End (E2E) para validar fluxo completo da aplicação RESTful fullstack, via Cypress.</p>
+            <ol>
+                <li>Pré-requisitos: executar servidores backend e frontend;</li>
+                <li>Criar estrutura de pastas cypress e abrir Cypress GUI: npx cypress open</li>
+                <li>No projeto frontend, 'package.json' remover linha: "type": "module",</li>
+                <li>Pasta raíz do projeto frontend, editar arquivo 'cypress.config.ts':
+<small><pre><code>
+import &#123; defineConfig &#125; from 'cypress'
+
+export default defineConfig(&#123;
+    e2e: &#123;
+        baseUrl: 'http://localhost:5173',
+        specPattern: 'cypress/e2e/**/*.cy.&#123;js,ts&#125;',
+        supportFile: 'cypress/support/e2e.ts',
+        viewportWidth: 1280,
+        viewportHeight: 800,
+        defaultCommandTimeout: 8000,
+        video: true,
+    &#125;,
+&#125;)
+</code></pre></small>
+                </li>
+                <li>Em frontend/cypress, criar diretório e2e/ para arquivos de testes E2E</li>
+                <li>Em frontend/cypress/e2e/, criar arquivo view_cafe.cy.ts para teste E2E da página de detalhes da cafeteria:
+<small><pre><code>
+describe('Visualização de uma cafeteria', () =&gt; &#123;
+    it('deve exibir os detalhes corretamente', () =&gt; &#123;
+        cy.visit('http://localhost:5173/view/1')
+        cy.contains('Cafeteria 1:')
+        cy.contains('Nome:')
+        cy.contains('Avaliação:')
+        cy.contains('/10')
+        cy.get('a').contains('Voltar').click()
+        cy.url().should('eq', 'http://localhost:5173/')
+    &#125;)
+&#125;)
+</code></pre></small>
+                </li>
+                <li>Executar testes: npx cypress run
+                    <ul>
+                        <li>Via terminal CLI: npx cypress run</li>
+                        <li>Via interface gráfica GUI: npx cypress open</li>
+                    </ul>
+                </li>
             </ol>
         </div>
     </div>
