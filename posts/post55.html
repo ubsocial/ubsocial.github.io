@@ -227,10 +227,9 @@ python manage.py runserver
 npm install -g @vue/cli
 npm init vue@latest =&gt; Nome: cafe-frontend, Escolha: TypeScript, Router (SPA development)
 cd cafe-frontend
-npm install axios bootstrap bootstrap-vue-next --save-dev cypress vitest @vitest/ui jsdom @vue/test-utils
+npm install axios bootstrap bootstrap-vue-next --save-dev cypress ts-node @cypress/webpack-dev-server vitest @vitest/ui jsdom @vue/test-utils
 </code></pre></small>
                 </li>
-                <li>Em 'package.json' remover linha: "type": "module",</li>
                 <li>Em src/components/CafeItem.vue, criar componente item de cafeteria:
 <small><pre><code>
 &lt;template&gt;
@@ -488,6 +487,11 @@ app.mount('#app');
             </ol>
 
             <br><h4>Testes backend:</h4>
+            <ul>
+                <li>Teste unitário: verifica se unidade isolada do código (como função ou método) funciona corretamente;</li>
+                <li>Teste de integração: verifica se diferentes partes do sistema funcionam juntas corretamente;</li>
+                <li>Teste E2E (end-to-end): verifica se sistema funciona como um todo, simulando comportamento ao usuário final.</li>
+            </ul>
             <p>Testes unitários e de integração, via pytest.</p>
             <ol>
                 <li>Pasta do projeto backend, criar arquivo pytest.ini:
@@ -617,7 +621,8 @@ export default defineConfig(&#123;
 "scripts": &#123;
     # Outro conteúdo
     "test": "vitest",
-    "test:ui": "vitest --ui"
+    "test:ui": "vitest --ui",
+    "test:e2e": "cypress run --config-file cypress.config.ts --env TS_NODE_COMPILER_OPTIONS='&#123;\"module\":\"ESNext\"&#125;'"
 &#125;
 </code></pre></small>
                 </li>
@@ -640,6 +645,37 @@ beforeAll(() =&gt; &#123;
         &#125;),
     &#125;)
 &#125;)
+</code></pre></small>
+                </li>
+                <li>Editar tsconfig.json:
+<small><pre><code>
+&#123;
+    "files": [],
+    "references": [
+        &#123;
+            "path": "./tsconfig.node.json"
+        &#125;,
+        &#123;
+            "path": "./tsconfig.app.json"
+        &#125;
+    ],
+    "compilerOptions": &#123;
+        "target": "ES2022",
+        "module": "ESNext",
+        "moduleResolution": "Bundler",
+        "types": [
+            "cypress"
+        ],
+        "esModuleInterop": true,
+        "moduleDetection": "force",
+        "allowSyntheticDefaultImports": true,
+        "resolveJsonModule": true,
+        "strict": true
+    &#125;,
+    "include": [
+        "cypress/**/*.ts"
+    ]
+&#125;
 </code></pre></small>
                 </li>
                 <li>Em src/tests/unit/ViewCafe.spec.ts, criar arquivo de testes unitários para tela ViewCafe:
@@ -737,6 +773,7 @@ describe('ViewCafe - teste de integração', () =&gt; &#123;
                 <li>Executar testes:
                     <ul>
                         <li>Todos testes via terminal CLI: npx vitest</li>
+                        <li>Todos testes com relatório em HTML: npx vitest run --reporter=html</li>
                         <li>Testes unitários via terminal CLI: npx vitest run tests/unit</li>
                         <li>Testes de integração via terminal CLI: npx vitest --run tests/integration</li>
                         <li>Todos testes via interface gráfica GUI: npx vitest --ui</li>
@@ -784,12 +821,264 @@ describe('Visualização de uma cafeteria', () =&gt; &#123;
 &#125;)
 </code></pre></small>
                 </li>
-                <li>Executar testes: npx cypress run
+                <li>Executar testes: npx cypress run (em package.json, remover linha: type: "module")</li>
                     <ul>
                         <li>Via terminal CLI: npx cypress run</li>
                         <li>Via interface gráfica GUI: npx cypress open</li>
                     </ul>
                 </li>
+            </ol>
+
+            <br><h4>Pipelines CI/CD:</h4>
+            <p>Configuração de pipelines (fluxos automatizadores) de integração contínua (CI) e entrega contínua (CD) para automatizar testes e deploy no GitHub Actions. Criação de repositório GitHub para armazenar projetos backend (paris_cafe) e frontend (cafe-frontend). Conteúdo do repositório "prj_cafe_fullstack", contendo Pipelines backend.yml e frontend.yml:</p>
+            <ul>
+                <li>Repositório prj_cafe_fullstack
+                    <ul>
+                        <li>paris_cafe/
+                            <ul>
+                                <li>requirements.txt # junto ao manage.py</li>
+                            </ul>
+                        </li>
+                        <li>cafe-frontend/</li>
+                        <li>.github/
+                            <ul>
+                                <li>workflows/
+                                    <ul>
+                                        <li>backend.yml</li>
+                                        <li>frontend.yml</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <ol>
+                <li>Criar conta no GitHub, cadastrar usuário e email no Git, vinculá-los a chave SSH .pub, e cadastrar chave no GitHub;</li>
+                <li>No GitHub, criar repositório "prj_cafe_fullstack", e baixá-lo com git clone;</li>
+                <li>Mover projetos paris_cafe e cafe-frontend para dentro da pasta do repositório "prj_cafe_fullstack";</li>
+                <li>Em prj_cafe_fullstack, criar diretório .github/workflows/;</li>
+                <li>Em paris_cafe/requirements.txt, informar dependências do backend:
+<small><pre><code>
+Django
+djangorestframework
+markdown
+django-filter
+django-cors-headers
+pytest
+pytest-django
+pytest-html
+model_bakery
+</code></pre></small>
+                </li>
+                <li>Em .github/workflows/, criar arquivo Pipeline backend.yml:
+<small><pre><code>
+name: Django Backend CI
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+
+jobs:
+    testes-backend:
+        runs-on: ubuntu-latest
+
+        services:
+            postgres:
+                image: postgres:15
+                env:
+                    POSTGRES_USER: postgres
+                    POSTGRES_PASSWORD: postgres
+                    POSTGRES_DB: test_db
+                ports: ["5432:5432"]
+                options: &gt;-
+                    --health-cmd pg_isready
+                    --health-interval 10s
+                    --health-timeout 5s
+                    --health-retries 5
+
+        env:
+            DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
+            DJANGO_SETTINGS_MODULE: paris_cafe.settings
+            PYTHONUNBUFFERED: 1
+
+        steps:
+            - name: Checkout o código
+              uses: actions/checkout@v4
+
+            - name: Instalar Python
+              uses: actions/setup-python@v5
+              with:
+                  python-version: "3.11"
+
+            - name: Instalar dependências
+              working-directory: paris_cafe
+              run: |
+                  python -m pip install --upgrade pip
+                  pip install -r requirements.txt
+
+            - name: Migrar banco de dados
+              working-directory: paris_cafe
+              run: |
+                  python manage.py migrate
+
+            - name: Executar testes com pytest
+              working-directory: paris_cafe
+              run: |
+                  pytest --html=report.html
+
+            - name: Upload do relatório de testes
+              uses: actions/upload-artifact@v4
+              with:
+                  name: pytest-report
+                  path: paris_cafe/report.html
+</code></pre></small>
+                </li>
+                <li>Em prj_cafe_fullstack, publicar repositório e Pipeline no GitHub:
+                    <ul>
+                        <li>git add .</li>
+                        <li>git commit -m "Projetos inseridos e Pipeline backend criada"</li>
+                        <li>git push</li>
+                        <li>Conferir: git status</li>
+                    </ul>
+                </li>
+                <li>No repositório no GitHub (GitHub Actions), conferir se Pipeline "testes-backend" foi criada e suas etapas executadas corretamente;</li>
+                <li>Em .github/workflows/, criar arquivo Pipeline frontend.yml:
+<small><pre><code>
+name: Pipeline Frontend CI
+
+on:
+    push:
+        branches:
+            - main
+            - develop
+    pull_request:
+
+jobs:
+    testes-frontend:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout do código
+              uses: actions/checkout@v3
+
+            - name: Instalar Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: "22"
+
+            - name: Instalar dependências
+              run: npm install
+              working-directory: cafe-frontend
+
+            - name: Executar testes unitários e de integração
+              run: npx vitest
+              working-directory: cafe-frontend
+
+            - name: Gerar relatório de testes
+              run: npx vitest --reporter=html
+              working-directory: cafe-frontend
+</code></pre></small>
+                </li>
+                <li>Em prj_cafe_fullstack, publicar repositório e Pipeline no GitHub:
+                    <ul>
+                        <li>git add .</li>
+                        <li>git commit -m "Pipeline frontend criada"</li>
+                        <li>git push</li>
+                        <li>Conferir: git status</li>
+                    </ul>
+                </li>
+                <li>No repositório no GitHub (GitHub Actions), conferir se Pipeline "testes-frontend" foi criada e suas etapas executadas corretamente;</li>
+                <li>Em .github/workflows/, criar arquivo Pipeline e2e.yml:
+<small><pre><code>
+name: Pipeline E2E
+
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+
+jobs:
+    testes-e2e:
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:15
+                env:
+                    POSTGRES_USER: postgres
+                    POSTGRES_PASSWORD: postgres
+                    POSTGRES_DB: test_db
+                ports:
+                    - 5432:5432
+                options: &gt;-
+                    --health-cmd pg_isready
+                    --health-interval 10s
+                    --health-timeout 5s
+                    --health-retries 5
+
+        steps:
+            - name: Fazer checkout do código
+              uses: actions/checkout@v3
+
+            - name: Configurar Python 3.13
+              uses: actions/setup-python@v4
+              with:
+                  python-version: "3.13"
+
+            - name: Configurar Node.js 22
+              uses: actions/setup-node@v3
+              with:
+                  node-version: "22"
+
+            - name: Instalar dependências do backend
+              working-directory: ./paris_cafe
+              run: |
+                  python -m pip install --upgrade pip
+                  pip install -r requirements.txt
+
+            - name: Executar migrações Django
+              working-directory: ./paris_cafe
+              env:
+                  DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
+                  DJANGO_SETTINGS_MODULE: paris_cafe.settings
+              run: |
+                  python manage.py migrate
+
+            - name: Instalar dependências frontend
+              working-directory: ./cafe-frontend
+              run: npm install
+
+            - name: Subir backend em background
+              working-directory: ./paris_cafe
+              env:
+                  DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
+                  DJANGO_SETTINGS_MODULE: paris_cafe.settings
+              run: |
+                  nohup python manage.py runserver 0.0.0.0:8000 &
+            
+            - name: Subir frontend em background
+              working-directory: ./cafe-frontend
+              run: |
+                  nohup npm run dev &
+
+            - name: Executar testes E2E com Cypress
+              working-directory: ./cafe-frontend
+              env:
+                  VITE_BACKEND_URL: http://127.0.0.1:8000
+              run: npx cypress run
+</code></pre></small>
+                </li>
+                <li>Em prj_cafe_fullstack, publicar repositório e Pipeline no GitHub:
+                    <ul>
+                        <li>git add .</li>
+                        <li>git commit -m "Pipeline e2e criada"</li>
+                        <li>git push</li>
+                        <li>Conferir: git status</li>
+                    </ul>
+                </li>
+                <li>No repositório no GitHub (GitHub Actions), conferir se Pipeline "testes-e2e" foi criada e suas etapas executadas corretamente.</li>
             </ol>
         </div>
     </div>
