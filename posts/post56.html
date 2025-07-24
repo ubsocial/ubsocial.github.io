@@ -40,7 +40,7 @@
         </div>
 
         <div class="col-sm-12">
-            <h4>Projeto 1:</h4>
+            <h4>Testes em componentes:</h4>
             <ol>
                 <li>Pré requisitos (Angular): npm install -g @angular/cli</li>
                 <li>Criação do projeto: ng new teste-unitario-aula</li>
@@ -53,6 +53,29 @@
             </ol>
             <p>TestBed: prepara módulo de teste para ambiente de teste.</p>
             <p>Spy: permite a criação de espiões (spies) para simular comportamentos de objetos durante testes.</p>
+
+            <br><h4>Testes em HttpClient:</h4>
+            <ol>
+                <li>Testes através de HTTP requests, utilizando API REST pública <a href="https://jsonplaceholder.typicode.com/" class="text-decoration-none" target="_blank">JSONPlaceholder</a>.</li>
+                <li>No projeto, gerar arquivo de variáveis de ambiente: ng generate environments
+                    <ul>
+                        <li>Gerará src/environments/environment.ts</li>
+                    </ul>
+                </li>
+                <li>Editar arquivos de environments, incluindo variáveis de apiUrl</li>
+                <li>Em src/app/app.config.ts, configurar provider HttpClient</li>
+                <li>Gerar service em src/app/_services: ng g s todos.service</li>
+                <li>Em src/app, criar pasta _models</li>
+                <li>Em _models, criar model Todo.ts</li>
+                <li>Em src/app/app.ts, atualizar código do componente</li>
+                <li>Executar projeto (ng serve) e verificar console</li>
+                <li>Em src/app/_services/todos.service.spec.ts, implementar testes em requests HTTP</li>
+                <li>Em src/app.ts, comentar trecho de código (conforme já comentado) e apagar 'implements OnInit'</li>
+                <li>Executar testes: ng test</li>
+
+                <u>Criação de mock</u>:
+                <li>Na raíz do projeto, criar diretório server, com arquivo 'db-data.ts', informando resultados esperados através dos testes (copiado de <a target="_blank" class="text-decoration-none" href="https://jsonplaceholder.typicode.com/todos" >https://jsonplaceholder.typicode.com/todos</a>)</li>
+            </ol>
         </div>
     </div>
 
