@@ -1131,7 +1131,7 @@ jobs:
                 <li>Confirmar Executar instância (guardar IPv4 para acesso futuro)</li>
                 <li>Selecionar instância ubuntuDjangoTeste1, e Conectar CLI usando IP público:
                     <ul>
-                        <li>sudo apt update && sudo apt install python3-pip npm python3-venv git -y && pip3 install django djangorestframework markdown django-filter django-cors-headers pytest pytest-django pytest-html model_bakery --break-system-packages && npm install -g @vue/cli</li>
+                        <li>sudo apt update && sudo apt install python3-pip npm python3-venv git -y && sudo pip3 install django djangorestframework markdown django-filter django-cors-headers pytest pytest-django pytest-html model_bakery --break-system-packages && sudo npm install -g @vue/cli</li>
                         <li>curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash - && sudo apt install nodejs -y</li>
                         <li>git clone https://github.com/mateusschwede/cafe_fullstack.git && cd cafe_fullstack/paris_cafe</li>
                         <li>python3 manage.py migrate</li>
@@ -1150,7 +1150,7 @@ ALLOWED_HOSTS = [
                             </ul>
                         </li>
                         <li>cd ../cafe-frontend</li>
-                        <li>sudo npm install axios bootstrap bootstrap-vue-next --save-dev cypress ts-node @cypress/webpack-dev-server vitest @vitest/ui jsdom @vue/test-utils</li>
+                        <li>sudo npm install</li>
                         <li>Editar vite.config.ts: comando nano vite.config.ts
 <small><pre><code>
 export default defineConfig(&#123;
@@ -1159,8 +1159,7 @@ export default defineConfig(&#123;
         host: '0.0.0.0',
         port: 5173,
         allowedHosts: [
-            'SEU IPv4 DA INSTÂNCIA EC2',
-            'ec2-54-233-2-156.sa-east-1.compute.amazonaws.com'
+            'ec2-54-233-2-156.sa-east-1.compute.amazonaws.com' // IPv4 da instância EC2
         ]
     &#125;
 &#125;)
@@ -1172,8 +1171,9 @@ export default defineConfig(&#123;
 baseURL: 'http://ec2-54-233-2-156.sa-east-1.compute.amazonaws.com:8000' // IPv4 da instância EC2
 </code></pre></small>
                         </li>
-                        <li>npx vite --host
+                        <li>sudo npx vite --host
                             <ul>
+                                <li>Acessar API REST backend Django: http://ipv4_aws:8000</li>
                                 <li>Acessar projeto no Browser: http://ipv4_aws:5173</li>
                             </ul>
                         </li>
