@@ -1080,6 +1080,107 @@ jobs:
                 </li>
                 <li>No repositório no GitHub (GitHub Actions), conferir se Pipeline "testes-e2e" foi criada e suas etapas executadas corretamente.</li>
             </ol>
+
+            <br><h4>Deploy na AWS:</h4>
+            <p>Publicar projetos (deploy) na cloud Amazon Web Services (AWS), gratuitamente, via recursos AWS free tier. Criação de instância EC2 (máquina Ubuntu CLI) contendo projetos backend e frontend. Acesse em <a href="https://console.aws.amazon.com/ec2/v2/home" target="_blank" class="text-decoration-none">AWS EC2</a>.</p>
+            <ol>
+                <li>Criar instância:
+                    <ul>
+                        <li>Nome: ubuntuDjangoTeste1</li>
+                        <li>AMI: Ubuntu Server (nível gratuito)</li>
+                        <li>Tipo: t3.micro (verificar se região é t2 ou t3 nível gratuito)</li>
+                        <li>Criar par de chaves:
+                            <ul>
+                                <li>Nome: keyDjangoTeste1</li>
+                                <li>Tipo: RSA</li>
+                                <li>Formato: conforme SO de sua máquina</li>
+                            </ul>
+                        </li>
+                        <li>Rede:
+                            <ul>
+                                <li>Atribuir IP público automaticamente: habilitar</li>
+                                <li>Grupo de segurança criado automaticamente, com regras:
+                                    <ul>
+                                        <li>Permitir tráfego HTTP qualquer lugar</li>
+                                        <li>Permitir tráfego HTTPS qualquer lugar</li>
+                                        <li>Permitir tráfego SSH qualquer lugar</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>Armazenamento: 8GB (nível gratuito)</li>
+                    </ul>
+                </li>
+                <li>Criar grupo de segurança:
+                    <ul>
+                        <li>Em E2, Grupos de segurança, clique em Criar grupo de segurança</li>
+                        <li>Nome: grupoSegurancaTeste1</li>
+                        <li>Descrição: Grupo de seguranca para testes 1</li>
+                        <li>Regras de entrada:
+                            <ul>
+                                <li>SSH: porta 22, IP 0.0.0.0/0</li>
+                                <li>HTTP: porta 80, IP 0.0.0.0/0</li>
+                                <li>Personalizado TCP: porta 8000 (porta Django), IP 0.0.0.0/0</li>
+                                <li>Personalizado TCP: porta 5173 (porta Vue.js), IP 0.0.0.0/0</li>
+                            </ul>
+                        </li>
+                        <li>Criar grupo de segurança</li>
+                    </ul>
+                </li>
+                <li>Listar instâncias, selecionar instância ubuntuDjangoTeste1, Ações, Segurança, alterar grupo de segurança para grupoSegurancaTeste1</li>
+                <li>Confirmar Executar instância (guardar IPv4 para acesso futuro)</li>
+                <li>Selecionar instância ubuntuDjangoTeste1, e Conectar CLI usando IP público:
+                    <ul>
+                        <li>sudo apt update && sudo apt install python3-pip nodejs npm -y && pip3 install django djangorestframework markdown django-filter django-cors-headers pytest pytest-django pytest-html model_bakery --break-system-packages && npm install -g @vue/cli</li>
+                        <li>curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash - && sudo apt install nodejs -y</li>
+                        <li>git clone https://github.com/mateusschwede/cafe_fullstack.git && cd cafe_fullstack/paris-cafe</li>
+                        <li>python3 manage.py migrate</li>
+                        <li>Editar settings.py: comando nano paris_cafe/settings.py
+<small><pre><code>
+ALLOWED_HOSTS = [
+    'ec2-54-233-2-156.sa-east-1.compute.amazonaws.com', // IPv4 da instância EC2
+    'localhost',
+    '127.0.0.1',
+]
+</code></pre></small>
+                        </li>
+                        <li>cd ../ && python3 manage.py runserver 0.0.0.0:8000 &
+                            <ul>
+                                <li>Enter para sair do comando iterativo (servidor Django executando em background nohup)</li>
+                            </ul>
+                        </li>
+                        <li>cd ../cafe-frontend</li>
+                        <li>sudo npm install axios bootstrap bootstrap-vue-next --save-dev cypress ts-node @cypress/webpack-dev-server vitest @vitest/ui jsdom @vue/test-utils</li>
+                        <li>Editar vite.config.ts: comando nano vite.config.ts
+<small><pre><code>
+export default defineConfig(&#123;
+    // outro conteúdo
+    server: &#123;
+        host: '0.0.0.0',
+        port: 5173,
+        allowedHosts: [
+            'SEU IPv4 DA INSTÂNCIA EC2',
+            'ec2-54-233-2-156.sa-east-1.compute.amazonaws.com'
+        ]
+    &#125;
+&#125;)
+</code></pre></small>
+                        </li>
+                        <li>Editar src/services/api.ts: comando nano src/services/api.ts
+<small><pre><code>
+// outro conteúdo
+baseURL: 'http://ec2-54-233-2-156.sa-east-1.compute.amazonaws.com:8000' // IPv4 da instância EC2
+</code></pre></small>
+                        </li>
+                        <li>npx vite --host
+                            <ul>
+                                <li>Acessar projeto no Browser: http://ipv4_aws:5173</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>Para evitar custos adicionais AWS, excluir: instância ubuntuDjangoTeste1, grupoSegurancaTeste1 e chave de acesso ubuntuDjangoTeste1-key.pem</li>
+            </ol>
         </div>
     </div>
 
