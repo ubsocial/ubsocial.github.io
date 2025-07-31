@@ -40,20 +40,25 @@
         </div>
 
         <div class="col-sm-12">
-            <p class="text-warning text-center">RESUMO EM ANDAMENTO</p>
-            <h4>Testes em componentes:</h4>
+            <h4>Material complementar:</h4>
+            <ul>
+                <li>Conteúdo no GitHub: <a href="https://github.com/mateusschwede/angular_testes_unitarios" target="_blank" class="text-decoration-none">Acesse</a></li>
+            </ul>
+
+            <br><h4>Conceito:</h4>
+            <p id="textoPost">Utilização de tecnologias de testes unitários Angular Jasmine. TestBed, que prepara módulo de teste para ambiente de teste, e Spy, que permite a criação de espiões (spies) para simular comportamentos de objetos durante testes. Testes unitários realizados utilizando mock, ambiente específico de dados para testes, evitando testes com dados reais em produção.</p>
+
+            <br><h4>Testes em componentes:</h4>
             <ol>
                 <li>Pré requisitos (Angular): npm install -g @angular/cli</li>
-                <li>Criação do projeto: ng new teste-unitario-aula</li>
+                <li>Criar projeto: ng new teste-unitario-aula</li>
                 <li>Acessar projeto: cd teste-unitario-aula</li>
                 <li>Em src/app/, criar diretório '_services'</li>
-                <li>Criar service calculadora: ng g s _services/calculadora.service</li>
+                <li>Criar service calculadora (Em src/app/_services): ng g s _services/calculadora.service</li>
                 <li>Criar service logger: ng g s _services/logger.service</li>
-                <li>Programar arquivo de service calculadora <b class="text-danger">--- AQUI ---</b></li>
+                <li>Programar arquivo de service calculadora</li>
                 <li>Executar testes: ng test</li>
             </ol>
-            <p>TestBed: prepara módulo de teste para ambiente de teste.</p>
-            <p>Spy: permite a criação de espiões (spies) para simular comportamentos de objetos durante testes.</p>
 
             <br><h4>Testes em HttpClient:</h4>
             <ol>
@@ -77,6 +82,369 @@
                 <u>Criação de mock</u>:
                 <li>Na raíz do projeto, criar diretório server, com arquivo 'db-data.ts', informando resultados esperados através dos testes (copiado de <a target="_blank" class="text-decoration-none" href="https://jsonplaceholder.typicode.com/todos" >https://jsonplaceholder.typicode.com/todos</a>)</li>
             </ol>
+
+            <br><h4>Arquivos:</h4>
+            <ul>
+                <li>Pasta raíz do projeto, diretório server/db-data.ts:
+<small><pre><code>
+export const TODO_STRING: string = `&#123;
+    "userId": 1,
+    "id": 15,
+    "title": "ab voluptatum amet voluptas",
+    "completed": true
+  &#125;`;
+
+export const TODOS_STRING: string = `[
+  &#123;
+    "userId": 1,
+    "id": 1,
+    "title": "delectus aut autem",
+    "completed": false
+  &#125;,
+  &#123;
+    "userId": 1,
+    "id": 2,
+    "title": "quis ut nam facilis et officia qui",
+    "completed": false
+  &#125;,
+  &#123;
+    "userId": 1,
+    "id": 3,
+    "title": "fugiat veniam minus",
+    "completed": false
+  &#125;,
+  &#123;
+    "userId": 1,
+    "id": 4,
+    "title": "et porro tempora",
+    "completed": true
+  &#125;,
+  &#123;
+    "userId": 1,
+    "id": 5,
+    "title": "laboriosam mollitia et enim quasi adipisci quia provident illum",
+    "completed": false
+  &#125;
+]`;
+</code></pre></small>
+                </li>
+                <li>Em src/app/_models/Todo.ts:
+<small><pre><code>
+export interface Todo &#123;
+    userId: number;
+    id: number;
+    title: string;
+    completed: boolean;
+&#125;;
+</code></pre></small>
+                </li>
+                <li>Em src/app/_services/calculadora.service.spec.ts:
+<small><pre><code>
+import &#123; TestBed &#125; from '@angular/core/testing';
+import &#123; CalculadoraService &#125; from './calculadora.service';
+import &#123; LoggerService &#125; from './logger.service';
+
+describe('CalculadoraService', () =&gt; &#123;
+    let service: CalculadoraService;
+    let loggerSpy: any;
+
+    beforeEach(() =&gt; &#123; // Executado sempre antes de cada teste (it), afterEach é executado depois de cada teste (it)
+        loggerSpy = jasmine.createSpyObj('LoggerService', ['log']); // Cria espião para LoggerService
+        TestBed.configureTestingModule(&#123;
+            providers: [CalculadoraService,
+                &#123; provide: LoggerService, useValue: loggerSpy &#125;
+            ], // Configura TestBed para fornecer serviço CalculadoraService
+        &#125;);
+        service = TestBed.inject(CalculadoraService); // Injeta serviço CalculadoraService para uso nos testes
+    &#125;);
+
+    it('should be created', () =&gt; &#123;
+        expect(service).toBeTruthy();
+    &#125;);
+
+    it('deve somar corretamente dois números', () =&gt; &#123;
+        expect(service).toBeTruthy();
+        const result = service.calcular(2, 3, 'soma');
+        expect(result).toBe(5, 'Resultado deve ser 5');
+    &#125;);
+
+    it('deve subtrair corretamente dois números', () =&gt; &#123;
+        expect(service).toBeTruthy();
+        const result = service.calcular(5, 3, 'subtracao');
+        expect(result).toBe(2, 'Resultado deve ser 2');
+    &#125;);
+
+    it('operação não existe', () =&gt; &#123;
+        expect(service).toBeTruthy();
+        const result = service.calcular(5, 3, 'outro');
+        expect(result).toBeNull();
+        expect(loggerSpy.log).toHaveBeenCalledTimes(1); // Verifica se método log foi chamado única vez
+    &#125;);
+&#125;);
+</code></pre></small>
+                </li>
+                <li>Em src/app/_services/calculadora.service.ts:
+<small><pre><code>
+import &#123; Injectable &#125; from '@angular/core';
+import &#123; LoggerService &#125; from './logger.service';
+
+@Injectable(&#123;
+    providedIn: 'root'
+&#125;)
+export class CalculadoraService &#123;
+    constructor(private loggerService: LoggerService) &#123; &#125;
+
+    calcular(num1: number, num2: number, operacao: String) &#123;
+        switch (operacao) &#123;
+            case 'soma':
+                return num1 + num2;
+            case 'subtracao':
+                return num1 - num2;
+            case 'divisao':
+                return num1 / num2;
+            case 'multiplicacao':
+                return num1 * num2;
+            default:
+                this.loggerService.log(`Operação inválida: $&#123;operacao&#125;`);
+                // this.loggerService.log(`Operação inválida: $&#123;operacao&#125;`); // Loga operação inválida (chamado 2 vezes no teste)
+                return null;
+        &#125;
+    &#125;
+&#125;
+</code></pre></small>
+                </li>
+                <li>Em src/app/_services/logger.service.spec.ts:
+<small><pre><code>
+import &#123; TestBed &#125; from '@angular/core/testing';
+import &#123; LoggerService &#125; from './logger.service';
+
+describe('LoggerService', () =&gt; &#123;
+    let service: LoggerService;
+
+    beforeEach(() =&gt; &#123;
+        TestBed.configureTestingModule(&#123;&#125;);
+        service = TestBed.inject(LoggerService);
+    &#125;);
+
+    it('should be created', () =&gt; &#123;
+        expect(service).toBeTruthy();
+    &#125;);
+&#125;);
+</code></pre></small>
+                </li>
+                <li>Em src/app/_services/logger.service.ts:
+<small><pre><code>
+import &#123; Injectable &#125; from '@angular/core';
+
+@Injectable(&#123;
+    providedIn: 'root'
+&#125;)
+export class LoggerService &#123;
+    constructor() &#123; &#125;
+
+    log(msg: string) &#123;
+        console.log(msg);
+    &#125;
+&#125;
+</code></pre></small>
+                </li>
+                <li>Em src/app/_services/todos.service.spec.ts:
+<small><pre><code>
+import &#123; TestBed &#125; from '@angular/core/testing';
+import &#123; TodosService &#125; from './todos.service';
+import &#123; provideHttpClient &#125; from '@angular/common/http';
+import &#123; HttpTestingController, provideHttpClientTesting &#125; from '@angular/common/http/testing';
+import &#123; environment &#125; from '../../environments/environment.development';
+import &#123; TODOS_STRING, TODO_STRING &#125; from '../../../server/db-data';
+
+describe('TodosService', () =&gt; &#123;
+    let todosService: TodosService;
+    let httpTestingController: HttpTestingController;
+
+    beforeEach(() =&gt; &#123;
+        TestBed.configureTestingModule(&#123;
+            providers: [
+                TodosService,
+                provideHttpClient(),
+                provideHttpClientTesting(),
+            ]
+        &#125;);
+        todosService = TestBed.inject(TodosService);
+        httpTestingController = TestBed.inject(HttpTestingController);
+    &#125;);
+
+    it('should be created', () =&gt; &#123;
+        expect(todosService).toBeTruthy();
+    &#125;);
+
+    it('Deve retornar lista TODOS', () =&gt; &#123;
+        /* Método Assíncrono direto - dados reais, não recomendado */
+        todosService.getAll().subscribe(todos =&gt; &#123;
+            expect(todos).toBeTruthy('Nenhum TODO retornado');
+            expect(todos.length).toEqual(200, 'Quantidade de TODOs diferente de 200');
+
+            const todo = todos.find(todo =&gt; todo.id == 15);
+            expect(todo?.title).toEqual('ab voluptatum amet voluptas');
+        &#125;);
+
+        /* Método acima, com Mock (acima id 15 pegará do db-data.ts, e não do http) */
+        const req = httpTestingController.expectOne(environment.apiUrl + 'todos');
+        expect(req.request.method).toEqual('GET');
+        req.flush(JSON.parse(TODOS_STRING));
+    &#125;);
+
+
+    it('Deve retornar TODO por Id', () =&gt; &#123;
+        /* Método Assíncrono direto - dados reais, não recomendado */
+        todosService.getById(15).subscribe(todo =&gt; &#123;
+            expect(todo).toBeTruthy();
+            expect(todo.id).toEqual(15);
+        &#125;);
+
+        /* Método acima, com Mock (acima id 15 pegará do db-data.ts, e não do http) */
+        const req = httpTestingController.expectOne(environment.apiUrl + 'todos/15');
+        expect(req.request.method).toEqual('GET');
+        req.flush(JSON.parse(TODO_STRING));
+    &#125;);
+
+    /* Método Assíncrono acima, com Promise - dados reais, não recomendado
+    it('Deve retornar TODO por Id', async () =&gt; &#123;
+        const todo = await todosService.getById(15).toPromise();
+        expect(todo).toBeTruthy();
+        expect(todo?.id).toEqual(15);
+    &#125;);
+    */
+&#125;);
+</code></pre></small>
+                </li>
+                <li>Em src/app/_services/todos.service.ts:
+<small><pre><code>
+import &#123; Injectable &#125; from '@angular/core';
+import &#123; environment &#125; from '../../environments/environment.development';
+import &#123; HttpClient &#125; from '@angular/common/http';
+import &#123; map &#125; from 'rxjs/operators';
+import &#123; Todo &#125; from '../_models/Todo';
+
+@Injectable(&#123;
+    providedIn: 'root'
+&#125;)
+export class TodosService &#123;
+    baseUrl: string = environment.apiUrl;
+    constructor(private http: HttpClient) &#123; &#125;
+
+    getAll() &#123;
+        return this.http.get&lt;Todo[]&gt;(this.baseUrl + 'todos')
+            .pipe(
+                map((response) =&gt; &#123;
+                    return response;
+                &#125;)
+            );
+    &#125;
+
+    getById(id: number) &#123;
+        return this.http.get&lt;Todo&gt;(this.baseUrl + 'todos/' + id)
+            .pipe(
+                map((response) =&gt; &#123;
+                    return response;
+                &#125;)
+            );
+    &#125;
+&#125;
+</code></pre></small>
+                </li>
+                <li>Em src/app/app.config.ts:
+<small><pre><code>
+import &#123; ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection &#125; from '@angular/core';
+import &#123; provideRouter &#125; from '@angular/router';
+import &#123; routes &#125; from './app.routes';
+import &#123; provideHttpClient &#125; from '@angular/common/http';
+
+export const appConfig: ApplicationConfig = &#123;
+    providers: [
+        provideBrowserGlobalErrorListeners(),
+        provideZoneChangeDetection(&#123; eventCoalescing: true &#125;),
+        provideRouter(routes),
+        provideHttpClient(),
+    ]
+&#125;;
+</code></pre></small>
+                </li>
+                <li>Em src/app/app.ts:
+<small><pre><code>
+import &#123; Component &#125; from '@angular/core';
+import &#123; RouterOutlet &#125; from '@angular/router';
+import &#123; OnInit &#125; from '@angular/core';
+import &#123; TodosService &#125; from './_services/todos.service';
+
+@Component(&#123;
+    selector: 'app-root',
+    imports: [RouterOutlet],
+    templateUrl: './app.html',
+    styleUrl: './app.css'
+&#125;)
+export class App &#123;
+    protected title = 'teste_unitario_aula';
+&#125;
+</code></pre></small>
+                </li>
+                <li>Em src/environments/environments.development.ts:
+<small><pre><code>
+export const environment = &#123;
+    apiUrl: 'http://jsonplaceholder.typicode.com/',
+&#125;;
+</code></pre></small>
+                </li>
+                <li>Em src/environments/environments.ts:
+<small><pre><code>
+export const environment = &#123;
+    apiUrl: 'http://jsonplaceholder.typicode.com/',
+&#125;;
+</code></pre></small>
+                </li>
+                <li>Em src/main.ts:
+<small><pre><code>
+import &#123; bootstrapApplication &#125; from '@angular/platform-browser';
+import &#123; appConfig &#125; from './app/app.config';
+import &#123; App &#125; from './app/app';
+
+bootstrapApplication(App, appConfig)
+    .catch((err) =&gt; console.error(err));
+</code></pre></small>
+                </li>
+                <li>Em src/tsconfig.app.json:
+<small><pre><code>
+&#123;
+    "extends": "./tsconfig.json",
+    "compilerOptions": &#123;
+        "outDir": "./out-tsc/app",
+        "types": []
+    &#125;,
+    "include": [
+        "src/**/*.ts"
+    ],
+    "exclude": [
+        "src/**/*.spec.ts"
+    ]
+&#125;
+</code></pre></small>
+                </li>
+                <li>Em src/tsconfig.spec.json:
+<small><pre><code>
+&#123;
+    "extends": "./tsconfig.json",
+    "compilerOptions": &#123;
+        "outDir": "./out-tsc/spec",
+        "types": [
+            "jasmine"
+        ]
+    &#125;,
+    "include": [
+        "src/**/*.ts"
+    ]
+&#125;
+</code></pre></small>
+                </li>
+            </ul>
         </div>
     </div>
 
