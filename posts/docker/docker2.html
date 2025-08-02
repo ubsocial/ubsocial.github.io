@@ -70,7 +70,7 @@ sudo apt update && sudo apt install ca-certificates curl -y && sudo install -m 0
                 <li>Verificar Docker instalado: sudo docker --version</li>
             </ol>
 
-            <br><h4>Maneira 1: Construir container via Image pronta:</h4>
+            <br><h4>Maneira 1. Criar container via Image pronta:</h4>
             <p id="textoPost">Baixar Image pronta, do Docker Hub, e executá-la, gerando container.</p>
 <small><pre><code>
 Construir container a partir de Image: docker run -dti nome_imagem:versaoOpcional (baixará Image se não houver, executando-a e construindo container. Sempre construirá novo container, mesmo que já exista um com mesmo nome)
@@ -105,7 +105,7 @@ Entrar no container: docker exec -ti idContainer bash (Ctrl+d para sair do conta
             </ul>
 
 
-            <br><h4>Maneira 2. Construir container via Dockerfile e Image:</h4>
+            <br><h4>Maneira 2. Criar container via Dockerfile e Image:</h4>
             <p id="textoPost">Criar arquivo Dockerfile, com instruções de Image. Executar Dockerfile, construindo Image e, com isso, executar Image, criando container. Sintaxe do nome da Image é 'usuario/nomeImage:versaoImage' (versão padrão é latest). Arquivo com nome <i>Dockerfile</i> (sem extensão), contendo instruções para construir Image do container. Funcionamento dependente de identação de código. Possui a sintaxe:</p>
 <small><pre><code>
 # 1. Imagem base obrigatória
@@ -213,6 +213,7 @@ CMD ["bash"]
 4.2.Entrar no cliente: docker exec -ti cliente sh
 5.No cliente, acessar servidor: curl http://servidor
 6.Sair do cliente: Ctrl+d
+
 7.Parar containers: docker stop servidor cliente
 8.Remover containers: docker rm servidor cliente
 9.Parar rede: docker network rm minha-rede
@@ -239,9 +240,160 @@ CMD ["sh"]
 9.2.Entrar no cliente: docker exec -ti cliente sh
 10.No cliente, acessar servidor: curl http://servidor
 11.Sair do cliente: Ctrl+d
+
 12.Parar containers: docker stop servidor cliente
 13.Remover containers: docker rm servidor cliente
 14.Parar rede: docker network rm minha-rede
+</code></pre></small>
+                </li>
+                <li>Criar 2 containers, um servidor com Apache e outro cliente curl para acessá-lo via portas de rede. Criação via Images prontas:
+<small><pre><code>
+1.Criar rede: docker network create minha-rede
+2.Criar container servidor (porta 8080 da máquina host conectará com 80 do container): docker run -dti --name servidor --network minha-rede -p 8080:80 httpd
+3.Criar container cliente: docker run -dti --name cliente --network minha-rede curlimages/curl sh
+4.Acessar servidor via cliente: docker exec -ti cliente curl http://servidor:80
+4.2.Entrar no cliente: docker exec -ti cliente sh
+5.No cliente, acessar servidor: curl http://servidor:80
+6.Sair do cliente: Ctrl+d
+7.Na máquina host, acessar servidor: curl http://localhost:8080
+
+8.Parar containers: docker stop servidor cliente
+9.Remover containers: docker rm servidor cliente
+10.Parar rede: docker network rm minha-rede
+</code></pre></small>
+                </li>
+                <li>Criar 2 containers, um servidor com Apache e outro cliente curl para acessá-lo via portas de rede. Criação via Dockerfile:
+<small><pre><code>
+1.Criar rede: docker network create minha-rede
+2.Criar Dockerfile do servidor:
+FROM httpd
+RUN echo '&lt;h1&gt;Servidor Apache UB Social&lt;/h1&gt;' &gt; /usr/local/apache2/htdocs/index.html
+
+3.Criar Image do servidor: docker build -t imgservidor .
+4.Apagar Dockerfile: rm Dockerfile
+5.Criar Dockerfile do cliente:
+FROM alpine
+RUN apk add --no-cache curl
+CMD ["sh"]
+
+6.Criar Image do cliente: docker build -t imgcliente .
+7.Criar container servidor: docker run -dti --name servidor --network minha-rede -p 8080:80 imgservidor
+8.Criar container cliente: docker run -dti --name cliente --network minha-rede imgcliente
+9.Acessar servidor via cliente: docker exec -ti cliente curl http://servidor:80
+9.2.Entrar no cliente: docker exec -ti cliente sh
+10.No cliente, acessar servidor: curl http://servidor:80
+11.Sair do cliente: Ctrl+d
+12.Na máquina host, acessar servidor: curl http://localhost:8080
+
+13.Parar containers: docker stop servidor cliente
+14.Remover containers: docker rm servidor cliente
+15.Parar rede: docker network rm minha-rede
+</code></pre></small>
+                </li>
+                <li>Criar container com volume. Criação via Image pronta:
+<small><pre><code>
+1.Criar pasta de volume na máquina host: mkdir -p ~/meu-site
+2.Criar arquivo dentro da pasta volume: echo '&lt;h1&gt;Meu site UB Social criado fora do container&lt;/h1&gt;' &gt; ~/meu-site/index.html
+3.Criar container com volume sincronizado com máquina host: docker run -dti --name servidor-volume -p 8080:80 -v ~/meu-site:/usr/local/apache2/htdocs/ httpd
+4.Acessar servidor via navegador: curl http://localhost:8080
+5.Modificar arquivo index.html na máquina host: echo '&lt;h1&gt;Meu site UB Social atualizado fora do container&lt;/h1&gt;' &gt; ~/meu-site/index.html
+6.Entrar no cliente: docker exec -ti servidor-volume sh
+7.No cliente, acessar pasta volume: cat /usr/local/apache2/htdocs/index.html
+8.No cliente, modificar arquivo index.html: echo '&lt;h1&gt;Meu site UB Social atualizado dentro do container&lt;/h1&gt;' &gt; /usr/local/apache2/htdocs/index.html
+9.Sair do cliente: Ctrl+d
+10.Na máquina host, acessar arquivo index.html: cat ~/meu-site/index.html
+11.Acessar servidor via navegador: curl http://localhost:8080
+
+12.Parar container: docker stop servidor-volume
+13.Remover container: docker rm servidor-volume
+14.Remover pasta de volume: rm -rf ~/meu-site
+</code></pre></small>
+                </li>
+                <li><span class="text-danger"><b>AJUSTAR!</b></span> Criar container com volume. Criação via Dockerfile:
+<small><pre><code>
+1.Criar pasta de volume na máquina host: mkdir -p ~/meu-site
+3.Criar Dockerfile do servidor:
+FROM httpd
+RUN echo '&lt;h1&gt;Meu site UB Social criado dentro do container&lt;/h1&gt;' &gt; /usr/local/apache2/htdocs/index.html
+VOLUME ["/usr/local/apache2/htdocs/"]
+
+4.Criar Image do servidor: docker build -t imgservidor .
+5.Criar container com volume sincronizado com máquina host: docker run -dti --name servidor-volume -p 8080:80 -v ~/meu-site:/usr/local/apache2/htdocs/ imgservidor
+6.Acessar servidor via navegador: curl http://localhost:8080
+7.Modificar arquivo dentro da pasta volume: echo '&lt;h1&gt;Meu site UB Social criado fora do container&lt;/h1&gt;' &gt; ~/meu-site/index.html
+8.Acessar servidor via navegador: curl http://localhost:8080
+
+8.Modificar arquivo index.html na máquina host: echo '&lt;h1&gt;Meu site UB Social atualizado fora do container&lt;/h1&gt;' &gt; ~/meu-site/index.html
+9.Entrar no cliente: docker exec -ti servidor-volume sh
+10.No cliente, ver arquivo index.html: cat /usr/local/apache2/htdocs/index.html
+11.No cliente, Modificar arquivo index.html: echo '&lt;h1&gt;Meu site UB Social atualizado dentro do container&lt;/h1&gt;' &gt; /usr/local/apache2/htdocs/index.html
+12.Sair do cliente: Ctrl+d
+13.Na máquina host, acessar arquivo index.html: cat ~/meu-site/index.html
+14.Acessar servidor via navegador: curl http://localhost:8080
+
+15.Parar container: docker stop servidor-volume
+16.Remover container: docker rm servidor-volume
+17.Remover pasta de volume: rm -rf ~/meu-site
+</code></pre></small>
+                </li>
+                <li>Via Images prontas, criar sistema de troca de mensagens, envolvendo 3 containers:
+                    <ul>
+                        <li>Container 'postgres' armazenará banco de dados PostgreSQL;</li>
+                        <li>Container 'api' será API backend Nodejs;</li>
+                        <li>Container 'cliente' será frontend curl.</li>
+                        <li>Funcionamento: cliente (curl) -&gt; api (conecta) -&gt; postgres (armazena dados)</li>
+                    </ul>
+<small><pre><code>
+1.Criar rede: docker network create minha-rede
+2.Criar volume para armazenar dados: docker volume create volume-dados-postgres
+3.Criar container banco de dados:
+docker run -dti \
+  --name postgres \
+  --network minha-rede \
+  -v volume-dados-postgres:/var/lib/postgresql/data \
+  -e POSTGRES_USER=mensageiro \
+  -e POSTGRES_PASSWORD=secreto123 \
+  -e POSTGRES_DB=mensagensdb \
+  postgres
+
+4.Criar container API backend Nodejs:
+docker run -dti \
+  --name api \
+  --network minha-rede \
+  -w /app \
+  -e DB_HOST=postgres \
+  -e DB_USER=mensageiro \
+  -e DB_PASS=secreto123 \
+  -e DB_NAME=mensagensdb \
+  node sh
+
+5.Entrar no container API: docker exec -ti api sh
+6.No container API, instalar dependências e criar servidor: npm init -y && npm install express
+7.Criar arquivo app.js:
+echo "const express = require('express');
+const app = express();
+const port = 3000;
+app.get('/', (req, res) =&gt; res.send('API de Mensagens está ativa'));
+app.listen(port, () =&gt; console.log('API rodando na porta', port));" &gt; app.js
+
+8.Iniciar servidor API: node app.js &
+9.Sair do container API: Ctrl+d
+10.Criar container cliente:
+docker run -dti \
+  --name cliente \
+  --network minha-rede \
+  curlimages/curl sh
+
+11.Listar containers: docker ps -a
+12.Listar volumes: docker volume ls
+13.Entrar no cliente: docker exec -ti cliente sh
+14.No cliente, acessar API: curl http://api:3000
+15.Sair do cliente: Ctrl+d
+16.Conferir volume na máquina host: sudo ls /var/lib/docker/volumes/volume-dados-postgres/_data
+17.Parar containers: docker stop postgres api cliente
+18.Remover containers: docker rm postgres api cliente
+19.Parar rede: docker network rm minha-rede
+20.Remover volume: docker volume rm volume-dados-postgres
 </code></pre></small>
                 </li>
             </ol>
