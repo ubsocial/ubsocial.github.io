@@ -42,8 +42,8 @@
         <div class="col-sm-12">
             <h4>Material complementar:</h4>
             <ul>
-                <li>Conteúdo no YouTube: <a>Acesse</a></li>
-                <li>Curso gratuito e com certificado na Udemy (Docker e Docker Compose, teoria e prática: Curso rápido): <a href="https://www.udemy.com/course/docker-e-docker-compose-teoria-e-pratica-curso-rapido" target="_blank" class="text-decoration-none">Acesse</a></li>
+                <li>Conteúdo no YouTube: <a href="https://youtube.com/playlist?list=PLnPZ9TE1Tj4CPQz0INKfeCN7UG9R7IJiv" target="_blank" class="text-decoration-none">Acesse</a></li>
+                <li>Curso com certificado na Udemy (Docker e Docker Compose, teoria e prática: Curso rápido): <a href="https://www.udemy.com/course/docker-e-docker-compose-teoria-e-pratica-curso-rapido" target="_blank" class="text-decoration-none">Acesse</a></li>
             </ul>
 
             <br><h4>Conceito:</h4>
@@ -57,8 +57,8 @@
             </ul>
             <p id="textoPost">Docker geralmente é utilizado em servidores Linux que não têm interface gráfica, apenas linha de comando. Essas máquinas normalmente estão hospedadas online, em clouds como Amazon AWS, Microsoft Azure e Google Cloud Platform (GCP). Os containers Dockers criados nessas máquinas geralmente são conectados a projetos locais (como aplicações web ou APIs), onde o desenvolvedor simplesmente conecta seu projeto local a esse container dessa máquina servidor em cloud, dispensando instalar e configurar dependências na máquina local. Ou container pode servir especificamente para atuar como complemento a máquina servidor em cloud, disponibilizando seus programas e recursos (iac infrastructure as code - IaC).</p>
 
-            <br><h4>Construir container:</h4>
-            <p id="textoPost">Pode-se construir container do zero, criando arquivo Dockerfile, contendo código passo a passo de toda estrutura do container (imagem, sistema operacional, programas, configurações, volumes, rede, etc.). Ao executar o Dockerfile, criará Image (planta baixa do container) que, ao executada, criará o container. Ou pode-se baixar Images prontas através de um repositório (loja), como <a href="https://hub.docker.com/" target="_blank" class="text-decoration-none">Docker Hub</a>. Ao executar Image baixada pronta todo container será criado, com respectivos componentes (sistema, softwares, configurações, etc). Dockerfile executado = Image executada = Container.</p>
+            <br><h4>Construção de container:</h4>
+            <p id="textoPost">Containers possuem ciclo de vida (up, exited). Pode-se construir container do zero (maneira 2), criando arquivo Dockerfile, contendo conteúdo passo a passo de toda estrutura do container (imagem, sistema operacional, programas, configurações, volumes, rede, etc). Ao executar o Dockerfile, criará Image (planta baixa do container) que, ao executada, criará o container. Ou pode-se baixar Images prontas (maneira 1) através de um repositório (loja), como <a href="https://hub.docker.com/" target="_blank" class="text-decoration-none">Docker Hub</a>. Ao executar Image baixada pronta todo container será criado, com respectivos componentes (sistema, softwares, configurações, etc). Dockerfile executado = Image executada = Container.</p>
 
             <br><h4>Instalar Docker (Ubuntu):</h4>
             <ol>
@@ -70,8 +70,43 @@ sudo apt update && sudo apt install ca-certificates curl -y && sudo install -m 0
                 <li>Verificar Docker instalado: sudo docker --version</li>
             </ol>
 
-            <br><h4>Dockerfile:</h4>
-            <p>Arquivo com nome <i>Dockerfile</i> (sem extensão), contendo instruções para construir Image do container. Funcionamento dependente de identação de código. Possui a sintaxe:</p>
+            <br><h4>Maneira 1: Construir container via Image pronta:</h4>
+            <p id="textoPost">Baixar Image pronta, do Docker Hub, e executá-la, gerando container.</p>
+<small><pre><code>
+Construir container a partir de Image: docker run nome_imagem:versaoOpcional (baixará Image se não houver, executando-a e construindo container. Sempre construirá novo container, mesmo que já exista um com mesmo nome)
+- Manter container executando em background: -d
+- Com nome personalizado: --name nome_container
+- Com variáveis de ambiente: -e VARIAVEL=valor
+- Com porta personalizada: -p portaHost:portaContainer
+- Com rede personalizada: --network nome_rede
+- Com volume compartilhado: -v /caminho/host:/caminho/container
+- Com limite de memória: -m 512m
+- Com limite de CPU: --cpus="1.0"
+
+Listar Containers: docker ps -a (remover -a para somente containers em execução)
+Ver informações do container: docker inspect idContainer
+
+Iniciar container: docker start idContainer (sempre usar quando container já existir)
+Parar container: docker stop idContainer
+Reiniciar container: docker restart idContainer
+Remover container parado: docker rm idContainer (-f para forçar remoção de containers em execução)
+
+Somente baixar Image do Docker Hub: docker pull nome_imagem:versaoOpcional (enviar Image é 'push', pesquisar é 'search')
+Entrar no container: docker exec -ti idContainer bash (Ctrl+d para sair do container)
+</code></pre></small>
+            <p>Outros parâmetros do comando docker 'run' e 'exec':</p>
+            <ul>
+                <li>-f: especifica local do dockerfile;</li>
+                <li>-t: tag (apelido) da Image;</li>
+                <li>-i: modo interativo, como shell para comandos;</li>
+                <li>-ti: TTY, utilizar emulador de terminal;</li>
+                <li>--rm: sobrescreve container com novo, caso já exista antigo similar</li>
+                <li>-v: mapeia volumes do container para máquina host (diretorioHost:diretorioContainer);</li>
+            </ul>
+
+
+            <br><h4>Maneira 2. Construir container via Dockerfile e Image:</h4>
+            <p id="textoPost">Criar arquivo Dockerfile, com instruções de Image. Executar Dockerfile, construindo Image e, com isso, executar Image, criando container. Sintaxe do nome da Image é 'usuario/nomeImage:versaoImage' (versão padrão é latest). Arquivo com nome <i>Dockerfile</i> (sem extensão), contendo instruções para construir Image do container. Funcionamento dependente de identação de código. Possui a sintaxe:</p>
 <small><pre><code>
 # 1. Imagem base obrigatória
 FROM nomeImagem:versaoImagem
@@ -122,66 +157,26 @@ CMD ["--modo=prod"]
 HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
   CMD curl --fail http://localhost:80/health || exit 1
 </code></pre></small>
-            <p>Exemplo prático:</p>
+            <p id="textoPost">Após criar o Dockerfile, executar comando para construir Image e, com isso, criar container:</p>
 <small><pre><code>
-FROM python:3.11-slim
-LABEL maintainer="mateus@example.com"
-LABEL version="1.0"
-LABEL description="Exemplo simples de Dockerfile com Flask"
-ARG ENVIRONMENT=production
-ENV PYTHONUNBUFFERED=1 \
-    ENVIRONMENT=${ENVIRONMENT}
-WORKDIR /app
-COPY . /app
-RUN pip install --upgrade pip && \
-    pip install -r requirements.txt
-EXPOSE 5000
-VOLUME ["/app/data"]
-USER root
-HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
-  CMD curl --fail http://localhost:5000/health || exit 1
-ENTRYPOINT ["python3"]
-CMD ["app.py"]
-</code></pre></small>
+Construir Image a partir do Dockerfile: docker build -t nome_da_imagem:versaoOpcional /caminho/pastaDockerfile
 
-            <br><h4>Comandos:</h4>
-            <ul>
-                <li>Comandos com Dockerfile:
-<small><pre><code>
-Construir Image na pasta do Dockerfile: docker build -t nome_da_imagem:versaoOpcional /caminho/para/pasta
-</code></pre></small>
-                </li>
-                <li>Comandos com Image (sintaxe usuario/nomeImagem:versaoImagem (versão padrão é latest)):
-<small><pre><code>
 Listar Images: docker images
 Remover Image: docker rmi nome_da_imagem:versaoOpcional
-Baixar Image do Docker Hub: docker pull nome_da_imagem:versaoOpcional (search é para pesquisar, push é para enviar)
 Nomear Image: docker image tag nomeAtual novoNome
-</code></pre></small>
-                </li>
-                <li>Comandos com Container:
-<small><pre><code>
-Listar Containers executando: docker ps (-a para todos)
-Ver informações do container: docker inspect idContainer
-Ver status do container: docker stats idContainer
-Ver processos do container: docker top idContainer
-Ver logs do container: docker logs idContainer
 
-Construir container a partir de Image: docker run nome_da_imagem:versaoOpcional
-Construir container com nome personalizado: docker run --name nome_container nome_da_imagem:versaoOpcional
-Construir container em segundo plano (detached): docker run -d nome_da_imagem:versaoOpcional
-Construir container com porta personalizada: docker run -p portaHost:portaContainer nome_da_imagem:versaoOpcional
-Construir container com volume compartilhado: docker run -v /caminho/host:/caminho/container nome_da_imagem:versaoOpcional
-Construir container com variáveis de ambiente: docker run -e VARIAVEL=valor nome_da_imagem:versaoOpcional
-Construir container com rede personalizada: docker run --network nome_rede nome_da_imagem:versaoOpcional
+<b><u>Outros comandos</u></b>:
+Listar redes: docker network ls
+Conectar container a rede: docker network connect nomeRede idContainer ('disconnect' para desconectar)
 
-Iniciar container: docker start idContainer
-Parar container: docker stop idContainer
-Reiniciar container: docker restart idContainer
-Remover container: docker rm idContainer
+Criar Volume: docker volume create nomeVolume
+Listar Volumes: docker volume ls
+Ver dados do Volume: docker volume inspect nomeVolume
+Remover Volume: docker volume rm nomeVolume
 </code></pre></small>
-                </li>
-            </ul>
+
+            <br><h4>Laboratórios:</h4>
+            <p>AQUI</p>
         </div>
     </div>
 
