@@ -73,8 +73,7 @@ sudo apt update && sudo apt install ca-certificates curl -y && sudo install -m 0
             <br><h4>Maneira 1: Construir container via Image pronta:</h4>
             <p id="textoPost">Baixar Image pronta, do Docker Hub, e executá-la, gerando container.</p>
 <small><pre><code>
-Construir container a partir de Image: docker run nome_imagem:versaoOpcional (baixará Image se não houver, executando-a e construindo container. Sempre construirá novo container, mesmo que já exista um com mesmo nome)
-- Manter container executando em background: -d
+Construir container a partir de Image: docker run -di nome_imagem:versaoOpcional (baixará Image se não houver, executando-a e construindo container. Sempre construirá novo container, mesmo que já exista um com mesmo nome)
 - Com nome personalizado: --name nome_container
 - Com variáveis de ambiente: -e VARIAVEL=valor
 - Com porta personalizada: -p portaHost:portaContainer
@@ -96,6 +95,7 @@ Entrar no container: docker exec -ti idContainer bash (Ctrl+d para sair do conta
 </code></pre></small>
             <p>Outros parâmetros do comando docker 'run' e 'exec':</p>
             <ul>
+                <li>-d: executa container em background (detached);</li>
                 <li>-f: especifica local do dockerfile;</li>
                 <li>-t: tag (apelido) da Image;</li>
                 <li>-i: modo interativo, como shell para comandos;</li>
@@ -176,7 +176,33 @@ Remover Volume: docker volume rm nomeVolume
 </code></pre></small>
 
             <br><h4>Laboratórios:</h4>
-            <p>AQUI</p>
+            <ol>
+                <li>Criar e acessar container Ubuntu, via Image pronta:
+<small><pre><code>
+1.Criar container: docker run -di ubuntu
+2.Listar containers: docker ps -a
+3.Entrar no container: docker exec -ti idContainer bash
+4.Verificar versão do Ubuntu: cat /etc/*-release
+5.Sair do container: Ctrl+d
+6.Parar container: docker stop idContainer
+</code></pre></small>
+                </li>
+                <li>Criar e acessar container Ubuntu, via criação de Dockerfile, Image e container:
+<small><pre><code>
+1.Criar Dockerfile:
+FROM ubuntu
+RUN apt update && apt install htop -y
+CMD ["bash"]
+2.Criar imagem: docker build . -t ubuntu-htop
+3.Listar Images: docker images
+4.Criar e acessar container: docker run -di ubuntu-htop
+5.Listar containers: docker ps -a
+6.Entrar no container: docker exec -ti idContainer bash
+7.Acessar htop: htop (q para sair)
+8.Sair do container: Ctrl+d
+9.Parar container: docker stop idContainer
+                </li>
+            </ol>
         </div>
     </div>
 
