@@ -73,7 +73,7 @@ sudo apt update && sudo apt install ca-certificates curl -y && sudo install -m 0
             <br><h4>Maneira 1: Construir container via Image pronta:</h4>
             <p id="textoPost">Baixar Image pronta, do Docker Hub, e executá-la, gerando container.</p>
 <small><pre><code>
-Construir container a partir de Image: docker run -di nome_imagem:versaoOpcional (baixará Image se não houver, executando-a e construindo container. Sempre construirá novo container, mesmo que já exista um com mesmo nome)
+Construir container a partir de Image: docker run -dti nome_imagem:versaoOpcional (baixará Image se não houver, executando-a e construindo container. Sempre construirá novo container, mesmo que já exista um com mesmo nome)
 - Com nome personalizado: --name nome_container
 - Com variáveis de ambiente: -e VARIAVEL=valor
 - Com porta personalizada: -p portaHost:portaContainer
@@ -100,8 +100,8 @@ Entrar no container: docker exec -ti idContainer bash (Ctrl+d para sair do conta
                 <li>-t: tag (apelido) da Image;</li>
                 <li>-i: modo interativo, como shell para comandos;</li>
                 <li>-ti: TTY, utilizar emulador de terminal;</li>
-                <li>--rm: sobrescreve container com novo, caso já exista antigo similar</li>
-                <li>-v: mapeia volumes do container para máquina host (diretorioHost:diretorioContainer);</li>
+                <li>--rm: sobrescreve container com novo, caso já exista antigo similar;</li>
+                <li>-v: mapeia volumes do container para máquina host (diretorioHost:diretorioContainer). São pastas sincronizadas, em tempo real, entre máquina host e container.</li>
             </ul>
 
 
@@ -179,7 +179,7 @@ Remover Volume: docker volume rm nomeVolume
             <ol>
                 <li>Criar e acessar container Ubuntu, via Image pronta:
 <small><pre><code>
-1.Criar container: docker run -di ubuntu
+1.Criar container: docker run -dti ubuntu
 2.Listar containers: docker ps -a
 3.Entrar no container: docker exec -ti idContainer bash
 4.Verificar versão do Ubuntu: cat /etc/*-release
@@ -193,7 +193,8 @@ Remover Volume: docker volume rm nomeVolume
 FROM ubuntu
 RUN apt update && apt install htop -y
 CMD ["bash"]
-2.Criar imagem: docker build . -t ubuntu-htop
+
+2.Criar Image: docker build . -t ubuntu-htop
 3.Listar Images: docker images
 4.Criar e acessar container: docker run -di ubuntu-htop
 5.Listar containers: docker ps -a
@@ -201,6 +202,47 @@ CMD ["bash"]
 7.Acessar htop: htop (q para sair)
 8.Sair do container: Ctrl+d
 9.Parar container: docker stop idContainer
+</code></pre></small>
+                </li>
+                <li>Criar 2 containers, um servidor com nginx e outro cliente curl para acessá-lo. Criação via Images prontas:
+<small><pre><code>
+1.Criar rede: docker network create minha-rede
+2.Criar container servidor: docker run -dti --name servidor --network minha-rede nginx
+3.Criar container cliente: docker run -dti --name cliente --network minha-rede curlimages/curl sh
+4.Acessar servidor via cliente: docker exec -ti cliente curl http://servidor
+4.2.Entrar no cliente: docker exec -ti cliente sh
+5.No cliente, acessar servidor: curl http://servidor
+6.Sair do cliente: Ctrl+d
+7.Parar containers: docker stop servidor cliente
+8.Remover containers: docker rm servidor cliente
+9.Parar rede: docker network rm minha-rede
+</code></pre></small>
+                </li>
+                <li>Criar 2 containers, um servidor com nginx e outro cliente curl para acessá-lo. Criação via Dockerfile:
+<small><pre><code>
+1.Criar rede: docker network create minha-rede
+2.Criar Dockerfile do servidor:
+FROM nginx
+RUN echo '&lt;h1&gt;Servidor Nginx UB Social&lt;/h1&gt;' &gt; /usr/share/nginx/html/index.html
+
+3.Criar Image do servidor: docker build -t imgservidor .
+4.Apagar Dockerfile: rm Dockerfile
+5.Criar Dockerfile do cliente:
+FROM alpine
+RUN apk add --no-cache curl
+CMD ["sh"]
+
+6.Criar Image do cliente: docker build -t imgcliente .
+7.Criar container servidor: docker run -dti --name servidor --network minha-rede imgservidor
+8.Criar container cliente: docker run -dti --name cliente --network minha-rede imgcliente
+9.Acessar servidor via cliente: docker exec -ti cliente curl http://servidor
+9.2.Entrar no cliente: docker exec -ti cliente sh
+10.No cliente, acessar servidor: curl http://servidor
+11.Sair do cliente: Ctrl+d
+12.Parar containers: docker stop servidor cliente
+13.Remover containers: docker rm servidor cliente
+14.Parar rede: docker network rm minha-rede
+</code></pre></small>
                 </li>
             </ol>
         </div>
