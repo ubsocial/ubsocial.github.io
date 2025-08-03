@@ -297,40 +297,40 @@ CMD ["sh"]
 3.Criar container com volume sincronizado com máquina host: docker run -dti --name servidor-volume -p 8080:80 -v ~/meu-site:/usr/local/apache2/htdocs/ httpd
 4.Acessar servidor via navegador: curl http://localhost:8080
 5.Modificar arquivo index.html na máquina host: echo '&lt;h1&gt;Meu site UB Social atualizado fora do container&lt;/h1&gt;' &gt; ~/meu-site/index.html
-6.Entrar no cliente: docker exec -ti servidor-volume sh
-7.No cliente, acessar pasta volume: cat /usr/local/apache2/htdocs/index.html
-8.No cliente, modificar arquivo index.html: echo '&lt;h1&gt;Meu site UB Social atualizado dentro do container&lt;/h1&gt;' &gt; /usr/local/apache2/htdocs/index.html
-9.Sair do cliente: Ctrl+d
+6.Entrar no container: docker exec -ti servidor-volume sh
+7.No container, acessar pasta volume: cat /usr/local/apache2/htdocs/index.html
+8.No container, modificar arquivo index.html: echo '&lt;h1&gt;Meu site UB Social atualizado dentro do container&lt;/h1&gt;' &gt; /usr/local/apache2/htdocs/index.html
+9.Sair do container: Ctrl+d
 10.Na máquina host, acessar arquivo index.html: cat ~/meu-site/index.html
 11.Acessar servidor via navegador: curl http://localhost:8080
 
 12.Parar container: docker stop servidor-volume
 13.Remover container: docker rm servidor-volume
 14.Remover pasta de volume: rm -rf ~/meu-site
+15.Remover Image: docker rmi imgservidor
+16.Remover Dockerfile: rm Dockerfile
+17.Remover rede: docker network rm minha-rede
 </code></pre></small>
                 </li>
-                <li><span class="text-danger"><b>AJUSTAR!</b></span> Criar container com volume. Criação via Dockerfile:
+                <li>Criar container com volume. Criação via Dockerfile:
 <small><pre><code>
 1.Criar pasta de volume na máquina host: mkdir -p ~/meu-site
-3.Criar Dockerfile do servidor:
+2.Criar Dockerfile do container com volume:
 FROM httpd
-RUN echo '&lt;h1&gt;Meu site UB Social criado dentro do container&lt;/h1&gt;' &gt; /usr/local/apache2/htdocs/index.html
 VOLUME ["/usr/local/apache2/htdocs/"]
 
-4.Criar Image do servidor: docker build -t imgservidor .
-5.Criar container com volume sincronizado com máquina host: docker run -dti --name servidor-volume -p 8080:80 -v ~/meu-site:/usr/local/apache2/htdocs/ imgservidor
-6.Acessar servidor via navegador: curl http://localhost:8080
-7.Modificar arquivo dentro da pasta volume: echo '&lt;h1&gt;Meu site UB Social criado fora do container&lt;/h1&gt;' &gt; ~/meu-site/index.html
-8.Acessar servidor via navegador: curl http://localhost:8080
-
-8.Modificar arquivo index.html na máquina host: echo '&lt;h1&gt;Meu site UB Social atualizado fora do container&lt;/h1&gt;' &gt; ~/meu-site/index.html
-9.Entrar no cliente: docker exec -ti servidor-volume sh
-10.No cliente, ver arquivo index.html: cat /usr/local/apache2/htdocs/index.html
-11.No cliente, Modificar arquivo index.html: echo '&lt;h1&gt;Meu site UB Social atualizado dentro do container&lt;/h1&gt;' &gt; /usr/local/apache2/htdocs/index.html
-12.Sair do cliente: Ctrl+d
-13.Na máquina host, acessar arquivo index.html: cat ~/meu-site/index.html
-14.Acessar servidor via navegador: curl http://localhost:8080
-
+3.Criar Image do container: docker build -t imgservidor .
+4.Criar container: docker run -dti --name servidor-volume -p 8080:80 -v ~/meu-site:/usr/local/apache2/htdocs/ imgservidor
+5.Acessar container via navegador: curl http://localhost:8080
+6.Entrar no container: docker exec -ti servidor-volume sh
+7.No container, editar arquivo index.html: echo '&lt;h1&gt;Meu site UB Social atualizado dentro do container&lt;/h1&gt;' &gt; /usr/local/apache2/htdocs/index.html
+8.Sair do container: Ctrl+d
+9.Acessar container via navegador: curl http://localhost:8080
+10.Modificar index.html na máquina host: sudo su && echo '&lt;h1&gt;Meu site UB Social atualizado fora do container&lt;/h1&gt;' &gt; /home/NOME_USUARIO/meu-site/index.html
+11.Acessar container via navegador: curl http://localhost:8080
+12.Entrar no container: docker exec -ti servidor-volume sh
+13.No container, ver arquivo index.html: cat /usr/local/apache2/htdocs/index.html
+14.Sair do container: Ctrl+d
 15.Parar container: docker stop servidor-volume
 16.Remover container: docker rm servidor-volume
 17.Remover pasta de volume: rm -rf ~/meu-site
@@ -397,6 +397,9 @@ docker run -dti \
 </code></pre></small>
                 </li>
             </ol>
+
+            <br><h4>Docker Compose:</h4>
+            <p id="textoPost">Arquivo 'docker-compose.yml' contendo toda infraestrutura (IaC) necessária de containers e seus respectivos serviços (Images, comandos, variáveis de ambiente, volumes, redes, etc). Basicamente, é uma planta baixa de vários containers configurados.</p>
         </div>
     </div>
 
