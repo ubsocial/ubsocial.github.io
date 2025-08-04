@@ -47,7 +47,7 @@
             </ul>
 
             <br><h4>Conceito:</h4>
-            <p id="textoPost">Ao instalar um software, ele precisa ser compatível com o sistema operacional da máquina para funcionar. Um software feito especificamente para MacOS não funcionará no Windows, pois o sistema operacional base não é compatível. O Docker é um programa/camada entre o sistema operacional e programas. Ele é base, que permite rodar seus programas Docker (containers), que são como caixinhas fechadas (isoladas) com tudo o que o software precisa para funcionar: sistema, configurações, arquivos e programas. Esses containers não se comunicam diretamente com o sistema da máquina, mas sim ao Docker. Então, possuindo Docker instalado, seus programas Docker (containers) funcionarão e não dependerão de compatibilidade com o sistema operacional da máquina. Um container roda em qualquer sistema com Docker, e seu isolamento trás segurança, não afetando o sistema principal, além de fácil manuseio (exportar) entre diferentes máquinas. Dentro de um container, geralmente há:</p>
+            <p id="textoPost">Ao instalar um software, ele precisa ser compatível com o sistema operacional da máquina para funcionar. Um software feito especificamente para MacOS não funcionará no Windows, pois o sistema operacional base não é compatível. O Docker é um programa/camada entre o sistema operacional e programas. Ele é base, que permite rodar seus programas Docker (containers), que são como caixinhas fechadas (isoladas) com tudo o que o software precisa para funcionar: sistema, configurações, arquivos e programas. Esses containers não se comunicam diretamente com o sistema da máquina (host docker), mas sim ao Docker. Então, possuindo Docker instalado, seus programas Docker (containers) funcionarão e não dependerão de compatibilidade com o sistema operacional da máquina. Um container roda em qualquer sistema com Docker, e seu isolamento trás segurança, não afetando o sistema principal, além de fácil manuseio (exportar) entre diferentes máquinas. Dentro de um container, geralmente há:</p>
             <ul>
                 <li>Um sistema operacional base;</li>
                 <li>Programas (geralmente CLI) compatíveis com esse sistema operacional;</li>
@@ -58,7 +58,7 @@
             <p id="textoPost">Docker geralmente é utilizado em servidores Linux que não têm interface gráfica, apenas linha de comando. Essas máquinas normalmente estão hospedadas online, em clouds como Amazon AWS, Microsoft Azure e Google Cloud Platform (GCP). Os containers Dockers criados nessas máquinas geralmente são conectados a projetos locais (como aplicações web ou APIs), onde o desenvolvedor simplesmente conecta seu projeto local a esse container dessa máquina servidor em cloud, dispensando instalar e configurar dependências na máquina local. Ou container pode servir especificamente para atuar como complemento a máquina servidor em cloud, disponibilizando seus programas e recursos (iac infrastructure as code - IaC).</p>
 
             <br><h4>Construção de container:</h4>
-            <p id="textoPost">Containers possuem ciclo de vida (up, exited). Pode-se construir container do zero (maneira 2), criando arquivo Dockerfile, contendo conteúdo passo a passo de toda estrutura do container (imagem, sistema operacional, programas, configurações, volumes, rede, etc). Ao executar o Dockerfile, criará Image (planta baixa do container) que, ao executada, criará o container. Ou pode-se baixar Images prontas (maneira 1) através de um repositório (loja), como <a href="https://hub.docker.com/" target="_blank" class="text-decoration-none">Docker Hub</a>. Ao executar Image baixada pronta todo container será criado, com respectivos componentes (sistema, softwares, configurações, etc). Dockerfile executado = Image executada = Container.</p>
+            <p id="textoPost">Containers possuem ciclo de vida (up, exited). Pode-se construir container do zero (maneira 2), criando arquivo Dockerfile, contendo conteúdo passo a passo de toda estrutura do container (imagem, sistema operacional, programas, configurações, volumes, rede, etc). Ao executar o Dockerfile, criará Image (planta baixa do container) que, ao executada, criará o container. Ou pode-se baixar Images prontas (maneira 1) através de um repositório registry (loja), como <a href="https://hub.docker.com/" target="_blank" class="text-decoration-none">Docker Hub</a>. Ao executar Image baixada pronta todo container será criado, com respectivos componentes (sistema, softwares, configurações, etc). Dockerfile executado = Image executada = Container.</p>
 
             <br><h4>Instalar Docker (Ubuntu):</h4>
             <ol>
@@ -67,7 +67,8 @@
 sudo apt update && sudo apt install ca-certificates curl -y && sudo install -m 0755 -d /etc/apt/keyrings && sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc && sudo chmod a+r /etc/apt/keyrings/docker.asc && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null && sudo apt update && sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 </code></pre></small>
                 </li>
-                <li>Verificar Docker instalado: sudo docker --version</li>
+                <li>Docker sem sudo: sudo groupadd docker && sudo usermod -aG docker $USER && newgrp docker</li>
+                <li>Verificar Docker instalado: docker --version</li>
             </ol>
 
             <br><h4>Maneira 1. Criar container via Image pronta:</h4>
@@ -90,7 +91,6 @@ Parar container: docker stop idContainer
 Reiniciar container: docker restart idContainer
 Remover container parado: docker rm idContainer (-f para forçar remoção de containers em execução)
 
-Somente baixar Image do Docker Hub: docker pull nome_imagem:versaoOpcional (enviar Image é 'push', pesquisar é 'search')
 Entrar no container: docker exec -ti idContainer bash (Ctrl+d para sair do container)
 </code></pre></small>
             <p>Outros parâmetros do comando docker 'run' e 'exec':</p>
@@ -157,7 +157,7 @@ CMD ["--modo=prod"]
 HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
   CMD curl --fail http://localhost:80/health || exit 1
 </code></pre></small>
-            <p id="textoPost">Após criar o Dockerfile, executar comando para construir Image e, com isso, criar container:</p>
+            <p id="textoPost">Após criar Dockerfile, executar comando para construir Image e, com isso, criar container:</p>
 <small><pre><code>
 Construir Image a partir do Dockerfile: docker build -t nome_da_imagem:versaoOpcional /caminho/pastaDockerfile
 
@@ -173,6 +173,17 @@ Criar Volume: docker volume create nomeVolume
 Listar Volumes: docker volume ls
 Ver dados do Volume: docker volume inspect nomeVolume
 Remover Volume: docker volume rm nomeVolume
+Copiar arquivos do host para o container: docker cp /caminho/arquivo idContainer:/caminho/destino (o contrário para copiar do container para host)
+
+Exportar todo container: docker export idContainer &gt; nomeArquivo.tar
+Importar container: docker import nomeArquivo.tar nomeImagem:versaoOpcional
+Exportar Image: docker save -o nomeArquivo.tar nomeImagem:versaoOpcional
+Importar Image: docker load -i nomeArquivo.tar
+
+Conectar ao Docker Hub: docker login (digitar usuário e senha, 'logout' para desconectar)
+Pesquisar Image no Docker Hub: docker search nomeImagem
+Baixar Image do Docker Hub: docker pull nomeImagem:versaoOpcional
+Enviar Image ao Docker Hub: docker push nomeImagem:versaoOpcional
 </code></pre></small>
 
             <br><h4>Laboratórios:</h4>
@@ -326,7 +337,7 @@ VOLUME ["/usr/local/apache2/htdocs/"]
 7.No container, editar arquivo index.html: echo '&lt;h1&gt;Meu site UB Social atualizado dentro do container&lt;/h1&gt;' &gt; /usr/local/apache2/htdocs/index.html
 8.Sair do container: Ctrl+d
 9.Acessar container via navegador: curl http://localhost:8080
-10.Modificar index.html na máquina host: sudo su && echo '&lt;h1&gt;Meu site UB Social atualizado fora do container&lt;/h1&gt;' &gt; /home/NOME_USUARIO/meu-site/index.html
+10.Modificar index.html na máquina host: echo '&lt;h1&gt;Meu site UB Social atualizado fora do container&lt;/h1&gt;' &gt; ~/meu-site/index.html
 11.Acessar container via navegador: curl http://localhost:8080
 12.Entrar no container: docker exec -ti servidor-volume sh
 13.No container, ver arquivo index.html: cat /usr/local/apache2/htdocs/index.html
@@ -399,7 +410,173 @@ docker run -dti \
             </ol>
 
             <br><h4>Docker Compose:</h4>
-            <p id="textoPost">Arquivo 'docker-compose.yml' contendo toda infraestrutura (IaC) necessária de containers e seus respectivos serviços (Images, comandos, variáveis de ambiente, volumes, redes, etc). Basicamente, é uma planta baixa de vários containers configurados.</p>
+            <p id="textoPost">Arquivo 'docker-compose.yml' contendo toda infraestrutura (IaC) necessária de containers e seus respectivos serviços (Images, comandos, variáveis de ambiente, volumes, redes, etc). Basicamente, é uma planta baixa de vários containers configurados. Sintaxe completa de arquivo docker-compose.yml:</p>
+<small><pre><code>
+version: "3.9" # Versão da sintaxe do Compose (opcional)
+
+services: # Define os serviços (containers) do projeto
+    nome_do_servico: # Nome do serviço (pode ser qualquer nome válido)
+        build: # Caminho para o Dockerfile e build da imagem (opcional, se quiser construir a imagem)
+            context: ./caminho/do/contexto # Caminho do diretório onde está o Dockerfile (obrigatório se usar build)
+            dockerfile: Dockerfile # Nome do Dockerfile (opcional, se for diferente de "Dockerfile")
+            args: # Argumentos passados como --build-arg
+                VARIAVEL_DE_BUILD: valor
+
+        image: nome-da-imagem:tag # Nome da imagem (opcional se usar build, obrigatório se for baixar do Docker Hub)
+        container_name: nome_do_container # Nome fixo para o container
+
+        command: comando_inicial # Comando a ser executado no container
+        entrypoint: ["comando", "args"] # Sobrescreve o ENTRYPOINT da imagem
+
+        ports: # Mapeamento de portas host:container
+            - "8080:80"
+
+        expose: # Expõe portas internamente (sem expor para o host)
+            - "80"
+
+        environment: # Variáveis de ambiente
+            - VAR1=valor
+            - VAR2=valor2
+
+        env_file: # Arquivo .env com variáveis
+            - .env
+
+        volumes: # Volumes (host:container), para persistência ou código
+            - ./dados:/app/dados
+            - volume-nome:/caminho/container
+
+        networks: # Redes às quais o container estará conectado
+            - minha-rede
+
+        depends_on: # Define ordem de dependência (não garante que o serviço estará "pronto")
+            - outro_servico
+
+        restart: unless-stopped # Política de reinício (no-failure | always | unless-stopped | no)
+
+        working_dir: /caminho # Define o diretório de trabalho dentro do container
+
+        user: "1000:1000" # UID:GID do usuário que executa o processo no container
+
+        stdin_open: true # Mantém STDIN aberto (modo interativo, útil para terminal)
+        tty: true # Aloca um terminal TTY
+
+        healthcheck: # Configura verificação de saúde
+            test: ["CMD", "curl", "-f", "http://localhost"]
+            interval: 30s
+            timeout: 10s
+            retries: 3
+            start_period: 5s
+
+        logging: # Configura o driver de log
+            driver: "json-file"
+            options:
+                max-size: "10m"
+                max-file: "3"
+
+        extra_hosts: # Adiciona mapeamento de hosts (útil para DNS local)
+            - "meusite.local:127.0.0.1"
+
+volumes: # Define volumes nomeados que podem ser usados pelos serviços
+    volume-nome: # Nome pode ser qualquer identificador válido
+        driver: local # Driver do volume (default é local)
+        name: volume_real # Nome real do volume
+
+networks: # Define redes personalizadas
+    minha-rede:
+        driver: bridge # Tipo de rede (bridge, overlay, host). Padrão é bridge.
+        name: rede_real # Nome real da rede
+</code></pre></small>
+            <p id="textoPost">Após criar docker-compose.yml, executar comandos para gerenciar serviços:</p>
+<small><pre><code>
+Executar docker-compose.yml: docker compose up -d ('-f' para especificar diretório do arquivo, 'down' para parar e remover containers)
+Entrar no container: docker compose exec nomeContainer bash (ou sh)
+
+Iniciar containers: docker compose start ('stop' para parar, 'restart' para reiniciar)
+Listar containers: docker compose ps ('version' para ver versão do compose)
+Apenas construir Image: docker compose build ('pull' para somente baixar Images, 'push' para enviar Images)
+Remover containers: docker compose rm (-f para forçar remoção, -v para remover volumes)
+
+Várias réplicas de container: docker compose up --scale nomeContainer=N -d (N é nº de réplicas)
+</code></pre></small>
+
+            <br><h4>Laboratórios:</h4>
+            <ol>
+                <li>Recriar estrutura do item 9 acima (sistema de mensagens):
+<small><pre><code>
+1.Criar arquivo docker-compose.yml:
+services:
+    postgres:
+        image: postgres
+        container_name: postgres
+        environment:
+            POSTGRES_USER: mensageiro
+            POSTGRES_PASSWORD: secreto123
+            POSTGRES_DB: mensagensdb
+        volumes:
+            - volume-dados-postgres:/var/lib/postgresql/data
+        networks:
+            - minha-rede
+
+    api:
+        image: node
+        container_name: api
+        working_dir: /app
+        command: sh -c "npm init -y && npm install express && echo \"const express = require('express'); const app = express(); const port = 3000; app.get('/', (req, res) =&gt; res.send('API de Mensagens está ativa')); app.listen(port, () =&gt; console.log('API rodando na porta', port));\" &gt; app.js && node app.js"
+        environment:
+            DB_HOST: postgres
+            DB_USER: mensageiro
+            DB_PASS: secreto123
+            DB_NAME: mensagensdb
+        depends_on:
+            - postgres
+        networks:
+            - minha-rede
+
+    cliente:
+        image: curlimages/curl
+        container_name: cliente
+        command: sh
+        tty: true
+        networks:
+            - minha-rede
+
+volumes:
+    volume-dados-postgres:
+
+networks:
+    minha-rede:
+
+2.Executar docker-compose.yml: docker compose up -d
+3.Listar containers: docker compose ps
+
+4.Entrar no container api: docker compose exec api sh
+5.Verificar se arquivo app.js está executando: ps aux | grep node
+6.Acessar servidor: curl http://localhost:3000
+7.Sair do api: Ctrl+d
+
+8.Acessar volume na máquina host: sudo ls /var/lib/docker/volumes/mateus_volume-dados-postgres/_data
+
+9.Entrar no container postgres: docker compose exec postgres sh
+10.Acessar banco de dados PostgreSQL: psql -h postgres -U mensageiro -d mensagensdb (senha: secreto123)
+11.Criar table de mensagens: CREATE TABLE mensagens (id SERIAL PRIMARY KEY, conteudo TEXT NOT NULL, criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+12.Inserir mensagem: INSERT INTO mensagens (conteudo) VALUES ('Mensagem de teste');
+13.Consultar mensagens: SELECT * FROM mensagens;
+14.Sair do banco de dados PostgreSQL: Ctrl+d
+15.Sair do postgres: Ctrl+d
+
+16.Entrar no container cliente: docker compose exec cliente sh
+17.No cliente, acessar container api: curl http://api:3000
+18.Sair do cliente: Ctrl+d
+
+19.Parar containers: docker compose stop
+20.Remover containers: docker compose rm -f
+21.Remover volume: docker volume rm mateus_volume-dados-postgres
+22.Remover rede: docker network rm mateus_minha-rede
+23.Remover Images: docker rmi node postgres curlimages/curl
+24.Remover arquivo docker-compose.yml: rm docker-compose.yml
+</code></pre></small>
+                </li>
+            </ol>
         </div>
     </div>
 
