@@ -501,6 +501,49 @@ Várias réplicas de container: docker compose up --scale nomeContainer=N -d (N 
 
             <br><h4>Laboratórios:</h4>
             <ol>
+                <li>Criar 2 containers via docker-compose.yml:
+                    <ul>
+                        <li>Container servidor nginx, com aplicação web;</li>
+                        <li>Container cliente curl, para acessar servidor.</li>
+                    </ul>
+<small><pre><code>
+1.Criar arquivo docker-compose.yml:
+services:
+    servidor:
+        image: nginx
+        container_name: servidor
+        ports:
+            - "8080:80"
+        networks:
+            - rede1
+
+    cliente:
+        image: alpine
+        container_name: cliente
+        networks:
+            - rede1
+        command: sh -c "apk add --no-cache curl && tail -f /dev/null"
+
+networks:
+    rede1:
+
+2.Executar docker-compose.yml: docker compose up -d
+3.Listar containers: docker compose ps
+4.Entrar no servidor: docker compose exec servidor sh
+5.Acessar aplicação web: curl http://localhost
+6.Sair do servidor: Ctrl+d
+
+7.Entrar no cliente: docker compose exec cliente sh
+8.No cliente, acessar servidor: curl http://servidor
+9.Sair do cliente: Ctrl+d
+
+10.Parar containers: docker compose stop
+11.Remover containers: docker compose rm -f
+12.Remover rede: docker network rm rede1
+13.Remover Images: docker rmi nginx alpine
+14.Remover arquivo docker-compose.yml: rm docker-compose.yml
+</code></pre></small>
+                </li>
                 <li>Recriar estrutura do item 9 acima (sistema de mensagens):
 <small><pre><code>
 1.Criar arquivo docker-compose.yml:
