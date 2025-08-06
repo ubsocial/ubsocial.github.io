@@ -407,8 +407,40 @@ docker run -dti \
 20.Remover volume: docker volume rm volume-dados-postgres
 </code></pre></small>
                 </li>
-            </ol>
+                <li>Subir (push) Image no Docker Hub (registry):
+<small><pre><code>
+1.Criar Dockerfile:
+FROM ubuntu
+RUN apt update && apt install -y figlet
+CMD ["bash"]
 
+2.Criar Image: docker build -t nomeusuario/novorepo .
+3.Criar repositório no Docker Hub: acessar https://hub.docker.com/repositories e criar repositório 'nomeusuario/novorepo'
+
+4.Login no Docker Hub: docker login (digitar usuário e senha, 'logout' para desconectar)
+5.Subir (push) Image para o Docker Hub: docker push nomeusuario/novorepo
+6.Verificar no Docker Hub: acessar https://hub.docker.com/r/nomeusuario/novorepo (aba "Tags" para ver versões)
+7.Criar nova versão da Image: docker tag nomeusuario/novorepo nomeusuario/novorepo:v2
+8.Subir nova versão para o Docker Hub: docker push nomeusuario/novorepo:v2
+9.Verificar nova versão no Docker Hub: acessar https://hub.docker.com/r/nomeusuario/novorepo/tags
+
+10.Criar container com Image do Docker Hub: docker run -dti --name containerUB nomeusuario/novorepo:v2
+11.Entrar no container: docker exec -ti containerUB bash
+12.Verificar instalação: figlet "UB Social"
+13.Sair do container: Ctrl+d
+
+14.Listar Images: docker images
+15.Exportar Image: docker save -o nomeusuario-novorepo.tar nomeusuario/novorepo:v2 ('ls' para verificar arquivo criado)
+16.Importar Image: docker load -i nomeusuario-novorepo.tar
+17.Exportar container: docker export containerUB &gt; containerUB.tar ('ls' para verificar arquivo criado)
+18.Importar container: docker import containerUB.tar nomeusuario/novorepo:v1
+
+19.Parar container: docker stop containerUB
+20.Remover container: docker rm containerUB
+21.Ver ID das Images vinculadas: docker images --digests
+22.Remover Image local: docker rmi ID_IMAGE
+</code></pre></small>
+                </li>
             <br><h4>Docker Compose:</h4>
             <p id="textoPost">Arquivo 'docker-compose.yml' contendo toda infraestrutura (IaC) necessária de containers e seus respectivos serviços (Images, comandos, variáveis de ambiente, volumes, redes, etc). Basicamente, é uma planta baixa de vários containers configurados. Sintaxe completa de arquivo docker-compose.yml:</p>
 <small><pre><code>
@@ -619,7 +651,62 @@ networks:
 24.Remover arquivo docker-compose.yml: rm docker-compose.yml
 </code></pre></small>
                 </li>
-                <li></li>
+                <li>Criar 2 containers, um servidor com API REST Flask, e um cliente Debian curl para consumir API REST.
+<small><pre><code>
+1.Criar arquivo de variáveis de ambiente .env:
+HOST_PORT=5000
+
+2.Criar Dockerfile.server:
+FROM python
+WORKDIR /app
+RUN pip3 install flask
+EXPOSE 5000
+
+3.Criar Dockerfile.client:
+FROM debian
+RUN apt update && apt install -y curl
+CMD ["bash"]
+
+4.Criar arquivo docker-compose.yml:
+services:
+    server:
+        build:
+            context: .
+            dockerfile: Dockerfile.server
+        ports:
+            - "$&#123;HOST_PORT&#125;:5000"
+        restart: unless-stopped
+        command: &gt;
+            python -c "from flask import Flask,jsonify;app=Flask(__name__);app.route('/api/hello')(lambda: jsonify(&#123;'message':'Olá do servidor Flask!'&#125;));app.run(host='0.0.0.0',port=5000)"
+        volumes:
+            - ./shared:/shared
+        working_dir: /shared
+
+    client:
+        build:
+            context: .
+            dockerfile: Dockerfile.client
+        depends_on:
+            - server
+        stdin_open: true
+        tty: true
+        volumes:
+            - ./shared:/shared
+        working_dir: /shared
+
+5.Acessar API REST no servidor, via cliente: curl server:5000/api/hello
+6.Criar arquivo de teste no cliente: touch teste
+6.Sair do cliente: Ctrl+d
+7.Ver volume shared na máquina host: ls shared/
+8.Acessar API REST no servidor, via máquina host: curl http://localhost:5000/api/hello
+9.Exportar containers: docker compose export -o containers.tar
+10.Importar containers: docker compose import -i containers.tar
+11.Parar e remover containers: docker compose down
+12.Remover Images: docker rmi server client
+13.Remover arquivos: rm Dockerfile.* docker-compose.yml .env
+14.Remover pasta shared: rm -rf shared
+</code></pre></small>
+                </li>
             </ol>
         </div>
     </div>
