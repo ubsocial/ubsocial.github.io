@@ -441,6 +441,22 @@ CMD ["bash"]
 22.Remover Image local: docker rmi ID_IMAGE
 </code></pre></small>
                 </li>
+                <li>Criar container na Amazon AWS:
+<small><pre><code>
+--- CONTAINER NO HOST DOCKER ---
+1.Criar Dockerfile:
+FROM nginx
+
+2.Criar Image e construir container:
+docker build -t meu-nginx .
+docker run -dti -p 8080:80 meu-nginx
+
+3.Acessar nginx via host docker: http://localhost:8080
+
+--- SUBIR IMAGE EM REPOSITÓRIO ECR AWS ---
+FINALIZAR AQUI
+</code></pre></small>
+                </li>
             </ol>
             
             <br><h4>Docker Compose:</h4>
