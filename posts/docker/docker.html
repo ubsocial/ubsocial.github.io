@@ -441,20 +441,87 @@ CMD ["bash"]
 22.Remover Image local: docker rmi ID_IMAGE
 </code></pre></small>
                 </li>
-                <li>Criar container na Amazon AWS:
+                <li>Criar container na Amazon AWS: <span class="text-warning">EM CONSTRUÇÃO</span>
 <small><pre><code>
 --- CONTAINER NO HOST DOCKER ---
 1.Criar Dockerfile:
 FROM nginx
 
 2.Criar Image e construir container:
-docker build -t meu-nginx .
+docker build -t ubsocial/meu-nginx .
 docker run -dti -p 8080:80 meu-nginx
 
-3.Acessar nginx via host docker: http://localhost:8080
+3.Acessar nginx via host docker: curl http://localhost:8080
 
 --- SUBIR IMAGE EM REPOSITÓRIO ECR AWS ---
-FINALIZAR AQUI
+1.Criar repositório ECR na AWS: ECR → Repositories → Create repository -> Informar nome (ex: ubsocial/meu-nginx) → Mutable → Criar
+
+2.Criar usuário AWS:
+IAM → Users
+Informar nome
+Habilitar Fornecer acesso para os usuários ao Console de Gerenciamento da AWS
+Tipo: Quero criar um usuário do IAM
+Habilitar Senha gerada automaticamente
+Permissões: Anexar políticas diretamente
+- AmazonEC2ContainerRegistryFullAccess
+- AmazonECS_FullAccess
+- AdministratorAccess
+
+IAM → Selecionar usuário → Habilitar acesso ao console FMA
+Informar nome do dispositivo (ex: ubsocial) → MFA device Chave de acesso ou chave de segurança → Habilitar
+No usuário, Criar chave de acesso (tipo CLI) → Descrição (ex: criar containers) → Criar e baixar CSV com dados
+
+
+Add user → Informar nome (ex: ubsocial) → Programmatic access → Next: Permissions → Attach existing policies directly → Pesquisar por "ECR" → Marcar "AmazonEC2ContainerRegistryFullAccess" → Next: Tags → Next: Review → Create user
+
+Ver credenciais de acesso: IAM → Users → criar usuário com permissão ECR/ECS → Aba "Security credentials" → Criar Access Key (tipo CLI)
+
+3.Instalar AWS CLI:
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+sudo apt update && sudo apt install -y unzip
+unzip awscliv2.zip
+sudo ./aws/install
+aws --version
+aws configure
+- informar keys geradas no CSV com dados de chave de acesso do usuário
+- região: sa-east-1
+- Default output format: json
+
+4.No host Docker, fazer login no ECR: aws ecr get-login-password --region sa-east-1 | docker login --username AWS --password-stdin ID-CONTA.dkr.ecr.sa-east-1.amazonaws.com
+
+5.Nomear e upload da Image:
+docker tag meu-nginx:latest ID-CONTA.dkr.ecr.sa-east-1.amazonaws.com/meu-nginx:latest
+docker push ID-CONTA.dkr.ecr.sa-east-1.amazonaws.com/meu-nginx:latest
+
+--- CRIAR CLUSTER ECS FARGATE ---
+ECS → Clusters → Criar cluster (nome gerado automaticamente), tipo Sem Servidor → Criar
+
+--- CRIAR TASK DEFINITION ---
+1.ECS → Definições de tarefa → Criar nova → Família (ex: familia-task) → Tipo AWS Fargate
+- CPU: .25 vCPU
+- Memória: .5 GB
+2.Container
+- Nome: meu-nginx-container
+- URI imagem: ID-CONTA.dkr.ecr.sa-east-1.amazonaws.com/meu-nginx:latest
+- URI imagem: ID-CONTA.dkr.ecr.sa-east-1.amazonaws.com/ubsocial/meu-nginx:latest
+- Porta: 80
+Criar
+
+--- CRIAR SERVIÇO FARGATE ---
+1.No Cluster → Serviços → Criar
+- Família de tarefas: familia-task
+- Nome: servico-container-nginx
+- Provedor de capacidade: Fargate
+- Tarefas desejadas: 1
+- Rede VPC: padrão
+- Subnet pública
+- Habilitar IP público automático
+Criar
+
+--- ACESSAR CONTAINER NA AWS ---
+1.ECS Cluster → Service → Tasks → clique na Task → Details
+2.Copie IP público
+3.Teste no terminal da máquina host docker: curl http://IP-PUBLICO
 </code></pre></small>
                 </li>
             </ol>
