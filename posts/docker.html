@@ -5,8 +5,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="../../icons/logoTit.png">
-    <link rel="stylesheet" href="../../estilo.css">
+    <link rel="shortcut icon" href="../icons/logoTit.png">
+    <link rel="stylesheet" href="../estilo.css">
     <title>UB Social</title>
 </head>
 <body>
@@ -17,14 +17,14 @@
         <div class="col-sm-12">
             <nav class="navbar rounded-bottom fixed-top navbar-expand-lg navbar-light bg-light shadow">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="../../index.html"><img src="../../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
+                    <a class="navbar-brand" href="../index.html"><img src="../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav">
-                            <li class="nav-item"><a class="nav-link" href="../../index.html">Home</a></li>
-                            <li class="nav-item"><a class="nav-link" href="../../sobre/sobre.html">Sobre</a></li>
-                            <li class="nav-item"><a class="nav-link" href="../../cursos.html">Cursos</a></li>
-                            <li class="nav-item"><a class="nav-link" href="../../livros/livros.html">Livros</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../sobre/sobre.html">Sobre</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../cursos.html">Cursos</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../livros/livros.html">Livros</a></li>
                         </ul>
                     </div>
                 </div>
@@ -36,7 +36,7 @@
         <div class="col-sm-12 text-center" id="titulo">
             <h1>Docker</h1>
             <h6><strong>Gerenciando Containers</strong></h6>
-            <a href="../../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
+            <a href="../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
         </div>
 
         <div class="col-sm-12">
@@ -441,87 +441,112 @@ CMD ["bash"]
 22.Remover Image local: docker rmi ID_IMAGE
 </code></pre></small>
                 </li>
-                <li>Criar container na Amazon AWS: <span class="text-warning">EM CONSTRUÇÃO</span>
+                <li>Criar container na Amazon AWS:
 <small><pre><code>
 --- CONTAINER NO HOST DOCKER ---
 1.Criar Dockerfile:
-FROM nginx
-
+FROM nginx:latest
+RUN rm -rf /usr/share/nginx/html/*
+RUN echo '&lt;h1&gt;UB Social&lt;/h1&gt;&lt;p&gt;Container com servidor nginx na AWS&lt;/p&gt;' &gt; /usr/share/nginx/html/index.html
 2.Criar Image e construir container:
-docker build -t ubsocial/meu-nginx .
-docker run -dti -p 8080:80 meu-nginx
-
+- docker build -t ubsocial/meu-nginx .
+- docker run -dti -p 8080:80 ubsocial/meu-nginx2
 3.Acessar nginx via host docker: curl http://localhost:8080
 
---- SUBIR IMAGE EM REPOSITÓRIO ECR AWS ---
-1.Criar repositório ECR na AWS: ECR → Repositories → Create repository -> Informar nome (ex: ubsocial/meu-nginx) → Mutable → Criar
+--- CRIAR USUÁRIO AWS ---
+1.IAM / Usuários / Criar usuário
+- Nome: usuarioUB1
+- Fornecer acesso console AWS: habilitar
+- Tipo: Quero criar usuário do IAM
+- Senha do console: Senha gerada automaticamente
+Próximo
+- Permissões: Anexar políticas diretamente
+-- AmazonEC2ContainerRegistryFullAccess
+-- AmazonECS_FullAccess
+-- AdministratorAccess
+Próximo / Criar usuário / Baixar CSV
+2.Selecionar usuário / Habilitar acesso console FMA
+- Nome dispositivo: ubuntuTeste1
+- MFA device: Chave de acesso ou chave de segurança
+Próximo / Ativar via navegador
+3.Selecionar usuário / Criar chave de acesso
+- Tipo: CLI
+- Valor etiqueta descrição: Criar containers
+Criar chave de acesso / Baixar CSV
 
-2.Criar usuário AWS:
-IAM → Users
-Informar nome
-Habilitar Fornecer acesso para os usuários ao Console de Gerenciamento da AWS
-Tipo: Quero criar um usuário do IAM
-Habilitar Senha gerada automaticamente
-Permissões: Anexar políticas diretamente
-- AmazonEC2ContainerRegistryFullAccess
-- AmazonECS_FullAccess
-- AdministratorAccess
-
-IAM → Selecionar usuário → Habilitar acesso ao console FMA
-Informar nome do dispositivo (ex: ubsocial) → MFA device Chave de acesso ou chave de segurança → Habilitar
-No usuário, Criar chave de acesso (tipo CLI) → Descrição (ex: criar containers) → Criar e baixar CSV com dados
-
-
-Add user → Informar nome (ex: ubsocial) → Programmatic access → Next: Permissions → Attach existing policies directly → Pesquisar por "ECR" → Marcar "AmazonEC2ContainerRegistryFullAccess" → Next: Tags → Next: Review → Create user
-
-Ver credenciais de acesso: IAM → Users → criar usuário com permissão ECR/ECS → Aba "Security credentials" → Criar Access Key (tipo CLI)
-
-3.Instalar AWS CLI:
-curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-sudo apt update && sudo apt install -y unzip
-unzip awscliv2.zip
-sudo ./aws/install
-aws --version
-aws configure
+--- INSTALAR AWS CLI ---
+1.curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+2.sudo apt update && sudo apt install -y unzip
+3.unzip awscliv2.zip
+4.sudo ./aws/install
+5.aws --version
+6.aws configure
 - informar keys geradas no CSV com dados de chave de acesso do usuário
 - região: sa-east-1
 - Default output format: json
+7.Login AWS CLI: aws ecr get-login-password --region sa-east-1 | docker login --username AWS --password-stdin ID-CONTA.dkr.ecr.sa-east-1.amazonaws.com
 
-4.No host Docker, fazer login no ECR: aws ecr get-login-password --region sa-east-1 | docker login --username AWS --password-stdin ID-CONTA.dkr.ecr.sa-east-1.amazonaws.com
+--- PUBLICAR IMAGE NA AWS ---
+1.ECR / Repositórios / Criar repositório
+- Nome: ubsocial/meu-nginx
+- Etiqueta: Mutable
+Criar
+2.No host Docker, upload Image na AWS:
+- docker tag ubsocial/meu-nginx:latest ID-CONTA.dkr.ecr.sa-east-1.amazonaws.com/ubsocial/meu-nginx:latest
+- docker push ID-CONTA.dkr.ecr.sa-east-1.amazonaws.com/ubsocial/meu-nginx:latest
 
-5.Nomear e upload da Image:
-docker tag meu-nginx:latest ID-CONTA.dkr.ecr.sa-east-1.amazonaws.com/meu-nginx:latest
-docker push ID-CONTA.dkr.ecr.sa-east-1.amazonaws.com/meu-nginx:latest
+--- CRIAR CLUSTER FARGATE ---
+ECS / Clusters / Criar cluster
+- Nome gerado automaticamente
+- Infraestrutura: AWS Fargate (sem servidor)
+Criar
 
---- CRIAR CLUSTER ECS FARGATE ---
-ECS → Clusters → Criar cluster (nome gerado automaticamente), tipo Sem Servidor → Criar
-
---- CRIAR TASK DEFINITION ---
-1.ECS → Definições de tarefa → Criar nova → Família (ex: familia-task) → Tipo AWS Fargate
-- CPU: .25 vCPU
-- Memória: .5 GB
-2.Container
+--- CRIAR DEFINIÇÃO DE TAREFA ---
+ECS / Definições de tarefa / Criar nova definição de tarefa
+- Família: familia-task
+- Tipo de inicialização: AWS Fargate
+- CPU: .25vCPU
+- Memória: .5GB
+Container 1:
 - Nome: meu-nginx-container
-- URI imagem: ID-CONTA.dkr.ecr.sa-east-1.amazonaws.com/meu-nginx:latest
-- URI imagem: ID-CONTA.dkr.ecr.sa-east-1.amazonaws.com/ubsocial/meu-nginx:latest
-- Porta: 80
+- URI da imagem: ID-CONTA.dkr.ecr.sa-east-1.amazonaws.com/ubsocial/meu-nginx:latest
+- Porta do container: 80
 Criar
 
 --- CRIAR SERVIÇO FARGATE ---
-1.No Cluster → Serviços → Criar
-- Família de tarefas: familia-task
-- Nome: servico-container-nginx
-- Provedor de capacidade: Fargate
-- Tarefas desejadas: 1
+ECS / Clusters / Selecionar cluster / Aba serviços / Criar
+- Família da definição de tarefa: familia-task
+- Nome do serviço gerado automaticamente
+- Provedor de capacidade: Fargate (padrão)
+- Tarefas desejadas: 1 (padrão)
 - Rede VPC: padrão
-- Subnet pública
-- Habilitar IP público automático
+- Sub-redes: padrão
+- IP público: habilitar (padrão)
 Criar
 
---- ACESSAR CONTAINER NA AWS ---
-1.ECS Cluster → Service → Tasks → clique na Task → Details
-2.Copie IP público
-3.Teste no terminal da máquina host docker: curl http://IP-PUBLICO
+--- HABILITAR ACESSO AO CONTAINER AWS ---
+ECS / Clusters / Selecionar cluster / Aba Serviços / Tarefas / Selecionar tarefa
+- Aba Redes: clicar no ID da ENI
+- Na ENI: clicar no grupo de segurança
+- No grupo de segurança: editar regras de entrada (adicionar nova regra)
+-- Tipo: HTTP
+-- Protocolo: TCP (padrão)
+-- Intervalo de portas: 80 (padrão)
+-- Origem: Qualquer local-IPv4
+-- 0.0.0.0/0
+Salvar regras
+
+--- ACESSAR CONTAINER AWS ---
+ECS / Clusters / Selecionar cluster / Aba Serviços / Tarefas / Selecionar tarefa
+- Aba Associações de rede: Copiar IP-AWS
+- No host docker: curl http://IP-AWS
+
+--- Exclusões ---
+1.ECS / Clusters / Selecionar cluster / Excluir cluster
+2.ECS / Definições de tarefa / Selecionar definição / familia-task / Ações / Cancelar registro
+3.ECR / Repositórios / Selecionar repositório / Excluir
+4.IAM / Usuários / Selecionar usuário / Excluir (desativar chave de acesso, e confirmar exclusão)
+5.Apagar dados locais no host docker (images, container, Dockerfile)
 </code></pre></small>
                 </li>
             </ol>
