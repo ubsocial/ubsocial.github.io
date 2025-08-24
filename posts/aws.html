@@ -149,6 +149,85 @@ ECS / Clusters / Selecionar cluster / Aba Serviços / Tarefas / Selecionar taref
 4.IAM / Usuários / Selecionar usuário / Excluir (desativar chave de acesso, e confirmar exclusão)
 5.Apagar dados locais no host docker (images, container, Dockerfile)
 </code></pre></small>
+
+            <br><h4>Publicar projeto RESTful fullstack AWS:</h4>
+            <p id="textoPost">Publicar projeto RESTful fullstack, com frontend Vue.js e backend Django, via criação de instância EC2 (Ubuntu).</p>
+<small><pre><code>
+--- CRIAR INSTÂNCIA AWS ---
+EC2 / Instâncias / Executar instâncias
+- Nome: ubuntuDjangoTeste1
+- AMI: Ubuntu Server (nível gratuito)
+- Tipo: t3.micro (verificar se região é t2 ou t3 nível gratuito)
+- Criar par de chaves:
+-- Nome: keyDjangoTeste1
+-- Tipo: RSA
+-- Formato: conforme SO de sua máquina
+- Rede:
+-- Atribuir IP público automaticamente: habilitar
+-- Grupo de segurança criado automaticamente, com regras:
+--- Permitir tráfego HTTP qualquer lugar
+--- Permitir tráfego HTTPS qualquer lugar
+--- Permitir tráfego SSH qualquer lugar
+- Armazenamento: 8GB (nível gratuito)
+Criar
+
+--- CRIAR E ATRIBUIR GRUPO DE SEGURANÇA ---
+EC2 / Grupos de segurança / Criar grupo de segurança
+- Nome: grupoSegurancaTeste1
+- Descrição: Grupo de seguranca para testes 1
+- Regras de entrada:
+-- SSH: porta 22, IP 0.0.0.0/0
+-- HTTP: porta 80, IP 0.0.0.0/0
+-- Personalizado TCP: porta 8000 (porta Django), IP 0.0.0.0/0
+-- Personalizado TCP: porta 5173 (porta Vue.js), IP 0.0.0.0/0
+Criar
+
+EC2 / Instâncias / Selecionar instância / Ações / Segurança
+- Alterar grupos de segurança para grupoSegurancaTeste1
+Confirmar Executar instância (guardar IPv4 para acesso futuro)
+
+--- CONECTAR INSTÂNCIA AWS ---
+EC2 / Instâncias / Selecionar instância / Ações / Conectar CLI usando IP público (e executar comandos):
+- sudo apt update && sudo apt install python3-pip npm python3-venv git -y && sudo pip3 install django djangorestframework markdown django-filter django-cors-headers pytest pytest-django pytest-html model_bakery --break-system-packages && sudo npm install -g @vue/cli
+- curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash - && sudo apt install nodejs -y
+- git clone https://github.com/mateusschwede/cafe_fullstack.git && cd cafe_fullstack/paris_cafe
+- python3 manage.py migrate
+- nano paris_cafe/settings.py (informar conteúdo abaixo):
+ALLOWED_HOSTS = [
+    'ec2-54-233-2-156.sa-east-1.compute.amazonaws.com', // IPv4 da instância EC2
+    'localhost',
+    '127.0.0.1',
+]
+
+- cd ../ && python3 manage.py runserver 0.0.0.0:8000 &
+-- Enter para sair do comando iterativo (servidor Django executando em background nohup)
+- cd ../cafe-frontend
+- sudo npm install
+- nano vite.config.ts (informar conteúdo abaixo):
+export default defineConfig(&#123;
+    // outro conteúdo
+    server: &#123;
+        host: '0.0.0.0',
+        port: 5173,
+        allowedHosts: [
+            'ec2-54-233-2-156.sa-east-1.compute.amazonaws.com' // IPv4 da instância EC2
+        ]
+    &#125;
+&#125;)
+
+- nano src/services/api.ts (informar conteúdo abaixo):
+// outro conteúdo
+baseURL: 'http://ec2-54-233-2-156.sa-east-1.compute.amazonaws.com:8000' // IPv4 da instância EC2
+
+- sudo npx vite --host
+-- Acessar API REST backend Django: http://ipv4_aws:8000
+-- Acessar projeto no browser: http://ipv4_aws:5173
+
+--- Exclusões ---
+1.EC2 / Instâncias / Selecionar instância / Ações / Estado da instância / Encerrar instância
+2.EC2 / Grupos de segurança / Selecionar grupoSegurancaTeste1 / Excluir
+3.EC2 / Chaves de acesso / Selecionar ubuntuDjangoTeste1-key.pem / Excluir
+</code></pre></small>
         </div>
     </div>
 
