@@ -148,6 +148,110 @@ urlpatterns = [
                     </ul>
                 </li>
             </ol>
+
+            <br><h4>Deploy na AWS:</h4>
+            <p id="textoPost">Publicar projeto (deploy) na cloud Amazon Web Services (AWS), gratuitamente, via recursos AWS free tier. Criação de instância EC2 (máquina Ubuntu CLI) contendo projeto Django REST API acima, baixado via GitHub. Passo a passo na AWS:</p>
+<small><pre><code>
+--- CRIAR INSTÂNCIA EC2 ---
+EC2 / Instâncias / Executar instâncias
+- Nome: ubuntuDjangoLoft
+- AMI: Ubuntu Server (nível gratuito)
+- Tipo: t3.micro (verificar se região é t2 ou t3 nível gratuito)
+- Criar par de chaves:
+-- Nome: keyDjangoLoft1
+-- Tipo: RSA
+-- Formato: conforme SO de sua máquina
+Criar par de chaves / Baixar par de chaves
+- Rede:
+-- Atribuir IP público automaticamente: habilitar
+-- Criar grupo de segurança (nome 'grupoDjangoLoft'), com regras de entrada:
+--- Permitir tráfego Tipo HTTP, Intervalo de Portas 80, Origem qualquer lugar (0.0.0.0/0)
+--- Permitir tráfego Tipo HTTPS, Intervalo de Portas 443, Origem qualquer lugar (0.0.0.0/0)
+--- Permitir tráfego Tipo SSH, Intervalo de Portas 22, Origem qualquer lugar (0.0.0.0/0)
+--- Permitir tráfego Tipo TCP, Intervalo de Portas 8000, Origem qualquer lugar (0.0.0.0/0)
+- Armazenamento: 8GiB, com gp3 (padrão, nível gratuito)
+Executar instância
+
+Selecionar instância / Conectar
+- Connection type: IP público
+- Endereço IPv4 público: selecionar
+Conectar
+
+--- DENTRO DA INSTÂNCIA EC2 ---
+Executar comandos:
+- sudo apt update && sudo apt install python3-pip npm python3-venv git -y && sudo pip3 install django djangorestframework django-filter django-cors-headers --break-system-packages
+- git clone https://github.com/mateusschwede/loft_api.git
+- cd loft_api/loft_api/
+- python3 manage.py migrate
+- nano loft_api/settings.py (inserir conteúdo extra no arquivo):
+ALLOWED_HOSTS = [
+    'ec2-54-233-2-156.sa-east-1.compute.amazonaws.com', // DNS pública da instância EC2
+    '18.231.73.21' // IPv4 pública da instância EC2
+    'localhost',
+    '127.0.0.1',
+] // Ou troque o conteúdo para '*' se quiser permitir acesso total
+- python3 manage.py runserver 0.0.0.0:8000 // ou com '&' no final, para funcionar em segundo plano
+</code></pre></small>
+
+            <br><h4>Acessar instância:</h4>
+            <ul>
+                <li>No browser: http://ipv4_instancia:8000/api/lofts/</li>
+                <li>Postman (Adicionar Loft):
+                    <ul>
+                        <li>Método: POST</li>
+                        <li>URL: http://ipv4_instancia:8000/api/lofts/</li>
+                        <li>Body (raw JSON):
+<small><pre><code>
+&#123;
+    "title": "Loft Londrino UB Social 1",
+    "description": "Loft Londrino UB Social 1, com vista para London Tower",
+    "address": "Rua X, número yyy, Londres - UK",
+    "price": 862000.94
+&#125;
+</code></pre></small>
+                        </li>
+                        <li>Executar (Send)</li>
+                    </ul>
+                </li>
+                <li>Postman (Listar Lofts):
+                    <ul>
+                        <li>Método: GET</li>
+                        <li>URL: http://ipv4_instancia:8000/api/lofts/</li>
+                        <li>Executar (Send)</li>
+                    </ul>
+                </li>
+                <li>Postman (Ver Loft específico):
+                    <ul>
+                        <li>Método: GET</li>
+                        <li>URL: http://ipv4_instancia:8000/api/lofts/ID-LOFT/</li>
+                        <li>Executar (Send)</li>
+                    </ul>
+                </li>
+                <li>Postman (Editar Loft):
+                    <ul>
+                        <li>Método: PUT</li>
+                        <li>URL: http://ipv4_instancia:8000/api/lofts/ID-LOFT/</li>
+                        <li>Body (raw JSON):
+<small><pre><code>
+&#123;
+    "title": "Loft Londrino UB Social ATUALIZADO",
+    "description": "Loft Londrino UB Social 1, com vista para London Tower",
+    "address": "Rua X, número yyy, Londres - UK",
+    "price": 862000.94
+&#125;
+</code></pre></small>
+                        </li>
+                        <li>Executar (Send)</li>
+                    </ul>
+                </li>
+                <li>Postman (Deletar Loft):
+                    <ul>
+                        <li>Método: DELETE</li>
+                        <li>URL: http://ipv4_instancia:8000/api/lofts/ID-LOFT/</li>
+                        <li>Executar (Send)</li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </div>
 
