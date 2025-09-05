@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../../icons/logoTit.png">
+    <link rel="stylesheet" href="../../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <nav class="navbar rounded-bottom fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="../../index.html"><img src="../../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../sobre/sobre.html">Sobre</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../cursos.html">Cursos</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../livros/livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 text-center" id="titulo">
+            <h1>Arquitetura MCP</h1>
+            <h6><strong>Arquiteturas cliente e servidor MCP</strong></h6>
+            <a href="../../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
+        </div>
+
+        <div class="col-sm-12">
+            <p class="text-warning text-center">RESUMO EM CONSTRUÇÃO</p>
+
+            <br><h4>Conceito:</h4>
+            <p id="textoPost">Model Context Protocol (USB das IAs, plug universal) protocolo de conexão/integração entre agentes de IA LLMs e datasets, dispensando APIs despadronizadas. Fornece protocolo, padrões e segurança. Comunicação via json-rpc 2.0. Ao invés de programar conexão de modelo IA com cada fonte de dados, somente é necessário integrar ambas partes ao intermédio do servidor MCP específico.</p>
+
+            <br><h4>Cenários:</h4>
+            <img src="cenario_sem_mcp.png" class="img-fluid mb-3 rounded" width="200px">
+            <img src="cenario_com_mcp.png" class="img-fluid mb-3 rounded" width="200px">
+
+            <br><h4>Tipos de MCP:</h4>
+            <ul>
+                <li>MCP Server: servidor que gerencia comunicação entre modelos de IA e dados;</li>
+                <li>MCP Client: MCP Client: modelos LLMs de IA (ChatGPT, Claude, Copilot);</li>
+                <li>MCP Registry: Ambientes "loja" de servidores MCP.</li>
+            </ul>
+
+            <br><h4>Componentes de servidor MCP:</h4>
+            <ul>
+                <li>Tools: como extensões do servidor para IAs (ex: tool para buscar arquivos, tool para consultar API, tool para executar SQL);</li>
+                <li>Resources: dados disponíveis ao modelo de IA, já prontos em cotexto, dispensando buscas (como uma apostila pra IA consultar sempre que precisar);</li>
+                <li>Prompts: o que IA realmente vê, contexto final que chega no modelo, já montando com contexto do usuário, resources relevantes e tools disponíveis. Baseado nesse prompt, IA gerará resposta.</li>
+            </ul>
+
+            <br><h4>Fluxo:</h4>
+            <p id="textoPost">De forma simples, modelo LLM IA diz ao servidor MCP "Busca no BD e gere relatório", e servidor MCP realiza todas tarefas solicitadas no dataset alvo (BD).</p>
+            <ol>
+                <li>Usuário envia pergunta em prompt;
+                    <ul>
+                        <li>Prompt "Qual o status dos pedidos de hoje?".</li>
+                    </ul>
+                </li>
+                <li>Modelo LLM IA recebe prompt com contexto;
+                    <ul>
+                        <li>Modelo LLM recebe prompt junto com informações de contexto (histórico de pedidos).</li>
+                    </ul>
+                </li>
+                <li>Servidor MCP consulta Context Agent;
+                    <ul>
+                        <li>MCP encaminha prompt para Context Agent, responsável por acessar dados específicos.</li>
+                    </ul>
+                </li>
+                <li>Context Agent conecta com serviço real (local dos dados);
+                    <ul>
+                        <li>Context Agent faz consulta SQL no banco de dados local de pedidos ou em sistema ERP.</li>
+                    </ul>
+                </li>
+                <li>Resposta volta para modelo LLM IA;
+                    <ul>
+                        <li>Context Agent retorna dados encontrados para modelo LLM IA.</li>
+                    </ul>
+                </li>
+                <li>Modelo LLM IA gera resposta final, em linguagem natural, ao usuário.
+                    <ul>
+                        <li>Resposta: "Hoje, 12 pedidos foram concluídos e 3 estão em processamento".</li>
+                    </ul>
+                </li>
+            </ol>
+            <img src="fluxo_mcp.jpg" class="img-fluid mb-3 rounded" width="450px">
+
+            <br><h4>Arquitetura de fluxo de dados:</h4>
+            <ul>
+                <li>MCP SSE (Server-Sent Events): baseado em HTTP para servidores MCP remotos;</li>
+                <li>MCP STDIO (Standard Input/Output): baseado em fluxos entrada/saída do próprio SO, para integração local de componentes em mesmo sistema.</li>
+            </ul>
+
+            <br><hr>
+            <h4>Exemplo prático:</h4>
+            <p>Aqui</p>
+        </div>
+    </div>
+
+
+</div>
+</body>
+</html>
