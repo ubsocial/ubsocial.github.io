@@ -761,7 +761,7 @@ networks:
 24.Remover arquivo docker-compose.yml: rm docker-compose.yml
 </code></pre></small>
                 </li>
-                <li>Criar 2 containers, um servidor com API REST Flask, e um cliente Debian curl para consumir API REST.
+                <li>Criar 2 containers, um servidor com API REST Flask, e um cliente Debian curl para consumir API REST:
 <small><pre><code>
 1.Criar arquivo de variáveis de ambiente .env:
 HOST_PORT=5000
@@ -815,6 +815,100 @@ services:
 12.Remover Images: docker rmi server client
 13.Remover arquivos: rm Dockerfile.* docker-compose.yml .env
 14.Remover pasta shared: rm -rf shared
+</code></pre></small>
+                </li>
+                <li>Criar cliente e servidor MCP de chat:
+<small><pre><code>
+1.Baixar servidor MCP: docker run -dti --rm mcp/dockerhub --transport=stdio
+2.Instalar Ollama: curl -fsSL https://ollama.com/install.sh | sh
+3.Baixar e testar modelo mistral: ollama run mistral
+4.Criar arquivo script de chat interativo do modelo com MCP: nano mcp_chat.py
+import subprocess, json, requests
+
+MCP_IMAGE = "mcp/dockerhub"
+OLLAMA_MODEL = "mistral"
+
+
+def run_mcp_command(request: dict):
+    #Envia JSON-RPC para MCP server via Docker (stdio)
+    proc = subprocess.Popen(
+        ["docker", "run", "-i", "--rm", MCP_IMAGE, "--transport=stdio"],
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True
+    )
+
+    req_str = json.dumps(request) + "\n"
+    out, err = proc.communicate(req_str)
+
+    if err:
+        print("Erro MCP:", err)
+    return out.strip()
+
+
+def query_ollama(prompt: str):
+    #Consulta Ollama via API REST e imprime resposta em tempo real
+    url = "http://localhost:11434/api/generate"
+    data = &#123;"model": OLLAMA_MODEL, "prompt": prompt&#125;
+    response = requests.post(url, json=data, stream=True)
+
+    output = ""
+    for line in response.iter_lines():
+        if line:
+            obj = json.loads(line.decode("utf-8"))
+            if "response" in obj:
+                text = obj["response"]
+                print(text, end="", flush=True)
+                output += text
+            if obj.get("done", False):
+                break
+    print()
+    return output.strip()
+
+
+if __name__ == "__main__":
+    # Inicializar MCP
+    mcp_response = run_mcp_command(&#123;
+        "jsonrpc": "2.0",
+        "id": 1,
+        "method": "initialize",
+        "params": &#123;
+            "protocolVersion": "2024-09-18",
+            "capabilities": &#123;&#125;,
+            "clientInfo": &#123;
+                "name": "demo-client",
+                "version": "0.1"
+            &#125;
+        &#125;
+    &#125;)
+    print("MCP inicializado:", mcp_response)
+    print("\n Chat iniciado! Digite sua pergunta (ou 'sair' para encerrar)\n")
+
+    user_id = 0
+    while True:
+        pergunta = input("Você: ").strip()
+        if pergunta.lower() in ["sair", "exit", "quit"]:
+            print("Encerrando chat")
+            break
+
+        print("IA:", end=" ")
+        resposta_ia = query_ollama(pergunta)
+
+        # Enviar resposta para MCP como feedback
+        user_id += 1
+        feedback = run_mcp_command(&#123;
+            "jsonrpc": "2.0",
+            "id": user_id + 100,
+            "method": "feedback",
+            "params": &#123;"message": resposta_ia&#125;
+        &#125;)
+        print("Feedback MCP:", feedback, "\n")
+
+5.Instalar dependências: sudo pip3 install requests --break-system-packages
+6.Executar Ollama: ollama serve &
+7.Executar script de chat: python3 mcp_chat.py
+8.Testar chat com texto, e aguardar resposta da IA
 </code></pre></small>
                 </li>
             </ol>
