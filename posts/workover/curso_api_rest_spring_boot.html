@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../../icons/logoTit.png">
+    <link rel="stylesheet" href="../../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <nav class="navbar rounded-bottom fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="../../index.html"><img src="../../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../sobre/sobre.html">Sobre</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../cursos.html">Cursos</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../livros/livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 text-center" id="titulo">
+            <h1>API REST Spring Boot</h1>
+            <h6><strong>Curso teórico e prático</strong></h6>
+            <a href="../../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
+        </div>
+
+        <div class="col-sm-12">
+            <br><p class="text-warning text-center">RESUMO EM CONSTRUÇÃO</p>
+            <h4>Material complementar:</h4>
+            <ul>
+                <li>Conteúdo no GitHub: <a href="https://github.com/mateusschwede/workover_spring_boot_api_rest" target="_blank" class="text-decoration-none">Acesse</a></li>
+            </ul>
+
+            <br><h4>Conceito:</h4>
+            <p id="textoPost">Curso teórico e prático para criação de projeto backend API REST, utilizando Spring Boot com Kotlin (ORM hibernate JPA DAO). Projeto com funcionalidades CRUD (Create, Read/List, Update, Delete). Testes via Postman. Deploy em AWS.</p>
+
+            <br><h4>Instalação das ferramentas:</h4>
+            <p>Instalação de pré-requisitos em ambiente Windows.</p>
+            <ol>
+                <li>JDK 21: <a href="https://www.oracle.com/br/java/technologies/downloads" class="text-decoration-none" target="_blank">Acesse</a>
+                    <ul>
+                        <li>Baixar e instalar JDK Oracle</li>
+                        <li>Win + R, digite "SystemPropertiesAdvanced", acessar Variáveis de Ambiente</li>
+                        <li>Aba "Variáveis do sistema", em Novo, criar/editar variáveis:
+                            <ul>
+                                Criar:
+                                <li>Nome: JAVA_HOME</li>
+                                <li>Valor: Caminho da pasta com JDK instalado (Ex: "C:\Program Files\Java\jdk-21")</li>
+                                <li>Confirmar criação OK</li>
+
+                                <br>Editar:
+                                <li>Nome: Path</li>
+                                <li>Clicar em Novo</li>
+                                <li>Valor: %JAVA_HOME%\bin</li>
+                                <li>Confirmar criação OK</li>
+                            </ul>
+                        </li>
+                        <li>Verificar instalação no CMD, com comando "java -version"</li>
+                    </ul>
+                </li>
+                <li>Kotlin compiler: <a href="https://github.com/JetBrains/kotlin/releases" class="text-decoration-none" target="_blank">Acesse</a>
+                    <ul>
+                        <li>Baixar e instalar Kotlin compiler (.zip)</li>
+                        <li>Diretório "C:/", crie pasta "Kotlin", e descompacte o Kotlin dentro dela</li>
+                        <li>Win + R, digite "SystemPropertiesAdvanced", acessar Variáveis de Ambiente</li>
+                        <li>Aba "Variáveis do sistema", editar variável Path:
+                            <ul>
+                                <li>Nome: Path</li>
+                                <li>Clicar em Novo</li>
+                                <li>Valor: C:\Kotlin\kotlinc\bin</li>
+                                <li>Confirmar criação OK</li>
+                            </ul>
+                        </li>
+                        <li>Verificar instalação: Win + R, digitar CMD, e informar comando "kotlinc -version"</li>
+                    </ul>
+                </li>
+                <li>Gradle: <a href="https://gradle.org/install/#manually" class="text-decoration-none" target="_blank">Acesse</a>:
+                    <ul>
+                        <li>Baixar e instalar Gradle: site oficial Gradle, Install, Install manually, Step 1, baixar Binary-only</li>
+                        <li>Diretório "C:/", crie pasta "Gradle", e descompacte o Gradle dentro dela</li>
+                        <li>Win + R, digite "SystemPropertiesAdvanced", acessar Variáveis de Ambiente</li>
+                        <li>Aba "Variáveis do sistema", editar variável Path: Editar:
+                            <ul>
+                                <li>Nome: Path</li>
+                                <li>Clicar em Novo</li>
+                                <li>Valor: C:\Gradle\gradle-VERSAO\bin</li>
+                                <li>Confirmar criação OK</li>
+                            </ul>
+                        </li>
+                        <li>Verificar instalação: Win + R, digitar CMD, e informar comando "gradle -v"</li>
+                    </ul>
+                </li>
+                <li>IntelliJ IDEA (Community Edition): <a href="https://www.jetbrains.com/idea/download/" class="text-decoration-none" target="_blank">Acesse</a></li>
+                <li>XAMPP: <a href="https://www.apachefriends.org/index.html" class="text-decoration-none" target="_blank">Acesse</a></li>
+                <li>Postman Agent: <a href="https://www.postman.com/downloads/postman-agent" class="text-decoration-none" target="_blank">Acesse</a></li>
+                <li>Cadastro no Postman</li>
+            </ol>
+
+            <br><h4>Criação do projeto:</h4>
+            <ol>
+                <li>Em <a href="https://start.spring.io" class="text-decoration-none" target="_blank">Spring Initializr</a>, selecione as dependências:
+                    <ul>
+                        <li>Project: Gradle - Kotlin</li>
+                        <li>Language: Kotlin</li>
+                        <li>Project Metadata:
+                            <ul>
+                                <li>Group: ubsocial.com</li>
+                                <li>Artifact: bookstore</li>
+                                <li>Name: bookstore (igual no Artifact)</li>
+                                <li>Package name: ubsocial.com.bookstore</li>
+                                <li>Java: versão do JDK instalado na máquina (21)</li>
+                            </ul>
+                        </li>
+                        <li>Dependencies:
+                            <ul>
+                                <li>Spring Web</li>
+                                <li>Spring Data JPA</li>
+                            </ul>
+                        </li>
+                        <li>Generate (projeto será gerado, abra-o no IntelliJ)</li>
+                    </ul>
+                </li>
+                <li>Criar banco de dados MySQL: CREATE DATABASE bookstore;</li>
+                <li>'build.gradle.kts', em 'dependencies', adicionar dependencies:
+<small><pre><code>
+implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+implementation("org.springframework.boot:spring-boot-starter-web")
+implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+implementation("org.springframework.boot:spring-boot-starter-validation")
+implementation("org.jetbrains.kotlin:kotlin-reflect")
+testImplementation("org.springframework.boot:spring-boot-starter-test")
+testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
+testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+runtimeOnly("com.mysql:mysql-connector-j")
+</code></pre></small>
+                </li>
+                <li>'src/main/resources/application.properties':
+<small><pre><code>
+spring.application.name=bookstore
+spring.jpa.hibernate.ddl-auto=update
+spring.datasource.url=jdbc:mysql://localhost:3306/bookstore
+spring.datasource.username=root
+spring.datasource.password=
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.jackson.serialization.fail-on-empty-beans=false
+server.error.include-message=always
+server.error.include-binding-errors=always
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+server.port=8080
+</code></pre></small>
+                </li>
+                <li>Dentro do pacote principal do projeto (ubsocial.com.bookstore), criar pacote "config": ficará ubsocial.com.bookstore.config</li>
+                <li>Dentro do pacote "config", criar classe WebConfig.kt para conexão com frontend Vue.js:
+<small><pre><code>
+package ubsocial.com.bookstore.config
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+import org.springframework.web.servlet.config.annotation.CorsRegistry
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
+
+@Configuration
+class WebConfig &#123;
+
+    @Bean
+    fun corsConfigurer(): WebMvcConfigurer &#123;
+        return object : WebMvcConfigurer &#123;
+            override fun addCorsMappings(registry: CorsRegistry) &#123;
+                registry.addMapping("/**")
+                    .allowedOrigins("http://localhost:8081")
+                    .allowedMethods("GET","POST","PUT","DELETE","OPTIONS")
+            &#125;
+        &#125;
+    &#125;
+&#125;
+</code></pre></small>
+                </li>
+                <li>Dentro do pacote principal do projeto (ubsocial.com.bookstore), criar pacote "model": ficará ubsocial.com.bookstore.model</li>
+                <li>Dentro do pacote "model", criar pacote de entidades "entity": ficará model.entity</li>
+                <li>Dentro do pacote "model.entity", criar Model (entidade) Book.kt:
+<small><pre><code>
+package ubsocial.com.bookstore.model.entity
+import com.fasterxml.jackson.annotation.JsonFormat
+import jakarta.persistence.*
+import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotNull
+import jakarta.validation.constraints.Size
+import java.time.LocalDate
+
+@Entity
+data class Book(
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    val id: Long? = null,
+
+    @field:NotBlank
+    @field:Size(min = 1, max = 255, message = "Título precisa ter entre 1 e 255 caracteres")
+    @Column(length = 255)
+    val title: String = "",
+
+    @field:NotBlank
+    @field:Size(min = 1, max = 255, message = "Autor precisa ter entre 1 e 255 caracteres")
+    @Column(length = 255)
+    val author: String = "",
+
+    @field:NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @Column(name = "published_date")
+    val published_date: LocalDate = LocalDate.now(),
+
+    @field:NotBlank
+    @field:Size(min = 13, max = 13, message = "ISBN precisa ter 13 caracteres")
+    @Column(unique = true)
+    val isbn: String = "",
+
+    val pages: Int = 0,
+
+    @field:Size(min = 1, max = 255, message = "Capa/Gênero precisa ter entre 1 e 255 caracteres")
+    @Column(length = 255)
+    val cover: String? = null,
+
+    @field:NotBlank
+    @field:Size(min = 1, max = 255, message = "Idioma precisa ter entre 1 e 255 caracteres")
+    @Column(length = 255)
+    val language: String = ""
+)
+</code></pre></small>
+                </li>
+                <li>No pacote "model", criar pacote "repositories": ficará model.repositories</li>
+                <li>No pacote "repositories", criar interface BookRepository.kt:
+<small><pre><code>
+package ubsocial.com.bookstore.model.repositories
+import org.springframework.data.jpa.repository.JpaRepository
+import ubsocial.com.bookstore.model.entity.Book
+
+interface BookRepository : JpaRepository&lt;Book, Long&gt;
+</code></pre></small>
+                </li>
+                <li>Pacote principal "ubsocial.com.bookstore, criar pacote "controller"</li>
+                <li>Pacote "controller", criar classe BookResource.kt:
+<small><pre><code>
+package ubsocial.com.bookstore.controller
+import jakarta.validation.Valid
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
+import ubsocial.com.bookstore.model.entity.Book
+import ubsocial.com.bookstore.model.repositories.BookRepository
+
+@RestController
+@RequestMapping("/books")
+class BookResource(private val bookRepository: BookRepository) &#123;
+
+    @GetMapping
+    fun getAll(): List&lt;Book&gt; = bookRepository.findAll()
+    
+    @GetMapping("/&#123;id&#125;")
+    fun getById(@PathVariable id: Long): ResponseEntity&lt;Book&gt; &#123;
+        val book = bookRepository.findById(id)
+        return if (book.isPresent) ResponseEntity.ok(book.get())
+        else ResponseEntity.notFound().build()
+    &#125;
+
+    @PostMapping
+    fun create(@RequestBody @Valid book: Book): Book = bookRepository.save(book)
+
+    @PutMapping("/&#123;id&#125;")
+    fun update(@PathVariable id: Long, @RequestBody @Valid book: Book): ResponseEntity&lt;Book&gt; &#123;
+        val optional = bookRepository.findById(id)
+        if (optional.isEmpty) return ResponseEntity.notFound().build()
+
+        val updated = optional.get().copy(
+            title = book.title,
+            author = book.author,
+            published_date = book.published_date,
+            isbn = book.isbn,
+            pages = book.pages,
+            cover = book.cover,
+            language = book.language
+        )
+        return ResponseEntity.ok(bookRepository.save(updated))
+    &#125;
+
+    @DeleteMapping("/&#123;id&#125;")
+    fun delete(@PathVariable id: Long): ResponseEntity&lt;Void&gt; &#123;
+        return if (bookRepository.existsById(id)) &#123;
+            bookRepository.deleteById(id)
+            ResponseEntity.noContent().build()
+        &#125; else &#123;
+            ResponseEntity.notFound().build()
+        &#125;
+    &#125;
+&#125;
+</code></pre></small>
+                </li>
+                <li>Na mesma pasta de "gradlew", executar projeto: ".\gradlew bootRun"
+                    <ul>
+                        <li>Testar servidor Gradle: <a href="http://localhost:8080" class="text-decoration-none" target="_blank">http://localhost:8080</a></li>
+                        <li>Testar listagem de books: <a href="http://localhost:8080/books" class="text-decoration-none" target="_blank">http://localhost:8080/books</a></li>
+                    </ul>
+                </li>
+            </ol>
+
+            <br><h4>Testes no Postman:</h4>
+            <p>AQUI</p>
+            <ol>
+                <li>Teste Postman (create):
+                    <ul>
+                        <li>URL: <a href="http://localhost:8080/books" class="text-decoration-none" target="_blank">http://localhost:8080/books</a></li>
+                        <li>Método: POST</li>
+                        <li>Body raw (JSON):
+<small><pre><code>
+&#123;
+    "title": "O Senhor dos Anéis",
+    "author": "J.R.R. Tolkien",
+    "published_date": "1954-07-29",
+    "isbn": "9780261102385",
+    "pages": 1178,
+    "cover": "Ficção",
+    "language": "Português"
+&#125;
+</code></pre></small>
+                        </li>
+                        <li>Enviar (Send)</li>
+                    </ul>
+                </li>
+                <li>Teste Postman (get):
+                    <ul>
+                        <li>URL: <a href="http://localhost:8080/books" class="text-decoration-none" target="_blank">http://localhost:8080/books</a></li>
+                        <li>Método: GET</li>
+                        <li>Enviar (Send)</li>
+                    </ul>
+                </li>
+                <li>Teste Postman (get específico):
+                    <ul>
+                        <li>URL: <a href="http://localhost:8080/books/1" class="text-decoration-none" target="_blank">http://localhost:8080/books/1</a></li>
+                        <li>Método: GET</li>
+                        <li>Enviar (Send)</li>
+                    </ul>
+                </li>
+                <li>Teste Postman (update):
+                    <ul>
+                        <li>URL: <a href="http://localhost:8080/books/1" class="text-decoration-none" target="_blank">http://localhost:8080/books/1</a></li>
+                        <li>Método: PUT</li>
+                        <li>Body raw (JSON):
+                            <small><pre><code>
+&#123;
+    "title": "O Senhor dos Anéis - Edição Atualizada",
+    "author": "J.R.R. Tolkien",
+    "published_date": "1954-07-29",
+    "isbn": "9780261102385",
+    "pages": 1178,
+    "cover": "Ficção",
+    "language": "Português"
+&#125;
+</code></pre></small>
+                        </li>
+                        <li>Enviar (Send)</li>
+                    </ul>
+                </li>
+                <li>Teste Postman (delete):
+                    <ul>
+                        <li>URL: <a href="http://localhost:8080/books/1" class="text-decoration-none" target="_blank">http://localhost:8080/books/1</a></li>
+                        <li>Método: DELETE</li>
+                        <li>Enviar (Send)</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <br><h4>Deploy na AWS:</h4>
+            <p>AQUI</p>
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center bg-black text-light pt-4 pb-3">
+        <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>
