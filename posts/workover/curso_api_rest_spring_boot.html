@@ -47,7 +47,22 @@
             </ul>
 
             <br><h4>Conceito:</h4>
-            <p id="textoPost">Curso teórico e prático para criação de projeto backend API REST, utilizando Spring Boot com Kotlin (ORM hibernate JPA DAO). Projeto com funcionalidades CRUD (Create, Read/List, Update, Delete). Testes via Postman. Deploy em AWS.</p>
+            <p id="textoPost">Curso teórico e prático para criação de projeto backend API REST, utilizando Spring Boot com Kotlin (ORM hibernate JPA DAO). Projeto com funcionalidades CRUD (Create, Read/List, Update, Delete). Banco de dados MySQL. Testes via Postman. Deploy em AWS (EC2).</p>
+
+            <br><h4>API REST:</h4>
+            <p id="textoPost">Sistema web backend que suporta métodos HTTP REST (GET, POST, PUT, DELETE), transportando dados via header/body em request - response entre dispositivos comunicados em rede, via IPs em protocolo HTTP. Framework Spring Boot possui tecnologias necessárias para implementar padrão REST em projetos Java/Kotlin, usando padrões de código OOP (Programação Orientada a Objetos) e MVC (Model-View-Controller).</p>
+
+            <br><h4>Padrão MVC:</h4>
+            <ul>
+                <li>Model: camada de modelo/negócios responsável por implementar regras de negócio da aplicação, definição das entidades e relacionamentos, implementando comportamento e camada de dados;</li>
+                <li>View: camada de visão, responsável pela implementação e exibição de interface com usuário;</li>
+                <li>Controller: camada de controle, classe OOP responsável pelo intermédio entre Model e View, pois elas nunca comunicam-se diretamente.</li>
+            </ul>
+            <ol><u>Fluxo de dados</u>:
+                <li>Controller recebe requisição HTTP;</li>
+                <li>Controller trata dados da requisição, interagindo com Model (se necessário);</li>
+                <li>Controller prepara/envia resposta HTTP ao cliente, geralmente invocando View para tal.</li>
+            </ol>
 
             <br><h4>Instalação das ferramentas:</h4>
             <p>Instalação de pré-requisitos em ambiente Windows.</p>
@@ -75,7 +90,7 @@
                 </li>
                 <li>Kotlin compiler: <a href="https://github.com/JetBrains/kotlin/releases" class="text-decoration-none" target="_blank">Acesse</a>
                     <ul>
-                        <li>Baixar e instalar Kotlin compiler (.zip)</li>
+                        <li>Baixar e instalar Kotlin compiler (.zip) - última versão estável</li>
                         <li>Diretório "C:/", crie pasta "Kotlin", e descompacte o Kotlin dentro dela</li>
                         <li>Win + R, digite "SystemPropertiesAdvanced", acessar Variáveis de Ambiente</li>
                         <li>Aba "Variáveis do sistema", editar variável Path:
@@ -94,7 +109,7 @@
                         <li>Baixar e instalar Gradle: site oficial Gradle, Install, Install manually, Step 1, baixar Binary-only</li>
                         <li>Diretório "C:/", crie pasta "Gradle", e descompacte o Gradle dentro dela</li>
                         <li>Win + R, digite "SystemPropertiesAdvanced", acessar Variáveis de Ambiente</li>
-                        <li>Aba "Variáveis do sistema", editar variável Path: Editar:
+                        <li>Aba "Variáveis do sistema", editar variável Path:
                             <ul>
                                 <li>Nome: Path</li>
                                 <li>Clicar em Novo</li>
