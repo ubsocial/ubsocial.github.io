@@ -86,7 +86,49 @@ Na instância EC2 Ubuntu CLI, executar comandos:
 - Via Linux: ssh -i "sua-chave.pem" ubuntu@DNS-PUBLICO-INSTANCIA
 </code></pre></small>
 
-            <br><h4>Publicar container na AWS:</h4>
+            <br><h4>Buckets S3:</h4>
+            <p id="textoPost">Serviço de armazenamento de dados na AWS, permitindo armazenar qualquer tipo de dado (arquivos, imagens, vídeos, logs, backups, datasets, etc.) em unidades chamadas buckets. Cada bucket é "balde" de armazenamento lógico que pode conter objetos (arquivos), e cada objeto é identificado por key única. Integra-se com EC2 para armazenar backups, logs e arquivos de servidor. Usado também para armazenar BD via Athena. Possibilidade de backups automáticos ao S3. Geralmente usado para armazenar backups, dados, datasest, BDs e sites estáticos. Objetivo é criar S3 para armazenar site UB Social:</p>
+<small><pre><code>
+--- CRIAR BUCKET S3 ---
+S3 / Buckets / Criar bucket
+- Nome: bucket-ubsocial-teste1
+- Propriedade de objeto: Marcar ACLs desabilitadas (recomendado)
+- Configurações de bloqueio do acesso público deste bucket: desabilitar tudo
+Criar bucket
+
+--- UPLOAD ARQUIVOS NO BUCKET S3 ---
+- Baixar arquivos do site estático: <a href="https://github.com/mateusschwede/workover_aws/archive/refs/heads/main.zip" target="_blank" class="text-decoration-none">https://github.com/mateusschwede/workover_aws/archive/refs/heads/main.zip</a>
+- Descompactar arquivos baixados (site está em 2_buckets_s3, pasta ubsocial.github.io)
+
+- S3 / Buckets / Selecionar bucket / Aba Objetos / Carregar
+- Adicionar pastas: selecionar pasta ubsocial.github.io
+Carregar
+
+--- PUBLICAR SITE ESTÁTICO NO S3 ---
+S3 / Buckets / Selecionar bucket / Aba Propriedades / Hospedagem de site estático / Editar / Ativar
+- Documento de índice: index.html (se não estiver em uma pasta)
+S3 / Buckets / Selecionar bucket / Aba Permissões / Editar política de bucket, informando conteúdo:
+&#123;
+    "Version": "2012-10-17",
+    "Statement": [
+        &#123;
+            "Sid": "PublicReadGetObject",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::bucket-ubsocial-teste1/*"
+        &#125;
+    ]
+&#125;
+- Salvar
+
+--- ACESSAR SITE ESTÁTICO NO S3 ---
+S3 / Buckets / Selecionar bucket / Aba Propriedades / Hospedagem de site estático
+- Copiar URL do endpoint
+- Acessar no browser: urlEndpoint/ubsocial.github.io/index.html
+</code></pre></small>
+
+            <hr><br><h4>Publicar container na AWS:</h4>
             <p id="textoPost">Publicar container nginx na AWS via Amazon Elastic Container Service (ECS) e Amazon Elastic Container Registry (ECR), com cluster Fargate.</p>
 <small><pre><code>
 --- CONTAINER NO HOST DOCKER ---
