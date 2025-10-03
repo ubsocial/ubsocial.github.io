@@ -48,6 +48,44 @@
                 <li>Curso gratuito e com certificado na Workover Academy (Curso de Django API REST): <a class="text-decoration-none">Acesse em breve</a></li>
             </ul>
 
+            <br><h4>EC2:</h4>
+            <p id="textoPost">Amazon EC2 (Elastic Compute Cloud) fornece servidores virtuais na nuvem (instâncias) que podem ser usados para rodar aplicações, hospedar sites, bancos de dados, entre outros. Integra-se com outros serviços AWS, como S3 (armazenamento), RDS (banco de dados) e VPC (rede privada). Usado para hospedar site ou aplicação web, criar ambientes de desenvolvimento e testes, hospedar softwares pesados (IA ML, processamento de dados) e jogos, e backend de aplicações. Criar instância EC2 Ubuntu CLI (free tier), com aplicação nginx, habilitada para acesso externo:</p>
+<small><pre><code>
+--- CRIAR INSTÂNCIA AWS ---
+EC2 / Instâncias / Executar instâncias
+- Nome: ubuntuNginxTeste1
+- AMI: Ubuntu Server (nível gratuito)
+- Tipo: t3.micro (verificar se região é t2 ou t3 nível gratuito)
+- Criar par de chaves:
+-- Nome: keyNginxTeste1
+-- Tipo: RSA
+-- Formato: conforme SO de sua máquina
+- Rede:
+-- Atribuir IP público automaticamente: habilitar
+-- Grupo de segurança criado automaticamente, com regras:
+--- Permitir tráfego HTTP qualquer lugar
+--- Permitir tráfego HTTPS qualquer lugar
+--- Permitir tráfego SSH qualquer lugar
+OBS: Após instância criada, pode-se editar regras de entrada do grupo de segurança, para permitir acesso apenas de IPs e portas específicas (EC2 / Grupos de segurança / Selecionar grupo / Editar regras de entrada)
+- Armazenamento: 8GB (nível gratuito)
+Executar instância
+
+--- CONECTAR INSTÂNCIA AWS ---
+EC2 / Instâncias / Selecionar instância / Ações / Conectar
+- Connection type: IP público
+- Endereço IPv4 público: selecionar (guardar IPv4 para acesso futuro)
+Conectar
+
+--- OPERAR INSTÂNCIA AWS ---
+Na instância EC2 Ubuntu CLI, executar comandos:
+- sudo apt update && sudo apt install nginx -y && sudo systemctl enable nginx --now && sudo su
+- echo '&lt;h1&gt;Servidor EC2 UB Social&lt;/h1&gt;' &gt; /var/www/html/index.html
+
+--- ACESSAR INSTÂNCIA AWS ---
+- Acessar no browser: http://IPv4-PUBLICO-INSTANCIA
+- Via Linux: ssh -i "sua-chave.pem" ubuntu@DNS-PUBLICO-INSTANCIA
+</code></pre></small>
+
             <br><h4>Publicar container na AWS:</h4>
             <p id="textoPost">Publicar container nginx na AWS via Amazon Elastic Container Service (ECS) e Amazon Elastic Container Registry (ECR), com cluster Fargate.</p>
 <small><pre><code>
