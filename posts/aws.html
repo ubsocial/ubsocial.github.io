@@ -128,6 +128,66 @@ S3 / Buckets / Selecionar bucket / Aba Propriedades / Hospedagem de site estáti
 - Acessar no browser: urlEndpoint/ubsocial.github.io/index.html
 </code></pre></small>
 
+            <br><h4>Banco de dados RDS:</h4>
+            <p id="textoPost">Amazon RDS (Relational Database Service) é serviço de banco de dados relacional, permitindo gestão e escalabilidade de BD. Geralmente integrado com instâncias EC2 via VPC, funções serverless Lambda, coleção de logs via CloudWatch, backup e armazenamento em bucket S3, entre outros. Utilizado no cotidiano em conjunto com aplicações REST instaladas em instâncias EC2, backups em bucket S3, com disponibilidade para big data. Objetivo é criar BD MySQL em RDS e acessá-lo via máquina externa:</p>
+<small><pre><code>
+--- CRIAR BANCO DE DADOS RDS ---
+Aurora and RDS / Bancos de dados / Criar banco de dados
+- Método de criação: Padrão
+- Opções de mecanismo: MySQL
+- Modelos: Nível gratuito
+- Configurações:
+-- Identificador do banco de dados: ubsocial-mysql-teste1
+-- Nome do usuário principal: admin
+-- Senha: UBsocial123
+- Configuração da instância:
+-- Tipo de instância: (ver opções disponíveis no nível gratuito)
+- Armazenamento:
+-- Tipo de armazenamento: SSD de uso geral (gp2)
+-- Armazenamento alocado: 20GB
+-- Escalabilidade automática do armazenamento: desabilitar (para evitar custos extras)
+- Conectividade:
+-- Recurso de computação: Não se conectar a um recurso de computação do EC2
+-- VPC: padrão
+-- Grupo de sub-redes de banco de dados: padrão
+-- Acesso público: Sim
+-- Grupo de segurança de VPC (firewall): criar novo grupo de segurança
+--- Nome: grupoSegurancaRDS1
+-- Porta do banco de dados: 3306 (padrão MySQL)
+- Configuração adicional:
+-- Nome do banco de dados inicial: ubsocialdb1
+Criar banco de dados
+
+--- HABILITAR PORTA DE ACESSO RDS ---
+EC2 / Grupos de segurança / Selecionar grupoSegurancaRDS1 / Editar regras de entrada (adicionar nova regra)
+- Tipo: MySQL/Aurora
+- Protocolo: TCP (padrão)
+- Porta: 3306 (padrão MySQL)
+- Origem: Qualquer local-IPv4 (0.0.0.0/0)
+Salvar regras
+
+--- ACESSAR BANCO DE DADOS RDS ---
+RDS / Bancos de dados / Selecionar banco de dados / Aba Segurança e conexão / Copiar endpoint do RDS
+No editor SQL, criar conexão:
+- Host: Endpoint do RDS (sem "https://")
+- Porta: 3306
+- User: admin
+- Senha: UBsocial123
+- (opcional) Database: ubsocialdb1
+Testar conexão e Conectar
+
+Editor SQL, executar comandos:
+CREATE TABLE tableTeste (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE
+);
+INSERT INTO tableTeste (nome, email) VALUES ('UB Social','ubsocial@example.com'),('UB Social 2','ubsocial2@example.com');
+SELECT * FROM tableTeste;
+
+RDS / Bancos de dados / Selecionar banco de dados / Aba Logs e eventos / Selecionar log de auditoria / Visualizar
+</code></pre></small>
+
             <hr><br><h4>Publicar container na AWS:</h4>
             <p id="textoPost">Publicar container nginx na AWS via Amazon Elastic Container Service (ECS) e Amazon Elastic Container Registry (ECR), com cluster Fargate.</p>
 <small><pre><code>
