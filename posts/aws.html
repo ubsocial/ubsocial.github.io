@@ -188,6 +188,47 @@ SELECT * FROM tableTeste;
 RDS / Bancos de dados / Selecionar banco de dados / Aba Logs e eventos / Selecionar log de auditoria / Visualizar
 </code></pre></small>
 
+            <br><h4>DynamoDB:</h4>
+            <p id="textoPost">Amazon DynamoDB é serviço de BD NoSQL, escalável de alta performance. Usa tables de itens (identificados por key única) com atributos - via JSON. Integra-se com Lambda para criar aplicações serverless, API Gateway para expor APIs RESTful, CloudWatch para monitoramento e S3 para armazenamento de dados em buckets. Usado em aplicações web e mobile, jogos, IoT e big data. Objetivo é criar e testar BD NoSQL DynamoDB:</p>
+<small><pre><code>
+--- CRIAR TABELA DYNAMODB ---
+DynamoDB / Tabelas / Criar tabela
+- Nome da tabela: usuarios-teste1
+- Chave primária: user_id (String)
+- Configurações da tabela: padrão
+Criar tabela
+
+--- INSERIR DADOS NA TABELA ---
+DynamoDB / Tabelas / Selecionar usuarios-teste1 / Explorar itens da tabela / Criar item
+- user_id: 1
+Adicionar novo atributo (String)
+- nome: 'UB Social'
+Adicionar novo atributo (String)
+- email: 'ubsocial@example.com'
+Criar item
+
+DynamoDB / Tabelas / Selecionar usuarios-teste1 / Explorar itens da tabela / Criar item
+- user_id: 2
+- nome: 'UB Social 2'
+- email: 'ubsocial2@example.com'
+Criar item
+
+--- CONSULTAR DADOS NA TABELA ---
+DynamoDB / Tabelas / Selecionar usuarios-teste1 / Explorar itens da tabela / Verificar ou consultar itens
+- Tipo: Consulta
+- Selecionar projeção de atributos: Atributos específicos
+- Atributos específicos do projeto: nome
+- Chave de partição (user_id): 1
+Executar
+
+--- CONSULTAR DADOS NA TABELA - CloudShell ---
+Canto superior direito do console AWS / CloudShell, e executar comandos:
+- aws dynamodb scan --table-name usuarios-teste1
+- aws dynamodb put-item --table-name usuarios-teste1 --item '&#123;"user_id":&#123;"S":"u003"&#125;,"nome":&#123;"S":"UB Social 3"&#125;,"email":&#123;"S":"ubsocial3@example.com"&#125;&#125;'
+- aws dynamodb get-item --table-name usuarios-teste1 --key '&#123;"user_id": &#123;"S": "u003"&#125;&#125;'
+- aws dynamodb scan --table-name usuarios-teste1 --filter-expression "#n = :nomeVal AND email = :emailVal" --expression-attribute-names '&#123;"#n":"nome "&#125;' --expression-attribute-values '&#123;":nomeVal":&#123;"S":"UB Social 2"&#125;,":emailVal":&#123;"S":"ubsocial2@example.com"&#125;&#125;'
+</code></pre></small>
+
             <hr><br><h4>Publicar container na AWS:</h4>
             <p id="textoPost">Publicar container nginx na AWS via Amazon Elastic Container Service (ECS) e Amazon Elastic Container Registry (ECR), com cluster Fargate.</p>
 <small><pre><code>
