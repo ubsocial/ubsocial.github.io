@@ -230,7 +230,7 @@ Canto superior direito do console AWS / CloudShell, e executar comandos:
 </code></pre></small>
 
             <br><h4>ECS Fargate:</h4>
-            <p id="textoPost">AQUI</p>
+            <p id="textoPost">Amazon ECS (Elastic Container Service) é serviço para gerenciar e executar containers Docker, de forma orquestrada e automática, dispensando instalação manual de cluster Kubernetes ou servidores. AWS Fargate é motor de execução (compute engine) do ECS, permitindo executar containers, sem precisar gerenciar servidores EC2. ECS integra-se com ECR (Elastic Container Registry) para criação de registry de Images, VPC para rede de containers, S3/DynamoDB/RDS para armazenamento de dados (Volumes), Elastic Load Balancer (ALB/NLB) para distribuição de tráfego entre containers, CloudWatch para gestão de logs, etc. Usado em microservices web, APIs REST ou GraphQL, Sites estáticos com backend leve (ex: Nginx), onde containers executam tecnologias base para armazenamento e funcionamento de tais aplicações. Fargate usado em tarefas de processamento de dados, para execução de containers on demand. Usado também em ambientes de teste ou CI/CD, na criação de containers temporários em Pipelines. Objetivo é criar ECS de container Nginx, através de cluster Fargate, contendo definição de tarefa para execução do container, e acesso via IP público:</p>
 <small><pre><code>
 --- CRIAR CLUSTER FARGATE ---
 ECS / Clusters / Criar cluster
