@@ -229,6 +229,68 @@ Canto superior direito do console AWS / CloudShell, e executar comandos:
 - aws dynamodb scan --table-name usuarios-teste1 --filter-expression "#n = :nomeVal AND email = :emailVal" --expression-attribute-names '&#123;"#n":"nome "&#125;' --expression-attribute-values '&#123;":nomeVal":&#123;"S":"UB Social 2"&#125;,":emailVal":&#123;"S":"ubsocial2@example.com"&#125;&#125;'
 </code></pre></small>
 
+            <br><h4>ECS Fargate:</h4>
+            <p id="textoPost">AQUI</p>
+<small><pre><code>
+--- CRIAR CLUSTER FARGATE ---
+ECS / Clusters / Criar cluster
+- Nome: ecs-fargate-nginx-demo
+- Infraestrutura: Somente Fargate
+Criar
+
+--- CRIAR DEFINIÇÃO DE TAREFA ---
+ECS / Definições de tarefa / Criar nova definição de tarefa
+- Nome: nginx-fargate-demo
+- Tipo de inicialização: AWS Fargate
+- CPU: .25vCPU
+- Memória: .5GB
+- Função da tarefa: Nenhum
+- Função de execução de tarefas: ecsTaskExecutionRole
+- Container 1:
+--  Nome: nginx
+-- URI da imagem: nginx:alpine
+- Mapeamentos de porta:
+- Porta do container: 80
+- Protocolo: TCP
+- Coleção de logs: desabilitar
+Criar
+
+--- CRIAR GRUPO DE SEGURANÇA ---
+EC2 / Grupos de segurança / Criar grupo de segurança
+- Nome: grupoSeg-ecs-fargate-http
+- Descrição: Permitir acesso HTTP externo ao Nginx ECS
+- VPC: padrão
+- Regras de entrada (adicionar nova regra):
+-- Tipo: HTTP
+-- Protocolo: TCP (padrão)
+-- Intervalo de portas: 80 (padrão)
+-- Origem: Qualquer local-IPv4 (0.0.0.0/0)
+Criar
+
+--- EXECUTAR TAREFA ---
+ECS / Clusters / Selecionar ecs-fargate-nginx-demo / Aba Tarefas / Executar nova tarefa
+- Família da definição de tarefa: nginx-fargate-demo
+- Opções de computação: Selecionar Tipo de inicialização
+- Tipo de inicialização: Fargate
+- Rede:
+-- VPC: padrão
+-- Sub-redes: padrão
+-- Nome do grupo de segurança: grupoSeg-ecs-fargate-http
+-- IP público: Habilitar
+Criar
+
+--- ACESSAR CONTAINER ECS FARGATE ---
+ECS / Clusters / Selecionar ecs-fargate-nginx-demo / Aba Tarefas / Selecionar tarefa em execução / Aba Associações de rede / Copiar IP público
+- Acessar no browser: http://IP-PUBLICO-TAREFA (abrirá página padrão do Nginx)
+- Via Linux: curl http://IP-PUBLICO-TAREFA
+
+--- Exclusões ---
+1.ECS / Clusters / Selecionar ecs-fargate-nginx-demo / Aba Tarefas / Selecionar tarefa em execução / Ações / Parar
+2.ECS / Clusters / Selecionar ecs-fargate-nginx-demo / Excluir cluster
+3.ECS / Definições de tarefa / Selecionar definição / nginx-fargate-demo / Ações / Cancelar registro, depois Excluir
+4.EC2 / Grupos de segurança / Selecionar grupoSeg-ecs-fargate-http / Excluir
+</code></pre></small>
+
             <hr><br><h4>Publicar container na AWS:</h4>
             <p id="textoPost">Publicar container nginx na AWS via Amazon Elastic Container Service (ECS) e Amazon Elastic Container Registry (ECR), com cluster Fargate.</p>
 <small><pre><code>
