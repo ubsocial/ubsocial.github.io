@@ -291,6 +291,64 @@ ECS / Clusters / Selecionar ecs-fargate-nginx-demo / Aba Tarefas / Selecionar ta
 4.EC2 / Grupos de segurança / Selecionar grupoSeg-ecs-fargate-http / Excluir
 </code></pre></small>
 
+            <br><h4>Serverless Lambda e API Gateway:</h4>
+            <p id="textoPost">Serviços serverless não necessitam de servidores como base de funcionamento, sendo própria AWS responsável por manter e escalar aplicação. Lambda é motor que executa códigos serverless on demand, em resposta a eventos (triggers). API Gateway expõe funções Lambda e outros backends à internet, criando endpoints acessáveis externamente como porta de entrada a essas APIs HTTP REST ou WebSocket. Lambda e API Gateway integram-se com serviços S3 para armazenamento permanente de dados, via RDS, DynamoDB e logs no CloudWatch, e integrações com SNS para notificações e SQS para fila de mensagens. Lambda e API Gateway utilizados em APIs REST, juntamente com DynamoDB. Também em processamento de arquivos, tarefas agendadas de backups diários (EventBridge), e IA ML de processamento leve, dispensando necessidade de servidor. Objetivo é criar serviço serverless, via Lambda, que retorna mensagem quando acessado externamente, disponibilizado via API Gateway.</p>
+<small><pre><code>
+--- CRIAR FUNÇÃO LAMBDA ---
+Lambda / Criar função
+- Criar função do zero
+- Nome da função: hello-serverless
+- Tempo de execução: Python
+- Permissões / Alterar a função de execução padrão: Selecionar 'Criar uma função com permissões básicas do Lambda'
+Criar função
+
+--- ADICIONAR CÓDIGO NA FUNÇÃO LAMBDA ---
+Lambda / Selecionar função hello-serverless / Aba Código / Editar código:
+def lambda_handler(event, context):
+    return &#123;
+        "statusCode": 200,
+        "headers": {"Content-Type": "text/plain; charset=utf-8"},
+        "body": "Olá, mundo serverless!"
+    &#125;
+- No VSCode da AWS, clicar em Deploy
+
+--- TESTAR FUNÇÃO LAMBDA ---
+Lambda / Selecionar função hello-serverless / Aba Testar / Evento de teste
+- Ação de evento de teste: Criar novo evento
+- Nome do evento: eventoTeste1
+Salvar e Testar
+- Verificar resultado: Status 200, Body "Olá, mundo UB Social Serverless!"
+
+--- CRIAR API GATEWAY ---
+API Gateway / APIs / Criar API
+- Tipo de API: API HTTP / Compilar
+- Nome da API: api-hello-serverless
+- Tipo de endereço IP: IPv4
+- Integrações / Acicionar integração
+-- Tipo: Lambda
+-- Escolher função Lambda: localizacaoAWS:hello-serverless
+Avançar
+- Configurar rotas:
+-- Método: GET
+-- Rota: /
+-- Destino: hello-serverless
+Avançar
+- Estágio de implantação: padrão (geralmente com implantação automática habilitada)
+Avançar / Criar / Implantar
+
+--- TESTAR API GATEWAY ---
+API Gateway / APIs / Selecionar api-hello-serverless / Aba Visão geral
+- Copiar URL do endpoint padrão
+- Acessar no browser: urlEndpoint
+- Via Linux: curl urlEndpoint
+- Verificar resultado: "Olá, mundo UB Social Serverless!"
+
+--- Exclusões ---
+1.API Gateway / APIs / Selecionar api-hello-serverless / Ações / Excluir
+2.Lambda / Selecionar função hello-serverless / Ações / Excluir
+3.CloudWatch / Logs / Selecionar grupo de logs / Ações / Excluir grupo de logs
+</code></pre></small>
+
             <hr><br><h4>Publicar container na AWS:</h4>
             <p id="textoPost">Publicar container nginx na AWS via Amazon Elastic Container Service (ECS) e Amazon Elastic Container Registry (ECR), com cluster Fargate.</p>
 <small><pre><code>
