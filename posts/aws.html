@@ -349,6 +349,63 @@ API Gateway / APIs / Selecionar api-hello-serverless / Aba Visão geral
 3.CloudWatch / Logs / Selecionar grupo de logs / Ações / Excluir grupo de logs
 </code></pre></small>
 
+            <br><h4>CloudWatch:</h4>
+            <p id="textoPost">Amazon CloudWatch é serviço de monitoramento e observabilidade da AWS, coletando, armazenando e exibindo métricas, logs e eventos dos serviços AWS. Integra-se com praticamente todos serviços AWS, como métricas alarme em instâncias EC2, medindo processamento, armazenamento e memória. Coleta logs e métricas de execução de funções Lambda e APIs Gateway, medindo tempo de resposta, erros e latência. Coleta métricas de desempenho em bases de dados RDS, DynamoDB, em ECS Fargate, e métricas de armazenamento de buckets S3. Usado em praticamente todo ambiente AWS profissional, monitorando servidores EC2, APIs serverless Lambda, dashboards e logs centralizados para times de operações, métricas para gerar escalonamento automático (auto scaling), e alertas de segurança e compliance quando função IAM for modificada, via CloudWatch e CloudTrail. Objetivo é criar alarme no CloudWatch que monitora logs personalizados de função AWS Lambda, disparando quando função for executada:</p>
+<small><pre><code>
+--- CRIAR FUNÇÃO LAMBDA ---
+Lambda / Criar função
+- Criar função do zero
+- Nome: logLambdaCloudWatch
+- Tempo de execução: Python
+- Permissões / Alterar a função de execução padrão: Selecionar 'Criar uma função com permissões básicas do Lambda'
+Criar função
+
+--- ADICIONAR CÓDIGO NA FUNÇÃO LAMBDA ---
+Lambda / Selecionar função logLambdaCloudWatch / Aba Código / Editar código:
+import json
+import logging
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
+def lambda_handler(event, context):
+    logger.info("Função Lambda executada com sucesso!")
+    return &#123;
+        'statusCode': 200,
+        'body': json.dumps('Log enviado ao CloudWatch!')
+    &#125;
+- No VSCode da AWS, clicar em Deploy
+
+--- TESTAR FUNÇÃO LAMBDA ---
+Lambda / Selecionar função logLambdaCloudWatch / Aba Testar / Evento de teste
+- Ação de evento de teste: Criar novo evento
+- Nome do evento: eventoTesteLog1
+Salvar e Testar
+
+--- VERIFICAR LOGS NO CLOUDWATCH ---
+CloudWatch / Logs / Selecionar grupo de logs / Selecionar grupo / Aba Streams de log / Selecionar fluxo / Verificar logs
+
+--- CRIAR ALARME NO CLOUDWATCH ---
+CloudWatch / Alarmes / Criar alarme
+- Selecionar métrica / Lambda by Function name / Selecionar logLambdaCloudWatch invocations / Selecionar e continuar
+- Período: 1 minuto
+- Condição: Maior que ou igual a 1
+Avançar
+- Nome do alarme: AlertaExecucaoLambda
+Avançar / Criar alarme
+
+--- TESTAR ALARME NO CLOUDWATCH ---
+Lambda / Selecionar função logLambdaCloudWatch / Aba Testar / Evento de teste
+- Ação de evento de teste: Selecionar eventoTesteLog1
+Testar
+- CloudWatch / Alarmes / Selecionar AlertaExecucaoLambda / Verificar estado do alarme (Ok -&gt; Em alarme)
+
+--- Exclusões ---
+1.CloudWatch / Alarmes / Selecionar AlertaExecucaoLambda / Ações / Excluir
+2.CloudWatch / Logs / Selecionar grupo de logs / Ações / Excluir grupo de logs
+3.Lambda / Selecionar função logLambdaCloudWatch / Ações / Excluir
+</code></pre></small>
+
             <hr><br><h4>Publicar container na AWS:</h4>
             <p id="textoPost">Publicar container nginx na AWS via Amazon Elastic Container Service (ECS) e Amazon Elastic Container Registry (ECR), com cluster Fargate.</p>
 <small><pre><code>
