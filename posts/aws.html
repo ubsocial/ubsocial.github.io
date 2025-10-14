@@ -406,6 +406,123 @@ Testar
 3.Lambda / Selecionar função logLambdaCloudWatch / Ações / Excluir
 </code></pre></small>
 
+            <br><h4>SNS e SQS:</h4>
+            <p id="textoPost">SNS (Simple Notification Service) é serviço de publicação/assinatura (pub/sub), enviando notificações automaticamente para destinos (emails, SMS, filas, funções Lambda) a partir de gatilho. Integra-se com CloudWatch no disparo de alertas automáticos, a partir de gatilhos em execuções de funções Lambda, alteração em arquivos nos buckets S3 e filas SQS de mensagens. SQS (Simple Queue Service) é serviço de filas de mensagens, armazenando mensagens temporariamente até que outro sistema as processe. Integra-se na publicação de mensagens SNS, leitura automatica de fila via funções Lambda, processamento de mensagens em EC2/ECS, e gatilhos de envio de eventos na manipulação de arquivos em buckets S3. Utilizados em ambiente de produção, em que CloudWatch detecta alto consumo CPU, envia evento SNS, que repassa notificação via email e cópia à SQS. Lambda processa fila SQS e executa ações automáticas (ex: escalar instâncias). Também utilizados em sistemas API Gateway de publicação de pedido SNS, que direciona-se em fila SQS, separando mensagens entre setores (ex: faturamento, estoque), e cada microserviço processa sua fila no próprio tempo. Objetivo é publicar mensagem em tópico SNS, entregando-a em fila SQS que, por sua vez, aciona função Lambda de processamento da mensagem, e registrará em log CloudWatch:</p>
+<small><pre><code>
+--- CRIAR TÓPICO SNS ---
+SNS / Tópicos / Criar tópico
+- Nome: meu-topico-sns1
+- Tipo: Padrão
+Criar tópico (anotar ARN gerado) - arn:aws:sns:sa-east-1:339712821640:meu-topico-sns1
+
+--- CRIAR FILA SQS ---
+SQS / Filas / Criar fila
+- Tipo: Padrão
+- Nome: minha-fila-sqs1
+Criar fila (anotar ARN gerado) - arn:aws:sqs:sa-east-1:339712821640:minha-fila-sqs1
+
+--- CONECTAR SNS COM SQS ---
+SNS / Tópicos / Selecionar meu-topico-sns1 / Aba Assinaturas / Criar assinatura
+- Protocolo: Amazon SQS
+- Endpoint: ARN da fila SQS
+Criar assinatura
+
+--- CRIAR FUNÇÃO LAMBDA ---
+Lambda / Criar função
+- Criar função do zero
+- Nome: lambda-processa-sqs1
+- Tempo de execução: Python
+- Permissões / Alterar a função de execução padrão: Selecionar 'Criar uma função com permissões básicas do Lambda'
+Criar função
+
+--- ADICIONAR CÓDIGO NA FUNÇÃO LAMBDA ---
+Lambda / Selecionar função lambda-processa-sqs1 / Aba Código / Editar código:
+import json
+
+def process_text_message(text):
+    text = text.strip()
+    if not text:
+        print("Mensagem vazia ou somente espaços - ignorando")
+        return
+    print("Mensagem final:", text)
+
+def lambda_handler(event, context):
+    for record in event.get('Records', []):
+        body = record.get('body', '')
+        try:
+            parsed = json.loads(body)
+        except Exception:
+            parsed = None
+
+        if isinstance(parsed, dict) and 'Message' in parsed:
+            msg = parsed.get('Message', '')
+            try:
+                inner = json.loads(msg)
+                print("Mensagem original (JSON):")
+                print(json.dumps(inner, ensure_ascii=False))
+            except Exception:
+                process_text_message(msg)
+
+        elif isinstance(parsed, dict):
+            print("Mensagem recebida (body JSON):")
+            print(json.dumps(parsed, ensure_ascii=False))
+        
+        else:
+            process_text_message(body)
+
+    return &#123;"statusCode": 200, "body": json.dumps("OK")&#125;
+
+- No VSCode da AWS, clicar em Deploy
+
+--- IAM PERMITIR LAMBDA ACESSAR FILA SQS ---
+Lambda / Selecionar função lambda-processa-sqs1 / Aba Configurações / Permissões / Função de execução / Clicar no nome da função (irá para tela IAM)
+- Políticas de permissões / Adicionar permissões / Criar política em linha / Aba JSON:
+&#123;
+  "Version": "2012-10-17",
+  "Statement": [
+    &#123;
+      "Sid": "AllowLambdaToAccessSQS",
+      "Effect": "Allow",
+      "Action": [
+        "sqs:ReceiveMessage",
+        "sqs:DeleteMessage",
+        "sqs:GetQueueAttributes",
+        "sqs:ChangeMessageVisibility"
+      ],
+      "Resource": "ARN-SUA-FILA-SQS-AQUI"
+    &#125;
+  ]
+&#125;
+
+Avançar
+- Nome da política: LambdaSQSAccessPolicy1
+Criar política
+
+--- CONECTAR FILA SQS À LAMBDA ---
+Lambda / Selecionar função lambda-processa-sqs1 / Aba Configurações / Gatilhos / Adicionar gatilho
+- Configuração do gatilho: Selecionar SQS
+- Fila: minha-fila-sqs1
+Adicionar
+- Habilitar gatilho: Aba Gatilhos / Clicar no gatilho SQS / Aba Triggers do Lambda (verificar se trigger está habilitado)
+
+--- PUBLICAR MENSAGEM NO TÓPICO SNS ---
+SNS / Tópicos / Selecionar meu-topico-sns1 / Publicar mensagem
+- Assunto: Novo pedido 1
+- Corpo da mensagem: Pedido de compra UB Social
+Publicar mensagem
+
+--- VER LOG NO CLOUDWATCH ---
+CloudWatch / Logs / Selecionar grupo de logs / Aba Streams de log / Selecionar fluxo / Verificar logs (deve conter mensagem "Mensagem recebida: Pedido de compra UB Social")
+
+--- Exclusões ---
+1.Lambda / Selecionar função lambda-processa-sqs1 / Ações / Excluir
+2.SQS / Filas / Selecionar minha-fila-sqs1 / Ações / Excluir fila
+3.SNS / Tópicos / Selecionar meu-topico-sns1 / Ações / Excluir tópico
+4.CloudWatch / Logs / Selecionar grupo de logs / Ações / Excluir grupo de logs
+5.IAM / Funções / Selecionar função criada para Lambda / Ações / Excluir função
+6.IAM / Políticas / Selecionar política LambdaSQSAccessPolicy1 / Ações / Excluir política
+</code></pre></small>
+
             <hr><br><h4>Publicar container na AWS:</h4>
             <p id="textoPost">Publicar container nginx na AWS via Amazon Elastic Container Service (ECS) e Amazon Elastic Container Registry (ECR), com cluster Fargate.</p>
 <small><pre><code>
