@@ -45,7 +45,7 @@
             <ul>
                 <li>Conteúdo no YouTube: <a href="https://youtube.com/playlist?list=PLnPZ9TE1Tj4CygvubCbQtSUFFAaTR0Ehm&si=M2_9DbAEJ44bRBon" target="_blank" class="text-decoration-none">Acesse</a></li>
                 <li>Conteúdo no GitHub: <a href="https://github.com/mateusschwede/workover_aws" target="_blank" class="text-decoration-none">Acesse</a></li>
-                <li>Curso gratuito e com certificado na Workover Academy (Curso de Django API REST): <a class="text-decoration-none">Acesse em breve</a></li>
+                <li>Curso gratuito e com certificado na Workover Academy (Curso AWS Free Tier): <a class="text-decoration-none">Acesse em breve</a></li>
             </ul>
 
             <br><h4>Instância EC2:</h4>
@@ -413,13 +413,13 @@ Testar
 SNS / Tópicos / Criar tópico
 - Nome: meu-topico-sns1
 - Tipo: Padrão
-Criar tópico (anotar ARN gerado) - arn:aws:sns:sa-east-1:339712821640:meu-topico-sns1
+Criar tópico (anotar ARN gerado)
 
 --- CRIAR FILA SQS ---
 SQS / Filas / Criar fila
 - Tipo: Padrão
 - Nome: minha-fila-sqs1
-Criar fila (anotar ARN gerado) - arn:aws:sqs:sa-east-1:339712821640:minha-fila-sqs1
+Criar fila (anotar ARN gerado)
 
 --- CONECTAR SNS COM SQS ---
 SNS / Tópicos / Selecionar meu-topico-sns1 / Aba Assinaturas / Criar assinatura
@@ -521,6 +521,42 @@ CloudWatch / Logs / Selecionar grupo de logs / Aba Streams de log / Selecionar f
 4.CloudWatch / Logs / Selecionar grupo de logs / Ações / Excluir grupo de logs
 5.IAM / Funções / Selecionar função criada para Lambda / Ações / Excluir função
 6.IAM / Políticas / Selecionar política LambdaSQSAccessPolicy1 / Ações / Excluir política
+</code></pre></small>
+
+            <br><h4>CloudFormation:</h4>
+            <p id="textoPost">Serviço IaC (infrastructure as code) que permite criar, configurar e versionar infraestrutura AWS via templates YAML/JSON. Integra-se com CodePipeline, na criação de etapas de deploy, e com recursos computacionais de serviços como IAM, EC2, S3, Lambda, RDS, entre outros. Utilizado na prática para gerar arquitetura de tecnologia (VPC, EC2, banco de dados, Lambda), a partir de único template, sendo reprodutível, auditável e padronizada. Objetivo é criar template CloudFormation que cria bucket S3, gerando e destruindo toda sua infraestrutura, de forma automatizada:</p>
+<small><pre><code>
+--- CRIAR TEMPLATE CLOUDFORMATION ---
+- Criar arquivo s3-bucket-simple.yaml:
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Template CloudFormation simples que cria um bucket S3
+Resources:
+    MeuBucketS3:
+        Type: AWS::S3::Bucket
+        Properties:
+            BucketName: !Sub "${AWS::AccountId}-meu-bucket-exemplo"
+            VersioningConfiguration:
+                Status: Suspended
+Outputs:
+    BucketName:
+        Description: "Nome do bucket criado"
+        Value: !Ref MeuBucketS3
+
+--- CRIAR PILHA CLOUDFORMATION ---
+AWS / CloudFormation / Pilhas / Criar pilha / Com novos recursos (padrão)
+- Preparar modelo: Escolher um modelo existente
+- Especificar modelo: Fazer upload de um arquivo de modelo
+Avançar
+- Nome da pilha: exemplo-s3-iac
+Avançar / Enviar
+- Verificar criação da pilha (Status CREATE_IN_PROGRESS - aguardar até CREATE_COMPLETE)
+
+--- VERIFICAR BUCKET S3 CRIADO ---
+S3 / Buckets / Verificar bucket criado com nome ID-CONTA-meu-bucket-exemplo
+
+--- Exclusões ---
+1.CloudFormation / Pilhas / Selecionar exemplo-s3-iac / Ações / Excluir
+2.Verificar exclusão do bucket S3 (deve ser excluído automaticamente junto com pilha)
 </code></pre></small>
 
             <hr><br><h4>Publicar container na AWS:</h4>
