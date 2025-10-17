@@ -559,6 +559,91 @@ S3 / Buckets / Verificar bucket criado com nome ID-CONTA-meu-bucket-exemplo
 2.Verificar exclusão do bucket S3 (deve ser excluído automaticamente junto com pilha)
 </code></pre></small>
 
+            <br><h4>CodePipeline:</h4>
+            <p id="textoPost">Serviço DevOps na AWS, orquestrando fluxo completo de integração e entrega contínua (CI/CD), como obtenção de código, compilação e testes, e deploy. Integra-se com repositórios (origem do código), CodeBuild (build e teste), e CloudFormation / Elastic Beanstalk / S3 / ECS / Lambda para destino de deploy. Utilizado na prática para Pipelines de deploy de aplicações, gerados a partir de gatilhos, como push no repositório, gerando artefato e fazendo deploy automático na AWS. Objetivo é criar Pipeline de deploy automatizado de site HTML, executado a partir de push ao repositório GitHub, onde CodePipeline detecta mudança no repositório, baixa artefato e copia arquivos para bucket S3, atualizando o site automaticamente na AWS (necessário Git instalado localmente):</p>
+<small><pre><code>
+--- CRIAR REPOSITÓRIO GITHUB ---
+GitHub / New repository
+- Nome: meu-site-demo1
+- Visibilidade: Público
+Criar repositório
+- Acessar repositório / Adicionar arquivo / Create new file
+- Nome do arquivo: index.html, conteúdo:
+&lt;h1&gt;Meu Site Demo 1&lt;/h1&gt;
+Commit changes
+
+--- CRIAR BUCKET S3 ---
+S3 / Buckets / Criar bucket
+- Nome: meu-site-demo1-ubsocial
+- Bloquear todo o acesso público: desabilitar
+Criar bucket
+S3 / Buckets / Selecionar bucket / Aba Propriedades / Hospedagem de site estático / Editar / Ativar
+- Documento de índice: index.html
+Salvar alterações (aba Propriedades / Hospedagem de site estático / Copiar URL do endpoint)
+S3 / Buckets / Selecionar bucket / Aba Permissões / Editar política de bucket, informando conteúdo:
+&#123;
+    "Version": "2012-10-17",
+    "Statement": [
+        &#123;
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": [
+                "s3:GetObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::meu-site-demo1-ubsocial/*"
+            ]
+        &#125;
+    ]
+&#125;
+
+- Salvar alterações
+
+--- CRIAR PIPELINE CODEPIPELINE ---
+AWS / CodePipeline / Pipelines / Criar pipeline
+- Category: Criar pipeline personalizado
+Avançar
+- Nome: meu-site-demo1-pipeline
+- Função de serviço: Nova função de serviço
+- Nome da função: CodePipelineServiceRole1
+Avançar
+- Origem (provedor): GitHub (por meio do aplicativo OAuth)
+- Conectar ao GitHub / Autorizar AWS CodePipeline
+- Repositório: selecionar meu-site-demo1
+- Ramificação: main
+Avançar
+- Compilação: ignorar etapa de compilação
+- Teste: ignorar etapa de teste
+- Implantação (Provedor): Amazon S3
+- Bucket: meu-site-demo1-ubsocial
+- Chave do objeto: site1.zip
+- Extraia o arquivo antes de implantar: habilitar
+Avançar / Criar pipeline
+
+--- CONFERIR CRIAÇÃO DO PIPELINE ---
+CodePipeline / Pipelines / Selecionar meu-site-demo1-pipeline / Verificar execução do pipeline (Status: Succeeded)
+S3 / Buckets / Selecionar meu-site-demo1-ubsocial / Verificar arquivo site1.zip criado
+- Acessar no browser: URL endpoint do bucket S3 (urlBucket/site.zip/index.html)
+
+--- ALTERAR ARQUIVO NO REPOSITÓRIO GITHUB ---
+GitHub / Repositório meu-site-demo1 / Selecionar arquivo index.html / Editar
+- Alterar conteúdo do arquivo:
+&lt;h1&gt;Meu Site Demo 1 - Atualizado&lt;/h1&gt;
+Commit changes
+
+--- CONFERIR EXECUÇÃO DO PIPELINE APÓS ALTERAÇÃO ---
+CodePipeline / Pipelines / Selecionar meu-site-demo1-pipeline / Verificar nova execução automática do pipeline (Status: Succeeded)
+S3 / Buckets / Selecionar meu-site-demo1-ubsocial / Verificar arquivo site1.zip atualizado
+- Atualizar no browser: URL endpoint do bucket S3 (urlBucket/site.zip/index.html)
+
+--- Exclusões ---
+1.CodePipeline / Pipelines / Selecionar meu-site-demo1-pipeline / Ações / Excluir pipeline
+2.S3 / Buckets / Selecionar meu-site-demo1-ubsocial / Ações / Excluir bucket
+3.IAM / Funções / Selecionar CodePipelineServiceRole1 / Ações / Excluir função
+4.IAM / Políticas / Selecionar AWSCodePipelineServiceRole-sa-east-1-meu-site-demo1-pipeline / Ações / Excluir política
+5.(Opcional) GitHub / Repositório meu-site-demo1 / Settings / Delete this repository
+</code></pre></small>
+
             <hr><br><h4>Publicar container na AWS:</h4>
             <p id="textoPost">Publicar container nginx na AWS via Amazon Elastic Container Service (ECS) e Amazon Elastic Container Registry (ECR), com cluster Fargate.</p>
 <small><pre><code>
