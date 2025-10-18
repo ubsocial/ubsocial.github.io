@@ -644,6 +644,106 @@ S3 / Buckets / Selecionar meu-site-demo1-ubsocial / Verificar arquivo site1.zip 
 5.(Opcional) GitHub / Repositório meu-site-demo1 / Settings / Delete this repository
 </code></pre></small>
 
+            <br><h4>ELB:</h4>
+            <p id="textoPost">ELB (Elastic Load Balancing) distribui automaticamente tráfego de rede entre múltiplas instâncias, containers ou endpoints, garantindo alta disponibilidade e escalabilidade. "porteiro inteligente" que recebe requisições e distribui entre servidores disponíveis. Integra-se com outros serviços AWS, como EC2/ECS na distribuição de tráfego entre instâncias e containers, Lambda pode receber requisições diretamente do ALB, Auto Scaling adiciona ou remove instâncias conforme tráfego, e o ALB se ajusta automaticamente, e Route 53 com DNS que redireciona domínios ao ELB. Usado na prática, onde ALB garante disponibilidade e prevenção a catástrofes, redirecionando tráfego entre instâncias, em sistemas web, garantindo escalabilidade automática conforme demanda de acessos. Usado também em microserviços e containers K8S, onde cada serviço pode ter rota URL específica. Tipos ELB:</p>
+            <ul>
+                <li>Application Load Balancer (ALB): trabalha na Camada 7 (HTTP/HTTPS), interpreta conteúdo da requisição (rota, header, etc). Usado em APIs, apps web, microserviços;</li>
+                <li>Network Load Balancer (NLB): camada 4 (TCP/UDP), focado em performance e baixa latência. Usado em jogos, IoT, apps em tempo real;</li>
+                <li>Gateway Load Balancer (GWLB): redireciona tráfego para appliances virtuais (firewalls, IDS, etc). Usado em segurança e inspeção de tráfego;</li>
+                <li>Classic Load Balancer (CLB): legado, suportado apenas para compatibilidade em sistemas antigos.</li>
+            </ul>
+            <p id="textoPost">Objetivo é criar 2 instâncias EC2 (Ubuntu Apache), distribuindo tráfego entre elas, via Application Load Balancer (ALB):</p>
+<small><pre><code>
+--- CRIAR INSTÂNCIA EC2 Server 1 ---
+EC2 / Instâncias / Executar instâncias
+- Nome: web-server-1
+- AMI: Ubuntu Server (nível gratuito)
+- Tipo: t3.micro (verificar se região é t2 ou t3 nível gratuito)
+- Criar par de chaves:
+-- Nome: curso-elb-key1
+-- Tipo: RSA
+-- Formato: conforme SO de sua máquina
+- Rede: Editar
+-- Atribuir IP público automaticamente: habilitar
+-- Grupo de segurança: criar novo grupo de segurança
+--- Nome: grupoSeg-web-elb1
+--- Descrição: HTTP-SSH-EC2-ELB-ubsocial
+--- Regras de entrada:
+---- Tipo: SSH / Protocolo: TCP / Intervalo de portas: 22 / Tipo de origem: Qualquer local-IPv4 (0.0.0.0/0)
+---- Tipo: HTTP / Protocolo: TCP / Intervalo de portas: 80 / Tipo de origem: Qualquer local-IPv4 (0.0.0.0/0)
+-- Armazenamento: 8GB (nível gratuito)
+-- Dados do usuário (User Data - inserir comandos):
+#!/bin/bash
+apt update -y
+DEBIAN_FRONTEND=noninteractive apt install -y apache2
+systemctl enable apache2 --now
+echo "&lt;h1&gt;Servidor 1: $(hostname)&lt;/h1&gt;" &gt; /var/www/html/index.html
+- Executar instância
+
+--- CRIAR INSTÂNCIA EC2 Server 2 ---
+EC2 / Instâncias / Executar instâncias
+- Nome: web-server-2
+- AMI: Ubuntu Server (nível gratuito)
+- Tipo: t3.micro (verificar se região é t2 ou t3 nível gratuito)
+- Par de chaves: Selecionar curso-elb-key1
+- Rede: Selecionar grupo de segurança comuns: grupoSeg-web-elb1
+- Armazenamento: 8GB (nível gratuito)
+- Dados do usuário (User Data - inserir comandos):
+#!/bin/bash
+apt update -y
+DEBIAN_FRONTEND=noninteractive apt install -y apache2
+systemctl enable apache2 --now
+echo "&lt;h1&gt;Servidor 2: $(hostname)&lt;/h1&gt;" &gt; /var/www/html/index.html
+- Executar instância
+
+--- TESTAR APACHE NOS SERVIDORES EC2 ---
+- Server 1: EC2 / Instâncias / Selecionar web-server-1 / Copiar IPv4 público (abrir no browser: http://IP-PUBLICO-SERVER-1)
+- Server 2: EC2 / Instâncias / Selecionar web-server-2 / Copiar IPv4 público (abrir no browser: http://IP-PUBLICO-SERVER-2)
+
+--- CRIAR Grupo de Destino ---
+EC2 / Grupos de Destino / Criar grupo de destino
+- Tipo de destino: Instâncias
+- Nome: grupo-destino-web1-ubsocial
+- Protocolo: HTTP
+- Porta: 80
+- Tipo de endereço IP: IPv4
+- VPC: padrão (mesmo das instâncias EC2)
+- Verificações de integridade:
+-- Protocolo: HTTP
+-- Caminho da verificação de integridade: /
+-- Intervalo: 30 segundos (padrão)
+-- Tempo limite: 5 segundos (padrão)
+Avançar
+- Registrar destinos:
+-- Selecionar web-server-1 e web-server-2
+-- Porta para instâncias: 80
+Incluir como pendente abaixo / Criar grupo de destino
+
+--- CRIAR APPLICATION LOAD BALANCER (ALB) ---
+EC2 / Load Balancers / Criar Load Balancer / Application Load Balancer / Criar
+- Nome: alb-web1-ubsocial
+- Esquema: Voltado para a internet
+- Tipo de endereço IP: IPv4
+- Zonas de disponibilidade: selecionar todas disponíveis (padrão)
+- Grupos de segurança: Selecionar grupoSeg-web-elb1
+- Listeners e roteamento: Protocolo: HTTP / Porta: 80
+- Ação padrão:
+-- Encaminhar aos grupos de destino
+-- Selecionar grupo-destino-web1-ubsocial
+Criar Load Balancer (copiar DNS do ALB gerado)
+
+--- TESTAR APPLICATION LOAD BALANCER (ALB) ---
+- Acessar no browser: DNS-ALB-GERADO (recarregar página várias vezes, deve alternar entre Servidor 1 e Servidor 2)
+
+--- Exclusões ---
+1.EC2 / Load Balancers / Selecionar alb-web1-ubsocial / Ações / Excluir
+2.EC2 / Grupos de Destino / Selecionar grupo-destino-web1-ubsocial / Ações / Excluir
+3.EC2 / Instâncias / Selecionar web-server-1 / Ações / Instância de estado / Parar, depois Terminar
+4.EC2 / Instâncias / Selecionar web-server-2 / Ações / Instância de estado / Parar, depois Terminar
+5.EC2 / Grupos de segurança / Selecionar grupoSeg-web-elb1 / Ações / Excluir
+6.EC2 / Pares de chaves / Selecionar curso-elb-key1 / Ações / Excluir par de chaves
+</code></pre></small>
+
             <hr><br><h4>Publicar container na AWS:</h4>
             <p id="textoPost">Publicar container nginx na AWS via Amazon Elastic Container Service (ECS) e Amazon Elastic Container Registry (ECR), com cluster Fargate.</p>
 <small><pre><code>
