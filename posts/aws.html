@@ -696,11 +696,11 @@ systemctl enable apache2 --now
 echo "&lt;h1&gt;Servidor 2: $(hostname)&lt;/h1&gt;" &gt; /var/www/html/index.html
 - Executar instância
 
---- TESTAR APACHE NOS SERVIDORES EC2 ---
+--- TESTAR APACHE NAS INSTÂNCIAS EC2 ---
 - Server 1: EC2 / Instâncias / Selecionar web-server-1 / Copiar IPv4 público (abrir no browser: http://IP-PUBLICO-SERVER-1)
 - Server 2: EC2 / Instâncias / Selecionar web-server-2 / Copiar IPv4 público (abrir no browser: http://IP-PUBLICO-SERVER-2)
 
---- CRIAR Grupo de Destino ---
+--- CRIAR GRUPO DE DESTINO ---
 EC2 / Grupos de Destino / Criar grupo de destino
 - Tipo de destino: Instâncias
 - Nome: grupo-destino-web1-ubsocial
@@ -733,7 +733,7 @@ EC2 / Load Balancers / Criar Load Balancer / Application Load Balancer / Criar
 Criar Load Balancer (copiar DNS do ALB gerado)
 
 --- TESTAR APPLICATION LOAD BALANCER (ALB) ---
-- Acessar no browser: DNS-ALB-GERADO (recarregar página várias vezes, deve alternar entre Servidor 1 e Servidor 2)
+- Acessar no browser: DNS-ALB-GERADO (recarregar página várias vezes, deve alternar entre Server 1 e Server 2)
 
 --- Exclusões ---
 1.EC2 / Load Balancers / Selecionar alb-web1-ubsocial / Ações / Excluir
