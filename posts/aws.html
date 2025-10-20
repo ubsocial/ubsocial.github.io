@@ -815,6 +815,12 @@ Criar registros
 - Ajustar permissão da chave: chmod 400 route53-key1.pem
 
 - Acessar instância web1 via SSH: ssh -i route53-key1.pem ubuntu@IP-PUBLICO-WEB1
+- Criar link para mudar DNS para AWS: sudo ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
+- Editar configurações: sudo nano /etc/systemd/resolved.conf (inserir conteúdo abaixo no final do arquivo:)
+DNS=169.254.169.253
+Domains=sa-east-1.compute.internal
+- Reiniciar serviços: sudo systemctl restart systemd-resolved
+
 - Testar resolução DNS web2.ubsocial.local: dig web2.ubsocial.local +short
 - Acessar web2 via DNS: curl http://web2.ubsocial.local
 
