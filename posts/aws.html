@@ -744,6 +744,92 @@ Criar Load Balancer (copiar DNS do ALB gerado)
 6.EC2 / Pares de chaves / Selecionar curso-elb-key1 / Ações / Excluir par de chaves
 </code></pre></small>
 
+            <br><h4>Route 53:</h4>
+            <p id="textoPost">Serviço de DNS da AWS, realizando tradução entre domínio (ex: meusite.com) e IP (ex: 3.120.45.88), para direcionamento de máquinas. Integra-se com instâncias EC2 no redirecionamento de IPs a DNS, criação automática de alias Elastic Load Balancing no roteamento de vários servidores, domínios em APIs Gateway, integrações DNS com servidor, e automação de zonas DNS e registro IaC no CloudFormation. Utilizado na prática em sites com DNS próprio (EC2, S3, ALB), instraestrutura escalável ELB e Auto Scaling, APIs e microserviços com emissão e validação de certificados SSL, DNS interno em zonas privadas VPC e automações DevOps com CloudFormation ou Terraform. Objetivo é utilizar Route 53 (zona privada), para resolver DNS em VPC, entre instâncias EC2 (Ubuntu + Apache):</p>
+<small><pre><code>
+--- CRIAR INSTÂNCIA EC2 (web1) ---
+EC2 / Instâncias / Executar instâncias
+- Nome: web1
+- AMI: Ubuntu Server (nível gratuito)
+- Tipo: t3.micro (verificar se região é t2 ou t3 nível gratuito)
+- Criar par de chaves:
+-- Nome: route53-key1
+-- Tipo: RSA
+-- Formato: conforme SO de sua máquina
+- Rede: Editar
+-- Atribuir IP público automaticamente: habilitar
+-- Grupo de segurança: criar novo grupo de segurança
+--- Nome: grupoSeg-route53-ssh-http
+--- Descrição: SSH-HTTP-EC2-Route53-ubsocial
+--- Regras de entrada:
+---- Tipo: SSH / Protocolo: TCP / Intervalo de portas: 22 / Tipo de origem: Qualquer local-IPv4 (0.0.0.0/0)
+---- Tipo: HTTP / Protocolo: TCP / Intervalo de portas: 80 / Tipo de origem: Qualquer local-IPv4 (0.0.0.0/0)
+-- Armazenamento: 8GB (nível gratuito)
+-- Dados do usuário (User Data - inserir comandos):
+#!/bin/bash
+apt update -y
+DEBIAN_FRONTEND=noninteractive apt install -y apache2 dnsutils
+systemctl enable apache2 --now
+echo "&lt;h1&gt;web1: $(hostname)&lt;/h1&gt;" &gt; /var/www/html/index.html
+- Executar instância (anotar IPv4 público e privado da instância)
+
+--- CRIAR INSTÂNCIA EC2 (web2) ---
+EC2 / Instâncias / Executar instâncias
+- Nome: web2
+- AMI: Ubuntu Server (nível gratuito)
+- Tipo: t3.micro (verificar se região é t2 ou t3 nível gratuito)
+- Par de chaves: Selecionar route53-key1
+- Rede: Selecionar grupo de segurança comuns: grupoSeg-route53-ssh-http
+- Armazenamento: 8GB (nível gratuito)
+- Dados do usuário (User Data - inserir comandos):
+#!/bin/bash
+apt update -y
+DEBIAN_FRONTEND=noninteractive apt install -y apache2 dnsutils
+systemctl enable apache2 --now
+echo "&lt;h1&gt;web2: $(hostname)&lt;/h1&gt;" &gt; /var/www/html/index.html
+- Executar instância (anotar IPv4 público e privado da instância)
+
+--- CRIAR ZONA PRIVADA NO ROUTE 53 ---
+Route 53 / Zonas hospedadas / Criar zona hospedada
+- Nome do domínio: ubsocial.local
+- Tipo de zona hospedada: Privada para VPC
+- VPCs associadas:
+-- Região: selecionar região atual
+-- VPC: selecionar VPC padrão
+Criar zona hospedada
+
+--- CRIAR REGISTROS DNS NA ZONA PRIVADA ---
+Route 53 / Zonas hospedadas / Selecionar ubsocial.local / Criar registro
+- Nome: web1 (ficará web1.ubsocial.local)
+- Tipo: A - endereço IPv4
+- Valor: IPv4 privado da instância web1
+Adicionar outro registro
+
+- Nome: web2 (ficará web2.ubsocial.local)
+- Tipo: A - endereço IPv4
+- Valor: IPv4 privado da instância web2
+Criar registros
+
+--- TESTAR RESOLUÇÃO DNS VIA INSTÂNCIAS EC2 (via SSH Linux) ---
+- Baixar arquivo route53-key1.pem
+- Ajustar permissão da chave: chmod 400 route53-key1.pem
+
+- Acessar instância web1 via SSH: ssh -i route53-key1.pem ubuntu@IP-PUBLICO-WEB1
+- Testar resolução DNS web2.ubsocial.local: dig web2.ubsocial.local +short
+- Acessar web2 via DNS: curl http://web2.ubsocial.local
+
+- Acessar instância web2 via SSH: ssh -i route53-key1.pem ubuntu@IP-PUBLICO-WEB2
+- Testar resolução DNS web1.ubsocial.local: dig web1.ubsocial.local +short
+- Acessar web1 via DNS: curl http://web1.ubsocial.local
+
+--- Exclusões ---
+1.EC2 / Instâncias / Selecionar web1 / Ações / Instância de estado / Parar, depois Terminar
+2.EC2 / Instâncias / Selecionar web2 / Ações / Instância de estado / Parar, depois Terminar
+3.EC2 / Grupos de segurança / Selecionar grupoSeg-route53-ssh-http / Ações / Excluir
+4.EC2 / Pares de chaves / Selecionar route53-key1 / Ações / Excluir par de chaves
+5.Route 53 / Zonas hospedadas / Selecionar ubsocial.local / Ações / Excluir zona hospedada
+</code></pre></small>
+
             <hr><br><h4>Publicar container na AWS:</h4>
             <p id="textoPost">Publicar container nginx na AWS via Amazon Elastic Container Service (ECS) e Amazon Elastic Container Registry (ECR), com cluster Fargate.</p>
 <small><pre><code>
