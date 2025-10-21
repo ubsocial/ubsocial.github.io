@@ -890,6 +890,54 @@ applications:
 2.(Opcional) GitHub / Repositório amplify-vue-demo1 / Settings / Delete this repository
 </code></pre></small>
 
+            <br><h4>EKS:</h4>
+            <p id="textoPost">Serviço de hospedagem e gestão de control plane Kubernetes, a partir de outros serviços na cloud (EC2, Fargate, híbrido). Integra-se com outros serviços AWS, na composição dos nodes VMs EC2, ou serverless Fargate (sem VMs), conectados em rede VPC, balanceados via ELB, e registrados em EC2. Usado na orquestração e deploy de microserviços em contêineres (scaling, rollout), plataformas internas / PaaS para devs com CI/CD, workloads ML via jobs em containers (com autoscaling e GPU em EC2 quando necessário), e ambientes híbridos/edge (EKS Anywhere / Hybrid Nodes para rodar Kubernetes on-prem ou em devices). Objetivo é criar cluster EKS Fargate, e acessar pod Deployment e Service nginx:</p>
+<small><pre><code>
+--- CRIAR CLUSTER EKS FARGATE ---
+EKS / Clusters / Criar cluster
+- Opções de configuração: Configuração rápida (com o modo automático do EKS)
+- Nome: eks-fargate-tutorial1
+
+- Perfil do IAM do cluster: Criar perfil recomendado (redirecionará para IAM)
+-- Tipo de entidade confiável: Serviço AWS
+-- Serviço ou caso de uso: EKS - Auto Cluster
+Avançar
+--- Nome da função: AmazonEKSAutoClusterRole
+Criar perfil / Voltar ao EKS / Atualizar / Selecionar esse perfil do cluster (AmazonEKSAutoClusterRole)
+
+- Perfil do IAM do nó: Criar perfil recomendado (redirecionará para IAM)
+-- Tipo de entidade confiável: Serviço AWS
+-- Serviço ou caso de uso: EKS - Auto Node
+Avançar
+--- Nome da função: AmazonEKSAutoNodeRole
+Criar perfil / Voltar ao EKS / Atualizar / Selecionar esse perfil do nó (AmazonEKSAutoNodeRole)
+Criar
+
+--- CONFIGURAR AWS CLI E KUBECTL NO HOST DO DOCKER ---
+CloudShell / Abrir terminal
+- Acessar cluster: aws eks update-kubeconfig --name eks-fargate-tutorial1 --region sa-east-1
+- Verificar clusters: aws eks list-clusters --region sa-east-1
+- Verificar nós do cluster: kubectl get nodes
+- Criar namespace: kubectl create namespace fargate-demo
+- Verificar namespaces: kubectl get namespaces
+- Associar Fargate ao namespace: kubectl annotate namespace fargate-demo eks.amazonaws.com/compute-type=fargate
+- Verificar anotação: kubectl get namespace fargate-demo -o jsonpath='{.metadata.annotations}'
+- Implantar app simples: kubectl apply -f https://k8s.io/examples/application/deployment.yaml -n fargate-demo
+- Verificar pods: kubectl get pods -n fargate-demo (status Running)
+
+Pod nginx sem load balancer, acessível via proxy kubectl:
+- Expôr app via Service, sem gerar Load Balancer: kubectl expose deployment nginx-deployment --port=80 --type=ClusterIP -n fargate-demo
+- Verificar Service: kubectl get services -n fargate-demo
+- Acessar pod nginx via proxy kubectl: kubectl port-forward svc/nginx-deployment 8080:80 -n fargate-demo
+- Testar acesso ao nginx via host docker: curl http://localhost:8080
+
+--- Exclusões ---
+1.CloudShell, excluir namespace: kubectl delete namespace fargate-demo
+2.EKS / Clusters / Selecionar eks-fargate-tutorial1 / Ações / Excluir cluster
+3.IAM / Funções / Selecionar AmazonEKSAutoClusterRole / Ações / Excluir função
+4.IAM / Funções / Selecionar AmazonEKSAutoNodeRole / Ações / Excluir função
+</code></pre></small>
+
             <hr><br><h4>Publicar container na AWS:</h4>
             <p id="textoPost">Publicar container nginx na AWS via Amazon Elastic Container Service (ECS) e Amazon Elastic Container Registry (ECR), com cluster Fargate.</p>
 <small><pre><code>
