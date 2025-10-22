@@ -938,6 +938,55 @@ Pod nginx sem load balancer, acessível via proxy kubectl:
 4.IAM / Funções / Selecionar AmazonEKSAutoNodeRole / Ações / Excluir função
 </code></pre></small>
 
+            <br><h4>CloudTrail:</h4>
+            <p id="textoPost">CloudTrail registra trilhas de logs das ações na conta AWS (API calls, Console, SDK/CLI). Serve para auditoria, governança, segurança, investigação e solução de problemas. Integra-se com S3 (destino padrão para armazenar arquivos de log gerados por trails), CloudWatch Logs / CloudWatch Alarms (enviar logs para CloudWatch Logs permite criar métricas, filtros e alarmes sobre eventos específicos, como criação de usuário IAM). Usa EventBridge (antes CloudWatch Events) para rotear eventos do CloudTrail em automações (enviar notificações ou acionar lambdas quando há alteração em políticas IAM). Integra-se com Athena / CloudTrail Lake para consultar e analisar logs (Athena consulta arquivos S3; CloudTrail Lake é data store com queries mais avançadas). Também, AWS Config / SIEM / ferramentas externas (Datadog, Splunk, etc) usam CloudTrail como fonte para inventário/monitoramento contínuo e correlação com alertas de segurança. Utilizado no cotidiano para detectar logins incomuns, chamadas de API fora do horário, criação de chaves IAM, também para gerar provas de alterações (por ex. alteração de regras IAM, criação/exclusão de buckets) para auditorias (SOC, PCI, etc.). Também utilizado para investigar "quem removeu/ligou/desligou" um recurso (quem deletou instância EC2). Utilizado para acionar correções automáticas (via EventBridge / Lambda) quando evento sensível acontece. E aplicado em armazenamento de logs em S3 / CloudTrail Lake e execução de queries para entender sequência de eventos, em análise forense. Objetivo é criar trilha de logs:</p>
+<small><pre><code>
+--- CRIAR TRAIL CLOUDTRAIL ---
+CloudTrail / Trilhas / Criar trilha
+- Nome: curso-cloudtrail1
+Criar trilha (criará bucket S3)
+
+--- ENVIAR LOGS PARA CLOUDWATCH LOGS ---
+CloudTrail / Trilhas / Selecionar curso-cloudtrail1 / Editar
+- CloudWatch Logs: Editar e habilitar
+- Grupo de logs: Criar novo
+-- Nome: curso-cloudtrail-logs1
+- Função do IAM: Criar nova função
+-- Nome: CloudTrailToCloudWatchLogsRole1
+Salvar alterações
+
+--- TESTAR GERAÇÃO DE LOGS ---
+EC2 / Instâncias / Executar instâncias
+- Nome: ubuntuTeste1
+- AMI: Ubuntu Server (nível gratuito)
+- Tipo: t3.micro (verificar se região é t2 ou t3 nível gratuito)
+- Criar par de chaves:
+-- Nome: keyTeste1
+-- Tipo: RSA
+-- Formato: conforme SO de sua máquina
+- Rede:
+-- Atribuir IP público automaticamente: habilitar
+-- Grupo de segurança criado automaticamente, com regras:
+--- Permitir tráfego HTTP qualquer lugar
+--- Permitir tráfego HTTPS qualquer lugar
+--- Permitir tráfego SSH qualquer lugar
+- Armazenamento: 8GB (nível gratuito)
+Executar instância
+
+--- VERIFICAR LOGS NO CLOUDTRAIL E CLOUDWATCH LOGS ---
+CloudTrail / Eventos / Verificar eventos recentes (deve listar evento RunInstances)
+CloudWatch / Logs / Grupos de logs / Selecionar curso-cloudtrail-logs1 / Verificar streams de logs (deve listar evento RunInstances)
+
+--- Exclusões ---
+1.EC2 / Instâncias / Selecionar ubuntuTeste1 / Ações / Instância de estado / Parar, depois Terminar
+2.EC2 / Pares de chaves / Selecionar keyTeste1 / Ações / Excluir par de chaves
+3.CloudTrail / Trilhas / Selecionar curso-cloudtrail1 / Ações / Excluir trilha (deletará bucket S3)
+4.IAM / Funções / Selecionar CloudTrailToCloudWatchLogsRole1 / Ações / Excluir função
+5.IAM / Políticas / Selecionar AWSCloudTrailCloudWatchLogsRole / Ações / Excluir política
+6.CloudWatch / Logs / Grupos de logs / Selecionar curso-cloudtrail-logs1 / Ações / Excluir grupo de logs
+7.S3 / Buckets / Selecionar bucket criado pelo CloudTrail / Ações / Excluir bucket
+</code></pre></small>
+
             <hr><br><h4>Publicar container na AWS:</h4>
             <p id="textoPost">Publicar container nginx na AWS via Amazon Elastic Container Service (ECS) e Amazon Elastic Container Registry (ECR), com cluster Fargate.</p>
 <small><pre><code>
