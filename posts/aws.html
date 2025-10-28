@@ -473,7 +473,6 @@ def lambda_handler(event, context):
             process_text_message(body)
 
     return &#123;"statusCode": 200, "body": json.dumps("OK")&#125;
-
 - No VSCode da AWS, clicar em Deploy
 
 --- IAM PERMITIR LAMBDA ACESSAR FILA SQS ---
@@ -1069,6 +1068,76 @@ CloudWatch / Logs / Grupos de logs / Selecionar /aws/lambda/evento_logger_curso1
 4.IAM / Funções / Selecionar função criada automaticamente para a Lambda (Amazon_EventBridge_Invoke_Lambda_...) / Ações / Excluir função
 5.IAM / Políticas / Selecionar política criada automaticamente para a Lambda (Amazon_EventBridge_Invoke_Lambda_...) / Ações / Excluir política
 6.CloudWatch / Logs / Grupos de logs / Selecionar /aws/lambda/evento_logger_curso1 / Ações / Excluir grupo de logs
+</code></pre></small>
+
+            <br><h4>Step Functions:</h4>
+            <p id="textoPost">Serviço de orquestração de workflows baseado em máquinas de estado (workflows), que coordenam passos (estados) de execução de tarefas. Há workflows standard (execuções auditáveis, longa duração) e express (alta taxa/baixa latência, para cargas massivas). Integra-se com Lambda (invocar funções serverless), SQS/SNS (tráfego de mensagens), DynamoDB (gravar registros de fluxo), ECS / Fargate, Batch, Glue, Athena, SageMaker (acionar jobs, ETL, consultas, treinos/inferência ML), e API Gateway (orquestrar APIs). Utilizado em Pipelines ETL, com transformação de dados em data warehouse, orquestração de microserviços via ECS e Lambda. Utilizado também em jobs auditáveis, e treino de dados ML via SageMaker. Objetivo é executar função Lambda que retorna saudação e máquina de estado invocada via Step Functions:</p>
+<small><pre><code>
+--- CRIAR FUNÇÃO LAMBDA ---
+Lambda / Funções / Criar função
+- Criar função do zero
+- Nome: hello-stepfn1
+- Tempo de execução: Python
+- Permissões / Alterar a função de execução padrão: Selecionar 'Criar uma função com permissões básicas do Lambda'
+Criar função (anotar ARN da função)
+
+--- ADICIONAR CÓDIGO NA FUNÇÃO LAMBDA ---
+Lambda / Selecionar função hello-stepfn1 / Aba Código / Editar código:
+def lambda_handler(event, context):
+    if "Payload" in event:
+        event = event["Payload"]
+    nome = event.get("nome", "mundo")
+    return &#123;
+        "greeting": f"Olá, &#123;nome&#125;!"
+    &#125;
+- No VSCode da AWS, clicar em Deploy
+
+--- TESTAR FUNÇÃO LAMBDA ---
+Lambda / Selecionar função hello-stepfn1 / Aba Testar / Evento de teste
+- Ação de evento de teste: Criar novo evento
+- Nome do evento: teste_hello1
+- JSON do evento (inserir conteúdo abaixo): &#123;"nome": "UB Social"&#125;
+Salvar e Testar
+- Verificar resultado: deve retornar "Olá, UB Social!"
+
+--- CRIAR MÁQUINA DE ESTADO STEP FUNCTIONS ---
+Step Functions / Máquinas de estado / Criar máquina de estado
+- Criar do zero
+- Nome: HelloStepFunction1
+- Tipo de máquina de estado: Padrão
+Avançar
+- Definição da máquina de estado (inserir conteúdo abaixo) - aba Código:
+&#123;
+  "Comment": "Exemplo Step Function em Lambda",
+  "StartAt": "InvocarLambdaHello1",
+  "States": &#123;
+    "InvocarLambdaHello1": &#123;
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": &#123;
+        "FunctionName": "ARN-FUNCAO-LAMBDA-AQUI",
+        "Payload.$": "$"
+      &#125;,
+      "End": true
+    &#125;
+  &#125;
+&#125;
+- Aba Configuração / Permissões
+- Perfil de execução: Criar novo perfil
+Criar e Confirmar
+
+--- EXECUTAR MÁQUINA DE ESTADO ---
+Step Functions / Selecionar HelloStepFunction1 / Executar
+- Nome da execução: exec_hello_1
+- Entrada: &#123; "nome": "Mateus" &#125;
+Iniciar execução
+- Verificar status: Succeeded (ver aba Entrada e Saída - retornará "Olá, mundo!")
+
+--- Exclusões ---
+1.Step Functions / Selecionar HelloStepFunction1 / Ações / Excluir máquina de estado
+2.Lambda / Selecionar função hello-stepfn1 / Ações / Excluir função
+3.IAM / Funções / Selecionar função criada automaticamente para a Step Function (AWSServiceRoleForStepFunctions...) / Ações / Excluir função
+4.IAM / Políticas / Selecionar política criada automaticamente para a Step Function (AWSServiceRoleForStepFunctions...) / Ações / Excluir política
 </code></pre></small>
 
             <hr><br><h4>Publicar container na AWS:</h4>
