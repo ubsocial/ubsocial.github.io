@@ -347,6 +347,8 @@ API Gateway / APIs / Selecionar api-hello-serverless / Aba Visão geral
 1.API Gateway / APIs / Selecionar api-hello-serverless / Ações / Excluir
 2.Lambda / Selecionar função hello-serverless / Ações / Excluir
 3.CloudWatch / Logs / Selecionar grupo de logs / Ações / Excluir grupo de logs
+4.IAM / Funções / Selecionar função criada para Lambda / Ações / Excluir função
+5.IAM / Políticas / Selecionar política criada para Lambda / Ações / Excluir política
 </code></pre></small>
 
             <br><h4>CloudWatch:</h4>
@@ -985,6 +987,88 @@ CloudWatch / Logs / Grupos de logs / Selecionar curso-cloudtrail-logs1 / Verific
 5.IAM / Funções / Selecionar CloudTrailToCloudWatchLogsRole1 / Ações / Excluir função
 6.CloudWatch / Logs / Grupos de logs / Selecionar curso-cloudtrail-logs1 / Ações / Excluir grupo de logs
 7.S3 / Buckets / Selecionar bucket criado pelo CloudTrail / Ações / Excluir bucket
+8.EventBridge / Regras / Selecionar regra criada automaticamente pelo CloudTrail / Ações / Excluir regra
+</code></pre></small>
+
+            <br><h4>EventBridge:</h4>
+            <p id="textoPost">Barramento de eventos serverless que permite conectar produtores de eventos (serviços AWS, aplicações próprias ou provedores SaaS) a consumidores (Lambda, Step Functions, SNS, SQS, API Destinations etc.). Ele recebe, filtra, transforma e roteia eventos para alvo(s), permitindo arquiteturas assíncronas e desacopladas. Integra-se com basicamente todos serviços AWS, na criação de regras para disparo em alvos suportados (outros serviços AWS, ou serviços terceiros). Utilizado no cotidiano em notificações entre setores de sistema (faturamento, inventário, envio de e-mail), via regras para Lambda, SNS e Step Functions. Também utilizado na recepção de webhooks e roteá-los em processos internos sem escrever servidor webhook. Também incorporado em automação industrial, reagindo a eventos CloudTrail ou Datadog para auto-remediação ou alertas (ex: criar ticket no PagerDuty). Também no agendamento de jobs recorrentes (EventBridge Scheduler) para tarefas periódicas. Objetivo é publicar evento EventBridge (barramento custom), via regra JSON, em alvo função Lambda, que registrará o evento:</p>
+<small><pre><code>
+--- CRIAR FUNÇÃO LAMBDA ---
+Lambda / Funções / Criar função
+- Criar função do zero
+- Nome: evento_logger_curso1
+- Tempo de execução: Python
+- Permissões / Alterar a função de execução padrão: Selecionar 'Criar uma função com permissões básicas do Lambda'
+Criar função
+
+--- ADICIONAR CÓDIGO NA FUNÇÃO LAMBDA ---
+Lambda / Selecionar função evento_logger_curso1 / Aba Código / Editar código:
+import json
+def lambda_handler(event, context):
+    print("EVENTO RECEBIDO:")
+    print(json.dumps(event, indent=2, ensure_ascii=False))
+    return &#123;"status": "ok"&#125;
+
+- No VSCode da AWS, clicar em Deploy
+
+--- TESTAR FUNÇÃO LAMBDA ---
+Lambda / Selecionar função evento_logger_curso1 / Aba Testar / Evento de teste
+- Ação de evento de teste: Criar novo evento
+- Nome do evento: teste_evento1
+- JSON do evento (inserir conteúdo abaixo):
+&#123;"teste": "ok"&#125;
+Salvar e Testar
+- Verificar resultado: status ok (gerará logs em grupo de logs no CloudWatch)
+
+--- CRIAR BARRAMENTO DE EVENTOS CUSTOMIZADO ---
+EventBridge / Barramentos de eventos / Criar barramento de eventos
+- Nome: prj_cafe_bus1
+Criar
+
+--- CRIAR REGRA EVENTBRIDGE ---
+EventBridge / Barramentos de eventos / Selecionar prj_cafe_bus1 / Aba Regras / Criar regra
+- Nome: regra_pedido_curso1
+- Tipo de regra: Regra com um padrão de eventos
+Avançar
+- Fonte do evento: Outros
+- Método de criação: Padrão personalizado (editor JSON)
+- Padrão de evento (inserir conteúdo abaixo):
+&#123;
+  "source": ["app.cafes"],
+  "detail-type": ["pedido_realizado1"]
+&#125;
+- Avançar
+- Tipos de destino: Serviço da AWS (Função do Lambda)
+- Local do destino: Destino nessa conta (evento_logger_curso1)
+Avançar / Criar regra
+
+--- PUBLICAR EVENTO NO BARRAMENTO EVENTBRIDGE ---
+EventBridge / Barramentos de eventos / Selecionar prj_cafe_bus1 / Enviar eventos
+- Barramento de eventos: prj_cafe_bus1
+- Fonte do evento: app.cafes
+- Tipo de detalhe: pedido_realizado1
+- Detalhes do evento (inserir conteúdo abaixo):
+&#123;
+  "id_pedido": "12345",
+  "valor": 49.90,
+  "cliente": "João"
+&#125;
+- Enviar (aparecerá mensagem de envio de sucesso)
+
+--- VERIFICAR EVENTO RECEBIDO NA LAMBDA ---
+Lambda / Selecionar função evento_logger_curso1 / Aba Monitoramento / Visualizar logs no CloudWatch
+- Selecionar stream de logs mais recente / Verificar evento recebido (deve listar o evento enviado)
+
+--- VERIFICAR LOGS NO CLOUDWATCH ---
+CloudWatch / Logs / Grupos de logs / Selecionar /aws/lambda/evento_logger_curso1 / Selecionar stream de logs mais recente / Verificar evento recebido (deve listar o evento enviado)
+
+--- Exclusões ---
+1.Lambda / Selecionar função evento_logger_curso1 / Ações / Excluir função
+2.EventBridge / Barramentos de eventos / Selecionar prj_cafe_bus1 / Aba Regras / Selecionar regra_pedido_curso1 / Ações / Excluir
+3.EventBridge / Barramentos de eventos / Selecionar prj_cafe_bus1 / Ações / Excluir barramento de eventos
+4.IAM / Funções / Selecionar função criada automaticamente para a Lambda (Amazon_EventBridge_Invoke_Lambda_...) / Ações / Excluir função
+5.IAM / Políticas / Selecionar política criada automaticamente para a Lambda (Amazon_EventBridge_Invoke_Lambda_...) / Ações / Excluir política
+6.CloudWatch / Logs / Grupos de logs / Selecionar /aws/lambda/evento_logger_curso1 / Ações / Excluir grupo de logs
 </code></pre></small>
 
             <hr><br><h4>Publicar container na AWS:</h4>
