@@ -2431,6 +2431,60 @@ Keywords=termosChave;
             </div>
 
             <div class="card mb-4">
+                <h4 class="card-header">AWS</h4>
+                <div class="card-body">
+                    <p id="textoPost">Amazon EC2 (Elastic Compute Cloud) fornece servidores virtuais na nuvem (instâncias) que podem ser usados para rodar aplicações, hospedar sites, bancos de dados, entre outros. Integra-se com outros serviços AWS, como S3 (armazenamento), RDS (banco de dados) e VPC (rede privada). Usado para hospedar site ou aplicação web, criar ambientes de desenvolvimento e testes, hospedar softwares pesados (IA ML, processamento de dados) e jogos, e backend de aplicações. Objetivo abaixo é criar instância EC2 GNU/Linux Ubuntu Server (CLI), com nginx, na AWS (Free Tier). Criação e acesso via Console AWS:</p>
+<small><pre><code>
+===== CRIAR INSTÂNCIA EC2 =====
+EC2 / Instâncias / Executar instâncias
+- Nome: ubuntuNginxTeste1
+- AMI: Ubuntu Server (nível gratuito)
+- Tipo: t3.micro (verificar se região é t2 ou t3 nível gratuito)
+- Criar par de chaves:
+-- Nome: keyNginxTeste1
+-- Tipo: RSA
+-- Formato: .pem
+(Baixar e salvar .pem em local seguro)
+- Rede:
+-- Atribuir IP público automaticamente: habilitar
+-- Grupo de segurança criado automaticamente, com regras:
+--- Permitir tráfego HTTP qualquer lugar
+--- Permitir tráfego SSH qualquer lugar
+--- Permitir tráfego HTTPS qualquer lugar
+---- OBS: Após instância criada, pode-se editar regras de entrada do grupo de segurança, para permitir acesso apenas de IPs e portas específicas (EC2 / Grupos de segurança / Selecionar grupo / Editar regras de entrada)
+- Armazenamento: 8GB (nível gratuito)
+- (Opcional) Dados do usuário: códigos shell executados durante criação da instância
+Executar instância
+
+===== CONECTAR INSTÂNCIA EC2 =====
+EC2 / Instâncias / Selecionar instância / Ações / Conectar
+- Connection type: IP público
+- Endereço IPv4 público: selecionar (guardar IPv4 para acesso futuro)
+Conectar
+
+===== ACESSAR INSTÂNCIA EC2 =====
+Na instância EC2 Ubuntu CLI, executar comandos:
+- sudo apt update && sudo apt install nginx -y && sudo systemctl enable nginx --now && sudo su
+- echo '&lt;h1*gt;Servidor EC2 UB Social&lt;/h1*gt;' *gt; /var/www/html/index.html
+
+===== ACESSAR NGINX DA INSTÂNCIA EC2 =====
+- Acessar no browser: http://IPv4-PUBLICO-INSTANCIA
+- Via Linux: ssh -i "sua-chave.pem" ubuntu@DNS-PUBLICO-INSTANCIA
+
+===== Exclusões =====
+1. EC2 / Instâncias / Selecionar instância / Ações / Estado da instância / Encerrar
+2. EC2 / Grupos de segurança / Selecionar grupo / Excluir grupo de segurança
+3. EC2 / Par de chaves / Selecionar par de chaves / Excluir par de chaves
+
+(exclusões extras, se houver)
+4. CloudWatch / Logs / Selecionar grupo de logs / Ações / Excluir grupo de logs
+5. IAM / Funções / Selecionar função / Excluir função
+6. IAM / Políticas gerenciadas / Selecionar política / Excluir política
+</code></pre></small>
+                </div>
+            </div>
+
+            <div class="card mb-4">
                 <h4 class="card-header">Certificação</h4>
                 <div class="card-body">
                     <p id="textoPost">Provas de certificações profissionais globais, sobre Linux e free software.</p>
