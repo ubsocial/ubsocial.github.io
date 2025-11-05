@@ -1141,6 +1141,66 @@ Iniciar execução
 5.CloudWatch / Logs / Grupos de logs / Selecionar /aws/vendedlogs/states/HelloStepFunction1 / Ações / Excluir grupo de logs
 </code></pre></small>
 
+            <br><h4>SageMaker</h4>
+            <p id="textoPost">Serviço de gestão e implantação de modelos de Machine Learning (ML) em escala. Integra-se com S3 (armazenamento de datasets), Lambda (funções com endpoints de inferência do modelo treinado), Redshift / Athena (consulta de dados analíticos para alimentar modelo), Glue (preparação e limpeza de dados para treino), Bedrock (combinar modelos tradicionais de ML com modelos generativos). Utilizado no cotidiano em análises e predições (risco de crédito, previsão de vendas e demandas), detecção de fraudes, classificação de textos (análise de sentimentos), e visão computacional (identificação de imagens). Objetivo é treinar modelo Random Forest, que prevê se passageiro vai sobreviver ou não, com base no dataset online Titanic:</p>
+<small><pre><code>
+--- CRIAR NOTEBOOK SAGEMAKER ---
+SageMaker AI / Notebooks / Criar instância de bloco de anotações
+- Nome: notebook-ml-free-tier
+- Tipo de instância: nível gratuito
+- Permissões e criptografia: Criar nova função do IAM (com Qualquer bucket do S3)
+Criar bloco de anotações
+
+--- TREINAR MODELO ML ---
+SageMaker AI / Notebooks / Selecionar notebook-ml-free-tier / Abrir JupyterLab
+- Criar novo notebook conda_python3
+- Inserir código abaixo em células do notebook:
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, classification_report
+
+url = "https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv"
+df = pd.read_csv(url)
+print("Dataset carregado!\n")
+print(df.head())
+df = df.copy()
+
+df['Age'] = df['Age'].fillna(df['Age'].mean())
+df['Embarked'] = df['Embarked'].fillna(df['Embarked'].mode()[0])
+df['Cabin'] = df['Cabin'].fillna('U')
+df['Cabin'] = df['Cabin'].apply(lambda x: x[0])
+print("\nValores únicos em 'Cabin' após tratamento:", df['Cabin'].unique())
+
+df = pd.get_dummies(df, columns=['Sex', 'Embarked', 'Cabin'], drop_first=True)
+X = df.drop(['Survived', 'Name', 'Ticket'], axis=1)
+y = df['Survived']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+model = RandomForestClassifier(n_estimators=100, random_state=42)
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+acc = accuracy_score(y_test, y_pred)
+
+print(f"\nAcurácia do modelo: &#123;acc:.2f&#125;")
+print("\nRelatório de classificação:\n")
+print(classification_report(y_test, y_pred))
+
+passageiro_exemplo = pd.DataFrame([X_test.iloc[0]], columns=X_test.columns)
+previsao = model.predict(passageiro_exemplo)[0]
+print(f"\nPrevisão (1 = Sobreviveu, 0 = Não sobreviveu): &#123;previsao&#125;")
+
+- Executar células (Shift + Enter) para treinar modelo e testar predições
+
+--- Exclusões ---
+1.SageMaker AI / Notebooks / Selecionar notebook-ml-free-tier / Ações / Excluir instância de bloco de anotações
+2.IAM / Funções / Selecionar função criada automaticamente para o SageMaker (AmazonSageMaker-ExecutionRole-...) / Ações / Excluir função
+3.IAM / Políticas / Selecionar política criada automaticamente para o SageMaker (AmazonSageMaker-ExecutionRole-...) / Ações / Excluir política
+4.CloudWatch / Logs / Grupos de logs / Selecionar /aws/sagemaker/Endpoints/notebook-ml-free-tier / Ações / Excluir grupo de logs
+</code></pre></small>
+
             <hr><br><h4>Publicar container na AWS:</h4>
             <p id="textoPost">Publicar container nginx na AWS via Amazon Elastic Container Service (ECS) e Amazon Elastic Container Registry (ECR), com cluster Fargate.</p>
 <small><pre><code>
