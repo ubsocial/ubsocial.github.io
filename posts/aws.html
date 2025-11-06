@@ -1201,6 +1201,144 @@ print(f"\nPrevisão (1 = Sobreviveu, 0 = Não sobreviveu): &#123;previsao&#125;"
 4.CloudWatch / Logs / Grupos de logs / Selecionar /aws/sagemaker/Endpoints/notebook-ml-free-tier / Ações / Excluir grupo de logs
 </code></pre></small>
 
+            <br><h4>Bedrock:</h4>
+            <p id="textoPost">Serviço serverless para construção de aplicações de IA generativa, via provedores como Anthropic, AI21 Labs, Stability AI e modelos da própria AWS (Titan) via API unificada. Integra-se com S3, Kendra e DynamoDB para armazenar dados de suporte, Lambda e API Gateway para chamadas de funções serverless e APIs, CloudWatch para coleta de logs e tokens. Também integra-se com SageMaker, para preparo, treino e gestão de modelos complementares em pós-processamento. Utilizado em assistentes e chatbots corporativos, geração de conteúdos automatizados (textos, vídeos, imagens, documentos, blogs), document processing e automação de escritório, buscas inteligentes e RAG (Retrieval Augmented Generation) em respostas a prompts. Também utilizado em agentes autônomos (via AgentCore), que podem planejar, agir, recuperar dados de várias fontes, tomar decisões baseadas em prompts e realizar workflows completos. Objetivo é criar agente de IA, para responder perguntas sobre cafés e simular consulta de preços em "API fictícia", via função Lambda:</p>
+<small><pre><code>
+OBS: Necessário alterar região para Norte da Virgínia (us-east-1)
+
+--- CRIAR FUNÇÃO LAMBDA ---
+Lambda / Funções / Criar função
+- Criar função do zero
+- Nome: cafePreco1
+- Tempo de execução: Python
+- Permissões / Alterar a função de execução padrão: Selecionar 'Criar uma função com permissões básicas do Lambda'
+Criar função
+
+--- ADICIONAR CÓDIGO NA FUNÇÃO LAMBDA ---
+Lambda / Selecionar função cafePreco1 / Aba Código / Editar código:
+import logging
+import json
+from http import HTTPStatus
+from typing import Dict, Any
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
+def lambda_handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
+    try:
+        logger.info("Evento recebido: %s", json.dumps(event))
+        action_group = event.get("actionGroup") or event.get("action_group")
+        function = event.get("function", "ConsultarPreco")
+        parameters = event.get("parameters", [])
+        message_version = str(event.get("messageVersion", "1.0"))
+
+        if not action_group:
+            raise KeyError("actionGroup ausente no evento")
+
+        tipo_cafe = "capuccino"
+        for p in parameters:
+            if p.get("name") == "tipo_cafe":
+                tipo_cafe = p.get("value", "capuccino")
+
+        precos = &#123;
+            "capuccino": 9,
+            "espresso": 7,
+            "latte": 10
+        &#125;
+        preco = precos.get(tipo_cafe.lower(), 9)
+
+        response_body = &#123;
+            "TEXT": &#123;
+                "body": f"Valor do &#123;tipo_cafe&#125; é &#123;preco&#125;"
+            &#125;
+        &#125;
+
+        final_response = &#123;
+            "response": &#123;
+                "actionGroup": action_group,
+                "function": function,
+                "functionResponse": &#123;
+                    "responseBody": response_body
+                &#125;
+            &#125;,
+            "messageVersion": message_version
+        &#125;
+
+        logger.info("Response final: %s", json.dumps(final_response))
+        return final_response
+
+    except KeyError as e:
+        logger.error("Campo ausente: %s", str(e))
+        return &#123;
+            "statusCode": HTTPStatus.BAD_REQUEST,
+            "body": json.dumps(&#123;"error": f"Campo ausente: &#123;str(e)&#125;"&#125;)
+        &#125;
+    except Exception as e:
+        logger.error("Erro interno: %s", str(e))
+        return &#123;
+            "statusCode": HTTPStatus.INTERNAL_SERVER_ERROR,
+            "body": json.dumps(&#123;"error": "Erro interno"&#125;)
+        &#125;
+- No VSCode da AWS, clicar em Deploy
+
+--- TESTAR FUNÇÃO LAMBDA ---
+Lambda / Selecionar função cafePreco1 / Aba Testar / Evento de teste
+- Ação de evento de teste: Criar novo evento
+- Nome do evento: teste_cafe1
+- JSON do evento (inserir conteúdo abaixo):
+&#123;
+  "actionGroup": "ConsultarPrecoCafe__cafePreco1",
+  "function": "ConsultarPreco",
+  "parameters": [
+    &#123;
+      "name": "tipo_cafe",
+      "value": "capuccino"
+    &#125;
+  ],
+  "messageVersion": "1.0"
+&#125;
+- Salvar e Testar (deve retornar preço do café)
+
+--- CRIAR AGENTE DE IA BEDROCK ---
+Bedrock / Agentes de IA / Criar agente de IA
+- Nome: agente_cafe1
+Criar
+- Modelo de linguagem: Amazon Nova Pro
+- Instruções para agentes: Você é um assistente especializado em cafés. Responda perguntas sobre tipos de café e seus preços. Se a pergunta envolver preços, consulte a função Lambda cafePreco1 para obter o preço correto
+- Grupos de Ação / Adicionar:
+-- Nome: ConsultarPrecoCafe
+-- Tipo de ação: Definir com detalhes da função
+-- Selecione uma função do Lambda existente (selecionar cafePreco1)
+- Função de ação: cafePreco1
+- Parâmetros:
+-- Nome: tipo_cafe
+-- Descrição: Tipo de café para consultar o preço
+-- Tipo: String
+-- Obrigatório: True
+Criar, Salvar e sair
+
+--- PERMITIR LAMBDA PARA BEDROCK ---
+Lambda / Selecionar função cafePreco1 / Aba Configuração / Permissões / Adicionar permissão
+- Tipo: Serviço AWS
+- Serviço: Other
+- ID da declaração: cafePrecoBedrockPermission1
+- Entidade principal: bedrock.amazonaws.com
+- ARN de origem: ARN do agente de IA criado
+- Ação: lambda:InvokeFunction
+Salvar
+
+--- TESTAR AGENTE DE IA BEDROCK ---
+Bedrock / Agentes de IA / Selecionar agente_cafe1 / Testar agente / Preparar
+- Mensagem do usuário: Qual o preço de um cappuccino? (responderá com preço conforme função Lambda)
+
+--- Exclusões ---
+1.Bedrock / Agentes de IA / Selecionar agente_cafe1 / Ações / Excluir agente de IA
+2.Lambda / Selecionar função cafePreco1 / Ações / Excluir função
+3.IAM / Funções / Selecionar função criada automaticamente para o Bedrock (AmazonBedrock-InvokeLambda-...) / Ações / Excluir função
+4.IAM / Políticas / Selecionar política criada automaticamente para o Bedrock (AmazonBedrock-InvokeLambda-...) / Ações / Excluir política
+5.CloudWatch / Logs / Grupos de logs / Selecionar /aws/lambda/cafePreco1 / Ações / Excluir grupo de logs
+</code></pre></small>
+
             <hr><br><h4>Publicar container na AWS:</h4>
             <p id="textoPost">Publicar container nginx na AWS via Amazon Elastic Container Service (ECS) e Amazon Elastic Container Registry (ECR), com cluster Fargate.</p>
 <small><pre><code>
