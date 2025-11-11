@@ -157,8 +157,35 @@
             <br><h4>Benchmarks quânticos:</h4>
             <p id="textoPost">Avaliam desempenho e utilidade dos computadores quânticos, sem implicar vantagem comprovada sobre métodos clássicos. Fidelidade de camada mede capacidade geral do processador em executar circuitos, revelando detalhes sobre qubits, portas e interferências. CLOPS (operações de camada de circuito por segundo) mede velocidade de execução de circuitos de volume quântico, combinando desempenho quântico e clássico. Ambas permitem comparar sistemas e acompanhar ganhos de performance. Profundidade do circuito indica quantas operações paralelas podem ser executadas antes da decoerência, determinando complexidade dos circuitos possíveis.</p>
 
+            <br><h4>Medições quânticas:</h4>
+            <p id="textoPost">Ato de transformar possibilidade (superposição) em realidade (0 ou 1). Qubits estão contantemente em superposição (probabilidades % de estar em 0 à 1), e tornam-se definidos (0 ou 1) após medição. Exemplo, em superposição, um qubit pode estar 70% em 0 e 30% em 1, mas após medição será 0 ou 1.</p>
+            <ul>
+                <li>Computação clássica: bit possui estado definido (0 ou 1, contendo 2 combinações distintas). 2 bits combinados, formam-se 4 combinações distintas (00, 01, 10 e 11). n bits = 2ⁿ estados distintos;
+                    <ul>
+                        <li>1 bit: 2 estados possíveis (1 por vez);</li>
+                        <li>2 bits: 4 estados possíveis (1 por vez);</li>
+                        <li>3 bits: 8 estados possíveis (1 por vez).</li>
+                    </ul>
+                </li>
+                <li>Computação quântica: qubit possui estado indefinido (superposição, contendo 2 combinações simultâneas, cada uma com respectiva probabilidade - combinação linear de estados básicos sob coeficientes de probabilidades para estados possíveis de 0 e 1). 2 qubits combinados, formam-se superposição de 4 combinações simultaneamente (00, 01, 10 e 11). n qubits = 2ⁿ estados simultaneamente.
+                    <ul>
+                        <li>1 qubit: 2 estados possíveis (2 simultaneamente (percentuais de cada));</li>
+                        <li>2 qubits: 4 estados possíveis (4 simultaneamente (percentuais de cada));</li>
+                        <li>3 qubits: 8 estados possíveis (8 simultaneamente (percentuais de cada)).</li>
+                    </ul>
+                </li>
+            </ul>
+            <p>Esparçador Pauli (Sparse Pauli) adventa matrizes de Pauli, onde são aplicadas 3 matrizes X, Y e Z em, além de I (identidade I), em um qubit, para medir seu estado.</p>
+            <ul>
+                <li>X = inverte qubit (como inverter 0/1)</li>
+                <li>Z = muda fase (como mudar a "cor" invisível do estado)</li>
+                <li>Y = combinação de X e Z</li>
+                <li>I = não faz nada</li>
+            </ul>
+            <p id="textoPost">Em 3 qubits, operação X ⊗ Z ⊗ I (ou "XZI" - Pauli String, sequência de Paulis) aplica X no qubit 1, Z no qubit 2, e I (nada) no qubit 3. SparsePauliOp (Sparse Pauli Operator) é forma compacta (esparsa) de guardar combinações sem ocupar tanta memória. Estado quântico é "como sistema está", SparsePauli é "tipo de óculos com que você observa". Você escolhe "conjunto de lentes" (matrizes Pauli) para olhar seu sistema e obter informações (medições). Pauli noise (ruído de Pauli) é um modelo de ruído quântico que descreve erros aleatórios aplicados a qubits usando matrizes de Pauli (X, Y, Z). Usadas para simular imperfeições reais nas transformações de qubits, em computadores quânticos. X-error inverte estado (Bit-flip noise), Z-error muda fase (Phase-flip noise), e Y-error combina erros X e Z (inversão + mudança de fase, Bit-phase-flip noise). Depolarizing noise destaca forma simétrica de Pauli noise na aplicação de X, Y ou Z com mesma probabilidade.</p>
+
             <br><h4>Linguagens de programação:</h4>
-            <p id="textoPost">Linguagens utilizadas especificamente para processamento quântico. Ambientes disponíveis para desenvolvimento são IBM Quantum Experience, Azure Quantum, Google Quantum AI e AWS Braket.</p>
+            <p id="textoPost">Linguagens utilizadas especificamente para processamento quântico. Ambientes disponíveis para desenvolvimento são IBM Quantum Experience, Azure Quantum, Google Quantum AI e AWS Braket. Plataformas IBM Quantum Platform, Azure Quantum, Google Quantum AI e AWS Braket oferecem ferramentas e recursos para desenvolvimento quântico.</p>
             <ul>
                 <li>Qiskit: principal stack de software da IBM para computação quântica, indo além do desenvolvimento de circuitos. Inclui SDK, middleware e serviços para escrever, otimizar e executar programas em sistemas IBM Quantum, com novas ferramentas de IA generativa para assistência de código;</li>
                 <li>Q#: linguagem quântica desenvolvida pela Microsoft, baseada no C#, voltada para desenvolvimento de algoritmos quânticos, controlando comportamento dos qubits e explorando superposição e entrelaçamento quântico. Exemplo abaixo cria par de Bell (estado de entrelaçamento quântico entre 2 qubits):
@@ -189,29 +216,47 @@ operation CreateBellPair() : (Result, Result) &#123;
             <ol>
                 <li>Instalação:
 <small><pre><code>
-pip3 install qiskit matplotlib qiskit[visualization]
+pip3 install qiskit qiskit-ibm-runtime matplotlib qiskit[visualization] jupyter
 </code></pre></small>
                 </li>
-                <li>Construir circuito, criar estado Bell:
+                <li>Conexão:
 <small><pre><code>
-from qiskit import QuantumCircuit
-from qiskit.primitives import StatevectorSampler
-from qiskit.visualization import plot_histogram
- 
-qc = QuantumCircuit(2)
-qc.h(0)
-qc.cx(0, 1)
-qc.measure_all()
- 
-sampler = StatevectorSampler()
-result = sampler.run([qc], shots=1024).result()
-print(result[0].data.meas.get_counts()) // Saída {'00': 505, '11': 519}, divisão quase uniforme entre "00" e "11"
- 
+from qiskit_ibm_runtime import QiskitRuntimeService
 
-# VISUALIZAR RESULTADOS
-counts = result[0].data.meas.get_counts()
-plot_histogram(counts)
-plt.show()
+QiskitRuntimeService.save_account(
+    channel="ibm_quantum_platform",
+    token="SEU-TOKEN-IBM-QUANTUM-AQUI",
+    overwrite=True
+) # Usar apenas 1 vez para salvar conta
+
+service = QiskitRuntimeService() # Usar para conectar conta em cada script
+print("Conta conectada com sucesso!")
+</code></pre></small>
+                </li>
+            </ol>
+
+            <br><hr><h4>Exemplos práticos (Qiskit):</h4>
+            <ol>
+                <li>Estado Bell (notebook Python):
+<small><pre><code>
+# Instalar runtime (via terminal): pip3 install qiskit qiskit-ibm-runtime matplotlib qiskit[visualization] jupyter
+
+# Conexão com IBM Quantum (única vez)
+from qiskit_ibm_runtime import QiskitRuntimeService
+QiskitRuntimeService.save_account(token="SEU-TOKEN-IBM-QUANTUM-AQUI")
+
+from qiskit import QuantumCircuit
+from qiskit.quantum_info import SparsePauliOp
+from qiskit.transpiler import generate_preset_pass_manager
+from qiskit_ibm_runtime import EstimatorV2 as Estimator, QiskitRuntimeService
+service = QiskitRuntimeService()
+
+qc = QuantumCircuit(2) # Cria circuito quântico com 2 qubits
+qc.h(0) # Aplica porta Hadamard no qubit 0 (superposição)
+qc.cx(0, 1) # Aplica porta CNOT (CX) com qubit 0 controlando qubit 1 (entrelaçamento)
+qc.measure_all() # Mede todos qubits
+qc.draw("mpl") # Desenha circuito
+print(qc)
 </code></pre></small>
                 </li>
             </ol>
