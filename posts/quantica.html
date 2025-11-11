@@ -50,12 +50,12 @@
 
             <br><h4>Conceito:</h4>
             <ul>
-                <li><b>Computação clássica</b>: baseada na física clássica (arquitetura de Von Neumann), onde processador opera com bits 0 (desligado, sem eletricidade) ou 1 (ligado, com eletricidade);
+                <li><b>Computação clássica</b>: baseada na física clássica (arquitetura de Von Neumann), onde processador (CPU) opera com bits 0 (desligado, sem eletricidade) ou 1 (ligado, com eletricidade);
                     <ul>
                         <li>Processamento sequencial: 1 item por vez (ex: explorará cada caminho do labirinto, por vez, até encontrar solução otimizada).</li>
                     </ul>
                 </li>
-                <li><b>Computação quântica</b>: baseada na física quântica (mecânica quântica - partícula quantum), onde processador opera com partículas subatômicas qubits (bit quântico - qbit - qubit topológico) 0, 1 ou ambos simultaneamente resultante de superposição de estados, onde partículas podem existir em múltiplos estados simultaneamente (Gato de Schrödinger). Entrelaçamento quântico permite que qubits atuem de ambas formas simultaneamente (ser inverso ao outro qubit. Sendo 0, será 1 ao mesmo tempo, independentemente da distância entre ambos - ação fantasmagórica à distância, Einstein). NISQ (Noisy Intermediate-Scale Quantum), descreve era atual de computadores quânticos, com dezenas a centenas de qubits suscetíveis a ruído. Com 300 qubits, computador quântico poderia representar mais estados do que nº de átomos no universo observável.
+                <li><b>Computação quântica</b>: baseada na física quântica (mecânica quântica - partícula quantum), onde processador (QPU) opera com partículas subatômicas qubits (bit quântico - qbit - qubit topológico) 0, 1 ou ambos simultaneamente resultante de superposição de estados, onde partículas podem existir em múltiplos estados simultaneamente (Gato de Schrödinger). Entrelaçamento quântico permite que qubits atuem de ambas formas simultaneamente (ser inverso ao outro qubit. Sendo 0, será 1 ao mesmo tempo, independentemente da distância entre ambos - ação fantasmagórica à distância, Einstein). NISQ (Noisy Intermediate-Scale Quantum), descreve era atual de computadores quânticos, com dezenas a centenas de qubits suscetíveis a ruído. Com 300 qubits, computador quântico poderia representar mais estados do que nº de átomos no universo observável.
                     <ul>
                         <li>Qubit: descrito por vetor de estado em sistema quântico de 2 níveis, o qual é matematicamente equivalente a vetor em espaço vetorial complexo de 2 dimensões, conhecido como espaço de Hilbert, via notação bra-ket de Paul Dirac;</li>
                         <li>Processamento paralelo: itens processados simultaneamente (ex: explorará todos caminhos do labirinto simultaneamente até encontrar solução otimizada instantaneamente);</li>
@@ -184,6 +184,37 @@ operation CreateBellPair() : (Result, Result) &#123;
 </code></pre></small>
                 </li>
             </ul>
+
+            <br><h4>Qiskit</h4>
+            <ol>
+                <li>Instalação:
+<small><pre><code>
+pip3 install qiskit matplotlib qiskit[visualization]
+</code></pre></small>
+                </li>
+                <li>Construir circuito, criar estado Bell:
+<small><pre><code>
+from qiskit import QuantumCircuit
+from qiskit.primitives import StatevectorSampler
+from qiskit.visualization import plot_histogram
+ 
+qc = QuantumCircuit(2)
+qc.h(0)
+qc.cx(0, 1)
+qc.measure_all()
+ 
+sampler = StatevectorSampler()
+result = sampler.run([qc], shots=1024).result()
+print(result[0].data.meas.get_counts()) // Saída {'00': 505, '11': 519}, divisão quase uniforme entre "00" e "11"
+ 
+
+# VISUALIZAR RESULTADOS
+counts = result[0].data.meas.get_counts()
+plot_histogram(counts)
+plt.show()
+</code></pre></small>
+                </li>
+            </ol>
         </div>
     </div>
 
