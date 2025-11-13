@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../../icons/logoTit.png">
+    <link rel="stylesheet" href="../../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <nav class="navbar rounded-bottom fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="../../index.html"><img src="../../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../sobre/sobre.html">Sobre</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../cursos.html">Cursos</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../livros/livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 text-center" id="titulo">
+            <h1>Blockchain</h1>
+            <h6>Teoria e prática</h6>
+            <a href="../../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
+        </div>
+
+        <div class="col-sm-12">
+            <p class="text-warning text-center">RESUMO EM CONSTRUÇÃO</p>
+            <h4>Material complementar:</h4>
+            <ul>
+                <li>Conteúdo no YouTube: <a class="text-decoration-none">Acesse em breve</a></li>
+                <li>Conteúdo no GitHub: <a class="text-decoration-none">Acesse em breve</a></li>
+                <li>Curso gratuito e com certificado na Workover Academy (Curso AWS Free Tier): <a class="text-decoration-none">Acesse em breve</a></li>
+            </ul>
+
+            <br><h4>Conceito:</h4>
+            <p id="textoPost">Rede peer-to-peer, descentralizada e distribuída, que armazena dados em cadeia de blocos interligados (copiáveis e replicáveis) empilhados, via registro digital distribuído (ledger - BD compartilhado/sincronizado entre vários dispositivos) exclusiva a membros, de forma segura, pública e imutável, independente de autoridade terceira (banco, governo). Cada transação é agrupada em pilha imutável de blocos, segura e transparente, com rastreabilidade instantânea. Blockchain como serviço (BaaS) é serviço de blockchain oferecido por provedor cloud, que disponibiliza estrutura para criá-lo. Usado no cotidiano em criptomoedas, smart contracts, rastreamento de produtos, votação digital e certificados digitais (diplomas, identidades, NFTs).</p>
+
+            <br><h4>Importância:</h4>
+            <p id="textoPost">Na venda de imóvel, comprador e vendedor registram transações em BD. Ambos podem alegar que não enviou/recebeu valor, mesmo o fazendo. Para isso, terceira parte central supervisiona transações, mas cria ponto único de vulnerabilidade para ambas partes. Blockchain cria BD com ledger (registro) para comprador e vendedor. Todas transações devem ser aprovadas por ambas partes e são automaticamente atualizadas em ambos ledgers. Se qualquer dado histórico for corrompido, todo ledger será desefeito. Se transação apresentar erro, deverá ser submetida novamente, até comprovar em ambas partes.</p>
+
+            <br><h4>BD vs Blockchain:</h4>
+            <ul>
+                <li>Blockchains descentralizam controle sem comprometer confiança nos dados;</li>
+                <li>BD tradicional não pode ser compartilhado nas transações. Em redes blockchain, cada empresa tem sua cópia do ledger completa, e sistema mantém automaticamente consistência entre ambos ledgers;</li>
+                <li>Blockchain somente insere dados, não editáveis nem manipuláveis após inserção.</li>
+            </ul>
+
+            <br><h4>Tipos de rede Blockchain:</h4>
+            <ul>
+                <li>Pública: aberta para qualquer pessoa participar (ex: blockchain do Bitcoin). Oferece descentralização, mas alto poder computacional, falta de privacidade das transações e segurança fraca;</li>
+                <li>Privada: rede descentralizada ponto a ponto, governada por organização que controla permissões e participantes para executar protocolo de consenso e manter livro-razão compartilhado;
+                    <ul>
+                        <li>Semiprivada: administrada por única empresa que concede acesso a participantes;</li>
+                    </ul>
+                </li>
+                <li>Autorizada: rede blockchain privada (ou pública) autorizada por organização, com restrições sobre quem tem permissão para participar e quais transações de registro. Participantes precisam obter convite/permissão para ingressar;</li>
+                <li>De consórcio: rede mantida e gerenciada por grupo de organizações pré-selecionadas, determinando participantes, sendo ideal para responsabilidades compartilhadas em colaboração.</li>
+            </ul>
+
+            <br><h4>Componentes de bloco:</h4>
+            <p id="textoPost">Vínculo de hashes cria cadeia contínua e segura - se alguém tentar alterar bloco, toda cadeia torna-se inválida. Cada bloco tem hash criptográfico (alterar bloco muda hash e quebra cadeia). Dados descentralizados não estão em único servidor, mas em milhares de computadores. Para adicionar novo bloco, maioria dos nós deve concordar (ex: Proof of Work, Proof of Stake).</p>
+            <ul>
+                <li>Dados (transações financeiras, contratos, etc.);</li>
+                <li>Hash (identificador único, como impressão digital);</li>
+                <li>Hash do bloco anterior (conecta um bloco ao outro);</li>
+            </ul>
+
+            <br><h4>Componentes do Blockchain:</h4>
+            <ul>
+                <li>Ledger distribuído: BD compartilhado na rede, para armazenar dados, disponível para edição sob regras. Registros após adicionados não poderão ser excluídos individualmente;</li>
+                <li>Smart contracts: contratos inteligentes para autogerenciar contratos comerciais, sem necessidade de assistência de terceira parte. São programas armazenados no BD blockchain e executados automaticamente sob gatilhos. Executam verificações simuladas para que transações possam ser concluídas com segurança. Exemplo, empresa de logística pode ter contrato inteligente que faça pagamento de maneira automática depois que mercadorias chegarem ao porto;</li>
+                <li>Criptografia de chave pública: segurança para identificar participantes em rede blockchain. Gera chave pública única para todos participantes da rede, e chave privada, exclusiva de cada membro. Chaves trabalham juntas para desbloquear dados no ledger. Exemplo, John e Jill são membros da rede. John registra transação criptografada sua chave privada. Jill pode descriptografar essa transação com sua chave pública. Etão, Jill terá certeza de que John fez transação. Chave pública de Jill não funcionaria se chave privada de John tivesse sido violada.</li>
+            </ul>
+
+            <br><h4>Funcionamento:</h4>
+            <img src="blockchain.svg" class="img-fluid mb-3 rounded" width="500px">
+            <ol>
+                <li><b>Registrar transação</b>: transação mostra movimentação dos dados de parte à outra na rede blockchain. É registrada em máquinas nós (nodes), como bloco de dados, contendo detalhes (data e hora, local, envolvidos, valor, condições, etc). Ex: Alice envia 1 Bitcoin para Bob;</li>
+                <li><b>Obter consenso</b>: participantes da rede blockchain precisam concordar que transação registrada é válida, conforme regras da rede;</li>
+                <li><b>Vincular blocos</b>: transações na blockchain são gravadas em blocos não editáveis, anexando hash ao mesmo, atuando como cadeia que interliga todos blocos empilhados. Se blocos são modificados inadvertidamente, hash será alterado, identificando violação dos dados. Cada bloco adicional é empilhado sob bloco anterior;</li>
+                <li><b>Compartilhar ledger</b>: blockchain distribui cópia mais recente do ledger central para todos participantes.</li>
+            </ol>
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center bg-black text-light pt-4 pb-3">
+        <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>
