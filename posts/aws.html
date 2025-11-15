@@ -45,7 +45,7 @@
             <ul>
                 <li>Conteúdo no YouTube: <a href="https://youtube.com/playlist?list=PLnPZ9TE1Tj4CygvubCbQtSUFFAaTR0Ehm&si=M2_9DbAEJ44bRBon" target="_blank" class="text-decoration-none">Acesse</a></li>
                 <li>Conteúdo no GitHub: <a href="https://github.com/mateusschwede/workover_aws" target="_blank" class="text-decoration-none">Acesse</a></li>
-                <li>Curso gratuito e com certificado na Workover Academy (Curso AWS Free Tier): <a class="text-decoration-none">Acesse em breve</a></li>
+                <li>Curso gratuito com certificado na Workover Academy (Curso AWS Free Tier): <a href="https://workover.com.br/cursos/1898/curso-aws-free-tier" target="_blank" class="text-decoration-none">Acesse</a></li>
             </ul>
 
             <br><h4>Instância EC2:</h4>
@@ -1337,6 +1337,32 @@ Bedrock / Agentes de IA / Selecionar agente_cafe1 / Testar agente / Preparar
 3.IAM / Funções / Selecionar função criada automaticamente para o Bedrock (AmazonBedrock-InvokeLambda-...) / Ações / Excluir função
 4.IAM / Políticas / Selecionar política criada automaticamente para o Bedrock (AmazonBedrock-InvokeLambda-...) / Ações / Excluir política
 5.CloudWatch / Logs / Grupos de logs / Selecionar /aws/lambda/cafePreco1 / Ações / Excluir grupo de logs
+</code></pre></small>
+
+            <br><h4>Amazon Managed Blockchain:</h4>
+            <p id="textoPost">Serviço de gestão de redes blockchain (suporta Hyperledger Fabric para redes privadas/consórcio e Access/Query para blockchains públicas como Ethereum, Bitcoin, Polygon). Oferece nodes peer, autoridade de certificados (CA) para Fabric, APIs RPC para acessar redes públicas e serviços serverless para consultas de dados de blockchain. Integra-se com S3 (armazenamento off-chain), Lambda e API Gateway (expor APIs que leem/escrevem na blockchain), SNS e Step Functions (workflows reativos a eventos), CloudTrail e CloudWatch (logs e auditorias). Usado rastreabilidade de ativos e supply chain (gravar transferências/estados de itens) com provas imutáveis, registros compartilhados entre organizações aplicações Web3 / dApps (carteiras, exploradores de bloco, leitura de saldos/transações usando AMB Access). Também usado em prova de integridade / assinatura de documentos (armazenar hashes na cadeia e conteúdo em S3 off-chain). Objetivo AQUI</p>
+<small><pre><code>
+--- CRIAR REDE BLOCKCHAIN ---
+AMB / Redes / Aba Redes privadas / Criar rede privada
+- Estrutura: Hyperledger Fabric
+- Edição: starter
+- Nome: rede-blockchain-curso1
+Avançar
+- Nome do membro: membro-curso1
+- Nome de usuário do administrador: admin
+- Senha do administrador: Ubsocial1
+Avançar / Criar rede e membro
+
+--- CRIAR PEER NODE ---
+AMB / Redes / Selecionar rede-blockchain-curso1 / Aba Membros / Selecionar membro-curso1 / Aba Nós / Criar nó peer (dados padrão)
+
+CONTINUA AQUI...
+1.Criar rede privada e membro
+2.No membro, criar nó peer
+3.Conectar ao nó peer via CLI do Hyperledger Fabric
+4.Criar canal, juntar canal, instalar chaincode, instanciar chaincode
+5.Executar transações de gravação e consulta no ledger
+6.Excluir recursos criados
 </code></pre></small>
 
             <hr><br><h4>Publicar container na AWS:</h4>
