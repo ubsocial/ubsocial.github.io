@@ -1365,6 +1365,76 @@ CONTINUA AQUI...
 6.Excluir recursos criados
 </code></pre></small>
 
+            <br><h4>App Runner:</h4>
+            <p id="textoPost">Serviço de gestão e execução de aplicações web e APIs containerizadas (ou via código-fonte) serverless, realizando build, deploy, balanceamento de carga, HTTPS e auto-scaling automaticamente. Integra-se com ECR para upload de origens via containers, ou Git para via repositórios. Utiliza RDS / DynamoDB / S3 / SQS / SNS para armazenamento de dados e mensageria, CloudWatch para gestão de logs e Route 53 para gestão de DNS customizado. Objetivo é fazer deploy de API REST Django, via container Docker em ECR:</p>
+<small><pre><code>
+- Origem do código-fonte da API Django: http://github.com/mateusschwede/workover_aws/tree/main/3_app_runner
+- Região: us-east-1 (Norte da Virgínia)
+
+--- CRIAR REPOSITÓRIO ECR ---
+ECR / Repositórios / Criar repositório
+- Nome: URL-DO-ECR/ubsocial/meu-app-runner
+Criar (copiar URL do repositório)
+
+--- CONSTRUIR E PUBLICAR IMAGE NO ECR ---
+CloudShell:
+- Logar no ECR: aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin URL-DO-REPOSITORIO
+- Baixar código-fonte da API Django: curl -L https://codeload.github.com/mateusschwede/workover_aws/zip/refs/heads/main -o workover.zip && unzip workover.zip "workover_aws-main/3_app_runner/paris_cafe/*" && mv workover_aws-main/3_app_runner/paris_cafe . && rm -rf workover_aws-main workover.zip && cd paris_cafe
+- Criar imagem Docker: docker build -t meu-app-runner .
+- Marcar imagem para ECR: docker tag meu-app-runner:latest URL-DO-REPOSITORIO/ubsocial/meu-app-runner:latest
+- Publicar imagem no ECR: docker push URL-DO-REPOSITORIO/ubsocial/meu-app-runner:latest
+
+--- CRIAR SERVIÇO APPRUNNER ---
+AWS App Runner / Criar um serviço do App Runner
+- Tipo de repositório: Registro de contêiner
+- Provedor: Amazon ECR
+- URI da imagem de contêiner: Selecionar URL-DO-REPOSITORIO/ubsocial/meu-app-runner:latest
+- Gatilho de implantação: Manual
+- Função de acesso do ECR: Criar nova função de serviço
+-- Nome: AppRunnerECRAccessRole1
+Avançar
+- Nome do serviço: meu-app-runner-service1
+- Variáveis de ambiente: Adicionar variável de ambiente
+-- Origem: Texto simples
+-- Nome: DJANGO_SETTINGS_MODULE
+-- Valor: paris_cafe.settings
+Adicionar variável de ambiente
+-- Origem: Texto simples
+-- Nome: PYTHONUNBUFFERED
+-- Valor: 1
+Adicionar variável de ambiente
+-- Origem: Texto simples
+-- Nome: ALLOWED_HOSTS
+-- Valor: *
+Adicionar variável de ambiente
+-- Origem: Texto simples
+-- Nome: DEBUG
+-- Valor: False
+Adicionar variável de ambiente
+-- Origem: Texto simples
+-- Nome: SECRET_KEY
+-- Valor: change-me-123456789
+Avançar
+- Porta: 8000
+- Verificação de integridade:
+-- Protocolo: HTTP
+-- Caminho: /cafes/
+-- Intervalo: 10 segundos
+-- Tempo limite: 5 segundos
+Criar e implantar (copiar URL do Domínio padrão)
+
+--- ACESSAR APLICAÇÃO ---
+- Acessar browser: URL-DO-DOMINIO-PADRAO/cafes/ (deve listar cafés em JSON)
+- Acessar via cURL: curl https://URL-DO-DOMINIO-PADRAO/cafes/
+- Adicionar café via cURL: curl -X POST https://URL-DO-DOMINIO-PADRAO/cafes/ -H "Content-Type: application/json" -d '{"nome":"UB Café","data_inauguracao":"2001-01-30","endereco":"rua frança 2","avaliacao":10}'
+
+--- Exclusões ---
+1.AWS App Runner / Selecionar meu-app-runner-service1 / Ações / Excluir serviço
+2.ECR / Repositórios / Selecionar URL-DO-REPOSITORIO/ubsocial/meu-app-runner / Ações / Excluir repositório
+3.IAM / Funções / Selecionar AppRunnerECRAccessRole1 / Ações / Excluir função
+4.CloudWatch / Logs / Grupos de logs / Selecionar /aws/apprunner/meu-app-runner-service1 / Ações / Excluir grupo de logs
+</code></pre></small>
+
             <hr><br><h4>Publicar container na AWS:</h4>
             <p id="textoPost">Publicar container nginx na AWS via Amazon Elastic Container Service (ECS) e Amazon Elastic Container Registry (ECR), com cluster Fargate.</p>
 <small><pre><code>
