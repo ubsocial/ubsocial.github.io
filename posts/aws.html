@@ -1435,6 +1435,78 @@ Criar e implantar (copiar URL do Domínio padrão)
 4.CloudWatch / Logs / Grupos de logs / Selecionar /aws/apprunner/meu-app-runner-service1 / Ações / Excluir grupo de logs
 </code></pre></small>
 
+            <br><h4>Glue:</h4>
+            <p id="textoPost">Serviço serverless de integração de dados (ETL/ELT) que permite descobrir, preparar, transformar e mover dados entre fontes (principalmente S3, bancos gerenciados, data warehouses) e manter Data Catalog centralizado com metadados. Integra-se com S3 (origem e destino de armazenamento de arquivos de dados), AWS Glue Data Catalog (repositório de metadados usado por Athena, Redshift Spectrum, EMR, etc), Athena (consulta SQL sobre dados no S3 via Glue Data Catalog), Redshift / Redshift Spectrum (leitura, escrita e integração de tabelas do catálogo), RDS / JDBC (MySQL, PostgreSQL, SQL Server - conectores para extrair/ingestar dados), e Kinesis / Kafka / Streaming (jobs de streaming via Glue Studio). Utilizado na prática em pipelines de ingestão (pegar CSVs de logs em S3, padronizar colunas e escrever em formato colunar (Parquet) para análises), data lake / catálogo central (integrar metadados de várias fontes para consulta unificada, via Athena/Redshift), preparação de dados para modelos ML, e data mining (mover/transformar dados de bancos on-premises para Redshift ou S3). Objetivo é, via CSV com dados armazenado em S3, transformar dados para Parquet e consultá-lo via Athena:</p>
+<small><pre><code>
+--- CRIAR CSV ---
+- Criar arquivo vendas.csv com conteúdo:
+venda_id,data,produto,quantidade,preco
+1,2025-10-01,Caneca,2,25.50
+2,2025-10-02,Bloco de notas,5,8.90
+3,2025-10-03,Caneta,10,1.20
+
+- AWS região: us-east-1 (Norte da Virgínia)
+
+--- CRIAR BUCKET S3 ---
+S3 / Buckets / Criar bucket
+- Nome: ubsocial-glue-bucket1
+- Propriedade de objeto: Marcar ACLs desabilitadas (recomendado)
+- Configurações de bloqueio do acesso público deste bucket: desabilitar tudo
+Criar bucket
+
+--- CRIAR CRAWLER GLUE ---
+AWS Glue / Crawlers / Create crawler
+- Name: crawler-vendas-csv
+Next
+- Data sources: Add a data source
+-- Data source type: S3
+-- Location of S3 data: In this account
+-- S3 path: selecionar bucket S3 ubsocial-glue-bucket1/
+Add data source / Next
+- Existing IAM role: Create new IAM role
+-- Nome: AWSGlueServiceRole-vendas1
+Add IAM role / Next
+- Target database: Add database
+-- Name: db_vendas
+Create database / Selecionar db_vendas
+- How should AWS Glue handle deleted objects in the data store?: Delete tables and partitions from the data catalog
+- Create partition indexes automatically: Desmarcar
+Next / Create crawler
+
+--- EXECUTAR CRAWLER ---
+AWS Glue / Crawlers / Selecionar crawler-vendas-csv / Run crawler
+- Verificar status: Succeeded
+
+--- VERIFICAR GLUE DATA CATALOG ---
+AWS Glue / Catálogo de dados / Tables / Selecionar table ubsocial_glue_bucket1
+- Verificar esquema da tabela (colunas, tipos de dados, localização em S3)
+
+--- CONSULTAR DADOS VIA ATHENA ---
+Athena / Consultas SQL
+- Fonte de dados: AwsDataCatalog
+- Banco de dados: db_vendas
+- Localização e criptografia do resultado da consulta: Selecionar bucket S3 'ubsocial-glue-bucket1/athena-results/'
+Salvar
+- Consulta SQL: SELECT * FROM ubsocial_glue_bucket1;
+- Visualizar resultados (deve listar dados do CSV), visualizar no bucket S3
+
+--- Exclusões ---
+1.Athena / Fontes de dados e catálogos / AwsDataCatalog / db_vendas / Selecionar e Ações / Excluir bancos de dados
+2.(verificar) AWS Glue / Crawlers / Selecionar crawler-vendas-csv / Ações / Excluir crawler
+3.(verificar) AWS Glue / Catálogo de dados / Tables / Selecionar table ubsocial_glue_bucket1 / Ações / Excluir tabela
+4.(verificar) AWS Glue / Catálogo de dados / Databases / Selecionar db_vendas / Ações / Excluir banco de dados
+5.S3 / Buckets / Selecionar ubsocial-glue-bucket1 / Ações / Esvaziar e Excluir bucket
+6.IAM / Funções / Selecionar AWSGlueServiceRole-vendas1 / Ações / Excluir função
+7.IAM / Políticas / Selecionar política criada automaticamente para o Glue (AWSGlueServiceRole-vendas1) / Ações / Excluir política
+8.CloudWatch / Logs / Grupos de logs / Selecionar /aws-glue/crawlers/crawler-vendas-csv / Ações / Excluir grupo de logs
+</code></pre></small>
+
+            <br><h4>Ground Station (em construção):</h4>
+            <p id="textoPost">Serviço de infraestrutura de estações terrestres (antenas, digitizers, modems e roteamento) para comunicação com satélites e ingestão de dados por satélite, permitindo programar contatos (janelas de passagem), receber downlinks e direcionar dados para serviços AWS para processamento, armazenamento e análise. Integra-se com S3 (armazenamento de pipeline de Earth Observation), Lambda (funções serverless em resposta a eventos EventBridge), EC2 e Dataflow Endpoints (máquinas agent/receiver para entrega síncrona de dados), e Kinesis em Data Streams / Firehose / Video Streams (integração para streaming/ingest e pipeline de processamento em tempo real). Utilizado na prática para observação da Terra (EO) via imagens e dados meteorológicos, para agricultura, monitoramento ambiental, desmatamento e mapeamento. Usado em resposta a desastres / emergência em terrenos, monitoramento marítimo / tráfego e logística, além de comunicações e testes de missão, e pesquisa científica. Objetivo é EM BREVE:</p>
+<small><pre><code>
+EM BREVE...
+</code></pre></small>
+
             <hr><br><h4>Publicar container na AWS:</h4>
             <p id="textoPost">Publicar container nginx na AWS via Amazon Elastic Container Service (ECS) e Amazon Elastic Container Registry (ECR), com cluster Fargate.</p>
 <small><pre><code>
