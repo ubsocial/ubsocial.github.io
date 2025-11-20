@@ -1453,6 +1453,7 @@ S3 / Buckets / Criar bucket
 - Propriedade de objeto: Marcar ACLs desabilitadas (recomendado)
 - Configurações de bloqueio do acesso público deste bucket: desabilitar tudo
 Criar bucket
+- Fazer upload do arquivo vendas.csv para o bucket ubsocial-glue-bucket1/
 
 --- CRIAR CRAWLER GLUE ---
 AWS Glue / Crawlers / Create crawler
@@ -1499,6 +1500,71 @@ Salvar
 6.IAM / Funções / Selecionar AWSGlueServiceRole-vendas1 / Ações / Excluir função
 7.IAM / Políticas / Selecionar política criada automaticamente para o Glue (AWSGlueServiceRole-vendas1) / Ações / Excluir política
 8.CloudWatch / Logs / Grupos de logs / Selecionar /aws-glue/crawlers/crawler-vendas-csv / Ações / Excluir grupo de logs
+</code></pre></small>
+
+            <br><h4>Redshift:</h4>
+            <p id="textoPost">Data warehouse para processamento analítico em grande escala, via SQL. Composto por clusters provisionados (nós RA3/DC2 etc.) e Redshift Serverless, que provisiona/escala automaticamente recursos para consultas. Integra-se com S3 (origem/armazenamento de arquivos de dados, para consultas via Redshift Spectrum), AWS Glue / Glue Data Catalog (catálogo de metadados e jobs ETL/transformação para tables externas), Athena (consultas ad-hoc em S3 - lakehouse patterns), Redshift Data API / Query Editor v2 (conexão via API, console e drivers JDBC/ODBC para clientes BI), Lambda / Step Functions / CloudWatch / SNS (automações, triggers e monitoramento serverless), e Redshift ML (executar/treinar modelos de ML diretamente de SQL, junto com SageMaker). Utilizado no cotidiano para relatórios e dashboards de BI (consultar grandes tabelas agregadas), análises históricas e agregadas, arquitetura Lakehouse (dados brutos no S3, catálogo no Glue, consultas rápidas e joins no Redshift ou via Spectrum), ETL/ELT em cargas periódicas de logs, eventos e vendas (COPY, Glue jobs, ou ingest via pipelines), e Machine Learning / feature store (preparar features e usar Redshift ML para treinar modelos simples). Objetivo é criar ambiente Redshift Serverless, para carregar dataset CSV de bucket S3 e fazer consulta SQL simples:</p>
+<small><pre><code>
+--- CRIAR CSV ---
+- Criar arquivo vendas_amostra.csv com conteúdo:
+venda_id,data,produto,quantidade,preco
+1,2025-10-01,Caneca,2,25.50
+2,2025-10-02,Bloco de notas,5,8.90
+3,2025-10-03,Caneta,10,1.20
+
+- AWS região: us-east-1 (Norte da Virgínia)
+
+--- CRIAR BUCKET S3 ---
+S3 / Buckets / Criar bucket
+- Nome: meu-bucket-cursos-redshift1
+- Propriedade de objeto: Marcar ACLs desabilitadas (recomendado)
+- Configurações de bloqueio do acesso público deste bucket: desabilitar tudo
+Criar bucket (anotar URI do bucket, exemplo: s3://meu-bucket-cursos-redshift1)
+- Fazer upload do arquivo vendas_amostra.csv para o bucket meu-bucket-cursos-redshift1/
+
+--- CRIAR DATA WAREHOUSE REDSHIFT SERVERLESS ---
+Amazon Redshift / Redshift sem servidor / Criar grupo de trabalho
+- Nome: curso-redshift-wg1
+Próximo
+- Namespace: Criar um namespace
+-- Nome: cursodb1
+- Funções do IAM associadas: Criar nova função do IAM
+-- Select Access Type: Full Access
+-- Especificar um bucket do S3 para a função do IAM que será acessada: Buckets do S3 específicos
+--- Selecionar bucket: meu-bucket-cursos-redshift1
+Criar função do IAM como padrão (anotar ARN da função)
+Próximo / Criar
+
+--- CONECTAR AO REDSHIFT SERVERLESS VIA QUERY EDITOR V2 ---
+Amazon Redshift / Redshift sem servidor / Selecionar curso-redshift-wg1 / Consultar dados
+- Conectar conta Redshift Query Editor V2 ao bucket S3 meu-bucket-cursos-redshift1 (autorizar acesso)
+- Conectar ao Serverless workgroup: curso-redshift-wg1, banco de dados 'dev'
+- Executar comandos SQL:
+CREATE TABLE vendas_amostra (
+  id INTEGER,
+  data DATE,
+  produto VARCHAR(100),
+  quantidade INTEGER,
+  preco NUMERIC(10,2)
+);
+
+- Executar comando SQL:
+COPY vendas_amostra
+FROM 's3://meu-bucket-cursos-redshift1'
+IAM_ROLE 'arn:aws:iam::339712821640:role/service-role/AmazonRedshift-CommandsAccessRole-20251120T111513'
+CSV
+IGNOREHEADER 1;
+
+- Executar comando SQL:
+SELECT * FROM vendas_amostra;
+- Pode-se conectar BD ao AWS QuickSight para criar dashboards BI
+
+--- Exclusões ---
+1.Amazon Redshift / Redshift sem servidor / Selecionar curso-redshift-wg1 / Ações / Excluir grupo de trabalho e namespace (não gerar snapshot)
+2.S3 / Buckets / Selecionar meu-bucket-cursos-redshift1 / Ações / Esvaziar e Excluir bucket
+3.IAM / Funções / Selecionar função criada automaticamente para o Redshift Serverless (AmazonRedshift-CommandsAccessRole-...) / Ações / Excluir função
+4.IAM / Políticas / Selecionar política criada automaticamente para o Redshift Serverless (AmazonRedshift-CommandsAccessRole-...) / Ações / Excluir política
+5.(verificar) CloudWatch / Logs / Grupos de logs / Selecionar /aws/redshift/serverless/curso-redshift-wg1 / Ações / Excluir grupo de logs
 </code></pre></small>
 
             <br><h4>Ground Station (em construção):</h4>
