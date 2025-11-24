@@ -235,21 +235,24 @@ print("Conta conectada com sucesso!")
                 </li>
             </ol>
 
-            <br><hr><h4>Exemplos práticos (Qiskit):</h4>
+            <br><hr><h4>Exemplos práticos (Qiskit 2.2, em notebooks Python):</h4>
             <ol>
-                <li>Estado Bell (notebook Python):
+                <li>OBS: Preparação do ambiente (antes de executar os exemplos):
 <small><pre><code>
 # Instalar runtime (via terminal): pip3 install qiskit qiskit-ibm-runtime matplotlib qiskit[visualization] jupyter
 
-# Conexão com IBM Quantum (única vez)
+# Conexão com IBM Quantum (única vez no ambiente):
 from qiskit_ibm_runtime import QiskitRuntimeService
 QiskitRuntimeService.save_account(token="SEU-TOKEN-IBM-QUANTUM-AQUI")
-
+</code></pre></small>
+                </li>
+                <li>Estado Bell (par de entrelaçamento quântico):
+<small><pre><code>
 from qiskit import QuantumCircuit
 from qiskit.quantum_info import SparsePauliOp
 from qiskit.transpiler import generate_preset_pass_manager
 from qiskit_ibm_runtime import EstimatorV2 as Estimator, QiskitRuntimeService
-service = QiskitRuntimeService()
+service = QiskitRuntimeService() # Conecta conta IBM Quantum, utilizar em cada script
 
 qc = QuantumCircuit(2) # Cria circuito quântico com 2 qubits
 qc.h(0) # Aplica porta Hadamard no qubit 0 (superposição)
@@ -257,6 +260,45 @@ qc.cx(0, 1) # Aplica porta CNOT (CX) com qubit 0 controlando qubit 1 (entrelaça
 qc.measure_all() # Mede todos qubits
 qc.draw("mpl") # Desenha circuito
 print(qc)
+</code></pre></small>
+                </li>
+                <li>Estado GHZ (Greenberger–Horne–Zeilinger, estado de entrelaçamento quântico entre 3 ou mais qubits): circuito GHZ cria estado quântico onde 3 qubits ficam perfeitamente entrelaçados, onde todos estejam ao mesmo tempo em |000⟩ e |111⟩, compartilhando única correlação global que não pode ser separada entre eles
+<small><pre><code>
+from qiskit import QuantumCircuit
+from qiskit_ibm_runtime import QiskitRuntimeService
+service = QiskitRuntimeService() # Conectar conta IBM Quantum
+
+from qiskit import QuantumCircuit
+from qiskit.quantum_info import Statevector
+from qiskit.visualization import plot_state_qsphere, plot_bloch_multivector
+import matplotlib.pyplot as plt
+from qiskit_ibm_runtime import QiskitRuntimeService
+service = QiskitRuntimeService()
+
+ghz = QuantumCircuit(3) # Circuito com 3 qubits
+
+ghz.h(0) # Hadamard (colocar qubit 0 em superposição)
+ghz.cx(0, 1) # CNOT (entrelaçar qubit 0 com qubit 1)
+ghz.cx(0, 2) # CNOT (entrelaçar qubit 0 com qubit 2)
+
+print("Circuito GHZ (desenho em texto):")
+print(ghz.draw("text")) # Qubits entrelaçados em estado GHZ
+
+state_ghz = Statevector.from_instruction(ghz) # Vetor de estado do circuito GHZ
+print("Vetor de estado GHZ resultante:")
+print(state_ghz)
+
+# Visualização QSphere — mostra amplitudes e fases
+fig = plot_state_qsphere(state_ghz)
+fig.figure.savefig("ghz_qsphere.png")
+plt.imshow(fig.figure.canvas.renderer.buffer_rgba())
+plt.show() # Estados com diferentes pesos/amplitudes em lados opostos da esfera, mas com mesma fase em coerência quântica (superposição coerente) e fase relativa zero entre eles
+
+# Visualização nos vetores de Bloch dos qubits individuais
+fig = plot_bloch_multivector(state_ghz)
+fig.figure.savefig("ghz_bloch.png")
+plt.imshow(fig.figure.canvas.renderer.buffer_rgba())
+plt.show() # Cada qubit individualmente está em estado misto (completamente indefinido), mas sistema global está em estado puro GHZ entrelaçado
 </code></pre></small>
                 </li>
             </ol>
