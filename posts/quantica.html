@@ -318,7 +318,7 @@ w = QuantumCircuit(3, name="W_state") # Circuito de 3 qubits em estado W
 w.initialize(w_vec, [0, 1, 2]) # Inicializa 3 qubits no vetor w_vec
 
 print("Circuito W (desenho em texto):")
-print(w.draw("text")) # Desenho do circuito W em texto (0 ou 1√3 ≈ 0.577)
+print(w.draw("text"))
 
 print("Circuito W (desenho em Matplotlib):")
 fig = w.draw("mpl")
