@@ -61,7 +61,7 @@
                         <li>Processamento paralelo: itens processados simultaneamente (ex: explorará todos caminhos do labirinto simultaneamente até encontrar solução otimizada instantaneamente);</li>
                         <li>Resfriamento dos elétrons (-273,5°C) os mantém aproximadamente emaranhados (emaranhamento quântico), diminuindo agitação térmica, formando pares (pares de Cooper) que saltam de um lado a outro no circuito, formando qubit supercondutor;</li>
                         <li>Supercondutividade: fios supercondutores transportam elétrons sem resistência, eliminando perdas de energia, possibilitando circuitos quânticos (circuitos com capacitores e junções Josephson). Teletransporte quântico é processo pelo qual estado quântico exato de qubit é transferido de local para outro, sem mover sua partícula física;</li>
-                        <li>Portas lógicas quânticas: operam em qubits, permitindo manipulação de estados quânticos de qubits para processamento. Porta Hadamard (H) cria superposição, porta CNOT (controlled-NOT) gera entrelaçamento. Porta NOT Quântica (Pauli-X), no caso clássico, troca 1 por 0 e vice-versa. Generalização para caso quântico é dada por operador X que satisfaz X |0⟩=|1⟩ e X|1⟩=|0⟩;</li>
+                        <li>Portas lógicas quânticas: operam em qubits, permitindo manipulação de estados quânticos de qubits para processamento. Porta Hadamard (H) cria superposição, porta CNOT (controlled-NOT) gera entrelaçamento, porta Z (fase). Porta NOT Quântica (Pauli-X), no caso clássico, troca 1 por 0 e vice-versa. Generalização para caso quântico é dada por operador X que satisfaz X |0⟩=|1⟩ e X|1⟩=|0⟩;</li>
                         <li>Interferência quântica: ondas de qubits podem interferir entre si, gerando respostas em padrões de interferência de probabilidade aumentada a encontrar partícula (interferência construtiva) ou padrões de interferência de probabilidade diminuída/nula a encontrar partícula (interferência destrutiva);</li>
                         <li>Decoerência: processo onde sistema em estado quântico colapsa/perde para estado não quântico, ocasionado intencionalmente, ou por fatores ambientais;</li>
                         <li>Correção de erro quântico (QEC): técnica para manter qubits estáveis e confiáveis, codificando dados de qubit lógico (ideal) em muitos qubits físicos (reais e ruidosos);</li>
@@ -342,6 +342,94 @@ fig2.figure.savefig("w_bloch.png")
 plt.imshow(fig2.figure.canvas.renderer.buffer_rgba())
 plt.axis("off")
 plt.show()
+</code></pre></small>
+                </li>
+                <li>Interferência quântica: portas quânticas manipulam amplitudes (valores complexos) - quando caminhos de amplitudes se somam com fases diferentes, elas podem se reforçar (construtiva) ou cancelar (destrutiva). Exemplo clássico: aplicar H, depois Z, depois H mostra interferência (par H Z H implementa rotação equivalente a X até diferença de fase, resultando em padrões de probabilidade diferentes dependendo das fases)
+<small><pre><code>
+# pip3 install qiskit qiskit-ibm-runtime qiskit-aer matplotlib qiskit[visualization]
+# pip3 install qiskit-aer
+from qiskit_ibm_runtime import QiskitRuntimeService
+# QiskitRuntimeService.save_account(token="SEU_TOKEN_AQUI")
+
+import math
+import numpy as np
+import matplotlib.pyplot as plt
+from qiskit import QuantumCircuit, transpile
+from qiskit.quantum_info import Statevector
+from qiskit.visualization import plot_state_qsphere, plot_bloch_multivector
+from qiskit_aer import AerSimulator  
+from qiskit_ibm_runtime import QiskitRuntimeService
+service = QiskitRuntimeService()
+
+def show_fig(fig):
+    fig.figure.savefig("tmp_fig.png")
+    plt.imshow(fig.figure.canvas.renderer.buffer_rgba())
+    plt.axis("off")
+    plt.show()
+
+qc_super = QuantumCircuit(1, name="superposition")  # Superposição básica
+qc_super.h(0) # Hadamard cria superposição (|0&gt; + |1&gt;)/√2
+
+print("Circuito superposição (Hadamard):")
+print(qc_super.draw("text"))
+fig = qc_super.draw(output="mpl")
+show_fig(fig)
+
+# Vetor de estado resultante (sem medida)
+state = Statevector.from_instruction(qc_super)
+fig_qs = plot_state_qsphere(state)
+show_fig(fig_qs)
+fig_bloch = plot_bloch_multivector(state)
+show_fig(fig_bloch) # Bloch sphere, onde porta H leva |0&gt; ao equador (positivo, superposição igual de |0&gt; e |1&gt;)
+
+# Interferência básica HZH vs HIH
+qc_id = QuantumCircuit(1, name="H-I-H") # circuito identidade (identidade não altera estado)
+qc_id.h(0)
+qc_id.h(0)
+qc_z = QuantumCircuit(1, name="H-Z-H") # circuito com interferência de fase Z no meio
+qc_z.h(0)
+qc_z.z(0)
+qc_z.h(0)
+print("Circuito H-I-H (texto):")
+print(qc_id.draw("text"))
+print("Circuito H-Z-H (texto):")
+print(qc_z.draw("text"))
+
+state_id = Statevector.from_instruction(qc_id) # vetor de estado H-I-H
+state_z  = Statevector.from_instruction(qc_z) # vetor de estado H-Z-H
+print("Vetor de estado (H-I-H):", state_id.data)
+print("Vetor de estado (H-Z-H):", state_z.data)
+
+fig_z = plot_state_qsphere(state_z) # QSphere para H-Z-H (mostra interferência causada pela porta Z, seta para baixo, informando +1 em |1&gt;)
+show_fig(fig_z)
+
+fig_z_bloch = plot_bloch_multivector(state_z) # Bloch para H-Z-H (mostra que estado final é |1&gt;, devido à interferência destrutiva em |0&gt;)
+show_fig(fig_z_bloch)
+
+sim = AerSimulator() # Simulador local de medições (sem ruído) para validar probabilidades
+
+qc_meas = QuantumCircuit(1,1) # Medição do circuito original de superposição
+qc_meas.h(0)
+qc_meas.measure(0,0)
+
+qc_id_meas = qc_id.copy() # Medições para H-I-H e H-Z-H
+qc_id_meas.measure_all()
+qc_z_meas = qc_z.copy()
+qc_z_meas.measure_all()
+
+for circuit, name in [(qc_meas, "H"), (qc_id_meas, "H-I-H"), (qc_z_meas, "H-Z-H")]: # Compile e execute (shots)
+    t_qc = transpile(circuit, sim)
+    result = sim.run(t_qc, shots=1024).result()
+    print(f"\nContagens (&#123;name&#125;): &#123;result.get_counts()&#125;")
+
+# H cria superposição (|0&gt; + |1&gt;)/√2, amplitudes iguais, medições ~50/50
+# H-I-H é identidade, retorna |0&gt;
+# H-Z-H muda fase via aplicação de Z, interferindo e invertendo, cancelando |0&gt; e reforçando |1&gt;
+# Medições confirmam probabilidades calculadas pelo vetor de estado
+
+# O simulador rodou 1024 vezes, sendo 0 (522 vezes) e 1 (502 vezes). Portanto, ~50% para 0 e ~50% para 1
+# Em H-I-H, resultado foi 0 (1024 vezes) e 1 (0 vezes), confirmando identidade
+# Em H-Z-H, resultado foi 1 (1024 vezes) e 0 (0 vezes), confirmando interferência que inverteu estado de |0&gt; para |1&gt;
 </code></pre></small>
                 </li>
             </ol>
