@@ -301,6 +301,49 @@ plt.imshow(fig.figure.canvas.renderer.buffer_rgba())
 plt.show() # Cada qubit individualmente está em estado misto (completamente indefinido), mas sistema global está em estado puro GHZ entrelaçado
 </code></pre></small>
                 </li>
+                <li>Estado W (estado de entrelaçamento quântico robusto entre 3 qubits): diferente do GHZ, estado W preserva entrelaçamento mesmo se qubit for perdido, sendo mais robusto
+<small><pre><code>
+from qiskit import QuantumCircuit
+from qiskit.quantum_info import Statevector
+from qiskit.visualization import plot_state_qsphere, plot_bloch_multivector
+import matplotlib.pyplot as plt
+import math
+import numpy as np
+from qiskit_ibm_runtime import QiskitRuntimeService
+service = QiskitRuntimeService()
+
+w_vec = np.array([0, 1, 1, 0, 1, 0, 0, 0], dtype=complex) / math.sqrt(3) # Vetor de estado W de 3 qubits, onde |001&gt;, |010&gt;, |100&gt; têm amplitude 1/√3
+
+w = QuantumCircuit(3, name="W_state") # Circuito de 3 qubits em estado W
+w.initialize(w_vec, [0, 1, 2]) # Inicializa 3 qubits no vetor w_vec
+
+print("Circuito W (desenho em texto):")
+print(w.draw("text")) # Desenho do circuito W em texto (0 ou 1√3 ≈ 0.577)
+
+print("Circuito W (desenho em Matplotlib):")
+fig = w.draw("mpl")
+fig.savefig("w_circuit.png")
+plt.imshow(fig.canvas.renderer.buffer_rgba())
+plt.axis("off")
+plt.show()
+
+# QSphere: amplitudes e fases (3 bases computacionais têm amplitude diferente de zero, todas iguais a 1√3 ≈ 0.577)
+fig = plot_state_qsphere(Statevector.from_instruction(w))
+fig.figure.savefig("w_qsphere.png")
+plt.imshow(fig.figure.canvas.renderer.buffer_rgba())
+plt.axis("off")
+plt.show()
+
+# Bloch multivector: vetores de Bloch dos qubits individuais (3 qubits estão em estados individuais mistos, não puros)
+# Chance de ser 1 (seta para baixo): Qubit só é 1 em 1 dos 3 termos da superposição, probabilidade = 1/3 (≅ 33%)
+# Chance de ser 0 (seta para cima): Qubit é "0" nos outros 2 termos, probabilidade = 2/3 (≅ 67%)
+fig2 = plot_bloch_multivector(Statevector.from_instruction(w))
+fig2.figure.savefig("w_bloch.png")
+plt.imshow(fig2.figure.canvas.renderer.buffer_rgba())
+plt.axis("off")
+plt.show()
+</code></pre></small>
+                </li>
             </ol>
         </div>
     </div>
