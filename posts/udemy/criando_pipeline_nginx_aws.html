@@ -50,7 +50,7 @@
             <p id="textoPost">Curso teórico e prático para criação de Pipeline CI/CD na AWS free tier, para automatizar implantação de projeto Nginx. Etapas via console AWS, e acessos via AWS CloudShell e máquina terceira.</p>
 
             <br><h4>Objetivo:</h4>
-            <p id="textoPost">O objetivo do curso é implantar (deploy) projeto Nginx, contendo código HTML, através da plataforma AWS Free Tier, utilizando serviço CodePipeline, que tem como função criar Pipeline CI/CD para automatizar fluxo da implantação de projetos de código. Após implantação do projeto via Pipeline, cujo repositório source encontra-se no GitHub, projeto Nginx será acessado via AWS CloudShell e máquina terceira Ubuntu Server WSL.</p>
+            <p id="textoPost">O objetivo do curso é implantar (deploy) projeto Nginx, contendo código HTML, através da plataforma AWS, utilizando serviço CodePipeline, que tem como função criar Pipeline CI/CD para automatizar fluxo da implantação de projetos de código. Após implantação do projeto via Pipeline, cujo repositório source (AWS CodeCommit) encontra-se no GitHub, projeto Nginx será acessado via AWS CloudShell e máquina externa Ubuntu Server.</p>
 
             <br><h4>Pré-requisitos:</h4>
             <p id="textoPost">O curso será desenvolvido via ambiente Windows, utilizando recursos nativos do sistema operacional, como WSL. Porém, pode-se também utilizar outros ambientes desktop, dadas devidas especificidades de cada sistema operacional. As etapas desenvolvidas no console AWS serão as mesmas para todos sistemas operacionais.</p>
@@ -104,11 +104,12 @@ S3 / Buckets / Selecionar bucket / Aba Permissões / Editar política de bucket,
             "Effect": "Allow",
             "Principal": "*",
             "Action": [
-                "s3:GetObject"
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:PutObjectAcl",
+                "s3:DeleteObject"
             ],
-            "Resource": [
-                "arn:aws:s3:::meu-site-demo1-ubsocial/*"
-            ]
+            "Resource": "arn:aws:s3:::meu-site-demo1-ubsocial/*"
         &#125;
     ]
 &#125;
@@ -138,8 +139,8 @@ Avançar / Criar pipeline
 --- CONFERIR CRIAÇÃO DO PIPELINE ---
 CodePipeline / Pipelines / Selecionar meu-site-demo1-pipeline / Verificar execução do pipeline (Status: Succeeded)
 S3 / Buckets / Selecionar meu-site-demo1-ubsocial / Verificar arquivo site1.zip criado
-- Acessar no browser: URL endpoint do bucket S3 (urlBucket/site.zip/index.html)
-- Accessar no Ubuntu Server WSL: curl urlBucket/site.zip/index.html
+- Acessar no browser: URL endpoint do bucket S3 (urlBucket/site1.zip/index.html)
+- Acessar no Ubuntu Server WSL: curl urlBucket/site1.zip/index.html
 
 --- ALTERAR ARQUIVO NO REPOSITÓRIO GITHUB ---
 GitHub / Repositório meu-site-demo1 / Selecionar arquivo index.html / Editar

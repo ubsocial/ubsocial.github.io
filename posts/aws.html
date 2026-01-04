@@ -346,7 +346,7 @@ API Gateway / APIs / Selecionar api-hello-serverless / Aba Visão geral
 --- Exclusões ---
 1.API Gateway / APIs / Selecionar api-hello-serverless / Ações / Excluir
 2.Lambda / Selecionar função hello-serverless / Ações / Excluir
-3.CloudWatch / Logs / Selecionar grupo de logs / Ações / Excluir grupo de logs
+3.CloudWatch / Logs / Log Management / Selecionar grupo de logs / Ações / Excluir grupo de logs
 4.IAM / Funções / Selecionar função criada para Lambda / Ações / Excluir função
 5.IAM / Políticas / Selecionar política criada para Lambda / Ações / Excluir política
 </code></pre></small>
@@ -385,7 +385,7 @@ Lambda / Selecionar função logLambdaCloudWatch / Aba Testar / Evento de teste
 Salvar e Testar
 
 --- VERIFICAR LOGS NO CLOUDWATCH ---
-CloudWatch / Logs / Selecionar grupo de logs / Selecionar grupo / Aba Streams de log / Selecionar fluxo / Verificar logs
+CloudWatch / Logs / Log Management / Selecionar grupo de logs / Selecionar grupo / Aba Streams de log / Selecionar fluxo / Verificar logs
 
 --- CRIAR ALARME NO CLOUDWATCH ---
 CloudWatch / Alarmes / Criar alarme
@@ -404,7 +404,7 @@ Testar
 
 --- Exclusões ---
 1.CloudWatch / Alarmes / Selecionar AlertaExecucaoLambda / Ações / Excluir
-2.CloudWatch / Logs / Selecionar grupo de logs / Ações / Excluir grupo de logs
+2.CloudWatch / Logs / Log Management / Selecionar grupo de logs / Ações / Excluir grupo de logs
 3.Lambda / Selecionar função logLambdaCloudWatch / Ações / Excluir
 </code></pre></small>
 
@@ -513,13 +513,13 @@ SNS / Tópicos / Selecionar meu-topico-sns1 / Publicar mensagem
 Publicar mensagem
 
 --- VER LOG NO CLOUDWATCH ---
-CloudWatch / Logs / Selecionar grupo de logs / Aba Streams de log / Selecionar fluxo / Verificar logs (deve conter mensagem "Mensagem recebida: Pedido de compra UB Social")
+CloudWatch / Logs / Log Management / Selecionar grupo de logs / Aba Streams de log / Selecionar fluxo / Verificar logs (deve conter mensagem "Mensagem recebida: Pedido de compra UB Social")
 
 --- Exclusões ---
 1.Lambda / Selecionar função lambda-processa-sqs1 / Ações / Excluir
 2.SQS / Filas / Selecionar minha-fila-sqs1 / Ações / Excluir fila
 3.SNS / Tópicos / Selecionar meu-topico-sns1 / Ações / Excluir tópico
-4.CloudWatch / Logs / Selecionar grupo de logs / Ações / Excluir grupo de logs
+4.CloudWatch / Logs / Log Management / Selecionar grupo de logs / Ações / Excluir grupo de logs
 5.IAM / Funções / Selecionar função criada para Lambda / Ações / Excluir função
 6.IAM / Políticas / Selecionar política LambdaSQSAccessPolicy1 / Ações / Excluir política
 </code></pre></small>
@@ -582,22 +582,22 @@ S3 / Buckets / Selecionar bucket / Aba Propriedades / Hospedagem de site estáti
 - Documento de índice: index.html
 Salvar alterações (aba Propriedades / Hospedagem de site estático / Copiar URL do endpoint)
 S3 / Buckets / Selecionar bucket / Aba Permissões / Editar política de bucket, informando conteúdo:
-&#123;
+&#125;
     "Version": "2012-10-17",
     "Statement": [
-        &#123;
+        &#125;
             "Effect": "Allow",
             "Principal": "*",
             "Action": [
-                "s3:GetObject"
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:PutObjectAcl",
+                "s3:DeleteObject"
             ],
-            "Resource": [
-                "arn:aws:s3:::meu-site-demo1-ubsocial/*"
-            ]
+            "Resource": "arn:aws:s3:::meu-site-demo1-ubsocial/*"
         &#125;
     ]
 &#125;
-
 - Salvar alterações
 
 --- CRIAR PIPELINE CODEPIPELINE ---
@@ -624,7 +624,7 @@ Avançar / Criar pipeline
 --- CONFERIR CRIAÇÃO DO PIPELINE ---
 CodePipeline / Pipelines / Selecionar meu-site-demo1-pipeline / Verificar execução do pipeline (Status: Succeeded)
 S3 / Buckets / Selecionar meu-site-demo1-ubsocial / Verificar arquivo site1.zip criado
-- Acessar no browser: URL endpoint do bucket S3 (urlBucket/site.zip/index.html)
+- Acessar no browser: URL endpoint do bucket S3 (urlBucket/site1.zip/index.html)
 
 --- ALTERAR ARQUIVO NO REPOSITÓRIO GITHUB ---
 GitHub / Repositório meu-site-demo1 / Selecionar arquivo index.html / Editar
