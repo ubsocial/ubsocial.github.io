@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../../icons/logoTit.png">
+    <link rel="stylesheet" href="../../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <nav class="navbar rounded-bottom fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="../../index.html"><img src="../../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../sobre/sobre.html">Sobre</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../cursos.html">Cursos</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../livros/livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 text-center" id="titulo">
+            <h1>Futuro dos algoritmos clássicos de ML após LLMs</h1>
+            <h6><strong>Comparação entre algoritmos em cenários reais</strong></h6>
+            <a href="../../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
+        </div>
+
+        <div class="col-sm-12">
+            <p id="textoPost">Nas últimas décadas, a inteligência artificial passou por uma transformação profunda, marcada pela transição de algoritmos clássicos de aprendizagem de máquina para modelos de larga escala capazes de processar linguagem natural, imagens e múltiplos tipos de dados de forma contextualizada. Durante grande parte da história recente da IA aplicada, o desenvolvimento de sistemas inteligentes esteve fortemente associado a algoritmos tradicionais de machine learning, como Naïve Bayes, Support Vector Machines (SVM), Decision Trees, Random Forests, K-Means e outros métodos estatísticos baseados em otimização matemática. Esses modelos dependiam de bases de dados bem definidas, frequentemente rotuladas, e exigiam um elevado grau de intervenção humana, sobretudo na engenharia de características e no ajuste manual de hiperparâmetros.</p>
+            <p id="textoPost">Diversos estudos clássicos e contemporâneos demonstram que esses algoritmos continuam altamente eficazes em cenários específicos. Em dados tabulares estruturados, Random Forest e Gradient Boosting frequentemente atingem acurácias entre 85% e 95%, dependendo do domínio, com desempenho consistente e baixo custo computacional. Um estudo publicado na Nature Scientific Reports em 2024, avaliando modelos para predição clínica em dados de pacientes com COVID-19, demonstrou que um modelo de Random Forest atingiu 92,3% de acurácia, superando um Large Language Model generalista ajustado para a mesma tarefa, que obteve 84,7%, além de apresentar maior estabilidade estatística e menor variância nos resultados. De forma semelhante, pesquisas na área educacional publicadas na Frontiers in Artificial Intelligence mostraram que modelos tradicionais de machine learning, combinando regressão logística e árvores de decisão, alcançaram F1-score de 0,89, enquanto LLMs aplicados diretamente às mesmas tarefas de avaliação conceitual ficaram entre 0,72 e 0,78, dependendo do prompt e do contexto. Esses resultados reforçam que, quando o problema é bem delimitado, os dados são estruturados e o objetivo é claramente definido, os algoritmos clássicos permanecem altamente competitivos.</p>
+            <p id="textoPost">Por outro lado, a emergência dos grandes modelos de linguagem representa um avanço significativo em tarefas que envolvem dados não estruturados e contextos complexos. Estudos comparativos publicados na MDPI Education Sciences em 2024 indicam que LLMs, como GPT-4 e modelos equivalentes, alcançaram acurácia superior a 90% em tarefas de interpretação semântica, resumo de textos longos e geração contextual de respostas, enquanto abordagens tradicionais de NLP baseadas em TF-IDF e classificadores lineares raramente ultrapassaram 65% a 70% nessas mesmas tarefas. Esses números evidenciam uma clara vantagem dos LLMs quando a natureza do problema exige compreensão contextual ampla e adaptação sem engenharia manual de características. Além da acurácia, estudos recentes também analisam o custo computacional e energético desses modelos. Uma análise publicada no arXiv em 2023 mostrou que modelos tradicionais de machine learning podem consumir até 30 vezes menos energia durante treinamento e inferência quando comparados a LLMs de médio porte. Em termos práticos, isso significa que, para tarefas como classificação binária em dados estruturados, SVM ou Random Forest pode executar inferências em milissegundos, enquanto LLM pode demandar ordens de grandeza superiores em tempo e recursos computacionais, especialmente quando operado em nuvem. Outro aspecto relevante é a interpretabilidade. Estudos em ambientes regulados, como crédito e saúde, indicam que modelos tradicionais explicáveis, como árvores de decisão e regressão logística, permitem rastrear variáveis responsáveis por decisões com 100% de transparência matemática, enquanto LLMs permanecem, em grande parte, caixas-pretas. Essa limitação é frequentemente citada como um dos principais fatores que impedem a adoção irrestrita de LLMs em sistemas críticos, conforme discutido em revisões recentes da Artificial Intelligence Review.</p>
+            <p id="textoPost">No entanto, quando se analisa o desempenho global e a flexibilidade, os LLMs apresentam vantagens incontestáveis. Um estudo bibliométrico abrangendo publicações entre 2017 e 2023 mostrou que sistemas baseados em LLMs reduziram o tempo médio de desenvolvimento de soluções de IA em até 60%, principalmente por eliminarem a necessidade de engenharia manual de características e re-treinamento específico para cada tarefa. Esse fator tem impulsionado sua adoção em aplicações comerciais, assistentes virtuais e agentes de IA conectados a bases de dados por meio de arquiteturas modernas, como Model Context Protocol (MCP).</p>
+            <p id="textoPost">A evidência científica atual indica, portanto, que não ocorre uma substituição total dos algoritmos tradicionais de machine learning pelos modelos de linguagem de grande escala. Em vez disso, observa-se uma redistribuição de papéis. Algoritmos clássicos permanecem dominantes em tarefas estruturadas, previsões quantitativas e sistemas que exigem controle rigoroso, enquanto LLMs assumem protagonismo em tarefas cognitivas, linguísticas e contextuais. Essa conclusão está alinhada com princípios teóricos consolidados, como o Teorema do No Free Lunch, que estabelece que nenhum algoritmo é universalmente superior em todos os cenários. Dessa forma, o futuro da inteligência artificial aponta para ecossistemas híbridos, nos quais algoritmos tradicionais e modelos de IA modernos coexistem e se complementam. Evidências empíricas sugerem que os algoritmos clássicos não desaparecerão, mas continuarão sendo aprimorados e integrados a pipelines mais amplos, frequentemente assistidos por LLMs. Sob essa perspectiva, observa-se que produtos de software baseados em inteligência artificial clássica, especialmente aqueles cuja interação apresenta maior proximidade com o comportamento humano, como chatbots, assistentes virtuais e sistemas conversacionais, tendem a passar por um processo natural de atualização algorítmica. Em vez de permanecerem fundamentados predominantemente em modelos tradicionais de machine learning, esses sistemas passam a incorporar, de forma crescente, modelos de linguagem de grande escala, os quais oferecem maior capacidade de compreensão contextual, geração semântica e adaptação dinâmica às interações humanas. Essa transição não representa apenas uma substituição tecnológica, mas uma evolução arquitetural orientada à melhoria da experiência do usuário, à redução da complexidade de engenharia manual de características e ao aumento da flexibilidade funcional desses sistemas. O avanço tecnológico, portanto, não elimina os métodos anteriores, mas redefine seus papéis dentro de um panorama mais amplo e sofisticado de inteligência artificial aplicada.</p>
+
+            <br><h4>Cenários em que Machine Learning Tradicional é abordagem mais adequada:</h4>
+            <ul>
+                <li>Classificação em dados tabulares estruturados (ex.: crédito, risco financeiro, dados clínicos): algoritmos como Random Forest, Gradient Boosting e SVM apresentam elevado desempenho preditivo (frequentemente entre 85% e 95% de acurácia), baixo custo computacional e maior estabilidade estatística. A estrutura bem definida dos dados favorece modelos baseados em relações matemáticas explícitas, reduzindo variância e dependência de grandes volumes de dados não estruturados;</li>
+                <li>Predição clínica baseada em variáveis numéricas e categóricas: em estudos científicos, como os publicados na Nature Scientific Reports, modelos tradicionais como Random Forest alcançaram 92,3% de acurácia, superando LLMs generalistas ajustados para a mesma tarefa. A previsibilidade e a natureza quantitativa dos dados clínicos favorecem abordagens estatísticas clássicas;</li>
+                <li>Avaliação educacional objetiva e tarefas de classificação conceitual bem delimitadas: modelos tradicionais combinando regressão logística e árvores de decisão obtiveram F1-score de até 0,89, enquanto LLMs ficaram entre 0,72 e 0,78. Quando o escopo do problema é fechado e os critérios de avaliação são claros, algoritmos clássicos tendem a produzir resultados mais consistentes;</li>
+                <li>Processamento de linguagem natural simples (ex.: classificação de textos curtos, análise de sentimento básica): abordagens tradicionais baseadas em TF-IDF e classificadores lineares apresentam desempenho adequado com custo reduzido. O uso de LLMs nesses cenários é frequentemente excessivo e não apresenta ganho proporcional de desempenho;</li>
+                <li>Sistemas com restrições severas de custo computacional e energético: estudos indicam que modelos tradicionais podem consumir até 30 vezes menos energia durante treinamento e inferência. Em ambientes com limitações de infraestrutura, edge computing ou orçamentos restritos, algoritmos clássicos são tecnicamente mais viáveis;</li>
+                <li>Ambientes regulados (financeiro, saúde, jurídico): modelos explicáveis, como árvores de decisão e regressão logística, permitem rastreabilidade completa das decisões, com transparência matemática. Essa característica é essencial para auditorias, conformidade regulatória e validação legal, áreas onde LLMs ainda enfrentam restrições significativas.</li>
+            </ul>
+
+            <br><h4>Cenários em que o uso de LLMs é abordagem mais adequada:</h4>
+            <ul>
+                <li>Interpretação semântica complexa de textos longos e não estruturados: LLMs demonstram acurácia superior a 90% em tarefas que exigem compreensão contextual ampla, superando significativamente métodos tradicionais de NLP, que raramente ultrapassam 65% a 70% nesses cenários;</li>
+                <li>Geração de texto, resumo automático e resposta contextualizada: essas tarefas dependem de coerência semântica, adaptação ao contexto e capacidade generativa, características intrínsecas aos LLMs e impraticáveis de serem reproduzidas de forma eficiente com algoritmos tradicionais;</li>
+                <li>Assistentes virtuais, chatbots e agentes conversacionais: a capacidade de manter diálogo natural, compreender intenções e adaptar respostas dinamicamente torna os LLMs a escolha mais adequada para aplicações centradas na interação humano-máquina;</li>
+                <li>Soluções que exigem flexibilidade cognitiva e generalização entre múltiplas tarefas: LLMs podem executar diferentes tarefas sem re-treinamento específico, apenas por meio de prompts ou ajustes finos, reduzindo a necessidade de pipelines especializados;</li>
+                <li>Desenvolvimento rápido de soluções de inteligência artificial: estudos bibliométricos indicam que sistemas baseados em LLMs reduziram o tempo médio de desenvolvimento em até 60%, principalmente pela eliminação da engenharia manual de características e da necessidade de re-treinamento para cada nova tarefa;</li>
+                <li>Aplicações comerciais baseadas em linguagem natural: sistemas de atendimento automatizado, análise de documentos e suporte inteligente se beneficiam da capacidade dos LLMs de compreender linguagem humana em diferentes estilos e contextos;</li>
+                <li>Arquiteturas modernas com agentes de IA e integração a múltiplas fontes de dados (ex.: Model Context Protocol - MCP): LLMs atuam como camada cognitiva central, orquestrando informações, inferências e interações, enquanto outros modelos podem ser acionados de forma complementar.</li>
+            </ul>
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center bg-black text-light pt-4 pb-3">
+        <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>
