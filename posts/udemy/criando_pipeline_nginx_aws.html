@@ -49,115 +49,177 @@
             <p id="textoPost">Curso teórico e prático para criação de Pipeline CI/CD na AWS free tier, para automatizar implantação de projeto Nginx. Etapas via console AWS, e acessos via AWS CloudShell e máquina terceira.</p>
 
             <br><h4>Objetivo:</h4>
-            <p id="textoPost">O objetivo do curso é implantar (deploy) projeto Nginx, contendo código HTML, através da plataforma AWS, utilizando serviço CodePipeline, que tem como função criar Pipeline CI/CD para automatizar fluxo da implantação de projetos de código. Após implantação do projeto via Pipeline, cujo repositório source (AWS CodeCommit) encontra-se no GitHub, projeto Nginx será acessado via AWS CloudShell e máquina externa Ubuntu Server.</p>
+            <p id="textoPost">O objetivo do curso é criar Pipeline para automatizar processo de capturar código em repositório do GitHub e publicar em cloud AWS. Primeiramente, será criado o repositório no GitHub contendo o arquivo .home, também os arquivos de configuração do nginx na máquina virtual disponibilizada via instância EC2 na AWS. Após a criação do repositório no GitHub, será criada uma instância EC2 na AWS do tipo Ubuntu Server, onde será habilitado todo o tipo de tráfego de entrada para acesso ao projeto nginx, criando-se funções IAM com permissões de acesso a serviços de CodeDeploy e S3. Após finalização de preparo da máquina EC2 Ubuntu na AWS, será criado aplicativo CodeDeploy que receberá função de permissão em grupo de implementação, que servirá para deploy da pipeline na captura do código via CodeCommit e armazenamento do código em bucket S3, além do vínculo em instância EC2. Por fim, será criada pipeline, via CodePipeline na AWS, que vinculará source como provedor GitHub e repositório em que encontram-se arquivos para publicação. As etapas de compilação e testes serão ignoradas nesse exemplo. Após isso, na etapa de implementação, provedor CodeDeploy usará aplicativo CodeDeploy criado, e grupo de implantação criado para realizar implantação dos arquivos em bucket S3, vinculados no EC2, para a pasta do nginx e, consequentemente, disponibilizá-los publicamente nas portas e protocolos com permissões de acesso externo. Para finalizar, será realizada alteração no arquivo index do nginx que, automaticamente, disparará gatilho ao CodeCommit da pipeline, fazendo com que pipeline seja reexecutada, onde CodeCommit capturará novos arquivos do source GitHub, os enviará para pasta zip em bucket S3, que consequentemente está vinculado à instância EC2 e, devidas suas configurações, disponibilizadas, alterações disponibilizadas em hospedagem de serviço nginx ao público.</p>
 
             <br><h4>Pré-requisitos:</h4>
             <p id="textoPost">O curso será desenvolvido via ambiente Windows, utilizando recursos nativos do sistema operacional, como WSL. Porém, pode-se também utilizar outros ambientes desktop, dadas devidas especificidades de cada sistema operacional. As etapas desenvolvidas no console AWS serão as mesmas para todos sistemas operacionais.</p>
             <ul>
-                <li>Conhecimentos de GitHub, programação web básica e comandos básicos Linux;</li>
+                <li>Conhecimentos de Git e GitHub, programação web básica e comandos básicos Linux;</li>
+                <li>Git local;</li>
                 <li>Conta gratuita no GitHub;</li>
                 <li>Conta gratuita na AWS (necessário cartão de crédito, sem custos dentro do limite gratuito Free Tier);</li>
             </ul>
-
-            <br><h4>Pipeline:</h4>
-            <p id="textoPost">Pipeline é passo-a-passo automatizado para implantar projeto de software. Inclui etapas desde captura do código (source), execução (build), testes (test) e implantação (deploy).</p>
-
-            <br><h4>CI/CD:</h4>
-            <p id="textoPost">CI (Continuous Integration - Integração Contínua) é integrar frequentemente código em repositório central, executando builds e testes automáticos para detectar erros rapidamente. CD (Continuous Delivery/Deployment - Entrega/Implantação Contínua) é entrega automatizada do software, via Pipelines, garantindo que ele esteja sempre disponível em ambiente de produção. Resumidamente, CI integra e valida código automaticamente em local, onde CD pegará esse código e o implantará automaticamente em produção, via Pipelines.</p>
-
-            <br><h4>Nginx:</h4>
-            <p id="textoPost">Servidor web para hospedar aplicações web de conteúdo estático e dinâmico, atuando também como proxy reverso, balanceador de carga e cache HTTP.</p>
-
-            <br><h4>AWS CodePipeline:</h4>
-            <p id="textoPost">Serviço AWS para criação de Pipeline CI/CD de forma automatizada, integrando serviços CodeCommit (origem), CodeBuild (compilar e testar) e CodeDeploy (implantar) para contemplar etapas de criação da Pipeline. Integra-se com outros serviços AWS, para armazenamento e hospedagem de conteúdo, além de coleta de logs e outros recursos. No curso, CodeCommit capturará alterações no código fonte do repositório no GitHub, e acionará CodeDeploy para implantação das alterações do projeto Nginx ao Bucket S3.</p>
-
-            <br><h4>AWS Bucket S3:</h4>
-            <p id="textoPost">Serviço de armazenamento de arquivos e dados. No curso, Bucket S3 será utilizado para armazenar artefatos do Pipeline e hospedar projeto Nginx.</p>
 
             <br><h4>Passo a passo:</h4>
 <small><pre><code>
 --- CRIAR REPOSITÓRIO GITHUB ---
 GitHub / New repository
-- Nome: meu-site-demo1
-- Visibilidade: Público
+- Nome: nginx-aws-pipeline
+- Marcar como público
 Criar repositório
-- Acessar repositório / Adicionar arquivo / Create new file
-- Nome do arquivo: index.html, conteúdo:
-&lt;h1&gt;Meu Site Demo 1&lt;/h1&gt;
-Commit changes
+- Fazer clone do repositório localmente: git clone urlRepositorio
+- Acessar pasta do repositório localmente: cd nginx-aws-pipeline
+- Criar arquivo .gitattributes, com conteúdo: *.sh text eol=lf
+- Criar arquivo index.html com conteúdo: &lt;h1&gt;Ola mundo&lt;/h1&gt;
+- Criar arquivo appspec.yml com conteúdo:
+version: 0.0
+os: linux
 
---- CRIAR BUCKET S3 ---
-S3 / Buckets / Criar bucket
-- Nome: meu-site-demo1-ubsocial
-- Bloquear todo o acesso público: desabilitar
-Criar bucket
+files:
+  - source: /
+    destination: /var/www/html
 
-S3 / Buckets / Selecionar bucket / Aba Propriedades / Hospedagem de site estático / Editar / Ativar
-- Documento de índice: index.html
-Salvar alterações (aba Propriedades / Hospedagem de site estático / Copiar URL do endpoint)
-S3 / Buckets / Selecionar bucket / Aba Permissões / Editar política de bucket, informando conteúdo:
-&#123;
-    "Version": "2012-10-17",
-    "Statement": [
-        &#123;
-            "Effect": "Allow",
-            "Principal": "*",
-            "Action": [
-                "s3:GetObject",
-                "s3:PutObject",
-                "s3:PutObjectAcl",
-                "s3:DeleteObject"
-            ],
-            "Resource": "arn:aws:s3:::meu-site-demo1-ubsocial/*"
-        &#125;
-    ]
-&#125;
-- Salvar alterações
+hooks:
+  BeforeInstall:
+    - location: scripts/install_nginx.sh
+      timeout: 300
+      runas: root
+
+  ApplicationStart:
+    - location: scripts/start_nginx.sh
+      timeout: 300
+      runas: root
+
+- Criar pasta "scripts", com arquivos:
+- install_nginx.sh, com conteúdo:
+#!/bin/bash
+apt update -y
+apt install nginx -y
+
+- start_nginx.sh,com conteúdo:
+#!/bin/bash
+systemctl restart nginx
+
+- Marcar scripts como executáveis (via Git Bash): chmod +x scripts/*.sh
+- Enviar ao GitHub:
+-- git add .
+-- git commit -m "Arquivos iniciais"
+-- git push
+
+--- CRIAR INSTANCIA EC2 ---
+EC2 / Instâncias / Executar instâncias
+- Nome: nginx-pipeline-ec2
+- AMI: Ubuntu Server (nível gratuito)
+- Criar par de chaves:
+-- Nome: curso-pipeline-aws-key1
+-- Tipo: RSA
+-- Formato: conforme SO de sua máquina (.pem)
+-- Baixar par de chaves e salvar em local seguro
+- Rede:
+-- Atribuir IP público: habilitado
+-- Grupo de segurança: criar novo grupo
+--- Permitir tráfego SSH (porta 22) de qualquer local (0.0.0.0/0)
+--- Permitir tráfego HTTP de qualquer local
+--- Permitir tráfego HTTPS de qualquer local
+Executar instância (Copiar IPv4 público e testar no browser http://ipv4Publico)
+
+--- CRIAR FUNÇÃO IAM ---
+IAM / Funções / Criar perfil
+- Tipo de entidade confiável: Serviço AWS
+- Caso de uso: EC2
+- Permissões: anexar políticas existentes
+-- AWSCodeDeployFullAccess
+-- AmazonS3FullAccess
+- Nome da função: EC2-CodeDeploy-Role
+Criar perfil
+
+EC2 / Instâncias / Selecionar instância criada / Ações de instância / Segurança / Modificar função IAM
+- Atribuir função: EC2-CodeDeploy-Role
+Atualizar função do IAM
+
+--- ACESSAR INSTÂNCIA EC2 ---
+EC2 / Instâncias / Selecionar instância criada / Conectar
+- Conecte-se usando um IP público (IPv4)
+Conectar
+
+- Instalar dependências, via comando: sudo apt update -y && sudo apt install -y ruby wget
+- Instalar CodeDeploy Agent, via comando: wget https://aws-codedeploy-sa-east-1.s3.sa-east-1.amazonaws.com/latest/install && chmod +x install && sudo ./install auto
+- Verificar se CodeDeploy Agent está active, via comando: sudo systemctl status codedeploy-agent
+
+--- CRIAR CODEDEPLOY ---
+CodeDeploy / Aplicativos / Criar aplicativo
+- Nome do aplicativo: nginx-app
+- Plataforma de computação: EC2/On-Premises
+Criar aplicativo
+
+--- CRIAR FUNÇÃO IAM ---
+IAM / Funções / Criar perfil
+- Tipo de entidade confiável: Serviço AWS
+- Caso de uso: CodeDeploy
+- Permissões: anexar políticas existentes
+-- AWSCodeDeployRole
+-- AWSCodeDeployFullAccess
+- Nome da função: CodeDeploy-Service-Role
+Criar perfil
+
+--- CRIAR GRUPO DE IMPLEMENTAÇÃO CODEDEPLOY ---
+CodeDeploy / Aplicativos / Selecionar aplicativo criado / Aba grupo de implantação / Criar grupo de implantação
+- Nome do grupo de implantação: nginx-deploy-group
+- Função de serviço: selecionar CodeDeploy-Service-Role
+- Tipo de implantação: No local
+- Configuração de ambiente: selecionar instância do Amazon EC2
+- Grupo de tags: selecionar tags existentes
+-- Chave: Name
+-- Valor: nginx-pipeline-ec2
+- Instalar o agente do AWS CodeDeploy: Nunca
+- Configuração de implantação: CodeDeployDefault.AllAtOnce
+- Balanceamento de carga: Desabilitar
+Criar grupo de implantação
 
 --- CRIAR PIPELINE CODEPIPELINE ---
 AWS / CodePipeline / Pipelines / Criar pipeline
 - Category: Criar pipeline personalizado
 Avançar
-- Nome: meu-site-demo1-pipeline
+- Nome: nginx-github-pipeline
 - Função de serviço: Nova função de serviço
-- Nome da função: CodePipelineServiceRole1
+- Nome da função: nginx-github-pipeline-role
 Avançar
 - Origem (provedor): GitHub (por meio do aplicativo OAuth)
 - Conectar ao GitHub / Autorizar AWS CodePipeline
-- Repositório: selecionar meu-site-demo1
-- Ramificação: main
+- Repositório: selecionar nginx-aws-pipeline
+- Ramificação: selecionar main
 Avançar
 - Compilação: ignorar etapa de compilação
 - Teste: ignorar etapa de teste
-- Implantação (Provedor): Amazon S3
-- Bucket: meu-site-demo1-ubsocial
-- Chave do objeto: site1.zip
-- Extraia o arquivo antes de implantar: habilitar
+- Implantação (Provedor): AWS CodeDeploy
+- Nome do aplicativo: selecionar nginx-app
+- Grupo de implantação: selecionar nginx-deploy-group
 Avançar / Criar pipeline
 
---- CONFERIR CRIAÇÃO DO PIPELINE ---
-CodePipeline / Pipelines / Selecionar meu-site-demo1-pipeline / Verificar execução do pipeline (Status: Succeeded)
-S3 / Buckets / Selecionar meu-site-demo1-ubsocial / Verificar arquivo site1.zip criado
-- Acessar no browser: URL endpoint do bucket S3 (urlBucket/site1.zip/index.html)
-- Acessar no Ubuntu Server WSL: curl urlBucket/site1.zip/index.html
+--- ACESSAR PROJETO PIPELINE ---
+- Conferir no browser: http://ipv4Publico
+- Conferir no Ubuntu Server: curl http://ipv4Publico
 
---- ALTERAR ARQUIVO NO REPOSITÓRIO GITHUB ---
-GitHub / Repositório meu-site-demo1 / Selecionar arquivo index.html / Editar
-- Alterar conteúdo do arquivo:
-&lt;h1&gt;Meu Site Demo 1 - Atualizado&lt;/h1&gt;
-Commit changes
-
---- CONFERIR EXECUÇÃO DO PIPELINE APÓS ALTERAÇÃO ---
-CodePipeline / Pipelines / Selecionar meu-site-demo1-pipeline / Verificar nova execução automática do pipeline (Status: Succeeded)
-S3 / Buckets / Selecionar meu-site-demo1-ubsocial / Verificar arquivo site1.zip atualizado
-- Atualizar no browser: URL endpoint do bucket S3 (urlBucket/site.zip/index.html)
+--- FAZER ALTERAÇÕES NO PROJETO ---
+- Alterar arquivo index.html, com conteúdo: &lt;h1&gt;Ola mundo - Atualizado&lt;/h1&gt;
+- Enviar ao GitHub:
+-- git add .
+-- git commit -m "Atualização do index.html"
+-- git push
+- Verificar execução automática do Pipeline CodePipeline
+- Conferir alterações no browser: http://ipv4Publico
+- Conferir alterações no Ubuntu Server: curl http://ipv4Publico
 
 --- Exclusões ---
-1.CodePipeline / Pipelines / Selecionar meu-site-demo1-pipeline / Ações / Excluir pipeline
-2.S3 / Buckets / Selecionar meu-site-demo1-ubsocial / Ações / Excluir bucket
-3.IAM / Funções / Selecionar CodePipelineServiceRole1 / Ações / Excluir função
-4.IAM / Políticas / Selecionar AWSCodePipelineServiceRole-sa-east-1-meu-site-demo1-pipeline / Ações / Excluir política
-5.(Opcional) GitHub / Repositório meu-site-demo1 / Settings / Delete this repository
+- EC2 / Instâncias / Selecionar instância criada / Ações de instância / Estado da instância / Encerrar instâncias
+- EC2 / Par de chaves / Selecionar par de chaves criado / Ações / Excluir par de chaves
+- EC2 / Grupos de segurança / Selecionar grupo de segurança criado / Ações / Excluir grupo de segurança
+- S3 / Buckets / Selecionar bucket criado / Esvaziar e Excluir
+- CodePipeline / Pipelines / Selecionar pipeline criado / Ações / Excluir
+- CodeDeploy / Aplicativos / Selecionar aplicativo criado / Ações / Excluir aplicativo
+- IAM / Funções / Selecionar funções criadas / Ações / Excluir
+- IAM / Políticas / Selecionar políticas criadas / Ações / Excluir
+- GitHub / Repositórios / Selecionar repositório criado / Configurações / Opções avançadas / Excluir este repositório
 </code></pre></small>
         </div>
     </div>
