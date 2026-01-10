@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../icons/logoTit.png">
+    <link rel="stylesheet" href="../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <nav class="navbar rounded-bottom fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="../index.html"><img src="../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../sobre/sobre.html">Sobre</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../cursos.html">Cursos</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../livros/livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 text-center" id="titulo">
+            <h1>Consumir API Strava com Django REST Framework</h1>
+            <h6><strong>Como consumir API Strava com Django REST Framework</strong></h6>
+            <a href="../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
+        </div>
+
+        <div class="col-sm-12">
+            <h4>Material complementar:</h4>
+            <ul>
+                <li>Conteúdo no GitHub: <a href="https://github.com/mateusschwede/consumir_api_strava_django" target="_blank" class="text-decoration-none">Acesse</a></li>
+            </ul>
+
+            <br><h4>Objetivo:</h4>
+            <p id="textoPost">Criar API REST Django REST Framework para consumir API do Strava, listando atividades do usuário.</p>
+            <ol>
+                <li>Criar app de API no Strava:
+                    <ul>
+                        <li>Criar app no Strava: <a href="https://www.strava.com/settings/api" target="_blank" class="text-decoration-none">https://www.strava.com/settings/api</a></li>
+                        <li>Nome do aplicativo: Meu aplicativo de atividades</li>
+                        <li>Categoria: Análise do Desempenho</li>
+                        <li>Clube: [none]</li>
+                        <li>Website: http://localhost</li>
+                        <li>Descrição: Aplicativo para consumir API do Strava</li>
+                        <li>Domínio de autorização callback: localhost</li>
+                        <li>Criar (guardar ID cliente, segredo do cliente, token de acesso e token de atualização)</li>
+                    </ul>
+                </li>
+                <li>Criar secret key: python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+                    <ul>
+                        <li>Guardar secret key</li>
+                    </ul>
+                </li>
+                <li>Criar projeto DRF:
+<small><pre><code>
+pip3 install django djangorestframework python-dotenv requests --break-system-packages
+mkdir strava_drf
+cd strava_drf
+django-admin startproject config .
+mkdir apps
+cd apps
+django-admin startapp activities
+cd ..
+</code></pre></small>
+                </li>
+                <li>.env:
+<small><pre><code>
+DEBUG=True
+SECRET_KEY=sua_secret_key_aqui
+STRAVA_CLIENT_ID=sua_id_cliente_aqui
+STRAVA_CLIENT_SECRET=sua_segredo_cliente_aqui
+STRAVA_ACCESS_TOKEN=seu_token_de_acesso_aqui
+</code></pre></small>
+                </li>
+                <li>config/settings.py:
+<small><pre><code>
+import os
+from pathlib import Path
+from dotenv import load_dotenv
+load_dotenv()
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+ALLOWED_HOSTS = []
+
+INSTALLED_APPS = [
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "rest_framework",
+    "apps.activities",
+]
+
+MIDDLEWARE = [
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+]
+
+ROOT_URLCONF = "config.urls"
+
+TEMPLATES = [
+    &#123;
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [],
+        "APP_DIRS": True,
+        "OPTIONS": &#123;
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+            ],
+        &#125;,
+    &#125;,
+]
+
+WSGI_APPLICATION = "config.wsgi.application"
+
+DATABASES = &#123;
+    "default": &#123;
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+    &#125;
+&#125;
+
+STATIC_URL = "static/"
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+DEBUG = os.getenv("DEBUG") == "True"
+SECRET_KEY = os.getenv("SECRET_KEY")
+STRAVA_CLIENT_ID = os.getenv("STRAVA_CLIENT_ID")
+STRAVA_CLIENT_SECRET = os.getenv("STRAVA_CLIENT_SECRET")
+STRAVA_ACCESS_TOKEN = os.getenv("STRAVA_ACCESS_TOKEN")
+</code></pre></small>
+                </li>
+                <li>config/urls.py:
+<small><pre><code>
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path("api/", include("apps.activities.urls")),
+]
+</code></pre></small>
+                </li>
+                <li>apps/activities/apps.py:
+<small><pre><code>
+from django.apps import AppConfig
+
+class ActivitiesConfig(AppConfig):
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "apps.activities"
+</code></pre></small>
+                </li>
+                <li>apps/activities/urls.py:
+<small><pre><code>
+from django.urls import path
+from .views import ActivitiesView, StravaCallbackView
+
+urlpatterns = [
+    path("activities/", ActivitiesView.as_view(), name="activities"),
+    path("strava/callback/", StravaCallbackView.as_view(), name="strava-callback"),
+]
+</code></pre></small>
+                </li>
+                <li>apps/activities/views.py:
+<small><pre><code>
+import requests
+from django.conf import settings
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+
+class StravaCallbackView(APIView):
+    def get(self, request):
+        code = request.GET.get("code")
+
+        if not code:
+            return Response(
+                {"error": "Code não informado"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        token_url = "https://www.strava.com/oauth/token"
+
+        payload = {
+            "client_id": settings.STRAVA_CLIENT_ID,
+            "client_secret": settings.STRAVA_CLIENT_SECRET,
+            "code": code,
+            "grant_type": "authorization_code",
+        }
+
+        response = requests.post(token_url, data=payload)
+
+        if response.status_code != 200:
+            return Response(
+                {
+                    "error": "Erro ao autenticar no Strava",
+                    "details": response.text,
+                },
+                status=response.status_code,
+            )
+        return Response(response.json(), status=status.HTTP_200_OK)
+
+class ActivitiesView(APIView):
+    def get(self, request):
+        url = "https://www.strava.com/api/v3/athlete/activities"
+
+        headers = {
+            "Authorization": f"Bearer {settings.STRAVA_ACCESS_TOKEN}"
+        }
+
+        response = requests.get(url, headers=headers)
+
+        if response.status_code != 200:
+            return Response(
+                {
+                    "error": "Erro ao buscar atividades no Strava",
+                    "details": response.text,
+                },
+                status=response.status_code,
+            )
+        return Response(response.json(), status=status.HTTP_200_OK)
+</code></pre></small>
+                </li>
+                <li>Criar migrations: python manage.py migrate</li>
+                <li>Executar projeto: python manage.py runserver</li>
+                <li>Autorizar API Strava:
+<small><pre><code>
+https://www.strava.com/oauth/authorize
+?client_id=SEU_ID_CLIENTE
+&response_type=code
+&redirect_uri=http://localhost:8000/api/strava/callback/
+&approval_prompt=force
+&scope=read,activity:read_all
+</code></pre></small>
+                    <ul>
+                        <li>Copiar access_token e colá-lo no .env</li>
+                    </ul>
+                </li>
+                <li>Executar novamente: python manage.py runserver</li>
+                <li>Testar no browser (GET): <a href="http://localhost:8000/api/activities" target="_blank" class="text-decoration-none">http://localhost:8000/api/activities</a></li>
+                <li>Site Strava, Apps, revogar acesso do aplicativo API, para desativá-lo, e remover ícone do aplicativo</li>
+            </ol>
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center bg-black text-light pt-4 pb-3">
+        <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>
