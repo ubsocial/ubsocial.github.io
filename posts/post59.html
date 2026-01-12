@@ -67,7 +67,7 @@
                 </li>
                 <li>Criar projeto DRF:
 <small><pre><code>
-pip3 install django djangorestframework python-dotenv requests --break-system-packages
+pip3 install django djangorestframework python-dotenv requests django-filter djangorestframework-simplejwt --break-system-packages
 mkdir strava_drf
 cd strava_drf
 django-admin startproject config .
@@ -77,37 +77,78 @@ django-admin startapp activities
 cd ..
 </code></pre></small>
                 </li>
-                <li>.env:
+                <li>strava_drf/.env:
 <small><pre><code>
+
+# Django
+
 DEBUG=True
-SECRET_KEY=sua_secret_key_aqui
-STRAVA_CLIENT_ID=sua_id_cliente_aqui
-STRAVA_CLIENT_SECRET=sua_segredo_cliente_aqui
-STRAVA_ACCESS_TOKEN=seu_token_de_acesso_aqui
+SECRET_KEY=cole_sua_secret_key_aqui
+ALLOWED_HOSTS=localhost,127.0.0.1
+
+
+# Database (SQLite para dev)
+
+DATABASE_URL=sqlite:///db.sqlite3
+
+
+# Strava API
+
+STRAVA_CLIENT_ID=seu_client_id_aqui
+STRAVA_CLIENT_SECRET=seu_client_secret_aqui
+STRAVA_ACCESS_TOKEN=seu_access_token_aqui
+STRAVA_REFRESH_TOKEN=seu_refresh_token_aqui
+
+
+# JWT / Auth
+
+JWT_ACCESS_TOKEN_LIFETIME_MINUTES=30
+JWT_REFRESH_TOKEN_LIFETIME_DAYS=1
+
+
+# Locale / Timezone
+
+TIME_ZONE=America/Sao_Paulo
 </code></pre></small>
                 </li>
-                <li>config/settings.py:
+                <li>strava_drf/config/settings.py:
 <small><pre><code>
-import os
 from pathlib import Path
+from datetime import timedelta
+import os
 from dotenv import load_dotenv
-load_dotenv()
 
+# Base
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-ALLOWED_HOSTS = []
+load_dotenv(BASE_DIR / ".env")
 
+# Security
+SECRET_KEY = os.getenv("SECRET_KEY")
+DEBUG = os.getenv("DEBUG", "False") == "True"
+
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
+
+# Applications
 INSTALLED_APPS = [
+    # Django
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
+    # Third-party
     "rest_framework",
+    "django_filters",
+    "rest_framework_simplejwt",
+
+    # Local
     "apps.activities",
 ]
 
+# Middleware
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -118,8 +159,12 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+# URLs / WSGI
 ROOT_URLCONF = "config.urls"
 
+WSGI_APPLICATION = "config.wsgi.application"
+
+# Templates
 TEMPLATES = [
     &#123;
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -136,8 +181,7 @@ TEMPLATES = [
     &#125;,
 ]
 
-WSGI_APPLICATION = "config.wsgi.application"
-
+# Database (SQLite para desenvolvimento)
 DATABASES = &#123;
     "default": &#123;
         "ENGINE": "django.db.backends.sqlite3",
@@ -145,125 +189,475 @@ DATABASES = &#123;
     &#125;
 &#125;
 
-STATIC_URL = "static/"
+# Password validation
+AUTH_PASSWORD_VALIDATORS = [
+    &#123;"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"&#125;,
+    &#123;"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"&#125;,
+    &#123;"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"&#125;,
+    &#123;"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"&#125;,
+]
+
+# Internationalization
+LANGUAGE_CODE = "pt-br"
+TIME_ZONE = os.getenv("TIME_ZONE", "UTC")
+USE_I18N = True
+USE_TZ = True
+
+# Static files
+STATIC_URL = "/static/"
+
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-DEBUG = os.getenv("DEBUG") == "True"
-SECRET_KEY = os.getenv("SECRET_KEY")
+# Django REST Framework
+REST_FRAMEWORK = &#123;
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
+    "DEFAULT_PERMISSION_CLASSES": (
+        "rest_framework.permissions.IsAuthenticated",
+    ),
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend",
+    ],
+&#125;
+
+# Simple JWT
+SIMPLE_JWT = &#123;
+    "ACCESS_TOKEN_LIFETIME": timedelta(
+        minutes=int(os.getenv("JWT_ACCESS_TOKEN_LIFETIME_MINUTES", 30))
+    ),
+    "REFRESH_TOKEN_LIFETIME": timedelta(
+        days=int(os.getenv("JWT_REFRESH_TOKEN_LIFETIME_DAYS", 1))
+    ),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
+    "AUTH_HEADER_TYPES": ("Bearer",),
+&#125;
+
+# Strava API
 STRAVA_CLIENT_ID = os.getenv("STRAVA_CLIENT_ID")
 STRAVA_CLIENT_SECRET = os.getenv("STRAVA_CLIENT_SECRET")
 STRAVA_ACCESS_TOKEN = os.getenv("STRAVA_ACCESS_TOKEN")
+STRAVA_REFRESH_TOKEN = os.getenv("STRAVA_REFRESH_TOKEN")
 </code></pre></small>
                 </li>
-                <li>config/urls.py:
+                <li>strava_drf/config/urls.py:
 <small><pre><code>
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("api/auth/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("api/auth/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("api/", include("apps.activities.urls")),
 ]
 </code></pre></small>
                 </li>
-                <li>apps/activities/apps.py:
+                <li>strava_drf/apps/activities/admin.py:
+<small><pre><code>
+from django.contrib import admin
+from apps.activities.models.activity import Activity
+
+@admin.register(Activity)
+class ActivityAdmin(admin.ModelAdmin):
+    list_display = (
+        "name",
+        "sport_type",
+        "distance",
+        "start_date",
+        "created_at",
+    )
+    list_filter = ("sport_type",)
+    search_fields = ("name",)
+    ordering = ("-start_date",)
+</code></pre></small>
+                </li>
+                <li>strava_drf/apps/activities/apps.py:
 <small><pre><code>
 from django.apps import AppConfig
 
 class ActivitiesConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
     name = "apps.activities"
+    verbose_name = "Atividades"
 </code></pre></small>
                 </li>
-                <li>apps/activities/urls.py:
+                <li>strava_drf/apps/activities/urls.py:
 <small><pre><code>
 from django.urls import path
-from .views import ActivitiesView, StravaCallbackView
+from rest_framework.routers import DefaultRouter
+from apps.activities.views.activity import ActivityViewSet
+from apps.activities.views.sync import ActivitySyncView
+from apps.activities.views.strava_auth import StravaCallbackView
+
+router = DefaultRouter()
+router.register(r"activities", ActivityViewSet, basename="activities")
 
 urlpatterns = [
-    path("activities/", ActivitiesView.as_view(), name="activities"),
+    path("activities/sync/", ActivitySyncView.as_view(), name="activities-sync"),
     path("strava/callback/", StravaCallbackView.as_view(), name="strava-callback"),
 ]
+
+urlpatterns += router.urls
 </code></pre></small>
                 </li>
-                <li>apps/activities/views.py:
+                <li>strava_drf/apps/activities/models/__init__.py:
+<small><pre><code>
+from .activity import Activity
+</code></pre></small>
+                </li>
+                <li>strava_drf/apps/activities/models/activity.py:
+<small><pre><code>
+from django.db import models
+
+class Activity(models.Model):
+    strava_id = models.BigIntegerField(
+        unique=True,
+        help_text="ID da atividade no Strava",
+    )
+    name = models.CharField(
+        max_length=255,
+        help_text="Nome da atividade",
+    )
+    distance = models.FloatField(
+        help_text="Distância em metros",
+    )
+    moving_time = models.PositiveIntegerField(
+        help_text="Tempo em movimento (segundos)",
+    )
+    sport_type = models.CharField(
+        max_length=50,
+        help_text="Tipo de esporte (Run, Walk, Ride, etc)",
+    )
+    start_date = models.DateTimeField(
+        help_text="Data/hora de início (UTC)",
+    )
+    average_speed = models.FloatField(
+        null=True,
+        blank=True,
+        help_text="Velocidade média (m/s)",
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    class Meta:
+        ordering = ["-start_date"]
+        verbose_name = "Atividade"
+        verbose_name_plural = "Atividades"
+
+    def __str__(self) -&gt; str:
+        return f"&#123;self.name&#125; - &#123;self.distance / 1000:.2f&#125; km"
+</code></pre></small>
+                </li>
+                <li>strava_drf/apps/activities/serializers/__init__.py:
+<small><pre><code>
+from .activity import ActivitySerializer
+</code></pre></small>
+                </li>
+                <li>strava_drf/apps/activities/serializers/activity.py:
+<small><pre><code>
+from rest_framework import serializers
+from apps.activities.models.activity import Activity
+
+class ActivitySerializer(serializers.ModelSerializer):
+    distance_km = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Activity
+        fields = [
+            "id",
+            "strava_id",
+            "name",
+            "distance",
+            "distance_km",
+            "moving_time",
+            "sport_type",
+            "start_date",
+            "average_speed",
+            "created_at",
+        ]
+
+    def get_distance_km(self, obj: Activity) -&gt; float:
+        return round(obj.distance / 1000, 2)
+</code></pre></small>
+                </li>
+                <li>strava_drf/apps/activities/filters/__init__.py:
+<small><pre><code>
+from .activity import ActivityFilter
+</code></pre></small>
+                </li>
+                <li>strava_drf/apps/activities/filters/activity.py:
+<small><pre><code>
+import django_filters
+from apps.activities.models.activity import Activity
+
+class ActivityFilter(django_filters.FilterSet):
+    min_distance = django_filters.NumberFilter(
+        field_name="distance",
+        lookup_expr="gte",
+        help_text="Distância mínima em metros",
+    )
+
+    sport_type = django_filters.CharFilter(
+        field_name="sport_type",
+        lookup_expr="iexact",
+    )
+
+    class Meta:
+        model = Activity
+        fields = [
+            "sport_type",
+            "min_distance",
+        ]
+</code></pre></small>
+                </li>
+                <li>strava_drf/apps/activities/views/__init__.py:
+<small><pre><code>
+from .activity import ActivityViewSet
+</code></pre></small>
+                </li>
+                <li>strava_drf/apps/activities/views/activity.py:
+<small><pre><code>
+from rest_framework.viewsets import ReadOnlyModelViewSet
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from apps.activities.models.activity import Activity
+from apps.activities.serializers.activity import ActivitySerializer
+from apps.activities.filters.activity import ActivityFilter
+
+class ActivityViewSet(ReadOnlyModelViewSet):
+    queryset = Activity.objects.all()
+    serializer_class = ActivitySerializer
+    permission_classes = [IsAuthenticated]
+    filterset_class = ActivityFilter
+
+    @action(detail=False, methods=["get"], url_path="long")
+    def long_activities(self, request):
+        queryset = self.get_queryset().filter(distance__gt=5000)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+    
+    @action(detail=False, methods=["get"], url_path="walk")
+    def walk_activities(self, request):
+        queryset = self.get_queryset().filter(sport_type__iexact="Walk")
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+</code></pre></small>
+                </li>
+                <li>strava_drf/apps/activities/views/strava_auth.py:
 <small><pre><code>
 import requests
 from django.conf import settings
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import AllowAny
 
 class StravaCallbackView(APIView):
+    permission_classes = [AllowAny]
+
     def get(self, request):
         code = request.GET.get("code")
 
         if not code:
             return Response(
-                {"error": "Code não informado"},
+                &#123;"detail": "Code não informado"&#125;,
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
         token_url = "https://www.strava.com/oauth/token"
 
-        payload = {
+        payload = &#123;
             "client_id": settings.STRAVA_CLIENT_ID,
             "client_secret": settings.STRAVA_CLIENT_SECRET,
             "code": code,
             "grant_type": "authorization_code",
-        }
+        &#125;
 
         response = requests.post(token_url, data=payload)
 
         if response.status_code != 200:
             return Response(
-                {
-                    "error": "Erro ao autenticar no Strava",
-                    "details": response.text,
-                },
+                &#123;
+                    "detail": "Erro ao autenticar no Strava",
+                    "error": response.text,
+                &#125;,
                 status=response.status_code,
             )
-        return Response(response.json(), status=status.HTTP_200_OK)
 
-class ActivitiesView(APIView):
-    def get(self, request):
-        url = "https://www.strava.com/api/v3/athlete/activities"
-
-        headers = {
-            "Authorization": f"Bearer {settings.STRAVA_ACCESS_TOKEN}"
-        }
-
-        response = requests.get(url, headers=headers)
-
-        if response.status_code != 200:
-            return Response(
-                {
-                    "error": "Erro ao buscar atividades no Strava",
-                    "details": response.text,
-                },
-                status=response.status_code,
-            )
         return Response(response.json(), status=status.HTTP_200_OK)
 </code></pre></small>
                 </li>
-                <li>Criar migrations: python manage.py migrate</li>
-                <li>Executar projeto: python manage.py runserver</li>
-                <li>Autorizar API Strava:
+                <li>strava_drf/apps/activities/services/__init__.py:
+<small><pre><code>
+from .strava import fetch_activities
+</code></pre></small>
+                </li>
+                <li>strava_drf/apps/activities/services/strava.py:
+<small><pre><code>
+import requests
+from django.conf import settings
+
+def fetch_activities(page: int = 1, per_page: int = 50) -&gt; list[dict]:
+    url = "https://www.strava.com/api/v3/athlete/activities"
+
+    headers = &#123;
+        "Authorization": f"Bearer &#123;settings.STRAVA_ACCESS_TOKEN&#125;",
+    &#125;
+
+    params = &#123;
+        "page": page,
+        "per_page": per_page,
+    &#125;
+
+    response = requests.get(url, headers=headers, params=params)
+    response.raise_for_status()
+    return response.json()
+</code></pre></small>
+                </li>
+                <li>strava_drf/apps/activities/views/sync.py:
+<small><pre><code>
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+from apps.activities.services.strava import fetch_activities
+from apps.activities.models.activity import Activity
+
+
+class ActivitySyncView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        activities_data = fetch_activities()
+
+        created = 0
+        skipped = 0
+
+        for item in activities_data:
+            activity, was_created = Activity.objects.get_or_create(
+                strava_id=item["id"],
+                defaults=&#123;
+                    "name": item.get("name"),
+                    "distance": item.get("distance"),
+                    "moving_time": item.get("moving_time"),
+                    "sport_type": item.get("sport_type"),
+                    "start_date": item.get("start_date"),
+                    "average_speed": item.get("average_speed"),
+                &#125;,
+            )
+
+            if was_created:
+                created += 1
+            else:
+                skipped += 1
+
+        return Response(
+            &#123;
+                "created": created,
+                "skipped": skipped,
+                "total": created + skipped,
+            &#125;,
+            status=status.HTTP_201_CREATED,
+        )
+</code></pre></small>
+                </li>
+                <li>Construir migrations: python manage.py makemigrations</li>
+                <li>Executar migrations: python manage.py migrate</li>
+                <li>Criar usuário Django admin: python manage.py createsuperuser</li>
+                <li>Executar servidor: python manage.py runserver</li>
+                <li>Obter JWT (request):
+                    <ul>
+                        <li>Método: POST</li>
+                        <li>URL: http://localhost:8000/api/auth/token/</li>
+                        <li>Body (raw JSON): &#123;"username": "seu_usuario_django", "password": "sua_senha_django"&#125;</li>
+                        <li>Send (Copiar tokens)</li>
+                    </ul>
+                </li>
+                <li>Autorizar API Strava (copiar tokens retornados, e colá-los no .env):
 <small><pre><code>
 https://www.strava.com/oauth/authorize
-?client_id=SEU_ID_CLIENTE
+?client_id=SEU_CLIENT_ID
 &response_type=code
 &redirect_uri=http://localhost:8000/api/strava/callback/
 &approval_prompt=force
 &scope=read,activity:read_all
 </code></pre></small>
+                </li>
+                <li>Executar servidor: python manage.py runserver</li>
+                <li>Executar sync (request):
                     <ul>
-                        <li>Copiar access_token e colá-lo no .env</li>
+                        <li>Método: POST</li>
+                        <li>URL: http://localhost:8000/api/activities/sync/</li>
+                        <li>Authorization:
+                            <ul>
+                                <li>Type: Bearer Token</li>
+                                <li>Token: &lt;access_token_jwt_gerado&gt;</li>
+                            </ul>
+                        </li>
+                        <li>Send (Armazenará atividades no banco de dados)</li>
                     </ul>
                 </li>
-                <li>Executar novamente: python manage.py runserver</li>
-                <li>Testar no browser (GET): <a href="http://localhost:8000/api/activities" target="_blank" class="text-decoration-none">http://localhost:8000/api/activities</a></li>
-                <li>Site Strava, Apps, revogar acesso do aplicativo API, para desativá-lo, e remover ícone do aplicativo</li>
+                <li>Listar atividades (request):
+                    <ul>
+                        <li>Método: GET</li>
+                        <li>URL: http://localhost:8000/api/activities/</li>
+                        <li>Authorization:
+                            <ul>
+                                <li>Type: Bearer Token</li>
+                                <li>Token: &lt;access_token_jwt_gerado&gt;</li>
+                            </ul>
+                        </li>
+                        <li>Send</li>
+                    </ul>
+                </li>
+                <li>Listar atividades com distância maior que 5km (request):
+                    <ul>
+                        <li>Método: GET</li>
+                        <li>URL: http://localhost:8000/api/activities/long/</li>
+                        <li>Authorization:
+                            <ul>
+                                <li>Type: Bearer Token</li>
+                                <li>Token: &lt;access_token_jwt_gerado&gt;</li>
+                            </ul>
+                        </li>
+                        <li>Send</li>
+                    </ul>
+                </li>
+                <li>Listar atividades de caminhada (request):
+                    <ul>
+                        <li>Método: GET</li>
+                        <li>URL: http://localhost:8000/api/activities/walk/</li>
+                        <li>Authorization:
+                            <ul>
+                                <li>Type: Bearer Token</li>
+                                <li>Token: &lt;access_token_jwt_gerado&gt;</li>
+                            </ul>
+                        </li>
+                        <li>Send</li>
+                    </ul>
+                </li>
+                <li>Listar atividades de caminhada (request REST filter):
+                    <ul>
+                        <li>Método: GET</li>
+                        <li>URL: http://localhost:8000/api/activities/?sport_type=Walk</li>
+                        <li>Authorization:
+                            <ul>
+                                <li>Type: Bearer Token</li>
+                                <li>Token: &lt;access_token_jwt_gerado&gt;</li>
+                            </ul>
+                        </li>
+                        <li>Send</li>
+                    </ul>
+                </li>
             </ol>
         </div>
     </div>
