@@ -47,9 +47,393 @@
                 <li>Curso com certificado na Workover Academy: <a class="text-decoration-none">Acesse em breve</a></li>
             </ul>
 
-            <br><h4>Introdução à Qualidade de Software e QA:</h4>
-            <p id="textoPost">QA (Quality Assurance ou Garantia da Qualidade) é conjunto de processos e práticas para prevenir defeitos e garantir que software atenda aos padrões de qualidade esperados, atuando em todas fases do desenvolvimento. Profissionais de QA identificam falhas, otimizam processos e asseguram que software seja robusto e confiável, atuando de forma preventiva.</p>
+            <br><hr><h4>Aula 1- Introdução à qualidade de software e QA:</h4>
+            <p id="textoPost">QA (Quality Assurance ou Garantia da Qualidade) é conjunto de processos e práticas para prevenir defeitos (bugs) e garantir que software atenda padrões de qualidade esperados (requisitos do sistema, critérios de aceitação, normas e modelos de qualidade, padrões técnicos e boas práticas, contratos e SLAs, definição de pronto - Definition of Done), em todas fases do desenvolvimento. Profissionais de QA identificam falhas, otimizam processos e asseguram que software seja robusto e confiável, atuando de forma preventiva.</p>
             <p id="textoPost">No cotidiano, QA participa da análise de requisitos, validando regras de negócio, identificando ambiguidades e antecipando cenários de erro. Durante desenvolvimento, QA valida se features estão conforme esperado e, após entrega, contribui para estabilidade do sistema em produção. Em times ágeis, QA trabalha integradamente com desenvolvedores, POs e designers.</p>
+            <p id="textoPost">Testes manuais são executados por pessoa, seguindo cenários definidos ou explorando sistema de forma livre. São essenciais em testes exploratórios, validação visual, usabilidade e testes iniciais de novas funcionalidades. Testes automatizados utilizam ferramentas e scripts para executar cenários repetitivos de forma rápida e confiável. Em ambiente de produção, são usados para validar regressões, fluxos críticos e integrações sempre que nova versão é entregue. Testes repetitivos, regressões, fluxos críticos e cenários que precisam ser executados com frequência são fortes candidatos à automação. Testes exploratórios, validações visuais e funcionalidades em constante mudança geralmente são melhores executados de forma manual, especialmente em fases iniciais do desenvolvimento. Automação permite execuções rápidas, redução de erros humanos, maior cobertura de testes e integração com pipelines de CI/CD, possibilitando validar aplicação inteira a cada deploy.</p>
+<small><pre><code>
+Teste manual, cenário Login de usuário:
+Abrir aplicação no navegador
+Informar e-mail válido e senha válida
+Clicar em Entrar
+Verificar se sistema redireciona para página inicial e exibe nome do usuário
+
+Teste automatizado, cenário Login de usuário (exemplo em pseudocódigo Python):
+def test_senha_com_tamanho_minimo():
+    senha = "123456"
+    resultado = validar_senha(senha)
+    assert resultado is True
+</code></pre></small>
+            <ul>
+                <li>Testes unitários (unit tests): validam pequenas partes do código, como funções ou métodos isolados. Exemplo: testar se função de cálculo de desconto retorna valor correto para diferentes entradas;
+<small><pre><code>
+Loja online aplica 10% de desconto para compras acima de R$ 100,00. Função responsável por calcular valor final da compra.
+
+Regra de negócio:
+Valor a menor ou igual a 100 = não aplica desconto
+Valor maior que 100 = aplica 10% de desconto
+
+Teste unitário (exemplo prático)
+def test_calcular_desconto():
+    assert calcular_desconto(80) == 80
+    assert calcular_desconto(100) == 100
+    assert calcular_desconto(200) == 180
+</code></pre></small>
+                </li>
+                <li>Testes de integração (integration tests): validam comunicação entre componentes, serviços ou APIs. Exemplo: verificar se API de pedidos consegue se comunicar corretamente com API de pagamentos;
+<small><pre><code>
+Sistema de e-commerce possui API de Pedidos, que cria pedidos, e API de Pagamentos, que processa pagamentos. Quando pedido é criado, API de Pedidos chama API de Pagamentos para cobrar cliente.
+
+Regra de negócio:
+Se pagamento for aprovado, pedido fica com status "PAGO"
+Se pagamento falhar, pedido fica com status "RECUSADO"
+
+def test_criar_pedido_com_pagamento_aprovado(client):
+    response = client.post("/api/pedidos/", json=&#123;
+        "produto_id": 1,
+        "quantidade": 2,
+        "cartao": "4111111111111111"
+    &#125;)
+
+    assert response.status_code == 201
+    assert response.json()["status"] == "PAGO"
+</code></pre></small>
+                </li>
+                <li>Testes de sistema (system tests): validam sistema como todo, considerando todas integrações e fluxos principais, verificando se comportamento geral da aplicação atende ao esperado, segundo critérios de aceitação;
+<small><pre><code>
+Sistema: E-commerce web
+Objetivo do sistema: permitir que usuário compre produto do início ao fim.
+
+Critério de aceitação:
+Usuário consegue comprar produto com sucesso
+Pagamento é aprovado
+Pedido aparece no histórico do usuário
+Teste de sistema (exemplo prático)
+
+Fluxo executado:
+Usuário acessa site
+Realiza login
+Adiciona produto ao carrinho
+Finaliza compra
+Sistema processa pagamento
+Pedido é confirmado e exibido no histórico
+
+Validações:
+Tela de confirmação exibida
+Status do pedido: "Confirmado"
+Pagamento registrado no sistema
+Pedido visível no histórico
+</code></pre></small>
+                </li>
+                <li>Testes de aceitação: validam se sistema atende às regras de negócio definidas pelo cliente ou usuário final. Exemplo: validar se aluno consegue acessar suas notas após realizar login em sistema escolar.
+<small><pre><code>
+Sistema: Sistema escolar online
+
+Regra de negócio (definida pelo cliente):
+Apenas alunos autenticados podem visualizar suas próprias notas
+Notas devem corresponder ao aluno logado
+
+Teste de aceitação (exemplo prático):
+Cenário: Aluno acessa suas notas após login
+Dado que aluno possui cadastro ativo no sistema
+Quando aluno realiza login com usuário e senha válidos
+E acessa opção "Minhas Notas"
+Sistema exibe apenas notas daquele aluno da sessão
+</code></pre></small>
+                </li>
+            </ul>
+            <p id="textoPost">Testes funcionais verificam se funcionalidades do sistema funcionam conforme esperado, como login, cadastro, busca e envio de formulários. Testes não funcionais avaliam características como desempenho, segurança, usabilidade e compatibilidade, inclui testar quantos usuários simultâneos o sistema suporta ou se dados sensíveis estão protegidos adequadamente.
+<small><pre><code>
+TESTE FUNCIONAL:
+Sistema: Aplicativo bancário
+Cenário: Pix entre contas
+
+Usuário realiza login
+Informa Pix de destino e valor de R$ 500,00
+Confirma Pix
+
+Resultado esperado:
+Valor é debitado da conta de origem
+Valor é creditado na conta de destino
+Sistema exibe mensagem de sucesso
+
+TESTE NÃO FUNCIONAL:
+Sistema: API bancária
+Cenário: Tempo de resposta da API de Pix
+Realizar 1.000 requisições simultâneas de Pix
+Medir tempo de resposta
+
+Resultado esperado:
+95% das requisições respondem em até 2 segundos
+Nenhuma requisição retorna erro 5xx
+</code></pre></small>
+            </p>
+            <p id="textoPost">Pirâmide de testes é modelo de distribuição dos tipos de testes (E2E Tests, Service Tests, Unit Tests). Na base estão testes unitários, em maior quantidade e com execução rápida. No meio, testes de integração. No topo, testes de sistema e End-to-End, em menor quantidade, sendo mais lentos e complexos. Pirâmide ajuda reduzir custos, acelerar feedbacks e manter estabilidade do desenvolvimento do sistema.</p>
+            <p id="textoPost">Artefatos de QA são documentos e registros utilizados para planejar, executar e acompanhar testes, garantindo rastreabilidade, organização e comunicação entre time.
+<small><pre><code>
+1. Plano de Testes: documento que define o que será testado, como, quando e por quem. Exemplo:
+Plano descrevendo que:
+Testes unitários serão feitos com pytest
+Testes de integração cobrem APIs de pedidos e pagamentos
+Ambiente de homologação será usado antes da produção
+
+2. Casos de Teste: descrição passo a passo de como validar funcionalidade. Exemplo:
+Caso de teste: Login com senha válida
+Entrada: e-mail e senha corretos
+Ação: clicar em "Entrar"
+Resultado esperado: redirecionamento para dashboard
+
+3. Cenários de Teste: visão mais alto nível, focada no fluxo. Exemplo:
+Cenário: Compra de produto com pagamento aprovado
+
+4. Relatório de Bugs (Defect Report): registro formal de erro encontrado. Exemplo:
+Título: Erro ao finalizar pagamento com cartão
+Ambiente: Homologação
+Resultado esperado: pagamento aprovado
+Resultado obtido: erro 500
+
+5. Checklist de Testes: lista rápida para validação básica. Exemplo:
+Login funciona
+API retorna status 200
+Campos obrigatórios validados
+
+6. Relatório de Execução de Testes: mostra status dos testes executados. Exemplo:
+Total de testes: 120
+Passaram: 110
+Falharam: 10
+
+7. Matriz de Rastreabilidade: relaciona requisitos aos testes. Exemplo:
+Requisito RF-01: Caso de Teste CT-05
+
+8. Evidências de Teste: comprovação da execução do teste. Exemplo:
+Screenshot da tela de confirmação
+Log de execução de teste automatizado
+</code></pre></small>
+            </p>
+            <p id="textoPost">Casos de teste descrevem passo a passo como validar funcionalidade, incluindo pré-condições, dados de entrada, ações e resultados esperados. Exemplo: descrever todo fluxo de login de usuário, desde inserção de credenciais até acesso ao sistema.
+<small><pre><code>
+Caso de Teste Completo - Login de Usuário
+ID: CT-AUTH-LOGIN-001
+Título: Login com credenciais válidas
+Módulo: Autenticação
+Tipo de teste: Funcional / Sistema
+Prioridade: Alta
+Autor: QA Team
+Data: 15/01/2026
+
+Objetivo: validar se o usuário consegue acessar sistema, informando credenciais válidas, conforme regras de negócio definidas.
+
+Pré-condições:
+Usuário cadastrado e ativo no sistema
+Usuário não está logado
+Sistema disponível
+Navegador Google Chrome atualizado
+
+Ambiente: Homologação
+
+Dados de teste (campo, valor):
+E-mail: usuario@exemplo.com
+Senha: Senha@123
+
+Passos de execução:
+Acessar URL do sistema
+Clicar na opção Login
+Informar e-mail no campo correspondente
+Informar senha no campo correspondente
+Clicar no botão Entrar
+
+Resultado esperado:
+Sistema valida credenciais
+Usuário é autenticado com sucesso
+Redirecionamento para página inicial
+Nome do usuário exibido no topo da tela
+Token de sessão criado
+
+Resultado obtido: (Preenchido durante a execução)
+
+Status: (Aprovado / Reprovado)
+
+Evidências: Screenshot da tela inicial após login
+
+Log da requisição de autenticação
+
+Observações:
+Caso de teste pode ser reutilizado para automação
+Base para cenários negativos (senha inválida, usuário inativo)
+</code></pre></small>
+            </p>
+            <p id="textoPost">Checklists são listas simples de verificações que devem ser realizadas durante teste. Muito usados em testes exploratórios, revisões rápidas ou validações antes de entrega em produção.
+<small><pre><code>
+Checklist de Testes - Liberação para Produção
+
+Sistema: Plataforma Web de E-commerce
+Módulo: Autenticação e Compra
+Ambiente: Homologação
+Responsável: QA
+Data: 15/01/2026
+
+1. Autenticação:
+[] Login com credenciais válidas
+[] Bloqueio após tentativas inválidas
+[] Logout funcionando corretamente
+[] Sessão expira após tempo de inatividade
+
+2. Funcionalidades principais:
+[] Listagem de produtos carregando corretamente
+[] Produto pode ser adicionado ao carrinho
+[] Atualização de quantidade no carrinho
+[] Finalização de compra com sucesso
+
+3. Pagamentos:
+[] Pagamento aprovado atualiza status do pedido
+[] Pagamento recusado exibe mensagem adequada
+[] Nenhum pagamento duplicado gerado
+
+4. Validações de campos:
+[] Campos obrigatórios validados
+[] Mensagens de erro claras para usuário
+[] Dados inválidos não são aceitos
+
+5. Segurança:
+[] URLs protegidas exigem autenticação
+[] Dados sensíveis não expostos em tela ou logs
+[] HTTPS ativo
+
+6. Performance básica:
+[] Páginas principais carregam em até 3 segundos
+[] API responde sem erros 5xx
+
+7. Experiência do usuário:
+[] Layout consistente em telas principais
+[] Botões e links funcionam corretamente
+[] Mensagens de sucesso e erro visíveis
+
+8. Evidências:
+[] Screenshots coletados
+[] Logs salvos, se aplicável
+
+Status final:
+[] Apto para produção
+[] Não apto para produção
+</code></pre></small>
+            </p>
+            <p id="textoPost">Relatórios de bugs registram defeitos encontrados durante testes. Contém descrição clara do problema, passos para reprodução, resultado esperado, resultado obtido e evidências, como screenshots ou logs.
+<small><pre><code>
+Relatório de Bug:
+ID: BUG-PAG-014
+Título: Erro 500 ao finalizar pagamento com cartão de crédito
+Projeto: E-commerce Web
+Módulo: Pagamentos
+Tipo: Defeito funcional
+Severidade: Alta
+Prioridade: Alta
+Status: Aberto
+Responsável: Time de Desenvolvimento
+Reportado por: QA
+Data: 15/01/2026
+
+Ambiente:
+Ambiente: Homologação
+Navegador: Google Chrome 120
+Sistema Operacional: Windows 11
+
+Descrição do problema:
+Ao tentar finalizar compra utilizando cartão de crédito válido, sistema retorna erro interno (HTTP 500) e não conclui pagamento.
+
+Pré-condições:
+Usuário autenticado no sistema
+Produto adicionado ao carrinho
+Cartão de crédito válido disponível para teste
+
+Passos para reprodução:
+Acessar sistema
+Realizar login com usuário válido
+Adicionar produto ao carrinho
+Clicar em Finalizar compra
+Selecionar pagamento via cartão de crédito
+Informar dados válidos do cartão
+Confirmar pagamento
+
+Resultado esperado:
+Pagamento processado com sucesso
+Pedido criado com status "Pago"
+Tela de confirmação exibida ao usuário
+
+Resultado obtido:
+Sistema retorna erro HTTP 500
+Tela genérica de erro exibida
+Pedido não é criado
+
+Evidências:
+Screenshot da tela de erro
+Log da API de pagamento mostrando exceção
+Request e response da requisição (HTTP 500)
+
+Impacto:
+Usuários não conseguem finalizar compras utilizando cartão de crédito, bloqueando vendas.
+
+Observações:
+Erro ocorre de forma consistente ao usar cartão Visa em ambiente de homologação.
+</code></pre></small>
+            </p>
+
+            <br><hr><h4>Aula 2- SRS e design de testes:</h4>
+            <ul class="text-warning">
+                <li><b>Técnicas de levantamento de requisitos</b></li>
+                <li><b>Design de testes</b></li>
+                <li><b>Criação de cenários de teste</b></li>
+                <li><b>Escrita de casos de teste</b></li>
+                <li><b>Documentação de testes</b></li>
+                <li><b>Rastreabilidade entre requisitos e testes</b></li>
+            </ul>
+            <p id="textoPost">Documento SRS (Software Requirements Specification) descreve, de forma detalhada e estruturada, o que sistema deve fazer, quais suas restrições, regras de negócio, e requisitos funcionais e não funcionais. Requisitos funcionais descrevem o que o sistema faz (features). Exemplo: RF-01 Aluno deve realizar login com e-mail e senha. Requisitos não funcionais descrevem como sistema deve se comportar (ambiente, especificações técnicas e ferramentas). Exemplo: Sistema deve responder em até 2 segundos, Dados do aluno devem ser protegidos por autenticação JWT. Requisitos funcionais geram testes funcionais e requisitos não funcionais geram testes não funcionais.</p>
+            
+            <br><h4>Técnicas de análise e levantamento (elicitação) de requisitos:</h4>
+            <ul>
+                <li>Leitura de documentação: QA analisa documentação oficial do projeto para entender o que deve ser desenvolvido, quais são regras de negócio, restrições, e fluxos principais e alternativos;
+<small><pre><code>
+<b>História de Usuário</b>:
+Como aluno,
+Quero acessar minhas notas
+Para acompanhar meu desempenho escolar.
+
+Informações extraídas pelo QA:
+Apenas alunos autenticados acessam notas
+Notas são individuais
+Existe tela específica de consulta
+
+Impacto direto nos testes:
+Criar teste para acesso com login válido
+Criar teste para acesso sem login (bloqueio)
+Criar teste para tentativa de acesso a notas de outro aluno
+
+<b>Documento SRS</b>:
+SRS Requisitos Funcionais:
+RF-01: Sistema deve permitir que aluno autenticado visualize suas notas
+RF-02: Sistema deve garantir que aluno visualize apenas suas próprias notas
+RF-03: Acesso às notas deve ser restrito a usuários autenticados
+
+SRS Requisitos Não Funcionais:
+RNF-01: Tempo de resposta da tela de notas deve ser inferior a 2 segundos
+RNF-02: Informações exibidas devem estar protegidas por autenticação.
+
+O que QA extrai do SRS:
+Login é obrigatório
+Existe controle de permissão
+Há requisito de desempenho
+Há requisito de segurança
+
+Impacto direto nos testes
+Teste de acesso com login válido
+Teste de acesso sem login (bloqueio)
+Teste de tentativa de acesso a dados de outro aluno
+Teste de tempo de resposta da funcionalidade
+
+<b>Documentos funcionais</b>:
+<!-- VER https://chatgpt.com/c/69419023-c668-832d-aa01-f6d844315412 -->
+</code></pre></small>
+                </li>
+            </ul>
         </div>
     </div>
 
@@ -64,3 +448,8 @@
 </div>
 </body>
 </html>
+
+
+<!-- ANOTAÇÕES:
+
+-->

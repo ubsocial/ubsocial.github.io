@@ -36,7 +36,7 @@
         <div class="col-sm-12 text-center" id="titulo">
             <h1>Git e GitHub</h1>
             <h6><strong>Sintaxe básica Git e GitHub</strong></h6>
-            <a href="../../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
+            <a href="../../index.html" class="btn btn-link text-decoration-none mb-3">Voltar<br><br><span class="badge bg-warning text-dark">Resumo em construção</span></a>
         </div>
 
         <div class="col-sm-12">
@@ -46,72 +46,85 @@
                 <li>Curso gratuito com certificado na Udemy (Git e Github, teoria e prática: Curso rápido): <a href="https://www.udemy.com/course/git-e-github-teoria-e-pratica-curso-rapido" target="_blank" class="text-decoration-none">Acesse</a></li>
             </ul>
 
-            <br><h4>Conteúdo:</h4>
+            <br><h4>Conceito:</h4>
+            <p id="textoPost">No Scrum, produto não é entregue apenas ao final, de forma completa e fechada. Em vez disso, criação ocorre de maneira incremental, com entregas contínuas de funcionalidades e versões a cada Sprint, permitindo ao cliente acompanhar evolução e ajustes durante desenvolvimento do produto, reduzindo retrabalho e riscos. Assim como projeto de planta de casa, desenvolvimento ocorre por etapas: 1º cria-se cozinha, em seguida quartos, e assim sucessivamente. Cada etapa é validada pelo cliente antes do avanço para próxima, favorecendo comunicação constante e maior aderência às regras de negócio. Para viabilizar esse processo, precisa-se de sistemas especiais que permitam versionar, armazenar e gerenciar projeto de forma incremental, mais completos que ambientes de armazenamento cloud. Git, software desktop de controle de versão VCS, tem objetivo de armazenar projetos através de versões. Exemplo, projeto versão 1 terá nova etapa, que será versão 2. Versão 2 terá novos arquivos, alterações no conteúdo com relação à versão 1, novo autor, novas pastas e novos incrementos. Após, terá versão 3. Equipe de trabalho acompanha detalhadamente, via Git, todo histórico das etapas guardadas do projeto, visualizando trechos e autores das alterações. GitHub é ambiente cloud para armazenar alterações locais do Git.</p>
+
+            <br><h4>Configuração inicial:</h4>
+            <ol>
+                <li>Instalar Git e criar conta no GitHub;</li>
+                <li>Configurar Git (local):
+                    <ul>
+                        <li>git config --global user.name "usuarioGithub"</li>
+                        <li>git config --global user.email "emailGithub"</li>
+                    </ul>
+                </li>
+                <li>Vincular Git ao GitHub:</li>
+                <ul>
+                    <li>Gerar chave SSH (.pub): ssh-keygen -t ed25519 -C "emailGithub"</li>
+                    <li>Copiar chave: cat ~/.ssh/id_ed25519.pub</li>
+                    <li>No GitHub, adicionar chave em settings / SSH and GPG keys</li>
+                </ul>
+            </ol>
+
+            <br><h4>Comandos Git:</h4>
+            <img src="estrutura_git.png" class="img-fluid rounded mb-3" width="330px">
 <small><pre><code>
-<b>VCS</b> - Version Control System (Sistema de controle de versão distribuído), utilizado para versionar projetos de todos os tipos e áreas. Na prática, o uso de VCS funciona da seguinte maneira: Supondo que está sendo realizado o versionamento de um projeto Design de Interiores na construção de uma casa:
-<img src="vcsPratica.png" class="img-fluid rounded" width="300px"><br>
-<img src="vcsPratica3.jpg" class="img-fluid rounded" width="300px"><br>
-<img src="vcsPratica2.png" class="img-fluid rounded" width="300px"><br>
+- Criar repositório local: git init nomeRepositorio
+- Baixar repositório do GitHub:
+-- GitHub, acessar repositório para clonar, botão Code, opção SSH, copiar trecho
+-- git clone trechoCopiado
+
+- Adicionar arquivos alterados: git add . ('git add nomeArquivo' para arquivo específico)
+- Confirmar alterações: git commit -m "mensagemDescritiva"
+- Enviar ao GitHub: git push
+
+- Ver status do repositório: git status
+- Listar commits: git log
+
+- Atualizar repositório local com alterações do GitHub:
+-- Verificar atualizações: git fetch
+-- Atualizar repositório local: git pull
+</code></pre></small>
+
+            <br><h4>Tag:</h4>
+            <p id="textoPost">Usada para marcar pontos específicos na linha do tempo do projeto (ex: v1, v2):</p>
+<small><pre><code>
+- Criar tag: git tag -a nomeTag -m "descricaoTag" idCommit
+- Listar tags: git tag
+- Consultar por tags: git checkout nomeTag
+- Deletar tag: git tag -d nomeTag
+</code></pre></small>
+
+            <br><h4>Branch:</h4>
+            <p id="textoPost">Implementar repositório para trabalhos paralelos. Exemplo, designers usam branch design para trabalhar em paralelo com desenvolvedores no branch master (master/main é branch padrão).</p>
+            <img src="branch.png" class="img-fluid rounded mb-3" width="250px">
+<small><pre><code>
+- Criar e selecionar branch: git checkout -b nomeBranch (remover -b para só mudar de branch)
+- Voltar ao branch master: git checkout master
+- Listar branches: git branch
+- Deletar branch: git branch -d nomeBranch
+- Enviar branch ao GitHub: git push origin nomeBranch
+- Unir branches: git merge nomeBranchParaUnir (encerrará branch nomeBranchParaUnir, e branch atual será destino)
+</code></pre></small>
+
+            <br><h4>Conflitos de merge:</h4>
+            <ul>
+                <li>Conflito de salvamento de nova versão quando vários usuários modificar mesmo conteúdo, de mesmo arquivo, simultaneamente e tentarem, juntos, fazer push. Git pedirá para usuário responsável escolher qual modificação será salva, e qual será descartada. Prevenção: organizar equipe para trabalhar simultaneamente em partes separadas do projeto, via branches, onde cada usuário é responsável por sua parte do projeto;</li>
+                <li>Projeto local não está atualizado com relação ao projeto no GitHub. Ao abrir projeto local, 1º verificar se há atualizações (fetch) e, se sim, atualizá-lar projeto local (pull). Após isso, pode-se trabalhar no projeto. Sempre que necessário, enviar atualizações do projeto local ao GitHub (push).</li>
+            </ul>
+
+            <br><h4>Contribuição no GitHub:</h4>
+            <p id="textoPost">Pode-se clonar repositório no GitHub de outro autor, e usá-lo por conta própria (fork). Issues são comentários de usuários em repositórios. Pull requests são solicitações de alterações em repositórios de outros autores. Se autor aceitar solicitação, fará merge pull request, unindo alterações ao repositório original. Gist é serviço para compartilhamento/salvar trechos de conteúdos. Arquivo 'contributing.md' possui instruções para contribuir no repositório. Arquivo 'readme.md' possui informações sobre repositório. Arquivo oculto '.gitignore' possui lista de arquivos e pastas ignoradas pelo Git, para evitar que sejam versionadas.</p>
+
+            <br><h4>Outros comandos (<span class="text-warning">EM CONSTRUÇÃO</span>):</h4>
+<small><pre><code>
+CONECTAR REPOSITÓRIO LOCAL AO GITHUB
+- git remote add origin &lt;url_ssh_repositorio&gt;
+
+git log
 
 
-<b>Exemplos VCS:</b>
-Desktop: Git, Subversion (SVN), Mercurial
-Cloud: GitHub, GitLab, Bitbucker, GitBucker, SourgeForce, AWS, GCP, Azure
-
-<b>Ferramentas Git:</b>
-- Git CLI
-- Git GUI Clients (GitK e GitGui - padrão, GitHub Desktop, GitKraken, SourceTree, Fork, Pocket Git, Gitfox, …)
-- GitWeb
-- Github CLI
-- Extensões acopladas à editores de texto e IDEs
-- CLI Cloud, acoplados à Web Services
-
-<b>Estrutura Git:</b>
-Projetos divididos em 3 estágios
-1 - Working directory (Diretorio de trabalho, pêgo do repositório para a máquina do desenvolvedor)
-2 - Staging area (Sala de espera, ficam antes de serem confirmados/envidados ao repositório)
-3 - Git directory (Repositório local)
-4(opcional) - Git remote (repositório remoto, ex: Github)
-<img src="estrutura_git.png" class="img-fluid rounded" width="330px"><br>
-<img src="estrutura_git2.jpg" class="img-fluid rounded" width="330px"><br>
-
-<b>Configuração Inicial Git Bash:</b>
-Instalação (Debian): sudo apt install git
-Bash: git config --global user.name "seuNomeUsuario"
-Bash: git config --global user.email "seuEmailUsuario"
-Bash: git status (Status do repositório)
-
-Ignorar Arquivo: Criar arquivo vazio chamado '.gitignore', com listagem dos nomes dos arquivos e pastas que serão ignorados pelo VCS
-Exemplo: .gitignore, ubsocial.txt, umapasta/
-
-
-<h6><b>========== LOCAL ==========</b></h6>
-Configurar local de trabalho do git: ir no icone do bash, com o botão direito e alterar o endereço de inicialização
-Criar Repositório: Entrar na pasta com 'cd', comando 'git init'
-Inserir Arquivos no Repositório: git add .
-Concluir Alterações <b>(Commit)</b>: git commit -m "descricaoCommit"
-
-<b>Rotina básica na prática:</b>
-Tem-se projeto (pasta) com arquivo txt, onde usuário quer versionar tal projeto:
-<b>a.</b>Com Shell, dentro da pasta do projeto, iniciar controle: git init
-<b>b.</b>Fazer as alterações no arquivo (Working Directory)
-    Verificar status: git status
-<b>c.</b>Adicionar alterações à Staging Area: git add .
-    Verificar status: git status
-<b>d.</b>Confirmar alterações: git commit -m "Descrição das alterações feitas"
-    Verificar status: git status
-<span class="text-muted">(Os processos de B à D são repetidos nas rotinas de controle de versão)</span>
-
-<b>Históricos:</b>
-Ver working directory: git diff
-Ver staging area: git diff --staged
-Ver commits: git log (Acrescentar '--pretty=oneline' para visualização formatada)
-Ver commits detalhado: git log -p ('j' para descer, 'k' para subir, ':q' para sair)
-Ver commits limite: git log -p -2 (2 últimos commits no log)
-Ver commits com gráfico visual: git log --pretty=format:"%h %s" --graph
-Ver autor do commit: git blame nomeArquivo
-
-<b>Edições:</b>
+Edições:
 Editar commit atual: git commit --amend -m "novaDescricaoCommit"
 Remover da staging area: git reset HEAD nomeArquivo
 Remover arquivos do repositório, que foram deletados: git rm nomeArquivo
@@ -119,24 +132,24 @@ Reverter alterações de arquivo sem commit, nem add: git checkout HEAD nomeArqu
 Reverter commit: git revert idCommit
 Voltar commit anterior, sem desfazer alterações de conteúdo: git reset idCommit
 
-<b>TAG:</b> Atalho para determinado status do sistema. Exemplos: 1.0, 1.1, 1.2...
-Criar tag: git tag -a nometag -m "descricaoTag"
-Criar tag commit antigo: git tag -a nometag idcommit -m "descricaoTag"
-Listar tags: git tag | git show nometag (Com detalhes)
-Consultar por tags: git checkout nometag
-Voltar a tag padrão: git checkout master
-Deletar tag: git tag -d nometag
 
-<b>BRANCH (Ramificações):</b> Usado para implementar nova funcionalidade em paralelo com o master (master é branch padrão)
-<img src="branch.png" class="img-fluid rounded" width="300px"><br>
-Criar e Selecionar branch: git checkout -b nomebranch (Remover -b para simplesmente trocar de branch)
-Listar branchs: git branch (-r para mostrar remotos, -a para mostrar locais e remotos)
-Voltar ao master: git checkout master
-Deletar branch: git branch -d nomebranch
+restore: Desfazer alterações em arquivo (antes de adicionar à Staging Area)
+- git restore nomeArquivo
+- git checkout -- nomeArquivo (versão antiga, antes do restore)
 
-<b>MERGE:</b> Passar último commit do branch x no final/atual do master (encerra branch x)
-git merge branchAntigo (Branch que estou será o destino. Informar branch é opcional)
+COMANDOS DE DIFERENÇAS - diff
+- Ver diferenças entre branches: git diff nomeBranchOrigem nomeBranchAlvo
+- Ver diferenças entre commits: git diff idCommitOrigem idCommitAlvo
+- Ver diferenças entre arquivos: git diff nomeArquivo (diff --staged para arquivos em staging area)
+
+COMANDOS DE REVERT - desfazer alterações
+- Reverter commit: git revert idCommit
+- Voltar commit anterior, sem desfazer alterações de conteúdo: git reset idCommit
+
+COMANDOS DE REBASE - reorganizar histórico de commits
 <b>REBASE:</b> Passar todos commits, ordenadamente, do branch x no final/atual do master (encerra branch x)
+Regit rebase move commits de uma branch para “cima” de outra, sobrescrevendo/reescrevendo o histórico
+merge preserva o histórico real, rebase organiza o histórico
 git rebase branchAntigo
 git rebase --abord (abordar rebase)
 
@@ -145,193 +158,354 @@ Adicionar submodule: git submodule add &lt;url-repositorio&gt; diretorio-destino
 Iniciar submodule: git submodule init
 Atualizar submodule (Carregar configurações necessárias): git submodule update
 Atualizar dependência: Acessar diretório do submodule e, após isso, executar 'git pull remote your_branch' (Ex: git pull origin master)
-
-
-<h6><b>========== GITWEB ==========</b></h6>
-Ferramenta Web GUI para gerenciamento do Git local
-<img src="gitweb.png" class="img-fluid rounded" width="300px"><br>
-Instalar (Debian): sudo apt install gitweb
-Iniciar: git instaweb --httpd=webrick
-Parar: git instaweb --httpd=webrick --stop
-
-
-<h6><b>========== GITHUB ==========</b></h6>
-Hub de repositórios web
-<img src="github.png" class="img-fluid rounded" width="300px"><br>
-<b>CLONE:</b> Usar Repositório existente
-<b>PUSH:</b> Enviar alterações (Upload ao servidor)
-<b>FETCH:</b> Busca diferenças do ramo atual, sem alterar o branch
-<b>MERGE:</b> Juntar Branch X ao Branch principal Master (Mesclar, 'Desramificar')
-<b>PULL:</b> Baixar código atualizado (Download do servidor) / atualizar repositório (fetch+merge das diferenças / Usado após um Fetch indicar que houve alterações)
-<b>PULL REQUEST:</b> Também chamado de Merge Request. Pedidos de melhorias(Pulls) de vários programadores. Requisitar atualização do repositório, colocando um fork ao master projeto, por exemplo
-<b>FORK:</b> Clonar o repositório que deseja editar para sua conta no Github, para usá-lo por conta própria
-<b>ISSUE:</b> Comentário informando erro, nova feature ao repositório. Evite issues duplicadas caso sua sugestão/dúvida já esteja presente
-<b>GIST:</b> Compartilhar/salvar pequenos trechos de códigos e textos
-
-<b><u>OUTRAS FERRAMENTAS</u></b>:<br>
-<img src="githubDesktop.png" class="img-fluid rounded" width="300px">
-<b>Github Desktop</b>: <a href="https://github.com/shiftkey/desktop" class="text-decoration-none" target="_blank">Acesse</a><br>
-<img src="githubCLI.png" class="img-fluid rounded" width="300px">
-<b>Github CLI</b>: <a href="https://cli.github.com" class="text-decoration-none" target="_blank">Acesse</a>
-
-<b>BAIXAR/DOWNLOAD DO GITHUB (Clone):</b>
-<b>Via HTTPS (Obsoleto):</b>
-1- No repositório do Github, botão Code, selecionar opção HTTPS e copiar trecho
-2- Bash: git clone httpsCopiado
-<b>Via SSH:</b>
-1- Bash (Criar chave SSH): ssh-keygen -t ed25519 -C "seuEmailGithub@example.com" (Gerará arquivo ed25519.pub)
-2- Bash (Copiar chave SSH): cat ~/.ssh/id_ed25519.pub
-3- Ir nas configurações do Github, nova chave SSH e colar conteúdo (Título qualquer)
-4- No repositório do Github, botão Code, selecionar opção SSH e copiar trecho
-5- Bash: git clone trechoCopiado
-
-<b>ENVIAR/UPLOAD AO GITHUB (Push):</b>
-1- Mover seus arquivos à pasta baixada
-2- Bash: git add .
-3- Bash: git commit -m "descricaoCommit"
-4- Bash: git push
-
-<b>SINCRONIZAR NOVO REPOSITÓRIO LOCAL AO GITHUB:</b>
-1- Criar, no Github, novo repositório em branco
-2- Localmente, criar repositório: git init
-3- No Github, copiar linha SSH de sincronização e vinculá-la ao comando 'git remote'
-3.1- Exemplo: <i>git remote add origin git@github.com:ubsocial/projeto.git</i>
-
-<b>GITHUB EM EQUIPE (Branch, Push,Fetch,Pull):</b>
-<img src="rotinaGithub.png" class="img-fluid rounded" width="300px"><br>
-1- Criar novo branch: git checkout -b nomebranch
-2- Criar arquivos ao novo branch e enviar alterações à Staging Area: git add .
-3- Commit: git commit -m "descricaoCommit"
-4- Importar ao Github <b>(Push)</b>: git push
-5- Github abrirá e solicitará o Pull Request <b>(Pull Request)</b>, informe assunto e descrição, e confirme
-6- Juntar branch com o branch master <b>(Merge)</b>: git merge
-Baixar código atualizado:
-1- Verificar se o projeto local está desatualizado, com relação ao repositório no Github <b>(Fetch)</b>: git fetch
-2- Baixar atualizações do mesmo no Github <b>(Pull)</b>: git pull
-
-<b>Cenário prático: Sem Branch</b>
-2 Pessoas, de mesma equipe, clonam o projeto no Github (git clone ssh...)
-(Os passos abaixo, de cada pessoa, serão repetidos periodicamente)
-(Podem haver casos em que uma dessas pessoas é 'Admin', com função de aceitar, ou não, os Pushes dos demais integrantes ao projeto central no GitHub, sendo também responsável pela solução de problemas e conflitos, caso os mesmos existirem)
-<i>-- Pessoa 1 --</i>
-1. Ligar máquina, acessar projeto local clonado do Github
-2. Verificar se projeto central, no Github, foi atualizado por outra pessoa (git fetch)
-2.1. Se sim, atualizar projeto local para última versão conforme projeto central no Github (git pull)
-3. Trabalhar noCenário prático: Sem Branch
-2 Pessoas, de mesma equipe, clonam o projeto no Github (git clone ssh...)
-(Os passos abaixo, de cada pessoa, serão repetidos periodicamente)
-(Podem haver casos em que uma dessas pessoas é 'Admin', com função de aceitar, ou não, os Pushes dos demais integrantes ao projeto central no GitHub, sendo também responsável pela solução de problemas e conflitos, caso os mesmos existirem)
--- Pessoa 1 --
-1. Ligar máquina, acessar projeto local clonado do Github
-2. Verificar se projeto central, no Github, foi atualizado por outra pessoa (git fetch)
-2.1. Se sim, atualizar projeto local para última versão conforme projeto central no Github (git pull)
-3. Trabalhar no projeto e adicionar alterações à Staging Area (git add .)
-4. Confirmar alterações (git commit -m "descricaoCommit")
-5. Verificar se alterações foram confirmadas (git status)
-6. Subir alterações ao projeto central no Github (git push)
--- Pessoa 2 --
-1. Ligar máquina, acessar projeto local clonado do Github
-2. Verificar se projeto central, no Github, foi atualizado por outra pessoa (git fetch)
-2.1. Se sim (Pessoa 1 fez Push conforme acima), atualizar projeto local para última versão conforme projeto central no Github (git pull)
-3. Trabalhar no projeto e adicionar alterações à Staging Area (git add .)
-4. Confirmar alterações (git commit -m "descricaoCommit")
-5. Verificar se alterações foram confirmadas (git status)
-6. Subir alterações ao projeto central no Github (git push) projeto e adicionar alterações à Staging Area (git add .)
-4. Confirmar alterações (git commit -m "descricaoCommit")
-5. Verificar se alterações foram confirmadas (git status)
-6. Subir alterações ao projeto central no Github (git push)
-<i>-- Pessoa 2 --</i>
-1. Ligar máquina, acessar projeto local clonado do Github
-2. Verificar se projeto central, no Github, foi atualizado por outra pessoa (git fetch)
-2.1. Se sim (Pessoa 1 fez Push conforme acima), atualizar projeto local para última versão conforme projeto central no Github (git pull)
-3. Trabalhar no projeto e adicionar alterações à Staging Area (git add .)
-4. Confirmar alterações (git commit -m "descricaoCommit")
-5. Verificar se alterações foram confirmadas (git status)
-6. Subir alterações ao projeto central no Github (git push)
-
-<b>Cenário prático: Com Branch</b>
-2 Pessoas, de mesma equipe, clonam o projeto no Github (git clone ssh...)
-(Em alguns casos, somente a Pessoa 1, por ser Admin, poderá criar Branches para seus demais integrantes de equipe, sendo também responsável por aceitar ou não os 'Merges', 'Pull Requests' (<b>Review</b>) e solucionar problemas de conflitos, caso os mesmos existirem)
-Pessoa 2 realizará suas funções em outro Branch, à parte, chamado 'design'
-<i>-- Pessoa 1 (Admin) --</i>
-1. Ligar máquina, acessar projeto local clonado do Github
-2. Verificar se projeto central, no Github, foi atualizado por outra pessoa (git fetch)
-2.1. Se sim, atualizar projeto local para última versão conforme projeto central no Github (git pull)
-3. Trabalhar no projeto e adicionar alterações à Staging Area (git add .)
-4. Confirmar alterações (git commit -m "descricaoCommit")
-5. Verificar se alterações foram confirmadas (git status)
-6. Subir alterações ao projeto central no Github (git push)
-<i>-- Pessoa 2 --</i>
-1. Ligar máquina, acessar projeto local clonado do Github
-2. Verificar se projeto central, no Github, foi atualizado por outra pessoa (git fetch)
-2.1. Se sim (Pessoa 1 fez Push conforme acima), atualizar projeto local para última versão conforme projeto central no Github (git pull)
-3. Criar Branch 'design' para seu trabalho (git checkout -b design)
-(A partir de agora, no Branch 'design')
-4. Trabalhar no projeto e adicionar alterações à Staging Area (git add .)
-5. Confirmar alterações (git commit -m "descricaoCommit")
-6. Verificar se alterações foram confirmadas (git status)
-7. Subir alterações ao projeto central no Github, subirá com Branch 'design' (git push)
-<i>-- Pessoa 1 (Admin) --</i>
-1. Ligar máquina, acessar projeto local clonado do Github
-2. Verificar se projeto central, no Github, foi atualizado por outra pessoa (git fetch)
-2.1. Se sim (Pessoa 2 fez novo Branch com Push nele), atualizar projeto local para última versão conforme projeto central no Github (git pull)
-(Pessoa 1 segue no Branch Master)
-3. Trabalhar no projeto e adicionar alterações à Staging Area (git add .)
-4. Confirmar alterações (git commit -m "descricaoCommit")
-5. Verificar se alterações foram confirmadas (git status)
-6. Subir alterações ao projeto central no Github (git push)
-<i>-- Pessoa 2 --</i>
-1. Ligar máquina, acessar projeto local clonado do Github
-2. Verificar se projeto central, no Github, foi atualizado por outra pessoa (git fetch)
-2.1. Se sim, atualizar projeto local para última versão conforme projeto central no Github (git pull)
-3. Acessar Branch 'design' (git checkout design)
-4. Trabalhar no projeto e adicionar alterações à Staging Area (git add .)
-5. Confirmar alterações (git commit -m "descricaoCommit")
-6. Verificar se alterações foram confirmadas (git status)
-7. Subir alterações ao projeto central no Github, subirá com Branch 'design' (git push)
-8. Voltar ao Branch Master (git checkout master)
-9. Fazer Merge do Branch 'design' ao Master (git merge design)
-10. Verificar se tudo ocorre como esperado (git status)
-<i>-- Pessoa 1 (Admin) --</i>
-1. Ligar máquina, acessar projeto local clonado do Github
-2. Verificar se projeto central, no Github, foi atualizado por outra pessoa (git fetch)
-2.1. Se sim (Pessoa 2 atualizou Branch 'design' e fez merge ao Master), atualizar projeto local para última versão conforme projeto central no Github (git pull)
-(Em alguns casos, conforme acima, o admin terá de aceitar ou recusar o merge de outro integrante)
-3. Trabalhar no projeto e adicionar alterações à Staging Area (git add .)
-4. Confirmar alterações (git commit -m "descricaoCommit")
-5. Verificar se alterações foram confirmadas (git status)
-6. Subir alterações ao projeto central no Github (git push)
-
-
-<h6><b>========== Problemas e soluções ==========</b></h6>
-1- Há conflito de salvamento de nova versão somente quando 2 ou mais usuários modificarem o mesmo conteúdo, de um mesmo arquivo, simultaneamente e tentarem, juntos, fazer Push
-Solução: Git pedirá para usuário responsável escolher qual modificação será salva, e qual será descartada
-Prevenção: Organizar equipe para trabalhar simultaneamente em partes separadas do projeto (Uma pasta do projeto para cada usuário, …), utilizando, em conjunto disso, branches, onde cada usuário é responsável por sua parte do projeto, juntamente com seu branch.
-
-2- Projetos locais desatualizados com relação ao servidor
-Prevenção: Sempre, ao abrir o projeto local, primeiro executar fetch para verificar se o mesmo está desatualizado com relação ao servidor. Se sim, atualizá-lo com Pull, para então, após isso, começar a trabalhar/modificar o projeto localmente. No final do expediente, fazer Push com as modificações do dia, mantendo o projeto no servidor também sempre atualizado (Em síntese, manter o projeto local sempre atualizado com o projeto no servidor).
-
-
-<h6><b>========== COLABORAÇÃO GITHUB ==========</b></h6>
-a) Maioria dos projetos possuem arquivo "contributing.md", que especifica as regras de contribuição e principais necessidades do projeto
-b) É importante, além da descida (Clone/Pull) e subida (Push/Pull Request) do novo código, manter um documento detalhado de todo seu trabalho nessas aventuras
-c) A fachada de entrada dos projetos é o arquivo "readme.md", portanto capriche na sua edição:
-1º Descrição detalhada do projeto / funcionalidades / telas do projeto
-2º Diário de bordo (data e descrição em tópicos ao longo do seu trabalho/dificuldades/futuros trabalhos)
-
-1- Copiar url do projeto que quero editar, fazer fork dele, no botão fork <b>(Fork)</b>
-2- Clonar o projeto para a máquina local, copiando o ssh: git clone meusssh nomepastaarmazenamento
-3- Editar arquivos e após:
-Bash: git add .
-Bash: git commit -m "descricaoCommit"
-Bash: git push origin master
-4- Enviar ao autor: tela do projeto, clicar no Pull Request, new Pull Request, create Pull Request <b>(Pull Request)</b>
-5- Autor receberá um pull request do projeto para analisar, se aceitar é só clicar no Merge Pull Request
-
-
-<h6><b>========== RESUMO DE COMANDOS GIT ==========</b></h6>
-<img src="git_commands.jpg" class="img-fluid rounded" width="400px"><br>
 </code></pre></small>
+
+            <br><hr><h4>Laboratórios práticos (único usuário):</h4>
+            <ol>
+                <li>Fluxo de trabalho (sem branch, sem merge):
+<small><pre><code>
+# Verificar se há atualizações no repositório
+git fetch
+
+# Baixar atualizações no repositório local
+git pull
+
+# Trabalhar no projeto
+
+# Adicionar arquivos ao Git
+git add .
+
+# Confirmar nova versão no Git
+git commit -m "mensagem do commit"
+
+# Enviar alterações ao GitHub
+git push
+</code></pre></small>
+                </li>
+                <li>Fluxo de trabalho (com branch, sem merge):
+<small><pre><code>
+# Garantir que está no branch master
+git checkout master
+
+# Verificar se há atualizações no repositório remoto
+git fetch
+
+# Baixar atualizações no branch master local
+git pull
+
+# Trabalhar no projeto no branch master
+
+# Adicionar arquivos ao Git (master)
+git add .
+
+# Confirmar nova versão no branch master
+git commit -m "mensagem do commit no master"
+
+# Enviar alterações do branch master ao GitHub
+git push origin master
+
+# Criar e mudar para novo branch a partir do master
+git checkout -b nome-do-branch
+
+# (opcional) Verificar se há atualizações no repositório remoto
+git fetch
+# (opcional) Baixar atualizações no novo branch local
+git pull
+
+# Trabalhar no projeto no novo branch
+
+# Adicionar arquivos ao Git (novo branch)
+git add .
+
+# Confirmar nova versão no novo branch
+git commit -m "mensagem do commit no novo branch"
+
+# Enviar novo branch ao GitHub
+git push origin nome-do-branch
+</code></pre></small>
+                </li>
+                <li>Fluxo de trabalho (com branch, com merge):
+<small><pre><code>
+AQUI...
+</code></pre></small>
+                </li>
+            </ol>
+
+            <br><h4>Laboratórios práticos (múltiplos usuários):</h4>
+            <ol>
+                <li>Fluxo de trabalho (sem branch, sem merge):
+<small><pre><code>
+# _____ USUÁRIO 1 _____
+# Verificar se há atualizações no repositório
+git fetch
+
+# Baixar atualizações no repositório local
+git pull
+
+# Trabalhar no projeto
+
+# Adicionar arquivos ao Git
+git add .
+
+# Confirmar nova versão no Git
+git commit -m "mensagem do commit do usuário 1"
+
+# Enviar alterações ao GitHub
+git push
+
+# _____ USUÁRIO 2 _____
+# Verificar se há atualizações no repositório
+git fetch
+
+# Baixar atualizações no repositório local
+git pull
+
+# Trabalhar no projeto
+
+# Adicionar arquivos ao Git
+git add .
+
+# Confirmar nova versão no Git
+git commit -m "mensagem do commit do usuário 2"
+
+# Enviar alterações ao GitHub
+git push
+</code></pre></small>
+                </li>
+                <li>Fluxo de trabalho (com branch, sem merge):
+<small><pre><code>
+# _____ USUÁRIO 1 (branch master) _____
+# Garantir que está no branch master
+git checkout master
+
+# Verificar se há atualizações no repositório remoto
+git fetch
+
+# Baixar atualizações no branch master local
+git pull
+
+# Trabalhar no projeto (branch master)
+
+# Adicionar arquivos ao Git
+git add .
+
+# Confirmar nova versão no Git (master)
+git commit -m "commit do usuário 1 no branch master"
+
+# Enviar alterações do branch master ao GitHub
+git push
+
+# _____ USUÁRIO 2 (branch design) _____
+# Garantir que está no branch master
+git checkout master
+
+# Verificar se há atualizações no repositório remoto
+git fetch
+
+# Baixar atualizações no branch master local
+git pull
+
+# Criar e mudar para branch design
+git checkout -b design
+
+# Trabalhar no projeto (branch design)
+
+# Adicionar arquivos ao Git
+git add .
+
+# Confirmar nova versão no Git (design)
+git commit -m "commit do usuário 2 no branch design"
+
+# Enviar o branch design ao GitHub
+git push origin design
+
+# _____ USUÁRIO 1 (branch master) _____
+# Garantir que está no branch master
+git checkout master
+
+# Verificar se há atualizações no repositório remoto
+git fetch
+
+# Baixar atualizações no branch master (não recebe design, pois não houve merge)
+git pull
+
+# Trabalhar novamente no projeto (branch master)
+
+# Adicionar arquivos ao Git
+git add .
+
+# Confirmar nova versão no Git (master)
+git commit -m "novo commit do usuário 1 no branch master"
+
+# Enviar alterações do branch master ao GitHub
+git push
+
+
+# _____ USUÁRIO 2 (branch design) _____
+# Garantir que está no branch design
+git checkout design
+
+# Verificar se há atualizações no repositório remoto
+git fetch
+
+# Baixar atualizações no branch design
+git pull
+
+# Trabalhar novamente no projeto (branch design)
+
+# Adicionar arquivos ao Git
+git add .
+
+# Confirmar nova versão no Git (design)
+git commit -m "novo commit do usuário 2 no branch design"
+
+# Enviar novas alterações do branch design ao GitHub
+git push
+</code></pre></small>
+                </li>
+                <li>Fluxo de trabalho (com branch, com merge):
+<small><pre><code>
+# _____ USUÁRIO 1 (branch master) _____
+# Garantir que está no branch master
+git checkout master
+
+# Verificar se há atualizações no repositório remoto
+git fetch
+
+# Baixar atualizações no branch master local
+git pull
+
+# Trabalhar no projeto (branch master)
+
+# Adicionar arquivos ao Git
+git add .
+
+# Confirmar nova versão no Git (master)
+git commit -m "commit do usuário 1 no branch master"
+
+# Enviar alterações do branch master ao GitHub
+git push
+
+
+# _____ USUÁRIO 2 (branch design) _____
+# Garantir que está no branch master (base atualizada)
+git checkout master
+
+# Verificar se há atualizações no repositório remoto
+git fetch
+
+# Baixar atualizações no branch master local
+git pull
+
+# Criar e mudar para o branch design
+git checkout -b design
+
+# Trabalhar no projeto (branch design)
+
+# Adicionar arquivos ao Git
+git add .
+
+# Confirmar nova versão no Git (design)
+git commit -m "commit do usuário 2 no branch design"
+
+# Enviar branch design ao GitHub
+git push origin design
+
+# _____ USUÁRIO 1 (branch master) _____
+# Garantir que está no branch master
+git checkout master
+
+# Verificar se há atualizações no repositório remoto
+git fetch
+
+# Baixar atualizações no branch master
+git pull
+
+# Trabalhar novamente no projeto (branch master)
+
+# Adicionar arquivos ao Git
+git add .
+
+# Confirmar nova versão no Git (master)
+git commit -m "novo commit do usuário 1 no branch master"
+
+# Enviar alterações do branch master ao GitHub
+git push
+
+
+# _____ USUÁRIO 2 (branch design) _____
+# Garantir que está no branch master
+git checkout master
+
+# Verificar se há atualizações no repositório remoto
+git fetch
+
+# Baixar atualizações no branch master
+git pull
+
+# Fazer merge do branch design no master
+git merge design
+
+# Enviar master atualizado (com merge) ao GitHub
+git push
+
+
+# _____ USUÁRIO 1 (branch master) _____
+# Garantir que está no branch master
+git checkout master
+
+# Verificar se há atualizações no repositório remoto
+git fetch
+
+# Baixar atualizações (agora contém merge do design)
+git pull
+
+# Continuar trabalhando no branch master
+
+# Adicionar arquivos ao Git
+git add .
+
+# Confirmar nova versão no Git
+git commit -m "continuação do trabalho do usuário 1 no master"
+
+# Enviar alterações ao GitHub
+git push
+
+
+# _____ USUÁRIO 2 (branch design) _____
+# Garantir que está no branch master
+git checkout master
+
+# Verificar se há atualizações no repositório remoto
+git fetch
+
+# Baixar atualizações no branch master
+git pull
+
+# (opcional) remover branch design local, pois já foi integrado
+git branch -d design
+
+# (opcional) remover branch design remoto
+git push origin --delete design
+
+# Continuar trabalhando normalmente no branch master
+
+# Adicionar arquivos ao Git
+git add .
+
+# Confirmar nova versão no Git
+git commit -m "continuação do trabalho do usuário 2 no master"
+
+# Enviar alterações ao GitHub
+git push
+</code></pre></small>
+                </li>
+                <li>Fluxo de trabalho (com branch, com pull request):
+<small><pre><code>
+AQUI...
+</code></pre></small>
+                </li>
+            </ol>
         </div>
     </div>
 
