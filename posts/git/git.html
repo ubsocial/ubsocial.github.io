@@ -67,7 +67,7 @@
             </ol>
 
             <br><h4>Comandos Git:</h4>
-            <img src="estrutura_git.png" class="img-fluid rounded mb-3" width="330px">
+            <img src="estrutura.png" class="img-fluid rounded mb-3" width="330px">
 <small><pre><code>
 - Criar repositório local: git init nomeRepositorio
 - Baixar repositório do GitHub:
@@ -79,10 +79,11 @@
 - Enviar ao GitHub: git push
 
 - Ver status do repositório: git status
-- Listar commits: git log
+- Ver diferenças no último commit: git show
+- Listar commits: git log (--stat para estatísticas)
 
 - Atualizar repositório local com alterações do GitHub:
--- Verificar atualizações: git fetch
+-- Verificar atualizações (sicronizar): git fetch
 -- Atualizar repositório local: git pull
 </code></pre></small>
 
@@ -96,15 +97,16 @@
 </code></pre></small>
 
             <br><h4>Branch:</h4>
-            <p id="textoPost">Implementar repositório para trabalhos paralelos. Exemplo, designers usam branch design para trabalhar em paralelo com desenvolvedores no branch master (master/main é branch padrão).</p>
+            <p id="textoPost">Implementar repositório para trabalhos paralelos. Exemplo, designers usam branch design para trabalhar em paralelo com desenvolvedores no branch main (master/main é branch padrão).</p>
             <img src="branch.png" class="img-fluid rounded mb-3" width="250px">
 <small><pre><code>
 - Criar e selecionar branch: git checkout -b nomeBranch (remover -b para só mudar de branch)
+- Criar e selecionar branch (moderno): git switch -c nomeBranch (remover -c para só mudar de branch)
 - Voltar ao branch master: git checkout master
-- Listar branches: git branch
+- Listar branches: git branch (-a para todos)
 - Deletar branch: git branch -d nomeBranch
 - Enviar branch ao GitHub: git push origin nomeBranch
-- Unir branches: git merge nomeBranchParaUnir (encerrará branch nomeBranchParaUnir, e branch atual será destino)
+- Unir branches: git merge nomeBranchParaUnir
 </code></pre></small>
 
             <br><h4>Conflitos de merge:</h4>
@@ -116,48 +118,26 @@
             <br><h4>Contribuição no GitHub:</h4>
             <p id="textoPost">Pode-se clonar repositório no GitHub de outro autor, e usá-lo por conta própria (fork). Issues são comentários de usuários em repositórios. Pull requests são solicitações de alterações em repositórios de outros autores. Se autor aceitar solicitação, fará merge pull request, unindo alterações ao repositório original. Gist é serviço para compartilhamento/salvar trechos de conteúdos. Arquivo 'contributing.md' possui instruções para contribuir no repositório. Arquivo 'readme.md' possui informações sobre repositório. Arquivo oculto '.gitignore' possui lista de arquivos e pastas ignoradas pelo Git, para evitar que sejam versionadas.</p>
 
-            <br><h4>Outros comandos (<span class="text-warning">EM CONSTRUÇÃO</span>):</h4>
+            <br><h4>Outros comandos:</h4>
 <small><pre><code>
-CONECTAR REPOSITÓRIO LOCAL AO GITHUB
-- git remote add origin &lt;url_ssh_repositorio&gt;
+- Conectar repositório local ao GitHub pela 1ª vez:
+-- Criar repositório no GitHub
+-- Vincular repositório local ao remoto: git remote add origin &lt;url_ssh_repositorio&gt;
 
-git log
+- Editar commit atual: git commit --amend -m "novaDescricaoCommit"
+- Remover da staging area: git restore --staged nomeArquivo
+- Remover arquivos do repositório, que foram deletados: git rm nomeArquivo
+- Reverter alterações de arquivo sem commit, nem add: git restore nomeArquivo
+- Reverter commit: git revert idCommit
+- Voltar commit anterior, sem desfazer alterações de conteúdo: git reset --soft idCommit
 
-
-Edições:
-Editar commit atual: git commit --amend -m "novaDescricaoCommit"
-Remover da staging area: git reset HEAD nomeArquivo
-Remover arquivos do repositório, que foram deletados: git rm nomeArquivo
-Reverter alterações de arquivo sem commit, nem add: git checkout HEAD nomeArquivo
-Reverter commit: git revert idCommit
-Voltar commit anterior, sem desfazer alterações de conteúdo: git reset idCommit
-
-
-restore: Desfazer alterações em arquivo (antes de adicionar à Staging Area)
-- git restore nomeArquivo
-- git checkout -- nomeArquivo (versão antiga, antes do restore)
-
-COMANDOS DE DIFERENÇAS - diff
 - Ver diferenças entre branches: git diff nomeBranchOrigem nomeBranchAlvo
-- Ver diferenças entre commits: git diff idCommitOrigem idCommitAlvo
+- Ver diferenças entre commits: git diff idCommitAntigo idCommitNovo
 - Ver diferenças entre arquivos: git diff nomeArquivo (diff --staged para arquivos em staging area)
 
-COMANDOS DE REVERT - desfazer alterações
-- Reverter commit: git revert idCommit
-- Voltar commit anterior, sem desfazer alterações de conteúdo: git reset idCommit
-
-COMANDOS DE REBASE - reorganizar histórico de commits
-<b>REBASE:</b> Passar todos commits, ordenadamente, do branch x no final/atual do master (encerra branch x)
-Regit rebase move commits de uma branch para “cima” de outra, sobrescrevendo/reescrevendo o histórico
-merge preserva o histórico real, rebase organiza o histórico
-git rebase branchAntigo
-git rebase --abord (abordar rebase)
-
-<b>SUBMODULE:</b> Repositório dentro de outro repositório (Ponteiro para outro repositório real)
-Adicionar submodule: git submodule add &lt;url-repositorio&gt; diretorio-destino
-Iniciar submodule: git submodule init
-Atualizar submodule (Carregar configurações necessárias): git submodule update
-Atualizar dependência: Acessar diretório do submodule e, após isso, executar 'git pull remote your_branch' (Ex: git pull origin master)
+Rebase: reaplica/sobrescreve commits de branch sobre outro, reorganizando histórico de commits para que fique linear. Merge preserva histórico, criando commit de junção, rebase reorganiza histórico, deixando linear e mais legível.
+- Sobrescrever commits do branch atual sob outro: git rebase nomeBranch
+- Cancelar rebase: git rebase --abort (--continue para continuar rebase após resolver conflito)
 </code></pre></small>
 
             <br><hr><h4>Laboratórios práticos (único usuário):</h4>
