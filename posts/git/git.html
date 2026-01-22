@@ -42,7 +42,8 @@
         <div class="col-sm-12">
             <h4>Material complementar:</h4>
             <ul>
-                <li>Conteúdo no YouTube: <a href="https://youtu.be/anOc7LLQnDQ?si=AUGvyXccF7av_vMt" target="_blank" class="text-decoration-none">Acesse</a></li>
+                <li>Conteúdo no YouTube (antigo): <a href="https://youtu.be/anOc7LLQnDQ?si=AUGvyXccF7av_vMt" target="_blank" class="text-decoration-none">Acesse</a></li>
+                <li>Conteúdo no YouTube (atualizado): <a href="https://youtube.com/playlist?list=PLnPZ9TE1Tj4CMu3VyV90IB39MwUQMi0yk&si=Pmh91MISASpC0TNQ" target="_blank" class="text-decoration-none">Acesse</a></li>
                 <li>Curso gratuito com certificado na Udemy (Git e Github, teoria e prática: Curso rápido): <a href="https://www.udemy.com/course/git-e-github-teoria-e-pratica-curso-rapido" target="_blank" class="text-decoration-none">Acesse</a></li>
             </ul>
 
@@ -145,7 +146,7 @@ Rebase: reaplica/sobrescreve commits de branch sobre outro, reorganizando histó
             <ol>
                 <li>Fluxo de trabalho (sem branch, sem merge):
 <small><pre><code>
-# Verificar se há atualizações no repositório
+# Verificar atualizações no repositório
 git fetch
 
 # Baixar atualizações no repositório local
@@ -168,7 +169,7 @@ git push
 # Garantir que está no branch master
 git checkout master
 
-# Verificar se há atualizações no repositório remoto
+# Verificar atualizações no repositório remoto
 git fetch
 
 # Baixar atualizações no branch master local
@@ -188,7 +189,7 @@ git push origin master
 # Criar e mudar para novo branch a partir do master
 git checkout -b nome-do-branch
 
-# (opcional) Verificar se há atualizações no repositório remoto
+# (opcional) Verificar atualizações no repositório remoto
 git fetch
 # (opcional) Baixar atualizações no novo branch local
 git pull
@@ -207,7 +208,55 @@ git push origin nome-do-branch
                 </li>
                 <li>Fluxo de trabalho (com branch, com merge):
 <small><pre><code>
-AQUI...
+# Garantir que está no branch master
+git checkout master
+
+# Verificar atualizações no repositório remoto
+git fetch
+
+# Baixar atualizações no branch master local
+git pull origin master
+
+# Criar e mudar para novo branch a partir do master
+git checkout -b nome-do-branch
+
+# (opcional) Verificar atualizações no repositório remoto
+git fetch
+
+# (opcional) Baixar atualizações no novo branch local
+git pull origin nome-do-branch
+
+# Trabalhar no projeto no novo branch
+
+# Adicionar arquivos ao Git (novo branch)
+git add .
+
+# Confirmar nova versão no novo branch
+git commit -m "mensagem do commit no novo branch"
+
+# Enviar novo branch ao GitHub
+git push origin nome-do-branch
+
+# Voltar para o branch master
+git checkout master
+
+# (opcional) Verificar atualizações no repositório remoto
+git fetch
+
+# (opcional) Baixar atualizações no branch master local
+git pull origin master
+
+# Fazer merge do novo branch no master
+git merge nome-do-branch
+
+# Enviar master atualizado ao GitHub
+git push origin master
+
+# (opcional) Excluir branch local após merge
+git branch -d nome-do-branch
+
+# (opcional) Excluir branch remoto após merge
+git push origin --delete nome-do-branch
 </code></pre></small>
                 </li>
             </ol>
@@ -217,7 +266,7 @@ AQUI...
                 <li>Fluxo de trabalho (sem branch, sem merge):
 <small><pre><code>
 # _____ USUÁRIO 1 _____
-# Verificar se há atualizações no repositório
+# Verificar atualizações no repositório
 git fetch
 
 # Baixar atualizações no repositório local
@@ -235,7 +284,7 @@ git commit -m "mensagem do commit do usuário 1"
 git push
 
 # _____ USUÁRIO 2 _____
-# Verificar se há atualizações no repositório
+# Verificar atualizações no repositório
 git fetch
 
 # Baixar atualizações no repositório local
@@ -259,7 +308,7 @@ git push
 # Garantir que está no branch master
 git checkout master
 
-# Verificar se há atualizações no repositório remoto
+# Verificar atualizações no repositório remoto
 git fetch
 
 # Baixar atualizações no branch master local
@@ -280,7 +329,7 @@ git push
 # Garantir que está no branch master
 git checkout master
 
-# Verificar se há atualizações no repositório remoto
+# Verificar atualizações no repositório remoto
 git fetch
 
 # Baixar atualizações no branch master local
@@ -304,7 +353,7 @@ git push origin design
 # Garantir que está no branch master
 git checkout master
 
-# Verificar se há atualizações no repositório remoto
+# Verificar atualizações no repositório remoto
 git fetch
 
 # Baixar atualizações no branch master (não recebe design, pois não houve merge)
@@ -326,7 +375,7 @@ git push
 # Garantir que está no branch design
 git checkout design
 
-# Verificar se há atualizações no repositório remoto
+# Verificar atualizações no repositório remoto
 git fetch
 
 # Baixar atualizações no branch design
@@ -350,7 +399,7 @@ git push
 # Garantir que está no branch master
 git checkout master
 
-# Verificar se há atualizações no repositório remoto
+# Verificar atualizações no repositório remoto
 git fetch
 
 # Baixar atualizações no branch master local
@@ -372,7 +421,7 @@ git push
 # Garantir que está no branch master (base atualizada)
 git checkout master
 
-# Verificar se há atualizações no repositório remoto
+# Verificar atualizações no repositório remoto
 git fetch
 
 # Baixar atualizações no branch master local
@@ -396,7 +445,7 @@ git push origin design
 # Garantir que está no branch master
 git checkout master
 
-# Verificar se há atualizações no repositório remoto
+# Verificar atualizações no repositório remoto
 git fetch
 
 # Baixar atualizações no branch master
@@ -418,7 +467,7 @@ git push
 # Garantir que está no branch master
 git checkout master
 
-# Verificar se há atualizações no repositório remoto
+# Verificar atualizações no repositório remoto
 git fetch
 
 # Baixar atualizações no branch master
@@ -435,7 +484,7 @@ git push
 # Garantir que está no branch master
 git checkout master
 
-# Verificar se há atualizações no repositório remoto
+# Verificar atualizações no repositório remoto
 git fetch
 
 # Baixar atualizações (agora contém merge do design)
@@ -457,7 +506,7 @@ git push
 # Garantir que está no branch master
 git checkout master
 
-# Verificar se há atualizações no repositório remoto
+# Verificar atualizações no repositório remoto
 git fetch
 
 # Baixar atualizações no branch master
@@ -483,7 +532,117 @@ git push
                 </li>
                 <li>Fluxo de trabalho (com branch, com pull request):
 <small><pre><code>
-AQUI...
+# _____ USUÁRIO 1 (branch master) _____
+# Garantir que está no branch master
+git checkout master
+
+# Verificar atualizações no repositório remoto
+git fetch
+
+# Baixar atualizações no branch master local
+git pull
+
+# Trabalhar no projeto (branch master)
+
+# Adicionar arquivos ao Git
+git add .
+
+# Confirmar nova versão no Git (master)
+git commit -m "commit do usuário 1 no branch master"
+
+# Enviar alterações do branch master ao GitHub
+git push
+
+
+# _____ USUÁRIO 2 (branch design) _____
+# Garantir que está no branch master (base atualizada)
+git checkout master
+
+# Verificar atualizações no repositório remoto
+git fetch
+
+# Baixar atualizações no branch master local
+git pull
+
+# Criar e mudar para branch design
+git checkout -b design
+
+# Trabalhar no projeto (branch design)
+
+# Adicionar arquivos ao Git
+git add .
+
+# Confirmar nova versão no Git (design)
+git commit -m "commit do usuário 2 no branch design"
+
+# Enviar branch design ao GitHub
+git push origin design
+
+
+# _____ USUÁRIO 2 (branch design) _____
+# Criar Pull Request no GitHub:
+# - Abrir repositório no GitHub
+# - Criar Pull Request: base: master, compare: design
+# - Descrever mudanças
+# - Confirmar Pull Request
+
+
+# _____ USUÁRIO 1 (branch master) _____
+# Revisar e fazer merfe do Pull Request no GitHub:
+# - Usuário 1 revisa Pull Request
+# - Resolve comentários, se houver
+# - Clica em "Merge Pull Request"
+# - Confirma merge no branch master
+
+
+# _____ USUÁRIO 1 (branch master) _____
+# Garantir que está no branch master
+git checkout master
+
+# Verificar atualizações no repositório remoto
+git fetch
+
+# Baixar atualizações (agora contém merge do Pull Request)
+git pull
+
+# Continuar trabalhando no branch master
+
+# Adicionar arquivos ao Git
+git add .
+
+# Confirmar nova versão no Git
+git commit -m "continuação do trabalho do usuário 1 no master"
+
+# Enviar alterações ao GitHub
+git push
+
+
+# _____ USUÁRIO 2 (branch design) _____
+# Garantir que está no branch master
+git checkout master
+
+# Verificar atualizações no repositório remoto
+git fetch
+
+# Baixar atualizações (master agora contém código do antigo branch design)
+git pull
+
+# (opcional) remover branch design local
+git branch -d design
+
+# (opcional) remover branch design remoto
+git push origin --delete design
+
+# Continuar trabalhando normalmente no branch master
+
+# Adicionar arquivos ao Git
+git add .
+
+# Confirmar nova versão no Git
+git commit -m "continuação do trabalho do usuário 2 no master"
+
+# Enviar alterações ao GitHub
+git push
 </code></pre></small>
                 </li>
             </ol>
