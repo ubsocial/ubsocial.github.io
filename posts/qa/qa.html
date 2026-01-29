@@ -887,8 +887,683 @@ Perfil responsável - novos cenários de permissão
                 </li>
             </ul>
 
-            <br><h4>Design de Testes:</h4>
-            <p>AQUI...</p>
+            <br><h4>Test Case Design:</h4>
+            <p id="textoPost">Técnicas para organizar, estrategicamente, informações dos testes.</p>
+            <ul>
+                <li>Funcional (caixa-preta): testes que irão verificar se comportamento do software está conforme esperado. Não são verificados códigos ou arquiteturas;</li>
+                <li>Estrutural (caixa-branca): testes que verificam códigos e/ou arquitetura do software, sendo diretamente ligados ao código;</li>
+                <li>Não-funcional: testes relacionados aos comportamentos agregados as funcionalidades, não as funcionalidades propriamente ditas, como testes de performance, segurança, usabilidade e quaisquer outros que envolvam comportamentos gerados de funcionalidade ou sistema como todo;</li>
+                <li>Orientados a mudança: testes realizados após comportamentos inesperados ou indesejados das funcionalidades testadas. Para casos pós falha, são aplicados testes de confirmação, para verificar se mesma ainda ocorre ou foi corrigida, como revisão de bugs corrigidos. Casos onde 1º resultado passou, são realizados testes de regressão quando há alteração de outras funcionalidades que podem gerar bugs de efeito colateral.</li>
+            </ul>
+            <ul>
+                <li>Validação: verifica conformidade do software de acordo com exigências de qualidade do cliente. sendo realizados testes caixa-preta aplicados por profissionais que não desenvolveram o software;</li>
+                <li>Verificação: verifica conformidade da implementação do software afim de garantir que a mesma está correta. São utilizados testes caixa-branca, mais comumente aplicados pelos próprios desenvolvedores, com auxilio de ferramentas.</li>
+            </ul>
+
+            <p id="textoPost">(Etapa 1) Análise e elicitação de requisitos visa coletar e analisar requisitos de software para verificar alinhamento com objetivos de negócios e necessidades técnicas. Compõe das seguintes etapas:</p>
+            <ol>
+                <li>Revisão dos requisitos funcionais e não funcionais;</li>
+                <li>Priorização de áreas de alto risco e funcionalidades críticas;</li>
+                <li>Mapeamento das condições de teste com objetivos do projeto para garantir cobertura completa.</li>
+            </ol>
+<small><pre><code>
+Produto: Sistema Web de Pedidos para Cafeteria
+Objetivo de negócio: permitir que clientes realizem pedidos online e que cafeteria gerencie pedidos de forma eficiente.
+
+Stakeholders:
+Product Owner (PO)
+Desenvolvedores
+QA Analyst
+
+1. Revisão dos Requisitos Funcionais e Não Funcionais:
+
+Requisitos Funcionais (RF):
+RF01: cliente deve conseguir realizar pedido selecionando produtos do cardápio.
+RF02: sistema deve calcular automaticamente valor total do pedido.
+RF03: atendente deve visualizar pedidos em tempo real.
+RF04: cliente deve receber confirmação do pedido.
+
+Requisitos Não Funcionais (RNF):
+RNF01: sistema deve responder em até 2 segundos para ações principais.
+RNF02: sistema deve estar disponível 99% do tempo.
+RNF03: sistema deve funcionar nos navegadores Chrome e Firefox.
+
+Atuação prática do QA: QA analisa requisitos e levanta pontos como:
+RF01 não define: Quantidade máxima de itens? É permitido pedido vazio?
+RF02: Como tratar valores decimais? Regras de arredondamento?
+RF04: Confirmação via tela? E-mail? Ambos?
+
+2. Priorização de Áreas de Alto Risco e Funcionalidades Críticas
+
+Funcionalidade - Impacto no Negócio - Probabilidade de Falha - Risco
+Realizar pedido - Alto - Alto - Alto
+Cálculo de valores - Alto - Médio - Alto
+Visualização pelo atendente - Médio - Médio - Médio
+Confirmação do pedido - Médio - Baixo - Baixo
+
+Testes mais profundos e antecipados em:
+Fluxo de criação de pedido
+Cálculo de preço
+Automatizar testes do cálculo do pedido
+Executar testes exploratórios no fluxo principal
+
+3. Mapeamento das Condições de Teste com os Objetivos do Projeto
+Objetivo de Negócio: Permitir que clientes realizem pedidos online sem erros e com rapidez.
+
+Condições de Teste Criadas pelo QA:
+Objetivo do Projeto - Requisito - Condição de Teste
+Pedido sem falhas - RF01 - Validar criação de pedido com itens válidos
+Pedido sem falhas - RF01 - Validar bloqueio de pedido sem itens
+Valor correto - RF02 - Validar soma correta com múltiplos produtos
+Valor correto - RF02 - Validar arredondamento de valores
+Rapidez - RNF01 - Validar resposta em até 2s
+Compatibilidade - RNF03 - Validar fluxo completo no Chrome e Firefox
+
+Resultado Gerado pelo QA (Entregáveis Reais):
+Checklist de requisitos validados
+Lista de dúvidas e gaps de requisitos
+Mapa de risco por funcionalidade
+Condições de teste ligadas aos objetivos de negócio
+Base sólida para criação dos casos de teste
+</code></pre></small>
+
+            <p id="textoPost">(Etapa 2) Identificação do Test Scenario ocorre após requisitos definidos com precisão, onde testers dividem aplicação em modelos lógicos. Compõe das seguintes fases:</p>
+            <ol>
+                <li>Identificar interações e fluxos de trabalho do usuário;</li>
+                <li>Verificar condições de entrada válidas e inválidas;</li>
+                <li>Avaliar pontos de integração com APIs, bancos de dados e sistemas externos.</li>
+            </ol>
+<small><pre><code>
+Contexto do Projeto - Sistema web de pedidos para uma cafeteria, composto por:
+Frontend web
+Backend com API REST
+Banco de dados relacional
+Serviço externo de notificação de pedidos
+
+Objetivo do QA nesta etapa: Identificar cenários de teste macro, antes de detalhar casos de teste.
+
+1. Identificação das Interações e Fluxos de Trabalho do Usuário:
+
+Fluxo principal (happy path):
+Usuário acessa sistema
+Usuário visualiza cardápio
+Usuário adiciona produtos ao pedido
+Usuário altera quantidades
+Usuário visualiza valor total atualizado
+Usuário finaliza pedido
+Sistema exibe confirmação do pedido
+
+Fluxos alternativos:
+Usuário remove item do pedido
+Usuário tenta finalizar pedido sem itens
+Usuário abandona pedido antes da finalização
+Usuário tenta adicionar produto indisponível
+
+2. Definição dos Test Scenarios Baseados nos Fluxos:
+
+Test Scenarios de Usuário:
+Criar pedido com um item válido
+Criar pedido com múltiplos itens válidos
+Atualizar quantidade de item no pedido
+Remover item do pedido antes da finalização
+Tentar finalizar pedido sem itens
+Cancelar pedido durante o fluxo
+
+Esses cenários representam modelos lógicos da aplicação, não casos de teste ainda.
+
+3. Verificação das Condições de Entrada:
+
+Condições de Entrada Válidas:
+Produto existente no cardápio
+Quantidade maior que zero
+Sessão de usuário ativa
+API respondendo com status de sucesso
+Dados enviados no formato esperado
+
+Condições de Entrada Inválidas:
+Produto inexistente
+Quantidade zero ou negativa
+Finalização de pedido sem itens
+Payload com dados inválidos
+Sessão expirada
+
+4. Avaliação dos Pontos de Integração:
+
+Integração com APIs:
+Frontend (API de produtos)
+Frontend (API de pedidos)
+Validação de códigos HTTP
+Validação de mensagens de erro retornadas
+
+Integração com Banco de Dados:
+Persistência correta do pedido após finalização
+Registro correto dos itens e valores
+Consistência entre pedido e itens
+Rollback em caso de erro durante a gravação
+
+Integração com Sistemas Externos:
+Envio de confirmação do pedido
+Comportamento do sistema em caso de falha do serviço externo
+Garantia de não duplicação de pedidos
+
+5. Resultado Final do Trabalho do QA:
+
+Ao final da identificação de test scenarios, QA entrega:
+Lista estruturada de test scenarios
+Mapeamento de fluxos críticos
+Identificação clara de entradas válidas e inválidas
+Pontos de integração mapeados
+Base sólida para criação de casos de teste manuais e automatizados
+</code></pre></small>
+
+            <p id="textoPost">(Etapa 2b / 3) Test Plan é documento de planejamento dos testes, com descrição das atividades e necessidades para realização dos mesmos. Etapas para construção de Test Plan:</p>
+            <ol>
+                <li>Estude requisitos do software, elabore introdução do planejamento com escopo do que será realizado;</li>
+                <li>Conforme requisitos, definida tipos de testes e estratégias que precisarão ser aplicadas, e estágios e/ou ciclos de testes;</li>
+                <li>Identifique recursos tecnológicos necessários para aplicação dos testes, como ambiente, tecnologias, softwares e dispositivos que serão utilizados para realização dos testes;</li>
+                <li>Identifique recursos humanos necessários para realização dos testes, quantos analistos, quantos testes, etc;</li>
+                <li>Crie cronograma das atividades e execuções de testes, considerando que, além do planejado, poderão haver bugs que demandarão tempo para investigação e produção, reportação, e revisão das correções aplicadas;</li>
+                <li>Identifique e especifique riscos que poderão afetar seu planejamento de testes, como por exemplo, mudança de requisitos, limitação das tecnologias ou recursos, etc;</li>
+                <li>Identifique também restrições do seu planejamento, há algo que não será coberto pelos testes? Identifique no seu planejamento;</li>
+                <li>Informe que artefatos serão gerados com base nos testes aplicados, por exemplo: próprio plano de teste, suite de testes manuais e/ou automatizados, relatórios, etc;</li>
+                <li>Informe referências utilizadas para elaboração do plano de testes e casos de testes, por exemplo: documentos de requisitos, histórias de usuários entre outros.</li>
+            </ol>
+<small><pre><code>
+Test Plan - Sistema de Gestão de Cafés (Web)
+
+1. Introdução:
+Este documento descreve Plano de Testes para sistema Sistema de Gestão de Cafés, aplicação web utilizada para cadastro, listagem, edição e exclusão de cafés, além de consulta pública dos dados. Objetivo deste Test Plan é definir escopo, estratégia, recursos, cronograma, riscos e artefatos relacionados às atividades de teste, garantindo que sistema atenda aos requisitos funcionais e não funcionais estabelecidos.
+
+2. Escopo dos Testes:
+
+2.1 Em Escopo - Serão testadas as seguintes funcionalidades:
+Cadastro de cafés
+Listagem de cafés
+Consulta pública de cafés
+Atualização de dados de cafés
+Exclusão de cafés
+Validações de campos obrigatórios
+Regras de negócio descritas nos requisitos
+Respostas da API REST
+Compatibilidade básica com navegadores modernos
+
+2.2 Fora do Escopo - Não serão cobertos neste ciclo:
+Testes de carga e stress
+Testes de segurança avançados (pentest)
+Testes em dispositivos móveis físicos
+Integrações com sistemas externos inexistentes no momento
+
+3. Tipos de Testes e Estratégia:
+
+3.1 Tipos de Testes - Serão aplicados tipos de testes:
+Testes Funcionais
+Testes de Regressão
+Testes Exploratórios
+Testes de API
+Testes de Usabilidade básicos
+Testes Manuais e Automatizados
+
+3.2 Estratégia de Testes:
+Testes manuais serão priorizados no início do projeto, durante validação de requisitos.
+Testes automatizados serão aplicados para fluxos críticos (CRUD).
+Testes de regressão serão executados a cada nova entrega.
+Testes exploratórios serão realizados ao final de cada ciclo.
+
+4. Estágios e Ciclos de Teste:
+Ciclo 1: Testes funcionais iniciais (cadastro e listagem)
+Ciclo 2: Testes de atualização, exclusão e validações
+Ciclo 3: Testes de regressão
+Ciclo 4: Testes exploratórios e validação final
+
+5. Recursos Tecnológicos:
+
+5.1 Ambiente:
+Ambiente de desenvolvimento (DEV)
+Banco de dados de testes
+API REST disponível via endpoint de homologação
+
+5.2 Tecnologias e Ferramentas:
+Navegadores: Chrome, Firefox
+Ferramenta de testes de API: Postman
+Automação: Selenium / Cypress (exemplo)
+Gerenciamento de testes: Planilha ou ferramenta de gestão (ex: Jira, TestRail)
+Versionamento: Git
+
+6. Recursos Humanos - Papel (quantidade):
+QA Analyst (1)
+Desenvolvedor (2)
+Product Owner (1)
+
+Responsabilidades do QA:
+Criação do Test Plan
+Elaboração de casos de teste
+Execução dos testes
+Registro e acompanhamento de defeitos
+Reexecução de testes após correções
+
+7. Cronograma de Testes -  Atividade (duração estimada em dias):
+Análise de requisitos (1)
+Criação do Test Plan (1)
+Criação dos casos de teste (2)
+Execução dos testes (3)
+Reteste e regressão (2)
+OBS: Cronograma considera tempo adicional para investigação de bugs, reporte, acompanhamento e validação das correções.
+
+8. Riscos:
+Mudanças frequentes nos requisitos
+Atraso na entrega das funcionalidades
+Ambiente de testes instável
+Falta de dados consistentes para testes
+Dependência de correções do time de desenvolvimento
+
+9. Restrições:
+Prazo limitado para execução dos testes
+Apenas 1 QA disponível
+Não haverá testes automatizados completos neste ciclo
+Testes realizados apenas em ambiente web
+
+10. Artefatos Gerados:
+Plano de Testes (Test Plan)
+Casos de Teste Manuais
+Scripts de Testes Automatizados (parciais)
+Relatórios de Execução de Testes
+Relatórios de Defeitos (Bugs)
+
+11. Referências:
+Documento de Requisitos do Sistema
+Histórias de Usuário
+Critérios de Aceite
+Documentação da API
+Padrões internos de QA
+</code></pre></small>
+
+            <p id="textoPost">(Etapa 4) Test Case são conjuntos de ações utilizadas para testar cenários com baseado em requisito. Cenários de Testes definem "O que" deve ser testado, enquanto os Casos de Testes definem "Como". Compõe das seguintes etapas:</p>
+            <ol>
+                <li>Nome / Test Scenario: descrição objetiva do propósito do teste, via id's nos nomes dos casos para melhor organização dos casos de testes;</li>
+                <li>Pré-condição: descreve o que é necessário para realização dos passos do caso de teste, por exemplo: para realizar login é necessário que usuário esteja cadastrado;</li>
+                <li>Passos: descreve sequência de passos necessários para aplicação do teste;</li>
+                <li>Resultado esperado: descreve resultado esperado que deve ocorrer após execução dos passos e com pré-condição estabelecidas;</li>
+                <li>Resultado: descreve resultado final do teste, por exemplo: Pass - quando resultado esperado é mesmo que ocorrido, Fail - quando ocorrido não está de acordo com esperado, N/A (Não aplicável) quando teste não é aplicável ao dispositivo por motivo específico, N/T (Não testado) quando caso de teste não é testado;</li>
+                <li>Nível de prioridade: indica a importância do caso de teste, ajudando a focar nos testes mais críticos primeiro.</li>
+            </ol>
+<small><pre><code>
+Contexto do Projeto: Sistema web de pedidos para cafeteria, onde cliente pode montar e finalizar pedidos online.
+
+Caso de Teste 1: Nome / Test Scenario
+TC-TS01-001 - Finalizar pedido com um item válido
+Este cenário valida se usuário consegue concluir pedido corretamente quando todas condições estão válidas.
+
+Pré-condição:
+Sistema disponível
+Usuário com acesso à aplicação
+Produto cadastrado e disponível no cardápio
+API de pedidos em funcionamento
+
+Passos:
+Acessar sistema web de pedidos
+Visualizar cardápio
+Selecionar produto disponível
+Adicionar produto ao pedido
+Clicar no botão "Finalizar pedido"
+
+Resultado Esperado:
+Sistema deve calcular corretamente valor do pedido
+Pedido deve ser salvo com sucesso no banco de dados
+Sistema deve exibir mensagem de confirmação do pedido
+
+Resultado: N/T (Não testado)
+
+Nível de Prioridade: Alta
+
+Caso de Teste 2: Nome / Test Scenario
+TC-TS01-002 - Finalizar pedido com múltiplos itens
+
+Pré-condição:
+Sistema disponível
+Usuário com acesso à aplicação
+Dois ou mais produtos disponíveis no cardápio
+API de pedidos ativa
+
+Passos:
+Acessar sistema
+Adicionar 2 produtos diferentes ao pedido
+Alterar quantidade de 1 dos produtos
+Conferir valor total do pedido
+Finalizar pedido
+
+Resultado Esperado:
+Valor total deve refletir corretamente itens e quantidades
+Pedido deve ser persistido corretamente
+Confirmação do pedido deve ser exibida
+
+Resultado: N/T (Não testado)
+
+Nível de Prioridade: Alta
+
+Caso de Teste 3 (Entrada Inválida): Nome / Test Scenario
+TC-TS01-003 - Tentar finalizar pedido sem itens
+
+Pré-condição:
+Sistema disponível
+Usuário com acesso à aplicação
+Carrinho vazio
+
+Passos:
+Acessar sistema
+Não adicionar nenhum produto
+Clicar em "Finalizar pedido"
+
+Resultado Esperado:
+Sistema deve impedir finalização do pedido
+Mensagem de erro informando que pedido não pode estar vazio
+
+Resultado: N/T (Não testado)
+
+Nível de Prioridade: Alta
+</code></pre></small>
+
+            <p id="textoPost">(Etapa 5) Test Data mal gerenciados podem levar a cobertura de teste incompleta ou a falsos positivos. Um projeto eficaz de Test Data inclui:</p>
+            <ol>
+                <li>Dados válidos para testes positivos;</li>
+                <li>Dados inválidos para testes negativos;</li>
+                <li>Dados de limite para limites superior e inferior;</li>
+                <li>Variações de dados para testes de desempenho e segurança.</li>
+            </ol>
+<small><pre><code>
+Contexto do Projeto: Sistema web de pedidos para cafeteria, onde clientes realizam pedidos informando:
+Produto
+Quantidade
+Dados do cliente (nome e telefone)
+
+Objetivo do QA: Garantir que diferentes tipos de dados cubram cenários positivos, negativos, limites e variações críticas.
+
+1. Dados Válidos - Testes Positivos:
+Esses dados validam comportamento esperado do sistema em condições normais de uso.
+
+Exemplo de Test Data Válido:
+Produto: Café Expresso
+Quantidade: 1
+Nome do cliente: João Silva
+Telefone: 11987654321
+
+Objetivo do Teste:
+Pedido deve ser criado com sucesso
+Valor calculado corretamente
+Confirmação exibida ao usuário
+
+Uso real: Executar fluxos principais (happy path) e regressão.
+
+2. Dados Inválidos - Testes Negativos:
+Esses dados validam se sistema bloqueia entradas incorretas e exibe mensagens adequadas.
+
+Exemplos de Test Data Inválido:
+Produto inexistente
+Quantidade: 0
+Quantidade: -3
+Nome do cliente vazio
+Telefone com caracteres alfanuméricos
+
+Objetivo do Teste:
+Sistema deve impedir a criação do pedido
+Mensagens de erro devem ser claras e corretas
+Nenhum dado inválido deve ser persistido no banco
+
+Uso real: Evitar falsos positivos e bugs críticos em produção.
+
+3. Dados de Limite - Boundary Value Analysis:
+Esses dados validam comportamento do sistema nos limites inferior e superior.
+
+Regras de Negócio (Exemplo):
+Quantidade mínima permitida: 1
+Quantidade máxima permitida: 10 itens por produto
+
+Test Data de Limite:
+Quantidade = 1 (limite inferior válido)
+Quantidade = 10 (limite superior válido)
+Quantidade = 0 (abaixo do limite)
+Quantidade = 11 (acima do limite)
+
+Objetivo do Teste:
+Garantir que limites sejam respeitados
+Evitar erros de cálculo ou quebra do sistema
+
+Uso real: Esses dados normalmente pegam bugs que passam em testes básicos.
+
+4. Variações de Dados - Desempenho e Segurança:
+
+Variações para Desempenho:
+Pedido com 1 item
+Pedido com 10 itens
+Pedido com múltiplos produtos e quantidades máximas
+Execução simultânea de múltiplos pedidos
+
+Objetivo:
+Verificar tempo de resposta
+Garantir estabilidade sob carga moderada
+
+Variações para Segurança:
+Nome do cliente com script HTML
+Nome com SQL Injection básico
+Campos com strings extremamente longas
+Envio de payload malformado via API
+
+Objetivo:
+Garantir sanitização de dados
+Evitar falhas de segurança comuns
+Prevenir persistência de dados maliciosos
+
+Uso real: Mesmo quando não há time de segurança, o QA cobre o básico.
+</code></pre></small>
+
+            <p id="textoPost">(Etapa 6) Test Environment controlado é essencial para testes confiáveis. Isso envolve:</p>
+            <ol>
+                <li>Configurar ambientes separados para desenvolvimento, teste, homologação e produção;</li>
+                <li>Definir dependências de hardware, software e terceiros;</li>
+                <li>Implantar versão mais recente do software e configurar frameworks de automação.</li>
+            </ol>
+<small><pre><code>
+Contexto do Projeto: Sistema web de pedidos para cafeteria, composto por:
+Frontend web
+Backend com API REST
+Banco de dados relacional
+Serviço externo de notificação
+
+Objetivo do QA: Garantir que testes sejam executados em um ambiente estável, previsível e rastreável, evitando falsos resultados.
+
+1. Configuração de Ambientes Separados:
+
+Ambientes Definidos no Projeto:
+
+Desenvolvimento (DEV)
+Utilizado pelos desenvolvedores para implementação e testes locais.
+
+Teste (QA)
+Ambiente exclusivo para execução de testes funcionais, regressão e automação.
+
+Homologação (HML)
+Ambiente próximo de produção, usado para validação final e aceite do negócio.
+
+Produção (PROD)
+Ambiente real, utilizado pelos clientes finais.
+
+Prática real de QA: validar se ambiente de teste está isolado e não depende de dados ou serviços de produção.
+
+2. Definição de Dependências de Hardware, Software e Terceiros:
+
+Dependências de Hardware:
+Servidor com capacidade mínima definida
+Estações de teste com acesso à internet
+Dispositivos para testes básicos de compatibilidade (desktop)
+
+Dependências de Software:
+Sistema operacional Linux no servidor
+Navegadores Chrome e Firefox em versões estáveis
+Banco de dados PostgreSQL
+Backend rodando com Java ou Python
+Frontend acessível via navegador
+
+Dependências de Terceiros:
+Serviço externo de envio de notificações
+Gateway de mensagens (mockado em QA)
+Serviço de autenticação (quando aplicável)
+
+Ação real do QA: Solicitar mock ou stub de serviços externos para evitar instabilidade nos testes.
+
+3. Implantação da Versão Correta do Software:
+
+Controle de Versão:
+Identificação da versão testada: v1.3.0
+Commit ou tag associada à versão
+Registro da versão nos relatórios de teste
+
+Atividade do QA:
+Confirmar que build implantado é mais recente
+Validar se ambiente foi atualizado corretamente
+Evitar testar versões desatualizadas ou parciais
+
+4. Configuração de Frameworks de Automação:
+
+Ferramentas Utilizadas:
+Framework de automação web (ex: Selenium ou Cypress)
+Framework de testes de API
+Gerenciador de dependências
+Pipeline de CI para execução automática
+
+Configuração no Ambiente de Teste:
+URLs apontando para ambiente QA
+Dados de teste específicos
+Execução de testes automatizados a cada novo deploy
+Geração de relatórios automáticos
+
+Visão prática: QA valida que testes automatizados não apontam para DEV ou PROD por engano.
+
+5. Boas Práticas Aplicadas pelo QA:
+Ambientes claramente documentados
+Controle de acesso por perfil
+Base de dados exclusiva para testes
+Reset ou seed de dados antes da execução
+Registro de instabilidades do ambiente
+Comunicação constante com DevOps
+</code></pre></small>
+
+            <p id="textoPost">(Etapa 7) Test Execution iniciados após configuração dos ambientes e frameworks. Compõe as seguintes atividades:</p>
+            <ol>
+                <li>Casos de teste são revisados quanto à precisão e integridade;</li>
+                <li>Testes duplicados são removidos para melhorar a eficiência;</li>
+                <li>Scripts de teste automatizados são executados e os resultados são analisados.</li>
+            </ol>
+<small><pre><code>
+Contexto do Projeto: Sistema web de pedidos para cafeteria, com:
+Ambiente de teste (QA) configurado
+Framework de automação funcional e de API disponível
+Casos de teste documentados e versionados
+
+Objetivo do QA nesta fase: Executar testes de forma eficiente, confiável e rastreável, analisando resultados e identificando falhas reais.
+
+1. Revisão dos Casos de Teste:
+Antes de iniciar execução, QA realiza revisão rápida dos casos de teste.
+
+Atividades realizadas:
+Verificar se casos de teste estão alinhados aos requisitos atualizados
+Validar se pré-condições estão claras e possíveis de serem atendidas
+Conferir se passos estão objetivos e sem ambiguidades
+Garantir que resultado esperado esteja mensurável
+
+Exemplo real:
+Caso de teste menciona botão "Finalizar"
+QA valida se nome do botão ainda existe na interface
+Caso contrário, teste é ajustado antes da execução
+
+2. Remoção de Casos de Teste Duplicados:
+Durante revisão, QA identifica redundâncias.
+
+2 casos testam:
+Finalização de pedido com 1 item válido
+Finalização de pedido com item único válido
+
+Ação do QA:
+Manter apenas 1 caso bem descrito
+Ajustar cobertura para evitar sobreposição
+Atualizar matriz de rastreabilidade
+
+3. Preparação para Execução dos Testes:
+
+Checklist antes de executar:
+Ambiente QA disponível e estável
+Versão correta do sistema implantada
+Base de dados preparada com massa de teste
+Ferramentas de teste acessíveis
+Scripts automatizados apontando para o ambiente correto
+
+4. Execução de Casos de Teste Manuais:
+
+Execução prática:
+QA executa casos de teste por prioridade
+Fluxos críticos executados primeiro
+Resultados registrados caso a caso
+
+Exemplo de registro:
+Resultado: Pass
+Evidência: print da tela de confirmação do pedido
+Observações: execução dentro do tempo esperado
+
+5. Execução de Scripts de Teste Automatizados:
+
+Execução:
+Scripts de regressão são disparados
+Testes de API e UI executados
+Logs e relatórios gerados automaticamente
+
+Análise dos Resultados:
+Testes aprovados confirmados
+Falhas analisadas individualmente
+Identificação de falhas reais vs problemas de ambiente
+
+Exemplo real:
+Teste falhou por timeout
+QA verifica instabilidade do ambiente
+Caso não seja bug, teste é marcado como bloqueado
+
+6. Análise e Consolidação dos Resultados:
+
+Atividades finais do QA:
+Consolidar quantidade de testes executados
+Avaliar taxa de aprovação e falhas
+Registrar defeitos encontrados
+Comunicar status ao time
+
+Exemplo de status:
+Total de testes: 45
+Pass: 38
+Fail: 5
+Blocked: 2
+</code></pre></small>
+
+            <p id="textoPost">Bug Report é relatório apresentando informações detalhadas sobre erro (bug). Dados serão cadastrados em planilhas ou ferramentas de gerenciamento de falhas, como Jira, Mantis, Testlink, etc. Compõe das seguintes etapas:</p>
+            <ol>
+                <li>ID: identificação única do bug;</li>
+                <li>Título: descrição objetiva do problema;</li>
+                <li>Projeto/Módulo: onde bug foi encontrado;</li>
+                <li>Tipo: tipo do bug (funcional, UI, performance, segurança, etc);</li>
+                <li>Severidade: impacto do bug (crítico, alto, médio, baixo);</li>
+                <li>Prioridade: urgência para correção (alta, média, baixa);</li>
+                <li>Status: situação atual do bug (aberto, em progresso, resolvido, fechado);</li>
+                <li>Responsável: pessoa ou time encarregado da correção;</li>
+                <li>Reportado por: quem encontrou o bug;</li>
+                <li>Data: data de registro do bug;</li>
+                <li>Ambiente: detalhes do ambiente onde bug foi encontrado (sistema operacional, navegador, versão do software, etc);</li>
+                <li>Descrição do problema: explicação detalhada do bug;</li>
+                <li>Pré-condições: condições necessárias para reprodução do bug;</li>
+                <li>Passos para reprodução: sequência detalhada para reproduzir o bug;</li>
+                <li>Resultado esperado: o que deveria acontecer;</li>
+                <li>Resultado obtido: o que realmente aconteceu;</li>
+                <li>Evidências: screenshots, logs ou vídeos que comprovem o bug;</li>
+                <li>Impacto: análise do impacto do bug no sistema ou usuários;</li>
+                <li>Observações: informações adicionais relevantes.</li>
+            </ol>
+<small><pre><code>
+EXEMPLO DE BUG REPORT AQUI...
+</code></pre></small>
         </div>
     </div>
 
@@ -906,5 +1581,11 @@ Perfil responsável - novos cenários de permissão
 
 
 <!-- ANOTAÇÕES:
+https://www.tricentis.com/learn/getting-started-with-test-design
+https://www.testim.io/blog/test-case-design-guide-for-qa-engineers/
+https://www.testim.io/blog/test-strategy-vs-test-plan/
+https://www.testim.io/blog/test-suite/
 
+
+https://talkingabouttesting.com/2024/10/13/design-de-testes-o-que-todo-mundo-deveria-saber-sobre-automacao-de-testes/
 -->
