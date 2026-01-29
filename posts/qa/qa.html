@@ -5,8 +5,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="../icons/logoTit.png">
-    <link rel="stylesheet" href="../estilo.css">
+    <link rel="shortcut icon" href="../../icons/logoTit.png">
+    <link rel="stylesheet" href="../../estilo.css">
     <title>UB Social</title>
 </head>
 <body>
@@ -17,14 +17,14 @@
         <div class="col-sm-12">
             <nav class="navbar rounded-bottom fixed-top navbar-expand-lg navbar-light bg-light shadow">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="../index.html"><img src="../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
+                    <a class="navbar-brand" href="../../index.html"><img src="../../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav">
-                            <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
-                            <li class="nav-item"><a class="nav-link" href="../sobre/sobre.html">Sobre</a></li>
-                            <li class="nav-item"><a class="nav-link" href="../cursos.html">Cursos</a></li>
-                            <li class="nav-item"><a class="nav-link" href="../livros/livros.html">Livros</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../sobre/sobre.html">Sobre</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../cursos.html">Cursos</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../livros/livros.html">Livros</a></li>
                         </ul>
                     </div>
                 </div>
@@ -36,7 +36,7 @@
         <div class="col-sm-12 text-center" id="titulo">
             <h1>QA e Testes de software</h1>
             <h6>Conceito, princípios e aplicações</h6>
-            <a href="../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
+            <a href="../../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
         </div>
 
         <div class="col-sm-12">
@@ -379,14 +379,13 @@ Erro ocorre de forma consistente ao usar cartão Visa em ambiente de homologaç�
 
             <br><hr><h4>Aula 2- SRS e design de testes:</h4>
             <ul class="text-warning">
-                <li><b>Técnicas de levantamento de requisitos</b></li>
                 <li><b>Design de testes</b></li>
                 <li><b>Criação de cenários de teste</b></li>
                 <li><b>Escrita de casos de teste</b></li>
                 <li><b>Documentação de testes</b></li>
                 <li><b>Rastreabilidade entre requisitos e testes</b></li>
             </ul>
-            <p id="textoPost">Documento SRS (Software Requirements Specification) descreve, de forma detalhada e estruturada, o que sistema deve fazer, quais suas restrições, regras de negócio, e requisitos funcionais e não funcionais. Requisitos funcionais descrevem o que o sistema faz (features). Exemplo: RF-01 Aluno deve realizar login com e-mail e senha. Requisitos não funcionais descrevem como sistema deve se comportar (ambiente, especificações técnicas e ferramentas). Exemplo: Sistema deve responder em até 2 segundos, Dados do aluno devem ser protegidos por autenticação JWT. Requisitos funcionais geram testes funcionais e requisitos não funcionais geram testes não funcionais.</p>
+            <p id="textoPost">Documento SRS (Software Requirements Specification) descreve, de forma detalhada e estruturada, o que sistema deve fazer, quais suas restrições, regras de negócio, e requisitos funcionais e não funcionais. Requisitos funcionais descrevem o que o sistema faz (features). Exemplo: RF-01 Aluno deve realizar login com e-mail e senha. Requisitos não funcionais descrevem como sistema deve se comportar (ambiente, especificações técnicas e ferramentas). Exemplo: Sistema deve responder em até 2 segundos, Dados do aluno devem ser protegidos por autenticação JWT. Requisitos funcionais geram testes funcionais e requisitos não funcionais geram testes não funcionais. <a href="srs.pdf" class="text-decoration-none" target="_blank">Exemplo de SRS</a>.</p>
             
             <br><h4>Técnicas de análise e levantamento (elicitação) de requisitos:</h4>
             <ul>
@@ -430,10 +429,466 @@ Teste de tentativa de acesso a dados de outro aluno
 Teste de tempo de resposta da funcionalidade
 
 <b>Documentos funcionais</b>:
-<!-- VER https://chatgpt.com/c/69419023-c668-832d-aa01-f6d844315412 -->
+Funcionalidade: Consulta de Notas
+Aluno deve acessar sistema utilizando login e senha.
+Após autenticação, aluno poderá acessar o menu "Minhas Notas".
+Sistema deve exibir apenas notas do aluno autenticado.
+Notas devem ser exibidas por disciplina e período letivo.
+Aluno não poderá editar ou excluir notas.
+
+O que o QA identifica na leitura:
+Fluxo principal de acesso
+Regra de permissão
+Restrições de edição
+Organização das informações
+
+Impacto direto nos testes
+Teste de login obrigatório
+Teste de acesso ao menu "Minhas Notas"
+Teste de exibição correta por disciplina
+Teste garantindo que campos são somente leitura
+
+<b>Reuniões com PO / Cliente (baseadas no SRS)</b>:
+Dúvida do QA:
+"No RF-01, o sistema deve mostrar notas parciais ou apenas notas finais?"
+
+Resposta do cliente:
+"O sistema deve exibir notas parciais e finais, separadas por disciplina."
+
+Ajuste no SRS:
+Inclusão de novo requisito: RF-04 - Sistema deve exibir notas parciais e finais separadamente
+
+Impacto nos testes:
+Novo cenário de consulta por disciplina
+Casos de teste para notas parciais e finais
+</code></pre></small>
+                </li>
+                <li>Entrevistas: Conversas estruturadas ou semiestruturadas com stakeholders;
+<small><pre><code>
+Sistema: Sistema Escolar Web
+Funcionalidade: Consulta de notas e faltas
+Fase do projeto: Início do desenvolvimento
+
+Participantes:
+QA
+PO (representando cliente)
+Coordenador pedagógico (stakeholder)
+
+Objetivo da entrevista:
+Entender regras de negócio, permissões e exceções relacionadas à visualização de notas e faltas dos alunos.
+
+Perguntas do QA (com raciocínio real):
+
+QA: "Quem pode acessar as notas no sistema?"
+Stakeholder: "Apenas alunos e responsáveis."
+Insight: existe mais de um perfil - novos cenários de permissão.
+
+QA: "O aluno consegue ver notas de outros alunos?"
+Stakeholder: "Não, somente as próprias notas."
+Insight: requisito claro de segurança e autorização.
+
+QA: "As notas são parciais ou apenas finais?"
+Stakeholder: "As duas. Durante o semestre são parciais, no final ficam consolidadas."
+Insight: necessidade de testes por tipo de nota.
+
+QA: "O responsável vê as mesmas informações que o aluno?"
+Stakeholder: "Sim, mas não pode ver dados pessoais do aluno."
+Insight: regra específica por perfil.
+
+QA: "Existe algum período em que as notas ficam indisponíveis?"
+Stakeholder: "Sim, durante o fechamento do semestre."
+Insight: cenário de indisponibilidade - testes negativos.
+
+Informações consolidadas após a entrevista
+
+Requisitos funcionais levantados:
+Alunos veem apenas suas notas
+Responsáveis veem notas do aluno vinculado
+Notas parciais e finais devem ser exibidas
+Acesso bloqueado durante fechamento do semestre
+
+Requisitos não funcionais:
+Controle de acesso por perfil
+Mensagem clara quando notas estiverem indisponíveis
+
+Impacto direto no design de testes:
+
+Cenários criados a partir da entrevista
+Aluno acessa notas durante o semestre
+Aluno acessa notas após fechamento
+Responsável acessa notas do aluno
+Tentativa de acesso indevido a notas de outro aluno
+
+Registro da entrevista (artefato real de QA)
+Ata de reunião / Registro de entrevista:
+Data
+Participantes
+Perguntas realizadas
+Decisões tomadas
+Ações pendentes
+Conclusão prática
+</code></pre></small>
+                </li>
+                <li>Reuniões e Workshops (Refinamento / Grooming): encontros colaborativos entre PO, time de desenvolvimento, QA e stakeholders para detalhar, esclarecer, priorizar requisitos e alinhar entendimento, garantindo que itens estejam prontos para implementação e testes;
+<small><pre><code>
+Sistema: Sistema Escolar Web
+Funcionalidade em refinamento: Consulta de notas
+Sprint: Planejamento da Sprint 5
+
+Participantes:
+Product Owner (PO)
+QA
+Desenvolvedor Backend
+Desenvolvedor Frontend
+Scrum Master
+
+Objetivo da reunião:
+Detalhar requisitos
+Quebrar a funcionalidade em cenários testáveis
+Definir critérios de aceite claros
+Identificar riscos antes do desenvolvimento
+
+Simulação real da reunião:
+PO apresenta a funcionalidade
+PO: "O aluno precisa acessar suas notas pelo sistema."
+QA inicia o refinamento com perguntas
+QA: "O aluno pode ver notas de períodos anteriores?"
+PO: "Sim, através de um filtro por período."
+Impacto: necessidade de testes de filtro.
+
+QA: "Se o aluno não tiver notas lançadas, o que o sistema deve mostrar?"
+PO: "Uma mensagem informando que não há notas disponíveis."
+Impacto: cenário negativo e validação de mensagem.
+
+QA: "Durante o fechamento do semestre, as notas ficam disponíveis?"
+PO: "Não, o acesso deve ser bloqueado temporariamente."
+Impacto: novo cenário de exceção.
+
+Desenvolvedor complementa:
+Dev: "O backend vai retornar status 403 quando o acesso estiver bloqueado."
+Impacto: QA define validação de status e mensagem.
+
+Definição de critérios de aceite (resultado do grooming):
+Aluno autenticado acessa suas notas
+Aluno pode filtrar por período
+Sistema exibe mensagem quando não houver notas
+Acesso bloqueado durante fechamento do semestre
+Mensagem clara para o usuário
+
+Resultado prático da reunião:
+Cenários criados
+Consulta de notas com período atual
+Consulta de notas com período anterior
+Consulta sem notas cadastradas
+Tentativa de acesso durante bloqueio
+
+Ajustes na documentação:
+Documento funcional atualizado
+Critérios de aceite formalizados
+Itens prontos para virar casos de teste
+
+Artefatos gerados:
+Ata de refinamento
+Lista de cenários
+Critérios de aceite
+Pendências técnicas
+Conclusão prática
+</code></pre></small>
+                </li>
+                <li>Observação do Usuário (Shadowing): técnica onde analista ou QA acompanha usuário em seu trabalho real, observando como ele executa tarefas no dia a dia para identificar necessidades, regras implícitas, exceções e problemas que não aparecem na documentação ou nas reuniões;
+<small><pre><code>
+Sistema: Sistema de Gestão de Clínicas
+Módulo analisado: Agendamento de consultas
+Objetivo: Entender como recepcionistas realmente trabalham no dia a dia
+
+Shadowing (na prática): Profissional (QA/Analista) acompanha, sem interferência usuário no ambiente real, observando:
+Ações
+Atalhos
+Dificuldades
+Gambiarras
+Comportamentos não documentados
+
+Usuário observado:
+Recepcionista da clínica
+
+Situação 1 - Agendamento comum
+Recepcionista recebe ligação.
+
+Observação do QA:
+Abre sistema
+Não usa botão "Novo Agendamento"
+Vai direto na agenda do médico e clica no horário
+Insight: fluxo real é diferente do fluxo desenhado.
+
+Situação 2 - Cliente atrasado
+Paciente chega atrasado.
+
+Observação do QA:
+Recepcionista apaga agendamento antigo
+Cria outro manualmente
+Não usa opção "Reagendar"
+Insight: Funcionalidade existe, mas não é intuitiva.
+
+Situação 3 - Falha do sistema
+Sistema demora para carregar.
+
+Observação do QA:
+Recepcionista anota nome do paciente em papel
+Lança no sistema depois
+Insight crítico: sistema precisa suportar operação posterior (offline ou rascunho).
+
+Perguntas feitas após observação:
+QA: "Por que você não usa o botão de reagendamento?"
+Usuária: "É muito demorado, prefiro apagar e refazer."
+Confirma problema de usabilidade.
+
+Problemas identificados (que ninguém tinha contado):
+Fluxo real ≠ fluxo projetado
+Funcionalidades pouco usadas
+Dependência de papel em caso de lentidão
+Risco de perda de informação
+
+Resultados práticos do shadowing:
+Requisitos descobertos:
+Agendamento direto pelo calendário
+Reagendamento em menos cliques
+Salvamento temporário (rascunho)
+Melhor feedback de carregamento
+
+Impacto para QA:
+Criação de casos de teste baseados no uso real
+Testes de usabilidade
+Testes de performance percebida
+Testes de recuperação de falha
+
+Artefatos gerados:
+Relatório de observação
+Lista de problemas reais
+Sugestões de melhoria
+Novos cenários de teste
+Conclusão prática
+</code></pre></small>
+                </li>
+                <li>Questionários: técnica onde perguntas estruturadas são enviadas a grupo de usuários ou stakeholders para coletar informações de forma padronizada, rápida e em escala, ajudando a identificar necessidades, expectativas, problemas recorrentes e prioridades do sistema;
+<small><pre><code>
+Sistema: Portal Escolar Online
+Objetivo: Permitir que alunos consultem notas, faltas, calendário acadêmico e avisos
+Fase do projeto: Levantamento e refinamento de requisitos
+Técnica utilizada: Questionário
+Público-alvo: Alunos e professores da escola
+
+Muitos usuários
+Pouco tempo para entrevistas individuais
+Necessidade de dados quantitativos + qualitativos
+
+Questionário com objetivo de melhorar Portal Escolar Online.
+
+Seção 1 - Perfil do Usuário
+
+1. Qual é o seu perfil?
+() Aluno
+() Professor
+() Coordenador
+
+2. Com que frequência você acessa o portal escolar atualmente?
+() Todos os dias
+() 2 a 3 vezes por semana
+() Raramente
+() Nunca
+
+Seção 2 - Uso Atual do Sistema
+
+3. Quais funcionalidades você mais utiliza?
+(Marque todas que se aplicam)
+[] Consulta de notas
+[] Consulta de faltas
+[] Calendário acadêmico
+[] Avisos da escola
+[] Não utilizo o sistema
+
+4. Em qual dispositivo você mais acessa o portal?
+() Computador
+() Celular
+() Tablet
+
+Seção 3 - Problemas e Dores (requisitos não funcionais)
+
+5. Você já teve dificuldades para acessar suas notas?
+() Sim
+() Não
+
+Se sim, quais?
+✏️ Campo aberto
+
+6. Avalie a velocidade do sistema:
+() Muito lenta
+() Lenta
+() Adequada
+() Rápida
+
+7. O sistema costuma apresentar erros ou instabilidade?
+() Frequentemente
+() Às vezes
+() Raramente
+() Nunca
+
+Seção 4 - Expectativas e Requisitos Funcionais
+
+8. Quais funcionalidades você considera essenciais?
+(Marque até 3)
+[] Ver notas por disciplina
+[] Histórico de notas anteriores
+[] Detalhamento de avaliações
+[] Exportar boletim em PDF
+[] Notificações de novas notas
+
+9. Você gostaria de receber notificações quando novas notas forem lançadas?
+() Sim, por e-mail
+() Sim, pelo aplicativo
+() Não
+
+Seção 5 - Segurança e Privacidade
+
+10. Você acredita que suas informações estão seguras no portal?
+() Sim
+() Não
+() Não sei
+
+11. Quem você acredita que pode visualizar suas notas?
+(Marque todas que achar correto)
+[] Apenas o aluno
+[] Professores
+[] Coordenação
+[] Outros alunos (resposta importante para validação de regra de negócio)
+
+Seção 6 - Pergunta Aberta (ouro do levantamento)
+
+12. Na sua opinião, o que poderia melhorar no portal escolar?
+Campo aberto
+
+Análise dos Resultados
+Após coletar respostas, time de QA / Produto percebe:
+- Muitos alunos querem notificação de novas notas
+- Reclamações sobre lentidão em horários de pico
+- Dúvidas sobre quem pode visualizar notas (requisito de segurança)
+- Forte uso via dispositivos móveis
+
+Transformando Questionário em Requisitos e Testes
+RF-01: O sistema deve permitir a visualização de notas por disciplina
+RF-02: O sistema deve enviar notificações quando novas notas forem lançadas
+RNF-01: O sistema deve responder em até 3 segundos em horários de pico
+RNF-02: Um aluno não pode visualizar notas de outros alunos
+</code></pre></small>
+                </li>
+                <li>Análise de Sistemas Existentes (Benchmarking): técnica que consiste em estudar sistemas similares do mercado para identificar boas práticas, funcionalidades, padrões e oportunidades de melhoria que possam ser aplicadas ao sistema em desenvolvimento;
+<small><pre><code>
+Empresa desenvolvendosistema escolar online para alunos e professores, com foco em consulta de notas, faltas e boletins.
+
+Contexto do trabalho (dia a dia):
+Antes de definir requisitos finais, QA e PO decidem analisar sistemas já consolidados no mercado para evitar retrabalho e alinhar produto às expectativas reais dos usuários.
+
+Sistemas analisados (benchmark):
+Google Classroom
+Sistema Escolar Estadual já utilizado por outras escolas
+Plataforma privada de gestão escolar (ex.: Sponte ou similar)
+
+Atividades realizadas:
+QA cria lista de funcionalidades-chave:
+Login e recuperação de senha
+Visualização de notas por disciplina
+Histórico de boletins
+Controle de faltas
+Acesso por perfil (aluno, professor, coordenador)
+
+QA navega nos sistemas benchmark e observa:
+Como notas são apresentadas (tabela, gráfico, média final)
+Se aluno consegue ver apenas suas próprias informações
+Se há exportação de boletim em PDF
+Como funciona filtro por período letivo
+
+QA registra boas práticas encontradas:
+Uso de cores para indicar aprovação/reprovação
+Exibição clara do professor responsável pela disciplina
+Histórico separado por ano letivo
+
+Resultado prático gerado (requisito refinado):
+"Sistema deve permitir que aluno visualize suas notas organizadas por ano letivo, com indicação visual de aprovação ou reprovação, semelhante ao padrão encontrado em sistemas escolares amplamente utilizados."
+
+Valor para QA e testes:
+Ajuda a criar cenários de teste mais realistas
+Reduz risco de requisitos incompletos
+Garante que sistema siga padrões já aceitos pelo mercado
+Facilita validações de usabilidade e experiência do usuário
+</code></pre></small>
+                </li>
+                <li>Prototipação: técnica que consiste em criar representações visuais ou interativas do sistema para facilitar entendimento, coletar feedback rápido dos usuários e ajustar requisitos antes do desenvolvimento;
+<small><pre><code>
+Equipe está desenvolvendo sistema escolar e precisa validar como será tela de consulta de notas do aluno antes de iniciar desenvolvimento.
+
+Contexto do trabalho (dia a dia):
+PO cria protótipo de baixa fidelidade (wireframe) no Figma para representar tela de "Minhas Notas". QA, desenvolvedores e grupo de alunos participam da validação.
+
+O que protótipo contém:
+Campo para seleção do ano letivo
+Lista de disciplinas
+Nota parcial, nota final e média
+Indicador visual de aprovação/reprovação
+Botão "Exportar boletim em PDF"
+
+Atividades realizadas:
+PO apresenta protótipo aos alunos e professores
+Usuários navegam no protótipo simulando o uso real
+QA observa dúvidas e dificuldades dos usuários
+
+Feedback coletado:
+Alunos pedem para visualizar faltas junto das notas
+Professores solicitam identificação clara do peso das avaliações
+Usuários confundem nota parcial com nota final
+
+Ajustes feitos antes do desenvolvimento:
+Inclusão da coluna "Faltas"
+Diferenciação visual entre nota parcial e final
+Tooltip explicativo sobre cálculo da média
+
+Resultado prático para QA:
+Requisitos ficaram mais claros e completos
+Casos de teste puderam ser escritos antes do código existir
+Redução de retrabalho e defeitos em produção
+</code></pre></small>
+                </li>
+                <li>Análise de Critérios de Aceite: critérios objetivos que definem sucesso;
+<small><pre><code>
+QA analisa critérios que dizem quando funcionalidade está pronta (done).
+
+Dado que o aluno esteja autenticado
+Quando acessar a tela "Minhas Notas"
+Então sistema deve exibir apenas suas notas
+E não permitir acesso a notas de outros alunos
+
+Impacto direto nos testes:
+Cada critério vira, no mínimo, um caso de teste:
+Teste positivo: aluno vê suas notas
+Teste negativo: aluno tenta ver notas de outro aluno
+</code></pre></small>
+                </li>
+                <li>Perguntas de Esclarecimento (Questionamento Ativo): explorar ambiguidades e riscos.
+<small><pre><code>
+QA questiona pontos não claros ou riscos do requisito.
+
+"Aluno pode acessar notas sem login?"
+"Aluno pode ver notas de anos anteriores?"
+"Existe perfil de responsável com acesso às notas?"
+
+Respostas e impacto nos testes:
+Sem login - acesso bloqueado - teste de segurança
+Anos anteriores - filtro por período - teste de filtro
+Perfil responsável - novos cenários de permissão
 </code></pre></small>
                 </li>
             </ul>
+
+            <br><h4>Design de Testes:</h4>
+            <p>AQUI...</p>
         </div>
     </div>
 
