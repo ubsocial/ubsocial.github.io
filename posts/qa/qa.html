@@ -890,8 +890,8 @@ Perfil responsável - novos cenários de permissão
             <br><h4>Test Case Design:</h4>
             <p id="textoPost">Técnicas para organizar, estrategicamente, informações dos testes.</p>
             <ul>
-                <li>Funcional (caixa-preta): testes que irão verificar se comportamento do software está conforme esperado. Não são verificados códigos ou arquiteturas;</li>
-                <li>Estrutural (caixa-branca): testes que verificam códigos e/ou arquitetura do software, sendo diretamente ligados ao código;</li>
+                <li>Funcional (caixa-preta - Black-box testing): testes que irão verificar se comportamento do software está conforme esperado. Não são verificados códigos ou arquiteturas;</li>
+                <li>Estrutural (caixa-branca - White-box testing): testes que verificam códigos e/ou arquitetura do software, sendo diretamente ligados ao código;</li>
                 <li>Não-funcional: testes relacionados aos comportamentos agregados as funcionalidades, não as funcionalidades propriamente ditas, como testes de performance, segurança, usabilidade e quaisquer outros que envolvam comportamentos gerados de funcionalidade ou sistema como todo;</li>
                 <li>Orientados a mudança: testes realizados após comportamentos inesperados ou indesejados das funcionalidades testadas. Para casos pós falha, são aplicados testes de confirmação, para verificar se mesma ainda ocorre ou foi corrigida, como revisão de bugs corrigidos. Casos onde 1º resultado passou, são realizados testes de regressão quando há alteração de outras funcionalidades que podem gerar bugs de efeito colateral.</li>
             </ul>
@@ -1539,6 +1539,368 @@ Fail: 5
 Blocked: 2
 </code></pre></small>
 
+            <p id="textoPost">Pairwise Testing (all-pairs testing) é método de teste de software que examina todas combinações possíveis de pares de parâmetros de entrada. Essa abordagem é particularmente útil quando o teste exaustivo é impraticável devido ao grande número de casos de teste potenciais. Compõe das seguintes etapas:</p>
+            <ol>
+                <li>Identificar parâmetros de entrada: listar e priorizar parâmetros de entrada com base nos requisitos do sistema ou nas especificações funcionais;</li>
+                <li>Definir valores dos parâmetros: determinar todos valores possíveis para cada parâmetro de entrada, de forma a abranger diversos cenários;</li>
+                <li>Gerar combinações aos pares: criar manualmente combinações que cubram sistematicamente todos pares de parâmetros de entrada;</li>
+                <li>Criar casos de teste detalhados: desenvolver casos de teste abrangentes com base nos pares gerados, garantindo clareza e completude;</li>
+                <li>Executar casos de teste: executar casos de teste manualmente e documentar meticulosamente resultados e observações;</li>
+                <li>Analisar resultados: analisar resultados dos testes para identificar defeitos, inconsistências ou áreas que necessitam de melhorias.</li>
+            </ol>
+            <p id="textoPost">Matrizes ortogonais são conceito matemático usado em testes de pares para projetar experimentos ou casos de teste de forma sistemática e eficiente. Ferramentas para Paiwise Testing são PICT (Pairwise Independent Combinatorial Testing), Hexawise, Testersdesk, ACTS (Automated Combinatorial Testing for Software) e AllPairs.</p>
+<small><pre><code>
+Teste de combinações de funcionalidades
+Cenário: Site simples de e-commerce
+Objetivo: validar combinações de funcionalidades utilizando pairwise testing (teste em pares)
+
+Funcionalidades consideradas:
+Métodos de Pagamento: Cartão de Crédito, PayPal, Transferência Bancária
+Métodos de Envio: Padrão, Expresso, Noturno
+Tipos de Cliente: Novo, Recorrente, Visitante
+
+Abordagem:
+Utilização do pairwise testing para garantir que todas as combinações possíveis em pares entre as funcionalidades sejam testadas
+Redução da quantidade total de casos de teste, mantendo uma boa cobertura de testes
+
+Exemplos de casos de teste gerados:
+
+Caso de Teste 1
+Método de Pagamento: Cartão de Crédito
+Método de Envio: Padrão
+Tipo de Cliente: Novo
+
+Caso de Teste 2
+Método de Pagamento: Cartão de Crédito
+Método de Envio: Expresso
+Tipo de Cliente: Recorrente
+
+Caso de Teste 3
+Método de Pagamento: Cartão de Crédito
+Método de Envio: Noturno
+Tipo de Cliente: Visitante
+
+Caso de Teste 4
+Método de Pagamento: PayPal
+Método de Envio: Padrão
+Tipo de Cliente: Recorrente
+
+Caso de Teste 5
+Método de Pagamento: PayPal
+Método de Envio: Expresso
+Tipo de Cliente: Visitante
+
+Caso de Teste 6
+Método de Pagamento: PayPal
+Método de Envio: Noturno
+Tipo de Cliente: Novo
+
+Caso de Teste 7
+Método de Pagamento: Transferência Bancária
+Método de Envio: Padrão
+Tipo de Cliente: Visitante
+
+Caso de Teste 8
+Método de Pagamento: Transferência Bancária
+Método de Envio: Expresso
+Tipo de Cliente: Novo
+
+Caso de Teste 9
+Método de Pagamento: Transferência Bancária
+Método de Envio: Noturno
+Tipo de Cliente: Recorrente
+</code></pre></small>
+
+            <p id="textoPost">Model-Based Testing (MBT) é abordagem de teste via uso de modelos. Ao contrário do teste tradicional, que envolve análise minuciosa de cada detalhe intrincado, teste baseado em modelos adota abordagem geral. Permite que você se concentre nas funcionalidades principais sem se perder em detalhes insignificantes. Diagramas utilizados, conforme nível de abstração:</p>
+            <ul>
+                <li>Alto nível de abstração: diagramas de casos de uso ou modelos comportamentais fornecem visão geral do comportamento do sistema;</li>
+                <li>Nível intermediário: diagramas de estados (estados e transições) e diagramas de sequência (interações entre componentes);</li>
+                <li>Baixo nível de abstração: modelos altamente detalhados, estados e interações divididos em passos menores, e modelos complexos e multinível, onde componentes podem ser compostos por subcomponentes menores.</li>
+            </ul>
+            <p id="textoPo">Modelo do SUT (System Under Test) é diagrama de atividades simplificado, que define quais ações podem ser realizadas, em qual ordem, e quais passos devem preceder ou podem seguir outros.</p>
+<small><pre><code>
+Aplicação sob teste (AUT) simula tela de máquina de café, permitindo:
+Escolher bebida
+Ajustar açúcar e leite
+Finalizar preparo
+
+Casos de teste iniciais:
+1º caso de teste: Preparo de espresso, sem adicionais
+2º caso de teste: Preparo de latte, e Ajuste de leite e açúcar
+Cada caso de teste corresponde a 1 caminho no diagrama de atividades
+
+Durante execução:
+Squish assume controle da AUT
+Reproduz passos na ordem definida pelo modelo
+Cada passo possui 1 implementação, escrita em linguagem de programação
+
+@mbt.step("Click on Macchiato")
+def step():
+    mouseClick(waitForObject(names.macchiato_button))
+    test.vp("VP_macchiato")
+
+# -------- Ajustando leite e açúcar --------
+@mbt.step("Set milk")
+def step():
+    mousePress(waitForObject(names.milk_slider_handle))
+    slider = waitForObject(names.coffee_sugarSlider_Slider)
+    x = builtins.int(slider.width * random.random())
+    y = builtins.int(slider.height * 0.5)
+    mouseMove(slider, x, y)
+    mouseRelease()
+    snooze(0.5)
+
+Adicionando novo passo ao modelo MBT:
+Identificado que faltava no modelo funcionalidade de voltar para tela anterior e escolher outra bebida
+
+Etapas realizadas no Squish IDE:
+Add Step Mode
+Criação do novo passo: "Go back"
+Connect Steps Mode
+Conexão do novo passo aos demais no diagrama
+Generate missing steps implementations
+Geração automática do esqueleto do passo
+Implementação real do passo
+
+Substituição do código vazio por ação concreta:
+@mbt.step("Go back")
+def step():
+    mouseClick(waitForObject(names.back_button))
+</code></pre></small>
+
+            <p id="textoPost">Black-box testing (teste de caixa-preta) é técnica de teste de software onde tester avalia funcionalidade do sistema sem conhecer estrutura interna do código. Objetivo é verificar se software atende aos requisitos especificados, testando entradas e saídas sem considerar implementação interna. Técnicas black-box:</p>
+            <ul>
+                <li>Particionamento por equivalência: Testers dividem entradas em partições equivalentes;
+<small><pre><code>
+Um sistema de cadastro de usuários possui campo idade, com seguinte regra de negócio:
+Idade aceita deve estar entre 18 e 65 anos
+Valores fora desse intervalo não são permitidos
+Campo é obrigatório
+Sistema exibe mensagem de erro para valores inválidos
+Tester não conhece código interno, apenas requisitos funcionais.
+
+Partições de equivalência identificadas:
+Tester divide entradas possíveis em grupos (partições) que devem ter mesmo comportamento do sistema
+
+Partições válidas:
+Idade entre 18 e 65 (Exemplo: 25, 40, 60)
+
+Partições inválidas:
+Idade menor que 18 (Exemplo: 10, 15, 17)
+Idade maior que 65 (Exemplo: 66, 80, 100)
+Campo vazio ou nulo (Exemplo: não informar idade)
+Valor não numérico (Exemplo: "abc", "@#", "vinte")
+
+Casos de teste derivados (black-box):
+Caso de Teste - Entrada (Idade) - Partição - Resultado Esperado
+CT01 - 25 - Válida - Cadastro realizado com sucesso
+CT02 - 17 - Inválida (&lt;18) - Mensagem de erro exibida
+CT03 - 70 - Inválida (&gt;65) - Mensagem de erro exibida
+CT04 - (vazio) - Inválida (obrigatório) - Mensagem de campo obrigatório
+CT05 - "abc" - Inválida (não numérico) - Mensagem de erro exibida
+</code></pre></small>
+                </li>
+                <li>Teste de tabela de decisão: Usa formato tabular para representar lógica de decisão complexa e casos de teste, garantindo que todas condições possíveis sejam testadas;
+<small><pre><code>
+Um sistema de e-commerce aplica desconto no pedido de acordo com três condições:
+Cliente é VIP?
+Valor da compra é maior ou igual a R$ 200?
+Cupom de desconto é válido?
+
+Regras de negócio:
+Desconto só é aplicado se:
+Cliente for VIP OU Valor da compra maior ou igual a R$ 200 E cupom precisa ser válido
+Caso contrário, nenhum desconto é aplicado
+
+Condições:
+Condição - Descrição
+C1 - Cliente é VIP
+C2 - Valor da compra maior ou igual a R$ 200
+C3 - Cupom válido
+
+Ações:
+Ação - Descrição
+A1 - Aplicar desconto
+A2 - Não aplicar desconto
+
+Tabela de decisão:
+Regra - Cliente VIP (C1) - Compra maior ou igual a R$ 200 (C2) - Cupom válido (C3) - Ação
+R1 - Sim - Sim - Sim - Aplicar desconto
+R2 - Sim - Não - Sim - Aplicar desconto
+R3 - Não - Sim - Sim - Aplicar desconto
+R4 - Não - Não - Sim - Não aplicar desconto
+R5 - Sim - Sim - Não - Não aplicar desconto
+R6 - Sim - Não - Não - Não aplicar desconto
+R7 - Não - Sim - Não - Não aplicar desconto
+R8 - Não - Não - Não - Não aplicar desconto
+
+Casos de teste derivados:
+Caso de Teste - VIP - Valor da Compra - Cupom - Resultado Esperado
+CT01 - Sim - R$ 250 - Válido - Desconto aplicado
+CT02 - Sim - R$ 150 - Válido - Desconto aplicado
+CT03 - Não - R$ 300 - Válido - Desconto aplicado
+CT04 - Não - R$ 100 - Válido - Sem desconto
+CT05 - Sim - R$ 220 - Inválido - Sem desconto
+CT06 - Não - R$ 210 - Inválido - Sem desconto
+CT07 - Sim - R$ 80 - Inválido - Sem desconto
+CT08 - Não - R$ 50 - Inválido - Sem desconto
+</code></pre></small>
+                </li>
+                <li>Análise de valores limite: Testa valores nos limites dos intervalos de entrada e saída. Muitos erros ocorrem nas extremidades desses intervalos;
+<small><pre><code>
+Sistema de transferência bancária possui seguinte regra:
+Valor mínimo para transferência: R$ 10,00
+Valor máximo para transferência: R$ 5.000,00
+Valor deve estar dentro desse intervalo, inclusive
+Valores fora do intervalo devem ser rejeitados
+Tester avalia apenas entradas e saídas, sem conhecer implementação interna (teste de caixa-preta)
+
+Limites identificados:
+Limite inferior: Valor mínimo permitido: R$ 10,00
+Limite superior: Valor máximo permitido: R$ 5.000,00
+
+Valores de teste escolhidos: Para cada limite, o QA testa:
+Valor abaixo do limite
+Valor exato do limite
+Valor acima do limite
+
+Casos de teste (valores limite):
+Caso de Teste - Valor da Transferência - Tipo de Valor - Resultado Esperado
+CT01 - R$ 9,99 - Abaixo do limite inferior - Transferência recusada
+CT02 - R$ 10,00 - Limite inferior - Transferência realizada
+CT03 - R$ 10,01 - Acima do limite inferior - Transferência realizada
+CT04 - R$ 4.999,99 - Abaixo do limite superior - Transferência realizada
+CT05 - R$ 5.000,00 - Limite superior - Transferência realizada
+CT06 - R$ 5.000,01 - Acima do limite superior - Transferência recusada
+</code></pre></small>
+                </li>
+                <li>Teste de caso de uso: Testa sistema com base na interação do usuário e em cenários;
+<small><pre><code>
+Aplicativo de delivery de comida permite que usuário:
+Faça login
+Busque restaurantes
+Selecione produtos
+Finalize pedido
+QA testa sistema a partir da interação real do usuário, seguindo fluxo do negócio
+
+Caso de uso: Realizar pedido de comida
+Ator: Cliente
+Objetivo: Permitir que cliente realize pedido com sucesso
+
+Pré-condições:
+Usuário cadastrado no sistema
+Usuário autenticado (login realizado)
+App com conexão à internet
+
+Fluxo principal (cenário feliz):
+Usuário acessa aplicativo
+Usuário realiza login com credenciais válidas
+Usuário pesquisa restaurante
+Usuário seleciona restaurante disponível
+Usuário adiciona produtos ao carrinho
+Usuário acessa carrinho
+Usuário escolhe forma de pagamento
+Usuário confirma pedido
+Sistema processa pagamento
+Sistema exibe confirmação do pedido
+
+Resultado esperado:
+Pedido realizado com sucesso
+Número do pedido exibido ao usuário
+
+Fluxos alternativos (cenários):
+Cenário alternativo 1 - Pagamento recusado
+No passo 9, pagamento falha
+Sistema exibe mensagem de erro
+Pedido não é confirmado
+
+Cenário alternativo 2 - Restaurante indisponível
+No passo 4, restaurante fica indisponível
+Sistema informa indisponibilidade
+Usuário retorna à lista de restaurantes
+
+Cenário alternativo 3 - Carrinho vazio
+Usuário tenta confirmar pedido sem itens
+Sistema bloqueia ação
+Mensagem de aviso exibida
+
+Casos de teste derivados do caso de uso:
+Caso de Teste - Cenário - Resultado Esperado
+CT01 - Fluxo principal completo - Pedido realizado com sucesso
+CT02 - Pagamento recusado - Pedido não confirmado
+CT03 - Restaurante indisponível - Pedido não iniciado
+CT04 - Carrinho vazio - Mensagem de erro exibida
+</code></pre></small>
+                </li>
+                <li>Teste de transição de estados: Testa diferentes estados como máquina de estados finitos e projeta casos de teste com base nas transições.
+<small><pre><code>
+Sistema de pedidos online possui pedido que muda de estado conforme ações do usuário e do sistema.
+
+Estados possíveis do pedido:
+Novo
+Pago
+Em preparo
+Enviado
+Entregue
+Cancelado
+
+Transições permitidas:
+Estado Atual - Ação - Próximo Estado
+Novo - Confirmar pagamento - Pago
+Pago - Iniciar preparo - Em preparo
+Em preparo - Enviar pedido - Enviado
+Enviado - Confirmar entrega - Entregue
+Novo - Cancelar pedido - Cancelado
+Pago - Cancelar pedido - Cancelado
+
+Transições não permitidas (exemplos):
+Enviado - Pago
+Entregue - Em preparo
+Cancelado - Qualquer outro estado
+
+Casos de teste baseados em transições:
+
+Caso de Teste 1 - Fluxo válido completo
+Criar pedido (estado: Novo):
+Confirmar pagamento - Pago
+Iniciar preparo - Em preparo
+Enviar pedido - Enviado
+Confirmar entrega - Entregue
+Resultado esperado: Pedido entregue com sucesso
+
+Caso de Teste 2 - Cancelamento antes do pagamento
+Criar pedido (estado: Novo):
+Cancelar pedido - Cancelado
+Resultado esperado: Pedido cancelado corretamente
+
+Caso de Teste 3 - Cancelamento após pagamento
+Criar pedido (estado: Novo):
+Confirmar pagamento - Pago
+Cancelar pedido - Cancelado
+Resultado esperado: Pedido cancelado e reembolso iniciado
+
+Caso de Teste 4 - Transição inválida
+Criar pedido (estado: Novo)
+Tentar confirmar entrega
+
+Resultado esperado:
+Sistema bloqueia a ação
+Mensagem de erro exibida
+
+Tabela de transições (resumo):
+Estado Inicial - Ação - Estado Final - Válido?
+Novo - Confirmar pagamento - Pago - Sim
+Pago - Enviar pedido - Enviado - Não
+Cancelado - Iniciar preparo - Em preparo - Não
+Enviado - Confirmar entrega - Entregue - Sim
+</code></pre></small>
+                </li>
+            </ul>
+
+            <p id="textoPost">Experience-based testing AQUI...</p>
+
+            <p id="textoPost">White-Box testing AQUI...</p>
+
             <p id="textoPost">Bug Report é relatório apresentando informações detalhadas sobre erro (bug). Dados serão cadastrados em planilhas ou ferramentas de gerenciamento de falhas, como Jira, Mantis, Testlink, etc. Compõe das seguintes etapas:</p>
             <ol>
                 <li>ID: identificação única do bug;</li>
@@ -1581,7 +1943,7 @@ EXEMPLO DE BUG REPORT AQUI...
 
 
 <!-- ANOTAÇÕES:
-https://www.tricentis.com/learn/getting-started-with-test-design
+VENDO AQUI: https://www.tricentis.com/learn/getting-started-with-test-design
 https://www.testim.io/blog/test-case-design-guide-for-qa-engineers/
 https://www.testim.io/blog/test-strategy-vs-test-plan/
 https://www.testim.io/blog/test-suite/
