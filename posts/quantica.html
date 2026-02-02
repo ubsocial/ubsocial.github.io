@@ -432,6 +432,72 @@ for circuit, name in [(qc_meas, "H"), (qc_id_meas, "H-I-H"), (qc_z_meas, "H-Z-H"
 # Em H-Z-H, resultado foi 1 (1024 vezes) e 0 (0 vezes), confirmando interferência que inverteu estado de |0&gt; para |1&gt;
 </code></pre></small>
                 </li>
+                <li>Algoritmo de Deutsch (Deutsch's problem): 1º algoritmo quântico da história. Resolve problema de Deutsch em etapa única, via computação quântica. Dada função 'f:{0,1}-&gt;{0,1}', queremos saber se a mesma é constante (f(0) = f(1)) ou balanceada (f(0) ≠ f(1)). Será constante quando f(x)=0 (sendo f(0)=0 e f(1)=0) ou f(x)=1 (sendo f(0)=1 e f(1)=1); balanceada quando f(x)=x (sendo f(0)=0 e f(1)=1) ou f(x)=¬x (sendo f(0)=1 e f(1)=0). A solução, na física clássica, avaliam-se ambas f(0) e f(1). Na física quântica, avaliam-se simultaneamente, via superposição e interferência, em única resposta (diferente de paralelismo clássico), extraindo propriedades da função, não valores individuais. Oráculo é função escondida que algoritmo pode invocar, onde sabe-se apenas quais entradas e saídas, não seu código interno. Algoritmo quântico resolve Deutsch com apenas 1 consulta ao oráculo. Superposição avalia f(0) e f(1) simultaneamente, enquanto Interferência elimina resultados inúteis. Medição estratégica extrai propriedade global da função. Função constante resulta em estado |0⟩, enquanto função balanceada resulta em estado |1⟩.
+<small><pre><code>
+# pip3 install qiskit qiskit-ibm-runtime qiskit-aer matplotlib qiskit[visualization]
+from qiskit_ibm_runtime import QiskitRuntimeService
+from qiskit import QuantumCircuit, transpile
+from qiskit_aer import Aer, AerSimulator
+QiskitRuntimeService.save_account(token="SEU_TOKEN_AQUI")
+
+# Função oráculo, cria circuito quântico de função clássica f: {0,1} -&gt; {0,1}
+def deutsch_function(case: int):
+ 
+    # case 1: f(x) = 0 (constante)
+    # case 2: f(x) = x (balanceada)
+    # case 3: f(x) = ¬x (balanceada)
+    # case 4: f(x) = 1 (constante)
+    if case not in [1, 2, 3, 4]:
+        raise ValueError("`case` must be 1, 2, 3, or 4.")
+ 
+    f = QuantumCircuit(2) # circuito quântico de 2 qubits (1 de entrada, 1 de saída)
+    if case in [2, 3]:
+        f.cx(0, 1) # CNOT (f(x) = x ou f(x) = ¬x)
+    if case in [3, 4]:
+        f.x(1) # NOT (f(x) = ¬x ou f(x) = 1)
+    return f
+
+# Exemplo (case 3): f(x) = ¬x (balanceada)
+display(deutsch_function(3).draw(output="mpl"))
+# q0 (qubit de entrada): |0⟩ ou |1⟩
+# q1 (qubit de saída): |1⟩ (inicializado em |1⟩ para permitir interferência)
+# Porta CNOT aplicada de q0 para q1 (inverte q1 se q0 for |1⟩)
+# Porta X (NOT) aplicada em q1 (inverte q1)
+# Resultado final: f(0) = 1 e f(1) = 0
+
+def compile_circuit(function: QuantumCircuit):
+    n = function.num_qubits - 1
+    qc = QuantumCircuit(n + 1, n) # n qubits de entrada + 1 qubit de saída
+ 
+    qc.x(n) # Porta X em qubit de saída (inicializa em |1⟩)
+    qc.h(range(n + 1)) # Portas Hadamard em todos qubits (superposição, exceto saída. q0 é superposição de |0⟩ e |1⟩ simultaneamente
+ 
+    qc.barrier()
+    qc.compose(function, inplace=True) # Oráculo quântico (CNOT + X), Porta CNOT (q0 é controle, q1 é alvo). Se q0 = 1 então q1 é invertido, se q0 = 0 então nada acontece. Porta X em q1 (inverte q1)
+    qc.barrier()
+ 
+    qc.h(range(n)) # Porta Hadamard em q0 (interferência - interferência construtiva em |0⟩, interferência destrutiva em |1⟩)
+    qc.measure(range(n), range(n)) # Medição dos qubits de entrada q0 (resultado: 0 = constante, 1 = balanceada)
+ 
+    return qc
+
+# Exemplo de compilação do circuito Deutsch para f(x) = ¬x (case 3). c é bit clássico, resultado da medição
+display(compile_circuit(deutsch_function(3)).draw(output="mpl"))
+
+# Algoritmo de Deutsch, determina se função é constante (0) ou balanceada (1)
+def deutsch_algorithm(function: QuantumCircuit):
+    qc = compile_circuit(function)
+ 
+    result = AerSimulator().run(qc, shots=1, memory=True).result()
+    measurements = result.get_memory()
+    if measurements[0] == "0":
+        return "constant"
+    return "balanced"
+
+f = deutsch_function(3)
+display(deutsch_algorithm(f))
+</code></pre></small>
+                </li>
             </ol>
         </div>
     </div>
