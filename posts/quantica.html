@@ -440,7 +440,7 @@ for circuit, name in [(qc_meas, "H"), (qc_id_meas, "H-I-H"), (qc_z_meas, "H-Z-H"
                 <li>Constante: f(x)=0 (sendo f(0)=0 e f(1)=0) ou f(x)=1 (sendo f(0)=1 e f(1)=1);</li>
                 <li>Balanceada: f(x)=x (sendo f(0)=0 e f(1)=1) ou f(x)=¬x (sendo f(0)=1 e f(1)=0).</li>
             </ul>
-            <p id="textoPost">A solução, na física clássica, avaliam-se ambas f(0) e f(1). Na física quântica, avaliam-se simultaneamente, via superposição e interferência, em única resposta (diferente de paralelismo clássico), extraindo propriedades da função, não valores individuais. Oráculo é função escondida que algoritmo pode invocar, onde sabe-se apenas quais entradas e saídas, não seu código interno. Algoritmo quântico resolve Deutsch com apenas 1 consulta ao oráculo. Superposição avalia f(0) e f(1) simultaneamente, enquanto Interferência elimina resultados inúteis. Medição estratégica extrai propriedade global da função. Função constante resulta em estado |0⟩, enquanto função balanceada resulta em estado |1⟩.</p>
+            <p id="textoPost">A solução, na física clássica, avaliam-se ambas f(0) e f(1). Na física quântica, avaliam-se simultaneamente, via superposição e interferência, em única resposta (diferente de paralelismo clássico), extraindo propriedades da função, não valores individuais. Oráculo (porta Uf) é função escondida que algoritmo pode invocar, onde sabe-se apenas quais entradas e saídas, não seu código interno. Algoritmo quântico resolve Deutsch com apenas 1 consulta ao oráculo. Superposição avalia f(0) e f(1) simultaneamente, enquanto Interferência elimina resultados inúteis. Medição estratégica extrai propriedade global da função. Função constante resulta em estado |0⟩, enquanto função balanceada resulta em estado |1⟩.</p>
 <small><pre><code>
 # pip3 install qiskit qiskit-ibm-runtime qiskit-aer matplotlib qiskit[visualization]
 from qiskit_ibm_runtime import QiskitRuntimeService
@@ -573,6 +573,59 @@ counts = result.get_counts() # Obtém resultados da medição
 
 display(plot_histogram(counts))
 print("Resultados:", counts) # Exibe resultados da medição (000 indica função constante, qualquer outro resultado indica função balanceada)
+</code></pre></small>
+
+            <br><h4>Algoritmo de Bernstein-Vazirani (Bernstein-Vazirani's problem):</h4>
+            <p id="textoPost">Também chamado de problema de amostragem de Fourier, promete identificar string oculta via consulta única ao oráculo, ao invés de somente rótulos constante e balanceada.</p>
+            <ol>
+                <li>Recebe-se função caixa preta 'f(x)=s*x', para string 's' a ser descoberta;</li>
+                <li>Aplica-se porta Hadamard em todos qubits de entrada, 1 porta NOT mais 1 Hadamard é aplicada ao qubit de saída;</li>
+                <li>Aplica-se oráculo (porta Uf) em todos qubits, recebendo qubits de entrada (em superposição iguais), e aplicando função 'f(x)=s*x' ao qubit de saída, mantendo-o em estado inalterado, graças ao retrocesso de fase, mas invertendo alguns termos no estado;</li>
+                <li>Aplica-se 2ª camada de portas Hadamard em todos qubits de entrada, seguida de medição, revelando string oculta 's', advinda do estado gerado nos qubits.</li>
+            </ol>
+<small><pre><code>
+# pip3 install qiskit qiskit-ibm-runtime qiskit-aer matplotlib qiskit[visualization]
+from qiskit_ibm_runtime import QiskitRuntimeService
+from qiskit import QuantumCircuit, transpile
+from qiskit_aer import Aer, AerSimulator
+from qiskit.visualization import plot_histogram
+from IPython.display import display
+import matplotlib.pyplot as plt
+QiskitRuntimeService.save_account(token="SEU_TOKEN_AQUI")
+
+s = "1011" # String oculta 's'
+n = len(s) # Quantidade de qubits de entrada
+
+# Função oráculo Uf para Bernstein-Vazirani
+def bernstein_vazirani_oracle(secret_string: str) -&gt; QuantumCircuit:
+    n = len(secret_string)
+    oracle = QuantumCircuit(n + 1) # n qubits de entrada + 1 qubit auxiliar
+
+    for i, bit in enumerate(secret_string):
+        if bit == "1":
+            oracle.cx(i, n) # Aplica CNOT do qubit i de entrada para qubit auxiliar
+    oracle.name = "U_f"
+    return oracle
+
+qc = QuantumCircuit(n + 1, n) # Circuito com n qubits de entrada, 1 qubit auxiliar e n bits clássicos
+
+qc.x(n) # Aplica X (porta NOT) no qubit auxiliar, colocando-o em |1&gt;
+qc.h(range(n + 1)) # Aplica Hadamard em todos qubits
+oracle = bernstein_vazirani_oracle(s) # Aplica oráculo ao circuito
+qc.append(oracle, range(n + 1)) # Aplica oráculo aos qubits do circuito
+qc.h(range(n)) # Aplica Hadamard novamente nos qubits de entrada
+qc.measure(range(n), range(n)) # Mede qubits de entrada nos bits clássicos
+display(qc.draw(output="mpl"))
+
+simulator = AerSimulator()
+tqc = transpile(qc, simulator) # Transpila circuito para simulador
+result = simulator.run(tqc, shots=1024).result() # Executa circuito no simulador
+
+counts = result.get_counts() # Obtém resultados da medição
+print("Resultados da medição:", counts) # Exibe resultados (se houver mais de um, o mais frequente é a string oculta 's')
+
+fig = plot_histogram(counts) # Plota histograma dos resultados
+display(fig)
 </code></pre></small>
         </div>
     </div>
