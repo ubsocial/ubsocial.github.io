@@ -432,7 +432,15 @@ for circuit, name in [(qc_meas, "H"), (qc_id_meas, "H-I-H"), (qc_z_meas, "H-Z-H"
 # Em H-Z-H, resultado foi 1 (1024 vezes) e 0 (0 vezes), confirmando interferência que inverteu estado de |0&gt; para |1&gt;
 </code></pre></small>
                 </li>
-                <li>Algoritmo de Deutsch (Deutsch's problem): 1º algoritmo quântico da história. Resolve problema de Deutsch em etapa única, via computação quântica. Dada função 'f:{0,1}-&gt;{0,1}', queremos saber se a mesma é constante (f(0) = f(1)) ou balanceada (f(0) ≠ f(1)). Será constante quando f(x)=0 (sendo f(0)=0 e f(1)=0) ou f(x)=1 (sendo f(0)=1 e f(1)=1); balanceada quando f(x)=x (sendo f(0)=0 e f(1)=1) ou f(x)=¬x (sendo f(0)=1 e f(1)=0). A solução, na física clássica, avaliam-se ambas f(0) e f(1). Na física quântica, avaliam-se simultaneamente, via superposição e interferência, em única resposta (diferente de paralelismo clássico), extraindo propriedades da função, não valores individuais. Oráculo é função escondida que algoritmo pode invocar, onde sabe-se apenas quais entradas e saídas, não seu código interno. Algoritmo quântico resolve Deutsch com apenas 1 consulta ao oráculo. Superposição avalia f(0) e f(1) simultaneamente, enquanto Interferência elimina resultados inúteis. Medição estratégica extrai propriedade global da função. Função constante resulta em estado |0⟩, enquanto função balanceada resulta em estado |1⟩.
+            </ol>
+
+            <br><h4>Algoritmo de Deutsch (Deutsch's problem):</h4>
+            <p id="textoPost">1º algoritmo quântico da história. Resolve problema de Deutsch em etapa única, via computação quântica. Dada função 'f:&#123;0,1&#125;-&gt;&#123;0,1&#125;', queremos saber se a mesma é constante (f(0) = f(1)) ou balanceada (f(0) ≠ f(1)).</p>
+            <ul>
+                <li>Constante: f(x)=0 (sendo f(0)=0 e f(1)=0) ou f(x)=1 (sendo f(0)=1 e f(1)=1);</li>
+                <li>Balanceada: f(x)=x (sendo f(0)=0 e f(1)=1) ou f(x)=¬x (sendo f(0)=1 e f(1)=0).</li>
+            </ul>
+            <p id="textoPost">A solução, na física clássica, avaliam-se ambas f(0) e f(1). Na física quântica, avaliam-se simultaneamente, via superposição e interferência, em única resposta (diferente de paralelismo clássico), extraindo propriedades da função, não valores individuais. Oráculo é função escondida que algoritmo pode invocar, onde sabe-se apenas quais entradas e saídas, não seu código interno. Algoritmo quântico resolve Deutsch com apenas 1 consulta ao oráculo. Superposição avalia f(0) e f(1) simultaneamente, enquanto Interferência elimina resultados inúteis. Medição estratégica extrai propriedade global da função. Função constante resulta em estado |0⟩, enquanto função balanceada resulta em estado |1⟩.</p>
 <small><pre><code>
 # pip3 install qiskit qiskit-ibm-runtime qiskit-aer matplotlib qiskit[visualization]
 from qiskit_ibm_runtime import QiskitRuntimeService
@@ -440,7 +448,7 @@ from qiskit import QuantumCircuit, transpile
 from qiskit_aer import Aer, AerSimulator
 QiskitRuntimeService.save_account(token="SEU_TOKEN_AQUI")
 
-# Função oráculo, cria circuito quântico de função clássica f: {0,1} -&gt; {0,1}
+# Função oráculo, cria circuito quântico de função clássica f: &#123;0,1&#125; -&gt; &#123;0,1&#125;
 def deutsch_function(case: int):
  
     # case 1: f(x) = 0 (constante)
@@ -497,8 +505,75 @@ def deutsch_algorithm(function: QuantumCircuit):
 f = deutsch_function(3)
 display(deutsch_algorithm(f))
 </code></pre></small>
-                </li>
-            </ol>
+
+            <br><h4>Algoritmo de Deutsch-Jozsa (Deutsch-Jozsa's problem):</h4>
+            <p id="textoPost">Expansão do algoritmo de Deutsch para funções com múltiplos qubits de entrada, determinando se função é constante ou balanceada via única consulta ao oráculo. Deutsch estipula categorizações de funções quando qubits de entrada n for 0 ou 1. Para valores n maiores que 1, Deutsch-Jozsa considera entradas "indiferentes", sendo promessas de constante ou balanceada.</p>
+            <ul>
+                <li>Constante: quando saída dos qubits de entrada será sempre 0 ou sempre 1;</li>
+                <li>Balanceada (equilibrada): quando saída dos qubits de entrada será 0 e 1 em nº igual de vezes;</li>
+                <li>Algoritmo retorna cadeia de bits com todos 0 se função for constante, e cadeia de bits com pelo menos um 1 se função for balanceada (equilibrada).</li>
+            </ul>
+            <p id="textoPost">Após aplicar portas Hadamard (superposição) nos qubits de entrada, aplicação de 2ª camada de portas Hadamard alterarão estado quântico dos qubits de entrada.</p>
+<small><pre><code>
+# pip3 install qiskit qiskit-ibm-runtime qiskit-aer matplotlib qiskit[visualization]
+from qiskit_ibm_runtime import QiskitRuntimeService
+from qiskit import QuantumCircuit, transpile
+from qiskit_aer import Aer, AerSimulator
+from qiskit.visualization import plot_histogram
+from IPython.display import display
+QiskitRuntimeService.save_account(token="SEU_TOKEN_AQUI")
+
+# Função oráculo para Deutsch-Jozsa
+def deutsch_jozsa_oracle(n, oracle_type="balanced"):
+    oracle = QuantumCircuit(n + 1) # n qubits de entrada + 1 qubit auxiliar de saída (fase)
+
+    if oracle_type == "constant": # Se função é constante (f(x) = 0), então nada ocorre
+        pass
+
+    elif oracle_type == "balanced": # Se função é balanceada (f(x) = 1 para metade dos inputs), então aplica CX (portas CNOTs para cada qubit, invertendo estado do qubit auxiliar)
+        for qubit in range(n):
+            oracle.cx(qubit, n)
+    return oracle
+
+# Construir circuito Deutsch-Jozsa
+def deutsch_jozsa_circuit(n, oracle):
+    qc = QuantumCircuit(n + 1, n) # n qubits de entrada + 1 qubit auxiliar de saída + n bits clássicos para medição
+
+    # Colocar qubit auxiliar em |1>
+    qc.x(n) # Aplica porta X (NOT) no qubit auxiliar
+    qc.h(n) # Aplica porta Hadamard no qubit auxiliar
+
+    # Aplica porta Hadamard nos qubits de entrada
+    for qubit in range(n):
+        qc.h(qubit)
+    qc.barrier()
+
+    qc.compose(oracle, inplace=True) # Aplica oráculo ao circuito
+    qc.barrier()
+
+    # Aplica 2ª camada de portas Hadamard nos qubits de entrada
+    for qubit in range(n):
+        qc.h(qubit)
+
+    # Mede qubits de entrada nos bits clássicos correspondentes
+    for qubit in range(n):
+        qc.measure(qubit, qubit)
+    return qc
+
+n = 3  # Quantidade de qubits de entrada
+oracle_type = "balanced"  # Tipo de função ('constant' ou 'balanced')
+oracle = deutsch_jozsa_oracle(n, oracle_type) # Cria oráculo
+qc = deutsch_jozsa_circuit(n, oracle) # Cria circuito Deutsch-Jozsa
+display(qc.draw(output="mpl"))
+
+simulator = Aer.get_backend("aer_simulator") # Usa simulador AER
+compiled = transpile(qc, simulator) # Transpila circuito para backend do simulador
+result = simulator.run(compiled, shots=1024).result() # Executa circuito no simulador
+counts = result.get_counts() # Obtém resultados da medição
+
+display(plot_histogram(counts))
+print("Resultados:", counts) # Exibe resultados da medição (000 indica função constante, qualquer outro resultado indica função balanceada)
+</code></pre></small>
         </div>
     </div>
 
