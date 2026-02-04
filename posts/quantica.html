@@ -624,8 +624,25 @@ result = simulator.run(tqc, shots=1024).result() # Executa circuito no simulador
 counts = result.get_counts() # Obtém resultados da medição
 print("Resultados da medição:", counts) # Exibe resultados (se houver mais de um, o mais frequente é a string oculta 's')
 
-fig = plot_histogram(counts) # Plota histograma dos resultados
-display(fig)
+measured = list(counts.keys())[0]
+print("Resultado quântico:", measured[::-1]) # Inverte string para corresponder à ordem dos qubits (q0 é o bit menos significativo)
+</code></pre></small>
+
+            <br><h4>Algoritmo de Simon (Simon's problem):</h4>
+            <p id="textoPost">Similar ao algoritmo de Bernstein-Vazirani, mas encontrar string oculta com propriedade de simetria específica.</p>
+            <ul>
+                <li>Cadeia de caracteres totalmente 0 (exemplo: 0000): um-para-um (para cada cadeia de caracteres de saída possível de f, há exatamente 1 cadeia de caracteres de entrada que fazem com que f produza essa cadeia);</li>
+                <li>Cadeia de caracteres não totalmente 0 (exemplo 0101): dois-para-um (para cada cadeia de caracteres de saída possível de f, há exatamente 2 cadeias de caracteres de entrada que fazem com que f produza essa cadeia);</li>
+            </ul>
+            <ol>
+                <li>Aplica-se 1ª camada de portas Hadamard em todos qubits de entrada;</li>
+                <li>Aplica-se oráculo (porta Uf) em todos qubits, onde saída da função f é XOR no estado totalmente zero dos qubits inferiores da m;</li>
+                <li>Aplica-se 2ª camada de portas Hadamard em todos qubits de entrada, onde análise diverge dos demais algoritmos quânticos anteriores;</li>
+                <li>Aplica-se medição, onde nos casos de cadeia de caracteres totalmente 0, função um-para-um é confirmada. Em cadeia de caracteres não totalmente 0, função dois-para-um é confirmada;</li>
+                <li>Pós-processamento: algoritmo não retorna s diretamente. Ele retorna vetores z que são ortogonais a s (em aritmética binária). Após coletar n-1 vetores linearmente independentes, resolve-se sistema linear clássico para achar s;</li>
+            </ol>
+<small><pre><code>
+PROMPT: Explique brevemente algoritmo quântico de Simon. Crie exemplo Qiskit atualizado (versão 2.2) desse algoritmo, código comentado e em única célula de código
 </code></pre></small>
         </div>
     </div>
