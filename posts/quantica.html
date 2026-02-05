@@ -629,7 +629,7 @@ print("Resultado quântico:", measured[::-1]) # Inverte string para corresponder
 </code></pre></small>
 
             <br><h4>Algoritmo de Simon (Simon's problem):</h4>
-            <p id="textoPost">Similar ao algoritmo de Bernstein-Vazirani, mas encontrar string oculta com propriedade de simetria específica.</p>
+            <p id="textoPost">Similar ao algoritmo de Bernstein-Vazirani, mas encontrar string oculta com propriedade de simetria específica, de forma indireta, via deduções a partir de restrições.</p>
             <ul>
                 <li>Cadeia de caracteres totalmente 0 (exemplo: 0000): um-para-um (para cada cadeia de caracteres de saída possível de f, há exatamente 1 cadeia de caracteres de entrada que fazem com que f produza essa cadeia);</li>
                 <li>Cadeia de caracteres não totalmente 0 (exemplo 0101): dois-para-um (para cada cadeia de caracteres de saída possível de f, há exatamente 2 cadeias de caracteres de entrada que fazem com que f produza essa cadeia);</li>
@@ -642,7 +642,51 @@ print("Resultado quântico:", measured[::-1]) # Inverte string para corresponder
                 <li>Pós-processamento: algoritmo não retorna s diretamente. Ele retorna vetores z que são ortogonais a s (em aritmética binária). Após coletar n-1 vetores linearmente independentes, resolve-se sistema linear clássico para achar s;</li>
             </ol>
 <small><pre><code>
-PROMPT: Explique brevemente algoritmo quântico de Simon. Crie exemplo Qiskit atualizado (versão 2.2) desse algoritmo, código comentado e em única célula de código
+# pip3 install qiskit qiskit-ibm-runtime qiskit-aer qiskit[visualization]
+from qiskit_ibm_runtime import QiskitRuntimeService
+from qiskit import QuantumCircuit, transpile
+from qiskit_aer import AerSimulator
+from qiskit.visualization import plot_histogram
+from IPython.display import display
+QiskitRuntimeService.save_account(token="SEU_TOKEN_AQUI")
+
+s = '110' # String oculta
+n = len(s)
+
+# Função oráculo para Simon
+def simon_oracle(s):
+    s = s[::-1] # Inverte string para facilitar acesso aos bits
+    n = len(s)
+    qc = QuantumCircuit(n*2) # Criar circuito quântico com 2n qubits
+    for q in range(n):
+        qc.cx(q, q+n) # Aplica porta CNOT para criar superposição no segundo registro
+    if '1' not in s: # Se s for string nula, retorna circuito sem alterações
+        return qc
+    i = s.find('1')
+    for q in range(n):
+        if s[q] == '1':
+            qc.cx(i, (q)+n) # Se qubit de s for 1, aplica porta CNOT do qubit i para qubit q+n
+    return qc
+
+qc = QuantumCircuit(n*2, n) # Criar circuito quântico com 2n qubits e n bits clássicos para medição
+qc.h(range(n)) # Aplica porta Hadamard (superposição) nos primeiros n qubits de entrada
+qc.barrier()
+qc = qc.compose(simon_oracle(s)) # Aplica oráculo de Simon ao circuito
+qc.barrier()
+qc.h(range(n)) # Aplica 2ª camada de portas Hadamard nos primeiros n qubits de entrada
+qc.measure(range(n), range(n)) # Mede primeiros n qubits de entrada e armazena resultados nos bits clássicos
+qc.draw('mpl')
+display(qc.draw())
+display(qc.draw(output='mpl'))
+
+simulator = AerSimulator()
+tqc = transpile(qc, simulator)
+result = simulator.run(tqc, shots=1024).result() # Executa circuito no simulador e obtém resultados
+counts = result.get_counts() # Conta ocorrências de cada resultado medido
+
+display(plot_histogram(counts))
+print(counts)
+print("Resultado s:", s)
 </code></pre></small>
         </div>
     </div>
