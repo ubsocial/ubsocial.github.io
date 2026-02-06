@@ -693,7 +693,6 @@ qc.h(range(n)) # Aplicar porta Hadamard novamente nos qubits de entrada
 qc.measure(range(n), range(n)) # Medir qubits de entrada e armazenar resultados no registrador clássico
 display(qc.draw("mpl"))
 
-
 sim = AerSimulator()
 tqc = transpile(qc, sim) # Transpilar circuito para simulador local
 result = sim.run(tqc, shots=2048).result() # Executar circuito e obter resultados
@@ -734,8 +733,6 @@ def gf2_rref(A):
     return A, pivots
 
 R, pivots = gf2_rref(Y) # Obter forma reduzida por linhas e índices dos pivôs
-
-
 
 free_cols = [c for c in range(n) if c not in pivots] # Colunas livres correspondem variáveis que podem ser escolhidas livremente
 s_found = np.zeros(n, dtype=int) # Inicializar vetor s encontrado com zeros
