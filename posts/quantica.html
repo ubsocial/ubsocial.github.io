@@ -643,50 +643,122 @@ print("Resultado quântico:", measured[::-1]) # Inverte string para corresponder
             </ol>
 <small><pre><code>
 # pip3 install qiskit qiskit-ibm-runtime qiskit-aer qiskit[visualization]
+import numpy as np
+from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, transpile
 from qiskit_ibm_runtime import QiskitRuntimeService
-from qiskit import QuantumCircuit, transpile
 from qiskit_aer import AerSimulator
 from qiskit.visualization import plot_histogram
-from IPython.display import display
 QiskitRuntimeService.save_account(token="SEU_TOKEN_AQUI")
 
-s = '110' # String oculta
-n = len(s)
+s = "1000" # String oculta
+n = len(s) # Quantidade de qubits de entrada
+assert n &gt;= 2 and any(c == "1" for c in s) # Verifica s válido
 
-# Função oráculo para Simon
-def simon_oracle(s):
-    s = s[::-1] # Inverte string para facilitar acesso aos bits
-    n = len(s)
-    qc = QuantumCircuit(n*2) # Criar circuito quântico com 2n qubits
-    for q in range(n):
-        qc.cx(q, q+n) # Aplica porta CNOT para criar superposição no segundo registro
-    if '1' not in s: # Se s for string nula, retorna circuito sem alterações
-        return qc
-    i = s.find('1')
-    for q in range(n):
-        if s[q] == '1':
-            qc.cx(i, (q)+n) # Se qubit de s for 1, aplica porta CNOT do qubit i para qubit q+n
-    return qc
+qr = QuantumRegister(2*n) # Circuito com 2n qubits
+cr = ClassicalRegister(n) # Registrador clássico para n bits
+qc = QuantumCircuit(qr, cr) # Inicialização do circuito
 
-qc = QuantumCircuit(n*2, n) # Criar circuito quântico com 2n qubits e n bits clássicos para medição
-qc.h(range(n)) # Aplica porta Hadamard (superposição) nos primeiros n qubits de entrada
+qc.h(range(n)) # Aplicar porta Hadamard nos qubits de entrada
 qc.barrier()
-qc = qc.compose(simon_oracle(s)) # Aplica oráculo de Simon ao circuito
+
+# Oráculo de Simon:
+for i in range(n):
+    qc.cx(qr[i], qr[n+i]) # Aplicar porta CNOT (entrelaçamento) nos qubits de entrada e saída
+
+j = s.find("1") # Encontrar posição do qubit de controle (primeiro "1" em s)
+
+for i, bit in enumerate(s):
+    if bit == "1":
+        qc.cx(qr[j], qr[n+i]) # Aplicar porta CNOT para criar função oculta
+
+perm = list(np.random.permutation(n)) # Permutação aleatória dos qubits de entrada
+init = list(range(n))
+i = 0
+
+while i &lt; n:
+    if init[i] != perm[i]:
+        k = perm.index(init[i]) # Encontrar posição do qubit a ser trocado
+        qc.swap(qr[n+i], qr[n+k]) # Aplicar porta SWAP para permutar qubits de saída
+        init[i], init[k] = init[k], init[i] # Atualizar lista de inicialização
+    else:
+        i += 1
+
+for i in range(n):
+    if np.random.random() &gt; 0.5:
+        qc.x(qr[n+i]) # Aplicar porta X (NOT) para criar ruído
+
 qc.barrier()
-qc.h(range(n)) # Aplica 2ª camada de portas Hadamard nos primeiros n qubits de entrada
-qc.measure(range(n), range(n)) # Mede primeiros n qubits de entrada e armazena resultados nos bits clássicos
-qc.draw('mpl')
-display(qc.draw())
-display(qc.draw(output='mpl'))
 
-simulator = AerSimulator()
-tqc = transpile(qc, simulator)
-result = simulator.run(tqc, shots=1024).result() # Executa circuito no simulador e obtém resultados
-counts = result.get_counts() # Conta ocorrências de cada resultado medido
+qc.h(range(n)) # Aplicar porta Hadamard novamente nos qubits de entrada
+qc.measure(range(n), range(n)) # Medir qubits de entrada e armazenar resultados no registrador clássico
+display(qc.draw("mpl"))
 
-display(plot_histogram(counts))
-print(counts)
-print("Resultado s:", s)
+
+sim = AerSimulator()
+tqc = transpile(qc, sim) # Transpilar circuito para simulador local
+result = sim.run(tqc, shots=2048).result() # Executar circuito e obter resultados
+counts = result.get_counts()
+print("Contagens:", counts)
+plot_histogram(counts)
+
+# Resolver Simon (GF2):
+Y = []
+for bitstr, c in counts.items():
+    if bitstr != "0"*n: # Se resultado não for vetor nulo
+        y = [int(b) for b in bitstr[::-1]] # Converter string de bits para lista de inteiros (revertendo ordem)
+        if y not in Y:
+            Y.append(y)
+Y = np.array(Y)
+
+def gf2_rref(A):
+    A = A.copy() % 2 # Garantir que A seja binária
+    rows, cols = A.shape # Obter número de linhas e colunas
+    r = 0
+    pivots = [] # Lista para armazenar índices das colunas pivô
+    for c in range(cols):
+        pivot = None
+        for i in range(r, rows):
+            if A[i,c] == 1: # Encontrar linha com 1 na coluna c
+                pivot = i
+                break
+        if pivot is None:
+            continue
+        A[[r,pivot]] = A[[pivot,r]] # Trocar linha r com linha pivot
+        pivots.append(c) # Adicionar índice da coluna pivô à lista
+        for i in range(rows):
+            if i != r and A[i,c] == 1:
+                A[i] ^= A[r] # Subtrair linha r da linha i (XOR para GF(2))
+        r += 1
+        if r == rows:
+            break
+    return A, pivots
+
+R, pivots = gf2_rref(Y) # Obter forma reduzida por linhas e índices dos pivôs
+
+
+
+free_cols = [c for c in range(n) if c not in pivots] # Colunas livres correspondem variáveis que podem ser escolhidas livremente
+s_found = np.zeros(n, dtype=int) # Inicializar vetor s encontrado com zeros
+
+if len(free_cols) == 0:
+    print("Nenhuma variável livre - oráculo degenerado")
+else:
+    s_found[free_cols[0]] = 1 # Escolher primeira variável livre como 1 (pode ser qualquer combinação linear das variáveis livres)
+    for r, c in enumerate(pivots):
+        if R[r, free_cols[0]] == 1: # Se linha r tem 1 na coluna da variável livre escolhida, então s[c] deve ser 1 para satisfazer a equação
+            s_found[c] = 1 # Definir s[c] como 1 para satisfazer equação Y·s = 0 mod 2
+
+s_found_str = "".join(map(str, s_found)) # Converter vetor s encontrado para string de bits (valor final encontrado)
+
+def dot_mod2(a,b):
+    return sum(x*y for x,y in zip(a,b)) % 2 # Função para calcular produto escalar mod 2 entre dois vetores
+
+ok = all(dot_mod2(row, s_found) == 0 for row in Y) # Verificar se Y·s_found = 0 mod 2 para todas linhas de Y
+
+print("Sistema Y:", Y)
+print("s encontrado:", s_found_str)
+print("s real:", s)
+print("Verificação Y·s = 0 mod2:", ok)
 </code></pre></small>
 
             <br><h4>Teleportação Quântica (Quantum Teleportation):</h4>
@@ -756,7 +828,6 @@ with qc.if_test((cr[0], 1)):
 qc.draw(output="mpl")
 qc.barrier()
 
-qc.u(theta, varphi, 0.0, Bob).inverse()  # inverse of u(theta,varphi,0.0)
 qc.u(theta, varphi, 0.0, Bob).inverse() # Bob aplica inversa da porta U para verificar se recuperou estado original de Q
 qc.measure(Bob, cr[2]) # Bob mede B e armazena resultado em bit clássico cr[2]
 qc.draw(output="mpl")
