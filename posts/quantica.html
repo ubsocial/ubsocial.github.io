@@ -692,9 +692,9 @@ print("Resultado s:", s)
             <br><h4>Teleportação Quântica (Quantum Teleportation):</h4>
             <p id="textoPost">Protocolo quântico para transferir estado quântico de qubit a outro, via comunicação clássica de 2 bits, resultante de emaranhamento quântico pós-medição de Bell AB. Matéria física não é teletransportada, apenas informação (estado quântico). Alice (remetente) possui qubit A, e Bob (receptor) possui qubit B emaranhado com Alice (Bell, par emaranhado AB), possibilitando transmitir estado quântico entre eles. Alice mede AB e passa a ter 3º qubit Q, com estado desconhecido, que deseja teletransportar ao Bob. Alice mede AB, obtendo 2 bits clássicos, e envia a Bob. Bob aplica correções em B com base nos bits recebidos, recuperando estado original de Q em B. Etapas do teletransporte quântico:</p>
             <ol>
-                <li>Alice aplica porta CNOT (CX) no Bell AQ, onde Q é controle e A é alvo;</li>
+                <li>Alice aplica porta CNOT (CX) no Bell QA, onde Q é controle e A é alvo;</li>
                 <li>Alice aplica porta Hadamard (H) em Q;</li>
-                <li>Alice mede (interferência destrutiva) Bell AQ e transmite resultados, em 2 bits clássicos, ao Bob. Resultado da medição de A é a, e Q é b;</li>
+                <li>Alice mede (interferência destrutiva) Bell QA e transmite resultados, em 2 bits clássicos, ao Bob. Resultado da medição de A é a, e Q é b;</li>
                 <li>Bob recebe a e b de Alice e transforma:
                     <ul>
                         <li>Se a=1, então Bob aplica porta Pauli X (NOT) em B;</li>
@@ -710,10 +710,76 @@ print("Resultado s:", s)
                 <li>Alice opera em (0,1 ou seja QA) e mede ambos, obtendo bits clássicos a e b;</li>
                 <li>Bob corrige qubit 2 (B) com base em a e b, recuperando estado original de Q em B.</li>
             </ol>
-<!--FALTA VER (teletransporte quântico)
-- https://en.wikipedia.org/wiki/Quantum_teleportation
-- https://quantum.cloud.ibm.com/learning/en/modules/computer-science/quantum-teleportation
--->
+<small><pre><code>
+# pip3 install qiskit qiskit-ibm-runtime qiskit-aer qiskit[visualization]
+from qiskit_ibm_runtime import QiskitRuntimeService, SamplerV2 as Sampler
+from qiskit import QuantumCircuit, transpile, ClassicalRegister, QuantumRegister
+from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager
+from qiskit_aer import AerSimulator
+from qiskit_aer.noise import NoiseModel
+from qiskit.primitives import BackendSamplerV2
+from qiskit.visualization import plot_histogram
+from IPython.display import display
+import numpy as np
+QiskitRuntimeService.save_account(token="SEU_TOKEN_AQUI")
+
+secret = QuantumRegister(1, "Q") # Qubit Q, que contém estado quântico a ser teletransportado
+Alice = QuantumRegister(1, "A") # Qubit A de Alice (remetente)
+Bob = QuantumRegister(1, "B") # Qubit B de Bob (destinatário)
+
+cr = ClassicalRegister(3, "c") # Bits clássicos para armazenar resultados das medições de Alice
+qc = QuantumCircuit(secret, Alice, Bob, cr) # Circuito quântico que implementa protocolo de teletransporte
+
+qc.h(Alice) # Alice aplica porta Hadamard (superposição) em A
+qc.cx(Alice, Bob) # Alice aplica porta CNOT (entrelaçamento) entre A e B
+qc.barrier()
+
+np.random.seed(42) # Criar estado quântico aleatório para Q
+theta = np.random.uniform(0.0, 1.0) * np.pi # de 0 a pi
+varphi = np.random.uniform(0.0, 2.0) * np.pi  # de 0 a 2*pi
+qc.u(theta, varphi, 0.0, secret) # Alice aplica porta U (rotação unitária - prepara estado quântico possível do qubit a partir dos ângulos dados) em Q, parametrizada por theta e varphi
+qc.barrier()
+
+qc.cx(secret, Alice) # Alice aplica porta CNOT em Bell QA
+qc.h(secret) # Alice aplica porta Hadamard em Q
+qc.barrier()
+
+qc.measure(Alice, cr[1]) # Alice mede A e armazena resultado em bit clássico cr[1]
+qc.measure(secret, cr[0]) # Alice mede Q e armazena resultado em bit clássico cr[0]
+
+# Condição para Bob aplicar correção em B, conforme das medições de Alice (cr[1] e cr[0])
+with qc.if_test((cr[1], 1)):
+    qc.x(Bob) # Se cr[1] for 1, Bob aplica porta Pauli X (NOT) em B
+with qc.if_test((cr[0], 1)):
+    qc.z(Bob) # Se cr[0] for 1, Bob aplica porta Pauli Z (fase) em B
+
+qc.draw(output="mpl")
+qc.barrier()
+
+qc.u(theta, varphi, 0.0, Bob).inverse()  # inverse of u(theta,varphi,0.0)
+qc.u(theta, varphi, 0.0, Bob).inverse() # Bob aplica inversa da porta U para verificar se recuperou estado original de Q
+qc.measure(Bob, cr[2]) # Bob mede B e armazena resultado em bit clássico cr[2]
+qc.draw(output="mpl")
+
+service = QiskitRuntimeService()
+backend = service.least_busy(operational=True, simulator=False, min_num_qubits=127) # Encontra backend físico disponível com mínimo 127 qubits
+print(backend.name)
+
+target = backend.target
+pm = generate_preset_pass_manager(target=target, optimization_level=3)
+qc_isa = pm.run(qc) # Transpilação do circuito quântico para backend escolhido, otimizando para nível 3 (máximo)
+
+sampler = Sampler(mode=backend)
+noise_model = NoiseModel.from_backend(backend) # Extrai modelo de ruído do backend físico para simulação realista
+
+backend_sim = AerSimulator(noise_model=noise_model)
+sampler_sim = BackendSamplerV2(backend=backend_sim) # Simulador com modelo de ruído do backend físico
+
+job = sampler.run([qc_isa]) # Executa circuito transpilado no backend físico via sampler
+res = job.result() # Obtém resultados da execução do circuito no backend físico
+counts = res[0].data.c.get_counts() # Extrai contagem de resultados das medições (bits clássicos) para análise
+plot_histogram(counts) # Medição de Bob (cr[2])=0, indicando que estado original de Q foi teletransportado com sucesso para B 
+</code></pre></small>
         </div>
     </div>
 
