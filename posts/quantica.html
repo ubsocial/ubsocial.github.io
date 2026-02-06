@@ -688,6 +688,32 @@ display(plot_histogram(counts))
 print(counts)
 print("Resultado s:", s)
 </code></pre></small>
+
+            <br><h4>Teleportação Quântica (Quantum Teleportation):</h4>
+            <p id="textoPost">Protocolo quântico para transferir estado quântico de qubit a outro, via comunicação clássica de 2 bits, resultante de emaranhamento quântico pós-medição de Bell AB. Matéria física não é teletransportada, apenas informação (estado quântico). Alice (remetente) possui qubit A, e Bob (receptor) possui qubit B emaranhado com Alice (Bell, par emaranhado AB), possibilitando transmitir estado quântico entre eles. Alice mede AB e passa a ter 3º qubit Q, com estado desconhecido, que deseja teletransportar ao Bob. Alice mede AB, obtendo 2 bits clássicos, e envia a Bob. Bob aplica correções em B com base nos bits recebidos, recuperando estado original de Q em B. Etapas do teletransporte quântico:</p>
+            <ol>
+                <li>Alice aplica porta CNOT (CX) no Bell AQ, onde Q é controle e A é alvo;</li>
+                <li>Alice aplica porta Hadamard (H) em Q;</li>
+                <li>Alice mede (interferência destrutiva) Bell AQ e transmite resultados, em 2 bits clássicos, ao Bob. Resultado da medição de A é a, e Q é b;</li>
+                <li>Bob recebe a e b de Alice e transforma:
+                    <ul>
+                        <li>Se a=1, então Bob aplica porta Pauli X (NOT) em B;</li>
+                        <li>Se b=1, então Bob aplica porta Pauli Z (inversão de fase) em B;</li>
+                        <li>Exemplo: ab=[00,01,10,11], então Bob executa [I,Z,X,XZ] em B, sendo Q teletransportado para B.</li>
+                    </ul>
+                </li>
+            </ol>
+            <p id="textoPos">Após teletransporte, é impossível clonar estado quântico de Q, pois mudou-se do valor original. O estado de A também foi modificado, não estando mais emaranhado com B. Fluxo do teletransporte quântico:</p>
+            <ol>
+                <li>Qubit 0 (Q): estado desconhecido (a ser teleportado);</li>
+                <li>Qubits 1 (A) e 2 (B): criam par de Bell AB (canal quântico);</li>
+                <li>Alice opera em (0,1 ou seja QA) e mede ambos, obtendo bits clássicos a e b;</li>
+                <li>Bob corrige qubit 2 (B) com base em a e b, recuperando estado original de Q em B.</li>
+            </ol>
+<!--FALTA VER (teletransporte quântico)
+- https://en.wikipedia.org/wiki/Quantum_teleportation
+- https://quantum.cloud.ibm.com/learning/en/modules/computer-science/quantum-teleportation
+-->
         </div>
     </div>
 
