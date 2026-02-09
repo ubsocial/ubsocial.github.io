@@ -848,6 +848,107 @@ res = job.result() # Obtém resultados da execução do circuito no backend fís
 counts = res[0].data.c.get_counts() # Extrai contagem de resultados das medições (bits clássicos) para análise
 plot_histogram(counts) # Medição de Bob (cr[2])=0, indicando que estado original de Q foi teletransportado com sucesso para B 
 </code></pre></small>
+
+            <br><h4>Superdense Coding:</h4>
+            <p id="textoPost">Protocolo quântico para transmitir 2 bits clássicos enviando apenas 1 qubit, desde que Alice e Bob compartilhem previamente par emaranhado (par de Bell). Em vez de permitir transmissão de qubit via 2 bits clássicos de comunicação, permite transmirit 2 bits clássicos qubit de comunicação quântica. Remetente (Alice) possui qubit A, e destinatário (Bob) possui qubit B. Juntos, possuem par de Bell AB. Alice quer enviar 2 bits clássicos (c e d) para Bob, via qubit. Conforme teorema de Holevo, emaranhamento compartilhado permite dobrar capacidade de transmissão de informação clássica dos qubits enviados. Etapas:</p>
+            <ul>
+                <li>Alice codifica bits clássicos c e d em seu qubit A (c=1 aplica porta X, d=1 aplica porta Z):
+                    <ul>
+                        <li>cd 00 aplica I em A (identidade, nada ocorre);</li>
+                        <li>cd 01 aplica Z em A (inversão de fase, altera sinal de |1⟩ para -|1⟩ e mantém |0⟩ inalterado);</li>
+                        <li>cd 10 aplica X em A (NOT, troca |0⟩ por |1⟩ e vice-versa);</li>
+                        <li>cd 11 aplica XZ em A (NOT seguido de Z, inverte estado e altera fase, resultando em -|0⟩ e -|1⟩).</li>
+                    </ul>
+                </li>
+                <li>Então, Alice envia seu qubit A para Bob;</li>
+                <li>Bob recebe A e aplica porta CNOT (CX) em AB, onde A é controle e B é alvo;</li>
+                <li>Bob aplica porta Hadamard (H) em A;</li>
+                <li>Bob mede mede qubits AB (B para obter c e A para obter d), obtendo 2 bits clássicos enviados por Alice.</li>
+            </ul>
+            <p id="textoPost">Em síntese, Alice escolhe qual estado de Bell deseja compartilhar com Bob, envia seu qubit para Bob, e Bob mede para determinar qual estado de Bell Alice escolheu.</p>
+<small><pre><code>
+# pip3 install qiskit qiskit-ibm-runtime qiskit-aer qiskit[visualization]
+from qiskit_ibm_runtime import QiskitRuntimeService
+from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister
+from qiskit_aer import AerSimulator
+from qiskit.visualization import plot_histogram
+from IPython.display import display
+QiskitRuntimeService.save_account(token="SEU_TOKEN_AQUI")
+
+c = "1"
+d = "0"
+qc = QuantumCircuit(2)
+
+# Preparar estado de Bell entre Alice e Bob
+qc.h(0) # Aplica Hadamard (superposição) no qubit de Alice
+qc.cx(0, 1) # Aplica CNOT (entrelaçamento) para criar estado de Bell entre Alice (qubit 0) e Bob (qubit 1)
+qc.barrier()
+
+# Operações de Alice, dependendo dos bits c e d:
+if d == "1":
+    qc.z(0) # Se d é 1, aplica Z (inversão de fase) no qubit de Alice
+if c == "1":
+    qc.x(0) # Se c é 1, aplica X (inversão de bit) no qubit de Alice
+qc.barrier()
+
+# Operações de Bob para decodificar bits de Alice:
+qc.cx(0, 1) # Aplica CNOT para desfazer entrelaçamento entre Alice e Bob
+qc.h(0) # Aplica Hadamard para transformar estado de Bob em estado mensurável
+qc.measure_all() # Mede ambos qubits para obter bits de Alice
+display(qc.draw(output="mpl"))
+
+result = AerSimulator().run(qc).result()
+statistics = result.get_counts()
+
+for outcome, frequency in statistics.items():
+    print(f"Measured &#123;outcome&#125; with frequency &#123;frequency&#125;") # Exibe resultados de medição (cd)
+
+display(plot_histogram(statistics)) # Exibe resultados de medição (cd) para teste de superdense coding
+
+rbg = QuantumRegister(1, "coin") # 'coin' qubit para gerar bits de Alice
+ebit0 = QuantumRegister(1, "A") # Qubit de Alice
+ebit1 = QuantumRegister(1, "B") # Qubit de Bob
+
+Alice_c = ClassicalRegister(1, "Alice c") # Registrador clássico para bit c de Alice
+Alice_d = ClassicalRegister(1, "Alice d") # Registrador clássico para bit d de Alice
+test = QuantumCircuit(rbg, ebit0, ebit1, Alice_d, Alice_c) # Circuito para teste de superdense coding
+
+# Preparar estado de Bell entre Alice e Bob
+test.h(ebit0) # Aplica Hadamard (superposição) no qubit de Alice
+test.cx(ebit0, ebit1) # Aplica CNOT (entrelaçamento) para criar estado de Bell entre Alice (ebit0) e Bob (ebit1)
+test.barrier()
+
+# Use the 'coin' qubit twice to generate Alice's bits c and d.
+test.h(rbg) # Aplica Hadamard para criar superposição no 'coin' qubit
+test.measure(rbg, Alice_c) # Mede 'coin' qubit para obter bit c de Alice
+test.h(rbg) # Aplica Hadamard novamente para preparar 'coin' qubit para bit d
+test.measure(rbg, Alice_d) # Mede 'coin' qubit para obter bit d de Alice
+test.barrier()
+
+# Operações de Alice, dependendo dos bits c e d:
+with test.if_test((Alice_d, 1), label="Z"):
+    test.z(ebit0) # Se d é 1, aplica Z (inversão de fase) no qubit de Alice
+with test.if_test((Alice_c, 1), label="X"):
+    test.x(ebit0) # Se c é 1, aplica X (inversão de bit) no qubit de Alice
+test.barrier()
+
+# Operações de Bob:
+test.cx(ebit0, ebit1) # Aplica CNOT para desfazer entrelaçamento entre Alice e Bob
+test.h(ebit0) # Aplica Hadamard para transformar estado de Bob em estado mensurável
+test.barrier()
+
+Bob_c = ClassicalRegister(1, "Bob c") # Registrador clássico para bit c de Bob
+Bob_d = ClassicalRegister(1, "Bob d") # Registrador clássico para bit d de Bob
+test.add_register(Bob_d) # Adiciona registrador clássico para bit d de Bob
+test.add_register(Bob_c) # Adiciona registrador clássico para bit c de Bob
+test.measure(ebit0, Bob_d) # Mede qubit de Alice para obter bit d de Bob
+test.measure(ebit1, Bob_c) # Mede qubit de Bob para obter bit c de Bob
+display(test.draw(output="mpl"))
+
+result = AerSimulator().run(test).result()
+statistics = result.get_counts()
+display(plot_histogram(statistics)) # Exibe resultados de medição (cd) para teste de superdense coding
+</code></pre></small>
         </div>
     </div>
 
