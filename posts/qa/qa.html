@@ -378,13 +378,6 @@ Erro ocorre de forma consistente ao usar cartão Visa em ambiente de homologaç�
             </p>
 
             <br><hr><h4>Aula 2- SRS e design de testes:</h4>
-            <ul class="text-warning">
-                <li><b>Design de testes</b></li>
-                <li><b>Criação de cenários de teste</b></li>
-                <li><b>Escrita de casos de teste</b></li>
-                <li><b>Documentação de testes</b></li>
-                <li><b>Rastreabilidade entre requisitos e testes</b></li>
-            </ul>
             <p id="textoPost">Documento SRS (Software Requirements Specification) descreve, de forma detalhada e estruturada, o que sistema deve fazer, quais suas restrições, regras de negócio, e requisitos funcionais e não funcionais. Requisitos funcionais descrevem o que o sistema faz (features). Exemplo: RF-01 Aluno deve realizar login com e-mail e senha. Requisitos não funcionais descrevem como sistema deve se comportar (ambiente, especificações técnicas e ferramentas). Exemplo: Sistema deve responder em até 2 segundos, Dados do aluno devem ser protegidos por autenticação JWT. Requisitos funcionais geram testes funcionais e requisitos não funcionais geram testes não funcionais. <a href="srs.pdf" class="text-decoration-none" target="_blank">Exemplo de SRS</a>.</p>
             
             <br><h4>Técnicas de análise e levantamento (elicitação) de requisitos:</h4>
@@ -1897,9 +1890,282 @@ Enviado - Confirmar entrega - Entregue - Sim
                 </li>
             </ul>
 
-            <p id="textoPost">Experience-based testing AQUI...</p>
+            <p id="textoPost">Experience-based testing é teste baseado em experiência e intuição do testador, com base em experiência prática, conhecimento do domínio, intuição, histórico de bugs e comportamento típico de sistemas e usuários. Consiste nas técnicas:</p>
+            <ul>
+                <li>Error Guessing (Adivinhação de Erros): tester cria testes com base em bugs comuns já vistos, padrões de falhas, pontos historicamente problemáticos e áreas complexas do sistema;                 </li>
+                <li>Exploratory Testing (Teste Exploratório): tester não segue script fixo, onde aprende o sistema enquanto testa, cria testes durante a execução e adapta caminho conforme encontra comportamentos (Ciclo comum: Explorar → Testar → Aprender → Ajustar → Testar de novo).</li>
+            </ul>
+<small><pre><code>
+Nova funcionalidade: bloqueio e desbloqueio de cartão no app.
+Estados do cartão: Ativo, Bloqueado temporariamente, Bloqueado por fraude, Cancelado
 
-            <p id="textoPost">White-Box testing AQUI...</p>
+Transições oficiais documentadas:
+Ativo → Bloqueado temporariamente
+Bloqueado temporariamente → Ativo
+Bloqueado por fraude → Cancelado
+
+Aplicando Error Guessing:
+Problemas suspeitos que não estão nas especificações formais:
+- Cliques repetidos
+- Troca rápida de estados
+- Perda de rede
+- Concorrência entre app e backend
+- Sessão expirada
+
+Casos criados:
+
+Teste 1- Clique duplo rápido
+Tocar "Bloquear cartão" várias vezes
+Esperado: apenas uma transição de estado
+
+Teste 2- Internet cai durante bloqueio
+Bloquear cartão
+Desligar Wi-Fi no meio
+Verificar estado final
+
+Teste 3- Dois dispositivos
+App aberto no celular A e B
+Bloquear em A
+Ver se B atualiza estado
+
+Teste 4- Sessão expirada
+Deixar app parado
+Tentar desbloquear
+Ver se pede login novamente
+
+Após sessão exploratória de 45 minutos
+Roteiro leve: "Explorar todas transições de estado do cartão"
+
+Durante exploração QA testa:
+bloquear → voltar tela → tentar pagar
+bloquear → gerar cartão virtual
+bloquear → tentar alterar limite
+bloquear → trocar idioma
+bloquear → atualizar app
+bloquear → logout/login
+
+Bug encontrado:
+Após bloquear cartão, sair da conta e entrar novamente
+Tela mostra cartão ativo, mas backend está bloqueado.
+Bug crítico de sincronização de estado.
+</code></pre></small>
+
+            <p id="textoPost">White-Box testing é teste de caixa branca, onde o testador tem conhecimento do código-fonte e da estrutura interna do sistema. QA analisa lógica interna do código, decisões (if, else), laços, caminhos de execução e condições booleanas. Consiste nas técnicas:</p>
+            <ul>
+                <li>Statement Coverage (Cobertura de Instruções): garantir que cada linha/instrução executável do código rode pelo menos 1 vez;</li>
+                <li>Branch Coverage (Cobertura de Decisões/Ramos): garantir que cada decisão (if, else) seja avaliada como verdadeira e falsa pelo menos 1 vez;</li>
+                <li>Condition Coverage (Cobertura de Condições): garantir que cada condição booleana dentro de decisões seja avaliada como verdadeira e falsa pelo menos 1 vez;</li>
+                <li>Path Coverage (Cobertura de Caminhos): garantir que todos os caminhos possíveis através do código sejam executados pelo menos 1 vez;</li>
+            </ul>
+<small><pre><code>
+QA técnico em backend testa função responsável por liberar desconto em pedido:
+def calcular_desconto(valor, cliente_vip, cupom_valido):
+    if valor &gt;= 200 and cliente_vip:
+        return 20
+    elif valor &gt;= 200 or cupom_valido:
+        return 10
+    else:
+        return 0
+
+Statement Coverage:
+Teste - Entrada - Linha atingida
+T1 - valor=250, vip=True, cupom=False - return 20
+T2 - valor=250, vip=False, cupom=False - return 10
+T3 - valor=50, vip=False, cupom=False - return 0
+
+Branch Coverage:
+Primeiro IF: valor &gt;= 200 and cliente_vip
+TRUE → T1
+FALSE → T2/T3
+
+Segundo IF: valor &gt;= 200 or cupom_valido
+TRUE → T2
+FALSE → T3
+
+Condition Coverage:
+Agora cada condição isolada deve ser TRUE e FALSE.
+valor &gt;= 200
+cliente_vip
+cupom_valido
+
+Teste - valor&gt;=200 - vip - cupom
+T1 - TRUE - TRUE - FALSE
+T2 - TRUE - FALSE - FALSE
+T3 - FALSE - FALSE - TRUE
+T4 - FALSE - FALSE - FALSE
+
+Path Coverage:
+IF verdadeiro → return 20
+IF falso → ELIF verdadeiro → return 10
+IF falso → ELIF falso → return 0
+T1 → caminho 1
+T2 → caminho 2
+T3 → caminho 3
+</code></pre></small>
+
+            <p id="textoPost">Orthogonal array testing é técnica de teste de software que utiliza matrizes ortogonais para projetar casos de teste de forma sistemática e eficiente. Essa abordagem é especialmente útil quando há múltiplos parâmetros de entrada com várias combinações possíveis, tornando o teste exaustivo impraticável. A técnica envolve:</p>
+            <ol>
+                <li>Identificar parâmetros de entrada: listar e priorizar parâmetros de entrada com base nos requisitos do sistema ou nas especificações funcionais;</li>
+                <li>Definir valores dos parâmetros: determinar todos valores possíveis para cada parâmetro de entrada, de forma a abranger diversos cenários;</li>
+                <li>Gerar casos de teste usando matrizes ortogonais: utilizar matrizes ortogonais para criar um conjunto de casos de teste que cubram sistematicamente todas as combinações possíveis de parâmetros de entrada, garantindo uma cobertura eficiente;</li>
+                <li>Executar casos de teste: executar casos de teste manualmente ou usando ferramentas de automação, documentando meticulosamente os resultados e observações;</li>
+                <li>Analisar resultados: analisar os resultados dos testes para identificar defeitos, inconsistências ou áreas que necessitam de melhorias.</li>
+            </ol>
+<small><pre><code>
+Contexto do Projeto: Sistema de reserva de voos, onde usuários selecionam:
+Destino (A, B, C)
+Classe (Econômica, Executiva, Primeira Classe)
+Tipo de passagem (Ida, Ida e Volta)
+Opção de bagagem (Sim, Não)
+
+Objetivo do QA: Garantir que todas combinações possíveis de parâmetros de entrada sejam testadas de forma eficiente, utilizando matrizes ortogonais para otimizar o número de casos de teste.
+
+1. Identificação dos Parâmetros de Entrada:
+Parâmetros identificados:
+Destino: A, B, C
+Classe: Econômica, Executiva, Primeira Classe
+Tipo de passagem: Ida, Ida e Volta
+Opção de bagagem: Sim, Não
+
+2. Definição dos Valores dos Parâmetros:
+Valores definidos para cada parâmetro:
+Destino: A, B, C
+Classe: Econômica, Executiva, Primeira Classe
+Tipo de passagem: Ida, Ida e Volta
+Opção de bagagem: Sim, Não
+
+3. Geração de Casos de Teste usando Matrizes Ortogonais:
+Utilização de matriz ortogonal para gerar casos de teste que cubram todas as combinações possíveis
+Caso de Teste - Destino - Classe - Tipo de Passagem - Bagagem
+CT01 - A - Econômica - Ida - Sim
+CT02 - A - Executiva - Ida e Volta - Não
+CT03 - B - Primeira Classe - Ida - Sim
+CT04 - C - Econômica - Ida e Volta - Não
+CT05 - B - Executiva - Ida - Não
+CT06 - C - Primeira Classe - Ida e Volta - Sim
+CT07 - A - Primeira Classe - Ida e Volta - Sim
+CT08 - B - Econômica - Ida e Volta - Não
+CT09 - C - Executiva - Ida - Sim
+
+4. Execução dos Casos de Teste:
+Execução manual ou automatizada dos casos de teste gerados
+Registro dos resultados e observações para cada caso de teste
+
+5. Análise dos Resultados:
+Análise dos resultados para identificar defeitos, inconsistências ou áreas que necessitam de melhorias
+Relatório de teste consolidado com insights e recomendações para o time de desenvolvimento
+</code></pre></small>
+
+            <p id="textoPost">State Transition testing (teste de transição de estados) é usado quando sistema possui status bem definidos e regras de mudança entre eles, onde QA quais estados existem, quais transições são permitidas, quais transições são proibidas, quais ações provocam mudança de estado, e quais mensagens aparecem quando a transição é inválida.</p>
+<small><pre><code>
+Sistema: Plataforma de Pedidos Online
+Módulo: Gestão de Pedido
+Fonte: SRS + Refinamento com PO
+
+Estados definidos no requisito
+
+Pedido pode ter status:
+Novo
+Aguardando Pagamento
+Pago
+Em Preparo
+Pronto
+Enviado
+Entregue
+Cancelado
+
+Transições permitidas (regra de negócio):
+Estado Atual - Ação - Próximo Estado
+Novo - gerar cobrança - Aguardando Pagamento
+Aguardando Pagamento - pagamento aprovado - Pago
+Pago - iniciar preparo - Em Preparo
+Em Preparo - finalizar preparo - Pronto
+Pronto - despachar - Enviado
+Enviado - confirmar entrega - Entregue
+Novo - cancelar - Cancelado
+Aguardando Pagamento - cancelar - Cancelado
+
+Transições proibidas (definidas pelo PO):
+Pedido Pago → Novo
+Pedido Entregue → Em Preparo
+Pedido Cancelado → qualquer estado
+Pedido Novo → Enviado direto
+- QA anota isso na matriz de estados.
+
+Test Scenarios (QA cria primeiro):
+TS-STATE-01 — Fluxo completo válido
+TS-STATE-02 — Cancelamento antes pagamento
+TS-STATE-03 — Cancelamento após pagamento (proibido)
+TS-STATE-04 — Entrega sem envio (proibido)
+TS-STATE-05 — Mudança dupla de estado via API
+TS-STATE-06 — Repetição de ação já executada
+
+TC-STATE-01 — Fluxo completo válido
+Pré-condição: Pedido criado
+
+Passos:
+Criar pedido
+Gerar cobrança
+Aprovar pagamento
+Iniciar preparo
+Finalizar preparo
+Despachar
+Confirmar entrega
+
+Resultado esperado:
+Sistema permite todas transições
+Status final = Entregue
+Histórico de status registrado
+
+TC-STATE-02 — Transição inválida direta
+Objetivo: tentar pular estado
+
+Passos:
+Criar pedido (Novo)
+Tentar marcar como Enviado via API
+
+Resultado esperado:
+Sistema bloqueia
+Retorna erro 409 ou 400
+
+Mensagem: "Transição de estado inválida"
+
+TC-STATE-03 — Reabrir pedido cancelado
+
+Passos:
+Criar pedido
+Cancelar pedido
+Tentar marcar como Pago
+
+Resultado esperado:
+Bloqueado
+Status permanece Cancelado
+Log de tentativa inválida
+
+TC-STATE-04 — Repetir ação já executada
+
+Passos:
+Pedido = Pago
+Executar "iniciar preparo"
+Executar "iniciar preparo" novamente
+
+Resultado esperado:
+Segunda tentativa rejeitada
+Sem duplicação de evento
+
+Mensagem clara
+
+TC-STATE-05 — Teste via API (muito comum no trabalho)
+
+Passos:
+POST /pedido → cria pedido
+PUT /pedido/status=Pago
+PUT /pedido/status=Entregue
+
+Resultado esperado:
+API rejeita segunda chamada
+Erro de transição inválida
+</code></pre></small>
 
             <p id="textoPost">Bug Report é relatório apresentando informações detalhadas sobre erro (bug). Dados serão cadastrados em planilhas ou ferramentas de gerenciamento de falhas, como Jira, Mantis, Testlink, etc. Compõe das seguintes etapas:</p>
             <ol>
@@ -1924,8 +2190,89 @@ Enviado - Confirmar entrega - Entregue - Sim
                 <li>Observações: informações adicionais relevantes.</li>
             </ol>
 <small><pre><code>
-EXEMPLO DE BUG REPORT AQUI...
+ID: BUG-ECOM-1427
+Título: Cupom de desconto é aplicado duas vezes ao clicar rapidamente no botão "Aplicar cupom"
+
+Projeto: Plataforma E-commerce Web
+Módulo: Checkout / Pagamento
+
+Tipo: Funcional - Regra de negócio / cálculo incorreto
+Severidade: Alta - valor do pedido fica incorreto
+Prioridade: Alta - afeta faturamento
+Status: Aberto
+Responsável: Time Backend - Checkout Service
+Reportado por: UB Social - QA
+Data: 10/02/2026
+
+Ambiente: 
+Sistema Operacional: Ubuntu 25.04
+Navegador: Chrome 144
+Versão do sistema: v3.18.2
+Ambiente: Homologação
+
+URL: https://hml.lojaexemplo.com/checkout
+
+Descrição do problema: Ao inserir cupom de desconto válido e clicar rapidamente 2 ou mais vezes no botão "Aplicar cupom", sistema aplica desconto múltiplas vezes, reduzindo valor total do pedido de forma incorreta. Sistema deveria permitir apenas 1 aplicação de cupom por pedido.
+
+Pré-condições:
+Usuário logado
+Produto no carrinho
+Valor do carrinho acima de R$200
+Cupom válido disponível (ex: DESC10)
+
+Passos para reprodução:
+Acessar checkout
+Adicionar produto ao carrinho (ex: R$300)
+Ir para tela de pagamento
+Inserir cupom DESC10
+Clicar rapidamente 2–3 vezes no botão "Aplicar cupom"
+Observar o valor total
+
+Resultado esperado:
+Cupom aplicado apenas 1 vez
+Desconto de 10% aplicado 1 única vez
+Botão deveria desabilitar após primeiro clique
+
+Valor esperado:
+R$300 → R$270
+
+Resultado obtido:
+Cupom aplicado múltiplas vezes
+Desconto duplicado ou triplicado
+
+Valor observado:
+R$300 → R$270 → R$243 → R$218,70
+
+Evidências:
+Screenshot anexado: bug1427_total_duplicado.png
+Vídeo reprodução: bug1427_click_duplo.mp4
+Log de requisições mostra múltiplos POST /apply-coupon
+
+Impacto:
+Perda financeira direta
+Exploração fácil pelo usuário
+Afeta cálculo de receita
+Pode gerar inconsistência contábil
+Risco de uso indevido em larga escala
+
+Observações:
+Problema não ocorre se clicar apenas uma vez
+Endpoint permite múltiplas requisições simultâneas
+Possível falta de idempotência no backend
+
+Recomenda-se:
+desabilitar botão após clique
+validar cupom já aplicado no servidor
 </code></pre></small>
+
+            <br><hr><h4>Aula 3- Design de Testes para Aplicações Web:</h4>
+            <ul>
+                <li class="text-warning">Análise de requisitos para aplicações web</li>
+                <li class="text-warning">Identificação de fluxos críticos</li>
+                <li class="text-warning">Design de testes funcionais para aplicações web</li>
+                <li class="text-warning">Design de testes não funcionais para aplicações web</li>
+                <li class="text-warning">Criação de cenários de teste baseados em navegação, formulários e validações</li>
+            </ul>
         </div>
     </div>
 
@@ -1947,7 +2294,6 @@ VENDO AQUI: https://www.tricentis.com/learn/getting-started-with-test-design
 https://www.testim.io/blog/test-case-design-guide-for-qa-engineers/
 https://www.testim.io/blog/test-strategy-vs-test-plan/
 https://www.testim.io/blog/test-suite/
-
 
 https://talkingabouttesting.com/2024/10/13/design-de-testes-o-que-todo-mundo-deveria-saber-sobre-automacao-de-testes/
 -->
