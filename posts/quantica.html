@@ -851,7 +851,7 @@ plot_histogram(counts) # Medição de Bob (cr[2])=0, indicando que estado origin
 
             <br><h4>Superdense Coding:</h4>
             <p id="textoPost">Protocolo quântico para transmitir 2 bits clássicos enviando apenas 1 qubit, desde que Alice e Bob compartilhem previamente par emaranhado (par de Bell). Em vez de permitir transmissão de qubit via 2 bits clássicos de comunicação, permite transmitir 2 bits clássicos qubit de comunicação quântica. Remetente (Alice) possui qubit A, e destinatário (Bob) possui qubit B. Juntos, possuem par de Bell AB. Alice quer enviar 2 bits clássicos (c e d) para Bob, via qubit. Conforme teorema de Holevo, emaranhamento compartilhado permite dobrar capacidade de transmissão de informação clássica dos qubits enviados. Etapas:</p>
-            <ul>
+            <ol>
                 <li>Alice codifica bits clássicos c e d em seu qubit A (c=1 aplica porta X, d=1 aplica porta Z):
                     <ul>
                         <li>cd 00 aplica I em A (identidade, nada ocorre);</li>
@@ -864,7 +864,7 @@ plot_histogram(counts) # Medição de Bob (cr[2])=0, indicando que estado origin
                 <li>Bob recebe A e aplica porta CNOT (CX) em AB, onde A é controle e B é alvo;</li>
                 <li>Bob aplica porta Hadamard (H) em A;</li>
                 <li>Bob mede mede qubits AB (B para obter c e A para obter d), obtendo 2 bits clássicos enviados por Alice.</li>
-            </ul>
+            </ol>
             <p id="textoPost">Em síntese, Alice escolhe qual estado de Bell deseja compartilhar com Bob, envia seu qubit para Bob, e Bob mede para determinar qual estado de Bell Alice escolheu.</p>
 <small><pre><code>
 # pip3 install qiskit qiskit-ibm-runtime qiskit-aer qiskit[visualization]
