@@ -999,18 +999,19 @@ display(plot_histogram(statistics)) # Exibe resultados de medição (cd) para te
                 <li>Estados de Bob (medidos): |-⟩, |0⟩, |+⟩, |0⟩, |+⟩</li>
                 <li>Bits do Bob: 1, 0, 0, 0, 0</li>
             </ul>
-            <p id="textoPost">Exemplo de QKD, via protocolo BB84, sem eavesdropper:</p>
+            <p id="textoPost">Exemplo de QKD, via protocolo BB84:</p>
 <small><pre><code>
+# pip3 install qiskit qiskit-ibm-runtime qiskit-aer matplotlib qiskit[visualization]
 from qiskit_ibm_runtime import QiskitRuntimeService, SamplerV2 as Sampler
-from qiskit import QuantumCircuit
+from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister
 from qiskit_aer import AerSimulator
 from qiskit_aer.noise import NoiseModel
 from qiskit.primitives import BackendSamplerV2
 from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager
-from IPython.display import display
-import matplotlib.pyplot as plt
 import numpy as np
 QiskitRuntimeService.save_account(token="SEU_TOKEN_AQUI")
+
+# SEM EAVESDROPPER:
 
 rng = np.random.default_rng()
 bit_num = 20
@@ -1092,12 +1093,121 @@ for n in range(bit_num):
 
 print(agoodbits)
 print(bgoodbits)
-print("fidelity = ", match_count / len(agoodbits))
-print("loss = ", 1 - match_count / len(agoodbits))
-</code></pre></small>
-            <p id="textoPost">Exemplo de QKD, via protocolo BB84, com eavesdropper:</p>
-<small><pre><code>
-Em breve...
+print("Fidelity:", match_count / len(agoodbits))
+print("Loss:", 1 - match_count / len(agoodbits))
+
+
+# COM EAVESDROPPER:
+
+bit_num = 20
+qr = QuantumRegister(bit_num, "q")
+cr = ClassicalRegister(bit_num, "c")
+qc = QuantumCircuit(qr, cr)
+
+abits = np.round(rng.random(bit_num))
+abase = np.round(rng.random(bit_num))
+
+for n in range(bit_num):
+  if abits[n] == 0:
+    if abase[n] == 1:
+      qc.h(n)
+  if abits[n] == 1:
+    if abase[n] == 0:
+      qc.x(n)
+    if abase[n] == 1:
+      qc.x(n)
+      qc.h(n)
+
+qc.barrier()
+
+# Eavesdropper (Eve) intercepta e mede os qubits
+ebase = np.round(rng.random(bit_num))
+
+for m in range(bit_num):
+  if ebase[m] == 1:
+    qc.h(m)
+  qc.measure(qr[m], cr[m])
+
+target = backend.target
+pm = generate_preset_pass_manager(target=target, optimization_level=3)
+qc_isa = pm.run(qc)
+
+job = sampler_sim.run([qc_isa], shots=1)
+counts = job.result()[0].data.c.get_counts()
+countsint = job.result()[0].data.c.get_int_counts()
+
+# Analisar resultados de medição de Eve, comparando com bits e bases de Alice para determinar quais bits formam chave compartilhada
+keys = counts.keys()
+key = list(keys)[0]
+emeas = list(key)
+emeas_ints = []
+
+for n in range(bit_num):
+  emeas_ints.append(int(emeas[n]))
+
+ebits = emeas_ints[::-1]
+print(ebits)
+
+qr = QuantumRegister(bit_num, "q")
+cr = ClassicalRegister(bit_num, "c")
+qc = QuantumCircuit(qr, cr)
+
+for n in range(bit_num):
+  if ebits[n] == 0:
+    if ebase[n] == 1:
+      qc.h(n)
+  if ebits[n] == 1:
+    if ebase[n] == 0:
+      qc.x(n)
+    if ebase[n] == 1:
+      qc.x(n)
+      qc.h(n)
+
+qc.barrier()
+
+# Bob escolhe bases aleatórias para medir
+bbase = np.round(rng.random(bit_num))
+
+for m in range(bit_num):
+  if bbase[m] == 1:
+    qc.h(m)
+  qc.measure(qr[m], cr[m])
+
+target = backend.target
+pm = generate_preset_pass_manager(target=target, optimization_level=3)
+qc_isa = pm.run(qc)
+
+job = sampler_sim.run([qc_isa], shots=1)
+counts = job.result()[0].data.c.get_counts()
+countsint = job.result()[0].data.c.get_int_counts()
+
+keys = counts.keys()
+key = list(keys)[0]
+bmeas = list(key)
+bmeas_ints = []
+
+for n in range(bit_num):
+  bmeas_ints.append(int(bmeas[n]))
+
+bbits = bmeas_ints[::-1]
+print(bbits)
+
+agoodbits = []
+bgoodbits = []
+match_count = 0
+
+for n in range(bit_num):
+  if abase[n] == bbase[n]:
+    agoodbits.append(int(abits[n]))
+    bgoodbits.append(bbits[n])
+    if int(abits[n]) == bbits[n]:
+      match_count += 1
+
+print(agoodbits)
+print(bgoodbits)
+print("Fidelity:", match_count / len(agoodbits))
+print("Loss:", 1 - match_count / len(agoodbits))
+# Com Eve, fidelidade e perda são piores, indicando que presença de Eve foi detectada, comprometendo segurança da chave compartilhada, alterando valor final da chave, e permitindo que Alice e Bob descartem chave comprometida, garantindo segurança da comunicação.
 </code></pre></small>
         </div>
     </div>
