@@ -949,6 +949,156 @@ result = AerSimulator().run(test).result()
 statistics = result.get_counts()
 display(plot_histogram(statistics)) # Exibe resultados de medição (cd) para teste de superdense coding
 </code></pre></small>
+
+            <br><h4>Quantum Key Distribution (QKD):</h4>
+            <p id="textoPost">Protocolo quântico para distribuição segura de chaves criptográficas entre 2 partes (Alice e Bob). Protocolo BB84 (Bennett & Brassard), Alice envia qubits em estados de polarização específicos, e Bob mede esses qubits usando bases de medição aleatórias. Após transmissão, Alice e Bob comparam suas bases de medição publicamente, descartando casos onde bases não coincidem. Bits restantes formam chave compartilhada. Se terceiro (Eve) tentar interceptar qubits, natureza quântica da informação fará com que presença de Eve seja detectada (Teorema da Não-Clonagem, No-cloning theorem), garantindo segurança da chave distribuída. Etapas de QKD:</p>
+            <ol>
+                <li>Alice gera sequência aleatória de bits 0s e 1s, e os elencará em tabela base para preparo de estado quântico, conforme tabela abaixo:
+                    <ul>
+                        <li>Bit 0, Base Z (computacional): |0⟩ (polarização vertical);</li>
+                        <li>Bit 1, Base Z (computacional): |1⟩ (polarização horizontal);</li>
+                        <li>Bit 0, Base X (Hadamard): |+⟩ = (|0⟩ + |1⟩)/√2 (polarização diagonal);</li>
+                        <li>Bit 1, Base X (Hadamard): |-⟩ = (|0⟩ - |1⟩)/√2 (polarização anti-diagonal).</li>
+                    </ul>
+                    <ul>Exemplo: Alice gera aleatoriamente 0 em base X:
+                        <li>Bits de Alice: 0, 1, 0, 0, 1, 1, 0, 1, 0</li>
+                        <li>Bases de Alice: X, X, Z, Z, Z, X, Z, Z, X</li>
+                        <li>Estados de Alice: |+⟩, |-⟩, |0⟩, |0⟩, |1⟩, |-⟩, |0⟩, |1⟩, |+⟩</li>
+                    </ul>
+                </li>
+                <li>Bob faz escolha aleatória de bases para medir qubits recebidos de Alice. Quando Bob escolhe mesma base que Alice, ele obtém bit correto. Caso contrário, há 50% de chance de obter bit correto. Conforme tabela completa abaixo:
+                    <ul>
+                        <li>Bits de Alice: 0, 0, 1, 0, 0</li>
+                        <li>Bases de Alice: X, Z, X, Z, X</li>
+                        <li>Estados de Alice: |+⟩, |0⟩, |-⟩, |0⟩, |+⟩</li>
+                        <li>Bases do Bob: X, Z, X, Z, X, X</li>
+                        <li>Estados do Bob (a priori): |+⟩, |0⟩, |-⟩, |0⟩, |+⟩</li>
+                        <li>Estados do Bob (medidos): |+⟩, |0⟩, |-⟩, |0⟩, |+⟩</li>
+                        <li>Bits do Bob: 0, 0, 1, 0, 0</li>
+                    </ul>
+                </li>
+                <li>Alice e Bob comparam publicamente suas bases de medição, descartando casos onde bases não coincidem. Bits restantes formam chave compartilhada. Exemplo, Alice e Bob comparam bases:
+                    <ul>
+                        <li>Bases de Alice: X, Z, X, Z, X</li>
+                        <li>Bases do Bob: X, Z, X, Z, X</li>
+                        <li>Bits compartilhados (bases coincidentes): 0, 0, 0</li>
+                    </ul>
+                </li>
+            </ol>
+            <p id="textoPost">Resistência a interceptação e detecção de eavesdropping garantem segurança da chave distribuída, contra métodos de interceptação para descriptografia, conhecida por eavesdropper (espião, bisbilhoteiro) 'Eve'. Eve deve adivinhar base usada na codificação de cada bit. Eve não consegue criar cópia perfeita dos qubits devido ao Teorema da Não-Clonagem. Exemplo de tentativa de eavesdropper:</p>
+            <ul>
+                <li>Bits de Alice: 0, 0, 1, 0, 0</li>
+                <li>Bases de Alice: X, Z, X, Z, X</li>
+                <li>Estados de Alice: |+⟩, |0⟩, |-⟩, |0⟩, |+⟩</li>
+                <li>Bases de suposição de Eve: Z, Z, Z, Z, X</li>
+                <li>Estados de Eve (a priori): ?, |0⟩, ?, |0⟩, |+⟩</li>
+                <li>Estados de Eve (medidos): |1⟩, |0⟩, |0⟩, |0⟩, |+⟩</li>
+                <li>Estados da Eve (enviados a Bob): |1⟩, |0⟩, |+⟩, |0⟩, |0⟩</li>
+                <li>Bases do Bob: X, Z, X, Z, X</li>
+                <li>Estados de Bob (a priori): ?, |0⟩, |+⟩, |0⟩, |+⟩</li>
+                <li>Estados de Bob (medidos): |-⟩, |0⟩, |+⟩, |0⟩, |+⟩</li>
+                <li>Bits do Bob: 1, 0, 0, 0, 0</li>
+            </ul>
+            <p id="textoPost">Exemplo de QKD, via protocolo BB84, sem eavesdropper:</p>
+<small><pre><code>
+from qiskit_ibm_runtime import QiskitRuntimeService, SamplerV2 as Sampler
+from qiskit import QuantumCircuit
+from qiskit_aer import AerSimulator
+from qiskit_aer.noise import NoiseModel
+from qiskit.primitives import BackendSamplerV2
+from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager
+from IPython.display import display
+import matplotlib.pyplot as plt
+import numpy as np
+QiskitRuntimeService.save_account(token="SEU_TOKEN_AQUI")
+
+rng = np.random.default_rng()
+bit_num = 20
+qc = QuantumCircuit(bit_num, bit_num)
+ 
+# QKD 1 - Alice prepara bits e bases
+abits = np.round(rng.random(bit_num))
+abase = np.round(rng.random(bit_num))
+
+# Alice prepara estados conforme tabela 1:
+for n in range(bit_num):
+    if abits[n] == 0:
+        if abase[n] == 1:
+            qc.h(n)
+    if abits[n] == 1:
+        if abase[n] == 0:
+            qc.x(n)
+        if abase[n] == 1:
+            qc.x(n)
+            qc.h(n)
+qc.barrier()
+
+# QKD 2 - Bob escolhe bases aleatórias para medir
+bbase = np.round(rng.random(bit_num))
+ 
+for m in range(bit_num):
+    if bbase[m] == 1:
+        qc.h(m)
+    qc.measure(m, m)
+
+print("Alice's bits are ", abits)
+print("Alice's bases are ", abase)
+print("Bob's bases are ", bbase)
+display(qc.draw("mpl"))
+
+# Executar circuito em backend físico com ruído
+service = QiskitRuntimeService()
+backend = service.least_busy(operational=True, simulator=False, min_num_qubits = 127)
+print(backend.name)
+
+# Transpilar circuito para backend escolhido, otimizando para nível 3 (máximo)
+noise_model = NoiseModel.from_backend(backend)
+backend_sim = AerSimulator(noise_model=noise_model)
+sampler_sim = BackendSamplerV2(backend=backend_sim)
+
+target = backend.target
+pm = generate_preset_pass_manager(target=target, optimization_level=3)
+qc_isa = pm.run(qc)
+
+# Executar circuito transpilado no backend físico via sampler
+sampler = Sampler(mode=backend)
+job = sampler.run([qc_isa], shots=1)
+counts = job.result()[0].data.c.get_counts()
+countsint = job.result()[0].data.c.get_int_counts()
+
+# Analisar resultados de medição de Bob, comparando com bits e bases de Alice para determinar quais bits formam chave compartilhada
+keys = counts.keys()
+key = list(keys)[0]
+bmeas = list(key)
+bmeas_ints = []
+for n in range(bit_num):
+    bmeas_ints.append(int(bmeas[n]))
+ 
+bbits = bmeas_ints[::-1]
+print(bbits)
+
+# QKD 3 - Pós-processamento para gerar chave compartilhada
+agoodbits = []
+bgoodbits = []
+match_count = 0
+for n in range(bit_num):
+    # Check whether bases matched.
+    if abase[n] == bbase[n]:
+        agoodbits.append(int(abits[n]))
+        bgoodbits.append(bbits[n])
+        # If bits match when bases matched, increase count of matching bits
+        if int(abits[n]) == bbits[n]:
+            match_count += 1
+
+print(agoodbits)
+print(bgoodbits)
+print("fidelity = ", match_count / len(agoodbits))
+print("loss = ", 1 - match_count / len(agoodbits))
+</code></pre></small>
+            <p id="textoPost">Exemplo de QKD, via protocolo BB84, com eavesdropper:</p>
+<small><pre><code>
+Em breve...
+</code></pre></small>
         </div>
     </div>
 
