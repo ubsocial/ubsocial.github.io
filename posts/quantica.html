@@ -1209,6 +1209,186 @@ print("Fidelity:", match_count / len(agoodbits))
 print("Loss:", 1 - match_count / len(agoodbits))
 # Com Eve, fidelidade e perda são piores, indicando que presença de Eve foi detectada, comprometendo segurança da chave compartilhada, alterando valor final da chave, e permitindo que Alice e Bob descartem chave comprometida, garantindo segurança da comunicação.
 </code></pre></small>
+
+            <br><h4>Transformação de Fourier quântica (QFT):</h4>
+            <p id="textoPost">A Transformação de Fourier quântica (Quantum Fourier Transform, QFT) é operação fundamental em circuitos quânticos que transforma estado quântico em seu domínio de Fourier (transformar base em outra). É a versão quântica da Transformada Discreta de Fourier (DFT). Enquanto DFT clássica transforma vetor de nºs, QFT transforma amplitudes de estado quântico. Principais pares de bases conectados pela transformada de Fourier são posição e momento, e tempo e frequência. Transformada de Fourier é usada para representar função como combinação linear de novo conjunto das "funções de base". Transformações de base também são feitas regularmente em estados de qubit. Estados de Qubit também podem ser expressos na base de Fourier, sendo estado é expresso em termos de combinação linear ordenados (00,|00...00⟩ até 1,|11...11⟩). Fases dos componentes variam de 0 a 2π. Cada estado tem uma fase que é 2π/4 radianos mais alta do que estado anterior. Etapas da QFT, atuando como "detector de periodicidade":</p>
+            <ol>
+                <li>Seleciona base computacional;</li>
+                <li>Aplica interferência de fase;</li>
+                <li>Redistribui probabilidades;</li>
+                <li>Revela estrutura periódica escondida.</li>
+            </ol>
+            <p>Componentes da QFT:</p>
+            <ul>
+                <li>Entrada: estado quântico;</li>
+                <li>Saída: estado quântico;</li>
+                <li>Custo: O(n²) portas (n = qubits);</li>
+                <li>Processamento: probabilístico;</li>
+                <li>Base: amplitudes quânticas.</li>
+            </ul>
+            <p id="textoPost">QFT é implementada via portas Hadamard (H), Portas de fase controladas (CP, CRZ), e SWAP (para reverter ordem dos qubits). Para cada qubit: H → rotações controladas → próximo qubit. Exemplo de circuito lógico contendo 3 qubits:</p>
+            <ul>
+                <li>q0:
+                    <ul>
+                        <li>H(q0)</li>
+                        <li>CP(π/2) q1→q0</li>
+                        <li>CP(π/4) q2→q0</li>
+                    </ul>
+                </li>
+                <li>q1:
+                    <ul>
+                        <li>H(q1)</li>
+                        <li>CP(π/2) q2→q1</li>
+                    </ul>
+                </li>
+                <li>q2:
+                    <ul>
+                        <li>H(q2)</li>
+                    </ul>
+                </li>
+                <li>Depois → SWAP q0 ↔ q2</li>
+            </ul>
+            <p>Complexidade QFT para n qubits:</p>
+            <ul>
+                <li>Portas Hadamard: n</li>
+                <li>Portas controladas: n(n-1)/2</li>
+                <li>Complexidade: O(n²)</li>
+            </ul>
+<small><pre><code>
+# pip3 install qiskit qiskit-ibm-runtime qiskit-aer qiskit[visualization]
+import numpy as np
+from qiskit import QuantumCircuit
+from qiskit.visualization import plot_histogram
+from qiskit.circuit.library import QFTGate
+from qiskit_ibm_runtime import QiskitRuntimeService, SamplerV2 as Sampler
+from qiskit.primitives import BackendSamplerV2
+from qiskit_aer import AerSimulator
+from qiskit_aer.noise import NoiseModel
+from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager
+QiskitRuntimeService.save_account(token="SEU_TOKEN_AQUI")
+
+service = QiskitRuntimeService()
+backend = service.least_busy(operational=True, simulator=False, min_num_qubits = 127)
+print(backend.name)
+
+noise_model = NoiseModel.from_backend(backend)
+backend_sim = AerSimulator(noise_model=noise_model)
+sampler_sim = BackendSamplerV2(backend=backend_sim)
+
+# ALGORITMO 1: Transformar único estado de base computacional:
+
+# Passo 1: Mapear estado de base computacional aleatório
+qubits = 4
+N = 2**qubits
+qc = QuantumCircuit(qubits)
+
+# Inverter estado de qubits aleatórios para colocar em estado de base computacional único aleatório
+for i in range(1, qubits):
+    if np.random.randint(0, 2):
+        qc.x(i)
+ 
+# Criar uma cópia do circuito acima (para ser usado quando aplicarmos QFT na próxima parte)
+qc_qft = qc.copy()
+qc.measure_all()
+qc.draw("mpl")
+
+# Passo 2: Transpilar circuito com QFT
+target = backend.target
+pm = generate_preset_pass_manager(target=target, optimization_level=3)
+qc_isa = pm.run(qc)
+
+# Passo 3: Executar job em computador quântico
+sampler = Sampler(mode=backend)
+pubs = [qc_isa] 
+job = sampler.run(pubs, shots=1000)
+res = job.result()
+counts = res[0].data.meas.get_counts()
+plot_histogram(counts)
+# Conclusão: Resultado deve ser estado de base computacional único aleatório mapeado no passo 1
+
+
+# Transformação de Fourier de único estado via QFTGate:
+# Paso 1: Mapear estado de base computacional aleatório
+qc_qft.compose(QFTGate(qubits), inplace=True)
+qc_qft.measure_all()
+qc_qft.draw("mpl")
+
+# Passo 2: Transpilar circuito com QFT 
+target = backend.target
+pm = generate_preset_pass_manager(target=target, optimization_level=3)
+qc_isa = pm.run(qc_qft)
+
+# Passo 3: Executar job em computador quântico
+sampler = Sampler(mode=backend)
+pubs = [qc_isa]
+job = sampler.run(pubs, shots=1000)
+res = job.result()
+counts = res[0].data.meas.get_counts()
+plot_histogram(counts)
+
+
+# Transformar 2 estados de base computacional:
+# Passo 1: Mapear estado de base computacional aleatório
+qubits = 4
+N = 2**qubits
+
+qc = QuantumCircuit(qubits) 
+qc.h(qubits - 1)
+qc_qft = qc.copy()
+qc.measure_all()
+qc.draw("mpl")
+
+# Passo 2: Transpilar circuito com QFT
+target = backend.target
+pm = generate_preset_pass_manager(target=target, optimization_level=3)
+qc_isa = pm.run(qc)
+
+# Passo 3: Executar job em computador quântico
+sampler = Sampler(mode=backend)
+pubs = [qc_isa]
+job = sampler.run(pubs, shots=1000)
+res = job.result()
+counts = res[0].data.meas.get_counts()
+plot_histogram(counts)
+
+
+# Transformação de Fourier de 2 estados via QFTGate:
+# Passo 1: Mapear estado de base computacional aleatório
+qc_qft.compose(QFTGate(qubits), inplace=True)
+qc_qft.measure_all()
+qc_qft.draw("mpl")
+
+# Passo 2: Transpilar circuito com QFT
+target = backend.target
+pm = generate_preset_pass_manager(target=target, optimization_level=3)
+qc_isa = pm.run(qc_qft)
+
+# Passo 3: Executar job em computador quântico
+sampler = Sampler(mode=backend)
+pubs = [qc_isa]
+job = sampler.run(pubs, shots=1000)
+res = job.result()
+counts = res[0].data.meas.get_counts()
+plot_histogram(counts)
+
+
+# Analisando algoritmo QFT:
+qc = QuantumCircuit(1)
+qc.compose(QFTGate(1), inplace=True)
+qc.decompose().draw("mpl")
+
+qc = QuantumCircuit(2)
+qc.compose(QFTGate(2), inplace=True)
+qc.decompose().draw("mpl")
+
+qc = QuantumCircuit(3)
+qc.compose(QFTGate(3), inplace=True)
+qc.decompose().draw("mpl")
+
+qc = QuantumCircuit(4)
+qc.compose(QFTGate(4), inplace=True)
+qc.decompose().draw("mpl")
+</code></pre></small>
         </div>
     </div>
 
