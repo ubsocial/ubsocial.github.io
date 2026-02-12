@@ -1414,65 +1414,74 @@ qc.decompose().draw("mpl")
                 <li>Medir: obtém bits da fase</li>
             </ol>
 <small><pre><code>
-# pip3 install qiskit qiskit-ibm-runtime qiskit-aer qiskit[visualization]
 from qiskit.circuit.library import QFT
 from qiskit_ibm_runtime import QiskitRuntimeService, Sampler
+from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager
 from qiskit.visualization import plot_histogram
-from qiskit import QuantumCircuit, Aer, transpile
+from qiskit import QuantumCircuit, transpile
+from qiskit_aer import AerSimulator, Aer
+from qiskit_aer.noise import NoiseModel
 import numpy as np
+from numpy import pi
 QiskitRuntimeService.save_account(token="SEU_TOKEN_AQUI")
 
 # Algoritmo 1: Noções de QPE
 
-phi = 0.125
-n_count = 3
-qpe = QuantumCircuit(n_count + 1, n_count)
-qpe.x(n_count) # Preparar autovetor |1> via aplicação de porta X (NOT, inversão de estado) no qubit de estado
-
-for q in range(n_count):
-    qpe.h(q) # Aplicar portas Hadamard (superposição) nos qubits de contagem
-
-# Aplicar U²k controlado
-for q in range(n_count):
-    angle = 2 * np.pi * phi * (2**q)
-    qpe.cp(angle, q, n_count) # Porta de fase controlada (CP, Controlled Phase)
-
-qpe.append(QFT(n_count, inverse=True), range(n_count)) # Aplicar QFT inversa nos qubits de contagem
-qpe.measure(range(n_count), range(n_count))
-qpe.draw("mpl")
-
-backend = Aer.get_backend("qasm_simulator")
-job = backend.run(transpile(qpe, backend), shots=2048)
-result = job.result()
-counts = result.get_counts()
-
-print(counts)
-plot_histogram(counts)
-
-# Algoritmo 2: QPE para 3 qubits de contagem e 1 qubit de estado
-
 qpe = QuantumCircuit(4, 3) # Criar circuito com 4 qubits (3 para contagem e 1 para o estado eigen) e 3 bits clássicos para leitura
+qpe.x(3) # Aplicar porta X (NOT) no qubit para prepará-lo no estado |1>, que é autovetor do operador U que queremos estimar
+display(qpe.draw("mpl"))
 
 for qubit in range(3):
-    qpe.h(qubit) # Aplicar porta Hadamard (superposição) nos 3 qubits de contagem
+  qpe.h(qubit) # Aplicar porta Hadamard (superposição) nos 3 qubits de contagem
 
-qpe.x(3) # Aplicar porta X (NOT) no quarto qubit para prepará-lo no estado |1>, que é autovetor do operador U que queremos estimar
+display(qpe.draw("mpl"))
 
-# Aplicar portas controladas de U (neste caso, U é porta de fase) com ângulos que são potências de 2. O número de repetições dobra a cada qubit de contagem para criar as fases corretas.
+repetitions = 1
+
+for counting_qubit in range(3):
+  for i in range(repetitions):
+    qpe.cp(pi / 4, counting_qubit, 3) # Realizamos operações unitárias controladas (C-U)
+  repetitions *= 2
+
+display(qpe.draw("mpl"))
+
+qpe.append(QFT(3, inverse=True), [0, 1, 2]) # Aplicar QFT inversa nos qubits de contagem
+display(qpe.draw("mpl"))
+
+for n in range(3):
+  qpe.measure(n, n) # Medir qubits
+
+display(qpe.draw("mpl"))
+
+aer_sim = AerSimulator()
+shots = 2048
+
+pm = generate_preset_pass_manager(backend=aer_sim, optimization_level=1)
+t_qpe = pm.run(qpe)
+
+# Algoritmo 2: QPE para 3 qubits de contagem e 1 qubit para estado
+
+qpe = QuantumCircuit(4, 3)
+
+for qubit in range(3):
+  qpe.h(qubit)
+
+qpe.x(3)
+
 angle = 2 * pi / 3
 repetitions = 1
 
 for counting_qubit in range(3):
-    for i in range(repetitions):
-        qpe.cp(angle, counting_qubit, 3)
-    repetitions *= 2
+  for i in range(repetitions):
+    qpe.cp(angle, counting_qubit, 3)
+  repetitions *= 2
 
-qpe.append(QFT(3, inverse=True), [0, 1, 2]) # Aplicar QFT inversa nos qubits de contagem
- 
+qpe.append(QFT(3, inverse=True), [0, 1, 2])
+
 for n in range(3):
-    qpe.measure(n, n) # Medir qubits de contagem
+  qpe.measure(n, n)
 
-qpe.draw(output="mpl")
+display(qpe.draw("mpl"))
 
 aer_sim = AerSimulator()
 shots = 4096
@@ -1493,20 +1502,21 @@ qpe = QuantumCircuit(4, 3)
 qpe.x(3)
 
 for qubit in range(3):
-    qpe.h(qubit)
+  qpe.h(qubit)
+
 repetitions = 1
 
 for counting_qubit in range(3):
-    for i in range(repetitions):
-        qpe.cp(pi / 4, counting_qubit, 3) # Aplicar porta de controle de fase
-    repetitions *= 2
+  for i in range(repetitions):
+    qpe.cp(pi / 4, counting_qubit, 3)
+  repetitions *= 2
 
 qpe.append(QFT(3, inverse=True), [0, 1, 2])
 
 for n in range(3):
-    qpe.measure(n, n)
+  qpe.measure(n, n)
 
-qpe.draw(output="mpl")
+display(qpe.draw("mpl"))
 
 backend = service.least_busy(simulator=False, operational=True, min_num_qubits=4)
 print(backend.name)
@@ -1518,13 +1528,13 @@ qc_compiled.draw("mpl", idle_wires=False)
 real_sampler = Sampler(mode=backend)
 job = real_sampler.run([qc_compiled], shots=1024)
 job_id = job.job_id()
-print("job id:", job_id)
+print("Job id:", job_id)
 
 job = service.job(job_id)
 job.status()
 result_real = job.result()
-print(result_real)
 
+print(result_real)
 plot_histogram(result_real[0].data.c.get_counts())
 </code></pre></small>
         </div>
