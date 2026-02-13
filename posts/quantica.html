@@ -1414,6 +1414,7 @@ qc.decompose().draw("mpl")
                 <li>Medir: obtém bits da fase</li>
             </ol>
 <small><pre><code>
+# pip3 install qiskit qiskit-ibm-runtime qiskit-aer qiskit[visualization]
 from qiskit.circuit.library import QFT
 from qiskit_ibm_runtime import QiskitRuntimeService, Sampler
 from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager
@@ -1536,6 +1537,81 @@ result_real = job.result()
 
 print(result_real)
 plot_histogram(result_real[0].data.c.get_counts())
+</code></pre></small>
+
+            <br><h4>Probabilistic Error Amplification (PEA):</h4>
+            <p id="textoPost">Amplificação de erro probabilística (PEA) é técnica para reconstrução de ruído e amplificação precisa de sinais quânticos, para mitigar erros de hardware. Em vez de reduzir ruído diretamente, PEA amplifica erro, de forma controlada, medindo circuito em múltiplos níveis de ruído, concluindo (extrapolação) com estimativa do resultado sem ruído, via Zero-Noise Extrapolation (ZNE). Inicia aprendendo modelo giratório de cada camada de portas emaranhadas no circuito quântico. Após cada fase de aprendizado, circuitos são executados em cada fator de ruído, amplificando cada camada de emaranhamento pela injeção probabilística de ruído de único qubit proporcional. Estágios do PEA:</p>
+            <ol>
+                <li>Executar circuito original;</li>
+                <li>Amplificar ruído probabilisticamente (inserindo operações equivalentes extras);</li>
+                <li>Rodar circuito várias vezes, em múltiplos fatores de ruído;</li>
+                <li>Coletar valores esperados;</li>
+                <li>Ajustar curva (regressão);</li>
+                <li>Extrapolar para ruído em limite 0;</li>
+                <li>Retornar valor mitigado.</li>
+            </ol>
+            <p>Etapas de execução PEA:</p>
+            <ul>
+                <li>Entradas:
+                    <ul>
+                        <li>Circuito quântico C;</li>
+                        <li>Observável O;</li>
+                        <li>Backend real;</li>
+                        <li>Fatores de escala de ruído.</li>
+                    </ul>
+                </li>
+                <li>Processamento:
+                    <li>Para cada fator s:
+                        <ul>
+                            <li>Gerar circuito amplificado Cs (PEA);</li>
+                            <li>Executar Cs;</li>
+                            <li>Medir valor esperado Es.</li>
+                        </ul>
+                    </li>
+                    <li>Ajustar curva Es vs s;</li>
+                    <li>Extrapolar s em limite 0</li>
+                    <li>Retornar valor mitigado.</li>
+                </li>
+            </ul>
+<small><pre><code>
+from qiskit_ibm_runtime import EstimatorV2 as Estimator, QiskitRuntimeService
+from qiskit import QuantumCircuit
+from qiskit.quantum_info import SparsePauliOp
+from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager
+QiskitRuntimeService.save_account(token="SEU_TOKEN_AQUI")
+
+service = QiskitRuntimeService()
+backend = service.least_busy(operational=True, simulator=False, min_num_qubits=127)
+print(backend.name)
+
+qc = QuantumCircuit(2)
+qc.h(0) # Aplicar porta Hadamard (superposição) no qubit 0
+qc.cx(0, 1) # Aplicar porta CNOT (entrelaçamento) entre qubit 0 e 1
+qc.rx(0.4, 0) # Rotação em X (0.4) no qubit 0
+qc.ry(0.7, 1) # Rotação em Y (0.7) no qubit 1
+display(qc.draw("mpl"))
+
+observable = SparsePauliOp("ZZ") # Define observável "ZZ" (correlação entre qubits) para medir correlação entre 2 qubits
+
+estimator = Estimator(mode=backend)
+estimator.options.resilience.zne_mitigation = True # Habilitar mitigação de erro Zero Noise Extrapolation (ZNE) para melhorar precisão dos resultados em dispositivos quânticos ruidosos
+estimator.options.resilience.zne.amplifier = "pea" # Define amplificador de erro como "pea" para aumentar ruído de forma controlada
+estimator.options.resilience.zne.noise_factors = [1, 3, 5] # Define fatores de escala de ruído para ZNE, permitindo extrapolação a partir de múltiplos níveis de ruído
+estimator.options.resilience.zne.extrapolator = "linear" # Define método de extrapolação como "linear" para estimar valor esperado no limite de ruído zero a partir dos resultados obtidos com diferentes níveis de ruído
+print(estimator.options.resilience.zne) # Exibe as configurações de mitigação ZNE para verificar se estão corretas
+
+pm = generate_preset_pass_manager(
+    backend=backend,
+    optimization_level=1
+)
+
+isa_qc = pm.run(qc)
+isa_observable = observable.apply_layout(isa_qc.layout)
+
+job = estimator.run([(isa_qc, isa_observable)])
+result = job.result()
+
+print(result[0].data.evs) # exibe os valores esperados com mitigação ZNE aplicada (correlações entre qubits. Perto -1: correlação fraca, perto de 1: correlação forte)
 </code></pre></small>
         </div>
     </div>
