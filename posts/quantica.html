@@ -1614,6 +1614,72 @@ result = job.result()
 
 print(result[0].data.evs) # exibe os valores esperados com mitigação ZNE aplicada (correlações entre qubits. Perto -1: correlação fraca, perto de 1: correlação forte)
 </code></pre></small>
+
+            <br><h4>Iterative Phase Estimation Algorithm (IPEA):</h4>
+            <p id="textoPost">Também chamado Iterative quantum phase estimation (IQPE). Versão iterativa da estimativa de fase PEA, usando 1 qubit de controle repetidas vezes (iterações), medindo 1 qubit da fase por ciclo/iteração (qubit a qubit), compondo várias iterações. Diferente do PEA, IPEA dispensa QFT completa. Ideal para circuito quântico menor e mais profundo. Enquanto PEA descobre todos qubits da fase em única iteração, IPEA descobre 1 qubit, e usa feedback para descobrir próximo, sucessivamente. Etapas do IPEA:</p>
+            <ol>
+                <li>Criar operador unitário U via porta H (Hadamard, superposição);</li>
+                <li>Aplicar U controlada por qubit de controle;</li>
+                <li>Medir qubit de controle;</li>
+                <li>Usar resultado para ajustar fase de U;</li>
+                <li>Repetir processo ao próximo qubit de fase.</li>
+            </ol>
+<small><pre><code>
+# pip3 install qiskit qiskit-aer qiskit-ibm-runtime numpy
+import numpy as np
+from random import random
+from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, transpile
+from qiskit_aer import AerSimulator
+from qiskit_ibm_runtime import QiskitRuntimeService
+QiskitRuntimeService.save_account(token="SEU_TOKEN_AQUI")
+
+backend = AerSimulator()
+q = QuantumRegister(1, "q")
+a = QuantumRegister(1, "anc")
+c = ClassicalRegister(1, "c")
+
+E_1, E_2 = (2 * np.pi * random(), 2 * np.pi * random()) # Autovalores simulados
+t = 1 # Tempo de evolução simulado
+print("E_2 real =", E_2)
+
+unitary = QuantumCircuit(q, name="U") # Operador unitário U = exp(iHt) simulado via portas quânticas
+unitary.p(E_2 * t, q[0]) # Simula evolução sob H por tempo t, aplicando fase E_2 * t
+unitary.x(q[0]) # Aplica X (NOT, inverte |0&gt; e |1&gt;), simulando autovetor |1&gt; de H
+unitary.p(E_1 * t, q[0]) # Simula evolução sob H por tempo t, aplicando fase E_1 * t, mas como |1&gt; é autovetor de H, não altera fase, mantendo |1&gt; como autovetor
+unitary.x(q[0]) # Aplica X novamente para restaurar |1&gt; (autovetor) e garantir que U|1&gt; = exp(iE_2t)|1&gt;, simulando autovetor com autovalor E_2
+print(unitary.draw())
+
+control_u = unitary.to_gate().control(1) # Cria versão controlada de U, onde controle é qubit ancilla a[0] e alvo é q[0]
+num_bits_estimate = 8
+phase = 0
+
+for k_precision in reversed(range(num_bits_estimate)): # Loop para cada iteração, começando do bit mais significativo
+    qc = QuantumCircuit(q, a, c)
+
+    qc.x(q[0]) # Aplicar porta X (NOT, inverter estado |0&gt; para |1&gt;) no qubit de trabalho
+    qc.h(a[0]) # Aplicar porta H (Hadamard, superposição) no qubit ancilla (a[0]) para criar superposição de estados |0&gt; e |1&gt;
+
+    for _ in range(2 ** k_precision):
+        qc.append(control_u, [a[0], q[0]]) # Aplicar porta controlada U^(2^k) via circuito control_u, onde a[0] é controle e q[0] é alvo
+
+    phase_shift = 2 * np.pi * phase * (2 ** k_precision) # Calcula deslocamento de fase necessário para corrigir fase acumulada com base na estimativa atual
+    qc.p(-phase_shift, a[0]) # Aplicar porta de fase (P) para corrigir fase acumulada, onde -phase_shift é ângulo de correção e a[0] é qubit alvo
+    qc.h(a[0])
+    qc.measure(a[0], c[0])
+
+    tqc = transpile(qc, backend)
+    job = backend.run(tqc, shots=2000) # Executar circuito no backend para obter estatísticas de medição
+    counts = job.result().get_counts() # Obter contagem de resultados de medição, onde '0' e '1' representam estados medidos do qubit ancilla
+
+    bit = int(max(counts, key=counts.get)) # Determinar bit mais provável (0 ou 1) com base nas contagens, onde max(counts, key=counts.get) retorna chave ('0' ou '1') com maior contagem
+    phase += bit / (2 ** (k_precision + 1)) # Atualizar estimativa de fase acumulada com base no bit medido, ajustando fase para refletir contribuição do bit atual
+    print(f"bit {k_precision} =", bit)
+
+eigenvalue_est = 2 * np.pi * phase / t # Converter fase estimada de volta para autovalor usando E = phase * (2π / t)
+print(qc.draw())
+print("Autovalor real:", E_2)
+print("Autovalor estimado:", eigenvalue_est)
+</code></pre></small>
         </div>
     </div>
 
