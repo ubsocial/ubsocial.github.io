@@ -1680,6 +1680,54 @@ print(qc.draw())
 print("Autovalor real:", E_2)
 print("Autovalor estimado:", eigenvalue_est)
 </code></pre></small>
+
+            <br><h4>Quantum Amplitude Amplification (QAA):</h4>
+            <p id="textoPost">Amplificação de amplitude quântica (Grover generalizado + operador de preparação arbitrário) é generalização do algoritmo de Grover, para amplificar probabilidade (amplitude) dos resultados desejados. QAA aplica sequência de operadores em circuito quântico, com oráculo para marcação de estados corretos, produzindo rotação no espaço de amplitudes, aumentando quadraticamente probabilidade de medir solução. Componentes do QAA:</p>
+            <ul>
+                <li>Operador A: prepara estado inicial (superposição) a partir de |0⟩;</li>
+                <li>Oráculo O (S_f): operador unitário que marca soluções (estados desejados) invertendo fase;</li>
+                <li>Operador de reflexão (S0): operador de difusão D, que inverte amplitudes em torno da média, amplificando soluções marcadas;</li>
+                <li>Operador Q: geralmente operador Grover's Iteration (G), sequência de operadores que aplica oráculo e reflexão, repetidas em iterações (k) para amplificar amplitude dos estados desejados.</li>
+            </ul>
+<small><pre><code>
+# pip3 install qiskit qiskit-aer qiskit-algorithms qiskit-ibm-runtime
+from qiskit import QuantumCircuit, transpile
+from qiskit_aer import AerSimulator
+from qiskit_algorithms import Grover, AmplificationProblem
+from qiskit_ibm_runtime import QiskitRuntimeService, SamplerV2 as Sampler
+from qiskit.visualization import plot_histogram
+QiskitRuntimeService.save_account(token="SEU_TOKEN_AQUI")
+
+oracle = QuantumCircuit(2) # Oráculo marcando |11&gt;
+oracle.cz(0,1) # Aplica porta CZ (control-Z, inversão de fase em |11&gt; do qubit 0 em relação ao 1) para marcar estado |11&gt;
+
+A = QuantumCircuit(2)
+A.h([0,1]) # Aplica porta Hadamard (superposição) aos 2 qubits
+A.ry(0.3, 0) # Aplica porta de rotação em torno do eixo Y (0.3 radianos) no qubit 0 para criar superposição ponderada, aumentando probabilidade de medir |11&gt; após amplificação
+
+problem = AmplificationProblem(
+    oracle=oracle,
+    state_preparation=A
+) # Problema de amplificação definido com oráculo e preparação de estado personalizada
+
+grover = Grover(iterations=1) # Algoritmo de Grover configurado para 1 iteração, suficiente para amplificar probabilidade de medir o estado marcado |11&gt;
+
+qc = grover.construct_circuit(problem) # Construir circuito de Grover para problema definido
+qc.measure_all()
+
+display(qc.draw('mpl'))
+
+backend = AerSimulator()
+tqc = transpile(qc, backend)
+sampler = Sampler(backend)
+job = sampler.run([tqc], shots=2000)
+result = job.result()
+
+counts = result[0].data.meas.get_counts()
+
+print(counts) # Imprime resultado das contagens de medição, mostrando a frequência de cada estado medido, onde estado marcado |11&gt; possuirá maior contagem devido à amplificação de Grover
+plot_histogram(counts)
+</code></pre></small>
         </div>
     </div>
 
