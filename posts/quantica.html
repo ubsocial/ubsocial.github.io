@@ -1728,6 +1728,117 @@ counts = result[0].data.meas.get_counts()
 print(counts) # Imprime resultado das contagens de medição, mostrando a frequência de cada estado medido, onde estado marcado |11&gt; possuirá maior contagem devido à amplificação de Grover
 plot_histogram(counts)
 </code></pre></small>
+
+            <br><h4>Algoritmo de Shor:</h4>
+            <p id="textoPost">Algoritmo para fatoração de inteiros (Peter Shor, 1994), baseado em transformação quântica de Fourier (QFT), permitindo fatorar nºs inteiros em tempo polinomial, consideravelmente mais rápido que algoritmos clássicos. Consiste em 3 etapas principais:</p>
+            <ol>
+                <li>Redução do problema de fatoração para problema de ordem: escolher nº aleatório a, coprimo a N (nº a ser fatorado), e encontrar ordem (order) r de a módulo N (menor inteiro positivo tal que a^r ≡ 1 mod N);</li>
+                <li>Estimativa de fase quântica (QPE): usar QPE com QFT para estimar fase associada à função periódica f(x) = a^x mod N, onde período é r, permitindo determinar r;</li>
+                <li>Fatoração: se r é par e a^(r/2) ≠ -1 mod N, então fatores de N podem ser encontrados usando gcd(a^(r/2) ± 1, N).</li>
+            </ol>
+            <p>Etapas do algoritmo de Shor:</p>
+            <ol>
+                <li>Escolher nº aleatório a, coprimo a N (tal que 1 &lt; a &lt; N e gcd(a,N) = 1);</li>
+                <li>Usar QPE para estimar fase associada à função periódica f(x) = a^x mod N, onde período é r;</li>
+                <li>Se r é par e a^(r/2) ≠ -1 mod N, então fatores de N podem ser encontrados usando greatest common divisor (máximo divisor comum - mdc): gcd(a^(r/2) ± 1, N);</li>
+                <li>Se p e q são fatores não-triviais, então algoritmo é bem-sucedido.</li>
+            </ol>
+            <p>Conceitos que envolvem Shor:</p>
+            <ul>
+                <li>Quantum Fourier Transform (QFT): transforma amplitudes de estado quântico, usada para extrair informação de fase;</li>
+                <li>Quantum Phase Estimation (QPE): estimar ângulo (fase) θ associado a autovalor de operador unitário U;</li>
+                <li>Modular Exponentiation (Expo. Modular): constrói-se operadores que calculam a^x mod N dentro de circuito quântico, e QFT converte isso em amostra do período r.</li>
+            </ul>
+            <p id="textoPost">Exemplo Qiskit de implementação do algoritmo de Shor para fatorar N=15, com a=2:</p>
+<small><pre><code>
+# pip3 install qiskit qiskit-aer qiskit-ibm-runtime qiskit[visualization] numpy
+import numpy as np
+from math import floor, gcd
+from fractions import Fraction
+from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, transpile
+from qiskit.circuit.library import QFT
+from qiskit_aer import AerSimulator
+from qiskit_ibm_runtime import QiskitRuntimeService
+from qiskit.visualization import plot_histogram
+QiskitRuntimeService.save_account(token="SEU_TOKEN_AQUI")
+
+# Função para calcular a^(2^k) mod N
+def a2kmodN(a, k, N):
+    for _ in range(k):
+        a = int(np.mod(a**2, N))
+    return a
+
+# Funções para criar operadores de multiplicação modular (M2 e M4 em mod15)
+def M2mod15():
+    circ = QuantumCircuit(4)
+    circ.swap(2,3) # Aplica porta SWAP (troca estados entre qubits, 1º passa ao 2º, e 2º ao 1º)
+    circ.swap(1,2)
+    circ.swap(0,1)
+    gate = circ.to_gate()
+    gate.name = "M2_mod15"
+    return gate
+
+def M4mod15():
+    circ = QuantumCircuit(4)
+    circ.swap(1,3)
+    circ.swap(0,2)
+    gate = circ.to_gate()
+    gate.name = "M4_mod15"
+    return gate
+
+N = 15
+a = 2
+num_target = floor(np.log2(N-1)) + 1 # Quantidade de qubits para representar estados alvo (4 para N=15)
+num_control = 2 * num_target
+
+control = QuantumRegister(num_control, "ctrl") # Registrador de controle para superposição e medição (8 qubits para precisão suficiente na estimativa do período r)
+target = QuantumRegister(num_target, "targ") # Registrador alvo para representar estados de multiplicação modular (4 qubits para N=15)
+output = ClassicalRegister(num_control, "out") # Registrador clássico para armazenar resultados da medição dos qubits de controle (8 bits para precisão suficiente na estimativa do período r)
+
+qc = QuantumCircuit(control, target, output)
+qc.x(target[0]) # Aplica porta X (NOT) para preparar estado |1&gt; no registrador alvo
+
+for qubit in control:
+    qc.h(qubit) # Aplica porta Hadamard (superposição) nos qubits de controle
+
+for k, qubit in enumerate(control):
+    b = a2kmodN(a, k, N) # Calcula a^(2^k) mod N para determinar qual operador aplicar
+
+    if b == 2:
+        qc.compose(M2mod15().control(), [qubit] + target[:], inplace=True) # Aplica operador controlado M2mod15 se b=2
+    elif b == 4:
+        qc.compose(M4mod15().control(), [qubit] + target[:], inplace=True) # Aplica operador controlado M4mod15 se b=4
+
+qc.compose(QFT(num_control, inverse=True), control, inplace=True) # Aplica QFT inversa nos qubits de controle
+qc.measure(control, output)
+display(qc.draw("mpl")) # print(qc.draw())
+
+simulator = AerSimulator()
+compiled_circuit = transpile(qc, simulator)
+job = simulator.run(compiled_circuit, shots=1024)
+result = job.result()
+counts = result.get_counts()
+print(counts)
+plot_histogram(counts)
+
+# Estimativa do período r a partir dos resultados da medição (pós-processamento clássico)
+for bitstring in counts:
+    decimal = int(bitstring, 2)
+    phase = decimal / (2**num_control)
+
+    frac = Fraction(phase).limit_denominator(N)
+    r = frac.denominator
+
+    if r % 2 == 0:
+        p = gcd(pow(a, r//2) - 1, N) # Calcula p usando valor de r encontrado
+        q = gcd(pow(a, r//2) + 1, N) # Calcula q usando valor de r encontrado
+
+        if p * q == N and p != 1 and q != 1:
+            print(f"Fatores encontrados: &#123;p&#125; e &#123;q&#125;")
+            break
+
+# Conclusão: Shor é capaz de fatorar N=15 em fatores p=3 e q=5, demonstrando capacidade de encontrar fatores não-triviais usando QFT e QPE, ilustrando potencial dos algoritmos quânticos para resolver problemas difíceis de fatoração que são intractáveis para algoritmos clássicos eficientes
+</code></pre></small>
         </div>
     </div>
 
