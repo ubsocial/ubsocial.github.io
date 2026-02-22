@@ -1839,6 +1839,93 @@ for bitstring in counts:
 
 # Conclusão: Shor é capaz de fatorar N=15 em fatores p=3 e q=5, demonstrando capacidade de encontrar fatores não-triviais usando QFT e QPE, ilustrando potencial dos algoritmos quânticos para resolver problemas difíceis de fatoração que são intractáveis para algoritmos clássicos eficientes
 </code></pre></small>
+
+            <br><h4>Algoritmo de Grover:</h4>
+            <p id="textoPost">Grover Search, algoritmo quântico de busca quadrática (Lov Grover, 1996) em conjunto de dados não estruturados N. Opera em tarefa de pesquisa f(x), onde x são itens de pesquisa. Se há resposta em x, então f(x)=1. Senão, f(x)=0. Etapas do algoritmo de Grover:</p>
+            <ol>
+                <li>Registro de N qubits inicializados em estado |0⟩;</li>
+                <li>Aplicar porta Hadamard (H) para criar superposição uniforme de todos estados possíveis;</li>
+                <li>Aplicar oráculo O, que inverte fase dos estados que satisfazem condição de busca (marcando soluções, via porta Z, em Zf);</li>
+                <li>Aplicar operador de reflexão/difusão D, que inverte amplitudes em torno da média, amplificando estados marcados (amplificação de amplitude);
+                    <ul>
+                        <li>Camadas de difusão que consistem em H, Zor e H são coletivamente chamadas "operador Grover" (Grover operator).</li>
+                    </ul>
+                </li>
+                <li>Repetir (iterações) passos 3 e 4 por O(√N) vezes, onde N é nº total de estados, para amplificar significativamente probabilidade de medir soluções;</li>
+                <li>Medir estado final para obter resultado da busca.</li>
+            </ol>
+<small><pre><code>
+# pip3 install qiskit qiskit-ibm-runtime matplotlib qiskit[visualization]
+import math
+from qiskit import QuantumCircuit
+from qiskit.circuit.library import grover_operator, MCMTGate, ZGate
+from qiskit.visualization import plot_distribution
+from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager
+from qiskit_ibm_runtime import QiskitRuntimeService, SamplerV2 as Sampler
+QiskitRuntimeService.save_account(token="SEU_TOKEN_AQUI")
+
+mcmt_ex = QuantumCircuit(3)
+mcmt_ex.compose(MCMTGate(ZGate(), 3 - 1, 1), inplace=True) # Aplicar porta MCMT (Multi-Controlled Toffoli, objetivo de inverter estado, sob condição) com ZGate como alvo, 2 controles e 1 alvo
+mcmt_ex.draw(output="mpl", style="iqp")
+
+# Função oráculo O para Grover, que marca estados-alvo invertendo fase:
+def grover_oracle(marked_states):
+    if not isinstance(marked_states, list):
+        marked_states = [marked_states]
+    num_qubits = len(marked_states[0]) # Determinar nº de qubits a partir do comprimento dos estados-alvo
+
+    qc = QuantumCircuit(num_qubits)
+
+    for target in marked_states: # Iterar sobre cada estado-alvo a ser marcado
+        rev_target = target[::-1]
+        zero_inds = [
+            ind for ind in range(num_qubits) if rev_target.startswith("0", ind)
+        ] # Identificar índices dos bits '0' no estado-alvo (revertido) para aplicar portas X posteriormente
+        qc.x(zero_inds)
+        qc.compose(MCMTGate(ZGate(), num_qubits - 1, 1), inplace=True) # Aplicar porta MCMT para inverter fase do estado-alvo, usando ZGate como alvo e todos outros qubits como controles
+        qc.x(zero_inds)
+    return qc
+
+marked_states = ["1110"]
+oracle = grover_oracle(marked_states) # Criar oráculo para marcar estado "1110" (inverter fase desse estado)
+oracle.draw(output="mpl", style="iqp")
+
+grover_op = grover_operator(oracle) # Criar operador de Grover a partir do oráculo, que inclui etapas de difusão e amplificação de amplitude
+grover_op.decompose(reps=0).draw(output="mpl", style="iqp")
+
+optimal_num_iterations = math.floor(
+    math.pi / (4 * math.asin(math.sqrt(len(marked_states) / 2**grover_op.num_qubits)))
+) # Nº otimizado de iterações para aplicar Grover operator
+print(optimal_num_iterations)
+
+qc = QuantumCircuit(grover_op.num_qubits)
+qc.h(range(grover_op.num_qubits)) # Aplicar porta Hadamard (H) para criar superposição uniforme de todos estados possíveis
+qc.compose(grover_op.power(optimal_num_iterations), inplace=True) # Aplicar operador de Grover para amplificar amplitude dos estados marcados
+qc.measure_all()
+qc.draw(output="mpl", style="iqp")
+
+service = QiskitRuntimeService()
+backend = service.least_busy(operational=True, simulator=False)
+backend.name
+
+target = backend.target
+pm = generate_preset_pass_manager(target=target, optimization_level=3)
+qc_iza = pm.run(qc)
+
+print("The total depth is ", qc_iza.depth())
+print(
+    "The depth of two-qubit gates is ",
+    qc_iza.depth(lambda instruction: instruction.operation.num_qubits == 2),
+)
+
+sampler = Sampler(mode=backend)
+sampler.options.default_shots = 10_000
+result = sampler.run([qc_iza]).result()
+dist = result[0].data.meas.get_counts()
+
+print(dist)
+plot_distribution(dist)
+</code></pre></small>
         </div>
     </div>
 
