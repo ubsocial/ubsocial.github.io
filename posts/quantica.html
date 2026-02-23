@@ -1926,6 +1926,77 @@ dist = result[0].data.meas.get_counts()
 print(dist)
 plot_distribution(dist)
 </code></pre></small>
+
+            <br><h4>2P-Grover:</h4>
+            <p id="textoPost">Two-Phase Grover é variação do algoritmo de Grover que aplica Divide and Conquer (dividir e conquistar) em grande espaço de busca, dividindo-o em fases menores para otimizar quantidade de iterações necessárias, onde Oracle pode ser estruturado hierarquicamente. Etapas:</p>
+            <ol>
+                <li>Divide-se qubits em 2 blocos:
+                    <ul>
+                        <li>Bloco A: n1 qubits;</li>
+                        <li>Bloco B: n2 qubits;</li>
+                        <li>Com n = n1 + n2.</li>
+                    </ul>
+                </li>
+                <li>Fase 1: aplica-se Grover apenas no bloco A, encontrando subespaço candidato;</li>
+                <li>Fase 2: no subespaço candidato encontrado, aplica-se Grover apenas no bloco B para localizar estado-alvo;</li>
+                <li>A junção de ambos blocos resulta no estado-alvo completo.</li>
+            </ol>
+<small><pre><code>
+# pip3 install qiskit qiskit-ibm-runtime qiskit-aer qiskit[visualization]
+from qiskit import QuantumCircuit, transpile
+from qiskit_aer import AerSimulator
+from qiskit.circuit.library import GroverOperator
+import math
+from qiskit_ibm_runtime import QiskitRuntimeService
+QiskitRuntimeService.save_account(token="SEU_TOKEN_AQUI")
+
+# Objetivo: encontrar |1011&gt;, via 4 qubits em 2 blocos (n1=2, n2=2)
+n_total = 4
+
+# Fase 1: Procurar 10 no bloco A (qubits 0 e 1)
+oracle_phase1 = QuantumCircuit(2)
+oracle_phase1.x(0)
+oracle_phase1.cz(0, 1)
+oracle_phase1.x(0)
+
+grover_phase1 = GroverOperator(oracle_phase1)
+t1 = 1
+
+qc1 = QuantumCircuit(2) 
+qc1.h([0,1])
+qc1.compose(grover_phase1.power(t1), inplace=True)
+qc1.measure_all()
+display(qc1.draw("mpl"))
+
+sim = AerSimulator()
+compiled1 = transpile(qc1, sim)
+result1 = sim.run(compiled1, shots=1024).result()
+counts1 = result1.get_counts()
+
+print("Fase 1:", counts1)
+
+# Fase 2: Procurar 11 no bloco B (qubits 2 e 3), condicionado ao resultado da fase 1
+oracle_phase2 = QuantumCircuit(2)
+oracle_phase2.cz(0, 1)
+
+grover_phase2 = GroverOperator(oracle_phase2)
+t2 = 1
+
+qc2 = QuantumCircuit(2)
+qc2.h([0,1])
+qc2.compose(grover_phase2.power(t2), inplace=True)
+qc2.measure_all()
+display(qc2.draw("mpl"))
+
+compiled2 = transpile(qc2, sim)
+result2 = sim.run(compiled2, shots=1024).result()
+counts2 = result2.get_counts()
+
+print("Fase 2:", counts2)
+
+print("Resultado final esperado: |1011&gt;")
+print("Resultado final obtido:", counts1, counts2)
+</code></pre></small>
         </div>
     </div>
 
