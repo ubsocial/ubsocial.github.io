@@ -1997,6 +1997,101 @@ print("Fase 2:", counts2)
 print("Resultado final esperado: |1011&gt;")
 print("Resultado final obtido:", counts1, counts2)
 </code></pre></small>
+
+            <br><h4>Quantum Walks:</h4>
+            <p id="textoPost">Passeios quânticos são análogos quânticos dos random walks (passeios aleatórios clássicos) para domínio da mecânica quântica. São utilizados para modelar e resolver problemas de busca e otimização em contextos quânticos, sendo "passo a passo" de trajetória para resolução de problemas, via técnicas quânticas como amplitudes de probabilidades. Tipos de quantum walks:</p>
+            <ul>
+                <li>Discrete-Time Quantum Walks (DTQW): moeda quântica (coin), geralmente qubit, decide direção do passo. Operador deslocamento (shift) move e caminha nesse espaço. Exemplo:
+<small><pre><code>
+# pip3 install qiskit qiskit-ibm-runtime qiskit-aer qiskit[visualization]
+from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, transpile
+from qiskit_aer import AerSimulator
+from qiskit_ibm_runtime import QiskitRuntimeService
+QiskitRuntimeService.save_account(token="SEU_TOKEN_AQUI")
+
+# 1 qubit para moeda, 2 qubits para posição
+coin_qr = QuantumRegister(1, name="coin")
+pos_qr = QuantumRegister(2, name="pos")
+cr = ClassicalRegister(2, name="c")
+qc = QuantumCircuit(coin_qr, pos_qr, cr)
+
+# Inicialização: posição inicial |00⟩ e moeda em superposição
+coin = coin_qr[0]
+p0 = pos_qr[0]
+p1 = pos_qr[1]
+
+# Se coin = |0⟩, move para direita (posição +1 mod 4, incrementa posição)
+def shift_right(qc):
+    qc.cx(coin, p0)
+    qc.ccx(coin, p0, p1)
+
+# Se coin = |1⟩, move para esquerda (posição -1 mod 4, decrementa posição)
+def shift_left(qc):
+    qc.x(coin)
+    qc.ccx(coin, p0, p1)
+    qc.cx(coin, p0)
+    qc.x(coin)
+
+def step(qc):
+    qc.h(coin)
+    shift_right(qc)
+    shift_left(qc)
+
+n_steps = 2
+
+for _ in range(n_steps): # Realiza 2 passos do quantum walk
+    step(qc)
+
+qc.measure(pos_qr, cr)
+display(qc.draw(output="mpl"))
+
+sim = AerSimulator()
+tqc = transpile(qc, sim)
+result = sim.run(tqc, shots=1000).result()
+counts = result.get_counts()
+print("Distribuição final de posições após Quantum Walk:", counts)
+</code></pre></small>
+                </li>
+                <li>Continuous-Time Quantum Walks (CTQW): não há moeda, onde evolução é contínua sob Hamiltoniano associado ao graf. Evolução é governada por Schrödinger, sendo usada para modelar processos de transporte quântico e algoritmos de busca. Exemplo:
+<small><pre><code>
+# pip3 install qiskit qiskit-ibm-runtime qiskit-aer qiskit[visualization]
+import numpy as np
+from scipy.linalg import expm
+from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, transpile
+from qiskit.circuit.library import UnitaryGate
+from qiskit_aer import AerSimulator
+from qiskit_ibm_runtime import QiskitRuntimeService
+QiskitRuntimeService.save_account(token="SEU_TOKEN_AQUI")
+
+# Posições representadas por 2 qubits (4 posições: 00, 01, 10, 11)
+pos_qr = QuantumRegister(2, name="pos")
+cr = ClassicalRegister(2, name="c")
+qc = QuantumCircuit(pos_qr, cr)
+
+# Matriz de adjacência para um ciclo de 4 posições (0-1-2-3-0)
+H = np.array([
+    [0,1,0,1],
+    [1,0,1,0],
+    [0,1,0,1],
+    [1,0,1,0]
+], dtype=complex)
+
+t = 1.0 # Tempo de evolução contínua
+U = expm(-1j * H * t) # Operador de evolução unitário U = e^&#123;-iHt&#125;
+U_gate = UnitaryGate(U, label="CTQW") # Converter em porta unitária
+
+qc.append(U_gate, pos_qr) # Aplicar evolução
+qc.measure(pos_qr, cr)
+display(qc.draw(output="mpl"))
+
+sim = AerSimulator()
+tqc = transpile(qc, sim)
+result = sim.run(tqc, shots=1000).result()
+counts = result.get_counts()
+print("Distribuição final de posições após CTQW:", counts) # Nota-se transferência de amplitude entre posições
+</code></pre></small>
+                </li>
+            </ul>
         </div>
     </div>
 
