@@ -2235,7 +2235,7 @@ fig.suptitle("Evolução dos observáveis")
 </code></pre></small>
 
             <br><h4>Jordan-Wigner Transform (JWT):</h4>
-            <p id="textoPost">Transformação de Jordan-Wigner é técnica para mapear operadores de fermiônicos (fermions - que obedecem estatística de Fermi-Dirac) em operadores de spin (qubits), permitindo simulação de sistemas quânticos fermiônicos em computadores quânticos. JWT é usada para simular moléculas e materiais, onde partículas são fermiônicas. JWT mapeia operadores de criação e aniquilação de fermiônicos em produtos tensoriais de operadores de Pauli, onde cada modo fermiônico é representado por qubit. JWT é eficiente para sistemas unidimensionais, mas pode introduzir não-localidade em sistemas multidimensionais, exigindo técnicas adicionais para otimização. Exemplo de aplicação do JWT para simular modelo de Hubbard (modelo de elétrons em rede):</p>
+            <p id="textoPost">Transformação de Jordan-Wigner é técnica para mapear operadores de fermiônicos (férmions - que obedecem estatística de Fermi-Dirac) em operadores de spin (qubits), permitindo simulação de sistemas quânticos fermiônicos em computadores quânticos. JWT é usada para simular moléculas e materiais, onde partículas são fermiônicas. JWT mapeia operadores de criação e aniquilação de fermiônicos em produtos tensoriais de operadores de Pauli, onde cada modo fermiônico é representado por qubit. JWT é eficiente para sistemas unidimensionais, mas pode introduzir não-localidade em sistemas multidimensionais, exigindo técnicas adicionais para otimização. Exemplo de aplicação do JWT para simular modelo de Hubbard (modelo de elétrons em rede), usando Trotterization (evolução temporal);:</p>
 <small><pre><code>
 # pip3 install qiskit qiskit-aer qiskit-nature
 from qiskit import QuantumCircuit, transpile
@@ -2300,7 +2300,7 @@ counts = result.get_counts()
 
 print("Distribuição final:", counts)
 </code></pre></small>
-            <p id="textoPost">Fisicamento, elétron "tunelou" para outro sítio, onde 0100 é Q3(0), Q2(1), Q1(0), Q0(0), elétron spin-up foi para sítio 1, e sistema evoluiu via hopping. 0001 é estado em que elétron está no último qubit (site 1 ↓). Efeito quântico gerado devido Hamiltoniano e evolução Trotterizada.</p>
+            <p id="textoPost">Fisicamente, elétron "tunelou" para outro sítio, onde 0100 é Q3(0), Q2(1), Q1(0), Q0(0), elétron spin-up foi para sítio 1, e sistema evoluiu via hopping. 0001 é estado em que elétron está no último qubit (site 1 ↓). Efeito quântico gerado devido Hamiltoniano e evolução Trotterizada.</p>
         </div>
     </div>
 
