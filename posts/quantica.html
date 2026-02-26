@@ -2233,6 +2233,74 @@ fig.suptitle("Evolução dos observáveis")
 # Evolução temporal dos observáveis (Ising) simulada via Trotterização de Lie-Trotter de ordem 1
 # Para resultados mais precisos, comparar com Trotterizações de Suzuki-Trotter de ordem 2 e 4
 </code></pre></small>
+
+            <br><h4>Jordan-Wigner Transform (JWT):</h4>
+            <p id="textoPost">Transformação de Jordan-Wigner é técnica para mapear operadores de fermiônicos (fermions - que obedecem estatística de Fermi-Dirac) em operadores de spin (qubits), permitindo simulação de sistemas quânticos fermiônicos em computadores quânticos. JWT é usada para simular moléculas e materiais, onde partículas são fermiônicas. JWT mapeia operadores de criação e aniquilação de fermiônicos em produtos tensoriais de operadores de Pauli, onde cada modo fermiônico é representado por qubit. JWT é eficiente para sistemas unidimensionais, mas pode introduzir não-localidade em sistemas multidimensionais, exigindo técnicas adicionais para otimização. Exemplo de aplicação do JWT para simular modelo de Hubbard (modelo de elétrons em rede):</p>
+<small><pre><code>
+# pip3 install qiskit qiskit-aer qiskit-nature
+from qiskit import QuantumCircuit, transpile
+from qiskit_aer import AerSimulator
+from qiskit.quantum_info import SparsePauliOp
+from qiskit.circuit.library import PauliEvolutionGate
+from qiskit_nature.second_q.operators import FermionicOp
+from qiskit_nature.second_q.mappers import JordanWignerMapper
+from qiskit_ibm_runtime import QiskitRuntimeService
+QiskitRuntimeService.save_account(token="SEU_TOKEN_AQUI")
+
+# Parâmetros (modelo de Hubbard)
+t = 1.0 # hopping
+U = 4.0 # interação local
+num_sites = 2
+num_spin_orbitals = 2 * num_sites # up/down para cada sítio
+fermion_terms = &#123;&#125; # Hamiltoniano fermiônico
+
+# Termos de hopping (0=up e 1=down)
+for spin in [0, 1]:
+    i = 0 * 2 + spin
+    j = 1 * 2 + spin
+
+    fermion_terms[f"+_&#123;i&#125; -_&#123;j&#125;"] = -t
+    fermion_terms[f"+_&#123;j&#125; -_&#123;i&#125;"] = -t
+
+# Termo de interação local
+for site in range(num_sites):
+    up = site * 2
+    down = site * 2 + 1
+    fermion_terms[f"+_&#123;up&#125; -_&#123;up&#125; +_&#123;down&#125; -_&#123;down&#125;"] = U
+
+# Operador fermiônico
+fermionic_hamiltonian = FermionicOp(
+    fermion_terms,
+    num_spin_orbitals=num_spin_orbitals
+)
+
+mapper = JordanWignerMapper()
+qubit_hamiltonian: SparsePauliOp = mapper.map(fermionic_hamiltonian)
+print("Hamiltoniano em Pauli:", qubit_hamiltonian)
+
+# Evolução temporal (Trotterização)
+evolution_time = 2.0
+num_steps = 50
+dt = evolution_time / num_steps
+qc = QuantumCircuit(num_spin_orbitals)
+qc.x(0) # Estado inicial: 1 elétron spin-up no sítio 0
+
+# Evolução unitária e^&#123;-iHt&#125;
+for _ in range(num_steps):
+    evo_gate = PauliEvolutionGate(qubit_hamiltonian, time=dt)
+    qc.append(evo_gate, qc.qubits)
+
+qc.measure_all()
+
+sim = AerSimulator()
+tqc = transpile(qc, sim)
+job = sim.run(tqc, shots=1000)
+result = job.result()
+counts = result.get_counts()
+
+print("Distribuição final:", counts)
+</code></pre></small>
+            <p id="textoPost">Fisicamento, elétron "tunelou" para outro sítio, onde 0100 é Q3(0), Q2(1), Q1(0), Q0(0), elétron spin-up foi para sítio 1, e sistema evoluiu via hopping. 0001 é estado em que elétron está no último qubit (site 1 ↓). Efeito quântico gerado devido Hamiltoniano e evolução Trotterizada.</p>
         </div>
     </div>
 
