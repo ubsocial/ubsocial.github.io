@@ -2369,6 +2369,82 @@ counts = result.get_counts()
 print("Distribuição final:", counts)
 </code></pre></small>
             <p id="textoPost">Resultado similar ao JWT, mas com estrutura de mapeamento diferente, onde BK reduz não-localidade em sistemas multidimensionais, sendo mais eficiente para simulação de sistemas quânticos fermiônicos complexos.</p>
+
+            <br><h4>Barren Plateaus:</h4>
+            <p id="textoPost">Planaltos áridos (planícies áridas) são regiões do espaço de parâmetros em circuito quâtico variacional, onde gradiente da função custo aproxima-se de 0 conforme aumento de qubits. Ocasionado por profundidade do circuito, entanglement aleatório, e falta de estrutura nos ansatzes. Causa ineficácia aos algoritmos variacionais quânticos. Pode ser do tipo custo global, local (subconjunto de qubits) ou induzido por ruído quântico. Exemplo de barren plateau, onde observa-se decaimento do gradiente conforme aumento de qubits:</p>
+<small><pre><code>
+# pip3 install qiskit qiskit-aer qiskit-ibm-runtime matplotlib
+import numpy as np
+import matplotlib.pyplot as plt
+from qiskit import QuantumCircuit
+from qiskit.circuit import Parameter
+from qiskit.quantum_info import SparsePauliOp
+from qiskit_aer import AerSimulator
+from qiskit_ibm_runtime import EstimatorV2, QiskitRuntimeService
+QiskitRuntimeService.save_account(token="SEU_TOKEN_AQUI")
+
+# Função custo (Z0) para observar decaimento do gradiente com aumento de qubits
+def create_cost_operator(n):
+    pauli_string = "Z" + "I"*(n-1)
+    return SparsePauliOp(pauli_string)
+
+# Circuito variacional profundo
+def create_random_ansatz(n, depth):
+    qc = QuantumCircuit(n)
+    theta = Parameter("θ")
+    
+    for _ in range(depth):
+        for i in range(n):
+            qc.ry(theta, i) # RY com parâmetro compartilhado entre camadas
+        for i in range(n-1):
+            qc.cx(i, i+1) # Entanglement linear entre qubits adjacentes
+
+    return qc, theta
+
+# Parameter-shift para estimar gradiente
+def parameter_shift_gradient(estimator, circuit, operator, theta_value):
+    shift = np.pi / 2
+
+    forward = estimator.run([
+        (circuit, operator, [theta_value + shift])
+    ]).result()[0].data.evs
+
+    backward = estimator.run([
+        (circuit, operator, [theta_value - shift])
+    ]).result()[0].data.evs
+
+    return 0.5 * (forward - backward)
+
+backend = AerSimulator(method="statevector")
+estimator = EstimatorV2(mode=backend)
+
+qubit_list = [2, 4, 6, 8]
+depth = 20
+mean_gradients = []
+
+for n in qubit_list:
+    grads = []
+    operator = create_cost_operator(n)
+    circuit, theta = create_random_ansatz(n, depth)
+    
+    for _ in range(20):
+        val = np.random.uniform(0, 2*np.pi)
+        grad = parameter_shift_gradient(estimator, circuit, operator, val)
+        grads.append(abs(grad))
+    
+    mean_val = np.mean(grads)
+    mean_gradients.append(mean_val)
+    
+    print(f"Gradiente médio com &#123;n&#125; qubits: média |grad| = &#123;mean_val&#125;") # Quanto mais qubits, menor gradiente médio, indicando barren plateau
+
+plt.figure()
+plt.plot(qubit_list, mean_gradients, marker='o')
+plt.xlabel("Número de Qubits")
+plt.ylabel("Média |Gradiente|")
+plt.title("Barren Plateau - decaimento do gradiente")
+plt.yscale("log")
+plt.show()
+</code></pre></small>
         </div>
     </div>
 
