@@ -2445,6 +2445,62 @@ plt.title("Barren Plateau - decaimento do gradiente")
 plt.yscale("log")
 plt.show()
 </code></pre></small>
+
+            <br><h4>Variational Quantum Eigensolver (VQE):</h4>
+            <p id="textoPost">Algoritmo híbrido quântico-clássico, para estimar menor valor próprio/autovalor (ground state) energético de Hamiltoniano H (energia fundamental de sistema quântico). Componentes do VQE:</p>
+            <ul>
+                <li>Operador Hamiltoniano H do sistema quântico que deseja otimizar;</li>
+                <li>Ansatz parametrizado (trial state): circuito quântico com parâmetros ajustáveis theta (θ), criando função de onda multiqubit para aproximar-se do estado do sistema estudado;</li>
+                <li>Otimização clássica para ajustar parâmetros do ansatz, minimizando/otimizando energia/resultado esperado;</li>
+                <li>Estimator (estimador): medidas quânticas para estimar energia esperada do estado gerado pelo ansatz.</li>
+            </ul>
+            <p id="textoPost">Objetivo do VQE é encontrar melhores parâmetros θ que resultam na menor energia possível (próxima do valor verdadeiro). Passo a passo do VQE:</p>
+            <ol>
+                <li>Definir Hamiltoniano H do sistema quântico, via mapeamento;</li>
+                <li>Escolher ansatz parametrizado (circuito quântico) para gerar função de onda;</li>
+                <li>Inicializar parâmetros do ansatz (aleatórios ou heurísticos);</li>
+                <li>Executar circuito quântico para obter estado gerado pelo ansatz;</li>
+                <li>Medir energia esperada do estado gerado, via Hamiltoniano H;</li>
+                <li>Usar otimizador clássico para ajustar parâmetros do ansatz, minimizando energia esperada;</li>
+                <li>Repetir passos 4-6 até convergência ou atingir critério de parada.</li>
+            </ol>
+            <p id="textoPost">Exemplo de implementação do VQE para simular cadeia de spins em 1D (Heisenberg model/chain):</p>
+<small><pre><code>
+# pip3 install qiskit qiskit-ibm-runtime qiskit-aer qiskit-algorithms
+from qiskit import QuantumCircuit
+from qiskit.quantum_info import SparsePauliOp
+from qiskit_aer import AerSimulator
+from qiskit_ibm_runtime import EstimatorV2, QiskitRuntimeService
+from qiskit_algorithms.minimum_eigensolvers import VQE
+from qiskit_algorithms.optimizers import COBYLA
+from qiskit.circuit import Parameter
+QiskitRuntimeService.save_account(token="SEU_TOKEN_AQUI")
+
+hamiltonian = SparsePauliOp.from_list([("Z", 1.0)]) # Hamiltoniano simples (H=Z)
+
+# Circuito Ansatz simples com 1 qubit e parametro θ para rotação Y
+qc_ansatz = QuantumCircuit(1)
+theta = Parameter("θ")
+qc_ansatz.ry(theta, 0)
+
+# Estimador via simulador Aer (Statevector)
+backend = AerSimulator(method="statevector")
+estimator = EstimatorV2(mode=backend)
+
+optimizer = COBYLA(maxiter=100) # Otimização com COBYLA, com máximo de 100 iterações
+
+# Criar objeto VQE parametrizado
+vqe = VQE(
+    estimator=estimator,
+    ansatz=qc_ansatz,
+    optimizer=optimizer,
+)
+
+result = vqe.compute_minimum_eigenvalue(hamiltonian) # Executar VQE para encontrar valor mínimo do Hamiltoniano (Ground State)
+
+print("Energia encontrada (Ground State VQE):", result.eigenvalue.real)
+print("Melhor vetor de parâmetros:", result.optimal_parameters)
+</code></pre></small>
         </div>
     </div>
 
