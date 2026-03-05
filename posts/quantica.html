@@ -2500,6 +2500,169 @@ result = vqe.compute_minimum_eigenvalue(hamiltonian) # Executar VQE para encontr
 print("Energia encontrada (Ground State VQE):", result.eigenvalue.real)
 print("Melhor vetor de parâmetros:", result.optimal_parameters)
 </code></pre></small>
+
+            <br><h4>Quantum Approximate Optimization Algorithm (QAOA):</h4>
+            <p id="textoPost">Algoritmo de Otimização Aproximada Quântica, tipo iterativo híbrido quântico-clássico, para resolver problemas de otimização combinatória, onde objetivo é minimizar função custo, em espaço de soluções. Componentes:</p>
+            <ul>
+                <li>Cost Hamiltonian (HC): problema formulado como Hamiltoniano de custo a ser minimizado;</li>
+                <li>Mixer Hamiltonian (HM): Hamiltoniano de mistura que promove transições entre estados, via portas X (NOT) e parâmetros beta (y) e gama (b) de controle de evolução;</li>
+                <li>Problema de otimização formulado como Hamiltoniano de custo (cost Hamiltonian) HC, onde estados computacionais representam soluções e energia representa custo;</li>
+                <li>Otimizador clássico para ajustar beta e gama.</li>
+            </ul>
+            <p id="textoPost">Passo a passo:</p>
+            <ol>
+                <li>Formular problema de otimização como Hamiltoniano de custo HC;</li>
+                <li>Escolher Hamiltoniano de mistura HM;</li>
+                <li>Inicializar estado de superposição uniforme (via portas Hadamard);</li>
+                <li>Aplicar evolução sob HC por tempo gamma (y), via UC = e^(-iyHC);</li>
+                <li>Aplicar evolução sob HM por tempo beta (b), via UM = e^(-ibHM);</li>
+                <li>Repetir passos 4-5 por p camadas (nível de QAOA);</li>
+                <li>Medir estado final e otimizar parâmetros (y, b) para maximizar probabilidade encontrar custo minimizado.</li>
+            </ol>
+            <p id="textoPost">Max-Cut (corte máximo) é problema NP-hard de otimização combinatória, para dividir/particionar vértices de grafo em 2 grupos, maximizando nº de arestas entre eles. QAOA em Max-Cut formula Hamiltoniano de custo, onde qubits i e j (par de nós/nodes) iguais (arestas não cortadas) são penalizadas, e qubits diferentes (arestas cortadas) são recompensados. Hamiltoniano de mistura promove transições entre estados, permitindo exploração do espaço de soluções. Exemplo de aplicação do QAOA para resolver Max-Cut em grafo simples, com 5 nós/ndoes:</p>
+<small><pre><code>
+# pip3 install qiskit qiskit-aer qiskit-ibm-runtime matplotlib scipy networkx
+import matplotlib.pyplot as plt
+import networkx as nx
+from scipy.optimize import minimize
+from qiskit import QuantumCircuit, transpile
+from qiskit.circuit import Parameter
+from qiskit.quantum_info import SparsePauliOp
+from qiskit_aer import AerSimulator
+from qiskit_ibm_runtime import EstimatorV2, QiskitRuntimeService
+QiskitRuntimeService.save_account(token="SEU_TOKEN_AQUI")
+
+# Grafo cíclico de 4 vértices:
+edges = [(0,1),(1,2),(2,3),(3,0)]
+n_qubits = 4
+
+G = nx.Graph()
+G.add_edges_from(edges)
+nx.draw(G, with_labels=True)
+plt.title("Grafo para MaxCut:")
+plt.show()
+
+# Hamiltoniano HC:
+paulis = []
+coeffs = []
+
+for i,j in edges:
+    z_string = ["I"] * n_qubits
+    z_string[i] = "Z"
+    z_string[j] = "Z"
+
+    paulis.append("".join(z_string))
+    coeffs.append(0.5)
+    paulis.append("I"*n_qubits)
+    coeffs.append(-0.5)
+
+cost_operator = SparsePauliOp.from_list(list(zip(paulis, coeffs)))
+
+# Parâmetros variacionais:
+gamma = Parameter("γ")
+beta = Parameter("β")
+
+# Circuito QAOA:
+def create_qaoa():
+    qc = QuantumCircuit(n_qubits)
+    qc.h(range(n_qubits))
+
+    # Custo unitário:
+    for i,j in edges:
+        qc.cx(i,j)
+        qc.rz(2*gamma, j)
+        qc.cx(i,j)
+
+    # Custo de mistura:
+    for q in range(n_qubits):
+        qc.rx(2*beta, q)
+
+    return qc
+
+# Estimator:
+backend = AerSimulator(method="statevector")
+estimator = EstimatorV2(mode=backend)
+energy_history = []
+
+# Função custo do MaxCut:
+def energy(params):
+    g, b = params
+    qc = create_qaoa()
+
+    qc = qc.assign_parameters({
+        gamma:g,
+        beta:b
+    })
+
+    job = estimator.run(
+        [(qc, cost_operator)]
+    )
+
+    result = job.result()[0]
+    energy_val = result.data.evs
+    energy_history.append(energy_val)
+    return energy_val
+
+# Otimização clássica:
+initial = [0.5,0.5] # valores iniciais para gamma e beta
+
+opt_result = minimize(
+    energy,
+    initial,
+    method="COBYLA"
+)
+
+print("Gamma =",opt_result.x[0])
+print("Beta =",opt_result.x[1])
+print("Energia mínima:", opt_result.fun)
+
+# Gráfico de convergência (energia ao longo das iterações):
+plt.plot(energy_history)
+plt.xlabel("Iteração")
+plt.ylabel("Energia")
+plt.title("Convergência do QAOA")
+plt.show()
+
+# Circuíto QAOA para MaxCut:
+final_circuit = create_qaoa().assign_parameters({
+    gamma:opt_result.x[0],
+    beta:opt_result.x[1]
+})
+
+display(final_circuit.draw(output="mpl"))
+
+# Medir circuito final:
+measured = final_circuit.copy()
+measured.measure_all()
+
+backend = AerSimulator()
+compiled = transpile(measured, backend)
+job = backend.run(compiled, shots=2000)
+counts = job.result().get_counts()
+print("Distribuição de bitstrings:", counts)
+
+print("Cortes encontrados:")
+for bit in counts:
+    cut = compute_cut(bit, edges)
+    print(bit, ":", cut)
+
+# Melhor bitstring encontrado:
+best_bitstring = max(counts, key=counts.get)
+print("Bitstring mais provável:", best_bitstring)
+
+# Calcular Max-Cut conforme bitstring encontrado:
+def compute_cut(bitstring, edges):
+    bitstring = bitstring[::-1]
+    cut = 0
+
+    for i,j in edges:
+        if bitstring[i] != bitstring[j]:
+            cut += 1
+    return cut
+
+maxcut_value = compute_cut(best_bitstring, edges)
+print("Valor do MaxCut encontrado:", maxcut_value)
+</code></pre></small>
         </div>
     </div>
 
