@@ -2519,7 +2519,7 @@ print("Melhor vetor de parâmetros:", result.optimal_parameters)
                 <li>Repetir passos 4-5 por p camadas (nível de QAOA);</li>
                 <li>Medir estado final e otimizar parâmetros (y, b) para maximizar probabilidade encontrar custo minimizado.</li>
             </ol>
-            <p id="textoPost">Max-Cut (corte máximo) é problema NP-hard de otimização combinatória, para dividir/particionar vértices de grafo em 2 grupos, maximizando nº de arestas entre eles. QAOA em Max-Cut formula Hamiltoniano de custo, onde qubits i e j (par de nós/nodes) iguais (arestas não cortadas) são penalizadas, e qubits diferentes (arestas cortadas) são recompensados. Hamiltoniano de mistura promove transições entre estados, permitindo exploração do espaço de soluções. Exemplo de aplicação do QAOA para resolver Max-Cut em grafo simples, com 5 nós/ndoes:</p>
+            <p id="textoPost">Max-Cut (corte máximo) é problema NP-hard de otimização combinatória, para dividir/particionar vértices de grafo em 2 grupos, maximizando nº de arestas entre eles. QAOA em Max-Cut formula Hamiltoniano de custo, onde qubits i e j (par de nós/nodes) iguais (arestas não cortadas) são penalizadas, e qubits diferentes (arestas cortadas) são recompensados. Hamiltoniano de mistura promove transições entre estados, permitindo exploração do espaço de soluções. Exemplo de aplicação do QAOA para resolver Max-Cut em grafo simples, com 5 nós/nodes:</p>
 <small><pre><code>
 # pip3 install qiskit qiskit-aer qiskit-ibm-runtime matplotlib scipy networkx
 import matplotlib.pyplot as plt
