@@ -2663,6 +2663,76 @@ def compute_cut(bitstring, edges):
 maxcut_value = compute_cut(best_bitstring, edges)
 print("Valor do MaxCut encontrado:", maxcut_value)
 </code></pre></small>
+
+            <br><h4>Quantum Machine Learning (QML):</h4>
+            <p id="textoPost">QML inclui algoritmos e dados quânticos para aprendizado de máquina, juntamente com processamento clássico, devido à falta de QRAM e leitura de dados quânticos. QML encontra mapeamento do conjunto de recursos de dimensão superior, separando pontos de dados para classificar novos pontos. A alta dimensionalidade dos estados quânticos emaranhados não é paralelismo exponencial e não é condição suficiente para aumentar potência do ML. Desquantização (dequantization) é substituição de algoritmo quântico por equivalente clássico, sem perda de eficiência, mostrando que nem todo algoritmo quântico é superior. Exemplo de desquantização é sobrecarga de carregamento de dados, onde leitura de dados quânticos é ineficiente, e algoritmos quânticos que dependem disso podem ser desquantizados para equivalentes clássicos eficientes. Exemplo QML Qiskit:</p>
+<small><pre><code>
+# Arquivo CSV de dataset: https://raw.githubusercontent.com/qiskit-community/prototype-quantum-kernel-training/main/data/dataset_graph7.csv
+# pip3 install qiskit qiskit-aer qiskit-ibm-runtime pandas numpy
+from qiskit import transpile
+from qiskit.circuit import Parameter, ParameterVector, QuantumCircuit
+from qiskit.circuit.library import unitary_overlap
+from qiskit.primitives import StatevectorSampler
+from qiskit_ibm_runtime import QiskitRuntimeService
+from qiskit_aer import AerSimulator
+from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager
+import pandas as pd
+import numpy as np
+
+# Etapa 1: mapear entradas clássicas para problema quântico
+def get_training_data():
+    df = pd.read_csv("dataset_graph7.csv", sep=",", header=None) # Ler dados de treino do dataset CSV
+    training_data = df.values[:20, :]
+    ind = np.argsort(training_data[:, -1])
+    X_train = training_data[ind][:, :-1]
+    return X_train
+ 
+X_train = get_training_data() # Obter dados de treino do dataset CSV
+num_samples = np.shape(X_train)[0]
+
+# Quantidade de qubits é metade do nº de recursos, pois cada recurso é codificado em par de rotações RX e RZ
+num_features = np.shape(X_train)[1]
+num_qubits = int(num_features / 2)
+entangler_map = [[0, 2], [3, 4], [2, 5], [1, 4], [2, 3], [4, 6]]
+
+fm = QuantumCircuit(num_qubits)
+training_param = Parameter("θ")
+feature_params = ParameterVector("x", num_qubits * 2)
+fm.ry(training_param, fm.qubits)
+
+for cz in entangler_map:
+    fm.cz(cz[0], cz[1])
+
+for i in range(num_qubits):
+    fm.rz(-2 * feature_params[2 * i + 1], i)
+    fm.rx(-2 * feature_params[2 * i], i)
+ 
+# Escolher 2 pontos de dados para comparar via circuito de sobreposição unitária (overlap)
+x1 = 14
+x2 = 19
+unitary1 = fm.assign_parameters(list(X_train[x1]) + [np.pi / 2])
+unitary2 = fm.assign_parameters(list(X_train[x2]) + [np.pi / 2])
+
+# Criar circuito de sobreposição unitária
+overlap_circ = unitary_overlap(unitary1, unitary2)
+overlap_circ.measure_all()
+overlap_circ.draw(scale=0.6, style="iqp")
+
+# Etapa 2: Otimizar problema para execução quântica
+backend = AerSimulator()
+pm = generate_preset_pass_manager(optimization_level=3, backend=backend)
+job = pm.run(overlap_circ)
+
+# Etapa 3: Executar usando Qiskit em ambiente de simulação
+num_shots = 10_000
+sampler = StatevectorSampler()
+counts = (
+    sampler.run([overlap_circ], shots=num_shots).result()[0].data.meas.get_int_counts()
+)
+
+# Etapa 4: Análise e pós-processamento 
+counts.get(0, 0.0) / num_shots # Probabilidade de medir 0, sobreposição entre estados quânticos codificados pelos pontos x1 e x2
+</code></pre></small>
         </div>
     </div>
 
