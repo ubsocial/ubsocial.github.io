@@ -2733,6 +2733,159 @@ counts = (
 # Etapa 4: Análise e pós-processamento 
 counts.get(0, 0.0) / num_shots # Probabilidade de medir 0, sobreposição entre estados quânticos codificados pelos pontos x1 e x2
 </code></pre></small>
+
+            <br><h4>QML quantum data encoding:</h4>
+            <p id="textoPost">Codificação/transformação de dados clássicos em formato quântico, para uso em QML. A normalização quântica consiste em escalar dados para que norma 2 (comprimento redimensionado) do vetor seja 1 (resultante da soma das probabilidades de medição), permitindo representação como estado quântico. Métodos de codificação de dados quânticos:</p>
+            <ul>
+                <li>Codificação básica: codificar string clássica P em estado base de sistema P, representado como cadeia de 4 bits (como 0101) e seu estado quântico (como |0101&gt;). Cada bit clássico será qubit. Codificação de vários recursos, onde cada recurso é convertido em sua forma binária e atribuído a grupo distinto de qubits. A junção de todos grupos de qubits representa vetor de recursos completo. Exemplo para converter vetor de recursos (5,7,0) em estado quântico:
+<small><pre><code>
+pip3 install qiskit qiskit-aer qiskit-ibm-runtime matplotlib scipy networkx
+from qiskit import QuantumCircuit
+
+x = 5 # binário 0101
+y = 7 # binário 0111
+z = 0 # binário 0000
+
+# Converter cada recurso para vetor com 4 bits
+x_bits = [int(b) for b in format(x, "04b")]
+y_bits = [int(b) for b in format(y, "04b")]
+z_bits = [int(b) for b in format(z, "04b")]
+
+# Combinar todos bits em vetor único
+all_bits = x_bits + y_bits + z_bits  # [0,1,0,1,0,1,1,1,0,0,0,0]
+
+qc = QuantumCircuit(12)
+
+# Aplicar portas X (NOT) nos bits 1
+for idx, bit in enumerate(all_bits):
+    if bit == 1:
+        qc.x(idx)
+
+qc.draw("mpl")
+</code></pre></small>
+                </li>
+                <li>Codificação de amplitude: converter vetor clássico N nas amplitudes de estado quântico de log2(N) qubits. Cada valor torna-se amplitude da base computacional, precisando ser normalizado (soma dos quadrados = 1). Se N não for potência de 2, completam-se amplitudes restantes com 0. Exemplo para vetor de recursos (4,8,5,0) convertido em estado quântico:
+<small><pre><code>
+import math
+
+desired_state = [
+    1 / math.sqrt(105) * 4,
+    1 / math.sqrt(105) * 8,
+    1 / math.sqrt(105) * 5,
+    1 / math.sqrt(105) * 0,
+]
+
+qc = QuantumCircuit(2)
+qc.initialize(desired_state, [0, 1])
+
+qc.decompose(reps=5).draw(output="mpl")
+</code></pre></small>
+                </li>
+                <li>Codificação angular: converter dados clássicos em circuitos quânticos via rotações em qubits, onde cada valor é usado como ângulo de rotação em porta Pauly quântica de rotação, normalmente RY (rotação no eixo Y) ou RX, proporcional ao valor dos dados. Geralmente, circuito resultante possui profundidade constante 1. Exemplo Qiskit de rotação de qubit a partir do estado inicial |0&gt;, com função para visualizar processo de codificação angular:
+<small><pre><code>
+from qiskit.quantum_info import Statevector
+from qiskit.visualization.bloch import Bloch
+from qiskit.visualization.state_visualization import _bloch_multivector_data
+from math import pi
+import numpy as np
+
+qc = QuantumCircuit(1)
+state1 = Statevector.from_instruction(qc)
+qc.ry(pi / 2, 0) # Aplicar porta Pauly RY (rotação no eixo Y)
+
+state2 = Statevector.from_instruction(qc)
+states = state1, state2
+
+# Função para plotar N estados em 1 Bloch Sphere visual
+def plot_Nstates(states, axis, plot_trace_points=True):
+    bloch_vecs = [_bloch_multivector_data(s)[0] for s in states]
+
+    if axis is None:
+        bloch_plot = Bloch()
+    else:
+        bloch_plot = Bloch(axes=axis)
+
+    bloch_plot.add_vectors(bloch_vecs)
+
+    if len(states) &gt; 1:
+
+        def rgba_map(x, num):
+            g = (0.95 - 0.05) / (num - 1)
+            i = 0.95 - g * num
+            y = g * x + i
+            return (0.0, y, 0.0, 0.7)
+
+        num = len(states)
+        bloch_plot.vector_color = [rgba_map(x, num) for x in range(1, num + 1)]
+
+    bloch_plot.vector_width = 3
+    bloch_plot.vector_style = "simple"
+
+    if plot_trace_points:
+
+        def trace_points(bloch_vec1, bloch_vec2):
+            # bloch_vec = (x,y,z)
+            n_points = 15
+            thetas = np.arccos([bloch_vec1[2], bloch_vec2[2]])
+            phis = np.arctan2(
+                [bloch_vec1[1], bloch_vec2[1]], [bloch_vec1[0], bloch_vec2[0]]
+            )
+            
+            if phis[1] &lt; 0:
+                phis[1] = phis[1] + 2 * pi
+            angles0 = np.linspace(phis[0], phis[1], n_points)
+            angles1 = np.linspace(thetas[0], thetas[1], n_points)
+
+            xp = np.cos(angles0) * np.sin(angles1)
+            yp = np.sin(angles0) * np.sin(angles1)
+            zp = np.cos(angles1)
+            pnts = [xp, yp, zp]
+            bloch_plot.add_points(pnts)
+            bloch_plot.point_color = "k"
+            bloch_plot.point_size = [4] * len(bloch_plot.points)
+            bloch_plot.point_marker = ["o"]
+
+        for i in range(len(bloch_vecs) - 1):
+            trace_points(bloch_vecs[i], bloch_vecs[i + 1])
+
+    bloch_plot.sphere_alpha = 0.05
+    bloch_plot.frame_alpha = 0.15
+    bloch_plot.figsize = [4, 4]
+    bloch_plot.render()
+
+plot_Nstates(states, axis=None, plot_trace_points=True)
+</code></pre></small>
+                </li>
+                <li>Codificação de fase: codificar dados clássicos em fase de estado quântico, via portas quânticas Pauly de rotação de fase Z (RZ), onde cada valor é convertido em ângulo de rotação, e aplicado a qubits para criar superposição com fases relativas, com profundidade 2 e camada Hadamard. Exemplo Qiskit de codificação de fase em qubit de estado inicial |0&gt;:
+<small><pre><code>
+qc = QuantumCircuit(1)
+qc.h(0) # Aplicar porta Hadamard (superposição) para colocar estado no equador da Bloch Sphere
+state1 = Statevector.from_instruction(qc)
+
+qc.p(pi / 2, 0) # Porta Pauly RZ (rotação no eixo Z) no ângulo de rotação pi/2
+state2 = Statevector.from_instruction(qc)
+states = state1, state2
+
+qc.draw("mpl", scale=1)
+plot_Nstates(states, axis=None, plot_trace_points=True)
+</code></pre></small>
+                </li>
+                <li>Codificação de ângulo denso (Dense Angle Encoding, DAE): combina codificação angular e de fase, onde cada recurso é codificado em par de rotações RX e RZ, permitindo representação mais compacta de dados, usando metade de qubits em comparação com codificação básica. Exemplo Qiskit de codificação de ângulo denso em qubit de estado inicial |0&gt;:
+<small><pre><code>
+qc = QuantumCircuit(1)
+state1 = Statevector.from_instruction(qc)
+
+qc.ry(3 * pi / 8, 0)
+state2 = Statevector.from_instruction(qc)
+
+qc.rz(7 * pi / 4, 0)
+state3 = Statevector.from_instruction(qc)
+states = state1, state2, state3
+
+plot_Nstates(states, axis=None, plot_trace_points=True)
+</code></pre></small>
+                </li>
+            </ul>
         </div>
     </div>
 
