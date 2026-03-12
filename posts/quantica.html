@@ -2781,7 +2781,7 @@ qc.initialize(desired_state, [0, 1])
 qc.decompose(reps=5).draw(output="mpl")
 </code></pre></small>
                 </li>
-                <li>Codificação angular: converter dados clássicos em circuitos quânticos via rotações em qubits, onde cada valor é usado como ângulo de rotação em porta Pauly quântica de rotação, normalmente RY (rotação no eixo Y) ou RX, proporcional ao valor dos dados. Geralmente, circuito resultante possui profundidade constante 1. Exemplo Qiskit de rotação de qubit a partir do estado inicial |0&gt;, com função para visualizar processo de codificação angular:
+                <li>Codificação angular: converter dados clássicos em circuitos quânticos via rotações em qubits, onde cada valor é usado como ângulo de rotação em porta pauli quântica de rotação, normalmente RY (rotação no eixo Y) ou RX, proporcional ao valor dos dados. Geralmente, circuito resultante possui profundidade constante 1. Exemplo Qiskit de rotação de qubit a partir do estado inicial |0&gt;, com função para visualizar processo de codificação angular:
 <small><pre><code>
 from qiskit.quantum_info import Statevector
 from qiskit.visualization.bloch import Bloch
@@ -2791,7 +2791,7 @@ import numpy as np
 
 qc = QuantumCircuit(1)
 state1 = Statevector.from_instruction(qc)
-qc.ry(pi / 2, 0) # Aplicar porta Pauly RY (rotação no eixo Y)
+qc.ry(pi / 2, 0) # Aplicar porta pauli RY (rotação no eixo Y)
 
 state2 = Statevector.from_instruction(qc)
 states = state1, state2
@@ -2856,13 +2856,13 @@ def plot_Nstates(states, axis, plot_trace_points=True):
 plot_Nstates(states, axis=None, plot_trace_points=True)
 </code></pre></small>
                 </li>
-                <li>Codificação de fase: codificar dados clássicos em fase de estado quântico, via portas quânticas Pauly de rotação de fase Z (RZ), onde cada valor é convertido em ângulo de rotação, e aplicado a qubits para criar superposição com fases relativas, com profundidade 2 e camada Hadamard. Exemplo Qiskit de codificação de fase em qubit de estado inicial |0&gt;:
+                <li>Codificação de fase: codificar dados clássicos em fase de estado quântico, via portas quânticas pauli de rotação de fase Z (RZ), onde cada valor é convertido em ângulo de rotação, e aplicado a qubits para criar superposição com fases relativas, com profundidade 2 e camada Hadamard. Exemplo Qiskit de codificação de fase em qubit de estado inicial |0&gt;:
 <small><pre><code>
 qc = QuantumCircuit(1)
 qc.h(0) # Aplicar porta Hadamard (superposição) para colocar estado no equador da Bloch Sphere
 state1 = Statevector.from_instruction(qc)
 
-qc.p(pi / 2, 0) # Porta Pauly RZ (rotação no eixo Z) no ângulo de rotação pi/2
+qc.p(pi / 2, 0) # Porta pauli RZ (rotação no eixo Z) no ângulo de rotação pi/2
 state2 = Statevector.from_instruction(qc)
 states = state1, state2
 
@@ -2956,7 +2956,7 @@ zzfeature_map.decompose().draw()
 feature_dim = 3
 pfmap = pauli_feature_map(
     feature_dimension=feature_dim, entanglement="linear", reps=1, paulis=["Y", "XX"]
-) # Criar Pauly feature map com dimensão de recurso 3, entrelaçamento linear, 1 repetição, usando portas Y e XX
+) # Criar pauli feature map com dimensão de recurso 3, entrelaçamento linear, 1 repetição, usando portas Y e XX
 
 pfmap.decompose().draw()
 </code></pre></small>
