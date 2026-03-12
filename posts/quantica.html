@@ -2739,7 +2739,7 @@ counts.get(0, 0.0) / num_shots # Probabilidade de medir 0, sobreposição entre 
             <ul>
                 <li>Codificação básica: codificar string clássica P em estado base de sistema P, representado como cadeia de 4 bits (como 0101) e seu estado quântico (como |0101&gt;). Cada bit clássico será qubit. Codificação de vários recursos, onde cada recurso é convertido em sua forma binária e atribuído a grupo distinto de qubits. A junção de todos grupos de qubits representa vetor de recursos completo. Exemplo para converter vetor de recursos (5,7,0) em estado quântico:
 <small><pre><code>
-pip3 install qiskit qiskit-aer qiskit-ibm-runtime matplotlib scipy networkx
+# pip3 install qiskit qiskit-aer qiskit-ibm-runtime matplotlib scipy networkx
 from qiskit import QuantumCircuit
 
 x = 5 # binário 0101
@@ -2883,6 +2883,124 @@ state3 = Statevector.from_instruction(qc)
 states = state1, state2, state3
 
 plot_Nstates(states, axis=None, plot_trace_points=True)
+</code></pre></small>
+                </li>
+            </ul>
+
+            <br><h4>QML encoding feature maps:</h4>
+            <p id="textoPost">Mapas de recursos integrados (feature maps) são circuitos quânticos parametrizados, usados para mapear dados clássicos em espaço de Hilbert de alta dimensão, onde cada ponto de dado é representado como estado quântico. Objetivo é criar representação quântica que permita separação linear dos dados, facilitando tarefas de classificação. Métodos de encoding com mapas de recursos integrados:</p>
+            <ul>
+                <li>Efficient SU2: mapa de recursos eficiente, onde cada recurso é codificado em par de rotações RX e RZ, seguido por camadas de portas CNOT para criar entrelaçamento (entanglement) entre qubits. Exemplo Qiskit de encoding feature map Efficient SU2:
+<small><pre><code>
+# pip3 install qiskit matplotlib pylatexenc
+from qiskit import QuantumCircuit
+from qiskit.circuit.library import efficient_su2
+from qiskit.circuit.library import z_feature_map
+from qiskit.circuit.library import zz_feature_map
+from qiskit.circuit.library import pauli_feature_map
+from qiskit.visualization import circuit_drawer
+import matplotlib.pyplot as plt
+from math import pi
+
+circuit = efficient_su2(num_qubits=2, reps=1, insert_barriers=True) # Circuito SU2 com 2 qubits e 1 repetição
+circuit.decompose().draw()
+
+x = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2] # Vetor de parâmetros, onde cada elemento corresponde rotação em porta RX ou RZ
+circuit = efficient_su2(num_qubits=3, reps=1, insert_barriers=True)
+encode = circuit.assign_parameters(x)
+encode.decompose().draw()
+</code></pre></small>
+                </li>
+                <li>Z feature map (ZFM): mapa de recursos baseado em portas de rotação Z (RZ), onde cada recurso é codificado como ângulo de rotação em porta RZ, seguido por camadas de portas CNOT para entrelaçamento. Exemplo Qiskit de encoding feature map Z feature map:
+<small><pre><code>
+qc0 = QuantumCircuit(1)
+qc1 = QuantumCircuit(1)
+
+qc0.h(0)
+qc0.p(pi / 2, 0)
+
+qc1.h(0)
+qc1.p(pi / 3, 0)
+
+# Combinar circuitos qc0 e qc1 em 1 circuito
+qc = QuantumCircuit(2)
+qc.compose(qc0, [0], inplace=True)
+qc.compose(qc1, [1], inplace=True)
+
+qc.draw()
+
+zfeature_map = z_feature_map(feature_dimension=2, reps=3) # Criar zfeature_map com 2 dimensões e 3 repetições
+zfeature_map = zfeature_map.assign_parameters([(1 / 2) * pi / 2, (1 / 2) * pi / 3]) # Atribuir parâmetros do zfeature_map com valores dos circuitos qc0 e qc1
+zfeature_map.decompose().draw()
+</code></pre></small>
+                </li>
+                <li>ZZ feature map (ZZFM): mapa de recursos baseado em portas de rotação ZZ, onde cada recurso é codificado como ângulo de rotação em porta de rotação ZZ, seguida por camadas de portas CNOT para criar entrelaçamento. Exemplo Qiskit de encoding feature map ZZ feature map:
+<small><pre><code>
+qc = QuantumCircuit(2)
+qc.rzz(pi, 0, 1)
+qc.draw()
+
+qc.decompose().draw()
+
+feature_dim = 2 # Quantidade de características
+zzfeature_map = zz_feature_map(feature_dimension=feature_dim, entanglement="linear", reps=1) # Criar circuito de mapeamento de características
+zzfeature_map.decompose(reps=1).draw()
+
+feature_dim = 4
+zzfeature_map = zz_feature_map(feature_dimension=feature_dim, entanglement="linear", reps=1)
+zzfeature_map.decompose().draw()
+</code></pre></small>
+                </li>
+                <li>Pauli feature map (PFM): mapa de recursos baseado em portas de rotação Pauli, onde cada recurso é codificado como ângulo de rotação em porta de rotação Pauli (RX, RY, RZ), seguida por camadas de portas CNOT para criar entrelaçamento. Exemplo Qiskit de encoding feature map Pauli feature map:
+<small><pre><code>
+feature_dim = 3
+pfmap = pauli_feature_map(
+    feature_dimension=feature_dim, entanglement="linear", reps=1, paulis=["Y", "XX"]
+) # Criar Pauly feature map com dimensão de recurso 3, entrelaçamento linear, 1 repetição, usando portas Y e XX
+
+pfmap.decompose().draw()
+</code></pre></small>
+                </li>
+                <li>Gallery of Pauli feature maps: galeria de mapas de recursos baseados em portas de rotação Pauli, com diferentes configurações de entrelaçamento, repetições e tipos de portas. Exemplo para visualizar galeria de Pauli feature maps:
+<small><pre><code>
+feature_dim = 2
+fig, axs = plt.subplots(9, 2)
+i_plot = 0
+
+for paulis in [
+    ["I"],
+    ["X"],
+    ["Y"],
+    ["Z"],
+    ["XX"],
+    ["XY"],
+    ["XZ"],
+    ["YY"],
+    ["YZ"],
+    ["ZZ"],
+    ["X", "ZZ"],
+    ["Y", "ZZ"],
+    ["Z", "ZZ"],
+    ["X", "YZ"],
+    ["Y", "YZ"],
+    ["Z", "YZ"],
+    ["YY", "ZZ"],
+    ["XY", "ZZ"],
+]:
+    pfmap = pauli_feature_map(feature_dimension=feature_dim, paulis=paulis, reps=1)
+    
+    circuit_drawer(
+        pfmap.decompose(),
+        output="mpl",
+        style=&#123;"backgroundcolor": "#EEEEEE"&#125;,
+        ax=axs[int((i_plot - i_plot % 2) / 2), i_plot % 2],
+    )
+    
+    axs[int((i_plot - i_plot % 2) / 2), i_plot % 2].title.set_text(paulis)
+    i_plot += 1
+
+fig.set_figheight(16)
+fig.set_figwidth(16)
 </code></pre></small>
                 </li>
             </ul>
