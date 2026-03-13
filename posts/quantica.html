@@ -2589,10 +2589,10 @@ def energy(params):
     g, b = params
     qc = create_qaoa()
 
-    qc = qc.assign_parameters({
+    qc = qc.assign_parameters(&#123;
         gamma:g,
         beta:b
-    })
+    &#125;)
 
     job = estimator.run(
         [(qc, cost_operator)]
@@ -2624,10 +2624,10 @@ plt.title("Convergência do QAOA")
 plt.show()
 
 # Circuíto QAOA para MaxCut:
-final_circuit = create_qaoa().assign_parameters({
+final_circuit = create_qaoa().assign_parameters(&#123;
     gamma:opt_result.x[0],
     beta:opt_result.x[1]
-})
+&#125;)
 
 display(final_circuit.draw(output="mpl"))
 
@@ -3004,6 +3004,184 @@ fig.set_figwidth(16)
 </code></pre></small>
                 </li>
             </ul>
+
+            <br><h4>QML quantum kernel:</h4>
+            <p id="textoPost">Núcleo quântico é kernel matrix e entradas na mesma, onde quantum kernel method é método que usa processador quântico para estimar kernel. Função de kernel quântico visa similaridade entre pontos de dados, onde cada ponto é codificado como estado quântico via feature maps, e kernel é calculado como sobreposição (overlap) entre estados quânticos. Os códigos Qiskit abaixo exibem profundidade dos circuitos quânticos de codificação pré-codificados que usam emaranhamento substancial. Passo a passo:</p>
+            <ol>
+                <li>Mapear entradas clássicas para problema quântico: codificar dados de entrada em circuito quântico (feature map), mapeando vetores de dados para estados no espaço de Hilbert e permitindo calcular produto interno entre 2 dados;
+                    <ul>
+                        <li>Entrada: conjunto de dados de treinamento;</li>
+                        <li>Saída: circuito abstrato para calcular entrada da matriz do kernel.</li>
+                    </ul>
+                </li>
+                <li>Otimizar problema para execução quântica: aplicar rotinas de otimização do Qiskit para adaptar circuito ao backend quântico escolhido, reduzindo profundidade e erros;
+                    <ul>
+                        <li>Entrada: circuito abstrato, não otimizado para backend específico;</li>
+                        <li>Saída: circuito-alvo e observável, otimizado para QPU selecionada (real ou simulador).</li>
+                    </ul>
+                </li>
+                <li>Executar usando primitivas de Qiskit Runtime: executar circuito e obter distribuição de probabilidades (ou quase-probabilidades) dos estados medidos;
+                    <ul>
+                        <li>Entrada: circuito alvo;</li>
+                        <li>Saída: distribuição de probabilidade.</li>
+                    </ul>
+                </li>
+                <li>Pós-processamento, retornar resultado no formato clássico: extrair probabilidade do estado resultante e usá-la para preencher elemento da matriz de kernel, que depois será utilizada em algoritmos clássicos ML.
+                    <ul>
+                        <li>Entrada: distribuição de probabilidade;</li>
+                        <li>Saída: único elemento da matriz de kernel, ou matriz de kernel se estiver repetindo.</li>
+                    </ul>
+                </li>
+            </ol>
+            <p id="textoPost">Código Qiskit para Single kernel matrix:</p>
+<small><pre><code>
+# pip3 install qiskit qiskit-aer qiskit-ibm-runtime scikit-learn pandas numpy matplotlib
+from qiskit.circuit.library import z_feature_map, unitary_overlap
+from qiskit.circuit import Parameter, ParameterVector, QuantumCircuit
+from qiskit.primitives import StatevectorSampler
+from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager
+from qiskit_aer import AerSimulator
+from qiskit_ibm_runtime import QiskitRuntimeService, SamplerV2 as Sampler
+from qiskit.visualization import plot_distribution
+from sklearn.svm import SVC
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+small_data = [
+    [-0.194, 0.114, -0.006, 0.301, -0.359, -0.088, -0.156, 0.342, -0.016, 0.143, 1],
+    [-0.1, 0.002, 0.244, 0.127, -0.064, -0.086, 0.072, 0.043, -0.053, 0.02, -1],
+] # Dados de treino, com rótulos de categoria
+
+train_data = [small_data[0][:-1], small_data[1][:-1]] # Remover rótulos de categoria para calcular produto interno
+
+fm = z_feature_map(feature_dimension=np.shape(train_data)[1]) # Criar feature map, via ZFM
+unitary1 = fm.assign_parameters(train_data[0]) # Gerar circuito quântico para 1º dado de treino
+unitary2 = fm.assign_parameters(train_data[1]) # Gerar circuito quântico para 2º dado de treino
+
+overlap_circ = unitary_overlap(unitary1, unitary2) # Unir circuitos quânticos para calcular produto interno
+overlap_circ.measure_all()
+
+print("Profundidade do circuito:", overlap_circ.decompose().depth())
+overlap_circ.decompose().draw()
+
+backend = AerSimulator()
+pm = generate_preset_pass_manager(optimization_level=3, backend=backend)
+overlap_ibm = pm.run(overlap_circ)
+
+print("Profundidade do circuito:", overlap_ibm.decompose().depth())
+overlap_ibm.decompose().depth(lambda instr: len(instr.qubits) &gt; 1)
+
+num_shots = 10000
+sampler = Sampler(mode=backend)
+results = sampler.run([overlap_ibm], shots=num_shots).result()
+counts_bit = results[0].data.meas.get_counts()
+counts = results[0].data.meas.get_int_counts()
+
+print("Contagem de bits:", counts_bit)
+print("Contagem de inteiros:", counts)
+print("Valor do produto interno:", counts.get(0, 0.0) / num_shots)
+plot_distribution(counts_bit)
+
+def visualize_counts(probs, num_qubits):
+    zero_prob = probs.get(0, 0.0)
+    top_10 = dict(sorted(probs.items(), key=lambda item: item[1], reverse=True)[:10])
+    top_10.update(&#123;0: zero_prob&#125;)
+    by_key = dict(sorted(top_10.items(), key=lambda item: item[0]))
+    xvals, yvals = list(zip(*by_key.items()))
+    xvals = [bin(xval)[2:].zfill(num_qubits) for xval in xvals]
+    
+    plt.bar(xvals, yvals)
+    plt.xticks(rotation=75)
+    plt.title("Resultados do produto interno")
+    plt.xlabel("Bitstrings medidos")
+    plt.ylabel("Contagens")
+    plt.show()
+
+visualize_counts(counts, overlap_circ.num_qubits)
+</code></pre></small>
+            <p id="textoPost">Código Qiskit para full kernel matrix</p>
+<small><pre><code>
+# Dataset CSV: https://raw.githubusercontent.com/qiskit-community/prototype-quantum-kernel-training/main/data/dataset_graph7.csv
+df = pd.read_csv("dataset_graph7.csv", sep=",", header=None)
+
+# Preparar dados de treino e teste:
+train_size = 90
+X_train = df.values[0:train_size, :-1]
+train_labels = df.values[0:train_size, -1]
+
+test_size = 30
+X_test = df.values[train_size : train_size + test_size, :-1]
+test_labels = df.values[train_size : train_size + test_size, -1]
+
+# Kernel matrix vazia:
+num_samples = np.shape(X_train)[0]
+kernel_matrix = np.full((num_samples, num_samples), np.nan)
+test_matrix = np.full((test_size, num_samples), np.nan)
+
+# Preparar feature map para processar overlap
+num_features = np.shape(X_train)[1]
+num_qubits = int(num_features / 2)
+entangler_map = [[0, 2], [3, 4], [2, 5], [1, 4], [2, 3], [4, 6]]
+
+fm = QuantumCircuit(num_qubits)
+training_param = Parameter("θ")
+feature_params = ParameterVector("x", num_qubits * 2)
+fm.ry(training_param, fm.qubits) # Rotação Y nos qubits
+
+for cz in entangler_map: # Aplicar CZ (inversão de fase) entre qubits no map
+    fm.cz(cz[0], cz[1])
+
+for i in range(num_qubits): # Aplicar rotações Z e X nos qubits
+    fm.rz(-2 * feature_params[2 * i + 1], i)
+    fm.rx(-2 * feature_params[2 * i], i)
+
+num_shots = 10000
+sampler = StatevectorSampler()
+
+for x1 in range(0, train_size):
+    for x2 in range(x1 + 1, train_size):
+        unitary1 = fm.assign_parameters(list(X_train[x1]) + [np.pi / 2])
+        unitary2 = fm.assign_parameters(list(X_train[x2]) + [np.pi / 2])
+
+        overlap_circ = unitary_overlap(unitary1, unitary2)
+        overlap_circ.measure_all()
+
+        counts = (
+            sampler.run([overlap_circ], shots=num_shots)
+            .result()[0]
+            .data.meas.get_int_counts()
+        )
+
+        kernel_matrix[x1, x2] = counts.get(0, 0.0) / num_shots
+        kernel_matrix[x2, x1] = counts.get(0, 0.0) / num_shots
+    kernel_matrix[x1, x1] = 1
+
+print("Treinamento concluído")
+
+for x1 in range(0, test_size):
+    for x2 in range(0, train_size):
+        unitary1 = fm.assign_parameters(list(X_test[x1]) + [np.pi / 2])
+        unitary2 = fm.assign_parameters(list(X_train[x2]) + [np.pi / 2])
+
+        overlap_circ = unitary_overlap(unitary1, unitary2)
+        overlap_circ.measure_all()
+
+        counts = (
+            sampler.run([overlap_circ], shots=num_shots)
+            .result()[0]
+            .data.meas.get_int_counts()
+        )
+
+        test_matrix[x1, x2] = counts.get(0, 0.0) / num_shots
+
+print("Matriz de teste concluída")
+
+qml_svc = SVC(kernel="precomputed") # Aplicar algoritmo ML Support Vector Classifier em kernel matrix pré-computada
+qml_svc.fit(kernel_matrix, train_labels) # Treinar modelo via kernel matrix, e rótulos de treino como entrada
+qml_score_precomputed_kernel = qml_svc.score(test_matrix, test_labels)
+print("Score de teste em kernel classificado:", qml_score_precomputed_kernel) # Se 1.0, então Score 100%
+</code></pre></small>
         </div>
     </div>
 
