@@ -3182,6 +3182,117 @@ qml_svc.fit(kernel_matrix, train_labels) # Treinar modelo via kernel matrix, e r
 qml_score_precomputed_kernel = qml_svc.score(test_matrix, test_labels)
 print("Score de teste em kernel classificado:", qml_score_precomputed_kernel) # Se 1.0, então Score 100%
 </code></pre></small>
+
+            <br><h4>QVCs e QNNs</h4>
+            <p id="textoPost">Circuitos variacionais quânticos (QVCs/VQCs) e redes neurais quânticas (QNNs) são modelos ML que usam circuitos quânticos parametrizados para aprender padrões em dados. QVCs são circuitos quânticos com parâmetros ajustáveis, otimizados para minimizar função de perda, enquanto QNNs são redes neurais que incorporam camadas de circuitos quânticos variacionais. Ambos modelos dependem de otimização clássica para ajustar parâmetros quânticos, e podem ser usados para tarefas como classificação, regressão e geração de dados. Circuitos quânticos parametrizados não precisam seguir estrutura geral de rede neural. Nem todos dados precisam ser carregados na 1ª camada (de entrada), onde pode-se carregar alguns dados na 1ª camada, aplicar algumas portas e, em seguida, carregar dados adicionais (processo chamado de reuploading, "reenvio" de dados).</p>
+<small><pre><code>
+# pip3 install qiskit numpy scipy matplotlib scikit-learn
+from qiskit import QuantumCircuit
+from qiskit.circuit import ParameterVector
+from qiskit.circuit.library import z_feature_map
+from qiskit.primitives import StatevectorEstimator as Estimator
+from qiskit.quantum_info import SparsePauliOp
+from scipy.optimize import minimize
+from sklearn.model_selection import train_test_split
+import numpy as np
+import matplotlib.pyplot as plt
+
+np.random.seed(42)
+num_samples = 80
+X = np.random.rand(num_samples, 2) * np.pi # Dataset
+y = np.where(np.sin(X[:, 0]) + np.cos(X[:, 1]) &gt; 0, 1, -1)
+
+noise_idx = np.random.choice(num_samples, size=int(0.1 * num_samples), replace=False) # Ruído (10%)
+y[noise_idx] *= -1
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.3, random_state=42
+) # Separar dados de treino e teste
+
+num_qubits = 2
+feature_map = z_feature_map(num_qubits) # Feature map (ZFM)
+
+theta = ParameterVector("θ", length=8)
+ansatz = QuantumCircuit(num_qubits) # Circuito Ansatz
+
+for i in range(num_qubits): # Camada 1
+    ansatz.ry(theta[i], i)
+
+# Entanglement bidirecional
+ansatz.cx(0, 1)
+ansatz.cx(1, 0)
+
+for i in range(num_qubits): # Camada 2
+    ansatz.rz(theta[i + num_qubits], i)
+
+ansatz.cx(0, 1)
+
+for i in range(num_qubits): # Camada 3
+    ansatz.rx(theta[i + 2*num_qubits], i)
+
+for i in range(num_qubits): # Camada extra
+    ansatz.ry(theta[i + 3*num_qubits], i)
+
+circuit = QuantumCircuit(num_qubits)
+circuit.compose(feature_map, inplace=True)
+circuit.compose(ansatz, inplace=True)
+circuit.draw()
+
+observable = SparsePauliOp.from_list([("ZZ", 1)])
+estimator = Estimator()
+
+def forward(x, weights): # Função forward (execução e contagem)
+    params = np.concatenate([x, weights])
+    job = estimator.run([(circuit, observable, params)])
+    result = job.result()[0]
+    return float(result.data.evs)
+
+def compute_loss(weights, X_batch, y_batch): # Função de perda (mini-batch)
+    preds = np.array([forward(x, weights) for x in X_batch])
+    return np.mean((preds - y_batch) ** 2)
+
+for epoch in range(num_epochs): # Treino
+    print(f"Época {epoch+1}")
+
+    indices = np.random.permutation(len(X_train))
+    X_train = X_train[indices]
+    y_train = y_train[indices]
+
+    for i in range(0, len(X_train), batch_size):
+        X_batch = X_train[i:i+batch_size]
+        y_batch = y_train[i:i+batch_size]
+
+        result = minimize(
+            lambda w: compute_loss(w, X_batch, y_batch),
+            weights,
+            method="COBYLA",
+            options={"maxiter": 20}
+        )
+
+        weights = result.x
+
+    epoch_loss = compute_loss(weights, X_train, y_train) # Loss por época
+    loss_history.append(epoch_loss)
+
+    print(f"Loss: {epoch_loss:.4f}")
+    print("-" * 30)
+
+def predict(X, weights): # Predição
+    preds = np.array([forward(x, weights) for x in X])
+    return np.where(preds &gt;= 0, 1, -1)
+
+train_acc = np.mean(predict(X_train, weights) == y_train)
+test_acc = np.mean(predict(X_test, weights) == y_test)
+
+print("Acurácia treino:", train_acc * 100, "%")
+print("Acurácia teste:", test_acc * 100, "%")
+
+plt.plot(loss_history)
+plt.xlabel("Épocas")
+plt.ylabel("Loss")
+plt.title("Treinamento QNN com Mini-Batch")
+plt.show()
+</code></pre></small>
         </div>
     </div>
 
