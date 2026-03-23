@@ -3252,7 +3252,7 @@ def compute_loss(weights, X_batch, y_batch): # Função de perda (mini-batch)
     return np.mean((preds - y_batch) ** 2)
 
 for epoch in range(num_epochs): # Treino
-    print(f"Época {epoch+1}")
+    print(f"Época &#123;epoch+1&#125;")
 
     indices = np.random.permutation(len(X_train))
     X_train = X_train[indices]
@@ -3266,7 +3266,7 @@ for epoch in range(num_epochs): # Treino
             lambda w: compute_loss(w, X_batch, y_batch),
             weights,
             method="COBYLA",
-            options={"maxiter": 20}
+            options={"maxiter": 20&#125;
         )
 
         weights = result.x
@@ -3274,7 +3274,7 @@ for epoch in range(num_epochs): # Treino
     epoch_loss = compute_loss(weights, X_train, y_train) # Loss por época
     loss_history.append(epoch_loss)
 
-    print(f"Loss: {epoch_loss:.4f}")
+    print(f"Loss: {epoch_loss:.4f&#125;")
     print("-" * 30)
 
 def predict(X, weights): # Predição
@@ -3292,6 +3292,117 @@ plt.xlabel("Épocas")
 plt.ylabel("Loss")
 plt.title("Treinamento QNN com Mini-Batch")
 plt.show()
+</code></pre></small>
+
+            <br><h4>Modelos de ruídos quânticos:</h4>
+            <p id="textoPost">Ruídos quânticos (quantum noise models) são interações indesejadas entre sistema quântico e ambiente, causando perda de informação e degradação do estado do qubit, além de amplitude (probabilidade), fase (informação quântica essencial) e coerência (superposição). Estado de sistema quântico com ruído é descrito por matriz densidade, e evolução com ruído é modelada por canais quânticos (quantum channels). Principais modelos de ruído quântico:</p>
+            <ul>
+                <li>Bit Flip (erro clássico quântico): qubit sofre inversão de estado (|0&gt; para |1&gt; e vice-versa) com probabilidade p, representado por operador de Kraus E0 = sqrt(1-p) * I e E1 = sqrt(p) * X, onde I é identidade e X é porta NOT. Similar ao erro de memória clássica;</li>
+                <li>Phase Flip (erro de fase): qubit sofre alteração de fase (|0&gt; para |0&gt; e |1&gt; para -|1&gt;) com probabilidade p, representado por operador de Kraus E0 = sqrt(1-p) * I e E1 = sqrt(p) * Z, onde I é identidade e Z é porta de fase. Afeta interferência quântica (muito crítico);</li>
+                <li>Depolarizing Noise (erro de depolarização): qubit sofre mistura de estados, causando perda de coerência quântica. Representado por operador de Kraus E0 = sqrt(1-3p/4) * I, E1 = sqrt(p/4) * X, E2 = sqrt(p/4) * Y e E3 = sqrt(p/4) * Z, onde I, X, Y e Z são portas quânticas. Muito comum em sistemas físicos reais e simulações com os mesmos;</li>
+                <li>Amplitude Damping (erro de atenuação de amplitude): qubit sofre perda de energia, causando transição de |1&gt; para |0&gt;. Representado por operador de Kraus E0 = I e E1 = sqrt(y) * |0&gt;&lt;1|, onde y é taxa de atenuação. Relacionado ao tempo T1;</li>
+                <li>Phase Damping / Dephasing (erro de dephaseamento): qubit sofre perda de coerência quântica, causando transição de estados superpostos para estados clássicos. Representado por operador de Kraus E0 = sqrt(1-p) * I e E1 = sqrt(p) * Z, onde I é identidade e Z é porta de fase. Afeta interferência quântica (muito crítico);</li>
+                <li>Generalized Amplitude Damping / GAD (erro de atenuação de amplitude generalizada): qubit sofre perda de energia e ganho de energia, modelando interação com ambiente térmico. Representado por operadores de Kraus E0 = sqrt(p) * I, E1 = sqrt(p) * sqrt(y) * |0&gt;&lt;1|, E2 = sqrt(p) * sqrt(1-y) * |1&gt;&lt;0|, E3 = sqrt(1-p) * I, E4 = sqrt(1-p) * sqrt(y) * |0&gt;&lt;1| e E5 = sqrt(1-p) * sqrt(1-y) * |1&gt;&lt;0|, onde p é probabilidade de interação e y é taxa de atenuação. Modela sistemas em contato com ambiente térmico.</li>
+            </ul>
+<small><pre><code>
+# pip3 install qiskit qiskit-aer
+from qiskit import QuantumCircuit
+from qiskit_aer import AerSimulator
+from qiskit_aer.noise import NoiseModel, depolarizing_error, pauli_error, amplitude_damping_error, thermal_relaxation_error
+
+# Modelo quântico simples:
+qc = QuantumCircuit(1, 1)
+qc.h(0)
+qc.measure(0, 0)
+
+sim = AerSimulator()
+result = sim.run(qc, shots=1000).result()
+print(result.get_counts())
+
+
+# Depolarizing:
+noise_model = NoiseModel()
+
+error = depolarizing_error(0.1, 1) # 10% de erro
+noise_model.add_all_qubit_quantum_error(error, ['h'])
+
+sim = AerSimulator(noise_model=noise_model)
+
+result = sim.run(qc, shots=1000).result()
+print(result.get_counts())
+
+
+# Bit Flip:
+bit_flip = pauli_error([('X', 0.2), ('I', 0.8)])
+
+noise_model = NoiseModel()
+noise_model.add_all_qubit_quantum_error(bit_flip, ['id'])
+
+sim = AerSimulator(noise_model=noise_model)
+
+qc = QuantumCircuit(1, 1)
+qc.id(0)
+qc.measure(0, 0)
+
+result = sim.run(qc, shots=1000).result()
+print(result.get_counts())
+
+
+# Amplitude Damping:
+error = amplitude_damping_error(0.3)
+
+noise_model = NoiseModel()
+noise_model.add_all_qubit_quantum_error(error, ['id'])
+
+sim = AerSimulator(noise_model=noise_model)
+
+qc = QuantumCircuit(1, 1)
+qc.x(0)
+qc.id(0)
+qc.measure(0, 0)
+
+result = sim.run(qc, shots=1000).result()
+print(result.get_counts())
+
+
+# Combinando múltiplos ruídos:
+qc = QuantumCircuit(1, 1)
+qc.h(0)
+qc.id(0)
+qc.measure(0, 0)
+noise_model = NoiseModel()
+
+error1 = depolarizing_error(0.05, 1)
+error2 = amplitude_damping_error(0.1)
+
+noise_model.add_all_qubit_quantum_error(error1, ['h'])
+noise_model.add_all_qubit_quantum_error(error2, ['id'])
+
+sim = AerSimulator(noise_model=noise_model)
+
+result = sim.run(qc, shots=1000).result()
+print(result.get_counts())
+
+
+# GAD:
+T1 = 50000 # tempo de relaxamento
+T2 = 30e3 # descoerência
+gate_time = 5000 # duração do gate
+
+error = thermal_relaxation_error(T1, T2, gate_time)
+
+noise_model = NoiseModel()
+noise_model.add_all_qubit_quantum_error(error, ['id'])
+
+sim = AerSimulator(noise_model=noise_model)
+
+qc = QuantumCircuit(1, 1)
+qc.x(0) # estado |1&gt;
+qc.id(0)
+qc.measure(0, 0)
+
+result = sim.run(qc, shots=1000).result()
+print(result.get_counts())
 </code></pre></small>
         </div>
     </div>
