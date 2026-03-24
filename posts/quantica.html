@@ -3404,6 +3404,43 @@ qc.measure(0, 0)
 result = sim.run(qc, shots=1000).result()
 print(result.get_counts())
 </code></pre></small>
+
+            <br><h4>Decoherence:</h4>
+            <p id="textoPost">Decoerência quântica é processo onde sistema quântico perde suas propriedades quânticas (como superposição e emaranhamento) ao interagir com ambiente, passando a comportar-se como bit clássico.</p>
+<small><pre><code>
+# pip3 install qiskit qiskit-aer
+import numpy as np
+from qiskit import QuantumCircuit
+from qiskit_aer import AerSimulator
+from qiskit.visualization import plot_histogram
+from qiskit_aer.noise import NoiseModel, amplitude_damping_error, phase_damping_error
+
+qc = QuantumCircuit(1, 1)
+qc.h(0)
+qc.measure(0, 0)
+
+# Simulação sem ruído (ideal)
+sim_ideal = AerSimulator()
+result_ideal = sim_ideal.run(qc, shots=1000).result()
+counts_ideal = result_ideal.get_counts()
+
+print("Ideal:", counts_ideal)
+
+noise_model = NoiseModel()
+amp_error = amplitude_damping_error(0.2) # amplitude damping (relaxação)
+phase_error = phase_damping_error(0.3) # phase damping (perda de fase)
+
+noise_model.add_all_qubit_quantum_error(amp_error, ['h'])
+noise_model.add_all_qubit_quantum_error(phase_error, ['h'])
+
+sim_noise = AerSimulator(noise_model=noise_model)
+result_noise = sim_noise.run(qc, shots=1000).result()
+counts_noise = result_noise.get_counts()
+
+print("Com decoerência:", counts_noise)
+
+plot_histogram([counts_ideal, counts_noise], legend=['Ideal', 'Com ruído'])
+</code></pre></small>
         </div>
     </div>
 
