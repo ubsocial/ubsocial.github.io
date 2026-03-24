@@ -3441,6 +3441,52 @@ print("Com decoerência:", counts_noise)
 
 plot_histogram([counts_ideal, counts_noise], legend=['Ideal', 'Com ruído'])
 </code></pre></small>
+            <p>A decoerência quântica possui tempos fundamentais que determinam rapidez que sistema perde suas propriedades quânticas.</p>
+            <ul>
+                <li>T1 - Tempo de relaxamento (Energy relaxation): tempo para sistema retornar ao estado fundamental após ser excitado (|1&gt; → |0&gt;) em perda de energia. Também chamado de relaxação longitudinal e amplitude damping. Qubit excitado "cansa" e volta ao estado base;</li>
+                <li>T2 - Tempo de descoerência (Dephasing time): tempo médio para sistema perder coerência de fase quântica, ou seja, perder superposição e passar a comportar-se como bit clássico. Também chamado de relaxação transversal e phase damping. Qubit perde informação de fase e torna-se clássico. Fase relativa entre |0&gt; e |1&gt; "embaralha";</li>
+                <li>T2* - Tempo de descoerência efetivo: tempo para sistema perder coerência devido a ruídos e variações de frequência, incluindo inhomogeneidades no ambiente. Geralmente menor que T2, pois inclui efeitos adicionais de ruído e variações de frequência. Qubit perde coerência mais rapidamente devido a ruídos e variações de frequência.</li>
+            </ul>
+<small><pre><code>
+# pip3 install qiskit qiskit-aer
+from qiskit import QuantumCircuit, transpile
+from qiskit_aer import AerSimulator
+from qiskit_aer.noise import NoiseModel, thermal_relaxation_error
+
+T1 = 10_000 # 10 microsegundos
+T2 = 8_000 # 8 microsegundos
+gate_time = 1000 # tempo de cada operação (ns)
+
+error = thermal_relaxation_error(T1, T2, gate_time) # erro térmico baseado em T1 e T2
+
+noise_model = NoiseModel()
+noise_model.add_all_qubit_quantum_error(error, ['id', 'u3', 'x'])
+
+qc = QuantumCircuit(1, 1)
+qc.x(0)
+
+for _ in range(1000):
+    qc.id(0)
+
+qc.measure(0, 0)
+qc.draw()
+
+sim_ideal = AerSimulator()
+
+qc_ideal = transpile(qc, sim_ideal)
+result_ideal = sim_ideal.run(qc_ideal, shots=1000).result()
+
+counts_ideal = result_ideal.get_counts()
+print("Contagens ideais:", counts_ideal)
+
+sim_noise = AerSimulator(noise_model=noise_model)
+
+qc_noise = transpile(qc, sim_noise)
+result_noise = sim_noise.run(qc_noise, shots=1000).result()
+
+counts_noise = result_noise.get_counts()
+print("Contagens com ruído:", counts_noise) # regime curto, comportamento quase linear
+</code></pre></small>
         </div>
     </div>
 
