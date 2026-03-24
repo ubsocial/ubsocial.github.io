@@ -3487,6 +3487,83 @@ result_noise = sim_noise.run(qc_noise, shots=1000).result()
 counts_noise = result_noise.get_counts()
 print("Contagens com ruído:", counts_noise) # regime curto, comportamento quase linear
 </code></pre></small>
+
+            <br><h4>Gate fidelity:</h4>
+            <p id="textoPost">Fidelidade de porta quântica mede quão próxima operação quântica real está da operação ideal. O quão porta de hardware, mediante a ruído, comporta-se de forma semelhante à operação real/perfeita. Fidelidades de portas quânticas:</p>
+            <ul>
+                <li>Fidelidade de estado (State fidelity): mede similaridade entre estado quântico real e estado ideal, usando fórmula F(ρ, σ) = (Tr(sqrt(sqrt(ρ) σ sqrt(ρ))))^2, onde ρ é matriz densidade do estado real e σ é matriz densidade do estado ideal. Fidelidade de estado é valor entre 0 e 1, onde 1 indica estados idênticos e 0 indica estados ortogonais;</li>
+                <li>Fidelidade de processo (Process fidelity): mede similaridade entre processo quântico real e processo ideal, usando fórmula F(χ_real, χ_ideal) = Tr(χ_real χ_ideal), onde χ_real é matriz de processo do processo real e χ_ideal é matriz de processo do processo ideal. Fidelidade de processo é valor entre 0 e 1, onde 1 indica processos idênticos e 0 indica processos ortogonais;</li>
+                <li>Fidelidade de porta (Gate fidelity, Average Gate Fidelity): mede similaridade entre operação quântica real e operação ideal, usando fórmula F(U_real, U_ideal) = |Tr(U_real^† U_ideal)|^2 / d^2, onde U_real é matriz unitária da operação real, U_ideal é matriz unitária da operação ideal e d é dimensão do espaço de Hilbert. Fidelidade de porta é valor entre 0 e 1, onde 1 indica operações idênticas e 0 indica operações ortogonais.</li>
+            </ul>
+            <p id="textoPost">Valores de fidelidade de porta:</p>
+            <ul>
+                <li>Porta perfeita: F = 1.0;</li>
+                <li>Sistema confiável: F ~ 1.0;</li>
+                <li>Sistema aceitável em NISQ: F ~ 0.99;</li>
+                <li>Pequeno ruído (error relevantes): F ~ 0.9;</li>
+                <li>Forte ruído: F &lt; 0.9;</li>
+                <li>Alto ruído: F ~ 0.5;</li>
+                <li>Circuitos inutilizáveis: F muito baixo.</li>
+            </ul>
+            <p id="textoPost">Decoerência reduz fidelidade, enquanto T1 reduz energia, T2 reduz fase, e ruído causa erro nas portas quânticas.</p>
+<small><pre><code>
+# pip3 install qiskit qiskit-aer
+from qiskit import QuantumCircuit
+from qiskit_aer import AerSimulator
+from qiskit.quantum_info import DensityMatrix, Statevector, state_fidelity, Operator, process_fidelity, random_statevector
+from qiskit_aer.noise import NoiseModel, depolarizing_error
+from qiskit.circuit.library import HGate
+
+# Fidalidade entre estados:
+qc_ideal = QuantumCircuit(1) # estado ideal
+qc_ideal.h(0)
+state_ideal = Statevector.from_instruction(qc_ideal)
+
+qc_real = QuantumCircuit(1) # estado com ruído manual
+qc_real.h(0)
+qc_real.rx(0.1, 0)
+
+state_real = Statevector.from_instruction(qc_real)
+
+fidelity = state_fidelity(state_ideal, state_real)
+print("Fidelidade:", fidelity)
+
+
+# Fidelidade com ruído:
+qc = QuantumCircuit(1)
+qc.h(0)
+
+ideal_state = DensityMatrix.from_instruction(qc) # ruído gerador de estado misto
+
+noise_model = NoiseModel()
+error = depolarizing_error(0.1, 1) # modelo de ruído de depolarização com 10% de erro
+noise_model.add_all_qubit_quantum_error(error, ['h'])
+
+simulator = AerSimulator(method="density_matrix", noise_model=noise_model)
+
+qc_noisy = qc.copy()
+qc_noisy.save_density_matrix()
+
+result = simulator.run(qc_noisy).result()
+noisy_state = result.data(0)['density_matrix']
+
+fidelity = state_fidelity(ideal_state, noisy_state)
+print("Fidelidade com ruído:", fidelity)
+
+
+# Fidelidade de porta (unitária):
+ideal_gate = Operator(HGate()) # porta Hadamard ideal
+
+qc = QuantumCircuit(1) # porta "imperfeita" (simulação simples)
+qc.h(0)
+qc.z(0) # erro de fase
+
+real_gate = Operator(qc)
+
+fidelity = process_fidelity(real_gate, ideal_gate)
+print("Fidelidade de porta:", fidelity)
+print("Fidelidade (aproximada):", round(fidelity, 5))
+</code></pre></small>
         </div>
     </div>
 
