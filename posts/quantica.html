@@ -3564,6 +3564,59 @@ fidelity = process_fidelity(real_gate, ideal_gate)
 print("Fidelidade de porta:", fidelity)
 print("Fidelidade (aproximada):", round(fidelity, 5))
 </code></pre></small>
+
+            <br><h4>Readout Errors</h4>
+            <p id="textoPost">Erros de leitura (readout errors) ocorrem quando estado quântico é medido, mas resultado da medição não reflete estado real do qubit (erro na saída final). Readout error é modelado como matriz de confusão [P(0|0), P(1|0), P(0|1), P(1|1)], sendo P(1|0) probabilidade de ler 1 quando era 0, e P(0|1) probabilidade de ler 0 quando era 1. Exemplo [[0.95], [0.05], [0.10], [0.90]], onde 5% de erro ao ler 0 e 10% de erro ao ler 1.</p>
+<small><pre><code>
+# pip3 install qiskit qiskit-aer
+from qiskit import QuantumCircuit
+from qiskit_aer import AerSimulator
+from qiskit_aer.noise import NoiseModel, ReadoutError
+import numpy as np
+
+# Circuito sem erro:
+qc = QuantumCircuit(1, 1)
+qc.x(0) # prepara |1&gt;
+qc.measure(0, 0)
+qc.draw()
+
+sim = AerSimulator()
+result = sim.run(qc, shots=1000).result()
+counts = result.get_counts()
+
+print("Sem erro:", counts)
+
+# Com readout error:
+readout_error = ReadoutError([
+    [0.9, 0.1], # P(0|0), P(1|0)
+    [0.2, 0.8] # P(0|1), P(1|1)
+])
+
+noise_model = NoiseModel()
+noise_model.add_readout_error(readout_error, [0])
+
+sim = AerSimulator(noise_model=noise_model)
+result = sim.run(qc, shots=1000).result()
+counts = result.get_counts()
+
+print("Com readout error:", counts)
+
+# Correção para readout error:
+# Matriz de confusão
+M = np.array([
+    [0.9, 0.2],
+    [0.1, 0.8]
+])
+
+# Probabilidades reais medidas
+measured = np.array([
+    207/1000,
+    793/1000
+])
+
+corrected = np.linalg.inv(M) @ measured # Correção
+print("Corrigido:", corrected)
+</code></pre></small>
         </div>
     </div>
 
