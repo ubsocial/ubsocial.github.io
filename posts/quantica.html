@@ -3617,6 +3617,57 @@ measured = np.array([
 corrected = np.linalg.inv(M) @ measured # Correção
 print("Corrigido:", corrected)
 </code></pre></small>
+
+            <br><h4>Crosstalk:</h4>
+            <p id="textoPost">Crosstalk (diafonia) ocorre quando operação em qubit afeta outro indesejadamente, resultando em erros de medição, devido interferência física entre qubits. Erros correlacionados (com padrões estruturados) ocorrem quando erro em qubit depende de outro qubit. Diferente dos erros de gate, que são locais, os erros de crosstalk são globais e podem afetar múltiplos qubits simultaneamente. Erros independente afetam qubits individualmente, enquanto erros correlacionados afetam qubits relacionados entre si, simultaneamente. Crosstalk é causa física, enquanto erro correlacionado é seu efeito observado.</p>
+<small><pre><code>
+# pip3 install qiskit qiskit-aer
+from qiskit import QuantumCircuit
+from qiskit_aer import AerSimulator
+from qiskit_aer.noise import NoiseModel, depolarizing_error, pauli_error
+
+# Circuito ideal (sem ruído):
+qc = QuantumCircuit(2, 2)
+qc.h(0) # criar superposição no qubit 0
+qc.cx(0, 1) # criar bell state
+qc.measure([0, 1], [0, 1])
+qc.draw()
+
+sim = AerSimulator()
+result = sim.run(qc, shots=1000).result()
+counts = result.get_counts()
+
+print("Ideal:", counts)
+
+
+# Circuito com ruído (erro independente):
+noise_model = NoiseModel()
+error_1q = depolarizing_error(0.1, 1)
+noise_model.add_all_qubit_quantum_error(error_1q, ['h']) # erro independente em cada qubit
+
+sim = AerSimulator(noise_model=noise_model)
+result = sim.run(qc, shots=1000).result()
+counts = result.get_counts()
+
+print("Erro independente:", counts)
+
+
+# Circuito com ruído e erro correlacionado (crosstalk):
+correlated_error = pauli_error([
+    ('II', 0.9),
+    ('IX', 0.05),
+    ('XI', 0.05)
+]) # erro correlacionado: X em qubits
+
+noise_model = NoiseModel()
+noise_model.add_all_qubit_quantum_error(correlated_error, ['cx']) # aplicar erro na porta CX (2 qubits)
+
+sim = AerSimulator(noise_model=noise_model)
+result = sim.run(qc, shots=1000).result()
+counts = result.get_counts()
+
+print("Erro correlacionado:", counts)
+</code></pre></small>
         </div>
     </div>
 
