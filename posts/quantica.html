@@ -3266,7 +3266,7 @@ for epoch in range(num_epochs): # Treino
             lambda w: compute_loss(w, X_batch, y_batch),
             weights,
             method="COBYLA",
-            options={"maxiter": 20&#125;
+            options=&#123;"maxiter": 20&#125;
         )
 
         weights = result.x
@@ -3274,7 +3274,7 @@ for epoch in range(num_epochs): # Treino
     epoch_loss = compute_loss(weights, X_train, y_train) # Loss por época
     loss_history.append(epoch_loss)
 
-    print(f"Loss: {epoch_loss:.4f&#125;")
+    print(f"Loss: &#123;epoch_loss:.4f&#125;")
     print("-" * 30)
 
 def predict(X, weights): # Predição
@@ -3750,8 +3750,78 @@ def fidelity_approx(counts):
 fid_ideal = fidelity_approx(counts_ideal)
 fid_noise = fidelity_approx(counts_noise)
 
-print(f"Fidelidade (ideal): {fid_ideal:.4f}")
-print(f"Fidelidade (ruído): {fid_noise:.4f}")
+print(f"Fidelidade (ideal): &#123;fid_ideal:.4f&#125;")
+print(f"Fidelidade (ruído): &#123;fid_noise:.4f&#125;")
+</code></pre></small>
+
+            <br><h4>Quantum errors:</h4>
+            <p id="textoPost">Erros quânticos (quantum errors) são falhas ou imperfeições que ocorrem durante manipulação, armazenamento ou transmissão de informação quântica, devido a ruídos/interações indesejadas com ambiente, limitações tecnológicas e imperfeições físicas. Ocorrem com maior frequência em sistemas NISQ devido às limitações tecnológicas, à falta de tolerância a falhas e ao teorema da no-cloning (não clonagem), visto que não é possível criar cópias idênticas de estados quânticos desconhecidos, pois medição destrói o estado quântico em superposição.</p>
+            <ul>
+                <li>Error Suppression (Supressão de erros): evitar que erro aconteça, atuando antes que o mesmo ocorra, reduzindo sua probabilidade de ocorrência, criando melhor hardware, pulsos mais precisos, e aplicando técnicas como dynamical decoupling (DD - decoupling dinâmico) e otimização de circuitos;</li>
+                <li>Error Correction (Correção de erros): detectar e corrigir erros após sua ocorrência (sem medir qubit lógico), utilizando códigos de correção de erros quânticos, que envolvem codificação da informação quântica em estados mais robustos contra ruídos, codificando 1 qubit lógico em vários físicos;</li>
+                <li>Error Mitigation (Mitigação de erros): reduzir impacto de erros em resultados (compensar estatisticamente), sem corrigir erro diretamente, usando técnicas como extrapolação zero-noise (Zero Noise Extrapolation - ZNE) e cancelamento probabilístico de erros (Probabilistic Error Cancellation - PEC), mitigação de readout e mitigação baseada em aprendizado de máquina (Machine Learning-based Mitigation - MLM). Não usa qubits extras (geralmente), e funciona bem em hardware atual (NISQ).</li>
+            </ul>
+<small><pre><code>
+# pip3 install qiskit qiskit-aer numpy
+from qiskit import QuantumCircuit
+from qiskit_aer import AerSimulator
+from qiskit_aer.noise import NoiseModel, depolarizing_error
+import numpy as np
+
+# Circuito base (estado |1&gt;) sem ruído:
+qc = QuantumCircuit(1)
+qc.x(0)
+qc.measure_all()
+qc.draw()
+
+sim = AerSimulator()
+result_ideal = sim.run(qc, shots=1000).result()
+counts_ideal = result_ideal.get_counts()
+
+print("Contagens sem ruído:", counts_ideal)
+
+# Função de normalização (pós-processamento):
+def normalize_counts(counts):
+    total = sum(counts.values())
+    return &#123;k: v / total for k, v in counts.items()&#125;
+
+# Execução com ruído (depolarizing):
+noise_model = NoiseModel()
+error = depolarizing_error(0.2, 1)  # ruído alto
+noise_model.add_all_qubit_quantum_error(error, ['x'])
+
+sim_noise = AerSimulator(noise_model=noise_model)
+result_noise = sim_noise.run(qc, shots=1000).result()
+counts_noise = result_noise.get_counts()
+
+print("Contagens com ruído (depolarizing):", counts_noise)
+print("Contagens com ruído - normalizado:", normalize_counts(counts_noise))
+
+# Zero Noise Extrapolation (ZNE):
+noise_levels = [0.05, 0.1, 0.2, 0.3]
+prob_1 = []
+
+# Coleta de dados:
+for nl in noise_levels:
+    noise_model = NoiseModel()
+    error = depolarizing_error(nl, 1)
+    noise_model.add_all_qubit_quantum_error(error, ['x'])
+
+    sim = AerSimulator(noise_model=noise_model)
+    result = sim.run(qc, shots=1000).result()
+    counts = result.get_counts()
+    probs = normalize_counts(counts)
+
+    p1 = probs.get('1', 0)
+    prob_1.append(p1)
+
+    print(f"Ruído=&#123;nl:.2f&#125;: P(1)=&#123;p1:.3f&#125;")
+
+# Extrapolação para ruído zero:
+coeffs = np.polyfit(noise_levels, prob_1, 1)
+zne_estimate = np.polyval(coeffs, 0)
+
+print(f"Estimativa extrapolada para ruído = 0: P(1) ~ &#123;zne_estimate:.3f&#125;") # Ideal esperado é P(1) = 1.0, mas devido a ruído e extrapolação, valor ficará próximo a isso
 </code></pre></small>
         </div>
     </div>
