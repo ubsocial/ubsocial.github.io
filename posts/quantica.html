@@ -3924,6 +3924,60 @@ def full_repetition_pipeline():
 qc = full_repetition_pipeline()
 qc.draw()
 </code></pre></small>
+
+            <br><h4>Phase-Flip Three-Qubit Repetition Code:</h4>
+            <p id="textoPost">Método para corrigir erros de fase (Z error), que alteram sinal do estado quântico sem mudar diretamente probabilidades de medição. Diferente do erro de bit-flip, esse tipo de erro não pode ser detectado diretamente na base computacional, tornando código de repetição tradicional insuficiente. Nele, usa-se mudança de base em emaranhamento quântico, via porta Hadamard (H), convertendo erros de fase em erros de bit, utilizando relação HZH = X. Assim, problema de corrigir phase-flip passa a ser equivalente ao de corrigir bit-flip. No código, 1º codifica-se qubit em 3 qubits, via código de repetição. Após, aplica-se Hadamard em todos qubits para mudar de base. Se ocorrer erro de fase, ele será convertido em erro de bit nessa nova base. Depois, aplica-se Hadamard novamente para voltar à base original e utiliza-se redundância para identificar e corrigir erro.</p>
+<small><pre><code>
+# pip3 install qiskit qiskit-aer matplotlib
+from qiskit import QuantumCircuit, transpile
+from qiskit_aer import AerSimulator
+
+qc = QuantumCircuit(3, 3)
+
+qc.h(0)
+qc.cx(0, 1) # Codificação
+qc.cx(0, 2)
+
+qc.h(0) # Mudança de base
+qc.h(1)
+qc.h(2)
+
+qc.z(1) # Erro no qubit 1
+
+qc.h(0)
+qc.h(1)
+qc.h(2)
+
+qc.cx(0, 2) # Decodificação
+qc.cx(0, 1)
+
+qc.measure([0, 1, 2], [0, 1, 2])
+qc.draw()
+
+sim = AerSimulator()
+tqc = transpile(qc, sim)
+result = sim.run(tqc, shots=1000).result()
+counts = result.get_counts()
+
+print("Resultados:", counts)
+
+# Correção via majority vote (pós-processamento clássico)
+def majority_vote(counts):
+    corrected = &#123;&#125;
+
+    for state, freq in counts.items():
+        ones = state.count('1')
+        zeros = state.count('0')
+
+        if ones &gt; zeros:
+            corrected['1'] = corrected.get('1', 0) + freq
+        else:
+            corrected['0'] = corrected.get('0', 0) + freq
+
+    return corrected
+
+print("Após correção:", majority_vote(counts))
+</code></pre></small>
         </div>
     </div>
 
