@@ -3823,6 +3823,107 @@ zne_estimate = np.polyval(coeffs, 0)
 
 print(f"Estimativa extrapolada para ruído = 0: P(1) ~ &#123;zne_estimate:.3f&#125;") # Ideal esperado é P(1) = 1.0, mas devido a ruído e extrapolação, valor ficará próximo a isso
 </code></pre></small>
+
+            <br><h4>Three-Qubit Repetition Code:</h4>
+            <p id="textoPost">Código de repetição de erro quântico (QEC) de 3 qubits protege qubit lógico contra erros de bit-flip (X error). Ele codifica qubit lógico em 3 qubits físicos, usando codificação:</p>
+            <ul>
+                <li>|0_L&gt; = |000&gt;</li>
+                <li>|1_L&gt; = |111&gt;</li>
+            </ul>
+            <p>Código detecta e corrige erro de bit-flip em 1 dos 3 qubits físicos, via detecção de erro (syndrome measurement) e correção baseada no resultado da medição. Não protege contra erros de fase - phase-flip (Y e Z errors). Usando porta Pauli quântica controlled not (CNOT - CX), qubit 0 será controle, e qubits 1 e 2 serão alvos para criar codificação de repetição. Para detectar erro, mede-se paridade entre qubits 0 e 1, e entre qubits 0 e 2, via portas CNOT adicionais e qubits ancilla para armazenar resultados de medição. Com base na paridade medida, identifica-se qual qubit sofreu bit-flip e aplica-se correção usando porta X (NOT) no qubit afetado.</p>
+<small><pre><code>
+# pip3 install qiskit qiskit-aer matplotlib
+from qiskit import QuantumCircuit
+from qiskit_aer import AerSimulator
+from qiskit import transpile
+
+# Estado inicial:
+def create_initial_state():
+    qc = QuantumCircuit(1)
+    qc.h(0)
+    return qc
+
+qc = create_initial_state()
+qc.draw()
+
+
+# Codificação (Three-Qubit Repetition Code):
+def encode_repetition():
+    qc = QuantumCircuit(3)
+    qc.h(0)
+    qc.cx(0, 1)
+    qc.cx(0, 2)
+    return qc
+
+qc = encode_repetition()
+qc.draw()
+
+
+# Erro bit-flip:
+def add_bit_flip_error(qc, qubit=1):
+    qc.x(qubit)
+    return qc
+
+qc = encode_repetition()
+qc = add_bit_flip_error(qc, 1)
+qc.draw()
+
+
+# Medição direta (sem correção):
+sim = AerSimulator()
+
+qc = QuantumCircuit(3,3)
+qc.h(0)
+qc.cx(0,1)
+qc.cx(0,2)
+qc.barrier()
+qc.x(1) # erro
+
+qc.measure([0,1,2], [0,1,2])
+qc.draw()
+
+tqc = transpile(qc, sim)
+result = sim.run(tqc, shots=1000).result()
+
+counts = result.get_counts()
+print("Resultados com erro:", counts) # 010 é ordem inversa dos qubits (q2, q1, q0)
+
+
+# Correção por voto majoritário (majority voting):
+# Pós-processamento clássico
+def majority_vote(counts):
+    corrected = &#123;&#125;
+
+    for state, freq in counts.items():
+        bits = list(state)
+        ones = bits.count('1')
+        zeros = bits.count('0')
+
+        if ones &gt; zeros:
+            corrected['1'] = corrected.get('1', 0) + freq
+        else:
+            corrected['0'] = corrected.get('0', 0) + freq
+
+    return corrected
+
+print("Após correção:", majority_vote(counts)) # Correção ajustou superposição (~50% para 0 e 1)
+
+
+# Pipeline completo:
+def full_repetition_pipeline():
+    qc = QuantumCircuit(3,3)
+    qc.h(0)
+    qc.cx(0,1)
+    qc.cx(0,2)
+    qc.barrier()
+    qc.x(1)
+
+    qc.measure([0,1,2], [0,1,2])    
+    return qc
+
+qc = full_repetition_pipeline()
+qc.draw()
+</code></pre></small>
         </div>
     </div>
 
