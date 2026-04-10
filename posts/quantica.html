@@ -3978,6 +3978,58 @@ def majority_vote(counts):
 
 print("Após correção:", majority_vote(counts))
 </code></pre></small>
+
+            <br><h4>Ancilla qubits e error syndrome:</h4>
+            <p id="textoPost">Medir qubit lógico diretamente, para localizar erros, destruirá sua superposição. Para solucionar isso, usa-se qubits ancilla (ancillary qubits, qubits auxiliares), com função de interagir com qubits principais, identificando erro, dispensando medição direta do qubit lógico, sendo realizada medição de paridade na relação entre eles, via porta CNOT (qubits, ancilla). Síndrome de erro (error syndrome) é resultado dessa medição, detectando erro, sem medir diretamente seu estado lógico. Exemplo (3-qubit repetition):</p>
+            <ul>
+                <li>Estado 000, com síndrome (q0⊕q1, q1⊕q2) = 00, erro será nenhum;</li>
+                <li>Estado 010, com síndrome (q0⊕q1, q1⊕q2) = 11, erro será no q1;</li>
+                <li>Estado 100, com síndrome (q0⊕q1, q1⊕q2) = 10, erro será no q0;</li>
+                <li>Estado 001, com síndrome (q0⊕q1, q1⊕q2) = 01, erro será no q2.</li>
+            </ul>
+<small><pre><code>
+# pip3 install qiskit qiskit-aer matplotlib
+from qiskit import QuantumCircuit, transpile
+from qiskit_aer import AerSimulator
+
+qc = QuantumCircuit(5, 2) # 3 qubits de dados + 2 ancilla
+qc.h(0)
+qc.cx(0, 1) # Codificação (repetition)
+qc.cx(0, 2)
+qc.x(1) # erro no qubit 1
+qc.barrier()
+
+# ancilla 3: paridade q0⊕q1
+qc.cx(0, 3)
+qc.cx(1, 3)
+
+# ancilla 4: paridade q1⊕q2
+qc.cx(1, 4)
+qc.cx(2, 4)
+qc.measure([3,4], [0,1]) # Medição das ancillas
+qc.draw()
+
+sim = AerSimulator()
+tqc = transpile(qc, sim)
+result = sim.run(tqc, shots=1000).result()
+counts = result.get_counts()
+
+print("Síndromes medidas:", counts) # 11, sendo c1 c0 → (q1⊕q2, q0⊕q1) identificando erro no qubit central (q1)
+# Síndrome 00: erro em nenhum, síndrome 10: erro em q0, síndrome 01: erro em q2, síndrome 11: erro em q1
+
+def identify_error(syndrome):
+    if syndrome == '00':
+        return "Sem erro"
+    elif syndrome == '10':
+        return "Erro no qubit 0"
+    elif syndrome == '01':
+        return "Erro no qubit 2"
+    elif syndrome == '11':
+        return "Erro no qubit 1"
+
+for s in counts:
+    print(s, ":", identify_error(s))
+</code></pre></small>
         </div>
     </div>
 
