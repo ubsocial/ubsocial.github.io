@@ -4032,7 +4032,63 @@ for s in counts:
 </code></pre></small>
 
             <br><h4>9-qubit Shor code:</h4>
-            <p id="textoPost">Conteúdo aqui...</p>
+            <p id="textoPost">Código de Shor é código de correção de erros quânticos que protege contra erros de bit-flip e phase-flip, usando 9 qubits físicos em concatenação de códigos (3 qubits para repetição bit-flip (X error, parte interna) e 3 blocos de 3 qubits para repetição phase-flip (Z error, parte externa) e corrige Y (Y = iXZ)) para codificar 1 qubit lógico. É capaz de detectar e corrigir erro de bit-flip ou phase-flip em qualquer um dos 9 qubits físicos, via medição de síndromes e correção baseada nos resultados:</p>
+            <ul>
+                <li>Bloco 1: q0 q1 q2;</li>
+                <li>Bloco 2: q3 q4 q5;</li>
+                <li>Bloco 3: q6 q7 q8.</li>
+            </ul>
+            <p id="textoPost">A movimentação dos erros no circuito quântico, via aplicação de CNOT em X error, X no controle propagará, e X no alvo não propagará igual. Em Y error, Z no alvo propagará, e Z no controle não propagará igual. Em correção de bit-flip (X error), cada bloco de 3 qubits funciona como código de repetição, corrigindo erro X dentro de cada bloco, possibilitando corrigir 1 erro X em qualquer qubit. Em correção de phase-flip (Z error), erro Z não é detectado diretamente, onde erro Z pode estar em qualquer qubit de bloco, equivalendo a 1 erro Z no bloco inteiro. Para isso, ignora-se estrutura interna, trata-se cada bloco como "super qubit", e aplica-se correção de fase, não importando qual qubit do bloco sofreu erro Z (degenerescência). Nos erros combinados Y (X + Z), código corrige ambos separadamente (corrige X, Z, então Y). Em probabilidade de erro, código funciona melhor se p &lt; 0.0323. Caso contrário, pode piorar erro, onde qualidade do código também dependerá do nível de ruído (noise).</p>
+<small><pre><code>
+# pip3 install qiskit qiskit-aer matplotlib qiskit[visualization]
+from qiskit import QuantumCircuit, transpile
+from qiskit_aer import AerSimulator
+
+qc = QuantumCircuit(9, 1)
+qc.cx(0, 3) # Codificação fase
+qc.cx(0, 6)
+qc.h(0)
+qc.h(3)
+qc.h(6)
+
+qc.cx(0, 1) # Codificação bit-flip
+qc.cx(0, 2)
+qc.cx(3, 4)
+qc.cx(3, 5)
+qc.cx(6, 7)
+qc.cx(6, 8)
+qc.barrier()
+
+qc.x(7) # Erro bit-flip em qubit do bloco 3
+qc.barrier()
+
+qc.x(7) # Correção bit-flip em qubit do bloco 3
+qc.barrier()
+
+qc.cx(0, 1) # Decodificação bit-flip (9 → 3)
+qc.cx(0, 2)
+qc.cx(3, 4)
+qc.cx(3, 5)
+qc.cx(6, 7)
+qc.cx(6, 8)
+qc.barrier()
+
+qc.h(0) # Decodificação fase (3 → 1)
+qc.h(3)
+qc.h(6)
+qc.cx(0, 3)
+qc.cx(0, 6)
+
+qc.measure(0, 0)
+
+sim = AerSimulator()
+tqc = transpile(qc, sim)
+result = sim.run(tqc, shots=1000).result()
+counts = result.get_counts()
+
+print("Resultado lógico (corrigido):", counts) # 100% em '0', indicando correção bem-sucedida
+qc.draw("mpl")
+</code></pre></small>
         </div>
     </div>
 
