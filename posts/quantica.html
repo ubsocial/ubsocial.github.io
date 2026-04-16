@@ -4091,7 +4091,107 @@ qc.draw("mpl")
 </code></pre></small>
 
             <br><h4>Códigos CSS:</h4>
-            <p id="textoPost">Códigos CSS (Calderbank-Shor-Steane) são classe especial de códigos quânticos que separam correção de erros de bit-flip (X) e erros de fase (Z), sendo construídos a partir de códigos clássicos lineares.</p>
+            <p id="textoPost">Códigos CSS (Calderbank-Shor-Steane) são classe especial de códigos quânticos que separam correção de erros de bit-flip (X) e erros de fase (Z), sendo construídos a partir de códigos clássicos lineares. Utiliza 2 códigos clássicos lineares (C1 e C2), onde C1 corrige erros de bit-flip via estabilizadores X e C2 corrige erros de fase via estabilizadores Z, através de geradores de X e Z, respectivamente, onde estabilizadores X e Z precisam comutar ([X,Z]=0). Objetivo do CSS é transformar erro de fase em erro de bit usando Hadamard.</p>
+            <ul>
+                <li>Erro X (bit-flip): correção direta;</li>
+                <li>Erro Z (phase-flip): aplicar H → vira X → corrigir → H.</li>
+            </ul>
+            <p id="textoPost">Steane code é exemplo de código CSS, usando códigos clássicos Hamming [7,4] para corrigir erros de bit-flip e phase-flip, codificando 1 qubit lógico em 7 qubits físicos, com distância 3, capaz de corrigir 1 erro X ou Z em qualquer um dos 7 qubits físicos. É mais eficiente que código de Shor (9 qubits) para corrigir erros únicos, mas não protege contra erros combinados (Y), onde código de Shor corrige ambos separadamente. Steane usa operadores estabilizadores para detectar e corrigir erros, sem medir estado diretamente:</p>
+            <ul>
+                <li>Para detectar erro X → medem Z;</li>
+                <li>Para detectar erro Z → medem X.</li>
+                <li>Exemplo ZZZZIII: XXIIXXI.</li>
+            </ul>
+<small><pre><code>
+# pip3 install qiskit qiskit-aer qiskit[visualization]
+from qiskit import QuantumCircuit
+from qiskit_aer import AerSimulator
+from qiskit_aer.noise import NoiseModel, depolarizing_error
+import numpy as np
+
+SHOTS = 1024
+NOISE = 0.02
+
+def create_noise_model(p):
+    noise_model = NoiseModel()
+    error_1q = depolarizing_error(p, 1)
+    error_2q = depolarizing_error(p, 2)
+
+    for g in ['x', 'h']:
+        noise_model.add_all_qubit_quantum_error(error_1q, g)
+
+    noise_model.add_all_qubit_quantum_error(error_2q, 'cx')
+    return noise_model
+
+# Circuito sem proteção (1 qubit)
+def create_unprotected():
+    qc = QuantumCircuit(1, 1)
+    qc.h(0)
+    qc.x(0) # Ruído direto
+    qc.measure(0, 0)
+    return qc
+
+# Encoding Steane-like (7 qubits)
+def steane_encode(qc):
+    qc.h(0)
+    qc.cx(0,1)
+    qc.cx(0,2)
+    qc.cx(1,3)
+    qc.cx(2,4)
+    qc.cx(3,5)
+    qc.cx(4,6)
+
+# Decoding (Majority Vote simplificado)
+def majority_vote(counts):
+    result = &#123;'0': 0, '1': 0&#125;
+
+    for bitstring, count in counts.items():
+        ones = bitstring.count('1')
+        zeros = len(bitstring) - ones
+
+        if ones &gt; zeros:
+            result['1'] += count
+        else:
+            result['0'] += count
+
+    total = result['0'] + result['1']
+    return &#123;k: v/total for k,v in result.items()&#125;
+
+# Circuito CSS Steane-like (7 qubits)
+def create_css():
+    qc = QuantumCircuit(7, 7)
+    steane_encode(qc)
+
+    for i in range(7): # Ruído distribuído entre qubits
+        if np.random.rand() &lt; NOISE:
+            qc.x(i)
+
+    qc.measure(range(7), range(7))
+    return qc
+
+def run(qc, noise_model):
+    sim = AerSimulator(noise_model=noise_model)
+    job = sim.run(qc, shots=SHOTS)
+    result = job.result()
+    counts = result.get_counts()
+    return counts
+
+def normalize(counts):
+    total = sum(counts.values())
+    return &#123;k: v/total for k,v in counts.items()&#125;
+
+noise_model = create_noise_model(NOISE)
+qc_unprotected = create_unprotected() # Circuito sem proteção
+counts_unprotected = run(qc_unprotected, noise_model)
+
+qc_css = create_css() # Circuito com código CSS (Steane-like)
+counts_css = run(qc_css, noise_model)
+qc_css.draw('mpl')
+
+print("Resultados brutos (sem proteção):", normalize(counts_unprotected))
+print("Resultados brutos (CSS):", normalize(counts_css))
+print("Resultados após majority vote (CSS):", majority_vote(counts_css))
+</code></pre></small>
         </div>
     </div>
 
