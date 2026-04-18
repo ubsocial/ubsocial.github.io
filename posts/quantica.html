@@ -4192,6 +4192,83 @@ print("Resultados brutos (sem proteção):", normalize(counts_unprotected))
 print("Resultados brutos (CSS):", normalize(counts_css))
 print("Resultados após majority vote (CSS):", majority_vote(counts_css))
 </code></pre></small>
+
+            <br><h4>Código Tórico:</h4>
+            <p id="textoPost">Toric code é código CSS de correção de erros topológico (Alexei Kitaev, 1997), onde qubits estão dispostos em grade bidimensional (2D, LxL) com conexões periódicas (topologia de toro - formato donut - permite que movimentos que cruzam borda reapareçam no lado oposto), sendo L (lattice) distância do código (localidade geométrica), onde quanto maior L, maior proteção. Nele, informação quântica é armazenada globalmente em rede, de modo que erros locais não conseguem destruí-la facilmente. Condições de contorno periódicas:</p>
+            <ul>
+                <li>Sair pela direita: entra pela esquerda;</li>
+                <li>Sair por cima: entra por baixo.</li>
+            </ul>
+            <p id="textoPost">Qubits são posicionados nas arestas da rede, sendo L² arestas horizontais e L² arestas verticais, totalizando 2L² qubits físicos. Cada estabilizador possui peso 4 em LDPC quântico (low-density parity check). Estabilizadores:</p>
+            <ul>
+                <li>Estabilizadores de vértice (X): aplicam operador X em 4 qubits ao redor de vértice, detectando erro de fase (Z). Correspondem aos vértices da rede.</li>
+                <li>Estabilizadores de plaqueta (Z): aplicam operador Z em 4 qubits ao redor de bloco, detectando erros de bit-flip (X). Erro bit-flip afeta 2 plaquetas vizinhas, onde 2 medições dão -1 e demais continua +1. Correspondem aos "tiles" (faces) da rede.</li>
+            </ul>
+            <p id="textoPost">Erros formam linhas (chains, cadeias de erros), detectáveis quando extremos, e não detectáveis quando em loops fechados, que podem ser reduzidos com estabilizadores quando triviais, não afetando estado lógico. Loops não triviais contornam Toro. Código Tórico detecta apenas pontos finais da cadeia, não caminho inteiro. Correção de erros consiste em detectar síndromes (-1), emparelhar pontos, e aplicar correções no caminho mais curto, sendo algoritmo Minimum Weight Perfect Matching (Blossom Algorithm) geralmente utilizado para tal. Correção é imperfeita, podendo criar loop lógico e, consequentemente, erro lógico.</p>
+<small><pre><code>
+# pip3 install qiskit qiskit-aer pymatching numpy qiskit[visualization]
+import numpy as np
+from qiskit import QuantumCircuit, transpile
+from qiskit_aer import AerSimulator
+import pymatching
+
+qc = QuantumCircuit(5, 2)
+qc.h(0)
+qc.cx(0, 1)
+qc.cx(0, 2)
+qc.barrier()
+
+np.random.seed(42) # Erros aleatórios para teste
+error_pattern = np.random.choice([0,1], size=3, p=[0.6,0.4])
+
+if error_pattern[0]: qc.x(0)
+if error_pattern[1]: qc.x(1)
+if error_pattern[2]: qc.x(2)
+print("Erros aplicados:", error_pattern)
+
+qc.barrier()
+qc.cx(0, 3) # Síndrome
+qc.cx(1, 3)
+qc.cx(1, 4)
+qc.cx(2, 4)
+qc.measure([3,4], [0,1])
+
+sim = AerSimulator()
+tqc = transpile(qc, sim)
+result = sim.run(tqc, shots=1).result()
+counts = result.get_counts()
+
+syndrome_str = list(counts.keys())[0]
+syndrome = np.array([int(b) for b in syndrome_str])
+print("Síndrome:", syndrome_str)
+
+matching = pymatching.Matching() # MWPM com Boundary
+matching.add_edge(0, 1, weight=1) # Aresta entre detectores
+matching.add_boundary_edge(0, weight=1)
+matching.add_boundary_edge(1, weight=1)
+correction = matching.decode(syndrome)
+print("Correção MWPM:", correction)
+
+# Interpretação:
+if syndrome_str == "00":
+    inferred_error = [0,0,0]
+elif syndrome_str == "10":
+    inferred_error = [1,0,0]
+elif syndrome_str == "01":
+    inferred_error = [0,0,1]
+elif syndrome_str == "11":
+    inferred_error = [0,1,0]
+
+print("Erro real:", error_pattern)
+print("Erro inferido:", inferred_error)
+
+if np.array_equal(error_pattern, inferred_error):
+    print("Correção correta")
+else:
+    print("Ambiguidade (normal em QEC)")
+
+qc.draw('mpl')
+</code></pre></small>
         </div>
     </div>
 
