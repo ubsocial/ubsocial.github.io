@@ -106,972 +106,271 @@
                         <li>Verificar instalação: Win + R, digitar CMD, e informar comando "gradle -v"</li>
                     </ol>
                 </li>
-                <li>Maven: <a href="https://maven.apache.org/download.cgi" target="_blank" class="text-decoration-none">Acesse</a>
-                    <ol>
-                        <li>Baixar e instalar Maven: site oficial Maven, página de Download, em Files, baixar de "Binary zip archive"</li>
-                        <li>Diretório "C:/", crie pasta "Maven", e descompacte o Gradle dentro dela</li>
-                        <li>Win + R, digite "SystemPropertiesAdvanced", acessar Variáveis de Ambiente</li>
-                        <li>Aba "Variáveis do sistema", editar variável Path:
-                            Editar:
-                            <ul>
-                                <li>Nome: Path</li>
-                                <li>Clicar em Novo</li>
-                                <li>Valor: C:\Maven\apache-maven-VERSAO\bin</li>
-                                <li>Confirmar criação OK</li>
-                            </ul>
-                        </li>
-                        <li>Verificar instalação: Win + R, digitar CMD, e informar comando "mvn -v"</li>
-                    </ol>
-                </li>
-                <li>Recomenda-se utilizar IDE Jetbrains IntelliJ: <a href="https://www.jetbrains.com/idea" class="text-decoration-none" target="_blank">Acesse</a></li>
             </ol>
-
-            <br><h4>Padrão MVC:</h4>
-            <ul>
-                <li><b>Model</b>: camada de modelo/negócios responsável por implementar regras de negócio da aplicação, definição das entidades e relacionamentos, implementando comportamento e camada de dados;</li>
-                <li><b>View</b>: camada de visão, responsável pela implementação e exibição de interface com usuário;</li>
-                <li><b>Controller</b>: camada de controle, classe OOP responsável pelo intermédio entre Model e View, pois elas nunca comunicam-se diretamente.</li>
-            </ul>
-            <u>Fluxo</u>:
-            <ol>
-                <li>Controller recebe requisição HTTP;</li>
-                <li>Controller trata dados da requisição, interagindo com Model (se necessário);</li>
-                <li>Controller prepara/envia resposta HTTP ao cliente, geralmente invocando View para tal.</li>
-            </ol>
-            <u>Spring Boot</u>:
-            <p id="textoPost">Recomenda-se separar camadas criando-as em diferentes pacotes, dentro do pacote principal.</p>
-<small><pre><code>
-Pacote Controller ficará em "projeto/src/main/java/pacotePrincipal/pacoteController"
-Nome do pacotePrincipal: grupoExemplo.com.nomeProjeto
-Nome do pacoteController: grupoExemplo.com.nomeProjeto.pacoteController
-</code></pre></small>
 
             <br><h4>Estrutura:</h4>
-            <img src="estrutura_spring.png" class="img-fluid mt-2 mb-3 rounded" width="220px">
-            <ul>
-                <li>raizProjeto/
+            <p class="text-warning">Em breve.</p>
+
+            <br><h4>Exemplo projeto:</h4>
+            <ol>
+                <li>Em 'start.spring.io', selecione:
                     <ul>
-                        <li>src/: códigos do projeto
+                        <li>Project: Gradle - Kotlin</li>
+                        <li>Language: Kotlin</li>
+                        <li>Spring Boot: 3.5.13</li>
+                        <li>Group: com.seuprojeto</li>
+                        <li>Artifact: cats</li>
+                        <li>Package name: com.seuprojeto.cats</li>
+                        <li>Packaging: Jar</li>
+                        <li>Configuration: YAML</li>
+                        <li>Java: 21</li>
+                        <li>Dependencies
                             <ul>
-                                <li>main/: arquivos para programar
-                                    <ul>
-                                        <li>java/: armazena pacote principal do projeto
-                                            <ul>
-                                                <li>pacotePrincipal.com/: pacote principal do projeto, aqui dentro ficam outros pacotes de controllers, com seus respectivos controllers (Arquivos.java)
-                                                    <ul>
-                                                        <li>NomeAplicacao.java: classe principal do pacote principal</li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li>resources/:
-                                            <ul>
-                                                <li>application.properties: variáveis de configuração do projeto</li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>tests/: arquivos de testes unitários</li>
+                                <li>Spring Web</li>
+                                <li>Spring Data JPA</li>
+                                <li>Validation</li>
+                                <li>H2 Database</li>
+                                <li>Spring Boot Dev Tools</li>
                             </ul>
                         </li>
-                        <li>build.gradle: dependências do projeto e testes</li>
-                        <li>gradlew: executar servidor Gradle</li>
+                        <li>Generate (extrair zip e acessar projeto com IntelliJ)</li>
                     </ul>
                 </li>
-            </ul>
+                <li>No pacote principal (com.seuprojeto.cats), crie pacotes dentro:
+<small><pre><code>
+modules.cat.domain.model
+modules.cat.domain.repository
 
-            <br><h4>Criar projeto Spring Boot:</h4>
-            <p id="textoPost">Acesse o site <a href="https://start.spring.io/" target="_blank" class="text-decoration-none">Spring Initializr</a>, e preencha os campos:</p>
-            <ol>
-                <li>Project: Gradle - Groovy</li>
-                <li>Project Metadata
+modules.cat.application.usecase
+
+modules.cat.infrastructure.persistence.entity
+modules.cat.infrastructure.persistence.repository
+modules.cat.infrastructure.persistence.adapter
+
+modules.cat.interfaces.rest
+modules.cat.interfaces.rest.dto.request
+modules.cat.interfaces.rest.dto.response
+modules.cat.interfaces.rest.mapper
+modules.auth.interfaces.rest
+modules.auth.application
+modules.user.infrastructure.persistence.entity
+modules.user.infrastructure.persistence.repository
+modules.user.infrastructure.security
+
+shared.exception
+shared.config
+shared.security
+</code></pre></small>
+                </li>
+                <li>No pacote '.model', criar Model 'Cat.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>No pacote '.repository', criar Repository 'CatRepository.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>No pacote '.usecase', criar Use Case 'CreateCatUseCase.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>No pacote '.persistence.entity', criar Entity 'CatEntity.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>No pacote 'modules.user.infrastructure.persistence.entity', criar Entity 'UserEntity.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>No pacote 'modules.user.infrastructure.persistence.repository', criar Repository 'UserRepository.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>No pacote 'modules.user.infrastructure.security', criar classe de dados customizados 'CustomUserDetailsService.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>No pacote module cat, '.persistence.repository', criar Repository 'JpaCatRepository.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>No pacote '.persistence.adapter', criar Adapter 'CatRepositoryImpl.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>No pacote '.application.usecase', criar Use Case 'UpdateCatUseCase.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>No pacote '.application.usecase', criar Use Case 'DeleteCatUseCase.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>No pacote '.application.usecase', criar Use Case 'ListCatsUseCase.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>No pacote '.application.usecase', criar Use Case 'GetCatUseCase.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>No pacote '.application.usecase', criar Use Case 'AdoptCatUseCase.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>No pacote '.application.usecase', criar Use Case 'UnadoptCatUseCase.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>No pacote '.rest.dto.request', criar DTO 'CreateCatRequest.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>No pacote '.rest.dto.request', criar DTO 'UpdateCatRequest.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>No pacote '.rest.dto.response', criar DTO 'CatResponse.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>No pacote '.rest.mapper', criar Mapper 'CatDtoMapper.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>No pacote '.interfaces.rest', criar Controller 'CatController.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>No pacote '.modules.auth.interfaces.rest', criar Controller 'AuthController.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>No pacote '.modules.auth.application', criar classe de serviço 'AuthService.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>No pacote principal 'com.seuprojeto.cats', criar classe 'Application.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>No pacote principal 'com.seuprojeto.cats', remover arquivo padrão 'CatsApplication.kt'</li>
+                <li>No pacote '.shared.exception', criar classe de erro 'ErrorResponse.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>No pacote '.shared.exception', criar classe de exceção 'BusinessException.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>No pacote '.shared.exception', criar classe de exceção GlobalExceptionHandler.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>No pacote '.shared.config', criar classe de configuração 'OpenApiConfig.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>No pacote '.shared.config', criar classe de dados iniciais 'DataInitializer.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>No pacote '.shared.security', criar classe de configuração 'SecurityConfig.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>No pacote '.shared.security', criar classe de serviço 'JwtService.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>No pacote '.shared.security', criar classe de filtro 'JwtAuthenticationFilter.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>Em 'src/main/resources', criar arquivo 'application.yml':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>Em 'build.gradle.kts', adicionar dependência Swagger e JWT:
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>Executar a aplicação: ./gradlew bootRun</li>
+                <li>Conectar banco de dados (H2): http://localhost:8080/h2-console
                     <ul>
-                        <li>Group: grupoExemplo.com</li>
-                        <li>Artifact: proj1</li>
-                        <li>Name: proj1 (igual no Artifact)</li>
-                        <li>Package name: grupoExemplo.com.proj1</li>
+                        <li>Informar JDBC: jdbc:h2:mem:testdb</li>
                     </ul>
                 </li>
-                <li>Java: versão do JDK instalado na máquina</li>
-                <li>Dependencies:
+                <li>Criar token de acesso (JWT): POST http://localhost:8080/api/auth/login
+<small><pre><code>
+{
+  "username": "admin",
+  "password": "123"
+}
+</code></pre></small>
+                </li>
+                <li>Testar requisições HTTP:
                     <ul>
-                        <li>DevTools</li>
-                        <li>Spring Web</li>
-                    </ul>
-                </li>
-                <li>Generate (o projeto será gerado)</li>
-                <li>Extrair projeto localmente, abrir com editor, e executar terminal na pasta raíz do projeto (mesmo local do 'gradlew'): ".\gradlew bootRun"
-                    <ul>
-                        <li>Quando a execução ficar em "80% EXECUTING", acesse em "http://localhost:8080"</li>
-                    </ul>
-                </li>
-            </ol>
-
-            <br><h4>ORM:</h4>
-            <p id="textoPost">Object-Relational Mapping é padrão para integrar SQL ao código Java na aplicação, sem necessidade de códigos SQL (opcional). ORM visa abstrair camada de dados da aplicação. Tables geradas via definição de classes. Diferença entre OOP e SQL, respectivamente:</p>
-            <ul><u>Transformações</u>:
-                <li>Classe/Entidade - tabela;</li>
-                <li>Atributo - coluna;</li>
-                <li>Objeto - registro;</li>
-                <li>Cada tabela possui chave primária.</li>
-            </ul>
-            <ul><u>Relacionamentos</u>:
-                <li>(1:n): table com 'n' recebe chave estrangeira referenciando chave primária da table '1'. Ex: Item(n) e Pedido(1), cria-se fk 'idPedido' em Item;</li>
-                <li>(1:1): escolhe-se 1 table para receber chave estrangeira referenciando chave primária da outra table. Ex: Servidor(1) e Campus(1), escolheu-se criar fk 'idCampus' em Servidor;</li>
-                <li>(n:n): cria-se nova table, referenciando relacionamento ocorrido, contendo 2 chaves estrangeiras, cada uma referenciando chave primária das tables relacionadas.</li>
-            </ul>
-
-            <br><h5>Hibernate:</h5>
-            <p id="textoPost">Framework Java que implementa padrão ORM, via especificações e pacotes JPA (Java Persistence API). Incorporar Hibernate JPA e MySQL em projeto Spring Boot:</p>
-            <ol>
-                <li>'build.gradle', em 'dependencies', incluir linhas:
-<small><pre><code>
-implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-runtimeOnly 'com.mysql:mysql-connector-j'
-</code></pre></small>
-                </li>
-                <li>Criar BD via MySQL diretamente (CREATE DATABASE 'nomeBD');</li>
-                <li>Em 'src/main/resources/application.properties', informar:
-                    <ol>
-                        <li>Modo de criação das tables, escolhendo:
-                        <ul>
-                            <li>create: quando aplicação iniciada, criará tables (se inexistentes);</li>
-                            <li>create-drop: quando aplicação iniciada, criará tables (se inexistentes), e quando aplicação finalizada, excluirá tables;</li>
-                            <li>update: semelhante ao <i>create</i>, verificando também necessidade de novas atualizações nas tables criadas;</li>
-                            <li>none: nada é feito em BD.</li>
-                        </ul>
-<small><pre><code>
-spring.jpa.hibernate.ddl-auto=update
-</code></pre></small>
-                        </li>
-                        <li>URL conexão BD:
-<small><pre><code>
-spring.datasource.url=jdbc:mysql://localhost:3306/nomeBD
-</code></pre></small>
-                        </li>
-                        <li>Login do BD:
-<small><pre><code>
-spring.datasource.username=nomeUsuarioBD
-spring.datasource.password=senhaUsuarioBD
-</code></pre></small>
-                        </li>
-                        <li>Driver JDBC:
-<small><pre><code>
-spring.datasource.driver-class-name = com.mysql.cj.jdbc.Driver
-</code></pre></small>
-                        </li>
-                    </ol>
-                <li>Mapear classes entidades (somente entidades usarão Hibernate);
-                    <ol>
-                        <li>Informar '@Entity' acima da declaração da classe entidade e importar Jakarta:
-<small><pre><code>
-import jakarta.persistence.Entity;
-
-@Entity
-public class NomeEntidade &#123;
-&#125;
-</code></pre></small>
-                        </li>
-                        <li>Indicar atributo da entidade que criará chave primária. Geralmente, cria-se atributo 'id' e referencia-o com @Id (herdará nas subclasses, importá-lo somente na superclasse), com notação de gerá-lo automaticamente e importar pacotes necessários:
-<small><pre><code>
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-@Entity
-public class Plano &#123;
-    @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long id;
-&#125;
-</code></pre></small>
-                        </li>
-                        <li>Atributos Date e Calendar, informar anotação '@Temporal' acima da respectiva declaração:
+                        <li>Listar gatos (GET): http://localhost:8080/api/cats
                             <ul>
-                                <li>TemporalType.DATE: somente data;</li>
-                                <li>TemporalType.TIME: somente hora;</li>
-                                <li>TemporalType.TIMESTAMP: data e hora.</li>
+                                <li>Authorization: Bearer (informar token)</li>
                             </ul>
+                        </li>
+                        <li>Adicionar gato (POST e Bearer token): http://localhost:8080/api/cats
 <small><pre><code>
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-@Entity
-public class Plano &#123;
-    @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long id;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dataHora;
-
-    @Column(name="NOME_PLANO", length=50, nullable=false, unique=false)
-    private String nome;
-
-    @Enumerated(EnumType.STRING)
-    private Gender genero;
-
-    @Transient
-    private Integer idade; // Não armazenado em BD
-&#125;
+{
+  "name": "Mingau"
+}
 </code></pre></small>
                         </li>
-                    </ol>
-                    <li>Mapear relacionamentos entre entidades:
-                        <ul>
-                            <li>(1:n) unidirecional: entidade <i>todo</i> (da relação 1), informar '@OneToMany' no atributo que indica <i>parte</i> do relacionamento, seguido da identificação da chave estrangeira presente na tabela <i>parte</i> (da relação n);
+                        <li>Visualizar gato 1 (GET e Bearer token): http://localhost:8080/api/cats/1</li>
+                        <li>Editar gato 1 (PUT e Bearer token): http://localhost:8080/api/cats/1
 <small><pre><code>
-@Entity
-public class Operadora &#123;
-    @OneToMany
-    @JoinColumn(name="operadora_id")
-    Set&lt;Plano&gt; planos;
-&#125;
+{
+  "name": "Mingau - Atualizado"
+}
 </code></pre></small>
-                            </li>
-                            <li>(1:n) bidirecional: entidade <i>parte</i>, informar '@ManyToOne', criando chave estrangeira na tabela parte. Entidade <i>todo</i>, informar '@OneToMany' e mapeamento através do atributo chave estrangeira. Considere Endereco (<i>parte</i>) e Cliente (<i>todo</i>);
-<small><pre><code>
-@Entity
-public class Endereco &#123;
-    @ManyToOne
-    Cliente cliente;
-&#125;
-
-@Entity
-public class Cliente &#123;
-    @OneToMany(mappedBy="cliente")
-    Set&lt;Endereco&gt; enderecos;
-&#125;
-</code></pre></small>
-                            </li>
-                            <li>(n:1) unidirecional: entidade <i>todo</i>, informar '@ManyToOne' no atributo da <i>parte</i>. Considere Endereco a 1 Cliente, Cliente a n Endereços, porém desconheça seus Endereços, então Endereco é <i>todo</i>;
-<small><pre><code>
-@Entity
-public class Endereco &#123;
-    @ManyToOne
-    Cliente cliente;
-&#125;
-</code></pre></small>
-                            </li>
-                            <li>(n:1) bidirecional: semelhante ao 1:n bidirecional;</li>
-                            <li>(n:n) unidirecional: entidade <i>todo</i>, informar '@ManyToMany' no atributo da <i>parte</i>. Considere Conta n (<i>todo</i>) e Cliente n (<i>parte</i>), e Cliente desconheça suas Contas;
-<small><pre><code>
-@Entity
-public class Conta &#123;
-    @ManyToMany
-    Set&lt;Cliente&gt; clientes;
-&#125;
-</code></pre></small>
-                            </li>
-                            <li>(n:n) bidirecional: informar '@ManyToMany' em ambas entidades nos atributos correspondentes, e informar mapeamento na entidade <i>parte</i>. Conta n (<i>todo</i>) e Cliente n (<i>parte</i>);
-<small><pre><code>
-@Entity
-public class Conta &#123;
-    @ManyToMany
-    Set&lt;Cliente&gt; clientes;
-&#125;
-
-@Entity
-public class Cliente &#123;
-    @ManyToMany(mappedBy = "clientes")
-    Set&lt;Conta&gt; contas;
-&#125;
-</code></pre></small>
-                            </li>
-                            <li>(1:1) unidirecional: entidade <i>todo</i>, informar '@OneToOne' no atributo da <i>parte</i>. Considere Campus (<i>todo</i>) e Servidor (<i>parte</i>), e Servidor desconheça Campus;
-<small><pre><code>
-@Entity
-public class Campus &#123;
-    @OneToOne
-    Servidor diretor;
-&#125;
-</code></pre></small>
-                            </li>
-                            <li>(1:1) bidirecional: informar '@OneToOne' em ambas entidades nos atributos correspondentes, e informar mapeamento na entidade <i>parte</i>. Campus n (<i>todo</i>) e Servidor n (<i>parte</i>);
-<small><pre><code>
-@Entity
-public class Campus &#123;
-    @OneToOne
-    Servidor diretor;
-&#125;
-
-@Entity
-public class Servidor &#123;
-    @OneToOne(mappedBy = "diretor")
-    Campus campusDirigido;
-&#125;
-</code></pre></small>
-                            </li>
-                            <li>Herança: <i>single table</i>, onde cria-se tabela única para todas subclasses com superclasse em comum, contendo colunas para cada atributo da superclasse, colunas para cada atributo das subclasses, e coluna "discriminatória" determinando a qual entidade "pertence" cada registro. Superclasse, informar anotação de herança single table e de coluna discriminatória. Subclasses, informar anotação de valor discriminador, apontando valor para coluna discriminatória da superclasse. Conforme abaixo, gerará tabela única para as 3 entidades, contendo colunas para atributos de Cliente, colunas para atributos de ClientePessoaFisica, colunas para atributos de ClientePessoaJuridica, e coluna discriminatória com nome <i>class</i>. Registros de ClientePessoaFisica serão armazenados em <i>class</i> com valor ClientePessoaFisica, e o mesmo para ClientePessoaJuridica, possibilitando queries SELECT com WHERE="ClientePessoaFisica" e "ClientePessoaJuridica".
-<small><pre><code>
-@Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "class")
-public class Cliente &#123;
-&#125;
-
-@Entity
-@DiscriminatorValue(value="ClientePessoaFisica")
-public class ClientePessoaFisica &#123;
-&#125;
-
-@Entity
-@DiscriminatorValue(value="ClientePessoaJuridica")
-public class ClientePessoaJuridica &#123;
-&#125;
-</code></pre></small>
-                            </li>
-                        </ul>
-                    </li>
+                        </li>
+                        <li>Adotar gato 1 (POST e Bearer token): http://localhost:8080/api/cats/1/adopt</li>
+                        <li>Desfazer adoção gato 1 (POST e Bearer token): http://localhost:8080/api/cats/1/unadopt</li>
+                        <li>Excluir gato 1 (DELETE e Bearer token): http://localhost:8080/api/cats/1</li>
+                    </ul>
                 </li>
+                <li>Testar Swagger: http://localhost:8080/swagger-ui/index.html</li>
             </ol>
-
-            <br><h4>REST controllers:</h4>
-            <p id="textoPost">DAO (Data Access Object) é repositório classe que implementa métodos CRUD no banco de dados. Repositório JPA é interface que disponibiliza todos métodos necessários às operações CRUD para entidade. Operações CRUD, tem-se GET (@GetMapping), POST (@PostMapping), PUT (@PutMapping) e DELETE (@DeleteMapping). Para tratamento de dados, de forma mais complexa, utilizam-se services, exceções e tratamento de exceções por meio de ControllerAdvices.</p>
-
-            <br><b><span class="text-warning"><h4>COMPLEMENTOS FALTANTES:</h4>
-            <li>Tratamento de dados via services, exceções e tratamento de exceções por meio de ControllerAdvices;</li>
-            <li>Ordenação;</li>
-            <li>Paginação;</li>
-            <li>Busca/pesquisa por atributos (busca por nome, por exemplo).</li></b></span>
-
-            <br><hr><h4>Projeto 1: Controllers</h4>
-            <p id="textoPost">Projeto para conhecimento de estrutura Spring Boot, e geração de controllers. Gerar projeto Spring Boot Gradle-Groovy, com dados:</p>
-            <ul>
-                <li>Group: ubsocial.com</li>
-                <li>Artifact: proj1</li>
-                <li>Name: proj1</li>
-                <li>Package: ubsocial.com.proj1</li>
-                <li>Dependencies:
-                    <ul>
-                        <li>DevTools</li>
-                        <li>Spring Web</li>
-                    </ul>
-                </li>
-                <li>Generate (projeto será gerado), extrair, e abrir com IntelliJ</li>
-                <li>No IntelliJ, dentro da pasta do pacote principal (ubsocial.com.proj1), criar pacote "controller": ubsocial.com.proj1.controller</li>
-                <li>Dentro do pacote "controller", criar controller (classe) "HelloController.java", com o conteúdo:
-<small><pre><code>
-package ubsocial.com.proj1.controller;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-@RestController
-public class HelloController &#123;
-
-    @GetMapping("/hello")
-    public String hello() &#123;
-        return "Hello World!";
-    &#125;
-
-&#125;
-</code></pre></small>
-                </li>
-                <li>Na mesma pasta de "gradlew", executar projeto: ".\gradlew bootRun"
-                    <ul>
-                        <li>Testar em: <a href="http://localhost:8080/hello" class="text-decoration-none" target="_blank">http://localhost:8080/hello</a></li>
-                    </ul>
-                </li>
-                <li>Dentro do pacote controller, criar pacote CalendarController (será classe CalendarController.java), com o conteúdo:
-<small><pre><code>
-package ubsocial.com.proj1.controller;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-@RestController
-public class CalendarController &#123;
-
-    @GetMapping("/today")
-    public String today() &#123;
-        return "Hoje é " + java.time.LocalDate.now();
-    &#125;
-
-    @GetMapping("/tomorrow")
-    public String tomorrow() &#123;
-        return "Amanhã é " + java.time.LocalDate.now().plusDays(1);
-    &#125;
-
-&#125;
-</code></pre></small>
-                </li>
-                <li>Na mesma pasta de "gradlew", executar projeto: ".\gradlew bootRun"</li>
-                <ul>
-                    <li>Testar em: <a href="http://localhost:8080/today" class="text-decoration-none" target="_blank">http://localhost:8080/today</a></li>
-                    <li>Testar em: <a href="http://localhost:8080/tomorrow" class="text-decoration-none" target="_blank">http://localhost:8080/tomorrow</a></li>
-                </ul>
-            </ul>
-
-            <br><hr><h4>Projeto 2: Models</h4>
-            <img src="umlProjeto2.png" class="img-fluid mb-3 rounded" width="700px">
-            <p id="textoPost">Projeto de operadora telefônica, com objetivo de criar aplicação com Models e incorporar, em código, relacionamentos entre classes Java, conforme acima. Relacionamentos unidirecionais (agregação, composição), somente o todo (losango) conhece sua parte (linha com seta), então será criado dado na classe do todo, cujo nome é o nome do relacionamento apontando para parte. Gerar projeto Spring Boot Gradle-Groovy, com dados:</p>
-            <ul>
-                <li>Group: ubsocial.com</li>
-                <li>Artifact: telefonia</li>
-                <li>Name: telefonia</li>
-                <li>Package: ubsocial.com.telefonia</li>
-                <li>Dependencies:
-                    <ul>
-                        <li>DevTools</li>
-                        <li>Spring Web</li>
-                    </ul>
-                </li>
-                <li>Generate (projeto será gerado), extrair, e abrir com IntelliJ</li>
-                <li>No IntelliJ, dentro da pasta do pacote principal (ubsocial.com.telefonia), criar pacote "model": ubsocial.com.telefonia.model</li>
-                <li>Dentro do pacote "model", criar pacote de entidades "entity": ficará model.entity</li>
-                <li>Dentro do pacote "model.entity", criar Model (entidade) Operadora:
-<small><pre><code>
-package ubsocial.com.telefonia.model.entity;
-
-public class Operadora &#123;
-    private String nome;
-&#125;
-</code></pre></small>
-                </li>
-                <li>Dentro do pacote "model.entity", criar pacote "pessoal": ficará model.entity.pessoal</li>
-                <li>Dentro do pacote "pessoal", criar Model Cliente:
-<small><pre><code>
-package ubsocial.com.telefonia.model.entity.pessoal;
-
-public class Cliente &#123;
-    private String nome;
-    private String endereco;
-&#125;
-</code></pre></small>
-                </li>
-                <li>Dentro do pacote "pessoal", criar Model ClientePessoaFisica:
-<small><pre><code>
-package ubsocial.com.telefonia.model.entity.pessoal;
-
-public class ClientePessoaFisica extends Cliente &#123;
-    private String cpf;
-&#125;
-</code></pre></small>
-                </li>
-                <li>Dentro do pacote "pessoal", criar Model ClientePessoaJuridica:
-<small><pre><code>
-package ubsocial.com.telefonia.model.entity.pessoal;
-
-public class ClientePessoaJuridica extends Cliente &#123;
-    private String cnpj;
-&#125;
-</code></pre></small>
-                </li>
-                <li>Dentro do pacote "model.entity", criar pacote "comercial": ficará model.entity.comercial</li>
-                <li>Dentro do pacote "comercial", criar Model Celular:
-<small><pre><code>
-package ubsocial.com.telefonia.model.entity.comercial;
-import ubsocial.com.telefonia.model.entity.pessoal.Cliente;
-import java.util.Set;
-
-public class Celular &#123;
-    private Long numero;
-    private Cliente cliente;
-    private Set<Ligacao> ligacoes;
-    private Plano plano;
-&#125;
-</code></pre></small>
-                </li>
-                <li>Dentro do pacote "comercial", criar Model CelularPosPago:
-<small><pre><code>
-package ubsocial.com.telefonia.model.entity.comercial;
-
-public class CelularPosPago extends Celular &#123;
-    private int diaVencimento;
-&#125;
-</code></pre></small>
-                </li>
-                <li>Dentro do pacote "comercial", criar Model CelularPrePago:
-<small><pre><code>
-package ubsocial.com.telefonia.model.entity.comercial;
-import java.util.Date;
-
-public class CelularPrePago extends Celular &#123;
-    private double saldo;
-    private Date dataDeValidade;
-&#125;
-</code></pre></small>
-                </li>
-                <li>Dentro do pacote "comercial", criar Model Ligacao:
-<small><pre><code>
-package ubsocial.com.telefonia.model.entity.comercial;
-import java.util.Date;
-
-public class Ligacao &#123;
-    private Date data;
-    private int duracao;
-&#125;
-</code></pre></small>
-                </li>
-                <li>Dentro do pacote "comercial", criar Model Plano:
-<small><pre><code>
-package ubsocial.com.telefonia.model.entity.comercial;
-
-public class Plano &#123;
-    private String nome;
-    private double valorPorMinuto;
-&#125;
-</code></pre></small>
-                </li>
-            </ul>
-
-            <br><hr><h4>Projeto 3: ORM</h4>
-            <img src="umlProjeto2.png" class="img-fluid mb-3 rounded" width="700px">
-            <p id="textoPost">Inclusão de padrões Hibernate JPA ORM no projeto 2.</p>
-            <ol>
-                <li>Criar banco de dados MySQL: CREATE DATABASE telefonia;
-                    <ul>
-                        <li>Nesse exemplo, usou-se MySQL do XAMPP, cujo padrão user=root e não possui password.</li>
-                    </ul>
-                </li>
-                <li>'build.gradle', adicionar novas dependencies:
-<small><pre><code>
-implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-runtimeOnly 'com.mysql:mysql-connector-j'
-</code></pre></small>
-                </li>
-                <li>'src/main/resources/application.properties':
-<small><pre><code>
-spring.application.name=telefonia
-spring.jpa.hibernate.ddl-auto=update
-spring.datasource.url=jdbc:mysql://localhost:3306/telefonia
-spring.datasource.username=root
-spring.datasource.password=
-spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
-</code></pre></small>
-                </li>
-                <li>Na mesma pasta de "gradlew", executar projeto: ".\gradlew bootRun";</li>
-                <li>Mapear classes (conforme códigos no final):
-                    <ol>
-                        <li>Mapear classes como Entity (com exceção de 'TelefoniaApplication');</li>
-                        <li>Informar atributo 'id' e gerador (com exceção das subclasses);</li>
-                        <li>Formatar valores com data;</li>
-                        <li>Mapear relacionamentos entre entidades;</li>
-                    </ol>
-                </li>
-                <li>Na mesma pasta de "gradlew", executar projeto: ".\gradlew bootRun";
-                    <ul>
-                        <li>Verificar tables criadas no banco de dados MySQL</li>
-                    </ul>
-                </li>
-            </ol>
-            <ul>
-                <li>Operadora:
-<small><pre><code>
-package ubsocial.com.telefonia.model.entity;
-import ubsocial.com.telefonia.model.entity.comercial.Celular;
-import ubsocial.com.telefonia.model.entity.comercial.Plano;
-import ubsocial.com.telefonia.model.entity.pessoal.Cliente;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import java.util.Set;
-
-@Entity
-public class Operadora &#123;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    private String nome;
-    @OneToMany
-    @JoinColumn(name = "operadora_id")
-    private Set&lt;Cliente&gt; clientes;
-    @OneToMany
-    @JoinColumn(name = "operadora_id")
-    private Set&lt;Celular&gt; celulares;
-    @OneToMany
-    @JoinColumn(name = "operadora_id")
-    private Set&lt;Plano&gt; planos;
-&#125;
-</code></pre></small>
-                </li>
-                <li>comercial/Celular:
-<small><pre><code>
-package ubsocial.com.telefonia.model.entity.comercial;
-import ubsocial.com.telefonia.model.entity.pessoal.Cliente;
-import jakarta.persistence.DiscriminatorColumn;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import java.util.Set;
-
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "class")
-@Entity
-public class Celular &#123;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    private Long numero;
-    @ManyToOne
-    private Cliente cliente;
-    @OneToMany
-    @JoinColumn(name = "celular_id")
-    private Set&lt;Ligacao&gt; ligacoes;
-    @ManyToOne
-    private Plano plano;
-&#125;
-</code></pre></small>
-                </li>
-                <li>comercial/CelularPosPago:
-<small><pre><code>
-package ubsocial.com.telefonia.model.entity.comercial;
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
-
-@Entity
-@DiscriminatorValue(value = "CelularPosPago")
-public class CelularPosPago extends Celular &#123;
-    private int diaVencimento;
-&#125;
-</code></pre></small>
-                </li>
-                <li>comercial/CelularPrePago:
-<small><pre><code>
-package ubsocial.com.telefonia.model.entity.comercial;
-import java.util.Date;
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
-
-@Entity
-@DiscriminatorValue(value = "CelularPrePago")
-public class CelularPrePago extends Celular &#123;
-    private double saldo;
-    @Temporal(TemporalType.DATE)
-    private Date dataDeValidade;
-&#125;
-</code></pre></small>
-                </li>
-                <li>Ligacao:
-<small><pre><code>
-package ubsocial.com.telefonia.model.entity.comercial;
-import java.util.Date;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
-
-@Entity
-public class Ligacao &#123;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date data;
-    private int duracao;
-&#125;
-</code></pre></small>
-                </li>
-                <li>Plano:
-<small><pre><code>
-package ubsocial.com.telefonia.model.entity.comercial;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-@Entity
-public class Plano &#123;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    private String nome;
-    private double valorPorMinuto;
-&#125;
-</code></pre></small>
-                </li>
-                <li>pessoal/Cliente:
-<small><pre><code>
-package ubsocial.com.telefonia.model.entity.pessoal;
-import jakarta.persistence.DiscriminatorColumn;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
-
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "class")
-@Entity
-public class Cliente &#123;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    private String nome;
-    private String endereco;
-&#125;
-</code></pre></small>
-                </li>
-                <li>pessoal/ClientePessoaFisica:
-<small><pre><code>
-package ubsocial.com.telefonia.model.entity.pessoal;
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
-
-@Entity
-@DiscriminatorValue(value = "ClientePessoaFisica")
-public class ClientePessoaFisica extends Cliente &#123;
-    private String cpf;
-&#125;
-</code></pre></small>
-                </li>
-                <li>cliente/PessoaJuridica:
-<small><pre><code>
-package ubsocial.com.telefonia.model.entity.pessoal;
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
-
-@Entity
-@DiscriminatorValue(value = "ClientePessoaJuridica")
-public class ClientePessoaJuridica extends Cliente &#123;
-    private String cnpj;
-&#125;
-</code></pre></small>
-                </li>
-            </ul>
-
-            <br><hr><h4>Projeto 4: REST controllers</h4>
-            <p id="textoPost">Adaptação do projeto 3 para funcionamento DAO e REST.</p>
-            <ul>
-                <li>Em "build.gradle", bloco "dependencies" adicionar linha:
-<small><pre><code>
-implementation 'org.springframework.boot:spring-boot-starter-validation'
-</code></pre></small>
-                </li>
-                <li>Em "application.properties", informar relação Plano com Operadora (ao buscar Plano, busca-se também Operadora):
-<small><pre><code>
-spring.jackson.serialization.fail-on-empty-beans=false
-</code></pre></small>
-                </li>
-                <li>Classe "Plano", aplicar validações nos atributos: <a href="https://jakarta.ee/learn/docs/jakartaee-tutorial/current/beanvalidation/bean-validation/bean-validation.html" class="text-decoration-none" target="_blank">lista validações</a>
-<small><pre><code>
-package ubsocial.com.telefonia.model.entity.comercial;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-
-@Entity
-public class Plano &#123;
-
-    public Plano() &#123;
-    &#125;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    @NotNull
-    @NotBlank
-    private String nome;
-
-    @NotNull
-    @DecimalMin(value = "1.49")
-    private double valorPorMinuto;
-
-    public String getNome() &#123;
-        return nome;
-    &#125;
-
-    public void setNome(String nome) &#123;
-        this.nome = nome;
-    &#125;
-
-    public double getValorPorMinuto() &#123;
-        return valorPorMinuto;
-    &#125;
-
-    public void setValorPorMinuto(double valorPorMinuto) &#123;
-        this.valorPorMinuto = valorPorMinuto;
-    &#125;
-&#125;
-</code></pre></small>
-                </li>
-                <li>No pacote "model", criar pacote "repositories.commercial"</li>
-                <li>No pacote "repositories.commercial", criar interface PlanoRepository:
-<small><pre><code>
-package ubsocial.com.telefonia.model.repositories.commercial;
-import ubsocial.com.telefonia.model.entity.comercial.Plano;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface PlanoRepository extends JpaRepository&lt;Plano, Long&gt; &#123;
-&#125;
-</code></pre></small>
-                </li>
-                <li>Pacote principal "ubsocial.com.telefonia", criar pacote "controller.commercial"</li>
-                <li>Pacote "controller.commercial", criar classe PlanoController ou PlanoResource:
-<small><pre><code>
-package ubsocial.com.telefonia.controller.commercial;
-import ubsocial.com.telefonia.model.entity.comercial.Plano;
-import ubsocial.com.telefonia.model.repositories.commercial.PlanoRepository;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
-import java.util.List;
-import java.util.Optional;
-
-@RestController
-@RequestMapping("/plano")
-public class PlanoResource &#123;
-    private PlanoRepository planoRepository;
-
-    public PlanoResource(PlanoRepository planoRepository) &#123;
-        this.planoRepository = planoRepository;
-    &#125;
-
-    @GetMapping
-    public List&lt;Plano&gt; get() &#123;
-        return planoRepository.findAll();
-    &#125;
-
-    /* Método get sem tratamento de erros:
-    @GetMapping("/&#123;id&#125;")
-    public Plano get(@PathVariable Long id) &#123;
-        return planoRepository.getById(id);
-    &#125;*/
-
-    // Método get específico com tratamento de erros:
-    @GetMapping("/&#123;id&#125;")
-    public ResponseEntity&lt;Plano&gt; get(@PathVariable Long id) &#123;
-        Optional&lt;Plano&gt; optional = planoRepository.findById(id);
-        if(!optional.isPresent()) &#123;
-            return new ResponseEntity&lt;Plano&gt;(HttpStatus.NOT_FOUND);
-        &#125;
-        return new ResponseEntity&lt;Plano&gt;(optional.get(), HttpStatus.OK);
-    &#125;
-
-    @PostMapping
-    public Plano create(@RequestBody @Valid Plano plano) &#123;
-        return planoRepository.save(plano);
-    &#125;
-
-    /* Método update sem tratamento de erros:
-    @PutMapping("/&#123;id&#125;")
-    public Plano update(@PathVariable Long id, @RequestBody Plano plano) &#123;
-        Plano planoAux = planoRepository.getById(id);
-        planoAux.setNome(plano.getNome());
-        planoAux.setValorPorMinuto(plano.getValorPorMinuto());
-        return planoRepository.save(planoAux);
-    &#125;*/
-
-    // Método update específico com tratamento de erros:
-    @PutMapping("/&#123;id&#125;")
-    public ResponseEntity&lt;Plano&gt; update(@PathVariable Long id, @RequestBody @Valid Plano plano) &#123;
-        Optional&lt;Plano&gt; optional = planoRepository.findById(id);
-        if(!optional.isPresent()) &#123;
-            return new ResponseEntity&lt;Plano&gt;(HttpStatus.NOT_FOUND);
-        &#125;
-        Plano planoAux = optional.get();
-        planoAux.setNome(plano.getNome());
-        planoAux.setValorPorMinuto(plano.getValorPorMinuto());
-        planoRepository.save(planoAux);
-        return new ResponseEntity&lt;Plano&gt;(planoAux, HttpStatus.OK);
-    &#125;
-
-    /* Método delete sem tratamento de erros:
-    @DeleteMapping("/&#123;id&#125;")
-    public void delete(@PathVariable Long id) &#123;
-        planoRepository.deleteById(id);
-    &#125;*/
-
-    // Método delete específico com tratamento de erros:
-    @DeleteMapping("/&#123;id&#125;")
-    public ResponseEntity&lt;Plano&gt; delete(@PathVariable Long id) &#123;
-        if(!planoRepository.existsById(id)) &#123;
-            return new ResponseEntity&lt;Plano&gt;(HttpStatus.NOT_FOUND);
-        &#125;
-        planoRepository.deleteById(id);
-        return new ResponseEntity&lt;Plano&gt;(HttpStatus.NO_CONTENT);
-    &#125;
-&#125;
-</code></pre></small>
-                </li>
-                <li>Na mesma pasta de "gradlew", executar projeto: ".\gradlew bootRun"
-                    <ul>
-                        <li>Testar em: <a href="http://localhost:8080" class="text-decoration-none" target="_blank">http://localhost:8080</a></li>
-                    </ul>
-                </li>
-                <li>Teste Postman (create):
-                    <ul>
-                        <li>URL: <a href="http://localhost:8080/plano" class="text-decoration-none" target="_blank">http://localhost:8080/plano</a></li>
-                        <li>Método: POST</li>
-                        <li>Body raw (JSON):
-<small><pre><code>
-&#123;
-    "nome": "Plano Teste1",
-    "valorPorMinuto": 2.99
-&#125;
-</code></pre></small>
-                        </li>
-                        <li>Enviar (Send)</li>
-                    </ul>
-                </li>
-                <li>Teste Postman (get all):
-                    <ul>
-                        <li>URL: <a href="http://localhost:8080/plano" class="text-decoration-none" target="_blank">http://localhost:8080/plano</a></li>
-                        <li>Método: GET</li>
-                        <li>Enviar (Send)</li>
-                    </ul>
-                </li>
-                <li>Teste Postman (get individual):
-                    <ul>
-                        <li>URL: <a href="http://localhost:8080/plano/1" class="text-decoration-none" target="_blank">http://localhost:8080/plano/1</a></li>
-                        <li>Método: GET</li>
-                        <li>Enviar (Send)</li>
-                    </ul>
-                </li>
-                <li>Teste Postman (update):
-                    <ul>
-                        <li>URL: <a href="http://localhost:8080/plano/1" class="text-decoration-none" target="_blank">http://localhost:8080/plano/1</a></li>
-                        <li>Método: PUT</li>
-                        <li>Body raw (JSON):
-<small><pre><code>
-&#123;
-    "nome": "Plano Teste1 atualizado",
-    "valorPorMinuto": 2.99
-&#125;
-</code></pre></small>
-                        </li>
-                        <li>Enviar (Send)</li>
-                    </ul>
-                </li>
-                <li>Teste Postman (delete):
-                    <ul>
-                        <li>URL: <a href="http://localhost:8080/plano/1" class="text-decoration-none" target="_blank">http://localhost:8080/plano/1</a></li>
-                        <li>Método: DELETE</li>
-                        <li>Enviar (Send)</li>
-                    </ul>
-                </li>
-            </ul>
         </div>
     </div>
 
@@ -1086,3 +385,16 @@ public class PlanoResource &#123;
 </div>
 </body>
 </html>
+
+
+
+<!--
+OBSERVAÇÕES DOS PROJETOS:
+- API V1 (finalizada): Possui CRUD, Swagger, JWT, BD comum H2, DTO, Mapper
+
+
+
+- API V2 (será feita):
+Gestão de usuários (parei no chat "Ok, então antes de tudo, vamos incluir enpoint de cadastro de usuário")
+Controle de acesso (roles), refresh token + logout seguro + controle de sessão, Relações no BD (cliente-gato)
+-->
