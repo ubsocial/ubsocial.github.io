@@ -136,26 +136,38 @@
                         <li>Generate (extrair zip e acessar projeto com IntelliJ)</li>
                     </ul>
                 </li>
+                <li>Criar banco de dados Oracle (container Docker):
+<small><pre><code>
+docker pull container-registry.oracle.com/database/free:latest
+docker run -d --name oracle-db -p 1521:1521 -p 5500:5500 -e ORACLE_PWD=SenhaForte123 container-registry.oracle.com/database/free:latest
+</code></pre></small>
+                </li>
                 <li>No pacote principal (com.seuprojeto.cats), crie pacotes dentro:
 <small><pre><code>
 modules.cat.domain.model
 modules.cat.domain.repository
-
 modules.cat.application.usecase
-
 modules.cat.infrastructure.persistence.entity
 modules.cat.infrastructure.persistence.repository
 modules.cat.infrastructure.persistence.adapter
-
 modules.cat.interfaces.rest
 modules.cat.interfaces.rest.dto.request
 modules.cat.interfaces.rest.dto.response
 modules.cat.interfaces.rest.mapper
-modules.auth.interfaces.rest
-modules.auth.application
+
 modules.user.infrastructure.persistence.entity
 modules.user.infrastructure.persistence.repository
 modules.user.infrastructure.security
+
+modules.auth.application.usecase
+modules.auth.domain.model
+modules.auth.domain.repository
+modules.auth.infrastructure.persistence.entity
+modules.auth.infrastructure.persistence.repository
+modules.auth.infrastructure.adapter
+modules.auth.interfaces.rest.dto.request
+modules.auth.interfaces.rest.dto.response
+modules.auth.interfaces.rest.mapper
 
 shared.exception
 shared.config
@@ -193,6 +205,46 @@ CÓDIGO AQUI...
 </code></pre></small>
                 </li>
                 <li>No pacote 'modules.user.infrastructure.security', criar classe de dados customizados 'CustomUserDetailsService.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>No pacote 'modules.auth.interfaces.rest.dto.request', criar DTO 'RegisterRequest.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>No pacote 'modules.auth.interfaces.rest.dto.request', criar DTO 'LoginRequest.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>No pacote 'modules.auth.interfaces.rest.dto.response', criar DTO 'AuthResponse.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>No pacote 'modules.auth.interfaces.rest.dto.request', criar DTO 'RefreshTokenRequest.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>No pacote 'modules.auth.interfaces.rest.dto.response', criar DTO 'RefreshTokenResponse.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>No pacote 'modules.auth.application.usecase', criar Use Case 'AuthUseCase.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>No pacote 'modules.auth.application.usecase', criar Use Case 'AuthUseCaseImpl.kt':
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>No pacote 'modules.auth.interfaces.rest', criar Controller 'AuthController.kt':
 <small><pre><code>
 CÓDIGO AQUI...
 </code></pre></small>
@@ -262,16 +314,6 @@ CÓDIGO AQUI...
 CÓDIGO AQUI...
 </code></pre></small>
                 </li>
-                <li>No pacote '.modules.auth.interfaces.rest', criar Controller 'AuthController.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>No pacote '.modules.auth.application', criar classe de serviço 'AuthService.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
                 <li>No pacote principal 'com.seuprojeto.cats', criar classe 'Application.kt':
 <small><pre><code>
 CÓDIGO AQUI...
@@ -323,22 +365,62 @@ CÓDIGO AQUI...
 CÓDIGO AQUI...
 </code></pre></small>
                 </li>
-                <li>Em 'build.gradle.kts', adicionar dependência Swagger e JWT:
+                <li>Em 'src/main/resources', criar arquivo 'application-dev.yml':
 <small><pre><code>
 CÓDIGO AQUI...
 </code></pre></small>
                 </li>
-                <li>Executar a aplicação: ./gradlew bootRun</li>
-                <li>Conectar banco de dados (H2): http://localhost:8080/h2-console
+                <li>Em 'src/main/resources', criar arquivo 'application-prod.yml' (ideal criar usuário personalizado no Oracle. Nesse caso, foi utilizado usuário padrão):
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>Em 'build.gradle.kts', adicionar dependência Swagger, JWT e conexão com Oracle DB:
+<small><pre><code>
+CÓDIGO AQUI...
+</code></pre></small>
+                </li>
+                <li>Executar a aplicação (modo dev): ./gradlew bootRun
+                    <ul>
+                        <li>Executar em modo de produção (definir variáveis no comando, ou no dockerfile):
+<small><pre><code>
+// 1.Criar usuário cats no Oracle DB:
+CREATE USER cats IDENTIFIED BY cats123;
+GRANT CONNECT, RESOURCE TO cats;
+GRANT UNLIMITED TABLESPACE TO cats;
+
+$env:DB_URL="jdbc:oracle:thin:@//localhost:1521/FREEPDB1"
+$env:DB_USER="cats"
+$env:DB_PASSWORD="cats123"
+$env:SPRING_PROFILES_ACTIVE="prod"
+./gradlew bootRun
+
+// Comando em única linha:
+$env:SPRING_PROFILES_ACTIVE="prod"; $env:DB_URL="jdbc:oracle:thin:@//localhost:1521/FREEPDB1"; $env:DB_USER="cats"; $env:DB_PASSWORD="cats123"; ./gradlew bootRun
+</code></pre></small>
+                        </li>
+                    </ul>
+                </li>
+                <li>(Antigo) Conectar banco de dados (H2): http://localhost:8080/h2-console
                     <ul>
                         <li>Informar JDBC: jdbc:h2:mem:testdb</li>
                     </ul>
                 </li>
-                <li>Criar token de acesso (JWT): POST http://localhost:8080/api/auth/login
+                <li>Testar Swagger: http://localhost:8080/swagger-ui/index.html</li>
+                <li>Testar conexão de autenticação: GET http://localhost:8080/api/auth/ping</li>
+                <li>Registrar usuário (JWT): POST http://localhost:8080/api/auth/register
 <small><pre><code>
 {
-  "username": "admin",
-  "password": "123"
+  "username": "mateus",
+  "password": "123456"
+}
+</code></pre></small>
+                </li>
+                <li>Autenticar usuário (JWT): POST http://localhost:8080/api/auth/login
+<small><pre><code>
+{
+  "username": "mateus",
+  "password": "123456"
 }
 </code></pre></small>
                 </li>
@@ -369,7 +451,6 @@ CÓDIGO AQUI...
                         <li>Excluir gato 1 (DELETE e Bearer token): http://localhost:8080/api/cats/1</li>
                     </ul>
                 </li>
-                <li>Testar Swagger: http://localhost:8080/swagger-ui/index.html</li>
             </ol>
         </div>
     </div>
@@ -395,6 +476,25 @@ OBSERVAÇÕES DOS PROJETOS:
 
 
 - API V2 (será feita):
-Gestão de usuários (parei no chat "Ok, então antes de tudo, vamos incluir enpoint de cadastro de usuário")
-Controle de acesso (roles), refresh token + logout seguro + controle de sessão, Relações no BD (cliente-gato)
+- Conectar ao Oracle DB
+- flyway (migração de bd)
+- Gestão de usuários (parei no chat "Ok, então antes de tudo, vamos incluir enpoint de cadastro de usuário")
+- Controle de acesso (roles), refresh token + logout seguro + controle de sessão, Relações no BD (cliente-gato)
+
+
+
+OUTROS:
+PostgreSQL/Oracle
+Flyway (migração)
+Docker
+Testes
+Observabilidade
+CI/CD
+-> JWT + Flyway + testes + Docker = “padrão entrevista forte”
+
+
+
+=================
+PAREI EM: ETAPA 6.2 — Criar RefreshTokenRequest
+Criei os arquivos, mas tive erro no clean build. Agora, preciso verificar onde está o erro
 -->
