@@ -172,7 +172,11 @@ class HelloController &#123;
 &#125;
 </code></pre></small>
                 </li>
-                <li>Em 'build.gradle.kts', comentar: '//implementation("org.springframework.boot:spring-boot-starter-security")'</li>
+                <li>Em 'build.gradle.kts', comentar implementation de segurança:
+<small><pre><code>
+'//implementation("org.springframework.boot:spring-boot-starter-security")'
+</code></pre></small>
+                </li>
                 <li>Construir projeto: ./gradlew clean build</li>
                 <li>Executar projeto: ./gradlew bootRun
                     <ul>
@@ -183,7 +187,11 @@ class HelloController &#123;
                         </li>
                     </ul>
                 </li>
-                <li>Em 'build.gradle.kts', remover comentário: 'implementation("org.springframework.boot:spring-boot-starter-security")'</li>
+                <li>Em 'build.gradle.kts', remover comentário implementation de segurança:
+<small><pre><code>
+'implementation("org.springframework.boot:spring-boot-starter-security")'
+</code></pre></small>
+                </li>
                 <li>No pacote 'myjwt.security', criar Service 'JwtService.kt':
 <small><pre><code>
 package com.example.myjwt.security
