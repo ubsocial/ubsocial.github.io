@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../icons/logoTit.png">
+    <link rel="stylesheet" href="../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <nav class="navbar rounded-bottom fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="../index.html"><img src="../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../sobre/sobre.html">Sobre</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../cursos.html">Cursos</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../livros/livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 text-center" id="titulo">
+            <h1>ERP</h1>
+            <h6><strong>Conceito e módulos</strong></h6>
+            <a href="../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
+        </div>
+
+        <div class="col-sm-12">
+            <h4>Conceito</h4>
+            <p id="textoPost">ERP</p>
+            <p id="textoPost">CRM</p>
+            <p id="textoPost">SCM</p>
+            <p id="textoPost">BI</p>
+            <p id="textoPost">Exemplos ERP: SAP, Oracle ERP, Microsoft Dynamics 365, Totvs</p>
+
+            <br><h4>Módulos ERP brasileiro:</h4>
+            <ul>
+                <li>Business Central (Home): dashboard com informações da empresa, atalhos das funcionalidades, agenda e insights;</li>
+                <li>Dashboard: visão geral dos principais indicadores e métricas da empresa, com gráficos, tabelas e alertas personalizados para cada área de negócio (financeiro, vendas, estoque, compras, projetos, recursos humanos, produção, qualidade, compliance, curvas ABC etc.). Exemplos de dashboards:
+                    <ul>
+                        <li>Dashboard financeiro: contas a receber e a pagar, previsões de caixa;</li>
+                        <li>Dashboard de vendas: desempenho e quantidades/valores das equipes de vendas, oportunidades de negócio, NFC-e, NF-e, PDV, NFS-e, formas de pagamento, comparativo anual de vendas;</li>
+                        <li>Dashboard de Lançamentos: controle de movimentações financeiras, conciliação bancária, gerenciamento de despesas e receitas, lançamentos diários, mensais, maiores despesas e receitas, lista de bancos e contas (saldos e outros dados);</li>
+                        <li>Dashboard de Estoque: controle de estoque, movimentações, produtos mais vendidos, produtos com baixo giro, produtos sem movimentação, produtos com estoque baixo;</li>
+                        <li>Dashboard de Compras: controle de compras, pedidos, fornecedores, produtos mais comprados, produtos com baixo giro, produtos sem movimentação, produtos com estoque baixo;</li>
+                        <li>Dashboard de Projetos: controle de projetos, tarefas, prazos, responsáveis, status, custos, receitas, lucratividade;</li>
+                        <li>Dashboard de Recursos Humanos: controle de funcionários, departamentos, cargos, salários, benefícios, férias, ausências, desempenho;</li>
+                        <li>Dashboard de Produção: controle de ordens de produção, recursos, capacidade, eficiência, custos, prazos;</li>
+                        <li>Dashboard de Qualidade: controle de não conformidades, ações corretivas, auditorias, indicadores de qualidade;</li>
+                        <li>Dashboard de Compliance: controle de conformidade, riscos, políticas, procedimentos;</li>
+                        <li>Dashboard de Curvas ABC: controle de curvas ABC, análise de desempenho, classificação de produtos.</li>
+                    </ul>
+                </li>
+                <li>Cadastros:
+                    <ul>
+                        <li>Pessoas:
+                            <ul>
+                                <li>Clientes: CRUD de clientes e convênios;</li>
+                                <li>Fornecedores: CRUD de fornecedores;</li>
+                                <li>Funcionários: CRUD de funcionários;</li>
+                                <li>Transportadoras: CRUD de transportadoras;</li>
+                                <li>Ramos de atividade: CRUD de ramos de atividade;</li>
+                                <li>Regiões: CRUD de regiões;</li>
+                                <li>Convênios: CRUD de convênios.</li>
+                            </ul>
+                        </li>
+                        <li>Produtos:
+                            <ul>
+                                <li>Produtos: CRUD de produtos e dashboards lucros, custos, quantidades;</li>
+                                <li>Unidade de medida: CRUD de unidades de medida para produtos;</li>
+                                <li>Classificação: CRUD de classificações de produtos;</li>
+                                <li>Marcas: CRUD de marcas de produtos;</li>
+                                <li>Ajuste de estoque: CRUD de ajustes de estoque;</li>
+                                <li>Tabela de preços: CRUD de tabelas de preços.</li>
+                            </ul>
+                        </li>
+                        <li>Tributação:
+                            <ul>
+                                <li>Natureza da operação (CFOP): CRUD de naturezas da operação;</li>
+                                <li>Classificação fiscal (NCM e CEST): CRUD de classificações fiscais;</li>
+                                <li>Tipos fiscais: CRUD de tipos fiscais;</li>
+                                <li>Mensagens fiscais: CRUD de mensagens fiscais;</li>
+                                <li>Relação tributária: CRUD de relações tributárias;</li>
+                                <li>Classificação IBS/CBS: CRUD de classificações IBS/CBS (Imposto sobre Bens e Serviços - estadual ou municipal, Contribuição sobre Bens e Serviços - federal).</li>
+                            </ul>
+                        </li>
+                        <li>Financeiro:
+                            <ul>
+                                <li>Formas de pagamento: CRUD de formas de pagamento;</li>
+                                <li>Condições de pagamento: CRUD de condições de pagamento;</li>
+                                <li>Plano de contas: CRUD de plano de contas;</li>
+                                <li>Históricos: CRUD de históricos financeiros;</li>
+                                <li>Centros de custo: CRUD de centros de custo;</li>
+                                <li>Bancos: CRUD de contas bancárias;</li>
+                                <li>Terminais POS: CRUD de terminais POS (pontos de vendas).</li>
+                            </ul>
+                        </li>
+                        <li>Vendas:
+                            <ul>
+                                <li>Status de atendimento: CRUD de status de atendimento.</li>
+                            </ul>
+                        </li>
+                        <li>Etiquetas:
+                            <ul>
+                                <li>Produtos: Geração e impressão de etiquetas para produtos.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>Financeiro:
+                    <ul>
+                        <li>Contas a pagar: CRUD e controle de contas a pagar, com vencimentos, valores, fornecedores, status, histórico de pagamentos;</li>
+                        <li>Contas a receber: CRUD e controle de contas a receber, com vencimentos, valores, clientes, status, histórico de recebimentos;</li>
+                        <li>Lançamentos de caixa: CRUD e controle de lançamentos de caixa, com datas, valores, tipos de lançamento, status;</li>
+                        <li>Lançamentos de banco: CRUD e controle de lançamentos de banco, com datas, valores, tipos de lançamento, status;</li>
+                        <li>Conciliação bancária: CRUD e controle de extratos bancários;</li>
+                        <li>Informativo dia à dia: agenda financeira diária, com vencimentos, pagamentos, recebimentos, lançamentos de caixa e banco;</li>
+                        <li>Comissões: CRUD e controle de comissões de vendas;</li>
+                        <li>Fechamento de caixa: CRUD e controle de fechamento de caixa (PDV), com datas, valores, tipos de lançamento, status;</li>
+                        <li>Recibos: CRUD e controle de recibos de pagamento.</li>
+                    </ul>
+                </li>
+                <li>Compras:
+                    <ul>
+                        <li>Consulta de NF-e: consulta de NF-e (Nota Fiscal Eletrônica) e NFC-e (Nota Fiscal de Consumidor Eletrônica) de entrada, emitidas por fornecedores, com filtros por data, fornecedor, valor, status;</li>
+                        <li>Importação de XML: importação de arquivos XML de notas fiscais de entrada (DF-e, documento fiscal eletrônico);</li>
+                        <li>Solicitação de compras: CRUD de solicitações de compra, com itens, fornecedores, valores, status;</li>
+                        <li>Ordem de compra: CRUD de ordens de compra, com itens, fornecedores, valores, status;</li>
+                        <li>Monitor NF-e: acompanhamento, emissão e controle das notas fiscais eletrônicas de entrada.</li>
+                    </ul>
+                </li>
+                <li>Vendas:
+                    <ul>
+                        <li>AQUI...</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center bg-black text-light pt-4 pb-3">
+        <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>

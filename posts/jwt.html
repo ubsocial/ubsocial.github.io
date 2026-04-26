@@ -48,23 +48,37 @@
 
             <br><h4>Conceito:</h4>
             <p id="textoPost">JWT (JSON Web Token) é padrão (RFC 7519) de token stateless (geralmente do tipo Bearer token) usado para autenticação/autorização na troca de informações entre cliente e servidor (HTTP request/response) de forma segura (geralmente em conjunto com protocolo OAuth2), assinadas com Message Authentication Code (HMAC). Access Token é token de curta duração com expiração, usado para acessar recursos protegidos da API, enviado em cada request no header Authorization. Refresh Token é token de longa duração de expiração, usado apenas para gerar novos access tokens. Sua estrutura consiste em header (tipo de token e algoritmo de assinatura), payload (dados claims, como subject, issuedAt, expiration) e signature (assinatura criptográfica do header e payload usando secret key). JWT amplamente utilizado em sistemas web RESTful (arquitetura REST) stateless (sem manter estado no servidor), com funções encoder (criação) e decoder (leitura).</p>
+            
+            <br><h4>Funcionamento:</h4>
+            <p id="textoPost">Request de usuário não autenticado será rejeitada (401 Unauthorized). Primeiramente, usuário regitra suas credenciais (/api/auth/register), depois acessa (/api/auth/login) para obter access token, para então acessar endpoints protegidos. Usuário pode gerar refresh token (/api/auth/refresh) quando o access token expirar. Por fim, usuário pode fazer logout (/api/auth/logout) com exclusão do refresh token.</p>
 
             <br><h4>Fluxo do projeto abaixo:</h4>
-            <p>Cliente acessa /api/auth/login, recebe tokens, depois envia access token em /api/hello. Filtro valida token, liberando acesso ao controller.</p>
+            <p>Cliente registra suas credenciais (/api/auth/register), acessa (/api/auth/login), recebe tokens, depois envia access token na request protegida (/api/hello). Filtro valida token, liberando acesso ao controller. Nesse exemplo simples, refresh token é gerado apenas para demonstração (ideal é gerar em /api/auth/refresh).</p>
             <ol>
-                <li>SecurityConfig.kt define regras de segurança, libera /api/auth/** e protege demais endpoints, além de registrar filtro JWT;</li>
+                <li>SecurityConfig.kt define regras de segurança, libera /api/auth/** (register e login) e protege demais endpoints, além de registrar o filtro JWT;</li>
                 <li>JwtAuthenticationFilter.kt intercepta todas requisições, lê header Authorization, valida token e define usuário no SecurityContext;</li>
                 <li>JwtService.kt gera access e refresh token, e extrai username do token;</li>
+                <li>RegisterRequest.kt define formato da requisição de cadastro com username e password;</li>
                 <li>LoginRequest.kt define formato da requisição de login com username e password;</li>
                 <li>TokenResponse.kt define formato da resposta contendo accessToken e refreshToken;</li>
-                <li>AuthController.kt recebe requisição /api/auth/login, valida credenciais (mock), invoca JwtService e retorna tokens;</li>
+                <li>UserService.kt gerencia usuários em memória, permitindo cadastro (register) e validação de credenciais no login;</li>
+                <li>AuthController.kt expõe /api/auth/register para cadastrar usuário e /api/auth/login para autenticar, validar credenciais via UserService, gerar tokens com JwtService e retornar a resposta;</li>
                 <li>HelloController.kt expõe endpoint /api/hello que está protegido pelo Spring Security e exige token válido;</li>
                 <li>HelloResponse.kt define formato de resposta do endpoint protegido ou público de teste.</li>
             </ol>
 
             <br><h4>Implementação:</h4>
-            <p id="textoPost">Projeto Spring Boot Kotlin API REST para implementação de JWT.</p>
+            <p id="textoPost">Projeto Spring Boot Kotlin API REST para implementação de JWT. Nesse exemplo simples, refresh token é gerado apenas para demonstração (ideal é gerar em /api/auth/refresh).</p>
             <ol>
+                <li>Pré-requisitos:
+                    <ul>
+                        <li>JDK 21 (compilador Java);</li>
+                        <li>Kotlin (compilador Kotlin);</li>
+                        <li>Gradle (gerenciador de dependências);</li>
+                        <li>IntelliJ IDEA (editor de código);</li>
+                        <li>Postman (cliente consumidor de API).</li>
+                    </ul>
+                </li>
                 <li>Criar projeto em <a href="https://start.spring.io" target="_blank" class="text-decoration-none">https://start.spring.io</a>
                     <ul>
                         <li>Project: Gradle - Kotlin</li>
@@ -92,6 +106,7 @@
 com.example.myjwt.controller
 com.example.myjwt.dto
 com.example.myjwt.security
+com.example.myjwt.service
 </code></pre></small>
                 </li>
                 <li>Conteúdo de 'build.gradle.kts':
@@ -344,6 +359,16 @@ class JwtAuthenticationFilter(
 &#125;
 </code></pre></small>
                 </li>
+                <li>No pacote 'myjwt.dto', criar DTO 'RegisterRequest.kt':
+<small><pre><code>
+package com.example.myjwt.dto
+
+data class RegisterRequest(
+    val username: String,
+    val password: String
+)
+</code></pre></small>
+                </li>
                 <li>No pacote 'myjwt.dto', criar DTO 'LoginRequest.kt':
 <small><pre><code>
 package com.example.myjwt.dto
@@ -364,35 +389,66 @@ data class TokenResponse(
 )
 </code></pre></small>
                 </li>
+                <li>No pacote 'myjwt.service', criar repositório Service 'UserService.kt':
+<small><pre><code>
+package com.example.myjwt.service
+
+import org.springframework.stereotype.Service
+
+@Service
+class UserService &#123;
+
+    private val users = mutableMapOf&lt;String, String&gt;()
+
+    fun register(username: String, password: String) &#123;
+        if (users.containsKey(username)) &#123;
+            throw RuntimeException("User already exists")
+        &#125;
+        users[username] = password
+    &#125;
+
+    fun validate(username: String, password: String): Boolean &#123;
+        return users[username] == password
+    &#125;
+&#125;
+</code></pre></small>
+                </li>
                 <li>No pacote 'myjwt.controller', criar Controller 'AuthController.kt':
 <small><pre><code>
 package com.example.myjwt.controller
 
 import com.example.myjwt.dto.LoginRequest
+import com.example.myjwt.dto.RegisterRequest
 import com.example.myjwt.dto.TokenResponse
 import com.example.myjwt.security.JwtService
+import com.example.myjwt.service.UserService
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/auth")
 class AuthController(
-    private val jwtService: JwtService
+    private val jwtService: JwtService,
+    private val userService: UserService
 ) &#123;
+
+    @PostMapping("/register")
+    fun register(@RequestBody request: RegisterRequest): String &#123;
+        userService.register(request.username, request.password)
+        return "User registered successfully"
+    &#125;
 
     @PostMapping("/login")
     fun login(@RequestBody request: LoginRequest): TokenResponse &#123;
-        
-        if (request.username != "admin" || request.password != "123") &#123;
+
+        val isValid = userService.validate(request.username, request.password)
+
+        if (!isValid) &#123;
             throw RuntimeException("Invalid credentials")
         &#125;
-        
+
         val accessToken = jwtService.generateAccessToken(request.username)
         val refreshToken = jwtService.generateRefreshToken(request.username)
-        
-        return TokenResponse(
-            accessToken = accessToken,
-            refreshToken = refreshToken
-        )
+        return TokenResponse(accessToken, refreshToken)
     &#125;
 &#125;
 </code></pre></small>
@@ -404,7 +460,15 @@ class AuthController(
                         <li>Response com erro (401 Unauthorized)</li>
                     </ul>
                 </li>
-                <li>Criar token JWT (copiar token gerado): POST <a href="http://localhost:8080/api/auth/login" target="_blank" class="text-decoration-none">http://localhost:8080/api/auth/login</a>
+                <li>Registrar novo usuário: POST <a href="http://localhost:8080/api/auth/register" target="_blank" class="text-decoration-none">http://localhost:8080/api/auth/register</a>
+<small><pre><code>
+&#123;
+  "username": "admin",
+  "password": "123"
+&#125;
+</code></pre></small>
+                </li>
+                <li>Acessar e criar token JWT (copiar token gerado): POST <a href="http://localhost:8080/api/auth/login" target="_blank" class="text-decoration-none">http://localhost:8080/api/auth/login</a>
 <small><pre><code>
 &#123;
   "username": "admin",
