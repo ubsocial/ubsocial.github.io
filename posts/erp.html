@@ -41,15 +41,11 @@
 
         <div class="col-sm-12">
             <h4>Conceito</h4>
-            <p id="textoPost">ERP</p>
-            <p id="textoPost">CRM</p>
-            <p id="textoPost">SCM</p>
-            <p id="textoPost">BI</p>
-            <p id="textoPost">Exemplos ERP: SAP, Oracle ERP, Microsoft Dynamics 365, Totvs</p>
+            <p id="textoPost">ERP (Enterprise Resource Planning) é sistema de gestão integrada automatizada de empresa. CRM (Customer Relationship Management) é sistema de gestão de relacionamento com cliente. SCM (Supply Chain Management) é sistema de gestão da cadeia de suprimentos. BI (Business Intelligence) é sistema de inteligência de negócios. Exemplos ERP: SAP, Oracle ERP, Microsoft Dynamics 365, Totvs.</p>
 
             <br><h4>Módulos ERP brasileiro:</h4>
             <ul>
-                <li>Business Central (Home): dashboard com informações da empresa, atalhos das funcionalidades, agenda e insights;</li>
+                <li>Business Central (Home): dashboard com informações da empresa, atalhos das funcionalidades, agenda e insights.</li>
                 <li>Dashboard: visão geral dos principais indicadores e métricas da empresa, com gráficos, tabelas e alertas personalizados para cada área de negócio (financeiro, vendas, estoque, compras, projetos, recursos humanos, produção, qualidade, compliance, curvas ABC etc.). Exemplos de dashboards:
                     <ul>
                         <li>Dashboard financeiro: contas a receber e a pagar, previsões de caixa;</li>
@@ -136,7 +132,7 @@
                 </li>
                 <li>Compras:
                     <ul>
-                        <li>Consulta de NF-e: consulta de NF-e (Nota Fiscal Eletrônica) e NFC-e (Nota Fiscal de Consumidor Eletrônica) de entrada, emitidas por fornecedores, com filtros por data, fornecedor, valor, status;</li>
+                        <li>Consulta notas: consulta de notas fiscais de entrada, emitidas por fornecedores, com filtros por data, fornecedor, valor, status;</li>
                         <li>Importação de XML: importação de arquivos XML de notas fiscais de entrada (DF-e, documento fiscal eletrônico);</li>
                         <li>Solicitação de compras: CRUD de solicitações de compra, com itens, fornecedores, valores, status;</li>
                         <li>Ordem de compra: CRUD de ordens de compra, com itens, fornecedores, valores, status;</li>
@@ -145,7 +141,128 @@
                 </li>
                 <li>Vendas:
                     <ul>
-                        <li>AQUI...</li>
+                        <li>NFC-e:
+                            <ul>
+                                <li>Emissão: CRUD e controle de emissão de NFC-e (Nota Fiscal de Consumidor Eletrônica) de entrada, emitidas por fornecedores, com filtros por data, fornecedor, valor, status;</li>
+                                <li>Consulta: consulta de NFC-e (Nota Fiscal de Consumidor Eletrônica) de entrada, emitidas por fornecedores, com filtros por data, fornecedor, valor, status;</li>
+                                <li>Inutilização: CRUD e controle de inutilização de NFC-e (Nota Fiscal de Consumidor Eletrônica) de entrada, com filtros por data, fornecedor, valor, status.</li>
+                            </ul>
+                        </li>
+                        <li>NF-e:
+                            <ul>
+                                <li>Emissão: CRUD e controle de emissão de NF-e (Nota Fiscal Eletrônica) de entrada e saída, emitidas por fornecedores, com filtros por data, fornecedor, valor, status;</li>
+                                <li>Consulta: consulta de NF-e (Nota Fiscal Eletrônica) de entrada e saída, emitidas por fornecedores, com filtros por data, fornecedor, valor, status;</li>
+                                <li>Inutilização: CRUD e controle de inutilização de NF-e (Nota Fiscal Eletrônica) de entrada e saída, com filtros por data, fornecedor, valor, status.</li>
+                            </ul>
+                        </li>
+                        <li>NFS-e:
+                            <ul>
+                                <li>Emissão: CRUD e controle de emissão de NFS-e (Nota Fiscal de Serviço Eletrônica) de entrada, emitidas por fornecedores, com filtros por data, fornecedor, valor, status;</li>
+                                <li>Consulta: consulta de NFS-e (Nota Fiscal de Serviço Eletrônica) de entrada, emitidas por fornecedores, com filtros por data, fornecedor, valor, status;</li>
+                                <li>Geração em lote: CRUD e controle de geração de NFS-e em lote, com filtros por data, fornecedor, valor, status;</li>
+                                <li>Envio em lote: CRUD e controle de envio de NFS-e em lote, com filtros por data, fornecedor, valor, status.</li>
+                            </ul>
+                        </li>
+                        <li>Pedido:
+                            <ul>
+                                <li>Emissão: CRUD e controle de emissão de pedidos de venda, com itens, clientes, valores, status;</li>
+                                <li>Consulta: consulta de pedidos de venda, com filtros por data, cliente, valor, status.</li>
+                            </ul>
+                        </li>
+                        <li>Orçamento:
+                            <ul>
+                                <li>Emissão: CRUD e controle de emissão de orçamentos, com itens, clientes, valores, status;</li>
+                                <li>Consulta: consulta de orçamentos, com filtros por data, cliente, valor, status.</li>
+                            </ul>
+                        </li>
+                        <li>Ordem de Serviço:
+                            <ul>
+                                <li>Emissão: CRUD e controle de emissão de ordens de serviço, com itens, clientes, valores, status;</li>
+                                <li>Consulta: consulta de ordens de serviço, com filtros por data, cliente, valor, status.</li>
+                            </ul>
+                        </li>
+                        <li>Consignação:
+                            <ul>
+                                <li>Emissão: CRUD e controle de emissão de consignações, com itens, clientes, valores, status;</li>
+                                <li>Consulta: consulta de consignações, com filtros por data, cliente, valor, status.</li>
+                            </ul>
+                        </li>
+                        <li>PDV:
+                            <ul>
+                                <li>Emissão: CRUD e controle de emissão de vendas no PDV (Ponto de Venda), com itens, clientes, valores, status;</li>
+                                <li>Consulta: consulta de vendas no PDV (Ponto de Venda), com filtros por data, cliente, valor, status.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>Transportes:
+                    <ul>
+                        <li>CT-e:
+                            <ul>
+                                <li>Emissão: CRUD e controle de emissão de CT-e (Conhecimento de Transporte Eletrônico) de entrada, emitidas por fornecedores, com filtros por data, fornecedor, valor, status;</li>
+                                <li>Consulta: consulta de CT-e (Conhecimento de Transporte Eletrônico) de entrada, emitidas por fornecedores, com filtros por data, fornecedor, valor, status.</li>
+                            </ul>
+                        </li>
+                        <li>MDF-e:
+                            <ul>
+                                <li>Emissão: CRUD e controle de emissão de MDF-e (Manifesto de Documentos Fiscais Eletrônico) de entrada, emitidas por fornecedores, com filtros por data, fornecedor, valor, status;</li>
+                                <li>Consulta: consulta de MDF-e (Manifesto de Documentos Fiscais Eletrônico) de entrada, emitidas por fornecedores, com filtros por data, fornecedor, valor, status.</li>
+                            </ul>
+                        </li>
+                        <li>CT-e OS:
+                            <ul>
+                                <li>Emissão: CRUD e controle de emissão de CT-e OS (Conhecimento de Transporte Eletrônico para Ordem de Serviço) de entrada, emitidas por fornecedores, com filtros por data, fornecedor, valor, status;</li>
+                                <li>Consulta: consulta de CT-e OS (Conhecimento de Transporte Eletrônico para Ordem de Serviço) de entrada, emitidas por fornecedores, com filtros por data, fornecedor, valor, status.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>Relatórios:
+                    <ul>
+                        <li>Pessoas: Relatório de cadastro e informações de pessoas (clientes, fornecedores, funcionários);</li>
+                        <li>Produtos: Relatório de cadastro e informações de produtos;</li>
+                        <li>Financeiro: Relatório de movimentação financeira, com filtros por data, tipo, valor, status;</li>
+                        <li>Compras: Relatório de movimentação de compras, com filtros por data, fornecedor, valor, status;</li>
+                        <li>Vendas: Relatório de movimentação de vendas, com filtros por data, cliente, valor, status;</li>
+                        <li>Lançamentos: Relatório de lançamentos contábeis, com filtros por data, tipo, valor, status;</li>
+                        <li>Comissões: Relatório de comissões de vendas, com filtros por data, vendedor, valor, status;</li>
+                        <li>Transportes: Relatório de movimentação de transportes, com filtros por data, fornecedor, valor, status.</li>
+                    </ul>
+                </li>
+                <li>RH:
+                    <ul>
+                        <li>Folha de pagamento: CRUD e controle de folha de pagamento, com cálculos de salários, descontos, benefícios, impostos;</li>
+                        <li>Controle de ponto: CRUD e controle de ponto eletrônico, com registros de entrada, saída, intervalos;</li>
+                        <li>Gestão de benefícios: CRUD e controle de benefícios, com tipos, valores, status;</li>
+                        <li>Gestão de férias: CRUD e controle de férias, com períodos aquisitivos, concessivos, status;</li>
+                        <li>Gestão de ausências: CRUD e controle de ausências, com tipos, datas, status;</li>
+                        <li>Avaliação de desempenho: CRUD e controle de avaliações de desempenho, com critérios, notas, feedbacks.</li>
+                    </ul>
+                </li>
+                <li>Módulos:
+                    <ul>
+                        <li>Integração com maquininha de cartão (Cielo, Pagbank, Stone, Getnet, Vero);</li>
+                        <li>Integração POS com bancos (Caixa, Sicredi, Mercado Pago, Nubank, Inter);</li>
+                        <li>Produtor rural;</li>
+                        <li>App Vendas;</li>
+                        <li>E-commerce.</li>
+                    </ul>
+                </li>
+                <li>Suporte:
+                    <ul>
+                        <li>Contatos (Telefone, Email, Chat).</li>
+                    </ul>
+                </li>
+                <li>Configurações:
+                    <ul>
+                        <li>Usuários: CRUD e controle de usuários, com perfis, permissões, status;</li>
+                        <li>Gestão de permissões: CRUD e controle de permissões, com tipos, valores, status;</li>
+                        <li>Empresa: CRUD e controle de informações da empresa, com dados cadastrais, endereços, contatos;</li>
+                        <li>Parâmetros do sistema: CRUD e controle de parâmetros do sistema, com tipos, valores, status;</li>
+                        <li>Etiquetas: CRUD e controle de etiquetas, com tipos, valores, status;</li>
+                        <li>Liberações: CRUD e controle de liberações (venda bloqueada, pessoa duplicada), com tipos, valores, status;</li>
+                        <li>Exportações: CRUD e controle de exportações (Pessoas, produtos, Docs eletrônicos, Layout SPED fiscal, Layout domínio sistemas), com tipos, valores, status;</li>
+                        <li>Importações: CRUD e controle de importações (Pessoas, produtos, plano de contas, títulos, relação tributária), com tipos, valores, status.</li>
                     </ul>
                 </li>
             </ul>
