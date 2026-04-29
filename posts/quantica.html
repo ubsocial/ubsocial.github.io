@@ -3491,7 +3491,7 @@ print("Contagens com ruído:", counts_noise) # regime curto, comportamento quase
             <br><h4>Gate fidelity:</h4>
             <p id="textoPost">Fidelidade de porta quântica mede quão próxima operação quântica real está da operação ideal. O quão porta de hardware, mediante a ruído, comporta-se de forma semelhante à operação real/perfeita. Fidelidades de portas quânticas:</p>
             <ul>
-                <li>Fidelidade de estado (State fidelity): mede similaridade entre estado quântico real e estado ideal, usando fórmula F(ρ, σ) = (Tr(sqrt(sqrt(ρ) σ sqrt(ρ))))^2, onde ρ é matriz densidade do estado real e σ é matriz densidade do estado ideal. Fidelidade de estado é valor entre 0 e 1, onde 1 indica estados idênticos e 0 indica estados ortogonais;</li>
+                <li>Fidelidade de estado (State fidelity): mede similaridade entre estado quântico real e estado ideal, usando fórmula F(p, σ) = (Tr(sqrt(sqrt(p) σ sqrt(p))))^2, onde p é matriz densidade do estado real e σ é matriz densidade do estado ideal. Fidelidade de estado é valor entre 0 e 1, onde 1 indica estados idênticos e 0 indica estados ortogonais;</li>
                 <li>Fidelidade de processo (Process fidelity): mede similaridade entre processo quântico real e processo ideal, usando fórmula F(χ_real, χ_ideal) = Tr(χ_real χ_ideal), onde χ_real é matriz de processo do processo real e χ_ideal é matriz de processo do processo ideal. Fidelidade de processo é valor entre 0 e 1, onde 1 indica processos idênticos e 0 indica processos ortogonais;</li>
                 <li>Fidelidade de porta (Gate fidelity, Average Gate Fidelity): mede similaridade entre operação quântica real e operação ideal, usando fórmula F(U_real, U_ideal) = |Tr(U_real^† U_ideal)|^2 / d^2, onde U_real é matriz unitária da operação real, U_ideal é matriz unitária da operação ideal e d é dimensão do espaço de Hilbert. Fidelidade de porta é valor entre 0 e 1, onde 1 indica operações idênticas e 0 indica operações ortogonais.</li>
             </ul>
@@ -4449,6 +4449,105 @@ else:
     print("Possível ambiguidade (normal em QEC)")
 
 qc.draw("mpl")
+</code></pre></small>
+
+            <br><h4>Depolarizing Channel:</h4>
+            <p id="textoPost">Canal de depolarização é modelo de ruído quântico onde estado quântico é substituído por estado completamente misto (maximally mixed state) com probabilidade p, e permanece inalterado com probabilidade 1-p. Para um qubit, estado misto é representado por matriz densidade p = I/2, onde I é matriz identidade 2x2. O canal de depolarização pode ser descrito por operadores de Kraus:</p>
+            <ul>
+                <li>E₀ = √(1-p) I (sem erro);</li>
+                <li>E₁ = √(p/3) X (erro de bit-flip);</li>
+                <li>E₂ = √(p/3) Y (erro combinado);</li>
+                <li>E₃ = √(p/3) Z (erro de fase).</li>
+            </ul>
+            <p id="textoPost">Aplicar canal de depolarização a um estado quântico p resulta em:</p>
+            <p id="textoPost">E(p) = (1-p) p + (p/3)(XpX + YpY + ZpZ)</p>
+            <p id="textoPost">Onde p é o estado original, e os termos adicionais representam a mistura de estados resultante dos erros. O canal de depolarização é um modelo útil para simular ruído em sistemas quânticos, e é frequentemente utilizado para avaliar a eficácia de códigos de correção de erros quânticos, onde a taxa de erro p pode ser ajustada para representar diferentes níveis de ruído.</p>
+<small><pre><code>
+# pip3 install numpy matplotlib
+import numpy as np
+import matplotlib.pyplot as plt
+
+N = 1000
+p_values = np.linspace(0.01, 0.25, 10)
+
+def depolarizing_error(p, n_qubits):
+    errors = np.zeros(n_qubits, dtype=int)
+    for i in range(n_qubits):
+        if np.random.rand() &lt; p:
+            errors[i] = np.random.choice([1,2,3]) # X, Z, Y
+    return errors
+
+faces = [
+    [0,1,2,3],
+    [0,1,4,5],
+    [0,2,4,6]
+]
+
+def measure_syndrome(errors):
+    sZ, sX = [], []
+
+    for face in faces:
+        parity_X = 0
+        parity_Z = 0
+
+        for q in face:
+            if errors[q] in [1,3]:
+                parity_X ^= 1
+            if errors[q] in [2,3]:
+                parity_Z ^= 1
+
+        sZ.append(parity_X)
+        sX.append(parity_Z)
+
+    return np.array(sZ), np.array(sX)
+
+def decode(sZ, sX):
+    correction = np.zeros(7, dtype=int)
+
+    mapping = {
+        (1,0,0): 3,
+        (0,1,0): 5,
+        (0,0,1): 6,
+        (1,1,0): 1,
+        (1,0,1): 2,
+        (0,1,1): 4,
+        (1,1,1): 0
+    }
+
+    if tuple(sZ) in mapping:
+        correction[mapping[tuple(sZ)]] ^= 1  # X
+
+    if tuple(sX) in mapping:
+        correction[mapping[tuple(sX)]] ^= 2  # Z
+
+    return correction
+
+success_rates = []
+
+for p in p_values:
+    success = 0
+
+    for _ in range(N):
+        error = depolarizing_error(p, 7)
+        sZ, sX = measure_syndrome(error)
+        correction = decode(sZ, sX)
+
+        residual = error ^ correction
+
+        if np.all(residual == 0):
+            success += 1
+
+    rate = success / N
+    success_rates.append(rate)
+    print(f"p={p:.3f} / sucesso={rate:.3f}")
+
+plt.figure()
+plt.plot(p_values, success_rates, marker='o')
+plt.xlabel("Probabilidade de erro (p)")
+plt.ylabel("Taxa de sucesso")
+plt.title("Color Code sob Depolarizing Channel")
+plt.grid()
+plt.show()
 </code></pre></small>
         </div>
     </div>
