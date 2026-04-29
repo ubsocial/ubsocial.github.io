@@ -4350,6 +4350,106 @@ if np.sum(residual) == 0:
 else:
     print("Falha")
 </code></pre></small>
+
+            <br><h4>Color code:</h4>
+            <p id="textoPost">Color code (código de cores) é código de correção de erros CSS topológico (Bombin, 2006), onde qubits estão dispostos em grade local bidimensional (2D) com bordas, sendo L (lattice/vizinhos) distância (D) do código (menor caminho entre bordas), onde quanto maior L, maior proteção. Nele, informação quântica é armazenada globalmente em rede, de modo que erros locais não conseguem destruí-la facilmente. Color code é generalização do código de superfície, onde cada face da rede é colorida com 3 cores distintas (ex: vermelho, verde, azul), e cada vértice é compartilhado por 3 faces de cores diferentes. Condições de contorno (cores dependem das bordas / tipo de bibliografia):</p>
+            <ul>
+                <li>Borda vermelha: tipo X (rough);</li>
+                <li>Borda verde: tipo Z (smooth);</li>
+                <li>Borda azul: tipo Y (mixed).</li>
+            </ul>
+            <p id="textoPost">Qubits são posicionados nos vértices da rede, totalizando 3L²/4 qubits físicos. Cada estabilizador possui peso 6 em LDPC quântico (low-density parity check). Color code detecta erro diretamente, onde cada face da rede corresponde a um estabilizador que mede paridade de qubits ao redor dela, detectando erros de bit-flip (X), phase-flip (Z) e Y (combinado). Correção de erros consiste em detectar síndromes (-1), emparelhar pontos, e aplicar correções no caminho mais curto, sendo algoritmo Minimum Weight Perfect Matching (Blossom Algorithm) geralmente utilizado para tal. Correção é imperfeita, podendo criar loop lógico e, consequentemente, erro lógico. O Steane code é exemplo de color code, onde cada face é um estabilizador de peso 4, e cada vértice é um qubit, totalizando 7 qubits físicos para codificar 1 lógico, com distância 3.</p>
+<small><pre><code>
+# pip3 install qiskit qiskit-aer numpy qiskit[visualization]
+import numpy as np
+from qiskit import QuantumCircuit, transpile
+from qiskit_aer import AerSimulator
+
+n_data = 7
+n_anc = 6 # 3Z + 3X
+qc = QuantumCircuit(n_data + n_anc, n_anc)
+
+data = list(range(7)) # Índices
+anc_z = [7,8,9]
+anc_x = [10,11,12]
+
+erro_real = np.zeros(7, dtype=int)
+erro_real[2] = 1 # erro X no qubit 2
+
+if erro_real[2]:
+    qc.x(2)
+
+print("Erro real:", erro_real)
+qc.barrier()
+
+faces = [
+    [0,1,2,3],
+    [0,1,4,5],
+    [0,2,4,6]
+] # Faces color code 2D com 4 vértices cada (total 3 faces)
+
+# Detectar erro X usando Z stabilizers
+for i, face in enumerate(faces):
+    anc = anc_z[i]
+    for q in face:
+        qc.cx(q, anc)
+    qc.measure(anc, i)
+
+qc.barrier()
+
+# Detecção de erro Z usando X stabilizers
+for i, face in enumerate(faces):
+    anc = anc_x[i]
+    qc.h(anc)
+    for q in face:
+        qc.cx(anc, q)
+    qc.h(anc)
+    qc.measure(anc, i+3)
+
+qc.barrier()
+
+sim = AerSimulator()
+tqc = transpile(qc, sim)
+result = sim.run(tqc, shots=1).result()
+counts = result.get_counts()
+
+print("Resultado bruto:", counts)
+
+# Extrair síndrome
+bitstring = list(counts.keys())[0][::-1]
+z_syndrome = bitstring[:3]
+x_syndrome = bitstring[3:]
+
+print("Síndrome Z (erro X):", z_syndrome)
+print("Síndrome X (erro Z):", x_syndrome)
+
+lookup = {
+    "100": 3,
+    "110": 1,
+    "010": 5,
+    "101": 2,
+    "111": 0,
+    "011": 4,
+    "001": 6
+}
+
+correcao = np.zeros(7, dtype=int)
+
+if z_syndrome in lookup:
+    correcao[lookup[z_syndrome]] = 1
+
+print("Correção sugerida:", correcao)
+
+residual = (erro_real + correcao) % 2
+print("Erro residual:", residual)
+
+if np.sum(residual) == 0:
+    print("Correção bem-sucedida!")
+else:
+    print("Possível ambiguidade (normal em QEC)")
+
+qc.draw("mpl")
+</code></pre></small>
         </div>
     </div>
 
