@@ -4423,7 +4423,7 @@ x_syndrome = bitstring[3:]
 print("Síndrome Z (erro X):", z_syndrome)
 print("Síndrome X (erro Z):", x_syndrome)
 
-lookup = {
+lookup = &#123;
     "100": 3,
     "110": 1,
     "010": 5,
@@ -4431,7 +4431,7 @@ lookup = {
     "111": 0,
     "011": 4,
     "001": 6
-}
+&#125;
 
 correcao = np.zeros(7, dtype=int)
 
@@ -4504,7 +4504,7 @@ def measure_syndrome(errors):
 def decode(sZ, sX):
     correction = np.zeros(7, dtype=int)
 
-    mapping = {
+    mapping = &#123;
         (1,0,0): 3,
         (0,1,0): 5,
         (0,0,1): 6,
@@ -4512,7 +4512,7 @@ def decode(sZ, sX):
         (1,0,1): 2,
         (0,1,1): 4,
         (1,1,1): 0
-    }
+    &#125;
 
     if tuple(sZ) in mapping:
         correction[mapping[tuple(sZ)]] ^= 1  # X
@@ -4539,13 +4539,82 @@ for p in p_values:
 
     rate = success / N
     success_rates.append(rate)
-    print(f"p={p:.3f} / sucesso={rate:.3f}")
+    print(f"p=&#123;p:.3f&#125; / sucesso=&#123;rate:.3f&#125;")
 
 plt.figure()
 plt.plot(p_values, success_rates, marker='o')
 plt.xlabel("Probabilidade de erro (p)")
 plt.ylabel("Taxa de sucesso")
 plt.title("Color Code sob Depolarizing Channel")
+plt.grid()
+plt.show()
+</code></pre></small>
+
+            <br><h4>Threshold Theorem:</h4>
+            <p id="textoPost">Teorema do limiar (threshold theorem) é resultado fundamental em correção de erros quânticos (QEC), estabelecendo que se taxa de erro por operação quântica for menor que certo limiar crítico (threshold, p &lt; pth e pth &gt; 0, sendo p taxa de erro, e pth limiar), então é possível realizar computação quântica arbitrariamente longa com alta fidelidade, usando códigos de correção de erros e protocolos de concatenation. Teorema afirma que, abaixo desse limiar, taxa de erro lógico pode ser reduzida exponencialmente aumentando nº de qubits físicos usados para codificar cada qubit lógico, permitindo correção eficaz de erros mesmo em presença de ruído. Valor exato do limiar depende do modelo de erro e código utilizado, sendo geralmente estimado próximo a 1%. Acima desse limiar, erros acumulam-se mais rapidamente do que podem ser corrigidos, tornando computação quântica inviável. Em escalonamento, erro lógico cai quadraticamente. Em concatenation (reaplicação de correção), erro lógico cai duplamente exponencialmente, porém aumentando circuito. Valores de threshold em algoritmos de correção de erros quânticos:</p>
+            <ul>
+                <li>Código de Shor: pth ~ 10^-5 (baixo);</li>
+                <li>Código de Steane: pth ~ 10^-4 (baixo);</li>
+                <li>Código de color code: pth ~ 0.1% (moderado);</li>
+                <li>Código de superfície: pth ~ 0.1% a 1% (moderado);</li>
+                <li>LDPC modernos: pth ~ 1% a 10% (alto).</li>
+            </ul>
+            <p id="textoPost">Sendo p (taxa de erro) menor que pth (limiar de threshold), correção de erros quânticos é eficaz. p baixo possui alta fidelidade (alta taxa de acerto/sucesso), enquanto p alto resulta em baixa fidelidade (alta taxa de erro/falha).</p>
+<small><pre><code>
+# pip3 install qiskit qiskit-aer matplotlib qiskit[visualization]
+import numpy as np
+import matplotlib.pyplot as plt
+from qiskit import QuantumCircuit
+
+qc = QuantumCircuit(3, 1)
+qc.h(0)
+qc.cx(0, 1) # Codificação (repetition simplificado)
+qc.cx(0, 2)
+qc.x(1) # Erro artificial
+qc.cx(0, 1) # Decodificação (detecção simples)
+qc.cx(0, 2)
+qc.measure(0, 0)
+
+qc.draw("mpl")
+
+shots = 5000
+p_values = np.linspace(0.001, 0.2, 12)
+threshold = 0.05
+
+def simulate_errors(p):
+    return np.random.rand(7) &lt; p # 7 qubits (modelo tipo Steane)
+
+def correct(errors):
+    if np.sum(errors) &lt;= 1:
+        return np.zeros_like(errors)
+    return errors
+
+logical_rates = []
+
+print("Simulação:")
+
+for p in p_values:
+    logical_errors = 0
+
+    for _ in range(shots):
+        e = simulate_errors(p)
+        c = correct(e)
+
+        if np.sum(c) &gt; 0:
+            logical_errors += 1
+
+    rate = logical_errors / shots
+    logical_rates.append(rate)
+
+    status = "ABAIXO" if p &lt; threshold else "ACIMA"
+    print(f"p=&#123;p:.3f&#125; | erro lógico=&#123;rate:.4f&#125; | &#123;status&#125; do limiar")
+
+plt.figure()
+plt.plot(p_values, logical_rates, marker='o')
+plt.axvline(threshold)
+plt.xlabel("Probabilidade de erro físico (p)")
+plt.ylabel("Taxa de erro lógico")
+plt.title("Teorema do Limiar (Threshold Theorem)")
 plt.grid()
 plt.show()
 </code></pre></small>
