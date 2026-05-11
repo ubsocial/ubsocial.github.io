@@ -4619,6 +4619,167 @@ plt.title("Teorema do Limiar (Threshold Theorem)")
 plt.grid()
 plt.show()
 </code></pre></small>
+
+            <br><h4>Transpilation e Otimização de Circuitos:</h4>
+            <p id="textoPost">Transpilation converte circuito quântico abstrato em circuito compatível com:</p>
+            <ul>
+                <li>Hardware quântico escolhido;</li>
+                <li>Topologia física dos qubits;</li>
+                <li>Conjunto de portas suportadas pelo dispositivo;</li>
+                <li>Limitações de conectividade;</li>
+                <li>Estratégias de otimização.</li>
+            </ul>
+            <p id="textoPost">Esse processo é extremamente importante em dispositivos NISQ, pois evita decoerência em circuitos profundos, ajusta portas extras que aumentam ruído e reduz SWAPs que aumentam drasticamente erros. Transpile atua como Pipeline de Otimização, com as seguintes etapas:</p>
+            <ol>
+                <li>Circuito original;</li>
+                <li>Decomposição de portas;</li>
+                <li>Mapeamento físico;</li>
+                <li>Inserção de SWAPs;</li>
+                <li>Otimizações;</li>
+                <li>Circuito transpiled.</li>
+            </ol>
+            <p id="textoPost">Níveis de otimização:</p>
+            <ol start="0">
+                <li>Sem otimização:
+                    <ul>
+                        <li>Quase nenhuma otimização;</li>
+                        <li>Apenas adaptação mínima ao backend;</li>
+                        <li>Útil para debug.</li>
+                    </ul>
+                </li>
+                <li>Otimização leve:
+                    <ul>
+                        <li>Cancelamento simples de portas;</li>
+                        <li>Pequenas reduções de profundidade;</li>
+                        <li>Transpilation rápida.</li>
+                    </ul>
+                </li>
+                <li>Otimização intermediária:
+                    <ul>
+                        <li>Otimizações estruturais mais fortes;</li>
+                        <li>Melhor mapeamento;</li>
+                        <li>Redução significativa de SWAPs.</li>
+                    </ul>
+                </li>
+                <li>Otimização agressiva:
+                    <ul>
+                        <li>Otimização agressiva;</li>
+                        <li>Busca layouts melhores;</li>
+                        <li>Redução drasticamente da profundidade;</li>
+                        <li>Maior tempo de compilação.</li>
+                    </ul>
+                </li>
+            </ol>
+            <p id="textoPost">Profundidade de circuito representa nº máximo de camadas sequenciais, onde quanto maior profundidade, maior decoerência e, portanto, probabilidade de erro. Quanto menor profundidade, maior fidelidade (probabilidade de acerto) e desempenho de execução. Na otimização, transpiler remove operações redundantes:</p>
+            <ul>
+                <li>Circuito profundo: H → CX → CX → CX → CX → Measure;</li>
+                <li>Circuito otimizado: H → CX → Measure.</li>
+            </ul>
+            <p id="textoPost">Hardwares quânticos não possuem conectividade completa (Coupling Map, exemplo: Q0 ↔ Q1 ↔ Q2 em que Q0 não conecta-se com Q2), onde transpiler precisa mapear fisicamente qubits do circuito, via SWAP gates. Cada SWAP equivale aproximadamente a 3 CNOTs, aumentando profundidade e ruído do circuito. Via Layout Selection, transpiler escolhe qubits físicos, mapeia-os com lógicos e minimiza SWAPs.</p>
+            <p id="textoPost">Internamente, transpiler utiliza Pass Managers, onde cada Pass realiza função específica (otimização, decomposição, análise, roteamento ou scheduling), organizados em vários passes (passos) ordenados, permitindo criar Pipelines de Otimização. Exemplos de Passes:</p>
+            <ul>
+                <li>Unroll: decompõe portas complexas em portas básicas;</li>
+                <li>Optimize1qGates: otimização de portas de 1 qubit;</li>
+                <li>SabreLayout: seleção de layout para otimização de circuitos;</li>
+                <li>SabreSwap: inserção e otimização de SWAPs;</li>
+                <li>RemoveBarriers: remove barreiras do circuito.</li>
+            </ul>
+<small><pre><code>
+# pip3 install qiskit qiskit-aer matplotlib qiskit[visualization]
+from qiskit import QuantumCircuit, transpile
+from qiskit_aer import AerSimulator
+from qiskit.transpiler import PassManager, CouplingMap
+from qiskit.transpiler.passes import RemoveBarriers, Optimize1qGates
+
+# Circuito original:
+qc = QuantumCircuit(3)
+qc.h(0)
+qc.cx(0,1)
+qc.cx(1,2)
+
+# redundâncias
+qc.x(1)
+qc.x(1)
+
+qc.z(2)
+qc.z(2)
+
+qc.cx(0,1)
+qc.cx(0,1)
+
+print("Profundidade:", qc.depth())
+qc.draw("mpl")
+
+# Optimizations levels:
+backend = AerSimulator()
+
+for level in range(4):
+    tqc = transpile(
+        qc,
+        backend=backend,
+        optimization_level=level
+    )
+
+    print(tqc.draw())
+    print("Optimization Level", level)
+    print("Profundidade:", tqc.depth())
+    print("Portas:", tqc.count_ops())
+
+# Redução de profundidade:
+qc2 = QuantumCircuit(2)
+
+for _ in range(10):
+    qc2.cx(0,1)
+    qc2.cx(0,1)
+
+print("Antes:", qc2.depth())
+
+tqc2 = transpile(
+    qc2,
+    optimization_level=3
+)
+
+print("Depois:", tqc2.depth()) # Otimização máxima, tornou-se identidade (I), portanto nenhum resultado restante
+print(tqc2.draw())
+
+# Introdução a Pass Managers:
+pm = PassManager()
+
+pm.append(RemoveBarriers())
+pm.append(Optimize1qGates())
+
+optimized = pm.run(qc)
+print(optimized.draw())
+
+print("Original:", qc.depth())
+print("Custom PassManager:", optimized.depth())
+
+# Coupling Map:
+qc = QuantumCircuit(3)
+qc.h(0)
+qc.cx(0, 2)
+
+print("Circuito Original:")
+qc.draw("mpl")
+
+# Topologia de hardware linear: 0-1-2
+coupling = CouplingMap([
+    [0,1],
+    [1,2]
+])
+
+tqc = transpile(
+    qc,
+    coupling_map=coupling,
+    optimization_level=3
+)
+
+print("Circuito Transpilado:")
+tqc.draw("mpl")
+
+print("Profundidade:", tqc.depth())
+print("Portas:", tqc.count_ops())
+</code></pre></small>
         </div>
     </div>
 
