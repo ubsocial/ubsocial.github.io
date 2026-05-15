@@ -46,11 +46,11 @@
                 <li>Curso com certificado na Workover Academy (Criar API REST Spring Boot com Kotlin): <a href="https://workover.com.br/cursos/1891" target="_blank" class="text-decoration-none">Acesse</a></li>
             </ul>
 
-            <br><h4>Spring Boot:</h4>
+            <br><h4>Conceito:</h4>
             <p id="textoPost">Camada que atua sob framework Spring, simplificando-o e modernizando-o, seguindo padrão MVC. Spring implementa padrão IoC (Inversion of Control), onde os objetos (Spring Beans / Beans) são instanciados automaticamente pelo container do Spring, dispensando criação manual.</p>
 
             <br><h4>Pré-requisitos (Windows):</h4>
-            <p id="textoPost"><b>JDK</b> (Java Development Kit) é kit de ferramentas e bibliotecas para desenvolver aplicações Java. <b>Gradle</b> é automatizador de build moderno que usa linguagem baseada em Groovy ou Kotlin para configurar projetos. <b>Maven</b> é mais antigo que Gradle, gerenciando builds e dependências para projetos Java baseada em estrutura padronizada e arquivos XML de configuração.</p>
+            <p id="textoPost"><b>JDK</b> (Java Development Kit) é kit de ferramentas e bibliotecas para desenvolver aplicações Java. <b>Gradle</b> é automatizador de build moderno que usa linguagem baseada em Groovy ou <b>Kotlin</b> para configurar projetos.</p>
             <ol>
                 <li>JDK: <a href="https://www.oracle.com/br/java/technologies/downloads" target="_blank" class="text-decoration-none">Acesse</a>
                     <ol>
@@ -108,350 +108,236 @@
                 </li>
             </ol>
 
-            <br><h4>Estrutura:</h4>
-            <p class="text-warning">Em breve.</p>
-
-            <br><h4>Exemplo projeto:</h4>
+            <br><h4>Criar projeto:</h4>
+            <p id="textoPost">Em 'start.spring.io', selecione:</p>
             <ol>
-                <li>Em 'start.spring.io', selecione:
+                <li>Project: Gradle - Kotlin</li>
+                <li>Language: Kotlin</li>
+                <li>Spring Boot: 3.5.13</li>
+                <li>Group: com.seuprojeto</li>
+                <li>Artifact: nomeProjeto</li>
+                <li>Package name: com.seuprojeto.nomeProjeto</li>
+                <li>Packaging: Jar</li>
+                <li>Configuration: YAML</li>
+                <li>Java: 21</li>
+                <li>Dependencies:
                     <ul>
-                        <li>Project: Gradle - Kotlin</li>
-                        <li>Language: Kotlin</li>
-                        <li>Spring Boot: 3.5.13</li>
-                        <li>Group: com.seuprojeto</li>
-                        <li>Artifact: cats</li>
-                        <li>Package name: com.seuprojeto.cats</li>
-                        <li>Packaging: Jar</li>
-                        <li>Configuration: YAML</li>
-                        <li>Java: 21</li>
-                        <li>Dependencies
-                            <ul>
-                                <li>Spring Web</li>
-                                <li>Spring Data JPA</li>
-                                <li>Validation</li>
-                                <li>H2 Database</li>
-                                <li>Spring Boot Dev Tools</li>
-                            </ul>
-                        </li>
-                        <li>Generate (extrair zip e acessar projeto com IntelliJ)</li>
+                        <li>Spring Web</li>
+                        <li>Spring Data JPA</li>
+                        <li>Validation</li>
+                        <li>Spring Boot Dev Tools</li>
                     </ul>
                 </li>
-                <li>Criar banco de dados Oracle (container Docker):
-<small><pre><code>
-docker pull container-registry.oracle.com/database/free:latest
-docker run -d --name oracle-db -p 1521:1521 -p 5500:5500 -e ORACLE_PWD=SenhaForte123 container-registry.oracle.com/database/free:latest
-</code></pre></small>
-                </li>
-                <li>No pacote principal (com.seuprojeto.cats), crie pacotes dentro:
-<small><pre><code>
-modules.cat.domain.model
-modules.cat.domain.repository
-modules.cat.application.usecase
-modules.cat.infrastructure.persistence.entity
-modules.cat.infrastructure.persistence.repository
-modules.cat.infrastructure.persistence.adapter
-modules.cat.interfaces.rest
-modules.cat.interfaces.rest.dto.request
-modules.cat.interfaces.rest.dto.response
-modules.cat.interfaces.rest.mapper
-
-modules.user.infrastructure.persistence.entity
-modules.user.infrastructure.persistence.repository
-modules.user.infrastructure.security
-
-modules.auth.application.usecase
-modules.auth.domain.model
-modules.auth.domain.repository
-modules.auth.infrastructure.persistence.entity
-modules.auth.infrastructure.persistence.repository
-modules.auth.infrastructure.adapter
-modules.auth.interfaces.rest.dto.request
-modules.auth.interfaces.rest.dto.response
-modules.auth.interfaces.rest.mapper
-
-shared.exception
-shared.config
-shared.security
-</code></pre></small>
-                </li>
-                <li>No pacote '.model', criar Model 'Cat.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>No pacote '.repository', criar Repository 'CatRepository.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>No pacote '.usecase', criar Use Case 'CreateCatUseCase.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>No pacote '.persistence.entity', criar Entity 'CatEntity.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>No pacote 'modules.user.infrastructure.persistence.entity', criar Entity 'UserEntity.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>No pacote 'modules.user.infrastructure.persistence.repository', criar Repository 'UserRepository.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>No pacote 'modules.user.infrastructure.security', criar classe de dados customizados 'CustomUserDetailsService.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>No pacote 'modules.auth.interfaces.rest.dto.request', criar DTO 'RegisterRequest.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>No pacote 'modules.auth.interfaces.rest.dto.request', criar DTO 'LoginRequest.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>No pacote 'modules.auth.interfaces.rest.dto.response', criar DTO 'AuthResponse.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>No pacote 'modules.auth.interfaces.rest.dto.request', criar DTO 'RefreshTokenRequest.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>No pacote 'modules.auth.interfaces.rest.dto.response', criar DTO 'RefreshTokenResponse.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>No pacote 'modules.auth.application.usecase', criar Use Case 'AuthUseCase.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>No pacote 'modules.auth.application.usecase', criar Use Case 'AuthUseCaseImpl.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>No pacote 'modules.auth.interfaces.rest', criar Controller 'AuthController.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>No pacote module cat, '.persistence.repository', criar Repository 'JpaCatRepository.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>No pacote '.persistence.adapter', criar Adapter 'CatRepositoryImpl.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>No pacote '.application.usecase', criar Use Case 'UpdateCatUseCase.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>No pacote '.application.usecase', criar Use Case 'DeleteCatUseCase.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>No pacote '.application.usecase', criar Use Case 'ListCatsUseCase.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>No pacote '.application.usecase', criar Use Case 'GetCatUseCase.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>No pacote '.application.usecase', criar Use Case 'AdoptCatUseCase.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>No pacote '.application.usecase', criar Use Case 'UnadoptCatUseCase.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>No pacote '.rest.dto.request', criar DTO 'CreateCatRequest.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>No pacote '.rest.dto.request', criar DTO 'UpdateCatRequest.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>No pacote '.rest.dto.response', criar DTO 'CatResponse.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>No pacote '.rest.mapper', criar Mapper 'CatDtoMapper.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>No pacote '.interfaces.rest', criar Controller 'CatController.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>No pacote principal 'com.seuprojeto.cats', criar classe 'Application.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>No pacote principal 'com.seuprojeto.cats', remover arquivo padrão 'CatsApplication.kt'</li>
-                <li>No pacote '.shared.exception', criar classe de erro 'ErrorResponse.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>No pacote '.shared.exception', criar classe de exceção 'BusinessException.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>No pacote '.shared.exception', criar classe de exceção GlobalExceptionHandler.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>No pacote '.shared.config', criar classe de configuração 'OpenApiConfig.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>No pacote '.shared.config', criar classe de dados iniciais 'DataInitializer.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>No pacote '.shared.security', criar classe de configuração 'SecurityConfig.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>No pacote '.shared.security', criar classe de serviço 'JwtService.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>No pacote '.shared.security', criar classe de filtro 'JwtAuthenticationFilter.kt':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>Em 'src/main/resources', criar arquivo 'application.yml':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>Em 'src/main/resources', criar arquivo 'application-dev.yml':
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>Em 'src/main/resources', criar arquivo 'application-prod.yml' (ideal criar usuário personalizado no Oracle. Nesse caso, foi utilizado usuário padrão):
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>Em 'build.gradle.kts', adicionar dependência Swagger, JWT e conexão com Oracle DB:
-<small><pre><code>
-CÓDIGO AQUI...
-</code></pre></small>
-                </li>
-                <li>Executar a aplicação (modo dev): ./gradlew bootRun
-                    <ul>
-                        <li>Executar em modo de produção (definir variáveis no comando, ou no dockerfile):
-<small><pre><code>
-// 1.Criar usuário cats no Oracle DB:
-CREATE USER cats IDENTIFIED BY cats123;
-GRANT CONNECT, RESOURCE TO cats;
-GRANT UNLIMITED TABLESPACE TO cats;
-
-$env:DB_URL="jdbc:oracle:thin:@//localhost:1521/FREEPDB1"
-$env:DB_USER="cats"
-$env:DB_PASSWORD="cats123"
-$env:SPRING_PROFILES_ACTIVE="prod"
-./gradlew bootRun
-
-// Comando em única linha:
-$env:SPRING_PROFILES_ACTIVE="prod"; $env:DB_URL="jdbc:oracle:thin:@//localhost:1521/FREEPDB1"; $env:DB_USER="cats"; $env:DB_PASSWORD="cats123"; ./gradlew bootRun
-</code></pre></small>
-                        </li>
-                    </ul>
-                </li>
-                <li>(Antigo) Conectar banco de dados (H2): http://localhost:8080/h2-console
-                    <ul>
-                        <li>Informar JDBC: jdbc:h2:mem:testdb</li>
-                    </ul>
-                </li>
-                <li>Testar Swagger: http://localhost:8080/swagger-ui/index.html</li>
-                <li>Testar conexão de autenticação: GET http://localhost:8080/api/auth/ping</li>
-                <li>Registrar usuário (JWT): POST http://localhost:8080/api/auth/register
-<small><pre><code>
-{
-  "username": "mateus",
-  "password": "123456"
-}
-</code></pre></small>
-                </li>
-                <li>Autenticar usuário (JWT): POST http://localhost:8080/api/auth/login
-<small><pre><code>
-{
-  "username": "mateus",
-  "password": "123456"
-}
-</code></pre></small>
-                </li>
-                <li>Testar requisições HTTP:
-                    <ul>
-                        <li>Listar gatos (GET): http://localhost:8080/api/cats
-                            <ul>
-                                <li>Authorization: Bearer (informar token)</li>
-                            </ul>
-                        </li>
-                        <li>Adicionar gato (POST e Bearer token): http://localhost:8080/api/cats
-<small><pre><code>
-{
-  "name": "Mingau"
-}
-</code></pre></small>
-                        </li>
-                        <li>Visualizar gato 1 (GET e Bearer token): http://localhost:8080/api/cats/1</li>
-                        <li>Editar gato 1 (PUT e Bearer token): http://localhost:8080/api/cats/1
-<small><pre><code>
-{
-  "name": "Mingau - Atualizado"
-}
-</code></pre></small>
-                        </li>
-                        <li>Adotar gato 1 (POST e Bearer token): http://localhost:8080/api/cats/1/adopt</li>
-                        <li>Desfazer adoção gato 1 (POST e Bearer token): http://localhost:8080/api/cats/1/unadopt</li>
-                        <li>Excluir gato 1 (DELETE e Bearer token): http://localhost:8080/api/cats/1</li>
-                    </ul>
-                </li>
+                <li>Generate (extrair zip e acessar projeto com IntelliJ)</li>
             </ol>
+
+            <br><h4>Layer-based Structure:</h4>
+            <p id="textoPost">Estrutura tradicional/standard (Structure/Package by Layer), onde cada camada (Controller, Service, Repository) é organizada em pacotes separados. Melhor cenário: sistemas mais simples, bem estruturados, com responsabilidades claras (como em CRUDs). Pior cenário: pouca flexibilidade para mudanças, acoplamento entre camadas e dificuldade em evoluir o domínio:</p>
+<small><pre><code>
+com.company.project
+├── ProjectApplication.java
+├── config
+│   ├── SecurityConfig.java
+│   ├── DatabaseConfig.java
+│   └── SwaggerConfig.java
+├── controller
+│   ├── UserController.java
+│   └── ProductController.java
+├── service
+│   ├── UserService.java
+│   ├── UserServiceImpl.java
+│   ├── ProductService.java
+│   └── ProductServiceImpl.java
+├── repository
+│   ├── UserRepository.java
+│   └── ProductRepository.java
+├── model
+│   ├── entity
+│   │   ├── User.java
+│   │   └── Product.java
+│   └── dto
+│       ├── UserDTO.java
+│       ├── CreateUserRequest.java
+│       └── ProductDTO.java
+├── exception
+│   ├── GlobalExceptionHandler.java
+│   ├── ResourceNotFoundException.java
+│   └── ValidationException.java
+├── mapper
+│   ├── UserMapper.java
+│   └── ProductMapper.java
+├── security
+│   ├── JwtTokenProvider.java
+│   └── CustomUserDetailsService.java
+└── util
+    ├── DateUtil.java
+    └── ValidationUtil.java
+</code></pre></small>
+            <p>src/main/resources:</p>
+<small><pre><code>
+resources
+├── application.yml
+├── application-dev.yml
+├── application-prod.yml
+├── static
+│   └── (static files)
+├── templates
+│   └── (template files)
+└── db
+    └── migration
+        ├── V1__Create_users_table.sql
+        └── V2__Add_products_table.sql
+</code></pre></small>
+            <p>src/test:</p>
+<small><pre><code>
+src/test/java/com/company/project
+├── controller
+│   └── UserControllerTest.java
+├── service
+│   └── UserServiceTest.java
+└── repository
+    └── UserRepositoryTest.java
+</code></pre></small>
+
+            <br><h4>Feature-based Structure:</h4>
+            <p id="textoPost">Estrutura moderna (Structure/Package by Feature), onde cada feature/recurso é organizada em pacotes separados, sendo ideal para projetos complexos, escaláveis e microservices. Melhor cenário: sistemas grandes, com várias funcionalidades, onde cada módulo agrupa lógica, testes e regras relacionadas. Pior cenário: pode gerar duplicação de código se não for bem estruturado, e o time precisa se organizar para manter o alinhamento entre features:</p>
+<small><pre><code>
+com.myapp.project
+ ├── Application.java
+ ├── user/
+ │     ├── UserController.java
+ │     ├── UserService.java
+ │     ├── UserRepository.java
+ │     ├── User.java (entity)
+ │     ├── UserDto.java
+ ├── product/
+ │     ├── ProductController.java
+ │     ├── ProductService.java
+ │     ├── ProductRepository.java
+ │     ├── Product.java
+ │     ├── ProductDto.java
+ ├── auth/
+ │     ├── AuthController.java
+ │     ├── AuthService.java
+ │     ├── JwtService.java
+ │     ├── JwtAuthenticationFilter.java
+ │     ├── CustomUserDetailsService.java
+ │     ├── LoginRequest.java
+ │     ├── RegisterRequest.java
+ │     ├── AuthResponse.java
+ │     └── JwtUtil.java
+ ├── config/
+ │     ├── AppConfig.java
+ │     ├── SecurityConfig.java
+ │     ├── DatabaseConfig.java
+ │     ├── SwaggerConfig.java
+ │     └── JwtConfig.java
+ ├── exception/
+ │     ├── GlobalExceptionHandler.java
+ │     ├── ResourceNotFoundException.java
+ │     ├── ValidationException.java
+ │     ├── UnauthorizedException.java
+ │     ├── InvalidTokenException.java
+ │     └── TokenExpiredException.java
+ ├── mapper/
+ │     ├── UserMapper.java
+ │     └── ProductMapper.java
+ └── util/
+       ├── DateUtil.java
+       ├── ValidationUtil.java
+       └── PasswordUtil.java
+</code></pre></small>
+            <p>src/main/resources:</p>
+<small><pre><code>
+resources
+├── application.yml
+├── application-dev.yml
+├── application-prod.yml
+├── static
+│   └── (static files, css, js, images)
+├── templates
+│   └── (template files, html, thymeleaf)
+├── config
+│   ├── security.yml
+│   ├── swagger.yml
+│   ├── e.g. application.yml
+│   ├── logging.yml
+│   └── database.ym
+└── db
+    └── migration
+        ├── V1__Create_users_table.sql
+        └── V2__Add_products_table.sql
+</code></pre></small>
+            <p>src/test:</p>
+<small><pre><code>
+src/test/java/com/myapp/project
+├── user/
+│     ├── UserControllerTest.java
+│     ├── UserServiceTest.java
+│     └── UserRepositoryTest.java
+├── product/
+│     ├── ProductControllerTest.java
+│     ├── ProductServiceTest.java
+│     └── ProductRepositoryTest.java
+└── config/
+    └── SecurityConfigTest.java
+</code></pre></small>
+
+            <br><h4>Hexagonal Architecture:</h4>
+            <p id="textoPost">Arquitetura moderna (Hexagonal Architecture / Ports and Adapters), onde a aplicação é organizada em camadas concêntricas, com o domínio central isolado de detalhes de infraestrutura, sendo ideal para projetos complexos, escaláveis e microservices. Melhor cenário: sistemas complexos, com alto desacoplamento, onde o domínio é protegido de detalhes externos, permitindo fácil troca de tecnologia e alta testabilidade. Pior cenário: curva de aprendizado mais alta, abstrações adicionais, exigindo mais esforço para implementar no início:</p>
+<small><pre><code>
+src/main/java/com/myapp/project
+├── application/
+│   ├── port/
+│   │   ├── input/
+│   │   │   ├── UserUseCase.java
+│   │   │   └── ProductUseCase.java
+│   │   └── output/
+│   │       ├── UserPersistencePort.java
+│   │       └── ProductPersistencePort.java
+│   ├── service/
+│   │   ├── UserServiceImpl.java
+│   │   └── ProductServiceImpl.java
+│   ├── dto/
+│   │   ├── UserDto.java
+│   │   └── ProductDto.java
+│   └── mapper/
+│       ├── UserMapper.java
+│       └── ProductMapper.java
+├── domain/
+│   ├── model/
+│   │   ├── User.java
+│   │   └── Product.java
+│   ├── exception/
+│   │   ├── ResourceNotFoundException.java
+│   │   ├── ValidationException.java
+│   │   ├── UnauthorizedException.java
+│   │   ├── InvalidTokenException.java
+│   │   └── TokenExpiredException.java
+│   └── vo/
+│       └── (Value Objects opcionais)
+├── infrastructure/
+│   ├── input/
+│   │   ├── rest/
+│   │   │   ├── UserController.java
+│   │   │   └── ProductController.java
+│   │   └── config/
+│   │       ├── SwaggerConfig.java
+│   │       └── SecurityConfig.java
+│   └── output/
+│       ├── persistence/
+│       │   ├── UserRepositoryImpl.java
+│       │   └── ProductRepositoryImpl.java
+│       ├── security/
+│       │   ├── JwtTokenProvider.java
+│       │   └── CustomUserDetailsService.java
+│       └── config/
+│           └── DatabaseConfig.java
+├── shared/
+│   └── exception/
+│       └── GlobalExceptionHandler.java
+└── Application.java
+</code></pre></small>
         </div>
     </div>
 
