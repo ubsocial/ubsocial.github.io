@@ -4780,6 +4780,111 @@ tqc.draw("mpl")
 print("Profundidade:", tqc.depth())
 print("Portas:", tqc.count_ops())
 </code></pre></small>
+
+            <br><h4>Batch Jobs e CLOPS:</h4>
+            <p id="textoPost">Batch Jobs são agrupamentos de execuções de circuitos quânticos, permitindo medir desempenho em termos de CLOPS (Circuit Layer Operations Per Second), assim como menor overhead, em único trabalho. No exemplo de código a seguir, ao invés de enviar 5 execuções independentes ao backend, agrupamos 5 circuitos em único job, reduzindo overhead (quantidade de qubits utilizados como recurso) e melhorando utilização do processador quântico:</p>
+<small><pre><code>
+# pip3 install qiskit qiskit-aer qiskit[visualization]
+from qiskit import QuantumCircuit
+from qiskit_aer import AerSimulator
+import time
+
+circuits = []
+
+for reps in range(1, 6):
+    qc = QuantumCircuit(2, 2)
+
+    for _ in range(reps):
+        qc.h(0)
+
+    qc.cx(0, 1)
+    qc.measure([0, 1], [0, 1])
+    circuits.append(qc)
+
+print("Circuitos criados:", len(circuits))
+
+for i, qc in enumerate(circuits):
+    print("Circuito:", i+1)
+    print(qc.draw())
+
+backend = AerSimulator()
+job = backend.run(circuits, shots=1024)
+result = job.result()
+
+print("Resultados do Batch Job:")
+print("Nº de circuitos enviados:", len(circuits))
+
+for i in range(len(circuits)):
+    counts = result.get_counts(i)
+    print("Contagens do circuito", i+1, ":", counts)
+</code></pre></small>
+            <p id="textoPost">Na medição do desempenho (quantum benchmarking) de circuitos quânticos, CLOPS (Circuit Layer Operations Per Second) é métrica que quantifica nº de camadas de operações (circuit layers) que podem ser executadas por segundo no dispositivo quântico, e não nº de qubits. CLOPS é importante para avaliar eficiência e velocidade de execução de circuitos, especialmente em dispositivos NISQ, onde latência e overhead de comunicação podem impactar significativamente desempenho. Para medir CLOPS, geralmente executa-se conjunto de circuitos com diferentes profundidades e registra tempo total gasto para execução, permitindo calcular taxa de operações por segundo. Quanto maior CLOPS, mais eficiente é dispositivo para executar circuitos complexos. Em síntese, CLOPS mede quantas camadas completas o sistema consegue processar por segundo (ex: hardware A mede 100000 CLOPS e hardware B mede 300000 CLOPS. Então, hardware B mede 3 vezes mais camadas por segundo do que hardware A).</p>
+<small><pre><code>
+NUM_CIRCUITS = 100
+NUM_QUBITS = 5
+NUM_LAYERS = 20
+SHOTS = 1024
+
+circuits = []
+
+for circuit_id in range(NUM_CIRCUITS):
+    qc = QuantumCircuit(NUM_QUBITS)
+
+    for layer in range(NUM_LAYERS):
+        for q in range(NUM_QUBITS):
+            qc.rx(0.3 + 0.01 * layer, q)
+            qc.rz(0.5 + 0.02 * layer, q)
+
+        for q in range(NUM_QUBITS - 1): # emaranhamento linear
+            qc.cx(q, q + 1)
+
+    qc.measure_all()
+    circuits.append(qc)
+
+print(circuits[0].draw())
+
+backend = AerSimulator()
+inicio = time.perf_counter()
+
+job = backend.run(circuits, shots=SHOTS)
+result = job.result()
+
+fim = time.perf_counter()
+tempo_execucao = fim - inicio
+
+total_layers = NUM_CIRCUITS * NUM_LAYERS
+clops = total_layers / tempo_execucao
+
+print("Benchmark CLOPS:")
+print("Número de circuitos:", NUM_CIRCUITS)
+print("Qubits por circuito:", NUM_QUBITS)
+print("Camadas por circuito:", NUM_LAYERS)
+print("Shots:", SHOTS)
+
+print(f"Tempo total de execução: &#123;tempo_execucao:.4f&#125; segundos")
+print("Total de camadas processadas:", total_layers)
+print(f"CLOPS estimado: &#123;clops:.2f&#125;")
+
+print(f"Sistema processou aproximadamente &#123;clops:.0f&#125; camadas de circuito por segundo")
+
+counts = result.get_counts(0)
+print("Resultado do 1º circuito:")
+
+top10 = sorted(
+    counts.items(),
+    key=lambda x: x[1],
+    reverse=True
+)[:10]
+
+for estado, contagem in top10:
+    print(f"&#123;estado&#125;: &#123;contagem&#125;")
+
+qc_exemplo = circuits[0]
+
+print("Profundidade:", qc_exemplo.depth())
+print("Número de portas:", qc_exemplo.size())
+print("Largura:", qc_exemplo.num_qubits)
+</code></pre></small>
         </div>
     </div>
 
