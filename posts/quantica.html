@@ -4885,6 +4885,107 @@ print("Profundidade:", qc_exemplo.depth())
 print("Número de portas:", qc_exemplo.size())
 print("Largura:", qc_exemplo.num_qubits)
 </code></pre></small>
+
+            <br><h4>Quantum HPC:</h4>
+            <ul>
+                <li>Quantum advantage: quando computador quântico supera melhor supercomputador clássico para tarefa específica (ex: Shor's algorithm usado para fatoração, ML e criptografia). Usado para problema real;</li>
+                <li>Quantum supremacy: quando computador quântico executa tarefa que é praticamente impossível para computadores clássicos, mesmo que não seja útil (ex: Google Sycamore (2019) e experimento Random Circuit Sampling). Usado para problema artificial;</li>
+                <li>FTQC (Fault-Tolerant Quantum Computing): Computação quântica fault-tolerant (resistente a erros). Visa superar limitações dos sistemas quânticos atuais, como decoerência e ruído, permitindo execução de algoritmos quânticos complexos com alta fidelidade (ex: IBM Quantum System One);</li>
+                <li>HPC (High-Performance Computing): integração de computação quântica com sistemas de HPC clássicos para resolver problemas complexos, onde computação quântica é usada para acelerar partes específicas de algoritmos, como otimização, simulação de materiais, ou aprendizado de máquina;</li>
+                <li>SQD (sample-based quantum diagonalization): técnica de diagonalização de matrizes usando amostragem quântica, onde circuito quântico é projetado para amostrar autovetores e autovalores de uma matriz, permitindo análise espectral eficiente, especialmente para matrizes grandes e esparsas;</li>
+                <li>QCSC (Quantum-Centric Supercomputing): supercomputação quântica que abordagem que coloca computação quântica no centro do design de sistemas de supercomputação, integrando-a de forma nativa com componentes clássicos para otimizar o desempenho em tarefas específicas. Trata-se de HPC + Quantum (exemplo VQE e QAOA), em abordagem de arquitetura híbrida:
+                    <ol>
+                        <li>CPU: processamento clássico, otimizando parâmetros;</li>
+                        <li>GPU: aceleração de tarefas paralelas, como otimizações terceiras, como NVIDIA Ising;</li>
+                        <li>FPGA: personalização de hardware para tarefas específicas, como otimização de circuitos;</li>
+                        <li>QPU: processamento quântico para tarefas específicas, execução de circuitos quânticos;</li>
+                        <li>CPU: recebe energia, executando pós-processamento clássico para resultados quânticos via iterações.</li>
+                    </ol>
+                IBM criou exemplo de API C com Qiskit para permitir execução HPC QCSC end-to-end, via SQD, que encontra-se na postagem oficial: <a href="https://www.ibm.com/quantum/blog/c-api-enables-end-to-end-hpc-demo#mark-a-c-17-template-library-which-is-designed-to-be-compatible-with-the-standard-library-interfaces-that-are-used-in-modern-c" class="text-decoration-none" target="_blank">acesse</a>
+                </li>
+            </ul>
+<small><pre><code>
+# pip3 install qiskit qiskit-ibm-runtime qiskit-aer qiskit[visualization]
+import numpy as np
+from qiskit import QuantumCircuit
+from qiskit_ibm_runtime import QiskitRuntimeService, Batch, SamplerV2 as Sampler
+from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager
+QiskitRuntimeService.save_account(token="SEU_TOKEN_AQUI")
+
+service = QiskitRuntimeService()
+backend = service.least_busy(operational=True, simulator=False, min_num_qubits=127)
+print("Backend escolhido:", backend.name)
+
+pm = generate_preset_pass_manager(target=backend.target, optimization_level=3)
+
+# CPU em HPC gera vários parâmetros (thetas) para circuitos:
+thetas = np.linspace(0, 2*np.pi, 20)
+circuits = []
+
+for theta in thetas:
+    qc = QuantumCircuit(1)
+    qc.ry(theta, 0)
+    qc.measure_all()
+    qc_isa = pm.run(qc)
+    circuits.append(qc_isa)
+    print(qc.draw())
+
+print("Circuitos gerados:", len(circuits))
+
+with Batch(backend=backend): # Batch Job
+    sampler = Sampler()
+    job = sampler.run(circuits)
+    result = job.result()
+
+# Análise clássica dos resultados para calcular &lt;Z&gt; para cada θ
+expectations = []
+
+for theta, pub_result in zip(thetas, result):
+    counts = (
+        pub_result
+        .data
+        .meas
+        .get_counts()
+    )
+
+    shots = sum(counts.values())
+
+    p0 = counts.get("0", 0) / shots
+    p1 = counts.get("1", 0) / shots
+
+    expectation_z = p0 - p1
+
+    expectations.append(
+        (
+            theta,
+            expectation_z
+        )
+    )
+
+# Otimização clássica para encontrar o melhor θ que minimiza &lt;Z&gt;
+best_theta = None
+best_value = 999
+
+for theta, value in expectations:
+    if value &lt; best_value:
+        best_value = value
+        best_theta = theta
+
+print("Resultados da otimização:")
+print(f"Melhor θ encontrado: &#123;best_theta:.4f&#125;")
+print(f"Menor energia (&lt;Z&gt;): &#123;best_value:.4f&#125;")
+
+print("Primeiros resultados:")
+
+for theta, value in expectations[:10]:
+    print(
+        f"θ=&#123;theta:.3f&#125;"
+        f" -&gt; "
+        f"&lt;Z&gt;=&#123;value:.4f&#125;"
+    )
+
+# CPU gerou vários parâmetros, enviou circuitos em lote para hardware quântico IBM, que os executou, e CPU analisou resultados para encontrar melhor parâmetro
+</code></pre></small>
         </div>
     </div>
 
