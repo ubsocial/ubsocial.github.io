@@ -199,6 +199,103 @@ src/test/java/com/company/project
     └── UserRepositoryTest.java
 </code></pre></small>
 
+            <br><h4>Layer-based Structure com módulos em pacotes:</h4>
+            <p id="textoPost">Arquitetura anterior, onde projeto é organizado em módulos via pacotes, que seguem a estrutura de camadas tradicional (controller/seevice/repository/model):</p>
+<small><pre><code>
+com.whateverer.config
+ ├── SwaggerConfig.kt
+ ├── SecurityConfig.kt
+ ├── JwtConfig.kt
+ ├── OpenApiConfig.kt
+ ├── JacksonConfig.kt
+ ├── CorsConfig.kt
+ ├── DatabaseConfig.kt
+ ├── CacheConfig.kt
+ └── WebMvcConfig.kt
+
+com.whateverer.feature.account
+ ├── controller
+ │     ├── AccountController.kt
+ │     ├── AccountAdminController.kt
+ │     └── AccountAuthController.kt
+ │
+ ├── model
+ │     ├── dto
+ │     │     ├── CreateAccountRequest.kt
+ │     │     ├── UpdateAccountRequest.kt
+ │     │     ├── AccountResponse.kt
+ │     │     ├── AccountSummaryResponse.kt
+ │     │     └── AccountLoginRequest.kt
+ │     │
+ │     └── entity
+ │           ├── AccountEntity.kt
+ │           ├── AccountProfileEntity.kt
+ │           ├── AccountRoleEntity.kt
+ │           └── AccountStatus.kt
+ │
+ ├── repository
+ │     ├── AccountRepository.kt
+ │     ├── AccountQueryRepository.kt
+ │     └── AccountCustomRepository.kt
+ │
+ ├── service
+ │     ├── AccountService.kt
+ │     ├── CreateAccountService.kt
+ │     ├── UpdateAccountService.kt
+ │     ├── DeleteAccountService.kt
+ │     ├── GetAccountService.kt
+ │     ├── ListAccountService.kt
+ │     ├── AccountValidationService.kt
+ │     └── AccountAuthService.kt
+ │
+ └── utils
+       ├── AccountMapper.kt
+       ├── AccountUtils.kt
+       ├── AccountValidator.kt
+       ├── AccountConstants.kt
+       └── AccountPermissions.kt
+
+com.whateverer.feature.payment
+ ├── controller
+ │     ├── PaymentController.kt
+ │     ├── RefundController.kt
+ │     └── PaymentWebhookController.kt
+ │
+ ├── model
+ │     ├── dto
+ │     │     ├── CreatePaymentRequest.kt
+ │     │     ├── PaymentResponse.kt
+ │     │     ├── RefundRequest.kt
+ │     │     ├── PaymentStatusResponse.kt
+ │     │     └── InstallmentSimulationResponse.kt
+ │     │
+ │     └── entity
+ │           ├── PaymentEntity.kt
+ │           ├── RefundEntity.kt
+ │           ├── PaymentMethodEntity.kt
+ │           └── PaymentStatus.kt
+ │
+ ├── repository
+ │     ├── PaymentRepository.kt
+ │     ├── RefundRepository.kt
+ │     └── PaymentQueryRepository.kt
+ │
+ ├── service
+ │     ├── PaymentService.kt
+ │     ├── RefundService.kt
+ │     ├── PaymentGatewayService.kt
+ │     ├── PaymentValidationService.kt
+ │     ├── InstallmentService.kt
+ │     └── PaymentWebhookService.kt
+ │
+ └── utils
+       ├── PaymentMapper.kt
+       ├── PaymentUtils.kt
+       ├── PaymentValidator.kt
+       ├── PaymentConstants.kt
+       └── InstallmentCalculator.kt
+</code></pre></small>
+
             <br><h4>Feature-based Structure:</h4>
             <p id="textoPost">Estrutura moderna (Structure/Package by Feature), onde cada feature/recurso é organizada em pacotes separados, sendo ideal para projetos complexos, escaláveis e microservices. Melhor cenário: sistemas grandes, com várias funcionalidades, onde cada módulo agrupa lógica, testes e regras relacionadas. Pior cenário: pode gerar duplicação de código se não for bem estruturado, e o time precisa se organizar para manter o alinhamento entre features:</p>
 <small><pre><code>
@@ -337,6 +434,311 @@ src/main/java/com/myapp/project
 │   └── exception/
 │       └── GlobalExceptionHandler.java
 └── Application.java
+</code></pre></small>
+
+            <br><h4>Modular Monolith + Clean Architecture + DDD:</h4>
+            <p id="textoPost">Arquitetura profissional moderna (Modular Monolith + Clean Architecture + DDD), onde aplicação é organizada em módulos independentes, seguindo princípios de Clean Architecture e Domain-Driven Design, sendo ideal para projetos complexos, escaláveis e microservices. Melhor cenário: sistemas complexos, com alto desacoplamento, onde o domínio é protegido de detalhes externos, permitindo fácil evolução do domínio e alta testabilidade. Pior cenário: curva de aprendizado mais alta, abstrações adicionais, exigindo mais esforço para implementar no início:</p>
+<small><pre><code>
+my-erp-system/
+├── build.gradle.kts
+├── settings.gradle.kts
+├── gradle.properties
+├── docker-compose.yml
+├── Dockerfile
+├── README.md
+├── .gitignore
+├── .editorconfig
+├── .env
+│
+├── gradle/
+│   └── wrapper/
+│       ├── gradle-wrapper.jar
+│       └── gradle-wrapper.properties
+│
+├── docs/
+│   ├── architecture/
+│   │   ├── context-diagram.md
+│   │   ├── containers-diagram.md
+│   │   ├── components-diagram.md
+│   │   ├── domain-overview.md
+│   │   ├── bounded-contexts.md
+│   │   └── decisions/
+│   │       ├── adr-001-modular-monolith.md
+│   │       ├── adr-002-clean-architecture.md
+│   │       └── adr-003-ddd.md
+│   │
+│   ├── api/
+│   │   ├── openapi.yaml
+│   │   └── postman-collection.json
+│   │
+│   └── database/
+│       ├── schema.drawio
+│       └── migrations.md
+│
+├── scripts/
+│   ├── start-local.sh
+│   ├── build.sh
+│   ├── deploy.sh
+│   └── test.sh
+│
+├── src/
+│   ├── main/
+│   │   ├── kotlin/
+│   │   │   └── com/
+│   │   │       └── company/
+│   │   │           └── erp/
+│   │   │               │
+│   │   │               ├── ErpApplication.kt
+│   │   │               │
+│   │   │               ├── shared/
+│   │   │               │   │
+│   │   │               │   ├── kernel/
+│   │   │               │   │   ├── domain/
+│   │   │               │   │   │   ├── AggregateRoot.kt
+│   │   │               │   │   │   ├── Entity.kt
+│   │   │               │   │   │   ├── ValueObject.kt
+│   │   │               │   │   │   ├── DomainEvent.kt
+│   │   │               │   │   │   ├── Identifier.kt
+│   │   │               │   │   │   └── AuditableEntity.kt
+│   │   │               │   │   │
+│   │   │               │   │   ├── application/
+│   │   │               │   │   │   ├── UseCase.kt
+│   │   │               │   │   │   ├── Command.kt
+│   │   │               │   │   │   ├── Query.kt
+│   │   │               │   │   │   ├── CommandHandler.kt
+│   │   │               │   │   │   ├── QueryHandler.kt
+│   │   │               │   │   │   └── EventPublisher.kt
+│   │   │               │   │   │
+│   │   │               │   │   ├── infrastructure/
+│   │   │               │   │   │   ├── BaseEntity.kt
+│   │   │               │   │   │   ├── BaseRepository.kt
+│   │   │               │   │   │   ├── JpaConfig.kt
+│   │   │               │   │   │   └── TransactionConfig.kt
+│   │   │               │   │   │
+│   │   │               │   │   └── exception/
+│   │   │               │   │       ├── BusinessException.kt
+│   │   │               │   │       ├── ValidationException.kt
+│   │   │               │   │       ├── NotFoundException.kt
+│   │   │               │   │       └── DomainException.kt
+│   │   │               │   │
+│   │   │               │   ├── config/
+│   │   │               │   │   ├── JacksonConfig.kt
+│   │   │               │   │   ├── SecurityConfig.kt
+│   │   │               │   │   ├── OpenApiConfig.kt
+│   │   │               │   │   ├── CacheConfig.kt
+│   │   │               │   │   ├── KafkaConfig.kt
+│   │   │               │   │   └── ClockConfig.kt
+│   │   │               │   │
+│   │   │               │   ├── security/
+│   │   │               │   │   ├── JwtService.kt
+│   │   │               │   │   ├── JwtAuthenticationFilter.kt
+│   │   │               │   │   ├── UserPrincipal.kt
+│   │   │               │   │   └── AuthenticatedUser.kt
+│   │   │               │   │
+│   │   │               │   ├── observability/
+│   │   │               │   │   ├── LoggingInterceptor.kt
+│   │   │               │   │   ├── MetricsConfig.kt
+│   │   │               │   │   ├── TracingConfig.kt
+│   │   │               │   │   └── CorrelationIdFilter.kt
+│   │   │               │   │
+│   │   │               │   ├── messaging/
+│   │   │               │   │   ├── InternalEventBus.kt
+│   │   │               │   │   ├── KafkaEventPublisher.kt
+│   │   │               │   │   └── EventSerializer.kt
+│   │   │               │   │
+│   │   │               │   └── web/
+│   │   │               │       ├── ApiErrorResponse.kt
+│   │   │               │       ├── GlobalExceptionHandler.kt
+│   │   │               │       ├── PaginationRequest.kt
+│   │   │               │       └── PaginationResponse.kt
+│   │   │               │
+│   │   │               ├── modules/
+│   │   │               │
+│   │   │               │   ├── customer/
+│   │   │               │   │   │
+│   │   │               │   │   ├── domain/
+│   │   │               │   │   │   ├── model/
+│   │   │               │   │   │   │   ├── Customer.kt
+│   │   │               │   │   │   │   ├── CustomerAddress.kt
+│   │   │               │   │   │   │   ├── CustomerDocument.kt
+│   │   │               │   │   │   │   ├── CustomerStatus.kt
+│   │   │               │   │   │   │   └── CustomerId.kt
+│   │   │               │   │   │   │
+│   │   │               │   │   │   ├── event/
+│   │   │               │   │   │   │   ├── CustomerCreatedEvent.kt
+│   │   │               │   │   │   │   ├── CustomerUpdatedEvent.kt
+│   │   │               │   │   │   │   └── CustomerDeletedEvent.kt
+│   │   │               │   │   │   │
+│   │   │               │   │   │   ├── service/
+│   │   │               │   │   │   │   ├── CustomerDomainService.kt
+│   │   │               │   │   │   │   └── CustomerValidationService.kt
+│   │   │               │   │   │   │
+│   │   │               │   │   │   └── repository/
+│   │   │               │   │   │       └── CustomerRepository.kt
+│   │   │               │   │   │
+│   │   │               │   │   ├── application/
+│   │   │               │   │   │   ├── usecase/
+│   │   │               │   │   │   │   ├── createcustomer/
+│   │   │               │   │   │   │   │   ├── CreateCustomerCommand.kt
+│   │   │               │   │   │   │   │   ├── CreateCustomerUseCase.kt
+│   │   │               │   │   │   │   │   ├── CreateCustomerResponse.kt
+│   │   │               │   │   │   │   │   └── CreateCustomerValidator.kt
+│   │   │               │   │   │   │   │
+│   │   │               │   │   │   │   ├── updatecustomer/
+│   │   │               │   │   │   │   │   ├── UpdateCustomerCommand.kt
+│   │   │               │   │   │   │   │   ├── UpdateCustomerUseCase.kt
+│   │   │               │   │   │   │   │   └── UpdateCustomerValidator.kt
+│   │   │               │   │   │   │   │
+│   │   │               │   │   │   │   ├── getcustomer/
+│   │   │               │   │   │   │   │   ├── GetCustomerQuery.kt
+│   │   │               │   │   │   │   │   ├── GetCustomerUseCase.kt
+│   │   │               │   │   │   │   │   └── CustomerDetailsResponse.kt
+│   │   │               │   │   │   │   │
+│   │   │               │   │   │   │   ├── listcustomers/
+│   │   │               │   │   │   │   │   ├── ListCustomersQuery.kt
+│   │   │               │   │   │   │   │   ├── ListCustomersUseCase.kt
+│   │   │               │   │   │   │   │   └── CustomerSummaryResponse.kt
+│   │   │               │   │   │   │   │
+│   │   │               │   │   │   │   └── deletecustomer/
+│   │   │               │   │   │   │       ├── DeleteCustomerCommand.kt
+│   │   │               │   │   │   │       └── DeleteCustomerUseCase.kt
+│   │   │               │   │   │   │
+│   │   │               │   │   │   ├── port/
+│   │   │               │   │   │   │   ├── input/
+│   │   │               │   │   │   │   │   ├── CreateCustomerInputPort.kt
+│   │   │               │   │   │   │   │   ├── UpdateCustomerInputPort.kt
+│   │   │               │   │   │   │   │   └── GetCustomerInputPort.kt
+│   │   │               │   │   │   │   │
+│   │   │               │   │   │   │   └── output/
+│   │   │               │   │   │   │       ├── LoadCustomerPort.kt
+│   │   │               │   │   │   │       ├── SaveCustomerPort.kt
+│   │   │               │   │   │   │       └── DeleteCustomerPort.kt
+│   │   │               │   │   │   │
+│   │   │               │   │   │   ├── mapper/
+│   │   │               │   │   │   │   ├── CustomerMapper.kt
+│   │   │               │   │   │   │   └── CustomerResponseMapper.kt
+│   │   │               │   │   │   │
+│   │   │               │   │   │   └── eventhandler/
+│   │   │               │   │   │       └── CustomerCreatedEventHandler.kt
+│   │   │               │   │   │
+│   │   │               │   │   ├── infrastructure/
+│   │   │               │   │   │   ├── persistence/
+│   │   │               │   │   │   │   ├── entity/
+│   │   │               │   │   │   │   │   ├── CustomerJpaEntity.kt
+│   │   │               │   │   │   │   │   └── CustomerAddressEmbeddable.kt
+│   │   │               │   │   │   │   │
+│   │   │               │   │   │   │   ├── repository/
+│   │   │               │   │   │   │   │   ├── JpaCustomerRepository.kt
+│   │   │               │   │   │   │   │   └── SpringDataCustomerRepository.kt
+│   │   │               │   │   │   │   │
+│   │   │               │   │   │   │   └── mapper/
+│   │   │               │   │   │   │       ├── CustomerJpaMapper.kt
+│   │   │               │   │   │   │       └── CustomerEntityMapper.kt
+│   │   │               │   │   │   │
+│   │   │               │   │   │   ├── web/
+│   │   │               │   │   │   │   ├── CustomerController.kt
+│   │   │               │   │   │   │   ├── request/
+│   │   │               │   │   │   │   │   ├── CreateCustomerRequest.kt
+│   │   │               │   │   │   │   │   └── UpdateCustomerRequest.kt
+│   │   │               │   │   │   │   │
+│   │   │               │   │   │   │   └── response/
+│   │   │               │   │   │   │       ├── CustomerResponse.kt
+│   │   │               │   │   │   │       └── CustomerListResponse.kt
+│   │   │               │   │   │   │
+│   │   │               │   │   │   ├── messaging/
+│   │   │               │   │   │   │   ├── consumer/
+│   │   │               │   │   │   │   │   └── CustomerEventConsumer.kt
+│   │   │               │   │   │   │   │
+│   │   │               │   │   │   │   └── producer/
+│   │   │               │   │   │   │       └── CustomerEventProducer.kt
+│   │   │               │   │   │   │
+│   │   │               │   │   │   └── config/
+│   │   │               │   │   │       └── CustomerModuleConfig.kt
+│   │   │               │   │   │
+│   │   │               │   │   └── CustomerModule.kt
+│   │   │               │   │
+│   │   │               │   ├── order/
+│   │   │               │   │   ├── domain/
+│   │   │               │   │   ├── application/
+│   │   │               │   │   ├── infrastructure/
+│   │   │               │   │   └── OrderModule.kt
+│   │   │               │   │
+│   │   │               │   ├── payment/
+│   │   │               │   │   ├── domain/
+│   │   │               │   │   ├── application/
+│   │   │               │   │   ├── infrastructure/
+│   │   │               │   │   └── PaymentModule.kt
+│   │   │               │   │
+│   │   │               │   ├── inventory/
+│   │   │               │   │   ├── domain/
+│   │   │               │   │   ├── application/
+│   │   │               │   │   ├── infrastructure/
+│   │   │               │   │   └── InventoryModule.kt
+│   │   │               │   │
+│   │   │               │   └── auth/
+│   │   │               │       ├── domain/
+│   │   │               │       ├── application/
+│   │   │               │       ├── infrastructure/
+│   │   │               │       └── AuthModule.kt
+│   │   │               │
+│   │   │               └── bootstrap/
+│   │   │                   ├── DatabaseSeeder.kt
+│   │   │                   ├── ModuleRegistrar.kt
+│   │   │                   └── StartupRunner.kt
+│   │   │
+│   │   └── resources/
+│   │       ├── application.yml
+│   │       ├── application-dev.yml
+│   │       ├── application-test.yml
+│   │       ├── application-prod.yml
+│   │       │
+│   │       ├── db/
+│   │       │   └── migration/
+│   │       │       ├── V1__create_customer_table.sql
+│   │       │       ├── V2__create_order_table.sql
+│   │       │       ├── V3__create_payment_table.sql
+│   │       │       └── V4__create_inventory_table.sql
+│   │       │
+│   │       ├── banner.txt
+│   │       ├── logback-spring.xml
+│   │       └── messages/
+│   │           ├── messages.properties
+│   │           └── validation.properties
+│   │
+│   └── test/
+│       └── kotlin/
+│           └── com/
+│               └── company/
+│                   └── erp/
+│                       ├── integration/
+│                       │   ├── CustomerIntegrationTest.kt
+│                       │   ├── OrderIntegrationTest.kt
+│                       │   └── PaymentIntegrationTest.kt
+│                       │
+│                       ├── unit/
+│                       │   ├── customer/
+│                       │   │   ├── domain/
+│                       │   │   ├── application/
+│                       │   │   └── infrastructure/
+│                       │   │
+│                       │   ├── order/
+│                       │   └── payment/
+│                       │
+│                       ├── architecture/
+│                       │   ├── ModularizationTest.kt
+│                       │   ├── LayerDependencyTest.kt
+│                       │   ├── HexagonalRulesTest.kt
+│                       │   └── DddConventionsTest.kt
+│                       │
+│                       └── e2e/
+│                           ├── CustomerFlowE2ETest.kt
+│                           └── OrderFlowE2ETest.kt
+│
+└── .github/
+    └── workflows/
+        ├── ci.yml
+        ├── cd.yml
+        └── code-quality.yml
 </code></pre></small>
         </div>
     </div>
