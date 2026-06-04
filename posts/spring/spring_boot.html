@@ -740,6 +740,140 @@ my-erp-system/
         ├── cd.yml
         └── code-quality.yml
 </code></pre></small>
+
+            <br><h4>Funcionamento:</h4>
+            <p id="textoPost">Baseado na arquitetura Layer-based Structure com módulos.</p>
+<small><pre><code>
+resources
+ ├── application.yml <span class="text-muted"># Configurações gerais da aplicação, como porta, datasource, logging, etc.</span>
+ ├── application-dev.yml <span class="text-muted"># Configurações específicas para ambiente de desenvolvimento, como banco de dados local, logging detalhado, etc.</span>
+ ├── application-prod.yml <span class="text-muted"># Configurações específicas para ambiente de produção, como banco de dados em nuvem, logging otimizado, etc.</span>
+ ├── static <span class="text-muted"># Diretório com arquivos estáticos, como CSS, JavaScript e imagens, usados para servir conteúdo estático (se aplicável)</span>
+ ├── templates <span class="text-muted"># Diretório com arquivos de template, como HTML ou Thymeleaf, usados para renderizar páginas (se aplicável)</span>
+ └── db <span class="text-muted"># Scripts de banco de dados, como migrações SQL ou arquivos de configuração do Flyway/Liquibase</span>
+     └── migration <span class="text-muted"># Scripts de migração do banco de dados, nomeados seguindo convenção (V1__create_users_table.sql, V2__add_products_table.sql, etc.)</span>
+         ├── V1__create_users_table.sql <span class="text-muted"># Exemplo de script de migração para criar tabela de usuários</span>
+         └── V2__add_products_table.sql <span class="text-muted"># Exemplo de script de migração para adicionar tabela de produtos</span>
+
+com.whateverer.config <span class="text-muted"># Configurações globais</span>
+ ├── SwaggerConfig.kt <span class="text-muted"># Configuração do Swagger para documentação da API</span>
+ ├── SecurityConfig.kt <span class="text-muted"># Configuração de segurança, incluindo autenticação, autorização, filtros de segurança e rotas públicas/privadas</span>
+ ├── JwtConfig.kt <span class="text-muted"># Configuração específica para JWT (JSON Web Token), como geração e validação de tokens, além de expiração e assinatura</span>
+ ├── OpenApiConfig.kt <span class="text-muted"># Configuração da documentação OpenAPI, contendo título da API, versão, descrição e autenticação JWT no Swagger</span>
+ ├── JacksonConfig.kt <span class="text-muted"># Configuração do serializer/deserializer JSON do Jackson, que converte Kotlin objects para JSON e vice-versa, como formatos de datas, null handling</span>
+ ├── CorsConfig.kt <span class="text-muted"># Configuração de CORS (Cross-Origin Resource Sharing), definindo quais domínios podem acessar a API (como frontend), métodos HTTP permitidos e cabeçalhos</span>
+ ├── DatabaseConfig.kt <span class="text-muted"># Configuração do banco de dados, incluindo conexão, datasource, JPA/Hibernate, pool de conexões, transações e demais propriedades de acesso ao banco</span>
+ ├── CacheConfig.kt <span class="text-muted"># Configuração de cache, definindo quais dados devem ser armazenados em cache, tempo de expiração e estratégia de cache (como Redis, cache local ou Caffeine) para otimização de desempenho e redução de queries</span>
+ └── WebMvcConfig.kt <span class="text-muted"># Configuração do Spring MVC (Model-View-Controller), incluindo resolvers, interceptors, formatadores, conversores, manipuladores de exceção e outras customizações relacionadas ao comportamento da camada web geral</span>
+
+com.whateverer.feature.account <span class="text-muted"># Funcionalidades relacionadas ao domínio de gestão de contas e usuários</span>
+ ├── controller <span class="text-muted"># Camada de controle, responsável por receber requisições HTTP REST, validar dados de entrada, chamar os serviços e retornar respostas adequadas</span>
+ │     ├── AccountController.kt <span class="text-muted"># Controlador para endpoints principais de conta (criar, obter, atualizar, excluir)</span>
+ │     ├── AccountAdminController.kt <span class="text-muted"># Controlador para endpoints administrativos de conta (listar contas, alterar status, atribuir papéis, bloquear contas)</span>
+ │     └── AccountAuthController.kt <span class="text-muted"># Controlador para endpoints de autenticação e autorização (login, logout, refresh token)</span>
+ │
+ ├── model <span class="text-muted"># Camada de modelo, contendo definições de dados usados na aplicação, como DTOs (Data Transfer Objects) para comunicação entre camadas e entidades JPA para persistência no banco de dados</span>
+ │     ├── dto <span class="text-muted"># Pacote de DTOs, objetos usados para transferir dados entre camadas em comunicação HTTP, como requisições e respostas da API</span>
+ │     │     ├── CreateAccountRequest.kt <span class="text-muted"># Dados recebidos ao criar conta</span>
+ │     │     ├── UpdateAccountRequest.kt <span class="text-muted"># Dados recebidos ao atualizar conta</span>
+ │     │     ├── AccountResponse.kt <span class="text-muted"># Dados retornados/resposta ao obter detalhes de conta</span>
+ │     │     ├── AccountSummaryResponse.kt <span class="text-muted"># Dados retornados/resumo ao listar contas</span>
+ │     │     └── AccountLoginRequest.kt <span class="text-muted"># Payload, dados recebidos ao realizar login</span>
+ │     │
+ │     └── entity <span class="text-muted"># Pacote de entidades, classes que representam tabelas do banco de dados usando JPA/Hibernate, contendo anotações de mapeamento e relacionamentos</span>
+ │           ├── AccountEntity.kt <span class="text-muted"># Entidade principal de conta, representando tabela principal de contas no banco de dados</span>
+ │           ├── AccountProfileEntity.kt <span class="text-muted"># Entidade de perfil de conta, representando informações adicionais do usuário, como nome, email, telefone</span>
+ │           ├── AccountRoleEntity.kt <span class="text-muted"># Entidade de papel de conta, representando os papéis/roles/permissões atribuídos a cada conta para controle de acesso (admin, user)</span>
+ │           └── AccountStatus.kt <span class="text-muted"># Enumeração de status de conta, representando possíveis estados de conta (ativa, inativa, bloqueada, etc.)</span>
+ │
+ ├── repository <span class="text-muted"># Camada de repositório, responsável por acessar banco de dados e realizar operações de CRUD (Create, Read, Update, Delete) via JPA/Hibernate, além de consultas personalizadas</span>
+ │     ├── AccountRepository.kt <span class="text-muted"># Repositório principal de conta, estendendo JpaRepository para operações básicas de CRUD</span>
+ │     ├── AccountQueryRepository.kt <span class="text-muted"># Repositório de consultas personalizadas, contendo métodos para consultas/queries complexas ou específicas que não se encaixam no padrão do JpaRepository</span>
+ │     └── AccountCustomRepository.kt <span class="text-muted"># Repositório customizado, contendo implementações personalizadas de métodos de acesso a dados que exigem lógica específica/personalizada ou otimizações</span>
+ │
+ ├── service <span class="text-muted"># Camada de serviço, responsável por implementar lógica de negócio da aplicação, orquestrando operações entre repositórios, validando regras de negócio e garantindo a integridade dos dados</span>
+ │     ├── AccountService.kt <span class="text-muted"># Serviço principal de conta, contendo regras/métodos para criar, atualizar, excluir e obter contas, além de aplicar regras de negócio relacionadas a contas</span>
+ │     ├── CreateAccountService.kt <span class="text-muted"># Serviço específico para criação de contas, contendo regras/lógica de negócio relacionada à criação, como validação de dados, verificação de duplicidade, atribuição de papéis padrão, etc</span>
+ │     ├── UpdateAccountService.kt <span class="text-muted"># Serviço específico para atualização de contas, contendo regras/lógica de negócio relacionada à atualização, como validação de dados, controle de alterações, etc</span>
+ │     ├── DeleteAccountService.kt <span class="text-muted"># Serviço específico para exclusão de contas, contendo regras/lógica de negócio relacionada à exclusão, como verificação de dependências, controle de status, etc</span>
+ │     ├── GetAccountService.kt <span class="text-muted"># Serviço específico para obtenção de detalhes de conta individual, contendo regras/lógica de negócio relacionada à obtenção, como controle de acesso, formatação de dados, etc</span>
+ │     ├── ListAccountService.kt <span class="text-muted"># Serviço específico para listagem de contas, contendo regras/lógica de negócio relacionada à listagem, como paginação, filtragem, ordenação, etc</span>
+ │     ├── AccountValidationService.kt <span class="text-muted"># Serviço de validação de conta, contendo regras/lógica de negócio relacionada à validação de dados de conta, como validação de email, senha, formato de dados, etc</span>
+ │     └── AccountAuthService.kt <span class="text-muted"># Serviço de autenticação e autorização de conta, contendo regras/lógica de negócio relacionada à autenticação (login, logout, refresh token) e controle de acesso (verificação de papéis/permissões)</span>
+ │
+ └── utils <span class="text-muted"># Camada de utilitários, contendo classes e métodos auxiliares para mapeamento de objetos (DTOs para entidades e vice-versa), validação de dados, constantes e outras funções utilitárias relacionadas ao domínio de conta</span>
+       ├── AccountMapper.kt <span class="text-muted"># Mapeador para conversão entre entidades em DTOs, e vice-versa, de conta</span>
+       ├── AccountUtils.kt <span class="text-muted"># Utilitários/funções diversas relacionados a conta, como formatação de dados, geração de senhas, etc</span>
+       ├── AccountValidator.kt <span class="text-muted"># Validador para validações reutilizáveis de dados relacionados a conta, como validação de email, senha, formato de dados, etc</span>
+       ├── AccountConstants.kt <span class="text-muted"># Constantes relacionadas a conta, como mensagens de erro, papéis padrão, etc</span>
+       └── AccountPermissions.kt <span class="text-muted"># Definição/centralização de permissões e roles/papéis relacionados a conta, para controle de acesso</span>
+
+com.whateverer.feature.payment
+ ├── controller
+ │     ├── PaymentController.kt
+ │     ├── RefundController.kt
+ │     └── PaymentWebhookController.kt
+ │
+ ├── model
+ │     ├── dto
+ │     │     ├── CreatePaymentRequest.kt
+ │     │     ├── PaymentResponse.kt
+ │     │     ├── RefundRequest.kt
+ │     │     ├── PaymentStatusResponse.kt
+ │     │     └── InstallmentSimulationResponse.kt
+ │     │
+ │     └── entity
+ │           ├── PaymentEntity.kt
+ │           ├── RefundEntity.kt
+ │           ├── PaymentMethodEntity.kt
+ │           └── PaymentStatus.kt
+ │
+ ├── repository
+ │     ├── PaymentRepository.kt
+ │     ├── RefundRepository.kt
+ │     └── PaymentQueryRepository.kt
+ │
+ ├── service
+ │     ├── PaymentService.kt
+ │     ├── RefundService.kt
+ │     ├── PaymentGatewayService.kt
+ │     ├── PaymentValidationService.kt
+ │     ├── InstallmentService.kt
+ │     └── PaymentWebhookService.kt
+ │
+ └── utils
+       ├── PaymentMapper.kt
+       ├── PaymentUtils.kt
+       ├── PaymentValidator.kt
+       ├── PaymentConstants.kt
+       └── InstallmentCalculator.kt
+
+src.test.kotlin.com.whateverer <span class="text-muted"># Pacote de testes, organizado por tipo de teste (integração, unitário, arquitetura, e2e) e por domínio/feature (account, payment, order)</span>
+├── integration <span class="text-muted"># Testes de integração, que verificam interação entre diferentes módulos ou camadas do sistema</span>
+│   ├── AccountIntegrationTest.kt <span class="text-muted"># Teste de integração para funcionalidades relacionadas a conta, verificando interação entre camadas (controller, service, repository) e comportamento geral da funcionalidade de conta</span>
+│   ├── PaymentIntegrationTest.kt <span class="text-muted"># Teste de integração para funcionalidades relacionadas a pagamento, verificando interação entre camadas (controller, service, repository) e comportamento geral da funcionalidade de pagamento</span>
+│   └── OrderIntegrationTest.kt <span class="text-muted"># Teste de integração para funcionalidades relacionadas a pedido, verificando interação entre camadas (controller, service, repository) e comportamento geral da funcionalidade de pedido</span>
+├── unit <span class="text-muted"># Testes unitários, que verificam comportamento de unidades isoladas de código, como métodos ou classes específicas, usando mocks para dependências externas</span>
+│   ├── account <span class="text-muted"># Testes unitários para funcionalidades relacionadas a conta, organizados por camada (controller, service, repository)</span>
+│   │   ├── controller <span class="text-muted"># Testes unitários para camada de controle de conta, verificando comportamento dos endpoints REST, validação de dados de entrada e respostas adequadas</span>
+│   │   │   └── AccountControllerTest.kt <span class="text-muted"># Teste unitário para AccountController, verificando comportamento dos endpoints de conta</span>
+│   │   ├── service <span class="text-muted"># Testes unitários para camada de serviço de conta, verificando lógica de negócio, regras de validação e interação com repositórios</span>
+│   │   │   ├── AccountServiceTest.kt <span class="text-muted"># Teste unitário para AccountService, verificando regras de negócio relacionadas a conta</span>
+│   │   │   └── AccountValidationServiceTest.kt <span class="text-muted"># Teste unitário para AccountValidationService, verificando regras de validação de dados relacionados a conta</span>
+│   │   └── repository <span class="text-muted"># Testes unitários para camada de repositório de conta, verificando operações de acesso a dados e consultas personalizadas</span>
+│   │       ├── AccountRepositoryTest.kt <span class="text-muted"># Teste unitário para AccountRepository, verificando operações básicas de CRUD e consultas simples</span>
+│   │       └── AccountQueryRepositoryTest.kt <span class="text-muted"># Teste unitário para AccountQueryRepository, verificando consultas personalizadas e complexas relacionadas a conta</span>
+│   ├── payment
+│   └── order
+├── architecture <span class="text-muted"># Testes de arquitetura, que verificam conformidade do código com regras de arquitetura definidas, como modularização, dependências entre camadas, regras hexagonais e convenções de DDD</span>
+│   ├── ModularizationTest.kt <span class="text-muted"># Teste de arquitetura para verificar modularização do código, garantindo que funcionalidades estejam organizadas em módulos coesos e com baixo acoplamento</span>
+│   ├── LayerDependencyTest.kt <span class="text-muted"># Teste de arquitetura para verificar dependências entre camadas, garantindo que camadas superiores (controller) dependam apenas das camadas inferiores (service, repository) e não o contrário</span>
+│   ├── HexagonalRulesTest.kt <span class="text-muted"># Teste de arquitetura para verificar regras hexagonais, garantindo que camada de domínio não dependa de detalhes de infraestrutura e que portas e adaptadores estejam corretamente implementados</span>
+│   └── DddConventionsTest.kt <span class="text-muted"># Teste de arquitetura para verificar convenções de DDD (Domain-Driven Design), garantindo que entidades, agregados, repositórios e serviços estejam organizados de acordo com práticas recomendadas de DDD</span>
+└── e2e <span class="text-muted"># Testes end-to-end, que verificam comportamento do sistema como todo, simulando cenários reais de uso e verificando integração entre todas camadas e módulos</span>
+    ├── CustomerFlowE2ETest.kt <span class="text-muted"># Teste end-to-end para fluxo de cliente, simulando cenários reais de uso relacionados a clientes, como criação, atualização, obtenção e exclusão de clientes, verificando integração entre todas as camadas e módulos relacionados a cliente</span>
+    └── OrderFlowE2ETest.kt <span class="text-muted"># Teste end-to-end para fluxo de pedido, simulando cenários reais de uso relacionados a pedidos, como criação, atualização, obtenção e exclusão de pedidos, verificando integração entre todas camadas e módulos relacionados a pedido</span>
+</code></pre></small>
         </div>
     </div>
 
