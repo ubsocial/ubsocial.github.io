@@ -874,6 +874,33 @@ src.test.kotlin.com.whateverer <span class="text-muted"># Pacote de testes, orga
     ├── CustomerFlowE2ETest.kt <span class="text-muted"># Teste end-to-end para fluxo de cliente, simulando cenários reais de uso relacionados a clientes, como criação, atualização, obtenção e exclusão de clientes, verificando integração entre todas as camadas e módulos relacionados a cliente</span>
     └── OrderFlowE2ETest.kt <span class="text-muted"># Teste end-to-end para fluxo de pedido, simulando cenários reais de uso relacionados a pedidos, como criação, atualização, obtenção e exclusão de pedidos, verificando integração entre todas camadas e módulos relacionados a pedido</span>
 </code></pre></small>
+
+            <br><h4>Fluxo para criação de nova feature no projeto:</h4>
+            <ol>
+                <li>Criar Entity (AccountEntity), definindo tables, columns, constraints e relacionamentos;</li>
+                <li>Criar DTOs (CreateAccountRequest, AccountResponse), definindo entrada e saída de dados da API;</li>
+                <li>Criar Repository (AccountRepository), definindo operações de acesso ao banco de dados;</li>
+                <li>Criar Mapper (AccountMapper), definindo mapeamento/conversão entre entidades e DTOs;</li>
+                <li>Criar Validators (AccountValidator), definindo regras de validação de dados, campos e regras de negócio para criação e atualização de contas;</li>
+                <li>Criar Services (AccountService), definindo regras e lógica de negócio para manipulação de contas, no fluxo do CRUD (create, update, delete, get, list);</li>
+                <li>Criar Controllers (AccountController), definindo endpoints da API REST para exposição das operações de CRUD (POST /accounts, GET /accounts, PUT /accounts/&#123;id&#125;, DELETE /accounts/&#123;id&#125;);</li>
+                <li>Configurar segurança (JWT, OAuth2, etc), definindo autenticação, autorização, roles e gerenciamento de tokens;</li>
+                <li>Documentar API (Swagger, OpenAPI), definindo especificações e documentação para endpoints da API;</li>
+                <li>Criar testes (Unitários, Integração, End-to-End, Controller, Repository), definindo casos de teste para verificar o comportamento do sistema e garantir a qualidade do código.</li>
+            </ol>
+            
+            <br><h4>Fluxo de Request:</h4>
+            <ol>
+                <li>Cliente HTTP (envia requisição);</li>
+                <li>Controller (entrada, recebe endpoint);</li>
+                <li>Service (executa regras de negócio);</li>
+                <li>Validation (valida dados);</li>
+                <li>Repository (acessa banco de dados);</li>
+                <li>Banco de Dados (persiste dados);</li>
+                <li>Mapper (converte objetos Entidade e DTO);</li>
+                <li>Response DTO (monta resposta de retorno);</li>
+                <li>Cliente (recebe resultado, resposta).</li>
+            </ol>
         </div>
     </div>
 
