@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../../icons/logoTit.png">
+    <link rel="stylesheet" href="../../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <nav class="navbar rounded-bottom fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="../../index.html"><img src="../../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../sobre/sobre.html">Sobre</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../cursos.html">Cursos</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../livros/livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 text-center" id="titulo">
+            <h1>Computação Quântica com Django</h1>
+            <h6><strong>Curso teórico e prático</strong></h6>
+            <a href="../../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
+        </div>
+
+        <div class="col-sm-12">
+            <h4>Material complementar:</h4>
+            <ul>
+                <li>Conteúdo no GitHub: <a href="https://github.com/mateusschwede/workover_django_quantum" class="text-decoration-none" target="_blank">Acesse</a></li>
+                <li>Curso com certificado na Workover Academy: <a class="text-decoration-none">Acesse em breve</a></li>
+            </ul>
+
+            <br><h4>Objetivo:</h4>
+            <p id="textoPost">API REST desenvolvida com Django REST Framework, Qiskit e integrada à IBM Quantum Platform, utilizando execução de circuitos quânticos em backends reais da IBM. Nesse projeto, não serão utilizadas funcionalidades avançadas, nem arquitetura complexa. Funcionalidades do projeto:</p>
+            <ul>
+                <li>Health Check: verifica disponibilidade da API e dos serviços internos;</li>
+                <li>Random Bit: gera bit aleatório quântico (0 ou 1) utilizando superposição quântica em único qubit, retornando também backend utilizado e circuito quântico em formato texto;</li>
+                <li>Coin Flip: realiza simulação de cara/coroacoroa baseada em resultado quântico real, convertendo bit medido para heads ou tails;</li>
+                <li>Random Number: gera nºs aleatórios quânticos com quantidade configurável de bits, criando circuitos com múltiplos qubits, executando-os em hardware quântico da IBM e retornando quantidade de bits utilizada, representação binária gerada, valor decimal correspondente, backend utilizado e circuito quântico em formato texto (ASCII).</li>
+            </ul>
+
+            <br><h4>Pré-requisitos:</h4>
+            <ul>
+                <li>Python e Django;</li>
+                <li>VSCode com extensões Python e Django;</li>
+                <li>Conta e token de acesso na IBM Quantum Platform.</li>
+            </ul>
+
+            <br><h4>Criação do projeto:</h4>
+            <ol>
+                <li>Instalar dependências e criar projeto Django DRF:
+<small><pre><code>
+pip3 install django djangorestframework qiskit qiskit[visualization] qiskit-ibm-runtime python-dotenv --break-system-packages
+
+mkdir api_rest_quantum && cd api_rest_quantum
+django-admin startproject config .
+python manage.py startapp quantum
+</code></pre></small>
+                </li>
+                <li>Criar arquivo de variáveis de ambiente 'quantum/.env' para armazenar token de acesso à IBM Quantum Platform:
+<small><pre><code>
+IBM_QUANTUM_TOKEN=cole_seu_token_aqui
+</code></pre></small>
+                </li>
+                <li>Criar arquivo de ignore 'quantum/.gitignore' para evitar commit de variáveis de ambiente:
+<small><pre><code>
+.env
+__pycache__/
+*.pyc
+venv/
+</code></pre></small>
+                </li>
+                <li>Adicionar códigos em 'config/settings.py' para carregar variáveis de ambiente:
+<small><pre><code>
+# Inserir imports no início do arquivo:
+from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+# Adicionar 'rest_framework' e 'quantum' em INSTALLED_APPS:
+INSTALLED_APPS = [
+    ...
+    'rest_framework',
+    'quantum'
+]
+
+# Logo após a definição de BASE_DIR, adicione:
+load_dotenv(BASE_DIR / ".env")
+</code></pre></small>
+                </li>
+                <li>Executar migrations: python manage.py migrate</li>
+                <li>Executar servidor: python manage.py runserver
+                    <ul>
+                        <li>Acessar <a href="http://localhost:8000" class="text-decoration-none" target="_blank">http://localhost:8000</a> para verificar funcionamento da aplicação.</li>
+                    </ul>
+                </li>
+                <li>Inserir rotas globais em 'config/urls.py':
+<small><pre><code>
+from django.contrib import admin
+from django.urls import include, path
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('api/', include('quantum.urls')),
+]
+</code></pre></small>
+                </li>
+            </ol>
+
+            <br><h4>Criar conexão IBM Quantum:</h4>
+            <ol>
+                <li>Criar provedor de conexão com IBM Quantum Platform em 'quantum/ibm_quantum.py':
+<small><pre><code>
+import os
+from qiskit_ibm_runtime import QiskitRuntimeService
+
+class IBMQuantumProvider:
+    @staticmethod
+    def get_service():
+        return QiskitRuntimeService(
+            channel="ibm_quantum_platform",
+            token=os.getenv("IBM_QUANTUM_TOKEN")
+        )
+
+    @staticmethod
+    def get_backend():
+        service = IBMQuantumProvider.get_service()
+        return service.least_busy(
+            simulator=False,
+            operational=True
+        )
+</code></pre></small>
+                </li>
+            </ol>
+
+            <br><h4>Criar funcionalidades quânticas:</h4>
+            <ol>
+                <li>Criar classes serializadoras em 'quantum/serializers.py':
+<small><pre><code>
+from rest_framework import serializers
+
+class RandomBitResponseSerializer(serializers.Serializer):
+    bit = serializers.IntegerField()
+    backend = serializers.CharField()
+    circuit = serializers.CharField()
+
+class HealthResponseSerializer(serializers.Serializer):
+    status = serializers.CharField()
+
+class CoinFlipResponseSerializer(serializers.Serializer):
+    result = serializers.CharField()
+    backend = serializers.CharField()
+    circuit = serializers.CharField()
+
+class RandomNumberResponseSerializer(serializers.Serializer):
+    bits = serializers.IntegerField()
+    binary = serializers.CharField()
+    decimal = serializers.IntegerField()
+    backend = serializers.CharField()
+    circuit = serializers.CharField()
+</code></pre></small>
+                </li>
+                <li>Criar serviços quânticos em 'quantum/services.py':
+<small><pre><code>
+import os
+from qiskit import QuantumCircuit, transpile
+from qiskit_ibm_runtime import SamplerV2
+from .ibm_quantum import IBMQuantumProvider
+
+class QuantumService:
+    @staticmethod
+    def health():
+        return &#123;"status": "quantum-service-ok"&#125;
+    
+    @staticmethod
+    def test_ibm_connection():
+        backend = IBMQuantumProvider.get_backend()
+
+        return &#123;
+            "connected": True,
+            "backend": backend.name
+        &#125;
+
+    @staticmethod
+    def generate_random_bit():
+        backend = IBMQuantumProvider.get_backend()
+
+        circuit = QuantumCircuit(1)
+        circuit.h(0)
+        circuit.measure_all()
+
+        circuit_ascii = circuit.draw(output="text").single_string()
+        
+        transpiled_circuit = transpile(circuit, backend=backend)
+        sampler = SamplerV2(mode=backend)
+        job = sampler.run([transpiled_circuit], shots=1)
+
+        result = job.result()
+        bitstrings = result[0].data.meas.get_bitstrings()
+        bit = int(bitstrings[0])
+
+        return &#123;
+            "bit": bit,
+            "backend": backend.name,
+            "circuit": circuit_ascii
+        &#125;
+    
+    @staticmethod
+    def coin_flip():
+        random_result = QuantumService.generate_random_bit()
+
+        return &#123;
+            "result": (
+                "heads"
+                if random_result["bit"] == 0
+                else "tails"
+            ),
+            "backend": random_result["backend"],
+            "circuit": random_result["circuit"]
+        &#125;
+    
+    @staticmethod
+    def generate_random_number(bits):
+        if bits &lt; 1 or bits &gt; 16:
+            raise ValueError("Bits devem ser entre 1 e 16")
+
+        backend = IBMQuantumProvider.get_backend()
+        circuit = QuantumCircuit(bits)
+
+        for i in range(bits):
+            circuit.h(i)
+
+        circuit.measure_all()
+
+        circuit_ascii = circuit.draw(output="text").single_string()
+
+        transpiled_circuit = transpile(circuit, backend=backend)
+        sampler = SamplerV2(mode=backend)
+        job = sampler.run([transpiled_circuit], shots=1)
+
+        result = job.result()
+        bitstrings = result[0].data.meas.get_bitstrings()
+        binary = bitstrings[0]
+        decimal = int(binary, 2)
+
+        return &#123;
+            "bits": bits,
+            "binary": binary,
+            "decimal": decimal,
+            "backend": backend.name,
+            "circuit": circuit_ascii
+        &#125;
+</code></pre></small>
+                </li>
+                <li>Criar visões para os endpoints quânticos:
+<small><pre><code>
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .serializers import HealthResponseSerializer, RandomBitResponseSerializer, CoinFlipResponseSerializer, RandomNumberResponseSerializer
+from .services import QuantumService
+
+class HealthCheckView(APIView):
+    def get(self, request):
+        data = QuantumService.health()
+        serializer = HealthResponseSerializer(instance=data)
+        return Response(serializer.data)
+
+class RandomBitView(APIView):
+    def get(self, request):
+        data = QuantumService.generate_random_bit()
+        serializer = RandomBitResponseSerializer(instance=data)
+        return Response(serializer.data)
+    
+class CoinFlipView(APIView):
+    def get(self, request):
+        data = QuantumService.coin_flip()
+        serializer = CoinFlipResponseSerializer(instance=data)
+        return Response(serializer.data)
+    
+class RandomNumberView(APIView):
+    def get(self, request):
+        bits = int(request.query_params.get("bits", 8))
+        data = QuantumService.generate_random_number(bits)
+        serializer = RandomNumberResponseSerializer(instance=data)
+        return Response(serializer.data)
+</code></pre></small>
+                </li>
+                <li>Criar arquivo de rotas locais 'quantum/urls.py':
+<small><pre><code>
+from django.urls import path
+from .views import HealthCheckView, RandomBitView, CoinFlipView, RandomNumberView
+
+urlpatterns = [
+    path(
+        "health/",
+        HealthCheckView.as_view(),
+        name="health-check"
+    ),
+    path(
+        "quantum/random-bit/",
+        RandomBitView.as_view(),
+        name="random-bit"
+    ),
+    path(
+        "quantum/coin-flip/",
+        CoinFlipView.as_view(),
+        name="coin-flip"
+    ),
+    path(
+        "quantum/random-number/",
+        RandomNumberView.as_view(),
+        name="random-number"
+    )
+]
+</code></pre></small>
+                </li>
+            </ol>
+
+            <br><h4>Testar funcionalidades:</h4>
+            <ol>
+                <li>Executar servidor: python manage.py runserver</li>
+                <li>Testar endpoint 'GET /api/health' (retornará 'ok'): <a href="http://localhost:8000/api/health" class="text-decoration-none" target="_blank">http://localhost:8000/api/health</a></li>
+                <li>Testar endpoint 'GET /api/quantum/random-bit' (retornará bit aleatório): <a href="http://localhost:8000/api/quantum/random-bit" class="text-decoration-none" target="_blank">http://localhost:8000/api/quantum/random-bit</a></li>
+                <li>Testar endpoint 'GET /api/quantum/coin-flip' (retornará resultado de moeda lançada): <a href="http://localhost:8000/api/quantum/coin-flip" class="text-decoration-none" target="_blank">http://localhost:8000/api/quantum/coin-flip</a></li>
+                <li>Testar endpoint 'GET /api/quantum/random-number' (retornará nº aleatório com nº de bits especificado): <a href="http://localhost:8000/api/quantum/random-number?bits=8" class="text-decoration-none" target="_blank">http://localhost:8000/api/quantum/random-number?bits=8</a></li>
+                <li>Testar endpoint 'GET /api/quantum/random-number' (retornará erro de validação para limite de bits): <a href="http://localhost:8000/api/quantum/random-number?bits=20" class="text-decoration-none" target="_blank">http://localhost:8000/api/quantum/random-number?bits=20</a></li>
+            </ol>
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center bg-black text-light pt-4 pb-3">
+        <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>
