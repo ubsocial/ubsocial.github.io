@@ -901,6 +901,963 @@ src.test.kotlin.com.whateverer <span class="text-muted"># Pacote de testes, orga
                 <li>Response DTO (monta resposta de retorno);</li>
                 <li>Cliente (recebe resultado, resposta).</li>
             </ol>
+
+            <br><hr>
+            <h4>API REST Spring Boot Kotlin (sem JWT):</h4>
+            <p id="textoPost">Modelo de API REST Spring Boot e Kotlin, sem utilização de JWT para autenticação, nem criação de testes. Pré-requisitos são Java JDK 25, Kotlin compiler 2.4, Spring Boot 4.1, Gradle 9.6, VS Code (extensões Java, Spring Boot, Kotlin JetBrains, Postman, DBCode), conta no Postman, e Docker. Hierarquia de diretórios Feature-Based Architecture (Package by Feature) básica:</p>
+<small><pre><code>
+cat_api_simples
+├── build.gradle.kts
+├── settings.gradle.kts
+└── src
+    └── main
+        ├── kotlin
+        │   └── com
+        │       └── ubsocial
+        │           └── cat_api_simples
+        │               ├── Application.kt
+        │               ├── config
+        │               │   └── CorsConfig.kt
+        │               ├── exception
+        │               │   ├── BusinessException.kt
+        │               │   ├── ResourceNotFoundException.kt
+        │               │   ├── ErrorResponse.kt
+        │               │   └── GlobalExceptionHandler.kt
+        │               └── feature
+        │                   └── cat
+        │                       ├── controller
+        │                       │   ├── CatController.kt
+        │                       │   └── CatAdoptionController.kt
+        │                       ├── mapper
+        │                       │   └── CatMapper.kt
+        │                       ├── model
+        │                       │   ├── dto
+        │                       │   │   ├── CreateCatRequest.kt
+        │                       │   │   ├── UpdateCatRequest.kt
+        │                       │   │   ├── AdoptCatRequest.kt
+        │                       │   │   ├── RemoveAdoptionRequest.kt
+        │                       │   │   ├── CatResponse.kt
+        │                       │   │   └── CatSummaryResponse.kt
+        │                       │   ├── entity
+        │                       │   │   └── CatEntity.kt
+        │                       │   └── enums
+        │                       │       └── CatStatus.kt
+        │                       ├── repository
+        │                       │   └── CatRepository.kt
+        │                       ├── service
+        │                       │   ├── CatService.kt
+        │                       │   ├── CreateCatService.kt
+        │                       │   ├── UpdateCatService.kt
+        │                       │   ├── DeleteCatService.kt
+        │                       │   ├── GetCatService.kt
+        │                       │   ├── ListCatService.kt
+        │                       │   ├── AdoptCatService.kt
+        │                       │   └── RemoveAdoptionService.kt
+        │                       ├── validator
+        │                       │   └── CatValidator.kt
+        │                       └── utils
+        │                           └── CatUtils.kt
+        └── resources
+            └── application.properties
+</code></pre></small>
+            <ol>
+                <li>Gerar projeto em <a href="https://start.spring.io" class="text-decoration-none" target="_blank">start.spring.io</a>:
+                    <ul>
+                        <li>Project: Gradle - Kotlin</li>
+                        <li>Language: kotlin</li>
+                        <li>Spring Boot: 4.1.0</li>
+                        <li>Project Metadata:</li>
+                        <li>Group: com.ubsocial</li>
+                        <li>Artifact: cat_api_simples</li>
+                        <li>Package name: com.ubsocial.cat_api_simples</li>
+                        <li>Packaging: Jar</li>
+                        <li>Configuration: Properties</li>
+                        <li>Java: 25</li>
+                        <li>Dependencies: Spring Web, Spring Data JPA, Validation, Oracle Driver</li>
+                        <li>Gerar projeto e extrair</li>
+                    </ul>
+                </li>
+                <li>Criar container Docker com Oracle Database (comandos terminal):
+<small><pre><code>
+docker pull container-registry.oracle.com/database/free:latest
+docker run -d --name oracle-db -p 1521:1521 -p 5500:5500 -e ORACLE_PWD=SenhaForte123 container-registry.oracle.com/database/free:latest
+</code></pre></small>
+                    <ul>
+                        <li>Driver: Oracle</li>
+                        <li>Connection Type: Service Name</li>
+                        <li>Hostname: localhost</li>
+                        <li>Port: 1521</li>
+                        <li>Service: FREEPDB1</li>
+                        <li>Driver: Thin</li>
+                        <li>Authentication: User & Password</li>
+                        <li>User: system</li>
+                        <li>Password: SenhaForte123</li>
+                        <li>Testar conexão e confirmar</li>
+                    </ul>
+                </li>
+                <li>No editor SQL conectado ao container Oracle DB, criar usuário e senha para o projeto (executar 1 linha por vez):
+<small><pre><code>
+CREATE USER catapi IDENTIFIED BY "CatApi@123";
+GRANT CONNECT TO catapi;
+GRANT RESOURCE TO catapi;
+GRANT CREATE SESSION TO catapi;
+GRANT CREATE TABLE TO catapi;
+GRANT CREATE VIEW TO catapi;
+GRANT CREATE SEQUENCE TO catapi;
+GRANT CREATE TRIGGER TO catapi;
+GRANT CREATE PROCEDURE TO catapi;
+GRANT UNLIMITED TABLESPACE TO catapi;
+</code></pre></small>
+                </li>
+                <li>Editar conexão do Oracle DB para novo usuário:
+                    <ul>
+                        <li>Usuário: catapi</li>
+                        <li>Senha: CatApi@123</li>
+                        <li>Testar conexão e confirmar</li>
+                    </ul>
+                </li>
+                <li>Executar comando SQL 'SELECT USER FROM DUAL' e verificar se usuário 'CATAPI' existe</li>
+                <li>Codificar src/main/resources/application.properties, com informações de conexão com banco de dados Oracle:
+<small><pre><code>
+spring.application.name=cat_api_simples
+
+spring.datasource.url=jdbc:oracle:thin:@//localhost:1521/FREEPDB1
+spring.datasource.username=catapi
+spring.datasource.password=CatApi@123
+spring.datasource.driver-class-name=oracle.jdbc.OracleDriver
+
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.open-in-view=false
+spring.jpa.show-sql=true
+
+spring.jpa.properties.hibernate.format_sql=true
+spring.jpa.properties.hibernate.jdbc.time_zone=UTC
+
+spring.web.error.include-message=always
+spring.web.error.include-binding-errors=always
+spring.web.error.include-stacktrace=never
+spring.web.error.include-exception=false
+</code></pre></small>
+                </li>
+                <li>No pacote principal 'cat_api_simples', criar pacote 'exception', com classes de exceção personalizadas
+                    <ol>
+                        <li>'BusinessException.kt', contendo classe BusinessException, estendendo RuntimeException:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.exception
+
+class BusinessException(
+    message: String
+) : RuntimeException(message)
+</code></pre></small>
+                        </li>
+                        <li>'ResourceNotFoundException.kt', contendo classe ResourceNotFoundException, estendendo RuntimeException:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.exception
+
+class ResourceNotFoundException(
+    message: String
+) : RuntimeException(message)
+</code></pre></small>
+                        </li>
+                        <li>'ErrorResponse.kt', contendo classe ErrorResponse, com atributos timestamp, status, error, message e path:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.exception
+
+import java.time.LocalDateTime
+
+data class ErrorResponse(
+    val timestamp: LocalDateTime,
+    val status: Int,
+    val error: String,
+    val message: String,
+    val path: String
+)
+</code></pre></small>
+                        </li>
+                        <li>'GlobalExceptionHandler.kt', contendo classe GlobalExceptionHandler, com métodos para tratar exceções globais:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.exception
+
+import jakarta.servlet.http.HttpServletRequest
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.MethodArgumentNotValidException
+import org.springframework.web.bind.annotation.ExceptionHandler
+import org.springframework.web.bind.annotation.RestControllerAdvice
+import java.time.LocalDateTime
+
+@RestControllerAdvice
+class GlobalExceptionHandler &#123;
+
+    @ExceptionHandler(ResourceNotFoundException::class)
+    fun handleResourceNotFoundException(
+        exception: ResourceNotFoundException,
+        request: HttpServletRequest
+    ): ResponseEntity&lt;ErrorResponse&gt; &#123;
+
+        val errorResponse = ErrorResponse(
+            timestamp = LocalDateTime.now(),
+            status = HttpStatus.NOT_FOUND.value(),
+            error = HttpStatus.NOT_FOUND.reasonPhrase,
+            message = exception.message ?: "Resource not found.",
+            path = request.requestURI
+        )
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse)
+    &#125;
+
+    @ExceptionHandler(BusinessException::class)
+    fun handleBusinessException(
+        exception: BusinessException,
+        request: HttpServletRequest
+    ): ResponseEntity&lt;ErrorResponse&gt; &#123;
+
+        val errorResponse = ErrorResponse(
+            timestamp = LocalDateTime.now(),
+            status = HttpStatus.BAD_REQUEST.value(),
+            error = HttpStatus.BAD_REQUEST.reasonPhrase,
+            message = exception.message ?: "Business rule violation.",
+            path = request.requestURI
+        )
+
+        return ResponseEntity.badRequest().body(errorResponse)
+    &#125;
+
+    @ExceptionHandler(MethodArgumentNotValidException::class)
+    fun handleValidationException(
+        exception: MethodArgumentNotValidException,
+        request: HttpServletRequest
+    ): ResponseEntity&lt;ErrorResponse&gt; &#123;
+
+        val message = exception.bindingResult
+            .fieldErrors
+            .joinToString(", ") &#123; "$&#123;it.field&#125;: $&#123;it.defaultMessage&#125;" &#125;
+
+        val errorResponse = ErrorResponse(
+            timestamp = LocalDateTime.now(),
+            status = HttpStatus.BAD_REQUEST.value(),
+            error = HttpStatus.BAD_REQUEST.reasonPhrase,
+            message = message,
+            path = request.requestURI
+        )
+
+        return ResponseEntity.badRequest().body(errorResponse)
+    &#125;
+
+    @ExceptionHandler(Exception::class)
+    fun handleException(
+        exception: Exception,
+        request: HttpServletRequest
+    ): ResponseEntity&lt;ErrorResponse&gt; &#123;
+
+        val errorResponse = ErrorResponse(
+            timestamp = LocalDateTime.now(),
+            status = HttpStatus.INTERNAL_SERVER_ERROR.value(),
+            error = HttpStatus.INTERNAL_SERVER_ERROR.reasonPhrase,
+            message = "An unexpected error has occurred.",
+            path = request.requestURI
+        )
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .body(errorResponse)
+    &#125;
+&#125;
+</code></pre></small>
+                        </li>
+                    </ol>
+                </li>
+                <li>No pacote principal 'com.ubsocial.cat_api_simples', criar pacote 'config', com classes de configuração da aplicação:
+                    <ol>
+                        <li>'config/CorsConfig.kt', contendo classe CorsConfig, com configuração de CORS para permitir requisições de qualquer origem externa:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.config
+
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource
+import org.springframework.web.filter.CorsFilter
+
+@Configuration
+class CorsConfig &#123;
+
+    @Bean
+    fun corsFilter(): CorsFilter &#123;
+        val configuration = CorsConfiguration().apply &#123;
+            allowedOriginPatterns = listOf("*")
+            allowedMethods = listOf("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
+            allowedHeaders = listOf("*")
+            allowCredentials = false
+            maxAge = 3600
+        &#125;
+
+        val source = UrlBasedCorsConfigurationSource()
+        source.registerCorsConfiguration("/**", configuration)
+        return CorsFilter(source)
+    &#125;
+&#125;
+</code></pre></small>
+                        </li>
+                    </ol>
+                </li>
+                <li>No pacote principal 'com.ubsocial.cat_api_simples', criar pacote 'feature', com subpacotes para cada feature da aplicação</li>
+                <li>Em 'feature', criar pacote 'cat' para funcionalidades relacionadas a gatos</li>
+                <li>Em 'cat', criar pacote 'model', com classes de modelo da aplicação:
+                    <ol>
+                        <li>Em 'model', criar pacote 'enums', com enumeração 'CatStatus.kt', contendo status possíveis para gatos (AVAILABLE, ADOPTED, PENDING)</li>
+                        <li>'model/enums/CatStatus.kt', contendo enumeração CatStatus:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.model.enums
+
+enum class CatStatus &#123;
+    AVAILABLE,
+    ADOPTED
+&#125;
+</code></pre></small>
+                        </li>
+                        <li>Em 'model', criar pacote 'entity', com entidade JPA 'CatEntity.kt', representando tabela de gatos no banco de dados</li>
+                        <li>'model/entity/CatEntity.kt', contendo entidade CatEntity:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.model.entity
+
+import com.ubsocial.cat_api_simples.feature.cat.model.enums.CatStatus
+import jakarta.persistence.*
+
+@Entity
+@Table(name = "cats")
+class CatEntity(
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    var id: Long? = null,
+
+    @Column(name = "name", nullable = false)
+    var name: String,
+
+    @Column(name = "breed", nullable = false)
+    var breed: String,
+
+    @Column(name = "age", nullable = false)
+    var age: Int,
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    var status: CatStatus = CatStatus.AVAILABLE,
+
+    @Column(name = "adopter_name")
+    var adopterName: String? = null
+)
+</code></pre></small>
+                        </li>
+                        <li>Em 'model', criar pacote 'dto', com classes DTO para comunicação entre camadas da aplicação:
+                            <ol>
+                                <li>'dto/CreateCatRequest.kt', contendo classe CreateCatRequest, com atributos name, breed e age:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.model.dto
+
+import jakarta.validation.constraints.Min
+import jakarta.validation.constraints.NotBlank
+
+data class CreateCatRequest(
+
+    @field:NotBlank(message = "Nome do gato é obrigatório")
+    val name: String,
+
+    @field:NotBlank(message = "Raça do gato é obrigatória")
+    val breed: String,
+
+    @field:Min(value = 0, message = "Idade do gato deve ser maior ou igual a zero")
+    val age: Int
+)
+</code></pre></small>
+                                </li>
+                                <li>'dto/UpdateCatRequest.kt', contendo classe UpdateCatRequest, com atributos name, breed e age:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.model.dto
+
+import jakarta.validation.constraints.Min
+import jakarta.validation.constraints.NotBlank
+
+data class UpdateCatRequest(
+
+    @field:NotBlank(message = "Nome do gato é obrigatório")
+    val name: String,
+
+    @field:NotBlank(message = "Raça do gato é obrigatória")
+    val breed: String,
+
+    @field:Min(value = 0, message = "Idade do gato deve ser maior ou igual a zero")
+    val age: Int
+)
+</code></pre></small>
+                                </li>
+                                <li>'dto/AdoptCatRequest.kt', contendo classe AdoptCatRequest, com atributo adopterName:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.model.dto
+
+import jakarta.validation.constraints.NotBlank
+
+data class AdoptCatRequest(
+
+    @field:NotBlank(message = "Nome do adotante não pode ser nulo ou vazio")
+    val adopterName: String
+)
+</code></pre></small>
+                                </li>
+                                <li>'dto/RemoveAdoptionRequest.kt', contendo classe RemoveAdoptionRequest, com atributo reason:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.model.dto
+
+data class RemoveAdoptionRequest(
+    val reason: String? = null
+)
+</code></pre></small>
+                                </li>
+                                <li>'dto/CatResponse.kt', contendo classe CatResponse, com atributos id, name, breed, age, status e adopterName:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.model.dto
+
+import com.ubsocial.cat_api_simples.feature.cat.model.enums.CatStatus
+
+data class CatResponse(
+    val id: Long,
+    val name: String,
+    val breed: String,
+    val age: Int,
+    val status: CatStatus,
+    val adopterName: String?
+)
+</code></pre></small>
+                                </li>
+                                <li>'dto/CatSummaryResponse.kt', contendo classe CatSummaryResponse, com atributos id, name e status:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.model.dto
+
+import com.ubsocial.cat_api_simples.feature.cat.model.enums.CatStatus
+
+data class CatSummaryResponse(
+    val id: Long,
+    val name: String,
+    val status: CatStatus
+)
+</code></pre></small>
+                                </li>
+                            </ol>
+                        </li>
+                    </ol>
+                </li>
+                <li>Em 'cat', criar pacote 'repository', com interface 'CatRepository.kt', estendendo JpaRepository para operações CRUD de gatos</li>
+                <li>'repository/CatRepository.kt', contendo interface CatRepository:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.repository
+
+import com.ubsocial.cat_api_simples.feature.cat.model.entity.CatEntity
+import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.stereotype.Repository
+
+@Repository
+interface CatRepository : JpaRepository&lt;CatEntity, Long&gt;
+</code></pre></small>
+                </li>
+                <li>Em 'cat', criar pacote 'mapper', com classe 'CatMapper.kt', contendo métodos para conversão entre entidades e DTOs de gatos</li>
+                <li>'mapper/CatMapper.kt', contendo classe CatMapper:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.mapper
+
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.CatResponse
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.CatSummaryResponse
+import com.ubsocial.cat_api_simples.feature.cat.model.entity.CatEntity
+import org.springframework.stereotype.Component
+
+@Component
+class CatMapper &#123;
+    fun toResponse(entity: CatEntity): CatResponse =
+        CatResponse(
+            id = entity.id!!,
+            name = entity.name,
+            breed = entity.breed,
+            age = entity.age,
+            status = entity.status,
+            adopterName = entity.adopterName
+        )
+
+    fun toSummaryResponse(entity: CatEntity): CatSummaryResponse =
+        CatSummaryResponse(
+            id = entity.id!!,
+            name = entity.name,
+            status = entity.status
+        )
+&#125;
+</code></pre></small>
+                </li>
+                <li>Em 'cat', criar pacote 'validator', com classe 'CatValidator.kt', contendo métodos para validação de dados de gatos</li>
+                <li>'validator/CatValidator.kt', contendo classe CatValidator:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.validator
+
+import com.ubsocial.cat_api_simples.exception.BusinessException
+import com.ubsocial.cat_api_simples.feature.cat.model.entity.CatEntity
+import com.ubsocial.cat_api_simples.feature.cat.model.enums.CatStatus
+import org.springframework.stereotype.Component
+
+@Component
+class CatValidator &#123;
+
+    fun validateAvailableForAdoption(cat: CatEntity) &#123;
+        if (cat.status == CatStatus.ADOPTED) &#123;
+            throw BusinessException("Gato já foi adotado")
+        &#125;
+    &#125;
+
+    fun validateAdopted(cat: CatEntity) &#123;
+        if (cat.status != CatStatus.ADOPTED) &#123;
+            throw BusinessException("Gato não foi adotado")
+        &#125;
+    &#125;
+&#125;
+</code></pre></small>
+                </li>
+                <li>Em 'cat', criar pacote 'utils', com classe 'CatUtils.kt', contendo métodos utilitários para gatos</li>
+                <li>'utils/CatUtils.kt', contendo classe CatUtils:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.utils
+
+import org.springframework.stereotype.Component
+
+@Component
+class CatUtils &#123;
+    fun normalizeName(name: String): String =
+        name.trim()
+            .lowercase()
+            .replaceFirstChar &#123; it.uppercase() &#125;
+&#125;
+</code></pre></small>
+                </li>
+                <li>Em 'cat', criar pacote 'service', com classes de serviço para manipulação de gatos (CRUD e adoção):
+                    <ol>
+                        <li>'service/CatService.kt', contendo classe CatService, com métodos para criar, atualizar, deletar, obter e listar gatos:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.service
+
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.*
+ 
+interface CatService &#123;
+
+    fun create(request: CreateCatRequest): CatResponse
+
+    fun update(id: Long, request: UpdateCatRequest): CatResponse
+
+    fun delete(id: Long)
+
+    fun findById(id: Long): CatResponse
+
+    fun findAll(): List&lt;CatSummaryResponse&gt;
+
+    fun adopt(id: Long, request: AdoptCatRequest): CatResponse
+
+    fun removeAdoption(id: Long, request: RemoveAdoptionRequest): CatResponse
+&#125;
+</code></pre></small>
+                        </li>
+                        <li>'service/CreateCatService.kt', contendo classe CreateCatService, implementando CatService e injetando CatRepository, CatMapper e CatValidator:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.service
+
+import com.ubsocial.cat_api_simples.feature.cat.mapper.CatMapper
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.CatResponse
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.CreateCatRequest
+import com.ubsocial.cat_api_simples.feature.cat.model.entity.CatEntity
+import com.ubsocial.cat_api_simples.feature.cat.repository.CatRepository
+import com.ubsocial.cat_api_simples.feature.cat.utils.CatUtils
+import org.springframework.stereotype.Service
+
+@Service
+class CreateCatService(
+    private val catRepository: CatRepository,
+    private val catMapper: CatMapper,
+    private val catUtils: CatUtils
+) &#123;
+
+    fun execute(request: CreateCatRequest): CatResponse &#123;
+        val cat = CatEntity(
+            name = catUtils.normalizeName(request.name),
+            breed = request.breed,
+            age = request.age
+        )
+
+        val savedCat = catRepository.save(cat)
+        return catMapper.toResponse(savedCat)
+    &#125;
+&#125;
+</code></pre></small>
+                        </li>
+                        <li>'service/UpdateCatService.kt', contendo classe UpdateCatService, implementando CatService e injetando CatRepository, CatMapper e CatValidator:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.service
+
+import com.ubsocial.cat_api_simples.exception.ResourceNotFoundException
+import com.ubsocial.cat_api_simples.feature.cat.mapper.CatMapper
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.CatResponse
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.UpdateCatRequest
+import com.ubsocial.cat_api_simples.feature.cat.repository.CatRepository
+import com.ubsocial.cat_api_simples.feature.cat.utils.CatUtils
+import org.springframework.stereotype.Service
+
+@Service
+class UpdateCatService(
+    private val catRepository: CatRepository,
+    private val catMapper: CatMapper,
+    private val catUtils: CatUtils
+) &#123;
+
+    fun execute(
+        id: Long,
+        request: UpdateCatRequest
+    ): CatResponse &#123;
+
+        val cat = catRepository.findById(id)
+            .orElseThrow &#123;
+                ResourceNotFoundException("Gato não encontrado com id: $id")
+            &#125;
+
+        cat.name = catUtils.normalizeName(request.name)
+        cat.breed = request.breed
+        cat.age = request.age
+
+        val updatedCat = catRepository.save(cat)
+        return catMapper.toResponse(updatedCat)
+    &#125;
+&#125;
+</code></pre></small>
+                        </li>
+                        <li>'service/DeleteCatService.kt', contendo classe DeleteCatService, implementando CatService e injetando CatRepository:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.service
+
+import com.ubsocial.cat_api_simples.exception.ResourceNotFoundException
+import com.ubsocial.cat_api_simples.feature.cat.repository.CatRepository
+import org.springframework.stereotype.Service
+
+@Service
+class DeleteCatService(
+    private val catRepository: CatRepository
+) &#123;
+
+    fun execute(id: Long) &#123;
+
+        val cat = catRepository.findById(id)
+            .orElseThrow &#123;
+                ResourceNotFoundException("Gato não encontrado com id: $id")
+            &#125;
+
+        catRepository.delete(cat)
+    &#125;
+&#125;
+</code></pre></small>
+                        </li>
+                        <li>'service/GetCatService.kt', contendo classe GetCatService, implementando CatService e injetando CatRepository e CatMapper:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.service
+
+import com.ubsocial.cat_api_simples.exception.ResourceNotFoundException
+import com.ubsocial.cat_api_simples.feature.cat.mapper.CatMapper
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.CatResponse
+import com.ubsocial.cat_api_simples.feature.cat.repository.CatRepository
+import org.springframework.stereotype.Service
+
+@Service
+class GetCatService(
+    private val catRepository: CatRepository,
+    private val catMapper: CatMapper
+) &#123;
+
+    fun execute(id: Long): CatResponse &#123;
+
+        val cat = catRepository.findById(id)
+            .orElseThrow &#123;
+                ResourceNotFoundException("Gato não encontrado com id: $id")
+            &#125;
+
+        return catMapper.toResponse(cat)
+    &#125;
+&#125;
+</code></pre></small>
+                        </li>
+                        <li>'service/ListCatService.kt', contendo classe ListCatService, implementando CatService e injetando CatRepository e CatMapper:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.service
+
+import com.ubsocial.cat_api_simples.feature.cat.mapper.CatMapper
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.CatSummaryResponse
+import com.ubsocial.cat_api_simples.feature.cat.repository.CatRepository
+import org.springframework.stereotype.Service
+
+@Service
+class ListCatService(
+    private val catRepository: CatRepository,
+    private val catMapper: CatMapper
+) &#123;
+
+    fun execute(): List&lt;CatSummaryResponse&gt; &#123;
+        return catRepository.findAll()
+            .map(catMapper::toSummaryResponse)
+    &#125;
+&#125;
+</code></pre></small>
+                        </li>
+                        <li>'service/AdoptCatService.kt', contendo classe AdoptCatService, implementando CatService e injetando CatRepository, CatMapper e CatValidator:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.service
+
+import com.ubsocial.cat_api_simples.exception.ResourceNotFoundException
+import com.ubsocial.cat_api_simples.feature.cat.mapper.CatMapper
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.AdoptCatRequest
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.CatResponse
+import com.ubsocial.cat_api_simples.feature.cat.repository.CatRepository
+import com.ubsocial.cat_api_simples.feature.cat.validator.CatValidator
+import org.springframework.stereotype.Service
+
+@Service
+class AdoptCatService(
+    private val catRepository: CatRepository,
+    private val catMapper: CatMapper,
+    private val catValidator: CatValidator
+) &#123;
+
+    fun execute(
+        id: Long,
+        request: AdoptCatRequest
+    ): CatResponse &#123;
+
+        val cat = catRepository.findById(id)
+            .orElseThrow &#123;
+                ResourceNotFoundException("Gato não encontrado com id: $id")
+            &#125;
+
+        catValidator.validateAvailableForAdoption(cat)
+
+        cat.adopterName = request.adopterName
+        cat.status = com.ubsocial.cat_api_simples.feature.cat.model.enums.CatStatus.ADOPTED
+
+        val adoptedCat = catRepository.save(cat)
+        return catMapper.toResponse(adoptedCat)
+    &#125;
+&#125;
+</code></pre></small>
+                        </li>
+                        <li>'service/RemoveAdoptionService.kt', contendo classe RemoveAdoptionService, implementando CatService e injetando CatRepository, CatMapper e CatValidator:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.service
+
+import com.ubsocial.cat_api_simples.exception.ResourceNotFoundException
+import com.ubsocial.cat_api_simples.feature.cat.mapper.CatMapper
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.CatResponse
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.RemoveAdoptionRequest
+import com.ubsocial.cat_api_simples.feature.cat.model.enums.CatStatus
+import com.ubsocial.cat_api_simples.feature.cat.repository.CatRepository
+import com.ubsocial.cat_api_simples.feature.cat.validator.CatValidator
+import org.springframework.stereotype.Service
+
+@Service
+class RemoveAdoptionService(
+    private val catRepository: CatRepository,
+    private val catMapper: CatMapper,
+    private val catValidator: CatValidator
+) &#123;
+
+    fun execute(
+        id: Long,
+        request: RemoveAdoptionRequest
+    ): CatResponse &#123;
+
+        val cat = catRepository.findById(id)
+            .orElseThrow &#123;
+                ResourceNotFoundException("Gato não encontrado com id: $id")
+            &#125;
+
+        catValidator.validateAdopted(cat)
+
+        cat.adopterName = null
+        cat.status = CatStatus.AVAILABLE
+
+        val updatedCat = catRepository.save(cat)
+        return catMapper.toResponse(updatedCat)
+    &#125;
+&#125;
+</code></pre></small>
+                        </li>
+                    </ol>
+                </li>
+                <li>Em 'cat', criar pacote 'controller', com classes de controlador REST para expor endpoints de gatos:
+                    <ol>
+                        <li>'controller/CatController.kt', contendo classe CatController, com endpoints para criar, atualizar, deletar, obter e listar gatos:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.controller
+
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.CatResponse
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.CreateCatRequest
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.UpdateCatRequest
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.CatSummaryResponse
+import com.ubsocial.cat_api_simples.feature.cat.service.CreateCatService
+import com.ubsocial.cat_api_simples.feature.cat.service.DeleteCatService
+import com.ubsocial.cat_api_simples.feature.cat.service.GetCatService
+import com.ubsocial.cat_api_simples.feature.cat.service.ListCatService
+import com.ubsocial.cat_api_simples.feature.cat.service.UpdateCatService
+import jakarta.validation.Valid
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
+
+@RestController
+@RequestMapping("/cats")
+class CatController(
+    private val createCatService: CreateCatService,
+    private val updateCatService: UpdateCatService,
+    private val deleteCatService: DeleteCatService,
+    private val getCatService: GetCatService,
+    private val listCatService: ListCatService
+) &#123;
+
+    @PostMapping
+    fun create(
+        @Valid @RequestBody request: CreateCatRequest
+    ): ResponseEntity&lt;CatResponse&gt; &#123;
+        return ResponseEntity
+            .status(HttpStatus.CREATED)
+            .body(createCatService.execute(request))
+    &#125;
+
+    @PutMapping("/&#123;id&#125;")
+    fun update(
+        @PathVariable id: Long,
+        @Valid @RequestBody request: UpdateCatRequest
+    ): ResponseEntity&lt;CatResponse&gt; &#123;
+        return ResponseEntity.ok(
+            updateCatService.execute(id, request)
+        )
+    &#125;
+
+    @DeleteMapping("/&#123;id&#125;")
+    fun delete(
+        @PathVariable id: Long
+    ): ResponseEntity&lt;Void&gt; &#123;
+        deleteCatService.execute(id)
+        return ResponseEntity.noContent().build()
+    &#125;
+
+    @GetMapping("/&#123;id&#125;")
+    fun findById(
+        @PathVariable id: Long
+    ): ResponseEntity&lt;CatResponse&gt; &#123;
+        return ResponseEntity.ok(
+            getCatService.execute(id)
+        )
+    &#125;
+
+    @GetMapping
+    fun findAll(): ResponseEntity&lt;List&lt;CatSummaryResponse&gt;&gt; &#123;
+        return ResponseEntity.ok(
+            listCatService.execute()
+        )
+    &#125;
+&#125;
+</code></pre></small>
+                        </li>
+                        <li>'controller/CatAdoptionController.kt', contendo classe CatAdoptionController, com endpoints para adotar e remover adoção de gatos:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.controller
+
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.AdoptCatRequest
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.CatResponse
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.RemoveAdoptionRequest
+import com.ubsocial.cat_api_simples.feature.cat.service.AdoptCatService
+import com.ubsocial.cat_api_simples.feature.cat.service.RemoveAdoptionService
+import jakarta.validation.Valid
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
+
+@RestController
+@RequestMapping("/cats")
+class CatAdoptionController(
+    private val adoptCatService: AdoptCatService,
+    private val removeAdoptionService: RemoveAdoptionService
+) &#123;
+
+    @PatchMapping("/&#123;id&#125;/adoption")
+    fun adopt(
+        @PathVariable id: Long,
+        @Valid @RequestBody request: AdoptCatRequest
+    ): ResponseEntity&lt;CatResponse&gt; &#123;
+        return ResponseEntity.ok(
+            adoptCatService.execute(id, request)
+        )
+    &#125;
+
+    @DeleteMapping("/&#123;id&#125;/adoption")
+    fun removeAdoption(
+        @PathVariable id: Long,
+        @RequestBody request: RemoveAdoptionRequest
+    ): ResponseEntity&lt;CatResponse&gt; &#123;
+        return ResponseEntity.ok(
+            removeAdoptionService.execute(id, request)
+        )
+    &#125;
+&#125;
+</code></pre></small>
+                        </li>
+                    </ol>
+                </li>
+                <li>Executar projeto (comando no terminal): .\gradlew bootRun
+                    <ul>
+                        <li>Testar funcionamento: <a href="http://localhost:8080" target="_blank" class="text-decoration-none">http://localhost:8080</a></li>
+                        <li>Testar funcionamento (Swagger): <a href="http://localhost:8080/swagger-ui.html" target="_blank" class="text-decoration-none">http://localhost:8080/swagger-ui.html</a></li>
+                    </ul>
+                </li>
+                <li>Testar funcionalidades via request REST no Postman:
+                    <ol>
+                        <li>Listar gatos (GET): http://localhost:8080/cats</li>
+                        <li>Adicionar gato (POST): http://localhost:8080/cats
+<small><pre><code>
+Body (raw JSON):
+&#123;
+    "name": "Mingau",
+    "breed": "Persa",
+    "age": 3
+&#125;
+</code></pre></small>
+                        </li>
+                        <li>Visualizar gato específico (GET): http://localhost:8080/cats/1</li>
+                        <li>Editar gato específico (PUT): http://localhost:8080/cats/1
+<small><pre><code>
+Body (raw JSON):
+&#123;
+    "name": "Mingau ATUALIZADO",
+    "breed": "Siamês",
+    "age": 4
+&#125;
+</code></pre></small>
+                        </li>
+                        <li>Adotar gato específico (PATCH): http://localhost:8080/cats/1/adoption
+<small><pre><code>
+Body (raw JSON):
+&#123;
+    "adopterName": "Mateus"
+&#125;
+</code></pre></small>
+                        </li>
+                        <li>Remover adoção de gato específico (DELETE): http://localhost:8080/cats/1/adoption
+<small><pre><code>
+Body (raw JSON):
+&#123;
+    "reason": "Adotante desistiu da adoção"
+&#125;
+</code></pre></small>
+                        </li>
+                        <li>Remover gato específico (DELETE): http://localhost:8080/cats/1</li>
+                    </ol>
+                </li>
+            </ol>
         </div>
     </div>
 
