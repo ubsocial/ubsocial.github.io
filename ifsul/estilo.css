@@ -1,0 +1,41 @@
+#titulo {padding-top: 80px;}
+#textoPost {text-align: justify;}
+#video {max-width: 100%;}
+
+@media (min-width: 768px) {
+    .foto {
+        height: auto;
+        transition: transform 0.3s ease;
+    }
+
+    .foto:hover {transform: scale(1.2);}
+}
+
+#progressBarContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background-color: rgb(41, 41, 41);
+    z-index: 9999;
+}
+
+#progressBar {
+    height: 100%;
+    width: 0;
+    background-color: rgb(98, 98, 98);
+}
+
+#icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+#fixedIcon {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 9999;
+}
