@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../icons/logoTit.png">
+    <link rel="stylesheet" href="../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <nav class="navbar rounded-bottom fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="../index.html"><img src="../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../sobre/sobre.html">Sobre</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../cursos.html">Cursos</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../livros/livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 text-center" id="titulo">
+            <h1>Curso básico de Kubernetes</h1>
+            <h6><strong>Introdução ao orquestrador de containers</strong></h6>
+            <a href="../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
+        </div>
+
+        <div class="col-sm-12">
+            <h4>Material complementar:</h4>
+            <ul>
+                <li>Conteúdo no YouTube: <a class="text-decoration-none">Acesse em breve</a></li>
+                <li>Conteúdo no GitHub: <a class="text-decoration-none">Acesse em breve</a></li>
+            </ul>
+
+            <br><h4>1.Introdução ao Kubernetes:</h4>
+            <p id="textoPost">Objetivo do curso é compreender principais conceitos e tecnologias do Kubernetes (K8s) de forma simples e moderna, utilizando ferramentas como WSL2 Ubuntu, Docker e VSCode como base para aprendizado. Enquanto Docker cria 1 container, Docker Compose é capaz de criar vários containers em 1 máquina. Kubernetes, por sua vez, é capaz de gerenciar vários containers em várias máquinas (cluster). Portanto, Kubernetes é software para gerenciar, de forma inteligente, cluster composto por várias máquinas e, respectivamente, vários containers, aplicações e configurações relacionadas. Kubernetes automatiza essas questões:</p>
+            <ul>
+                <li>Em qual máquina cada container será executado?</li>
+                <li>O que acontece se máquina ou container parar?</li>
+                <li>Como criar nova instância da aplicação?</li>
+                <li>Como distribuir várias instâncias entre servidores, de forma inteligente?</li>
+                <li>Como atualizar aplicação sem interromper serviço?</li>
+                <li>Como permitir que containers se comuniquem em rede?</li>
+                <li>Como descobrir em qual máquina a aplicação está sendo executada?</li>
+            </ul>
+<small><pre><code>
+                  (multi-node)
+                Kubernetes Cluster
+        (context default, namespace default)
+                       │
+       ┌───────────────┴──────────────────┐
+       │                                  │
+Master Node (Control Plane)         Worker Node(s)
+                                          │
+                                  Deployment (3 réplicas)
+                                          │
+                               ┌──────────┼──────────┐
+                               │          │          │
+                              Pod        Pod        Pod (containers, ConfigMap/Secret)
+                               │          │          │
+                               └──────────┼──────────┘
+                                          │
+                                      Service (IP)
+</code></pre></small>
+
+            <br><h4>2.Preparando o ambiente Kubernetes:</h4>
+            <p id="textoPost">Nesse curso, criaremos estrutura simples de laboratório K8s, envolvendo Windows → WSL2 Ubuntu → Docker → kubectl → Kind.</p>
+            <ol>
+                <li>Instalar VSCode no Windows, e extensões (Docker, Kubernetes, WSL, Copilot);</li>
+                <li>No PowerShell, instalar WSL2 e Ubuntu:
+<small><pre><code>
+wsl --install
+wsl --set-default-version 2
+wsl --install -d Ubuntu
+</code></pre></small>
+                </li>
+                <li>No Ubuntu WSL2, instalar pré-requisitos e Docker:
+<small><pre><code>
+sudo apt update && sudo apt full-upgrade -y && sudo apt install -y curl wget ca-certificates gnupg
+sudo install -m 0755 -d /etc/apt/keyrings && sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc && sudo chmod a+r /etc/apt/keyrings/docker.asc && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null && sudo apt update && sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y sudo usermod -aG docker $USER
+
+docker --version
+</code></pre></small>
+                </li>
+                <li>No Ubuntu WSL2, instalar kubectl (software CLI do K8s):
+<small><pre><code>
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && sudo chmod +x kubectl && sudo mv kubectl /usr/local/bin/kubectl
+
+kubectl version --client
+</code></pre></small>
+                </li>
+                <li>No Ubuntu WSL2, instalar Kind (ferramenta para criar clusters K8s locais):
+<small><pre><code>
+curl -Lo ./kind https://kind.sigs.k8s.io/dl/latest/kind-linux-amd64 && sudo chmod +x ./kind && sudo mv ./kind /usr/local/bin/kind
+
+kind version
+</code></pre></small>
+                </li>
+            </ol>
+
+            <br><h4>3.Criando o primeiro cluster Kubernetes:</h4>
+            <p id="textoPost">Criação de cluster K8s single-node local (Master node control plane), via Kind (Kubernetes IN Docker - transforma container em node). Em ambientes corporativos, utiliza-se Kubeadm (trabalha com nodes reais, máquinas físicas) ao invés do Kind. Cluster é conjunto de máquinas (nodes) que trabalham unidas como 1 só, para executar aplicações em containers (Pods). Node é máquina com recursos computacionais (CPU, memória, armazenamento e rede). Exemplo, cluster com 3 nodes: 1 master (control plane, gerencia workers) e 2 workers (executam Pods). Pod é menor unidade do Kubernetes, composto de containers que compartilham mesmo espaço e recursos (IP, rede, volume). Kubernetes gerencia Pods, de forma inteligente, entre nodes.</p>
+            <ol>
+                <li>Criar cluster: kind create cluster</li>
+                <li>Listar clusters: kind get clusters
+                    <ul>
+                        <li>Listar containers: docker ps -a</li>
+                    </ul>
+                </li>
+                <li>Ver detalhes do cluster: kubectl cluster-info</li>
+                <li>Listar nodes: kubectl get nodes</li>
+                <li>Listar Pods: kubectl get pods
+                    <ul>
+                        <li>Listar Pods de todos Namespaces: kubectl get pods -A</li>
+                    </ul>
+                </li>
+                <li>Ver contexto atual (cluster de trabalho): kubectl config current-context
+                    <ul>
+                        <li>Listar todos contextos: kubectl config get-contexts</li>
+                    </ul>
+                </li>
+                <li>Ver detalhes do node: kubectl describe node kind-control-plane
+                    <ul>
+                        <li>Ver detalhes básicos: kubectl get node kind-control-plane -o wide</li>
+                    </ul>
+                </li>
+                <li>Criar outro cluster: kind create cluster --name laboratorio
+                    <ul>
+                        <li>Listar clusters: kind get clusters</li>
+                        <li>Listar todos contextos: kubectl config get-contexts</li>
+                    </ul>
+                </li>
+                <li>Mudar contexto: kubectl config use-context kind-laboratorio</li>
+                <li>Excluir cluster: kind delete cluster
+                    <ul>
+                        <li>Excluir cluster específico: kind delete cluster --name laboratorio</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <br><h4>4.Conhecendo o kubectl:</h4>
+            <p class="text-warning">Em breve.</p>
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center bg-black text-light pt-4 pb-3">
+        <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>
+
+<!--
+CONTEÚDOS A SEREM ABORDADOS:
+<p id="textoPost">Deployment é recurso do K8s para criar e gerenciar Pods, com seus respectivos containers, configurações e réplicas.</p>
+<p id="textoPost">Conforme recriados, IPs dos Pods mudam. Service é recurso do K8s para criar rede fixa de Pods (via IP fixo único e porta). Basicamente, cria acesso de rede único e fixo no Deployment.</p>
+<p id="textoPost">ConfigMap armazena dados gerais do Pod em variáveis de ambiente, enquanto Secret armazena dados sensíveis nesse mesmo padrão.</p>
+<p id="textoPost">Namespaces são pastas de trabalho, para separar recursos em ambientes distintos.</p>
+
+
+ROTEIRO DO CURSO:
+| Aula   | Título                         | Conteúdo                                                                                                                                                                       |
+| ------ | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **01** | **Introdução ao Kubernetes**   | Apresentar o curso, entender o que é Kubernetes, por que ele existe, quais problemas resolve e conhecer conceitos básicos como Cluster, Node, Control Plane, Pod e Deployment. |
+| **02** | **Preparando o Ambiente**      | Configurar WSL2 com Ubuntu e instalar Docker, `kubectl` e Kind diretamente no Ubuntu.                                                                                          |
+| **03** | **Criando o Primeiro Cluster** | Criar um cluster Kubernetes com Kind e entender sua estrutura básica.                                                                                                          |
+| **04** | **Conhecendo o kubectl**       | Aprender os principais comandos para consultar e administrar recursos do Kubernetes.                                                                                           |
+| **05** | **Criando e Gerenciando Pods** | Criar Pods, visualizar seu estado, consultar informações e acessar seus logs.                                                                                                  |
+| **06** | **Deployments e Réplicas**     | Criar Deployments, gerenciar réplicas (replicaset) e entender como o Kubernetes mantém as aplicações em execução.                                                              |
+| **07** | **Services**                   | Criar Services para permitir a comunicação e expor aplicações dentro do cluster.                                                                                               |
+| **08** | **ConfigMaps e Secrets**       | Aprender a separar configurações das aplicações e armazenar informações sensíveis.                                                                                             |
+| **09** | **Namespaces**                 | Criar e utilizar Namespaces para organizar recursos dentro do cluster.                                                                                                         |
+| **10** | **Cluster Multi-Node**         | Criar um cluster Kind com múltiplos Nodes e observar a distribuição dos Pods entre eles.                                                                                       |
+| **11** | **Projeto Prático Final**      | Criar uma aplicação Nginx utilizando Deployment, réplicas, Service, ConfigMap e Namespace.                                                                                     |
+-->
