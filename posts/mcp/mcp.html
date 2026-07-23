@@ -112,7 +112,25 @@
 
             <br><hr>
             <h4>Exemplo prático:</h4>
-            <p>Aqui</p>
+            <p id="textoPost">Baixar servidor MCP do GitHub para atuar em conjunto com Copilot (GPT-5), via VSCode. Utilizável para gerenciar operações no GitHub, via AI Agent.<br>Agente IA &lt;-&gt; Servidor MCP &lt;-&gt; Fonte de dados<br>Copilot &lt;-&gt; GitHub MCP &lt;-&gt; GitHub</p>
+            <p>Implementação:</p>
+            <ol>
+                <li>Baixar servidor MCP GitHub (<a href="https://code.visualstudio.com/mcp" class="text-decoration-none" target="_blank">https://code.visualstudio.com/mcp</a>), e autorizar acesso;</li>
+                <li>Ver servidor executando (Ctrl+ShiftP, "MCP listar servidores");
+                    <ul>
+                        <li>Mostrar JSON de configuração;</li>
+                    </ul>
+                </li>
+                <li>Abrir projeto GitHub local no VSCode;</li>
+                <li>Abrir Copilot Chat (Ctrl+Alt+i), modo Agent GPT-5, inserir prompt;
+                    <ul>
+                        <li>Prompt: "List my 10 GitHub commits from this project".</li>
+                    </ul>
+                </li>
+                <li>Listará 10 commits nesse projeto em que VSCode está aberto.</li>
+            </ol>
+            <img src="vscodeMCP.png" class="img-fluid rounded mb-3" width="700px"><br>
+            <img src="vscodeMCP2.png" class="img-fluid rounded mb-3" width="700px">
         </div>
     </div>
 

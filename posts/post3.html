@@ -193,3 +193,27 @@ ROTEIRO DO CURSO:
 |   10   |   Cluster Multi-Node           |   Criar um cluster Kind com múltiplos Nodes e observar a distribuição dos Pods entre eles.                          |
 |   11   |   Projeto Prático Final        |   Criar uma aplicação Nginx utilizando Deployment, réplicas, Service, ConfigMap e Namespace.                        |
 -->
+
+<!--
+MAPA:
+<div class="m-3">
+<small><pre><code>
+                  (multi-node)
+                <b class="text-success">Kubernetes Cluster
+        (context default,</b> namespace default)
+                       <b class="text-warning">│
+       ┌───────────────┴</b>──────────────────┐
+       <b class="text-warning">│</b>                                  │
+<b class="text-warning">Master Node (Control Plane)</b>         Worker Node(s)
+                                          │
+                                  Deployment (3 réplicas)
+                                          │
+                               ┌──────────┼──────────┐
+                               │          │          │
+                              Pod        Pod        Pod (containers, ConfigMap/Secret)
+                               │          │          │
+                               └──────────┼──────────┘
+                                          │
+                                      Service (IP)
+</code></pre></small></div>
+-->
