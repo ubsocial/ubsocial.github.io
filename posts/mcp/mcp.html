@@ -46,11 +46,15 @@
             </ul>
 
             <br><h4>Conceito:</h4>
-            <p id="textoPost">Model Context Protocol (USB das IAs, plug universal) protocolo de conexão/integração entre agentes de IA LLMs e datasets, dispensando APIs despadronizadas. Fornece protocolo, padrões e segurança. Comunicação via json-rpc 2.0. Ao invés de programar conexão de modelo IA com cada fonte de dados, somente é necessário integrar ambas partes ao intermédio do servidor MCP específico.</p>
+            <p id="textoPost">Model Context Protocol é conector e padronizador entre modelos de IA e dados, atribuindo padrões de conexão/features e limites de resposta, permitindo controle e personalização do que IA pode fazer e como faz. Possibilita que diferentes modelos de IA integram-se padronizadamente com diferentes fontes de dados, proporcionando experiência mais consistente, personalizada e segura. Técnicamente, MCP atua como receptor de requisições do modelo de IA, redirecionando-as, via endpoints, para fontes de dados apropriadas e respostas específicas.</p>
 
             <br><h4>Cenários:</h4>
             <img src="cenario_sem_mcp.png" class="img-fluid mb-3 rounded" width="200px">
             <img src="cenario_com_mcp.png" class="img-fluid mb-3 rounded" width="200px">
+            <ul>
+                <li>Sem MCP: modelo de IA comunica-se especificamente com cada fonte de dados, de formas diferentes, sem limites nem padronização de resposta;</li>
+                <li>Com MCP: modelo de IA comunica-se padronizadamente com servidor MCP, que conecta-se padronizadamente com diferentes fontes de dados, proporcionando respostas com dados de forma personalizada e limitada nos padrões definidos.</li>
+            </ul>
 
             <br><h4>Tipos de MCP:</h4>
             <ul>

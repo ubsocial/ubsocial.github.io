@@ -153,8 +153,48 @@ kind version
                 </li>
             </ol>
 
-            <br><h4>4.Conhecendo o kubectl:</h4>
-            <p class="text-warning">Em breve.</p>
+            <br><h4>4.Criando e gerenciando Pods:</h4>
+            <p class="textoPost">Enquanto container é único, Pod é composto por 1 ou mais containers simultaneamente, além de características específicas (recursos, volumes, rede, etc). Kubernetes gerencia Pods. Amplamente, Kubernetes gerencia clusters, compostos por nodes contendo Pods, que possuem 1 ou mais containers e características específicas relacionadas. Exemplo: Pod contendo container Apache e container MySQL, que compartilham mesmos recursos de armazenamento e rede.</p>
+            <ol>
+                <li>(Revisão) Criar cluster:
+                    <ol>
+                        <li>kind create cluster</li>
+                        <li>Listar clusters: kind get clusters</li>
+                        <li>Ver contexto atual: kubectl config current-context
+                            <ul>
+                                <li>Usar contexto: kubectl config use-context kind-kind</li>
+                                <li>Listar todos contextos: kubectl config get-contexts</li>
+                            </ul>
+                        </li>
+                        <li>Listar nodes: kubectl get nodes</li>
+                    </ol>
+                </li>
+                <li>Criar Pod: kubectl run nginx --image=nginx</li>
+                <li>Listar Pods: kubectl get pods
+                    <ul>
+                        <li>Ver Pod específico: kubectl get pod nginx</li>
+                    </ul>
+                </li>
+                <li>Ver detalhes do Pod: kubectl describe pod nginx
+                    <ul>
+                        <li>Ver detalhes básicos: kubectl get pod nginx -o wide</li>
+                    </ul>
+                </li>
+                <li>Ver logs do Pod: kubectl logs nginx</li>
+                <li>Executar comando no container do Pod: kubectl exec nginx -- curl -I http://localhost
+                    <ul>
+                        <li>Ver logs do Pod novamente: kubectl logs nginx</li>
+                    </ul>
+                </li>
+                <li>Acessar container do Pod: kubectl exec -it nginx -- /bin/bash
+                    <ul>
+                        <li>Executar comandos dentro do container: cat /etc/*-release</li>
+                        <li>Sair do container do Pod: exit (ou ctrl+d)</li>
+                    </ul>
+                </li>
+                <li>Excluir Pod: kubectl delete pod nginx</li>
+            </ol>
+            <p id="textoPost">E se o Pod falhar? O Kubernetes irá reiniciá-lo automaticamente. Em qual máquina física está o Pod? O Kubernetes irá distribuí-lo entre as máquinas físicas disponíveis automaticamente, de forma inteligente (balanceamento de carga e escalonamento).</p>
         </div>
     </div>
 
@@ -184,14 +224,41 @@ ROTEIRO DO CURSO:
 |   01   |   Introdução ao Kubernetes     |   Apresentar o curso, entender o que é Kubernetes.                                                                  |
 |   02   |   Preparando o Ambiente        |   Configurar WSL2 com Ubuntu e instalar Docker, `kubectl` e Kind diretamente no Ubuntu.                             |
 |   03   |   Criando o Primeiro Cluster   |   Criar um cluster Kubernetes com Kind e entender sua estrutura básica.                                             |
-|   04   |   Conhecendo o kubectl         |   Aprender os principais comandos para consultar e administrar recursos do Kubernetes.                              |
-|   05   |   Criando e Gerenciando Pods   |   Criar Pods, visualizar seu estado, consultar informações e acessar seus logs.                                     |
-|   06   |   Deployments e Réplicas       |   Criar Deployments, gerenciar réplicas (replicaset) e entender como o Kubernetes mantém as aplicações em execução. |
-|   07   |   Services                     |   Criar Services para permitir a comunicação e expor aplicações dentro do cluster.                                  |
-|   08   |   ConfigMaps e Secrets         |   Aprender a separar configurações das aplicações e armazenar informações sensíveis.                                |
-|   09   |   Namespaces                   |   Criar e utilizar Namespaces para organizar recursos dentro do cluster.                                            |
-|   10   |   Cluster Multi-Node           |   Criar um cluster Kind com múltiplos Nodes e observar a distribuição dos Pods entre eles.                          |
-|   11   |   Projeto Prático Final        |   Criar uma aplicação Nginx utilizando Deployment, réplicas, Service, ConfigMap e Namespace.                        |
+|   04   |   Criando e Gerenciando Pods   |   Criar Pods, visualizar seu estado, consultar informações e acessar seus logs.                                     |
+|   05   |   Deployments e Réplicas       |   Criar Deployments, gerenciar réplicas (replicaset) e entender como o Kubernetes mantém as aplicações em execução. |
+|   06   |   Services                     |   Criar Services para permitir a comunicação e expor aplicações dentro do cluster.                                  |
+|   07   |   ConfigMaps e Secrets         |   Aprender a separar configurações das aplicações e armazenar informações sensíveis.                                |
+|   08   |   Namespaces                   |   Criar e utilizar Namespaces para organizar recursos dentro do cluster.                                            |
+|   09   |   Cluster Multi-Node           |   Criar um cluster Kind com múltiplos Nodes e observar a distribuição dos Pods entre eles.                          |
+|   10   |   Projeto Prático Final        |   Criar uma aplicação Nginx utilizando Deployment, réplicas, Service, ConfigMap e Namespace.                        |
+
+
+
+
+SEQUÊNCIA DE COMANDOS:
+1. Criar cluster
+2. Configurar contexto atual
+3. Usar contexto correto
+4. Criar node (se multi-node)
+5. Criar Pod
+
+kind create cluster
+    ↓
+kind get clusters
+    ↓
+kubectl config current-context
+    ↓
+kubectl config use-context kind-kind
+    ↓
+kubectl config get-contexts
+    ↓
+kubectl get nodes
+    ↓
+kubectl run nginx --image=nginx
+    ↓
+kubectl get pods
+    ↓
+Gerenciar Pods (describe, logs, exec, delete)
 -->
 
 <!--
