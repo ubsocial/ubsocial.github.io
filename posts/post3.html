@@ -156,9 +156,9 @@ kind version
             <br><h4>4.Criando e gerenciando Pods:</h4>
             <p class="textoPost">Enquanto container é único, Pod é composto por 1 ou mais containers simultaneamente, além de características específicas (recursos, volumes, rede, etc). Kubernetes gerencia Pods. Amplamente, Kubernetes gerencia clusters, compostos por nodes contendo Pods, que possuem 1 ou mais containers e características específicas relacionadas. Exemplo: Pod contendo container Apache e container MySQL, que compartilham mesmos recursos de armazenamento e rede.</p>
             <ol>
-                <li>(Revisão) Criar cluster:
+                <li>(Revisão) Criar infraestrutura:
                     <ol>
-                        <li>kind create cluster</li>
+                        <li>Criar cluster: kind create cluster</li>
                         <li>Listar clusters: kind get clusters</li>
                         <li>Ver contexto atual: kubectl config current-context
                             <ul>
@@ -259,9 +259,13 @@ kubectl run nginx --image=nginx
 kubectl get pods
     ↓
 Gerenciar Pods (describe, logs, exec, delete)
+
+
+FLUXO AQUI:
+Cluster → Contexto → Nodes (Single ou Multi) → Namespace → Deployment (ReplicaSet) → Pods (ConfigMaps/Secrets) → Service
 -->
 
-<!--
+
 MAPA:
 <div class="m-3">
 <small><pre><code>
@@ -277,10 +281,32 @@ MAPA:
                                           │
                                ┌──────────┼──────────┐
                                │          │          │
-                              Pod        Pod        Pod (containers, ConfigMap/Secret)
+                              <b class="text-warning">Pod        Pod        Pod (containers,</b> ConfigMap/Secret)
                                │          │          │
                                └──────────┼──────────┘
                                           │
                                       Service (IP)
+
+
+
+<br>
+<b class="text-success">Cluster
+│
+├── Context</b>
+<b class="text-warning">│
+├── Nodes
+│   ├── Single Node</b>
+│   └── Multi Node
+│
+├── Namespace
+│
+├── Deployment
+│   └── ReplicaSet
+│       └── <b class="text-warning">Pods
+│           ├── Containers</b>
+│           ├── ConfigMaps
+│           └── Secrets
+│
+└── Service
 </code></pre></small></div>
 -->
