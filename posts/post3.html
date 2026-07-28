@@ -77,6 +77,27 @@ Master Node (Control Plane)         Worker Node(s)
                                           │
                                       Service (IP)
 </code></pre></small>
+            <p>Progresso de criação de cluster K8s:</p>
+<small><pre><code>
+Cluster
+│
+├── Context
+│
+├── Nodes
+│   ├── Single Node
+│   └── Multi Node
+│
+├── Namespace
+│
+├── Deployment
+│   └── ReplicaSet
+│       └── Pods
+│           ├── Containers
+│           ├── ConfigMaps
+│           └── Secrets
+│
+└── Service
+</code></pre></small>
 
             <br><h4>2.Preparando o ambiente Kubernetes:</h4>
             <p id="textoPost">Nesse curso, criaremos estrutura simples de laboratório K8s, envolvendo Windows → WSL2 Ubuntu → Docker → kubectl → Kind.</p>
@@ -195,6 +216,59 @@ kind version
                 <li>Excluir Pod: kubectl delete pod nginx</li>
             </ol>
             <p id="textoPost">E se o Pod falhar? O Kubernetes irá reiniciá-lo automaticamente. Em qual máquina física está o Pod? O Kubernetes irá distribuí-lo entre as máquinas físicas disponíveis automaticamente, de forma inteligente (balanceamento de carga e escalonamento).</p>
+
+            <br><h4>5.Deployment e Réplicas:</h4>
+            <p>Deployment é camada K8s criar e gerenciar Pods de forma controlada, evitando falhas e garantindo que quantidade desejada de réplicas (ReplicaSet) esteja sempre funcionando. Caso Pod falhe, Deployment criará novo Pod para substituí-lo.</p>
+            <ul>
+                <li>Sem deployment: Cluster - Context - Node(s) - Pod - Container Nginx - Aplicação</li>
+                <li>Com deployment: Cluster - Context - Node(s) - Deployment e ReplicaSet - Pod(s) - Container Nginx - Aplicação</li>
+            </ul>
+            <ol>
+                <li>(Revisão) Criar infraestrutura:
+                    <ol>
+                        <li>Criar cluster: kind create cluster</li>
+                        <li>Listar clusters: kind get clusters</li>
+                        <li>Ver contexto atual: kubectl config current-context
+                            <ul>
+                                <li>Usar contexto: kubectl config use-context kind-kind</li>
+                                <li>Listar todos contextos: kubectl config get-contexts</li>
+                            </ul>
+                        </li>
+                        <li>Listar nodes: kubectl get nodes</li>
+                    </ol>
+                </li>
+                <li>Criar deployment: kubectl create deployment nginx --image=nginx</li>
+                <li>Listar deployments: kubectl get deployments
+                    <ul>
+                        <li>Listar Pods: kubectl get pods</li>
+                    </ul>
+                </li>
+                <li>Listar réplicas: kubectl get rs</li>
+                <li>Listar todos recursos: kubectl get all</li>
+                <li>Alterar quantidade de réplicas: kubectl scale deployment nginx --replicas=3
+                    <ul>
+                        <li>Listar réplicas: kubectl get rs</li>
+                        <li>Listar Pods: kubectl get pods</li>
+                        <li>Ver distribuição de Pods: kubectl get pods -o wide</li>
+                    </ul>
+                </li>
+                <li>Excluir Pod: kubectl delete pod nginx-xxx</li>
+                <li>Listar Pods: kubectl get pods
+                    <ul>
+                        <li>Deployment e ReplicaSet criam automaticamente novos Pods quando necessário</li>
+                    </ul>
+                </li>
+                <li>Ver detalhes do deployment: kubectl describe deployment nginx</li>
+                <li>Ver detalhes do ReplicaSet: kubectl describe rs</li>
+                <li>Ver detalhes do Pod: kubectl describe pods</li>
+                <li>Excluir deployment: kubectl delete deployment nginx
+                    <ul>
+                        <li>Listar deployments: kubectl get deployments</li>
+                        <li>Listar réplicas: kubectl get rs</li>
+                        <li>Listar Pods: kubectl get pods</li>
+                    </ul>
+                </li>
+            </ol>
         </div>
     </div>
 
@@ -212,7 +286,6 @@ kind version
 
 <!--
 CONTEÚDOS A SEREM ABORDADOS:
-<p id="textoPost">Deployment é recurso do K8s para criar e gerenciar Pods, com seus respectivos containers, configurações e réplicas.</p>
 <p id="textoPost">Conforme recriados, IPs dos Pods mudam. Service é recurso do K8s para criar rede fixa de Pods (via IP fixo único e porta). Basicamente, cria acesso de rede único e fixo no Deployment.</p>
 <p id="textoPost">ConfigMap armazena dados gerais do Pod em variáveis de ambiente, enquanto Secret armazena dados sensíveis nesse mesmo padrão.</p>
 <p id="textoPost">Namespaces são pastas de trabalho, para separar recursos em ambientes distintos.</p>
@@ -272,16 +345,16 @@ MAPA:
                   (multi-node)
                 <b class="text-success">Kubernetes Cluster
         (context default,</b> namespace default)
-                       <b class="text-warning">│
+                       <b class="text-success">│
        ┌───────────────┴</b>──────────────────┐
-       <b class="text-warning">│</b>                                  │
-<b class="text-warning">Master Node (Control Plane)</b>         Worker Node(s)
+       <b class="text-success">│</b>                                  │
+<b class="text-success">Master Node (Control Plane)</b>         Worker Node(s)
                                           │
-                                  Deployment (3 réplicas)
+                                  <b class="text-warning">Deployment (3 réplicas)</b>
                                           │
                                ┌──────────┼──────────┐
                                │          │          │
-                              <b class="text-warning">Pod        Pod        Pod (containers,</b> ConfigMap/Secret)
+                              <b class="text-success">Pod        Pod        Pod (containers,</b> ConfigMap/Secret)
                                │          │          │
                                └──────────┼──────────┘
                                           │
@@ -293,16 +366,16 @@ MAPA:
 <b class="text-success">Cluster
 │
 ├── Context</b>
-<b class="text-warning">│
+<b class="text-success">│
 ├── Nodes
 │   ├── Single Node</b>
 │   └── Multi Node
 │
 ├── Namespace
 │
-├── Deployment
-│   └── ReplicaSet
-│       └── <b class="text-warning">Pods
+<b class="text-warning">├── Deployment
+│   └── ReplicaSet</b>
+│       └── <b class="text-success">Pods
 │           ├── Containers</b>
 │           ├── ConfigMaps
 │           └── Secrets
