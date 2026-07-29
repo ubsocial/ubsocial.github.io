@@ -273,7 +273,7 @@ kind version
             <br><h4>6.Services:</h4>
             <p id="textoPost">Cada Pod possui IP único no cluster. Se Pod for substituído, seu IP também será alterado, impossibilitando acesso. Service é camada que cria IP único e fixo no Deployment para todos seus Pods, garantindo acesso consistente, independentemente das alterações nos IPs dos Pods internos no Deployment.</p>
             <ul>
-                <li>Sem Service: Cluster - Context - Node(s) - Pods (IPs alteráveis) - Container Nginx - Aplicação</li>
+                <li>Sem Service: Cluster - Context - Node(s) - Deployment e ReplicaSet - Pods (IPs alteráveis) - Container Nginx - Aplicação</li>
                 <li>Com Service: Cluster - Context - Node(s) - Deployment e ReplicaSet - Pods (IPs alteráveis) - Service (IP fixo) - Container Nginx - Aplicação</li>
             </ul>
             <ol>
