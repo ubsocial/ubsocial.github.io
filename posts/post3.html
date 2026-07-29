@@ -218,7 +218,7 @@ kind version
             <p id="textoPost">E se o Pod falhar? O Kubernetes irá reiniciá-lo automaticamente. Em qual máquina física está o Pod? O Kubernetes irá distribuí-lo entre as máquinas físicas disponíveis automaticamente, de forma inteligente (balanceamento de carga e escalonamento).</p>
 
             <br><h4>5.Deployment e Réplicas:</h4>
-            <p>Deployment é camada K8s criar e gerenciar Pods de forma controlada, evitando falhas e garantindo que quantidade desejada de réplicas (ReplicaSet) esteja sempre funcionando. Caso Pod falhe, Deployment criará novo Pod para substituí-lo.</p>
+            <p id="textoPost">Deployment é camada K8s criar e gerenciar Pods de forma controlada, evitando falhas e garantindo que quantidade desejada de réplicas (ReplicaSet) esteja sempre funcionando. Caso Pod falhe, Deployment criará novo Pod para substituí-lo.</p>
             <ul>
                 <li>Sem deployment: Cluster - Context - Node(s) - Pod - Container Nginx - Aplicação</li>
                 <li>Com deployment: Cluster - Context - Node(s) - Deployment e ReplicaSet - Pod(s) - Container Nginx - Aplicação</li>
@@ -269,6 +269,83 @@ kind version
                     </ul>
                 </li>
             </ol>
+
+            <br><h4>6.Services:</h4>
+            <p id="textoPost">Cada Pod possui IP único no cluster. Se Pod for substituído, seu IP também será alterado, impossibilitando acesso. Service é camada que cria IP único e fixo no Deployment para todos seus Pods, garantindo acesso consistente, independentemente das alterações nos IPs dos Pods internos no Deployment.</p>
+            <ul>
+                <li>Sem Service: Cluster - Context - Node(s) - Pods (IPs alteráveis) - Container Nginx - Aplicação</li>
+                <li>Com Service: Cluster - Context - Node(s) - Deployment e ReplicaSet - Pods (IPs alteráveis) - Service (IP fixo) - Container Nginx - Aplicação</li>
+            </ul>
+            <ol>
+                <li>(Revisão) Criar infraestrutura:
+                    <ol>
+                        <li>Criar cluster: kind create cluster</li>
+                        <li>Listar clusters: kind get clusters</li>
+                        <li>Ver contexto atual: kubectl config current-context
+                            <ul>
+                                <li>Usar contexto: kubectl config use-context kind-kind</li>
+                                <li>Listar todos contextos: kubectl config get-contexts</li>
+                            </ul>
+                        </li>
+                        <li>kubectl create deployment nginx --image=nginx</li>
+                        <li>kubectl scale deployment nginx --replicas=3
+                            <ul>
+                                <li>kubectl get deployments</li>
+                                <li>kubectl get rs</li>
+                                <li>kubectl get pods</li>
+                            </ul>
+                        </li>
+                        <li>Cada Pod tem IP único: kubectl get pods -o wide
+                            <ul>
+                                <li>Excluir Pod: kubectl delete pod nome_do_pod</li>
+                                <li>Listar Pods: kubectl get pods -o wide
+                                    <ul>
+                                        <li>IP do novo Pod mudou</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ol>
+                </li>
+                <li>Ver labels: kubectl get pods --show-labels
+                    <ul>
+                        <li>O Service usa labels (selector) para identificar e selecionar Pods</li>
+                    </ul>
+                </li>
+                <li>Criar Service (ClusterIP, IP acessível internamente no cluster): kubectl expose deployment nginx --port=80</li>
+                <li>Listar Services: kubectl get svc</li>
+                <li>Ver detalhes do Service: kubectl describe service nginx</li>
+                <li>Ver endpoints do Service: kubectl get endpoints nginx</li>
+                <li>Entrar temporariamente no container de um Pod do Service: kubectl run curl --image=curlimages/curl --rm -it -- sh
+                    <ul>
+                        <li>Acessar nginx via curl e nome do Service (DNS): curl http://nginx
+                            <ul>
+                                <li>Em produção, DNS do service pode ser: nginx.default.svc.cluster.local</li>
+                                <li>Testar: curl http://nginx.default.svc.cluster.local</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>Excluir Service: kubectl delete service nginx</li>
+                <li>Criar Service NodePort (IP acessível externamente do cluster): kubectl expose deployment nginx --type=NodePort --port=80
+                    <ul>
+                        <li>Listar services: kubectl get svc</li>
+                        <li>Listar service específico (ver NodePort): kubectl get svc nginx</li>
+                        <li>Acessar service externamente: kubectl port-forward service/nginx 8080:80
+                            <ul>
+                                <li>Acessar via curl: curl http://localhost:8080</li>
+                                <li>Acessar no Browser: http://localhost:8080</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>Listar todos recursos: kubectl get all</li>
+                <li>Listar Deployments: kubectl get deployments</li>
+                <li>Listar ReplicaSets: kubectl get rs</li>
+                <li>Listar Pods: kubectl get pods</li>
+                <li>Listar Services: kubectl get svc</li>
+            </ol>
+            <p id="textoPost">Há também Service LoadBalancer (cria IP público e porta para acesso externo ao cluster), e ExternalName (cria alias/apelido para nome DNS externo).</p>
         </div>
     </div>
 
@@ -350,15 +427,15 @@ MAPA:
        <b class="text-success">│</b>                                  │
 <b class="text-success">Master Node (Control Plane)</b>         Worker Node(s)
                                           │
-                                  <b class="text-warning">Deployment (3 réplicas)</b>
+                                  <b class="text-success">Deployment (3 réplicas)
                                           │
                                ┌──────────┼──────────┐
-                               │          │          │
+                               │          │          │</b>
                               <b class="text-success">Pod        Pod        Pod (containers,</b> ConfigMap/Secret)
-                               │          │          │
+                               <b class="text-warning">│          │          │
                                └──────────┼──────────┘
                                           │
-                                      Service (IP)
+                                      Service (IP)</b>
 
 
 
@@ -373,13 +450,13 @@ MAPA:
 │
 ├── Namespace
 │
-<b class="text-warning">├── Deployment
+<b class="text-success">├── Deployment
 │   └── ReplicaSet</b>
 │       └── <b class="text-success">Pods
 │           ├── Containers</b>
 │           ├── ConfigMaps
 │           └── Secrets
-│
-└── Service
+<b class="text-warning">│
+└── Service</b>
 </code></pre></small></div>
 -->
