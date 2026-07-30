@@ -381,7 +381,7 @@ kubectl create configmap app-config \
                 <li>Consumir ConfigMap em deployment:
                     <ol>
                         <li>Gerar YAML do deployment: kubectl get deployment nginx -o yaml</li>
-                        <li>Editar arquivo YAML do deployment, adicionando ConfigMap: kubectl edit deployment nginx
+                        <li>Editar (Vim) arquivo YAML do deployment, adicionando ConfigMap: kubectl edit deployment nginx
 <small><pre><code>
 containers:
 - image: nginx
@@ -401,7 +401,7 @@ containers:
                         </li>
                     </ol>
                 </li>
-                <li>Alterar ConfigMap: kubectl edit configmap app-config
+                <li>Alterar (Vim) ConfigMap: kubectl edit configmap app-config
 <small><pre><code>
 Alterar 'APP_ENV=Desenvolvimento' para 'APP_ENV=Produção'
 </code></pre></small>
@@ -430,7 +430,7 @@ kubectl create secret generic app-secret \
                 </li>
                 <li>Consumir Secret em deployment:
                     <ol>
-                        <li>Editar arquivo YAML do deployment: kubectl edit deployment nginx
+                        <li>Editar (Vim) arquivo YAML do deployment: kubectl edit deployment nginx
 <small><pre><code>
 envFrom:
 - configMapRef:
