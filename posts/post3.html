@@ -452,6 +452,72 @@ envFrom:
                 <li>Listar ConfigMaps: kubectl get configmaps</li>
                 <li>Listar Secrets: kubectl get secrets</li>
             </ol>
+
+            <br><h4>8.Namespaces:</h4>
+            <p id="textoPost">Namespaces são pastas de trabalho, para separar recursos em ambientes distintos (Ex: financeiro, vendas, compras). Estrutura exemplo com namespaces:</p>
+<small><pre><code>
+Cluster
+    │
+    ├── Namespace default
+    │      ├── Deployment
+    │      ├── ReplicaSet
+    │      ├── Pods
+    │      ├── Service
+    │      ├── ConfigMap
+    │      └── Secret
+    │
+    ├── Namespace desenvolvimento
+    │      ├── Deployment
+    │      ├── ReplicaSet
+    │      ├── Pods
+    │      ├── Service
+    │      ├── ConfigMap
+    │      └── Secret
+    │
+    └── Namespace producao
+</code></pre></small>
+            <ol>
+                <li>(Revisão) Criar infraestrutura:
+                    <ol>
+                        <li>Criar cluster: kind create cluster</li>
+                        <li>Verificar contexto: kubectl config current-context</li>
+                        <li>Listar clusters: kubectl get clusters</li>
+                        <li>Listar contexts: kubectl config get-contexts</li>
+                        <li>Listar nodes: kubectl get nodes</li>
+                    </ol>
+                </li>
+                <li>Listar namespaces: kubectl get ns</li>
+                <li>Listar Pods de namespace específico: kubectl get pods -n kube-system</li>
+                <li>Criar namespace: kubectl create namespace desenvolvimento</li>
+                <li>Criar namespace: kubectl create namespace producao</li>
+                <li>Listar namespaces: kubectl get ns</li>
+                <li>Criar deployment no namespace padrão: kubectl create deployment nginx --image=nginx</li>
+                <li>Listar deployments: kubectl get deployments</li>
+                <li>Criar service: kubectl expose deployment nginx --port=80</li>
+                <li>Listar services: kubectl get svc</li>
+                <li>Criar deployment no namespace específico: kubectl create deployment nginx-dev --image=nginx -n desenvolvimento</li>
+                <li>Criar service no namespace específico: kubectl expose deployment nginx-dev --port=80 -n desenvolvimento</li>
+                <li>Listar deployments do namespace atual: kubectl get deployments</li>
+                <li>Listar deployments do namespace específico: kubectl get deployments -n desenvolvimento</li>
+                <li>Listar Pods do namespace específico: kubectl get pods -n desenvolvimento</li>
+                <li>Listar services do namespace específico: kubectl get svc -n desenvolvimento</li>
+                <li>Listar Pods de todos namespaces: kubectl get pods -A</li>
+                <li>Listar deployments de todos namespaces: kubectl get deployments -A</li>
+                <li>Listar services de todos namespaces: kubectl get svc -A</li>
+                <li>Mudar de namespace: kubectl config set-context --current --namespace=desenvolvimento</li>
+                <li>Verificar namespace atual (desenvolvimento): kubectl config view --minify | grep namespace</li>
+                <li>Listar Pods desse namespace atual (desenvolvimento): kubectl get pods</li>
+                <li>Criar deployment no namespace atual (desenvolvimento): kubectl create deployment apache --image=httpd</li>
+                <li>Listar deployments desse namespace atual (desenvolvimento): kubectl get deployments</li>
+                <li>Retornar ao namespace padrão: kubectl config set-context --current --namespace=default</li>
+                <li>Listar deployments do namespace atual (padrão): kubectl get deployments
+                    <ul>
+                        <li>Deployment Apache não aparecerá, pois está no namespace "desenvolvimento"</li>
+                    </ul>
+                </li>
+                <li>Excluir namespace: kubectl delete namespace desenvolvimento</li>
+                <li>Listar namespaces: kubectl get ns</li>
+            </ol>
         </div>
     </div>
 
@@ -469,7 +535,7 @@ envFrom:
 
 <!--
 CONTEÚDOS A SEREM ABORDADOS:
-<p id="textoPost">Namespaces são pastas de trabalho, para separar recursos em ambientes distintos.</p>
+
 
 
 ROTEIRO DO CURSO:
@@ -525,18 +591,18 @@ MAPA:
 <small><pre><code>
                   (multi-node)
                 <b class="text-success">Kubernetes Cluster
-        (context default,</b> namespace default)
+        (context default,</b> <b class="text-warning">namespace default)</b>
                        <b class="text-success">│
-       ┌───────────────┴</b>──────────────────┐
-       <b class="text-success">│</b>                                  │
-<b class="text-success">Master Node (Control Plane)</b>         Worker Node(s)
+       ┌───────────────┴──────────────────┐
+       │                                  │
+Master Node (Control Plane)         Worker Node(s)
                                           │
-                                  <b class="text-success">Deployment (3 réplicas)
+                                  Deployment (3 réplicas)
                                           │
                                ┌──────────┼──────────┐
-                               │          │          │</b>
-                              <b class="text-success">Pod        Pod        Pod (containers,</b> <b class="text-warning">ConfigMap/Secret)</b>
-                               <b class="text-success">│          │          │
+                               │          │          │
+                              Pod        Pod        Pod (containers, ConfigMap/Secret)
+                               │          │          │
                                └──────────┼──────────┘
                                           │
                                       Service (IP)</b>
@@ -546,21 +612,21 @@ MAPA:
 <br>
 <b class="text-success">Cluster
 │
-├── Context</b>
-<b class="text-success">│
+├── Context
+│
 ├── Nodes
 │   ├── Single Node</b>
 │   └── Multi Node
 │
-├── Namespace
+<b class="text-warning">├── Namespace</b>
 │
 <b class="text-success">├── Deployment
-│   └── ReplicaSet</b>
-│       └── <b class="text-success">Pods
-│           ├── Containers</b>
-│           <b class="text-warning">├── ConfigMaps</b>
-│           <b class="text-warning">└── Secrets</b>
-<b class="text-success">│
+│   └── ReplicaSet
+│       └── Pods
+│           ├── Containers
+│           ├── ConfigMaps
+│           └── Secrets
+│
 └── Service</b>
 </code></pre></small></div>
 -->
