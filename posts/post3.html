@@ -518,6 +518,58 @@ Cluster
                 <li>Excluir namespace: kubectl delete namespace desenvolvimento</li>
                 <li>Listar namespaces: kubectl get ns</li>
             </ol>
+
+            <br><h4>9.Cluster Multi-Node:</h4>
+            <p id="textoPost">Cluster multi-node é composto por Master Node (control plane que gerencia e agenda Pods, gerencia estado do cluster e worker nodes, além de recursos do K8s) e Worker Nodes (executam Pods). Cada node possui recursos (CPU, memória, SO, armazenamento, rede-IP). Clusters multi-node oferecem alta disponibilidade, distribuição de carga escalável (load balancing, scheduler) e maior tolerância a falhas.</p>
+            <ol>
+                <li>Criar arquivo YAML para gerar cluster multi-node: code multinode.yaml
+<small><pre><code>
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+
+nodes:
+- role: control-plane
+- role: worker
+- role: worker
+</code></pre></small>
+                </li>
+                <li>Criar cluster multi-node a partir do arquivo YAML: kind create cluster --config multinode.yaml
+                    <ul>
+                        <li>Criará cluster contendo 1 master node (control-plane) e 2 worker nodes (worker 1 e 2)</li>
+                    </ul>
+                </li>
+                <li>Listar clusters: kind get clusters</li>
+                <li>Verificar contexto: kubectl config current-context</li>
+                <li>Listar nodes: kubectl get nodes
+                    <ul>
+                        <li>Ver com menos detalhes: kubectl get nodes -o wide</li>
+                    </ul>
+                </li>
+                <li>Ver detalhes de node: kubectl describe node kind-worker</li>
+                <li>Criar deployment: kubectl create deployment nginx --image=nginx</li>
+                <li>Escalar réplicas: kubectl scale deployment nginx --replicas=6</li>
+                <li>Listar deployments: kubectl get deployments</li>
+                <li>Listar réplicas: kubectl get rs</li>
+                <li>Listar pods: kubectl get pods
+                    <ul>
+                        <li>Ver detalhes básicos (observar node de cada pod): kubectl get pods -o wide</li>
+                    </ul>
+                </li>
+                <li>Remover pod: kubectl delete pod nomePod</li>
+                <li>Listar pods: kubectl get pods -o wide
+                    <ul>
+                        <li>Deployment e ReplicaSet criam automaticamente novos Pods quando necessário, scheduler escolhe em qual node implantá-los</li>
+                    </ul>
+                </li>
+                <li>Criar service de rede: kubectl expose deployment nginx --port=80</li>
+                <li>Listar services: kubectl get svc</li>
+                <li>Criar port-forward: kubectl port-forward service/nginx 8080:80
+                    <ul>
+                        <li>Acessar no browser: http://localhost:8080</li>
+                    </ul>
+                </li>
+                <li>Listar todos recursos: kubectl get all</li>
+            </ol>
         </div>
     </div>
 
@@ -533,12 +585,7 @@ Cluster
 </body>
 </html>
 
-<!--
-CONTEÚDOS A SEREM ABORDADOS:
-
-
-
-ROTEIRO DO CURSO:
+<!-- ROTEIRO DO CURSO:
 | Aula   | Título                         | Conteúdo                                                                                                            |
 | ------ | ------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
 |   01   |   Introdução ao Kubernetes     |   Apresentar o curso, entender o que é Kubernetes.                                                                  |
@@ -551,48 +598,14 @@ ROTEIRO DO CURSO:
 |   08   |   Namespaces                   |   Criar e utilizar Namespaces para organizar recursos dentro do cluster.                                            |
 |   09   |   Cluster Multi-Node           |   Criar um cluster Kind com múltiplos Nodes e observar a distribuição dos Pods entre eles.                          |
 |   10   |   Projeto Prático Final        |   Criar uma aplicação Nginx utilizando Deployment, réplicas, Service, ConfigMap e Namespace.                        |
-
-
-
-
-SEQUÊNCIA DE COMANDOS:
-1. Criar cluster
-2. Configurar contexto atual
-3. Usar contexto correto
-4. Criar node (se multi-node)
-5. Criar Pod
-
-kind create cluster
-    ↓
-kind get clusters
-    ↓
-kubectl config current-context
-    ↓
-kubectl config use-context kind-kind
-    ↓
-kubectl config get-contexts
-    ↓
-kubectl get nodes
-    ↓
-kubectl run nginx --image=nginx
-    ↓
-kubectl get pods
-    ↓
-Gerenciar Pods (describe, logs, exec, delete)
-
-
-FLUXO AQUI:
-Cluster → Contexto → Nodes (Single ou Multi) → Namespace → Deployment (ReplicaSet) → Pods (ConfigMaps/Secrets) → Service
 -->
 
-
-MAPA:
 <div class="m-3">
 <small><pre><code>
-                  (multi-node)
+                  <b class="text-warning">(multi-node)</b>
                 <b class="text-success">Kubernetes Cluster
-        (context default,</b> <b class="text-warning">namespace default)</b>
-                       <b class="text-success">│
+        (context default, namespace default)
+                       │
        ┌───────────────┴──────────────────┐
        │                                  │
 Master Node (Control Plane)         Worker Node(s)
@@ -607,20 +620,18 @@ Master Node (Control Plane)         Worker Node(s)
                                           │
                                       Service (IP)</b>
 
-
-
 <br>
 <b class="text-success">Cluster
 │
 ├── Context
 │
 ├── Nodes
-│   ├── Single Node</b>
-│   └── Multi Node
+│   ├── Single Node
+│   </b><b class="text-warning">└── Multi Node</b><b class="text-success">
 │
-<b class="text-warning">├── Namespace</b>
+├── Namespace
 │
-<b class="text-success">├── Deployment
+├── Deployment
 │   └── ReplicaSet
 │       └── Pods
 │           ├── Containers
@@ -629,4 +640,3 @@ Master Node (Control Plane)         Worker Node(s)
 │
 └── Service</b>
 </code></pre></small></div>
--->
