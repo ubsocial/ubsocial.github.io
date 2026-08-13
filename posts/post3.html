@@ -570,6 +570,152 @@ nodes:
                 </li>
                 <li>Listar todos recursos: kubectl get all</li>
             </ol>
+
+            <h4>10.Projeto Prático Final:</h4>
+            <p id="textoPost">Construir aplicação nginx, em cluster kind multi-node k8s, implementando namespace, deployment, réplicas, service, ConfigMap e Secret.</p>
+<small><pre><code>
+Cluster Kind
+├── Control Plane
+├── Worker 1
+└── Worker 2
+        │
+        ▼
+   Namespace: projeto
+        ├── Deployment
+        │      └── ReplicaSet
+        │              ├── Pod Nginx
+        │              ├── Pod Nginx
+        │              └── Pod Nginx
+        │
+        ├── Service
+        │
+        ├── ConfigMap
+        └── Secret
+</code></pre></small>
+            <p id="textoPost">Aplicação cliente acessará service, que encaminhará tráfego para pods nginx com configurações e segredos.</p>
+            <ol>
+                <li>Criar arquivo YAML para gerar cluster multi-node: code multinode.yaml
+<small><pre><code>
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+
+nodes:
+- role: control-plane
+- role: worker
+- role: worker
+</code></pre></small>
+                </li>
+                <li>Construir cluster via YAML: kind create cluster --config multinode.yaml
+                    <ul>
+                        <li>Listar clusters: kind get clusters</li>
+                    </ul>
+                </li>
+                <li>Configurar contexto: kubectl config current-context</li>
+                <li>Listar nodes: kubectl get nodes</li>
+                <li>Criar namespace: kubectl create namespace projeto
+                    <ul>
+                        <li>Listar namespaces: kubectl get ns</li>
+                    </ul>
+                </li>
+                <li>Criar deployment no namespace projeto: kubectl create deployment nginx --image=nginx -n projeto
+                    <ul>
+                        <li>Listar deployments: kubectl get deployments -n projeto</li>
+                    </ul>
+                </li>
+                <li>Escalar réplicas ao deployment: kubectl scale deployment nginx --replicas=3 -n projeto
+                    <ul>
+                        <li>Listar replicas: kubectl get rs -n projeto</li>
+                        <li>Listar pods: kubectl get pods -n projeto</li>
+                        <li>Listar pods com detalhes: kubectl get pods -n projeto -o wide</li>
+                    </ul>
+                </li>
+                <li>Implementar serviço de rede ao deployment: kubectl expose deployment nginx --port=80 -n projeto
+                    <ul>
+                        <li>Listar serviços: kubectl get svc -n projeto</li>
+                    </ul>
+                </li>
+                <li>Criar ConfigMap nos pods:
+<small><pre><code>
+kubectl create configmap app-config \
+  --from-literal=APP_NAME=UBSocial-Kubernetes \
+  --from-literal=APP_ENV=producao \
+  --from-literal=APP_VERSION=1.0 \
+  -n projeto
+</code></pre></small>
+                    <ul>
+                        <li>Listar ConfigMaps: kubectl get configmaps -n projeto</li>
+                        <li>Descrever ConfigMap: kubectl describe configmap app-config -n projeto</li>
+                    </ul>
+                </li>
+                <li>Criar Secret nos pods:
+<small><pre><code>
+kubectl create secret generic app-secret \
+  --from-literal=DB_USER=admin \
+  --from-literal=DB_PASSWORD=123456 \
+  --from-literal=API_KEY=minha-chave \
+  -n projeto
+</code></pre></small>
+                    <ul>
+                        <li>Listar Secrets: kubectl get secrets -n projeto</li>
+                        <li>Descrever Secret: kubectl describe secret app-secret -n projeto</li>
+                    </ul>
+                </li>
+                <li>Integrar ConfigMap e Secret nos deployments: kubectl edit deployment nginx -n projeto
+<small><pre><code>
+containers:
+- image: nginx
+  name: nginx
+  envFrom:
+  - configMapRef:
+      name: app-config
+  - secretRef:
+      name: app-secret
+</code></pre></small>
+                </li>
+                <li>Verificar rollout: kubectl rollout status deployment nginx -n projeto</li>
+                <li>Listar pods: kubectl get pods -n projeto</li>
+                <li>Acessar pod: kubectl exec -it nomePod -n projeto -- /bin/bash
+                    <ul>
+                        <li>Listar variáveis de ambiente ConfigMap: printenv | grep APP</li>
+                        <li>Listar variáveis de ambiente Secret: printenv | grep DB</li>
+                        <li>Listar variáveis de ambiente Secret: printenv | grep API</li>
+                    </ul>
+                </li>
+                <li>Disponibilizar aplicação em rede: kubectl port-forward service/nginx 8080:80 -n projeto
+                    <ul>
+                        <li>Acessar no browser: <a href="http://localhost:8080" class="text-decoration-none" target="_blank">http://localhost:8080</a></li>
+                        <li>Acessar internamente: kubectl run curl --image=curlimages/curl -n projeto --rm -it -- sh
+                            <ul>
+                                <li>Acessar aplicação: curl http://nginx</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>Listar pods: kubectl get pods -n projeto -o wide</li>
+                <li>Excluir pod: kubectl delete pod nomePod -n projeto</li>
+                <li>Listar pods: kubectl get pods -n projeto -w
+                    <ul>
+                        <li>Deployment e ReplicaSet criam novo pod automaticamente (scheduler)</li>
+                    </ul>
+                </li>
+                <li>Observar distribuição de pods entre nodes: kubectl get pods -n projeto -o wide</li>
+                <li>Listar todos recursos do projeto: kubectl get all -n projeto</li>
+                <li>Listar todos ConfigMaps: kubectl get configmaps -n projeto</li>
+                <li>Listar todos Secrets: kubectl get secrets -n projeto</li>
+                <li>Alterar ConfigMap: kubectl edit configmap app-config -n projeto
+<small><pre><code>
+APP_VERSION=2.0
+</code></pre></small>
+                </li>
+                <li>Reiniciar deployment: kubectl rollout restart deployment nginx -n projeto</li>
+                <li>Verificar rollout: kubectl rollout status deployment nginx -n projeto</li>
+                <li>Listar pods: kubectl get pods -n projeto</li>
+                <li>Acessar pod: kubectl exec -it nomePod -n projeto -- /bin/bash
+                    <ul>
+                        <li>Listar variáveis ConfigMap: printenv | grep APP</li>
+                    </ul>
+                </li>
+            </ol>
         </div>
     </div>
 
@@ -602,8 +748,8 @@ nodes:
 
 <div class="m-3">
 <small><pre><code>
-                  <b class="text-warning">(multi-node)</b>
-                <b class="text-success">Kubernetes Cluster
+                  <b class="text-success">(multi-node)
+                Kubernetes Cluster
         (context default, namespace default)
                        │
        ┌───────────────┴──────────────────┐
@@ -627,7 +773,7 @@ Master Node (Control Plane)         Worker Node(s)
 │
 ├── Nodes
 │   ├── Single Node
-│   </b><b class="text-warning">└── Multi Node</b><b class="text-success">
+│   └── Multi Node
 │
 ├── Namespace
 │
