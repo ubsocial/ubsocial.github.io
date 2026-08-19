@@ -187,6 +187,10 @@ Cluster Kind
         │
         ├── Service
 </code></pre></small>
+            </ol>
+
+            <br><h4>4.Inserindo dados no cluster k8s:</h4>
+            <ol>
                 <li>Criar ConfigMap nos pods:
 <small><pre><code>
 kubectl create configmap app-config \
@@ -249,7 +253,7 @@ Cluster Kind
 </code></pre></small>
             </ol>
 
-            <br><h4>4.Acessando os recursos do cluster k8s:</h4>
+            <br><h4>5.Acessando os recursos do cluster k8s:</h4>
             <ol>
                 <li>Listar pods: kubectl get pods -n projeto</li>
                 <li>Acessar pod: kubectl exec -it nomePod -n projeto -- /bin/bash
@@ -274,7 +278,7 @@ Cluster Kind
                 <li>Listar todos Secrets: kubectl get secrets -n projeto</li>
             </ol>
 
-            <br><h4>5.Tratamento de erros e gestão no K8s:</h4>
+            <br><h4>6.Tratamento de erros e gestão no K8s:</h4>
             <ol>
                 <li>Listar pods: kubectl get pods -n projeto -o wide
                     <ul>
@@ -302,7 +306,7 @@ APP_VERSION=2.0
                 </li>
             </ol>
 
-            <br><h4>6.Revisão:</h4>
+            <br><h4>7.Revisão:</h4>
             <ol>
                 <li>Criação de cluster kind multi-node K8s via YAML;</li>
                 <li>Definição de context e namespace para trabalho;</li>
