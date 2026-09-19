@@ -44,57 +44,130 @@
             <h4>Material complementar:</h4>
             <ul>
                 <li>Conteúdo no YouTube: <a class="text-decoration-none">Acesse em breve</a></li>
-                <li>Conteúdo no GitHub: <a class="text-decoration-none">Acesse em breve</a></li>
-                <li>Curso gratuito com certificado na Workover Academy (Curso AWS Free Tier): <a href="https://workover.com.br/cursos/1898/curso-aws-free-tier" class="text-decoration-none" target="_blank">Acesse</a></li>
             </ul>
 
             <br><h4>Conceito:</h4>
-            <p id="textoPost">Rede peer-to-peer, descentralizada e distribuída, que armazena dados em cadeia de blocos interligados (copiáveis e replicáveis) empilhados, via registro digital distribuído (ledger - BD compartilhado/sincronizado entre vários dispositivos) exclusiva a membros, de forma segura, pública e imutável, independente de autoridade terceira (banco, governo). Cada transação é agrupada em pilha imutável de blocos, segura e transparente, com rastreabilidade instantânea. Blockchain como serviço (BaaS) é serviço de blockchain oferecido por provedor cloud, que disponibiliza estrutura para criá-lo. Usado no cotidiano em criptomoedas, smart contracts, rastreamento de produtos, votação digital e certificados digitais (diplomas, identidades, NFTs).</p>
-
-            <br><h4>Importância:</h4>
-            <p id="textoPost">Na venda de imóvel, comprador e vendedor registram transações em BD. Ambos podem alegar que não enviou/recebeu valor, mesmo o fazendo. Para isso, terceira parte central supervisiona transações, mas cria ponto único de vulnerabilidade para ambas partes. Blockchain cria BD com ledger (registro) para comprador e vendedor. Todas transações devem ser aprovadas por ambas partes e são automaticamente atualizadas em ambos ledgers. Se qualquer dado histórico for corrompido, todo ledger será desefeito. Se transação apresentar erro, deverá ser submetida novamente, até comprovar em ambas partes.</p>
-
-            <br><h4>BD vs Blockchain:</h4>
+            <p id="textoPost">Rede P2P (descentralizada) pública e imutável para transações e armazenamento de dados em pilha de blocos de dados criptografados, via registro digital distribuído (distributed ledger - BD compartilhado/sincronizado entre vários dispositivos/nodes/Besus) em comunicação JSON-RPC. Rede independente de autoridade central terceira para gestão (banco, governo). Dedicada a membros participantes. Após aprovação dos participantes (consensus/proof), cada transação (atualização na rede) é empilhada sob os demais blocos, com rastreabilidade e auditabilidade instantâneas. Exemplos de redes Blockchain:</p>
             <ul>
-                <li>Blockchains descentralizam controle sem comprometer confiança nos dados;</li>
-                <li>BD tradicional não pode ser compartilhado nas transações. Em redes blockchain, cada empresa tem sua cópia do ledger completa, e sistema mantém automaticamente consistência entre ambos ledgers;</li>
-                <li>Blockchain somente insere dados, não editáveis nem manipuláveis após inserção.</li>
+                <li>Bitcoin: rede de transações de criptomoedas, focada em segurança e descentralização;</li>
+                <li>Ethereum: plataforma de desenvolvimento de smart contracts e aplicativos descentralizados;</li>
+                <li>Hyperledger Fabric: framework open-source para desenvolvimento de soluções blockchain empresariais.</li>
             </ul>
+            <p id="textoPost">Blockchain como serviço (BaaS) é serviço de blockchain oferecido em cloud. Usado no cotidiano em criptomoedas, smart contracts, rastreamento de produtos, votação digital e certificados digitais (diplomas, identidades, NFTs).</p>
 
-            <br><h4>Tipos de rede Blockchain:</h4>
-            <ul>
-                <li>Pública: aberta para qualquer pessoa participar (ex: blockchain do Bitcoin). Oferece descentralização, mas alto poder computacional, falta de privacidade das transações e segurança fraca;</li>
-                <li>Privada: rede descentralizada ponto a ponto, governada por organização que controla permissões e participantes para executar protocolo de consenso e manter livro-razão compartilhado;
-                    <ul>
-                        <li>Semiprivada: administrada por única empresa que concede acesso a participantes;</li>
-                    </ul>
-                </li>
-                <li>Autorizada: rede blockchain privada (ou pública) autorizada por organização, com restrições sobre quem tem permissão para participar e quais transações de registro. Participantes precisam obter convite/permissão para ingressar;</li>
-                <li>De consórcio: rede mantida e gerenciada por grupo de organizações pré-selecionadas, determinando participantes, sendo ideal para responsabilidades compartilhadas em colaboração.</li>
-            </ul>
-
-            <br><h4>Componentes de bloco:</h4>
-            <p id="textoPost">Vínculo de hashes cria cadeia contínua e segura - se alguém tentar alterar bloco, toda cadeia torna-se inválida. Cada bloco tem hash criptográfico (alterar bloco muda hash e quebra cadeia). Dados descentralizados não estão em único servidor, mas em milhares de computadores. Para adicionar novo bloco, maioria dos nós deve concordar (ex: Proof of Work, Proof of Stake).</p>
-            <ul>
-                <li>Dados (transações financeiras, contratos, etc.);</li>
-                <li>Hash (identificador único, como impressão digital);</li>
-                <li>Hash do bloco anterior (conecta um bloco ao outro);</li>
-            </ul>
-
-            <br><h4>Componentes do Blockchain:</h4>
-            <ul>
-                <li>Ledger distribuído: BD compartilhado na rede, para armazenar dados, disponível para edição sob regras. Registros após adicionados não poderão ser excluídos individualmente;</li>
-                <li>Smart contracts: contratos inteligentes para autogerenciar contratos comerciais, sem necessidade de assistência de terceira parte. São programas armazenados no BD blockchain e executados automaticamente sob gatilhos. Executam verificações simuladas para que transações possam ser concluídas com segurança. Exemplo, empresa de logística pode ter contrato inteligente que faça pagamento de maneira automática depois que mercadorias chegarem ao porto;</li>
-                <li>Criptografia de chave pública: segurança para identificar participantes em rede blockchain. Gera chave pública única para todos participantes da rede, e chave privada, exclusiva de cada membro. Chaves trabalham juntas para desbloquear dados no ledger. Exemplo, John e Jill são membros da rede. John registra transação criptografada sua chave privada. Jill pode descriptografar essa transação com sua chave pública. Etão, Jill terá certeza de que John fez transação. Chave pública de Jill não funcionaria se chave privada de John tivesse sido violada.</li>
-            </ul>
-
-            <br><h4>Funcionamento:</h4>
+            <br><h4>Fluxo de funcionamento:</h4>
             <img src="blockchain.svg" class="img-fluid mb-3 rounded" width="500px">
             <ol>
-                <li><b>Registrar transação</b>: transação mostra movimentação dos dados de parte à outra na rede blockchain. É registrada em máquinas nós (nodes), como bloco de dados, contendo detalhes (data e hora, local, envolvidos, valor, condições, etc). Ex: Alice envia 1 Bitcoin para Bob;</li>
-                <li><b>Obter consenso</b>: participantes da rede blockchain precisam concordar que transação registrada é válida, conforme regras da rede;</li>
-                <li><b>Vincular blocos</b>: transações na blockchain são gravadas em blocos não editáveis, anexando hash ao mesmo, atuando como cadeia que interliga todos blocos empilhados. Se blocos são modificados inadvertidamente, hash será alterado, identificando violação dos dados. Cada bloco adicional é empilhado sob bloco anterior;</li>
-                <li><b>Compartilhar ledger</b>: blockchain distribui cópia mais recente do ledger central para todos participantes.</li>
+                <li>Usuário A solicita envio de R$ 200,00 para Usuário B via aplicação (chama função 'tedSaldo(B, 200)' do Smart Contract);</li>
+                <li>Aplicação cria transação assinada por Usuário A, solicitando executar 'tedSaldo(B, 200)' do Smart Contract;</li>
+                <li>Nodes da rede P2P recebem e validam transação, colocando-a na mempool (fila de transações pendentes para inclusão em block);</li>
+                <li>Participante responsável seleciona transação da mempool, executando 'tedSaldo(B, 200)', onde Smart Contract é executado, reduzindo saldo de A e aumentando de B em R$ 200,00;</li>
+                <li>Transação é incluída em novo block contendo dados dessa e outras transações do momento, vinculado criptograficamente ao block anterior;</li>
+                <li>Via consensus (Proof of Work (PoW) - Bitcoin, Proof of Stake (PoS) - Ethereum ou Proof of Authority (PoA) - Hyperledger Fabric), nodes da rede validam novo block, suas transações e resultados da execução do Smart Contract, registrando aprovação ou rejeição;</li>
+                <li>Após aprovação do block, blockchain é sincronizada/atualizada nos nodes da rede, registrando nova transação e seus efeitos (saldo de A diminui 200, e de B aumenta 200);</li>
+                <li>Se block for rejeitado, transação não será incluída no ledger e seus efeitos não serão aplicados ao estado da blockchain.</li>
+            </ol>
+
+            <br><h4>Tecnologia BD vs Blockchain:</h4>
+            <ul>
+                <li>Blockchains descentralizam controle sem comprometer confiança nos dados, enquanto BD é gerenciado por única autoridade central, não transparente;</li>
+                <li>BD tradicional geralmente não é compartilhado em transações. Em redes blockchain, cada empresa tem sua cópia do ledger completa e atualizada (redes Hyperledger Fabric);</li>
+                <li>Blockchain somente insere dados na pilha de blocks, não editáveis nem manipuláveis após inserção.</li>
+            </ul>
+
+            <br><h4>Block:</h4>
+            <p id="textoPost">Unidade básica da blockchain, contendo estrutura de dados de transação(ões), hash (identificador único) e hash do bloco anterior para cadeia contínua (Block+Chain). Se hash do bloco anterior for alterado, toda cadeia torna-se inválida. O 1º block da cadeia é denominado bloco genesis. Conceitualmente, um block possui os dados:</p>
+<small><pre><code>
+BLOCK #125
+
+Número: 125
+Data/Hora: 16/09/2026 14:30:00
+Previous Hash: 8F2A91C...
+
+Transações:
+1. A → Smart Contract
+   tedSaldo(B, 200)
+
+2. C → D
+   tedSaldo(D, 50)
+
+Resultado:
+A: -200
+B: +200
+
+Merkle Root: A7B29D...
+Block Hash: C91F82...
+</code></pre></small>
+
+            <br><h4>Smart Contract:</h4>
+            <p id="textoPost">Programa/classe em rede blockchain, executado quando transação solicita uma de suas funções. Geralmente escrito em Solidity (Ethereum), como por exemplo:</p>
+<small><pre><code>
+contract Conta &#123;
+    mapping(address =&gt; uint256) public saldo;
+
+    function tedSaldo(address destinatario, uint256 valor) public &#123;
+        require(saldo[msg.sender] &gt;= valor);
+        saldo[msg.sender] -= valor;
+        saldo[destinatario] += valor;
+    &#125;
+&#125;
+</code></pre></small>
+
+            <hr><br><h4>Exemplo prático:</h4>
+            <p id="textoPost">Criar rede Blockchain Ethereum/EVM Besu, multi-node local, via Docker no Ubuntu, criando smart contract via Solidity, consensus QBFT PoA e deploy Foundry. Arquitetura da rede:</p>
+<small><pre><code>
+                    UB BLOCKCHAIN
+                         │
+             ┌───────────┼───────────┐
+             │           │           │
+          Node 1      Node 2      Node 3
+          Besu        Besu        Besu
+          QBFT        QBFT        QBFT
+             │           │           │
+             └───────────┼───────────┘
+                         │
+                    P2P / QBFT
+                         │
+                   Blockchain
+                         │
+                    EVM / RPC
+
+Node 1 → http://localhost:8545
+Node 2 → http://localhost:8546
+Node 3 → http://localhost:8547
+</code></pre></small>
+
+            <ol>
+                <li>Preparar ambiente base da rede Blockchain:
+                    <ol>
+                        <li>Baixar arquivo SH para preparar ambiente: <span class="text-danger">LINK AQUI</span></li>
+                        <li>Dar permissão de execução ao arquivo: sudo chmod +x preparar-ambiente.sh</li>
+                        <li>Executar arquivo: sudo ./preparar-ambiente.sh</li>
+                    </ol>
+                </li>
+                <li>Criar rede blockchain com wallet e smart contract:
+                    <ol>
+                        <li>Baixar arquivo SH para criar rede: <span class="text-danger">LINK AQUI</span></li>
+                        <li>Dar permissão de execução ao arquivo: sudo chmod +x criar-rede.sh</li>
+                        <li>Executar arquivo: sudo ./criar-rede.sh</li>
+                    </ol>
+                </li>
+                <li>Verificar se Node 1 responde ao JSON-RPC: cast chain-id --rpc-url http://localhost:8545</li>
+                <li>Verificar se Nodes estão sincronizados para receber blocks:
+<small><pre><code>
+cast block-number --rpc-url http://localhost:8545
+cast block-number --rpc-url http://localhost:8546
+cast block-number --rpc-url http://localhost:8547
+</code></pre></small>
+                </li>
+                <li>Consultar saldo da wallet:
+<small><pre><code>
+cast balance 0x64796893d86E251872660E599Ba20E47Cd126c8E \
+  --rpc-url http://localhost:8545 \
+  --ether
+</code></pre></small>
+                </li>
+                <li>EM BREVE - Fazer transação...</li>
             </ol>
         </div>
     </div>
