@@ -40,11 +40,10 @@
         </div>
 
         <div class="col-sm-12">
-            <p class="text-warning text-center">RESUMO EM CONSTRUÇÃO</p>
             <h4>Material complementar:</h4>
             <ul>
                 <li>Conteúdo no YouTube: <a href="https://youtube.com/playlist?list=PLJdTsqLkMDKY&si=uKhy_A5Fjj-IHlLa" class="text-decoration-none" target="_blank">Acesse</a></li>
-                <li>Conteúdo no GitHub: <a class="text-decoration-none">Acesse em breve</a></li>
+                <li>Curso gratuito na Udemy (Kubernetes do Zero: Crie seu Primeiro Cluster Multinode): <a href="https://www.udemy.com/course/k8s-basico" target="_blank" class="text-decoration-none">Acesse</a></li>
             </ul>
 
             <br><h4>1.Introdução ao Kubernetes:</h4>
@@ -571,7 +570,7 @@ nodes:
                 <li>Listar todos recursos: kubectl get all</li>
             </ol>
 
-            <h4>10.Projeto Prático Final:</h4>
+            <br><h4>10.Projeto Prático Final:</h4>
             <p id="textoPost">Construir aplicação nginx, em cluster kind multi-node k8s, implementando namespace, deployment, réplicas, service, ConfigMap e Secret.</p>
 <small><pre><code>
 Cluster Kind
@@ -730,59 +729,3 @@ APP_VERSION=2.0
 </div>
 </body>
 </html>
-
-<!-- ROTEIRO DO CURSO:
-| Aula   | Título                         | Conteúdo                                                                                                            |
-| ------ | ------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
-|   01   |   Introdução ao Kubernetes     |   Apresentar o curso, entender o que é Kubernetes.                                                                  |
-|   02   |   Preparando o Ambiente        |   Configurar WSL2 com Ubuntu e instalar Docker, `kubectl` e Kind diretamente no Ubuntu.                             |
-|   03   |   Criando o Primeiro Cluster   |   Criar um cluster Kubernetes com Kind e entender sua estrutura básica.                                             |
-|   04   |   Criando e Gerenciando Pods   |   Criar Pods, visualizar seu estado, consultar informações e acessar seus logs.                                     |
-|   05   |   Deployments e Réplicas       |   Criar Deployments, gerenciar réplicas (replicaset) e entender como o Kubernetes mantém as aplicações em execução. |
-|   06   |   Services                     |   Criar Services para permitir a comunicação e expor aplicações dentro do cluster.                                  |
-|   07   |   ConfigMaps e Secrets         |   Aprender a separar configurações das aplicações e armazenar informações sensíveis.                                |
-|   08   |   Namespaces                   |   Criar e utilizar Namespaces para organizar recursos dentro do cluster.                                            |
-|   09   |   Cluster Multi-Node           |   Criar um cluster Kind com múltiplos Nodes e observar a distribuição dos Pods entre eles.                          |
-|   10   |   Projeto Prático Final        |   Criar uma aplicação Nginx utilizando Deployment, réplicas, Service, ConfigMap e Namespace.                        |
--->
-
-<div class="m-3">
-<small><pre><code>
-                  <b class="text-success">(multi-node)
-                Kubernetes Cluster
-        (context default, namespace default)
-                       │
-       ┌───────────────┴──────────────────┐
-       │                                  │
-Master Node (Control Plane)         Worker Node(s)
-                                          │
-                                  Deployment (3 réplicas)
-                                          │
-                               ┌──────────┼──────────┐
-                               │          │          │
-                              Pod        Pod        Pod (containers, ConfigMap/Secret)
-                               │          │          │
-                               └──────────┼──────────┘
-                                          │
-                                      Service (IP)</b>
-
-<br>
-<b class="text-success">Cluster
-│
-├── Context
-│
-├── Nodes
-│   ├── Single Node
-│   └── Multi Node
-│
-├── Namespace
-│
-├── Deployment
-│   └── ReplicaSet
-│       └── Pods
-│           ├── Containers
-│           ├── ConfigMaps
-│           └── Secrets
-│
-└── Service</b>
-</code></pre></small></div>

@@ -1,0 +1,1889 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../../icons/logoTit.png">
+    <link rel="stylesheet" href="../../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <nav class="navbar rounded-bottom fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="../../index.html"><img src="../../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../sobre/sobre.html">Sobre</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../cursos.html">Cursos</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../livros/livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 text-center" id="titulo">
+            <h1>Spring Boot (NOVO)</h1>
+            <h6><strong>Estrutura e prática Spring Boot framework</strong><br><br><span class="badge bg-warning text-dark">Resumo em construção</span></h6>
+            <a href="../../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
+        </div>
+
+        <div class="col-sm-12">
+            <h4>Material complementar:</h4>
+            <ul>
+                <li>Conteúdo no YouTube: <a href="https://youtube.com/playlist?list=PLH7Wp6zXHG6M&si=Zq6Nye9RGS3Nr3F_" target="_blank" class="text-decoration-none">Acesse</a></li>
+                <li>Conteúdo no GitHub: <a href="https://github.com/mateusschwede/ubsocial/tree/main/spring_boot" target="_blank" class="text-decoration-none">Acesse</a></li>
+                <li>Curso com certificado na Workover Academy (Criar API REST Spring Boot com Kotlin): <a href="https://workover.com.br/cursos/1891" target="_blank" class="text-decoration-none">Acesse</a></li>
+            </ul>
+
+            <br><h4>Conceito:</h4>
+            <p id="textoPost">Framework web Java/Kotlin, seguindo padrão MVC. Spring implementa padrão IoC (Inversion of Control), onde objetos (Spring Beans / Beans) são instanciados automaticamente pelo container do Spring, dispensando criação manual.</p>
+
+            <br><h4>Arquiteturas:</h4>
+            <ul>
+                <li>Layer-based Structure: estrutura tradicional/standard (Structure/Package by Layer), onde cada camada (Controller, Service, Repository) é organizada em pacotes separados. Melhor cenário: sistemas mais simples, bem estruturados, com responsabilidades claras (como em CRUDs). Pior cenário: pouca flexibilidade para mudanças, acoplamento entre camadas e dificuldade em evoluir o domínio;</li>
+                <li></li>
+            </ul>
+
+            <br><h4>Pré-requisitos (Windows):</h4>
+            <ol>
+                <li>JDK: <a href="https://www.oracle.com/br/java/technologies/downloads" target="_blank" class="text-decoration-none">Acesse</a>
+                    <ol>
+                        <li>Baixar e instalar JDK Oracle</li>
+                        <li>Win + R, digite "SystemPropertiesAdvanced", acessar Variáveis de Ambiente</li>
+                        <li>Aba "Variáveis do sistema", editar variável Path, incluindo novo caminho:
+                            <ul>
+                                <li>Nome: Path</li>
+                                <li>Clicar em Novo</li>
+                                <li>Valor: C:\Program Files\Java\jdk-VERSAO-AQUI\bin</li>
+                                <li>Confirmar criação OK</li>
+                            </ul>
+                        </li>
+                        <li>Verificar instalação no CMD, com comando "java -version"</li>
+                    </ol>
+                </li>
+                <li>Gradle: <a href="https://gradle.org/install/#manually" target="_blank" class="text-decoration-none">Acesse</a>
+                    <ol>
+                        <li>Baixar e instalar Gradle: site oficial Gradle, Install, Install manually, Step 1, baixar Binary-only</li>
+                        <li>Diretório "C:/", crie pasta "Gradle", e descompacte o Gradle dentro dela</li>
+                        <li>Win + R, digite "SystemPropertiesAdvanced", acessar Variáveis de Ambiente</li>
+                        <li>Aba "Variáveis do sistema", editar variável Path, incluindo novo caminho:
+                            <ul>
+                                <li>Nome: Path</li>
+                                <li>Clicar em Novo</li>
+                                <li>Valor: C:\Gradle\gradle-VERSAO\bin</li>
+                                <li>Confirmar criação OK</li>
+                            </ul>
+                        </li>
+                        <li>Verificar instalação: Win + R, digitar CMD, e informar comando "gradle -v"</li>
+                    </ol>
+                </li>
+            </ol>
+
+            <br><h4>Criar projeto:</h4>
+            <p id="textoPost">Em 'start.spring.io', selecione:</p>
+            <ol>
+                <li>Project: Gradle - Kotlin</li>
+                <li>Language: Kotlin</li>
+                <li>Spring Boot: 3.5.13</li>
+                <li>Group: com.seuprojeto</li>
+                <li>Artifact: nomeProjeto</li>
+                <li>Package name: com.seuprojeto.nomeProjeto</li>
+                <li>Packaging: Jar</li>
+                <li>Configuration: YAML</li>
+                <li>Java: 21</li>
+                <li>Dependencies:
+                    <ul>
+                        <li>Spring Web</li>
+                        <li>Spring Data JPA</li>
+                        <li>Validation</li>
+                        <li>Spring Boot Dev Tools</li>
+                    </ul>
+                </li>
+                <li>Generate (extrair zip e acessar projeto com IntelliJ)</li>
+            </ol>
+
+            <br><h4>Layer-based Structure:</h4>
+            <p id="textoPost">Estrutura tradicional/standard (Structure/Package by Layer), onde cada camada (Controller, Service, Repository) é organizada em pacotes separados. Melhor cenário: sistemas mais simples, bem estruturados, com responsabilidades claras (como em CRUDs). Pior cenário: pouca flexibilidade para mudanças, acoplamento entre camadas e dificuldade em evoluir o domínio:</p>
+<small><pre><code>
+com.company.project
+├── ProjectApplication.java
+├── config
+│   ├── SecurityConfig.java
+│   ├── DatabaseConfig.java
+│   └── SwaggerConfig.java
+├── controller
+│   ├── UserController.java
+│   └── ProductController.java
+├── service
+│   ├── UserService.java
+│   ├── UserServiceImpl.java
+│   ├── ProductService.java
+│   └── ProductServiceImpl.java
+├── repository
+│   ├── UserRepository.java
+│   └── ProductRepository.java
+├── model
+│   ├── entity
+│   │   ├── User.java
+│   │   └── Product.java
+│   └── dto
+│       ├── UserDTO.java
+│       ├── CreateUserRequest.java
+│       └── ProductDTO.java
+├── exception
+│   ├── GlobalExceptionHandler.java
+│   ├── ResourceNotFoundException.java
+│   └── ValidationException.java
+├── mapper
+│   ├── UserMapper.java
+│   └── ProductMapper.java
+├── security
+│   ├── JwtTokenProvider.java
+│   └── CustomUserDetailsService.java
+└── util
+    ├── DateUtil.java
+    └── ValidationUtil.java
+</code></pre></small>
+            <p>src/main/resources:</p>
+<small><pre><code>
+resources
+├── application.yml
+├── application-dev.yml
+├── application-prod.yml
+├── static
+│   └── (static files)
+├── templates
+│   └── (template files)
+└── db
+    └── migration
+        ├── V1__Create_users_table.sql
+        └── V2__Add_products_table.sql
+</code></pre></small>
+            <p>src/test:</p>
+<small><pre><code>
+src/test/java/com/company/project
+├── controller
+│   └── UserControllerTest.java
+├── service
+│   └── UserServiceTest.java
+└── repository
+    └── UserRepositoryTest.java
+</code></pre></small>
+
+            <br><h4>Layer-based Structure com módulos em pacotes:</h4>
+            <p id="textoPost">Arquitetura anterior, onde projeto é organizado em módulos via pacotes, que seguem a estrutura de camadas tradicional (controller/seevice/repository/model):</p>
+<small><pre><code>
+com.whateverer.config
+ ├── SwaggerConfig.kt
+ ├── SecurityConfig.kt
+ ├── JwtConfig.kt
+ ├── OpenApiConfig.kt
+ ├── JacksonConfig.kt
+ ├── CorsConfig.kt
+ ├── DatabaseConfig.kt
+ ├── CacheConfig.kt
+ └── WebMvcConfig.kt
+
+com.whateverer.feature.account
+ ├── controller
+ │     ├── AccountController.kt
+ │     ├── AccountAdminController.kt
+ │     └── AccountAuthController.kt
+ │
+ ├── model
+ │     ├── dto
+ │     │     ├── CreateAccountRequest.kt
+ │     │     ├── UpdateAccountRequest.kt
+ │     │     ├── AccountResponse.kt
+ │     │     ├── AccountSummaryResponse.kt
+ │     │     └── AccountLoginRequest.kt
+ │     │
+ │     └── entity
+ │           ├── AccountEntity.kt
+ │           ├── AccountProfileEntity.kt
+ │           ├── AccountRoleEntity.kt
+ │           └── AccountStatus.kt
+ │
+ ├── repository
+ │     ├── AccountRepository.kt
+ │     ├── AccountQueryRepository.kt
+ │     └── AccountCustomRepository.kt
+ │
+ ├── service
+ │     ├── AccountService.kt
+ │     ├── CreateAccountService.kt
+ │     ├── UpdateAccountService.kt
+ │     ├── DeleteAccountService.kt
+ │     ├── GetAccountService.kt
+ │     ├── ListAccountService.kt
+ │     ├── AccountValidationService.kt
+ │     └── AccountAuthService.kt
+ │
+ └── utils
+       ├── AccountMapper.kt
+       ├── AccountUtils.kt
+       ├── AccountValidator.kt
+       ├── AccountConstants.kt
+       └── AccountPermissions.kt
+
+com.whateverer.feature.payment
+ ├── controller
+ │     ├── PaymentController.kt
+ │     ├── RefundController.kt
+ │     └── PaymentWebhookController.kt
+ │
+ ├── model
+ │     ├── dto
+ │     │     ├── CreatePaymentRequest.kt
+ │     │     ├── PaymentResponse.kt
+ │     │     ├── RefundRequest.kt
+ │     │     ├── PaymentStatusResponse.kt
+ │     │     └── InstallmentSimulationResponse.kt
+ │     │
+ │     └── entity
+ │           ├── PaymentEntity.kt
+ │           ├── RefundEntity.kt
+ │           ├── PaymentMethodEntity.kt
+ │           └── PaymentStatus.kt
+ │
+ ├── repository
+ │     ├── PaymentRepository.kt
+ │     ├── RefundRepository.kt
+ │     └── PaymentQueryRepository.kt
+ │
+ ├── service
+ │     ├── PaymentService.kt
+ │     ├── RefundService.kt
+ │     ├── PaymentGatewayService.kt
+ │     ├── PaymentValidationService.kt
+ │     ├── InstallmentService.kt
+ │     └── PaymentWebhookService.kt
+ │
+ └── utils
+       ├── PaymentMapper.kt
+       ├── PaymentUtils.kt
+       ├── PaymentValidator.kt
+       ├── PaymentConstants.kt
+       └── InstallmentCalculator.kt
+</code></pre></small>
+
+            <br><h4>Feature-based Structure:</h4>
+            <p id="textoPost">Estrutura moderna (Structure/Package by Feature), onde cada feature/recurso é organizada em pacotes separados, sendo ideal para projetos complexos, escaláveis e microservices. Melhor cenário: sistemas grandes, com várias funcionalidades, onde cada módulo agrupa lógica, testes e regras relacionadas. Pior cenário: pode gerar duplicação de código se não for bem estruturado, e o time precisa se organizar para manter o alinhamento entre features:</p>
+<small><pre><code>
+com.myapp.project
+ ├── Application.java
+ ├── user/
+ │     ├── UserController.java
+ │     ├── UserService.java
+ │     ├── UserRepository.java
+ │     ├── User.java (entity)
+ │     ├── UserDto.java
+ ├── product/
+ │     ├── ProductController.java
+ │     ├── ProductService.java
+ │     ├── ProductRepository.java
+ │     ├── Product.java
+ │     ├── ProductDto.java
+ ├── auth/
+ │     ├── AuthController.java
+ │     ├── AuthService.java
+ │     ├── JwtService.java
+ │     ├── JwtAuthenticationFilter.java
+ │     ├── CustomUserDetailsService.java
+ │     ├── LoginRequest.java
+ │     ├── RegisterRequest.java
+ │     ├── AuthResponse.java
+ │     └── JwtUtil.java
+ ├── config/
+ │     ├── AppConfig.java
+ │     ├── SecurityConfig.java
+ │     ├── DatabaseConfig.java
+ │     ├── SwaggerConfig.java
+ │     └── JwtConfig.java
+ ├── exception/
+ │     ├── GlobalExceptionHandler.java
+ │     ├── ResourceNotFoundException.java
+ │     ├── ValidationException.java
+ │     ├── UnauthorizedException.java
+ │     ├── InvalidTokenException.java
+ │     └── TokenExpiredException.java
+ ├── mapper/
+ │     ├── UserMapper.java
+ │     └── ProductMapper.java
+ └── util/
+       ├── DateUtil.java
+       ├── ValidationUtil.java
+       └── PasswordUtil.java
+</code></pre></small>
+            <p>src/main/resources:</p>
+<small><pre><code>
+resources
+├── application.yml
+├── application-dev.yml
+├── application-prod.yml
+├── static
+│   └── (static files, css, js, images)
+├── templates
+│   └── (template files, html, thymeleaf)
+├── config
+│   ├── security.yml
+│   ├── swagger.yml
+│   ├── e.g. application.yml
+│   ├── logging.yml
+│   └── database.ym
+└── db
+    └── migration
+        ├── V1__Create_users_table.sql
+        └── V2__Add_products_table.sql
+</code></pre></small>
+            <p>src/test:</p>
+<small><pre><code>
+src/test/java/com/myapp/project
+├── user/
+│     ├── UserControllerTest.java
+│     ├── UserServiceTest.java
+│     └── UserRepositoryTest.java
+├── product/
+│     ├── ProductControllerTest.java
+│     ├── ProductServiceTest.java
+│     └── ProductRepositoryTest.java
+└── config/
+    └── SecurityConfigTest.java
+</code></pre></small>
+
+            <br><h4>Hexagonal Architecture:</h4>
+            <p id="textoPost">Arquitetura moderna (Hexagonal Architecture / Ports and Adapters), onde a aplicação é organizada em camadas concêntricas, com o domínio central isolado de detalhes de infraestrutura, sendo ideal para projetos complexos, escaláveis e microservices. Melhor cenário: sistemas complexos, com alto desacoplamento, onde o domínio é protegido de detalhes externos, permitindo fácil troca de tecnologia e alta testabilidade. Pior cenário: curva de aprendizado mais alta, abstrações adicionais, exigindo mais esforço para implementar no início:</p>
+<small><pre><code>
+src/main/java/com/myapp/project
+├── application/
+│   ├── port/
+│   │   ├── input/
+│   │   │   ├── UserUseCase.java
+│   │   │   └── ProductUseCase.java
+│   │   └── output/
+│   │       ├── UserPersistencePort.java
+│   │       └── ProductPersistencePort.java
+│   ├── service/
+│   │   ├── UserServiceImpl.java
+│   │   └── ProductServiceImpl.java
+│   ├── dto/
+│   │   ├── UserDto.java
+│   │   └── ProductDto.java
+│   └── mapper/
+│       ├── UserMapper.java
+│       └── ProductMapper.java
+├── domain/
+│   ├── model/
+│   │   ├── User.java
+│   │   └── Product.java
+│   ├── exception/
+│   │   ├── ResourceNotFoundException.java
+│   │   ├── ValidationException.java
+│   │   ├── UnauthorizedException.java
+│   │   ├── InvalidTokenException.java
+│   │   └── TokenExpiredException.java
+│   └── vo/
+│       └── (Value Objects opcionais)
+├── infrastructure/
+│   ├── input/
+│   │   ├── rest/
+│   │   │   ├── UserController.java
+│   │   │   └── ProductController.java
+│   │   └── config/
+│   │       ├── SwaggerConfig.java
+│   │       └── SecurityConfig.java
+│   └── output/
+│       ├── persistence/
+│       │   ├── UserRepositoryImpl.java
+│       │   └── ProductRepositoryImpl.java
+│       ├── security/
+│       │   ├── JwtTokenProvider.java
+│       │   └── CustomUserDetailsService.java
+│       └── config/
+│           └── DatabaseConfig.java
+├── shared/
+│   └── exception/
+│       └── GlobalExceptionHandler.java
+└── Application.java
+</code></pre></small>
+
+            <br><h4>Modular Monolith + Clean Architecture + DDD:</h4>
+            <p id="textoPost">Arquitetura profissional moderna (Modular Monolith + Clean Architecture + DDD), onde aplicação é organizada em módulos independentes, seguindo princípios de Clean Architecture e Domain-Driven Design, sendo ideal para projetos complexos, escaláveis e microservices. Melhor cenário: sistemas complexos, com alto desacoplamento, onde o domínio é protegido de detalhes externos, permitindo fácil evolução do domínio e alta testabilidade. Pior cenário: curva de aprendizado mais alta, abstrações adicionais, exigindo mais esforço para implementar no início:</p>
+<small><pre><code>
+my-erp-system/
+├── build.gradle.kts
+├── settings.gradle.kts
+├── gradle.properties
+├── docker-compose.yml
+├── Dockerfile
+├── README.md
+├── .gitignore
+├── .editorconfig
+├── .env
+│
+├── gradle/
+│   └── wrapper/
+│       ├── gradle-wrapper.jar
+│       └── gradle-wrapper.properties
+│
+├── docs/
+│   ├── architecture/
+│   │   ├── context-diagram.md
+│   │   ├── containers-diagram.md
+│   │   ├── components-diagram.md
+│   │   ├── domain-overview.md
+│   │   ├── bounded-contexts.md
+│   │   └── decisions/
+│   │       ├── adr-001-modular-monolith.md
+│   │       ├── adr-002-clean-architecture.md
+│   │       └── adr-003-ddd.md
+│   │
+│   ├── api/
+│   │   ├── openapi.yaml
+│   │   └── postman-collection.json
+│   │
+│   └── database/
+│       ├── schema.drawio
+│       └── migrations.md
+│
+├── scripts/
+│   ├── start-local.sh
+│   ├── build.sh
+│   ├── deploy.sh
+│   └── test.sh
+│
+├── src/
+│   ├── main/
+│   │   ├── kotlin/
+│   │   │   └── com/
+│   │   │       └── company/
+│   │   │           └── erp/
+│   │   │               │
+│   │   │               ├── ErpApplication.kt
+│   │   │               │
+│   │   │               ├── shared/
+│   │   │               │   │
+│   │   │               │   ├── kernel/
+│   │   │               │   │   ├── domain/
+│   │   │               │   │   │   ├── AggregateRoot.kt
+│   │   │               │   │   │   ├── Entity.kt
+│   │   │               │   │   │   ├── ValueObject.kt
+│   │   │               │   │   │   ├── DomainEvent.kt
+│   │   │               │   │   │   ├── Identifier.kt
+│   │   │               │   │   │   └── AuditableEntity.kt
+│   │   │               │   │   │
+│   │   │               │   │   ├── application/
+│   │   │               │   │   │   ├── UseCase.kt
+│   │   │               │   │   │   ├── Command.kt
+│   │   │               │   │   │   ├── Query.kt
+│   │   │               │   │   │   ├── CommandHandler.kt
+│   │   │               │   │   │   ├── QueryHandler.kt
+│   │   │               │   │   │   └── EventPublisher.kt
+│   │   │               │   │   │
+│   │   │               │   │   ├── infrastructure/
+│   │   │               │   │   │   ├── BaseEntity.kt
+│   │   │               │   │   │   ├── BaseRepository.kt
+│   │   │               │   │   │   ├── JpaConfig.kt
+│   │   │               │   │   │   └── TransactionConfig.kt
+│   │   │               │   │   │
+│   │   │               │   │   └── exception/
+│   │   │               │   │       ├── BusinessException.kt
+│   │   │               │   │       ├── ValidationException.kt
+│   │   │               │   │       ├── NotFoundException.kt
+│   │   │               │   │       └── DomainException.kt
+│   │   │               │   │
+│   │   │               │   ├── config/
+│   │   │               │   │   ├── JacksonConfig.kt
+│   │   │               │   │   ├── SecurityConfig.kt
+│   │   │               │   │   ├── OpenApiConfig.kt
+│   │   │               │   │   ├── CacheConfig.kt
+│   │   │               │   │   ├── KafkaConfig.kt
+│   │   │               │   │   └── ClockConfig.kt
+│   │   │               │   │
+│   │   │               │   ├── security/
+│   │   │               │   │   ├── JwtService.kt
+│   │   │               │   │   ├── JwtAuthenticationFilter.kt
+│   │   │               │   │   ├── UserPrincipal.kt
+│   │   │               │   │   └── AuthenticatedUser.kt
+│   │   │               │   │
+│   │   │               │   ├── observability/
+│   │   │               │   │   ├── LoggingInterceptor.kt
+│   │   │               │   │   ├── MetricsConfig.kt
+│   │   │               │   │   ├── TracingConfig.kt
+│   │   │               │   │   └── CorrelationIdFilter.kt
+│   │   │               │   │
+│   │   │               │   ├── messaging/
+│   │   │               │   │   ├── InternalEventBus.kt
+│   │   │               │   │   ├── KafkaEventPublisher.kt
+│   │   │               │   │   └── EventSerializer.kt
+│   │   │               │   │
+│   │   │               │   └── web/
+│   │   │               │       ├── ApiErrorResponse.kt
+│   │   │               │       ├── GlobalExceptionHandler.kt
+│   │   │               │       ├── PaginationRequest.kt
+│   │   │               │       └── PaginationResponse.kt
+│   │   │               │
+│   │   │               ├── modules/
+│   │   │               │
+│   │   │               │   ├── customer/
+│   │   │               │   │   │
+│   │   │               │   │   ├── domain/
+│   │   │               │   │   │   ├── model/
+│   │   │               │   │   │   │   ├── Customer.kt
+│   │   │               │   │   │   │   ├── CustomerAddress.kt
+│   │   │               │   │   │   │   ├── CustomerDocument.kt
+│   │   │               │   │   │   │   ├── CustomerStatus.kt
+│   │   │               │   │   │   │   └── CustomerId.kt
+│   │   │               │   │   │   │
+│   │   │               │   │   │   ├── event/
+│   │   │               │   │   │   │   ├── CustomerCreatedEvent.kt
+│   │   │               │   │   │   │   ├── CustomerUpdatedEvent.kt
+│   │   │               │   │   │   │   └── CustomerDeletedEvent.kt
+│   │   │               │   │   │   │
+│   │   │               │   │   │   ├── service/
+│   │   │               │   │   │   │   ├── CustomerDomainService.kt
+│   │   │               │   │   │   │   └── CustomerValidationService.kt
+│   │   │               │   │   │   │
+│   │   │               │   │   │   └── repository/
+│   │   │               │   │   │       └── CustomerRepository.kt
+│   │   │               │   │   │
+│   │   │               │   │   ├── application/
+│   │   │               │   │   │   ├── usecase/
+│   │   │               │   │   │   │   ├── createcustomer/
+│   │   │               │   │   │   │   │   ├── CreateCustomerCommand.kt
+│   │   │               │   │   │   │   │   ├── CreateCustomerUseCase.kt
+│   │   │               │   │   │   │   │   ├── CreateCustomerResponse.kt
+│   │   │               │   │   │   │   │   └── CreateCustomerValidator.kt
+│   │   │               │   │   │   │   │
+│   │   │               │   │   │   │   ├── updatecustomer/
+│   │   │               │   │   │   │   │   ├── UpdateCustomerCommand.kt
+│   │   │               │   │   │   │   │   ├── UpdateCustomerUseCase.kt
+│   │   │               │   │   │   │   │   └── UpdateCustomerValidator.kt
+│   │   │               │   │   │   │   │
+│   │   │               │   │   │   │   ├── getcustomer/
+│   │   │               │   │   │   │   │   ├── GetCustomerQuery.kt
+│   │   │               │   │   │   │   │   ├── GetCustomerUseCase.kt
+│   │   │               │   │   │   │   │   └── CustomerDetailsResponse.kt
+│   │   │               │   │   │   │   │
+│   │   │               │   │   │   │   ├── listcustomers/
+│   │   │               │   │   │   │   │   ├── ListCustomersQuery.kt
+│   │   │               │   │   │   │   │   ├── ListCustomersUseCase.kt
+│   │   │               │   │   │   │   │   └── CustomerSummaryResponse.kt
+│   │   │               │   │   │   │   │
+│   │   │               │   │   │   │   └── deletecustomer/
+│   │   │               │   │   │   │       ├── DeleteCustomerCommand.kt
+│   │   │               │   │   │   │       └── DeleteCustomerUseCase.kt
+│   │   │               │   │   │   │
+│   │   │               │   │   │   ├── port/
+│   │   │               │   │   │   │   ├── input/
+│   │   │               │   │   │   │   │   ├── CreateCustomerInputPort.kt
+│   │   │               │   │   │   │   │   ├── UpdateCustomerInputPort.kt
+│   │   │               │   │   │   │   │   └── GetCustomerInputPort.kt
+│   │   │               │   │   │   │   │
+│   │   │               │   │   │   │   └── output/
+│   │   │               │   │   │   │       ├── LoadCustomerPort.kt
+│   │   │               │   │   │   │       ├── SaveCustomerPort.kt
+│   │   │               │   │   │   │       └── DeleteCustomerPort.kt
+│   │   │               │   │   │   │
+│   │   │               │   │   │   ├── mapper/
+│   │   │               │   │   │   │   ├── CustomerMapper.kt
+│   │   │               │   │   │   │   └── CustomerResponseMapper.kt
+│   │   │               │   │   │   │
+│   │   │               │   │   │   └── eventhandler/
+│   │   │               │   │   │       └── CustomerCreatedEventHandler.kt
+│   │   │               │   │   │
+│   │   │               │   │   ├── infrastructure/
+│   │   │               │   │   │   ├── persistence/
+│   │   │               │   │   │   │   ├── entity/
+│   │   │               │   │   │   │   │   ├── CustomerJpaEntity.kt
+│   │   │               │   │   │   │   │   └── CustomerAddressEmbeddable.kt
+│   │   │               │   │   │   │   │
+│   │   │               │   │   │   │   ├── repository/
+│   │   │               │   │   │   │   │   ├── JpaCustomerRepository.kt
+│   │   │               │   │   │   │   │   └── SpringDataCustomerRepository.kt
+│   │   │               │   │   │   │   │
+│   │   │               │   │   │   │   └── mapper/
+│   │   │               │   │   │   │       ├── CustomerJpaMapper.kt
+│   │   │               │   │   │   │       └── CustomerEntityMapper.kt
+│   │   │               │   │   │   │
+│   │   │               │   │   │   ├── web/
+│   │   │               │   │   │   │   ├── CustomerController.kt
+│   │   │               │   │   │   │   ├── request/
+│   │   │               │   │   │   │   │   ├── CreateCustomerRequest.kt
+│   │   │               │   │   │   │   │   └── UpdateCustomerRequest.kt
+│   │   │               │   │   │   │   │
+│   │   │               │   │   │   │   └── response/
+│   │   │               │   │   │   │       ├── CustomerResponse.kt
+│   │   │               │   │   │   │       └── CustomerListResponse.kt
+│   │   │               │   │   │   │
+│   │   │               │   │   │   ├── messaging/
+│   │   │               │   │   │   │   ├── consumer/
+│   │   │               │   │   │   │   │   └── CustomerEventConsumer.kt
+│   │   │               │   │   │   │   │
+│   │   │               │   │   │   │   └── producer/
+│   │   │               │   │   │   │       └── CustomerEventProducer.kt
+│   │   │               │   │   │   │
+│   │   │               │   │   │   └── config/
+│   │   │               │   │   │       └── CustomerModuleConfig.kt
+│   │   │               │   │   │
+│   │   │               │   │   └── CustomerModule.kt
+│   │   │               │   │
+│   │   │               │   ├── order/
+│   │   │               │   │   ├── domain/
+│   │   │               │   │   ├── application/
+│   │   │               │   │   ├── infrastructure/
+│   │   │               │   │   └── OrderModule.kt
+│   │   │               │   │
+│   │   │               │   ├── payment/
+│   │   │               │   │   ├── domain/
+│   │   │               │   │   ├── application/
+│   │   │               │   │   ├── infrastructure/
+│   │   │               │   │   └── PaymentModule.kt
+│   │   │               │   │
+│   │   │               │   ├── inventory/
+│   │   │               │   │   ├── domain/
+│   │   │               │   │   ├── application/
+│   │   │               │   │   ├── infrastructure/
+│   │   │               │   │   └── InventoryModule.kt
+│   │   │               │   │
+│   │   │               │   └── auth/
+│   │   │               │       ├── domain/
+│   │   │               │       ├── application/
+│   │   │               │       ├── infrastructure/
+│   │   │               │       └── AuthModule.kt
+│   │   │               │
+│   │   │               └── bootstrap/
+│   │   │                   ├── DatabaseSeeder.kt
+│   │   │                   ├── ModuleRegistrar.kt
+│   │   │                   └── StartupRunner.kt
+│   │   │
+│   │   └── resources/
+│   │       ├── application.yml
+│   │       ├── application-dev.yml
+│   │       ├── application-test.yml
+│   │       ├── application-prod.yml
+│   │       │
+│   │       ├── db/
+│   │       │   └── migration/
+│   │       │       ├── V1__create_customer_table.sql
+│   │       │       ├── V2__create_order_table.sql
+│   │       │       ├── V3__create_payment_table.sql
+│   │       │       └── V4__create_inventory_table.sql
+│   │       │
+│   │       ├── banner.txt
+│   │       ├── logback-spring.xml
+│   │       └── messages/
+│   │           ├── messages.properties
+│   │           └── validation.properties
+│   │
+│   └── test/
+│       └── kotlin/
+│           └── com/
+│               └── company/
+│                   └── erp/
+│                       ├── integration/
+│                       │   ├── CustomerIntegrationTest.kt
+│                       │   ├── OrderIntegrationTest.kt
+│                       │   └── PaymentIntegrationTest.kt
+│                       │
+│                       ├── unit/
+│                       │   ├── customer/
+│                       │   │   ├── domain/
+│                       │   │   ├── application/
+│                       │   │   └── infrastructure/
+│                       │   │
+│                       │   ├── order/
+│                       │   └── payment/
+│                       │
+│                       ├── architecture/
+│                       │   ├── ModularizationTest.kt
+│                       │   ├── LayerDependencyTest.kt
+│                       │   ├── HexagonalRulesTest.kt
+│                       │   └── DddConventionsTest.kt
+│                       │
+│                       └── e2e/
+│                           ├── CustomerFlowE2ETest.kt
+│                           └── OrderFlowE2ETest.kt
+│
+└── .github/
+    └── workflows/
+        ├── ci.yml
+        ├── cd.yml
+        └── code-quality.yml
+</code></pre></small>
+
+            <br><h4>Funcionamento:</h4>
+            <p id="textoPost">Baseado na arquitetura Layer-based Structure com módulos.</p>
+<small><pre><code>
+resources
+ ├── application.yml <span class="text-muted"># Configurações gerais da aplicação, como porta, datasource, logging, etc.</span>
+ ├── application-dev.yml <span class="text-muted"># Configurações específicas para ambiente de desenvolvimento, como banco de dados local, logging detalhado, etc.</span>
+ ├── application-prod.yml <span class="text-muted"># Configurações específicas para ambiente de produção, como banco de dados em nuvem, logging otimizado, etc.</span>
+ ├── static <span class="text-muted"># Diretório com arquivos estáticos, como CSS, JavaScript e imagens, usados para servir conteúdo estático (se aplicável)</span>
+ ├── templates <span class="text-muted"># Diretório com arquivos de template, como HTML ou Thymeleaf, usados para renderizar páginas (se aplicável)</span>
+ └── db <span class="text-muted"># Scripts de banco de dados, como migrações SQL ou arquivos de configuração do Flyway/Liquibase</span>
+     └── migration <span class="text-muted"># Scripts de migração do banco de dados, nomeados seguindo convenção (V1__create_users_table.sql, V2__add_products_table.sql, etc.)</span>
+         ├── V1__create_users_table.sql <span class="text-muted"># Exemplo de script de migração para criar tabela de usuários</span>
+         └── V2__add_products_table.sql <span class="text-muted"># Exemplo de script de migração para adicionar tabela de produtos</span>
+
+com.whateverer.config <span class="text-muted"># Configurações globais</span>
+ ├── SwaggerConfig.kt <span class="text-muted"># Configuração do Swagger para documentação da API</span>
+ ├── SecurityConfig.kt <span class="text-muted"># Configuração de segurança, incluindo autenticação, autorização, filtros de segurança e rotas públicas/privadas</span>
+ ├── JwtConfig.kt <span class="text-muted"># Configuração específica para JWT (JSON Web Token), como geração e validação de tokens, além de expiração e assinatura</span>
+ ├── OpenApiConfig.kt <span class="text-muted"># Configuração da documentação OpenAPI, contendo título da API, versão, descrição e autenticação JWT no Swagger</span>
+ ├── JacksonConfig.kt <span class="text-muted"># Configuração do serializer/deserializer JSON do Jackson, que converte Kotlin objects para JSON e vice-versa, como formatos de datas, null handling</span>
+ ├── CorsConfig.kt <span class="text-muted"># Configuração de CORS (Cross-Origin Resource Sharing), definindo quais domínios podem acessar a API (como frontend), métodos HTTP permitidos e cabeçalhos</span>
+ ├── DatabaseConfig.kt <span class="text-muted"># Configuração do banco de dados, incluindo conexão, datasource, JPA/Hibernate, pool de conexões, transações e demais propriedades de acesso ao banco</span>
+ ├── CacheConfig.kt <span class="text-muted"># Configuração de cache, definindo quais dados devem ser armazenados em cache, tempo de expiração e estratégia de cache (como Redis, cache local ou Caffeine) para otimização de desempenho e redução de queries</span>
+ └── WebMvcConfig.kt <span class="text-muted"># Configuração do Spring MVC (Model-View-Controller), incluindo resolvers, interceptors, formatadores, conversores, manipuladores de exceção e outras customizações relacionadas ao comportamento da camada web geral</span>
+
+com.whateverer.feature.account <span class="text-muted"># Funcionalidades relacionadas ao domínio de gestão de contas e usuários</span>
+ ├── controller <span class="text-muted"># Camada de controle, responsável por receber requisições HTTP REST, validar dados de entrada, chamar os serviços e retornar respostas adequadas</span>
+ │     ├── AccountController.kt <span class="text-muted"># Controlador para endpoints principais de conta (criar, obter, atualizar, excluir)</span>
+ │     ├── AccountAdminController.kt <span class="text-muted"># Controlador para endpoints administrativos de conta (listar contas, alterar status, atribuir papéis, bloquear contas)</span>
+ │     └── AccountAuthController.kt <span class="text-muted"># Controlador para endpoints de autenticação e autorização (login, logout, refresh token)</span>
+ │
+ ├── model <span class="text-muted"># Camada de modelo, contendo definições de dados usados na aplicação, como DTOs (Data Transfer Objects) para comunicação entre camadas e entidades JPA para persistência no banco de dados</span>
+ │     ├── dto <span class="text-muted"># Pacote de DTOs, objetos usados para transferir dados entre camadas em comunicação HTTP, como requisições e respostas da API</span>
+ │     │     ├── CreateAccountRequest.kt <span class="text-muted"># Dados recebidos ao criar conta</span>
+ │     │     ├── UpdateAccountRequest.kt <span class="text-muted"># Dados recebidos ao atualizar conta</span>
+ │     │     ├── AccountResponse.kt <span class="text-muted"># Dados retornados/resposta ao obter detalhes de conta</span>
+ │     │     ├── AccountSummaryResponse.kt <span class="text-muted"># Dados retornados/resumo ao listar contas</span>
+ │     │     └── AccountLoginRequest.kt <span class="text-muted"># Payload, dados recebidos ao realizar login</span>
+ │     │
+ │     └── entity <span class="text-muted"># Pacote de entidades, classes que representam tabelas do banco de dados usando JPA/Hibernate, contendo anotações de mapeamento e relacionamentos</span>
+ │           ├── AccountEntity.kt <span class="text-muted"># Entidade principal de conta, representando tabela principal de contas no banco de dados</span>
+ │           ├── AccountProfileEntity.kt <span class="text-muted"># Entidade de perfil de conta, representando informações adicionais do usuário, como nome, email, telefone</span>
+ │           ├── AccountRoleEntity.kt <span class="text-muted"># Entidade de papel de conta, representando os papéis/roles/permissões atribuídos a cada conta para controle de acesso (admin, user)</span>
+ │           └── AccountStatus.kt <span class="text-muted"># Enumeração de status de conta, representando possíveis estados de conta (ativa, inativa, bloqueada, etc.)</span>
+ │
+ ├── repository <span class="text-muted"># Camada de repositório, responsável por acessar banco de dados e realizar operações de CRUD (Create, Read, Update, Delete) via JPA/Hibernate, além de consultas personalizadas</span>
+ │     ├── AccountRepository.kt <span class="text-muted"># Repositório principal de conta, estendendo JpaRepository para operações básicas de CRUD</span>
+ │     ├── AccountQueryRepository.kt <span class="text-muted"># Repositório de consultas personalizadas, contendo métodos para consultas/queries complexas ou específicas que não se encaixam no padrão do JpaRepository</span>
+ │     └── AccountCustomRepository.kt <span class="text-muted"># Repositório customizado, contendo implementações personalizadas de métodos de acesso a dados que exigem lógica específica/personalizada ou otimizações</span>
+ │
+ ├── service <span class="text-muted"># Camada de serviço, responsável por implementar lógica de negócio da aplicação, orquestrando operações entre repositórios, validando regras de negócio e garantindo a integridade dos dados</span>
+ │     ├── AccountService.kt <span class="text-muted"># Serviço principal de conta, contendo regras/métodos para criar, atualizar, excluir e obter contas, além de aplicar regras de negócio relacionadas a contas</span>
+ │     ├── CreateAccountService.kt <span class="text-muted"># Serviço específico para criação de contas, contendo regras/lógica de negócio relacionada à criação, como validação de dados, verificação de duplicidade, atribuição de papéis padrão, etc</span>
+ │     ├── UpdateAccountService.kt <span class="text-muted"># Serviço específico para atualização de contas, contendo regras/lógica de negócio relacionada à atualização, como validação de dados, controle de alterações, etc</span>
+ │     ├── DeleteAccountService.kt <span class="text-muted"># Serviço específico para exclusão de contas, contendo regras/lógica de negócio relacionada à exclusão, como verificação de dependências, controle de status, etc</span>
+ │     ├── GetAccountService.kt <span class="text-muted"># Serviço específico para obtenção de detalhes de conta individual, contendo regras/lógica de negócio relacionada à obtenção, como controle de acesso, formatação de dados, etc</span>
+ │     ├── ListAccountService.kt <span class="text-muted"># Serviço específico para listagem de contas, contendo regras/lógica de negócio relacionada à listagem, como paginação, filtragem, ordenação, etc</span>
+ │     ├── AccountValidationService.kt <span class="text-muted"># Serviço de validação de conta, contendo regras/lógica de negócio relacionada à validação de dados de conta, como validação de email, senha, formato de dados, etc</span>
+ │     └── AccountAuthService.kt <span class="text-muted"># Serviço de autenticação e autorização de conta, contendo regras/lógica de negócio relacionada à autenticação (login, logout, refresh token) e controle de acesso (verificação de papéis/permissões)</span>
+ │
+ └── utils <span class="text-muted"># Camada de utilitários, contendo classes e métodos auxiliares para mapeamento de objetos (DTOs para entidades e vice-versa), validação de dados, constantes e outras funções utilitárias relacionadas ao domínio de conta</span>
+       ├── AccountMapper.kt <span class="text-muted"># Mapeador para conversão entre entidades em DTOs, e vice-versa, de conta</span>
+       ├── AccountUtils.kt <span class="text-muted"># Utilitários/funções diversas relacionados a conta, como formatação de dados, geração de senhas, etc</span>
+       ├── AccountValidator.kt <span class="text-muted"># Validador para validações reutilizáveis de dados relacionados a conta, como validação de email, senha, formato de dados, etc</span>
+       ├── AccountConstants.kt <span class="text-muted"># Constantes relacionadas a conta, como mensagens de erro, papéis padrão, etc</span>
+       └── AccountPermissions.kt <span class="text-muted"># Definição/centralização de permissões e roles/papéis relacionados a conta, para controle de acesso</span>
+
+com.whateverer.feature.payment
+ ├── controller
+ │     ├── PaymentController.kt
+ │     ├── RefundController.kt
+ │     └── PaymentWebhookController.kt
+ │
+ ├── model
+ │     ├── dto
+ │     │     ├── CreatePaymentRequest.kt
+ │     │     ├── PaymentResponse.kt
+ │     │     ├── RefundRequest.kt
+ │     │     ├── PaymentStatusResponse.kt
+ │     │     └── InstallmentSimulationResponse.kt
+ │     │
+ │     └── entity
+ │           ├── PaymentEntity.kt
+ │           ├── RefundEntity.kt
+ │           ├── PaymentMethodEntity.kt
+ │           └── PaymentStatus.kt
+ │
+ ├── repository
+ │     ├── PaymentRepository.kt
+ │     ├── RefundRepository.kt
+ │     └── PaymentQueryRepository.kt
+ │
+ ├── service
+ │     ├── PaymentService.kt
+ │     ├── RefundService.kt
+ │     ├── PaymentGatewayService.kt
+ │     ├── PaymentValidationService.kt
+ │     ├── InstallmentService.kt
+ │     └── PaymentWebhookService.kt
+ │
+ └── utils
+       ├── PaymentMapper.kt
+       ├── PaymentUtils.kt
+       ├── PaymentValidator.kt
+       ├── PaymentConstants.kt
+       └── InstallmentCalculator.kt
+
+src.test.kotlin.com.whateverer <span class="text-muted"># Pacote de testes, organizado por tipo de teste (integração, unitário, arquitetura, e2e) e por domínio/feature (account, payment, order)</span>
+├── integration <span class="text-muted"># Testes de integração, que verificam interação entre diferentes módulos ou camadas do sistema</span>
+│   ├── AccountIntegrationTest.kt <span class="text-muted"># Teste de integração para funcionalidades relacionadas a conta, verificando interação entre camadas (controller, service, repository) e comportamento geral da funcionalidade de conta</span>
+│   ├── PaymentIntegrationTest.kt <span class="text-muted"># Teste de integração para funcionalidades relacionadas a pagamento, verificando interação entre camadas (controller, service, repository) e comportamento geral da funcionalidade de pagamento</span>
+│   └── OrderIntegrationTest.kt <span class="text-muted"># Teste de integração para funcionalidades relacionadas a pedido, verificando interação entre camadas (controller, service, repository) e comportamento geral da funcionalidade de pedido</span>
+├── unit <span class="text-muted"># Testes unitários, que verificam comportamento de unidades isoladas de código, como métodos ou classes específicas, usando mocks para dependências externas</span>
+│   ├── account <span class="text-muted"># Testes unitários para funcionalidades relacionadas a conta, organizados por camada (controller, service, repository)</span>
+│   │   ├── controller <span class="text-muted"># Testes unitários para camada de controle de conta, verificando comportamento dos endpoints REST, validação de dados de entrada e respostas adequadas</span>
+│   │   │   └── AccountControllerTest.kt <span class="text-muted"># Teste unitário para AccountController, verificando comportamento dos endpoints de conta</span>
+│   │   ├── service <span class="text-muted"># Testes unitários para camada de serviço de conta, verificando lógica de negócio, regras de validação e interação com repositórios</span>
+│   │   │   ├── AccountServiceTest.kt <span class="text-muted"># Teste unitário para AccountService, verificando regras de negócio relacionadas a conta</span>
+│   │   │   └── AccountValidationServiceTest.kt <span class="text-muted"># Teste unitário para AccountValidationService, verificando regras de validação de dados relacionados a conta</span>
+│   │   └── repository <span class="text-muted"># Testes unitários para camada de repositório de conta, verificando operações de acesso a dados e consultas personalizadas</span>
+│   │       ├── AccountRepositoryTest.kt <span class="text-muted"># Teste unitário para AccountRepository, verificando operações básicas de CRUD e consultas simples</span>
+│   │       └── AccountQueryRepositoryTest.kt <span class="text-muted"># Teste unitário para AccountQueryRepository, verificando consultas personalizadas e complexas relacionadas a conta</span>
+│   ├── payment
+│   └── order
+├── architecture <span class="text-muted"># Testes de arquitetura, que verificam conformidade do código com regras de arquitetura definidas, como modularização, dependências entre camadas, regras hexagonais e convenções de DDD</span>
+│   ├── ModularizationTest.kt <span class="text-muted"># Teste de arquitetura para verificar modularização do código, garantindo que funcionalidades estejam organizadas em módulos coesos e com baixo acoplamento</span>
+│   ├── LayerDependencyTest.kt <span class="text-muted"># Teste de arquitetura para verificar dependências entre camadas, garantindo que camadas superiores (controller) dependam apenas das camadas inferiores (service, repository) e não o contrário</span>
+│   ├── HexagonalRulesTest.kt <span class="text-muted"># Teste de arquitetura para verificar regras hexagonais, garantindo que camada de domínio não dependa de detalhes de infraestrutura e que portas e adaptadores estejam corretamente implementados</span>
+│   └── DddConventionsTest.kt <span class="text-muted"># Teste de arquitetura para verificar convenções de DDD (Domain-Driven Design), garantindo que entidades, agregados, repositórios e serviços estejam organizados de acordo com práticas recomendadas de DDD</span>
+└── e2e <span class="text-muted"># Testes end-to-end, que verificam comportamento do sistema como todo, simulando cenários reais de uso e verificando integração entre todas camadas e módulos</span>
+    ├── CustomerFlowE2ETest.kt <span class="text-muted"># Teste end-to-end para fluxo de cliente, simulando cenários reais de uso relacionados a clientes, como criação, atualização, obtenção e exclusão de clientes, verificando integração entre todas as camadas e módulos relacionados a cliente</span>
+    └── OrderFlowE2ETest.kt <span class="text-muted"># Teste end-to-end para fluxo de pedido, simulando cenários reais de uso relacionados a pedidos, como criação, atualização, obtenção e exclusão de pedidos, verificando integração entre todas camadas e módulos relacionados a pedido</span>
+</code></pre></small>
+
+            <br><h4>Fluxo para criação de nova feature no projeto:</h4>
+            <ol>
+                <li>Criar Entity (AccountEntity), definindo tables, columns, constraints e relacionamentos;</li>
+                <li>Criar DTOs (CreateAccountRequest, AccountResponse), definindo entrada e saída de dados da API;</li>
+                <li>Criar Repository (AccountRepository), definindo operações de acesso ao banco de dados;</li>
+                <li>Criar Mapper (AccountMapper), definindo mapeamento/conversão entre entidades e DTOs;</li>
+                <li>Criar Validators (AccountValidator), definindo regras de validação de dados, campos e regras de negócio para criação e atualização de contas;</li>
+                <li>Criar Services (AccountService), definindo regras e lógica de negócio para manipulação de contas, no fluxo do CRUD (create, update, delete, get, list);</li>
+                <li>Criar Controllers (AccountController), definindo endpoints da API REST para exposição das operações de CRUD (POST /accounts, GET /accounts, PUT /accounts/&#123;id&#125;, DELETE /accounts/&#123;id&#125;);</li>
+                <li>Configurar segurança (JWT, OAuth2, etc), definindo autenticação, autorização, roles e gerenciamento de tokens;</li>
+                <li>Documentar API (Swagger, OpenAPI), definindo especificações e documentação para endpoints da API;</li>
+                <li>Criar testes (Unitários, Integração, End-to-End, Controller, Repository), definindo casos de teste para verificar o comportamento do sistema e garantir a qualidade do código.</li>
+            </ol>
+            
+            <br><h4>Fluxo de Request:</h4>
+            <ol>
+                <li>Cliente HTTP (envia requisição);</li>
+                <li>Controller (entrada, recebe endpoint);</li>
+                <li>Service (executa regras de negócio);</li>
+                <li>Validation (valida dados);</li>
+                <li>Repository (acessa banco de dados);</li>
+                <li>Banco de Dados (persiste dados);</li>
+                <li>Mapper (converte objetos Entidade e DTO);</li>
+                <li>Response DTO (monta resposta de retorno);</li>
+                <li>Cliente (recebe resultado, resposta).</li>
+            </ol>
+
+            <br><hr>
+            <h4>API REST Spring Boot Kotlin (sem JWT):</h4>
+            <p id="textoPost">Modelo de API REST Spring Boot e Kotlin, sem utilização de JWT para autenticação, nem criação de testes. Pré-requisitos são Java JDK 25, Kotlin compiler 2.4, Spring Boot 4.1, Gradle 9.6, VS Code (extensões Java, Spring Boot, Kotlin JetBrains, Postman, DBCode), conta no Postman, e Docker. Hierarquia de diretórios Feature-Based Architecture (Package by Feature) básica:</p>
+<small><pre><code>
+cat_api_simples
+├── build.gradle.kts
+├── settings.gradle.kts
+└── src
+    └── main
+        ├── kotlin
+        │   └── com
+        │       └── ubsocial
+        │           └── cat_api_simples
+        │               ├── Application.kt
+        │               ├── config
+        │               │   └── CorsConfig.kt
+        │               ├── exception
+        │               │   ├── BusinessException.kt
+        │               │   ├── ResourceNotFoundException.kt
+        │               │   ├── ErrorResponse.kt
+        │               │   └── GlobalExceptionHandler.kt
+        │               └── feature
+        │                   └── cat
+        │                       ├── controller
+        │                       │   ├── CatController.kt
+        │                       │   └── CatAdoptionController.kt
+        │                       ├── mapper
+        │                       │   └── CatMapper.kt
+        │                       ├── model
+        │                       │   ├── dto
+        │                       │   │   ├── CreateCatRequest.kt
+        │                       │   │   ├── UpdateCatRequest.kt
+        │                       │   │   ├── AdoptCatRequest.kt
+        │                       │   │   ├── RemoveAdoptionRequest.kt
+        │                       │   │   ├── CatResponse.kt
+        │                       │   │   └── CatSummaryResponse.kt
+        │                       │   ├── entity
+        │                       │   │   └── CatEntity.kt
+        │                       │   └── enums
+        │                       │       └── CatStatus.kt
+        │                       ├── repository
+        │                       │   └── CatRepository.kt
+        │                       ├── service
+        │                       │   ├── CatService.kt
+        │                       │   ├── CreateCatService.kt
+        │                       │   ├── UpdateCatService.kt
+        │                       │   ├── DeleteCatService.kt
+        │                       │   ├── GetCatService.kt
+        │                       │   ├── ListCatService.kt
+        │                       │   ├── AdoptCatService.kt
+        │                       │   └── RemoveAdoptionService.kt
+        │                       ├── validator
+        │                       │   └── CatValidator.kt
+        │                       └── utils
+        │                           └── CatUtils.kt
+        └── resources
+            └── application.properties
+</code></pre></small>
+            <ol>
+                <li>Gerar projeto em <a href="https://start.spring.io" class="text-decoration-none" target="_blank">start.spring.io</a>:
+                    <ul>
+                        <li>Project: Gradle - Kotlin</li>
+                        <li>Language: kotlin</li>
+                        <li>Spring Boot: 4.1.0</li>
+                        <li>Project Metadata:</li>
+                        <li>Group: com.ubsocial</li>
+                        <li>Artifact: cat_api_simples</li>
+                        <li>Package name: com.ubsocial.cat_api_simples</li>
+                        <li>Packaging: Jar</li>
+                        <li>Configuration: Properties</li>
+                        <li>Java: 25</li>
+                        <li>Dependencies: Spring Web, Spring Data JPA, Validation, Oracle Driver</li>
+                        <li>Gerar projeto e extrair</li>
+                    </ul>
+                </li>
+                <li>Criar container Docker com Oracle Database (comandos terminal):
+<small><pre><code>
+docker pull container-registry.oracle.com/database/free:latest
+docker run -d --name oracle-db -p 1521:1521 -p 5500:5500 -e ORACLE_PWD=SenhaForte123 container-registry.oracle.com/database/free:latest
+</code></pre></small>
+                    <ul>
+                        <li>Driver: Oracle</li>
+                        <li>Connection Type: Service Name</li>
+                        <li>Hostname: localhost</li>
+                        <li>Port: 1521</li>
+                        <li>Service: FREEPDB1</li>
+                        <li>Driver: Thin</li>
+                        <li>Authentication: User & Password</li>
+                        <li>User: system</li>
+                        <li>Password: SenhaForte123</li>
+                        <li>Testar conexão e confirmar</li>
+                    </ul>
+                </li>
+                <li>No editor SQL conectado ao container Oracle DB, criar usuário e senha para o projeto (executar 1 linha por vez):
+<small><pre><code>
+CREATE USER catapi IDENTIFIED BY "CatApi@123";
+GRANT CONNECT TO catapi;
+GRANT RESOURCE TO catapi;
+GRANT CREATE SESSION TO catapi;
+GRANT CREATE TABLE TO catapi;
+GRANT CREATE VIEW TO catapi;
+GRANT CREATE SEQUENCE TO catapi;
+GRANT CREATE TRIGGER TO catapi;
+GRANT CREATE PROCEDURE TO catapi;
+GRANT UNLIMITED TABLESPACE TO catapi;
+</code></pre></small>
+                </li>
+                <li>Editar conexão do Oracle DB para novo usuário:
+                    <ul>
+                        <li>Usuário: catapi</li>
+                        <li>Senha: CatApi@123</li>
+                        <li>Testar conexão e confirmar</li>
+                    </ul>
+                </li>
+                <li>Executar comando SQL 'SELECT USER FROM DUAL' e verificar se usuário 'CATAPI' existe</li>
+                <li>Codificar src/main/resources/application.properties, com informações de conexão com banco de dados Oracle:
+<small><pre><code>
+spring.application.name=cat_api_simples
+
+spring.datasource.url=jdbc:oracle:thin:@//localhost:1521/FREEPDB1
+spring.datasource.username=catapi
+spring.datasource.password=CatApi@123
+spring.datasource.driver-class-name=oracle.jdbc.OracleDriver
+
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.open-in-view=false
+spring.jpa.show-sql=true
+
+spring.jpa.properties.hibernate.format_sql=true
+spring.jpa.properties.hibernate.jdbc.time_zone=UTC
+
+spring.web.error.include-message=always
+spring.web.error.include-binding-errors=always
+spring.web.error.include-stacktrace=never
+spring.web.error.include-exception=false
+</code></pre></small>
+                </li>
+                <li>No pacote principal 'cat_api_simples', criar pacote 'exception', com classes de exceção personalizadas
+                    <ol>
+                        <li>'BusinessException.kt', contendo classe BusinessException, estendendo RuntimeException:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.exception
+
+class BusinessException(
+    message: String
+) : RuntimeException(message)
+</code></pre></small>
+                        </li>
+                        <li>'ResourceNotFoundException.kt', contendo classe ResourceNotFoundException, estendendo RuntimeException:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.exception
+
+class ResourceNotFoundException(
+    message: String
+) : RuntimeException(message)
+</code></pre></small>
+                        </li>
+                        <li>'ErrorResponse.kt', contendo classe ErrorResponse, com atributos timestamp, status, error, message e path:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.exception
+
+import java.time.LocalDateTime
+
+data class ErrorResponse(
+    val timestamp: LocalDateTime,
+    val status: Int,
+    val error: String,
+    val message: String,
+    val path: String
+)
+</code></pre></small>
+                        </li>
+                        <li>'GlobalExceptionHandler.kt', contendo classe GlobalExceptionHandler, com métodos para tratar exceções globais:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.exception
+
+import jakarta.servlet.http.HttpServletRequest
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.MethodArgumentNotValidException
+import org.springframework.web.bind.annotation.ExceptionHandler
+import org.springframework.web.bind.annotation.RestControllerAdvice
+import java.time.LocalDateTime
+
+@RestControllerAdvice
+class GlobalExceptionHandler &#123;
+
+    @ExceptionHandler(ResourceNotFoundException::class)
+    fun handleResourceNotFoundException(
+        exception: ResourceNotFoundException,
+        request: HttpServletRequest
+    ): ResponseEntity&lt;ErrorResponse&gt; &#123;
+
+        val errorResponse = ErrorResponse(
+            timestamp = LocalDateTime.now(),
+            status = HttpStatus.NOT_FOUND.value(),
+            error = HttpStatus.NOT_FOUND.reasonPhrase,
+            message = exception.message ?: "Resource not found.",
+            path = request.requestURI
+        )
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse)
+    &#125;
+
+    @ExceptionHandler(BusinessException::class)
+    fun handleBusinessException(
+        exception: BusinessException,
+        request: HttpServletRequest
+    ): ResponseEntity&lt;ErrorResponse&gt; &#123;
+
+        val errorResponse = ErrorResponse(
+            timestamp = LocalDateTime.now(),
+            status = HttpStatus.BAD_REQUEST.value(),
+            error = HttpStatus.BAD_REQUEST.reasonPhrase,
+            message = exception.message ?: "Business rule violation.",
+            path = request.requestURI
+        )
+
+        return ResponseEntity.badRequest().body(errorResponse)
+    &#125;
+
+    @ExceptionHandler(MethodArgumentNotValidException::class)
+    fun handleValidationException(
+        exception: MethodArgumentNotValidException,
+        request: HttpServletRequest
+    ): ResponseEntity&lt;ErrorResponse&gt; &#123;
+
+        val message = exception.bindingResult
+            .fieldErrors
+            .joinToString(", ") &#123; "$&#123;it.field&#125;: $&#123;it.defaultMessage&#125;" &#125;
+
+        val errorResponse = ErrorResponse(
+            timestamp = LocalDateTime.now(),
+            status = HttpStatus.BAD_REQUEST.value(),
+            error = HttpStatus.BAD_REQUEST.reasonPhrase,
+            message = message,
+            path = request.requestURI
+        )
+
+        return ResponseEntity.badRequest().body(errorResponse)
+    &#125;
+
+    @ExceptionHandler(Exception::class)
+    fun handleException(
+        exception: Exception,
+        request: HttpServletRequest
+    ): ResponseEntity&lt;ErrorResponse&gt; &#123;
+
+        val errorResponse = ErrorResponse(
+            timestamp = LocalDateTime.now(),
+            status = HttpStatus.INTERNAL_SERVER_ERROR.value(),
+            error = HttpStatus.INTERNAL_SERVER_ERROR.reasonPhrase,
+            message = "An unexpected error has occurred.",
+            path = request.requestURI
+        )
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .body(errorResponse)
+    &#125;
+&#125;
+</code></pre></small>
+                        </li>
+                    </ol>
+                </li>
+                <li>No pacote principal 'com.ubsocial.cat_api_simples', criar pacote 'config', com classes de configuração da aplicação:
+                    <ol>
+                        <li>'config/CorsConfig.kt', contendo classe CorsConfig, com configuração de CORS para permitir requisições de qualquer origem externa:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.config
+
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource
+import org.springframework.web.filter.CorsFilter
+
+@Configuration
+class CorsConfig &#123;
+
+    @Bean
+    fun corsFilter(): CorsFilter &#123;
+        val configuration = CorsConfiguration().apply &#123;
+            allowedOriginPatterns = listOf("*")
+            allowedMethods = listOf("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
+            allowedHeaders = listOf("*")
+            allowCredentials = false
+            maxAge = 3600
+        &#125;
+
+        val source = UrlBasedCorsConfigurationSource()
+        source.registerCorsConfiguration("/**", configuration)
+        return CorsFilter(source)
+    &#125;
+&#125;
+</code></pre></small>
+                        </li>
+                    </ol>
+                </li>
+                <li>No pacote principal 'com.ubsocial.cat_api_simples', criar pacote 'feature', com subpacotes para cada feature da aplicação</li>
+                <li>Em 'feature', criar pacote 'cat' para funcionalidades relacionadas a gatos</li>
+                <li>Em 'cat', criar pacote 'model', com classes de modelo da aplicação:
+                    <ol>
+                        <li>Em 'model', criar pacote 'enums', com enumeração 'CatStatus.kt', contendo status possíveis para gatos (AVAILABLE, ADOPTED, PENDING)</li>
+                        <li>'model/enums/CatStatus.kt', contendo enumeração CatStatus:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.model.enums
+
+enum class CatStatus &#123;
+    AVAILABLE,
+    ADOPTED
+&#125;
+</code></pre></small>
+                        </li>
+                        <li>Em 'model', criar pacote 'entity', com entidade JPA 'CatEntity.kt', representando tabela de gatos no banco de dados</li>
+                        <li>'model/entity/CatEntity.kt', contendo entidade CatEntity:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.model.entity
+
+import com.ubsocial.cat_api_simples.feature.cat.model.enums.CatStatus
+import jakarta.persistence.*
+
+@Entity
+@Table(name = "cats")
+class CatEntity(
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    var id: Long? = null,
+
+    @Column(name = "name", nullable = false)
+    var name: String,
+
+    @Column(name = "breed", nullable = false)
+    var breed: String,
+
+    @Column(name = "age", nullable = false)
+    var age: Int,
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    var status: CatStatus = CatStatus.AVAILABLE,
+
+    @Column(name = "adopter_name")
+    var adopterName: String? = null
+)
+</code></pre></small>
+                        </li>
+                        <li>Em 'model', criar pacote 'dto', com classes DTO para comunicação entre camadas da aplicação:
+                            <ol>
+                                <li>'dto/CreateCatRequest.kt', contendo classe CreateCatRequest, com atributos name, breed e age:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.model.dto
+
+import jakarta.validation.constraints.Min
+import jakarta.validation.constraints.NotBlank
+
+data class CreateCatRequest(
+
+    @field:NotBlank(message = "Nome do gato é obrigatório")
+    val name: String,
+
+    @field:NotBlank(message = "Raça do gato é obrigatória")
+    val breed: String,
+
+    @field:Min(value = 0, message = "Idade do gato deve ser maior ou igual a zero")
+    val age: Int
+)
+</code></pre></small>
+                                </li>
+                                <li>'dto/UpdateCatRequest.kt', contendo classe UpdateCatRequest, com atributos name, breed e age:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.model.dto
+
+import jakarta.validation.constraints.Min
+import jakarta.validation.constraints.NotBlank
+
+data class UpdateCatRequest(
+
+    @field:NotBlank(message = "Nome do gato é obrigatório")
+    val name: String,
+
+    @field:NotBlank(message = "Raça do gato é obrigatória")
+    val breed: String,
+
+    @field:Min(value = 0, message = "Idade do gato deve ser maior ou igual a zero")
+    val age: Int
+)
+</code></pre></small>
+                                </li>
+                                <li>'dto/AdoptCatRequest.kt', contendo classe AdoptCatRequest, com atributo adopterName:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.model.dto
+
+import jakarta.validation.constraints.NotBlank
+
+data class AdoptCatRequest(
+
+    @field:NotBlank(message = "Nome do adotante não pode ser nulo ou vazio")
+    val adopterName: String
+)
+</code></pre></small>
+                                </li>
+                                <li>'dto/RemoveAdoptionRequest.kt', contendo classe RemoveAdoptionRequest, com atributo reason:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.model.dto
+
+data class RemoveAdoptionRequest(
+    val reason: String? = null
+)
+</code></pre></small>
+                                </li>
+                                <li>'dto/CatResponse.kt', contendo classe CatResponse, com atributos id, name, breed, age, status e adopterName:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.model.dto
+
+import com.ubsocial.cat_api_simples.feature.cat.model.enums.CatStatus
+
+data class CatResponse(
+    val id: Long,
+    val name: String,
+    val breed: String,
+    val age: Int,
+    val status: CatStatus,
+    val adopterName: String?
+)
+</code></pre></small>
+                                </li>
+                                <li>'dto/CatSummaryResponse.kt', contendo classe CatSummaryResponse, com atributos id, name e status:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.model.dto
+
+import com.ubsocial.cat_api_simples.feature.cat.model.enums.CatStatus
+
+data class CatSummaryResponse(
+    val id: Long,
+    val name: String,
+    val status: CatStatus
+)
+</code></pre></small>
+                                </li>
+                            </ol>
+                        </li>
+                    </ol>
+                </li>
+                <li>Em 'cat', criar pacote 'repository', com interface 'CatRepository.kt', estendendo JpaRepository para operações CRUD de gatos</li>
+                <li>'repository/CatRepository.kt', contendo interface CatRepository:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.repository
+
+import com.ubsocial.cat_api_simples.feature.cat.model.entity.CatEntity
+import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.stereotype.Repository
+
+@Repository
+interface CatRepository : JpaRepository&lt;CatEntity, Long&gt;
+</code></pre></small>
+                </li>
+                <li>Em 'cat', criar pacote 'mapper', com classe 'CatMapper.kt', contendo métodos para conversão entre entidades e DTOs de gatos</li>
+                <li>'mapper/CatMapper.kt', contendo classe CatMapper:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.mapper
+
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.CatResponse
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.CatSummaryResponse
+import com.ubsocial.cat_api_simples.feature.cat.model.entity.CatEntity
+import org.springframework.stereotype.Component
+
+@Component
+class CatMapper &#123;
+    fun toResponse(entity: CatEntity): CatResponse =
+        CatResponse(
+            id = entity.id!!,
+            name = entity.name,
+            breed = entity.breed,
+            age = entity.age,
+            status = entity.status,
+            adopterName = entity.adopterName
+        )
+
+    fun toSummaryResponse(entity: CatEntity): CatSummaryResponse =
+        CatSummaryResponse(
+            id = entity.id!!,
+            name = entity.name,
+            status = entity.status
+        )
+&#125;
+</code></pre></small>
+                </li>
+                <li>Em 'cat', criar pacote 'validator', com classe 'CatValidator.kt', contendo métodos para validação de dados de gatos</li>
+                <li>'validator/CatValidator.kt', contendo classe CatValidator:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.validator
+
+import com.ubsocial.cat_api_simples.exception.BusinessException
+import com.ubsocial.cat_api_simples.feature.cat.model.entity.CatEntity
+import com.ubsocial.cat_api_simples.feature.cat.model.enums.CatStatus
+import org.springframework.stereotype.Component
+
+@Component
+class CatValidator &#123;
+
+    fun validateAvailableForAdoption(cat: CatEntity) &#123;
+        if (cat.status == CatStatus.ADOPTED) &#123;
+            throw BusinessException("Gato já foi adotado")
+        &#125;
+    &#125;
+
+    fun validateAdopted(cat: CatEntity) &#123;
+        if (cat.status != CatStatus.ADOPTED) &#123;
+            throw BusinessException("Gato não foi adotado")
+        &#125;
+    &#125;
+&#125;
+</code></pre></small>
+                </li>
+                <li>Em 'cat', criar pacote 'utils', com classe 'CatUtils.kt', contendo métodos utilitários para gatos</li>
+                <li>'utils/CatUtils.kt', contendo classe CatUtils:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.utils
+
+import org.springframework.stereotype.Component
+
+@Component
+class CatUtils &#123;
+    fun normalizeName(name: String): String =
+        name.trim()
+            .lowercase()
+            .replaceFirstChar &#123; it.uppercase() &#125;
+&#125;
+</code></pre></small>
+                </li>
+                <li>Em 'cat', criar pacote 'service', com classes de serviço para manipulação de gatos (CRUD e adoção):
+                    <ol>
+                        <li>'service/CatService.kt', contendo classe CatService, com métodos para criar, atualizar, deletar, obter e listar gatos:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.service
+
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.*
+ 
+interface CatService &#123;
+
+    fun create(request: CreateCatRequest): CatResponse
+
+    fun update(id: Long, request: UpdateCatRequest): CatResponse
+
+    fun delete(id: Long)
+
+    fun findById(id: Long): CatResponse
+
+    fun findAll(): List&lt;CatSummaryResponse&gt;
+
+    fun adopt(id: Long, request: AdoptCatRequest): CatResponse
+
+    fun removeAdoption(id: Long, request: RemoveAdoptionRequest): CatResponse
+&#125;
+</code></pre></small>
+                        </li>
+                        <li>'service/CreateCatService.kt', contendo classe CreateCatService, implementando CatService e injetando CatRepository, CatMapper e CatValidator:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.service
+
+import com.ubsocial.cat_api_simples.feature.cat.mapper.CatMapper
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.CatResponse
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.CreateCatRequest
+import com.ubsocial.cat_api_simples.feature.cat.model.entity.CatEntity
+import com.ubsocial.cat_api_simples.feature.cat.repository.CatRepository
+import com.ubsocial.cat_api_simples.feature.cat.utils.CatUtils
+import org.springframework.stereotype.Service
+
+@Service
+class CreateCatService(
+    private val catRepository: CatRepository,
+    private val catMapper: CatMapper,
+    private val catUtils: CatUtils
+) &#123;
+
+    fun execute(request: CreateCatRequest): CatResponse &#123;
+        val cat = CatEntity(
+            name = catUtils.normalizeName(request.name),
+            breed = request.breed,
+            age = request.age
+        )
+
+        val savedCat = catRepository.save(cat)
+        return catMapper.toResponse(savedCat)
+    &#125;
+&#125;
+</code></pre></small>
+                        </li>
+                        <li>'service/UpdateCatService.kt', contendo classe UpdateCatService, implementando CatService e injetando CatRepository, CatMapper e CatValidator:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.service
+
+import com.ubsocial.cat_api_simples.exception.ResourceNotFoundException
+import com.ubsocial.cat_api_simples.feature.cat.mapper.CatMapper
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.CatResponse
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.UpdateCatRequest
+import com.ubsocial.cat_api_simples.feature.cat.repository.CatRepository
+import com.ubsocial.cat_api_simples.feature.cat.utils.CatUtils
+import org.springframework.stereotype.Service
+
+@Service
+class UpdateCatService(
+    private val catRepository: CatRepository,
+    private val catMapper: CatMapper,
+    private val catUtils: CatUtils
+) &#123;
+
+    fun execute(
+        id: Long,
+        request: UpdateCatRequest
+    ): CatResponse &#123;
+
+        val cat = catRepository.findById(id)
+            .orElseThrow &#123;
+                ResourceNotFoundException("Gato não encontrado com id: $id")
+            &#125;
+
+        cat.name = catUtils.normalizeName(request.name)
+        cat.breed = request.breed
+        cat.age = request.age
+
+        val updatedCat = catRepository.save(cat)
+        return catMapper.toResponse(updatedCat)
+    &#125;
+&#125;
+</code></pre></small>
+                        </li>
+                        <li>'service/DeleteCatService.kt', contendo classe DeleteCatService, implementando CatService e injetando CatRepository:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.service
+
+import com.ubsocial.cat_api_simples.exception.ResourceNotFoundException
+import com.ubsocial.cat_api_simples.feature.cat.repository.CatRepository
+import org.springframework.stereotype.Service
+
+@Service
+class DeleteCatService(
+    private val catRepository: CatRepository
+) &#123;
+
+    fun execute(id: Long) &#123;
+
+        val cat = catRepository.findById(id)
+            .orElseThrow &#123;
+                ResourceNotFoundException("Gato não encontrado com id: $id")
+            &#125;
+
+        catRepository.delete(cat)
+    &#125;
+&#125;
+</code></pre></small>
+                        </li>
+                        <li>'service/GetCatService.kt', contendo classe GetCatService, implementando CatService e injetando CatRepository e CatMapper:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.service
+
+import com.ubsocial.cat_api_simples.exception.ResourceNotFoundException
+import com.ubsocial.cat_api_simples.feature.cat.mapper.CatMapper
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.CatResponse
+import com.ubsocial.cat_api_simples.feature.cat.repository.CatRepository
+import org.springframework.stereotype.Service
+
+@Service
+class GetCatService(
+    private val catRepository: CatRepository,
+    private val catMapper: CatMapper
+) &#123;
+
+    fun execute(id: Long): CatResponse &#123;
+
+        val cat = catRepository.findById(id)
+            .orElseThrow &#123;
+                ResourceNotFoundException("Gato não encontrado com id: $id")
+            &#125;
+
+        return catMapper.toResponse(cat)
+    &#125;
+&#125;
+</code></pre></small>
+                        </li>
+                        <li>'service/ListCatService.kt', contendo classe ListCatService, implementando CatService e injetando CatRepository e CatMapper:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.service
+
+import com.ubsocial.cat_api_simples.feature.cat.mapper.CatMapper
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.CatSummaryResponse
+import com.ubsocial.cat_api_simples.feature.cat.repository.CatRepository
+import org.springframework.stereotype.Service
+
+@Service
+class ListCatService(
+    private val catRepository: CatRepository,
+    private val catMapper: CatMapper
+) &#123;
+
+    fun execute(): List&lt;CatSummaryResponse&gt; &#123;
+        return catRepository.findAll()
+            .map(catMapper::toSummaryResponse)
+    &#125;
+&#125;
+</code></pre></small>
+                        </li>
+                        <li>'service/AdoptCatService.kt', contendo classe AdoptCatService, implementando CatService e injetando CatRepository, CatMapper e CatValidator:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.service
+
+import com.ubsocial.cat_api_simples.exception.ResourceNotFoundException
+import com.ubsocial.cat_api_simples.feature.cat.mapper.CatMapper
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.AdoptCatRequest
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.CatResponse
+import com.ubsocial.cat_api_simples.feature.cat.repository.CatRepository
+import com.ubsocial.cat_api_simples.feature.cat.validator.CatValidator
+import org.springframework.stereotype.Service
+
+@Service
+class AdoptCatService(
+    private val catRepository: CatRepository,
+    private val catMapper: CatMapper,
+    private val catValidator: CatValidator
+) &#123;
+
+    fun execute(
+        id: Long,
+        request: AdoptCatRequest
+    ): CatResponse &#123;
+
+        val cat = catRepository.findById(id)
+            .orElseThrow &#123;
+                ResourceNotFoundException("Gato não encontrado com id: $id")
+            &#125;
+
+        catValidator.validateAvailableForAdoption(cat)
+
+        cat.adopterName = request.adopterName
+        cat.status = com.ubsocial.cat_api_simples.feature.cat.model.enums.CatStatus.ADOPTED
+
+        val adoptedCat = catRepository.save(cat)
+        return catMapper.toResponse(adoptedCat)
+    &#125;
+&#125;
+</code></pre></small>
+                        </li>
+                        <li>'service/RemoveAdoptionService.kt', contendo classe RemoveAdoptionService, implementando CatService e injetando CatRepository, CatMapper e CatValidator:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.service
+
+import com.ubsocial.cat_api_simples.exception.ResourceNotFoundException
+import com.ubsocial.cat_api_simples.feature.cat.mapper.CatMapper
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.CatResponse
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.RemoveAdoptionRequest
+import com.ubsocial.cat_api_simples.feature.cat.model.enums.CatStatus
+import com.ubsocial.cat_api_simples.feature.cat.repository.CatRepository
+import com.ubsocial.cat_api_simples.feature.cat.validator.CatValidator
+import org.springframework.stereotype.Service
+
+@Service
+class RemoveAdoptionService(
+    private val catRepository: CatRepository,
+    private val catMapper: CatMapper,
+    private val catValidator: CatValidator
+) &#123;
+
+    fun execute(
+        id: Long,
+        request: RemoveAdoptionRequest
+    ): CatResponse &#123;
+
+        val cat = catRepository.findById(id)
+            .orElseThrow &#123;
+                ResourceNotFoundException("Gato não encontrado com id: $id")
+            &#125;
+
+        catValidator.validateAdopted(cat)
+
+        cat.adopterName = null
+        cat.status = CatStatus.AVAILABLE
+
+        val updatedCat = catRepository.save(cat)
+        return catMapper.toResponse(updatedCat)
+    &#125;
+&#125;
+</code></pre></small>
+                        </li>
+                    </ol>
+                </li>
+                <li>Em 'cat', criar pacote 'controller', com classes de controlador REST para expor endpoints de gatos:
+                    <ol>
+                        <li>'controller/CatController.kt', contendo classe CatController, com endpoints para criar, atualizar, deletar, obter e listar gatos:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.controller
+
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.CatResponse
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.CreateCatRequest
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.UpdateCatRequest
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.CatSummaryResponse
+import com.ubsocial.cat_api_simples.feature.cat.service.CreateCatService
+import com.ubsocial.cat_api_simples.feature.cat.service.DeleteCatService
+import com.ubsocial.cat_api_simples.feature.cat.service.GetCatService
+import com.ubsocial.cat_api_simples.feature.cat.service.ListCatService
+import com.ubsocial.cat_api_simples.feature.cat.service.UpdateCatService
+import jakarta.validation.Valid
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
+
+@RestController
+@RequestMapping("/cats")
+class CatController(
+    private val createCatService: CreateCatService,
+    private val updateCatService: UpdateCatService,
+    private val deleteCatService: DeleteCatService,
+    private val getCatService: GetCatService,
+    private val listCatService: ListCatService
+) &#123;
+
+    @PostMapping
+    fun create(
+        @Valid @RequestBody request: CreateCatRequest
+    ): ResponseEntity&lt;CatResponse&gt; &#123;
+        return ResponseEntity
+            .status(HttpStatus.CREATED)
+            .body(createCatService.execute(request))
+    &#125;
+
+    @PutMapping("/&#123;id&#125;")
+    fun update(
+        @PathVariable id: Long,
+        @Valid @RequestBody request: UpdateCatRequest
+    ): ResponseEntity&lt;CatResponse&gt; &#123;
+        return ResponseEntity.ok(
+            updateCatService.execute(id, request)
+        )
+    &#125;
+
+    @DeleteMapping("/&#123;id&#125;")
+    fun delete(
+        @PathVariable id: Long
+    ): ResponseEntity&lt;Void&gt; &#123;
+        deleteCatService.execute(id)
+        return ResponseEntity.noContent().build()
+    &#125;
+
+    @GetMapping("/&#123;id&#125;")
+    fun findById(
+        @PathVariable id: Long
+    ): ResponseEntity&lt;CatResponse&gt; &#123;
+        return ResponseEntity.ok(
+            getCatService.execute(id)
+        )
+    &#125;
+
+    @GetMapping
+    fun findAll(): ResponseEntity&lt;List&lt;CatSummaryResponse&gt;&gt; &#123;
+        return ResponseEntity.ok(
+            listCatService.execute()
+        )
+    &#125;
+&#125;
+</code></pre></small>
+                        </li>
+                        <li>'controller/CatAdoptionController.kt', contendo classe CatAdoptionController, com endpoints para adotar e remover adoção de gatos:
+<small><pre><code>
+package com.ubsocial.cat_api_simples.feature.cat.controller
+
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.AdoptCatRequest
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.CatResponse
+import com.ubsocial.cat_api_simples.feature.cat.model.dto.RemoveAdoptionRequest
+import com.ubsocial.cat_api_simples.feature.cat.service.AdoptCatService
+import com.ubsocial.cat_api_simples.feature.cat.service.RemoveAdoptionService
+import jakarta.validation.Valid
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
+
+@RestController
+@RequestMapping("/cats")
+class CatAdoptionController(
+    private val adoptCatService: AdoptCatService,
+    private val removeAdoptionService: RemoveAdoptionService
+) &#123;
+
+    @PatchMapping("/&#123;id&#125;/adoption")
+    fun adopt(
+        @PathVariable id: Long,
+        @Valid @RequestBody request: AdoptCatRequest
+    ): ResponseEntity&lt;CatResponse&gt; &#123;
+        return ResponseEntity.ok(
+            adoptCatService.execute(id, request)
+        )
+    &#125;
+
+    @DeleteMapping("/&#123;id&#125;/adoption")
+    fun removeAdoption(
+        @PathVariable id: Long,
+        @RequestBody request: RemoveAdoptionRequest
+    ): ResponseEntity&lt;CatResponse&gt; &#123;
+        return ResponseEntity.ok(
+            removeAdoptionService.execute(id, request)
+        )
+    &#125;
+&#125;
+</code></pre></small>
+                        </li>
+                    </ol>
+                </li>
+                <li>Executar projeto (comando no terminal): .\gradlew bootRun
+                    <ul>
+                        <li>Testar funcionamento: <a href="http://localhost:8080" target="_blank" class="text-decoration-none">http://localhost:8080</a></li>
+                        <li>Testar funcionamento (Swagger): <a href="http://localhost:8080/swagger-ui.html" target="_blank" class="text-decoration-none">http://localhost:8080/swagger-ui.html</a></li>
+                    </ul>
+                </li>
+                <li>Testar funcionalidades via request REST no Postman:
+                    <ol>
+                        <li>Listar gatos (GET): http://localhost:8080/cats</li>
+                        <li>Adicionar gato (POST): http://localhost:8080/cats
+<small><pre><code>
+Body (raw JSON):
+&#123;
+    "name": "Mingau",
+    "breed": "Persa",
+    "age": 3
+&#125;
+</code></pre></small>
+                        </li>
+                        <li>Visualizar gato específico (GET): http://localhost:8080/cats/1</li>
+                        <li>Editar gato específico (PUT): http://localhost:8080/cats/1
+<small><pre><code>
+Body (raw JSON):
+&#123;
+    "name": "Mingau ATUALIZADO",
+    "breed": "Siamês",
+    "age": 4
+&#125;
+</code></pre></small>
+                        </li>
+                        <li>Adotar gato específico (PATCH): http://localhost:8080/cats/1/adoption
+<small><pre><code>
+Body (raw JSON):
+&#123;
+    "adopterName": "Mateus"
+&#125;
+</code></pre></small>
+                        </li>
+                        <li>Remover adoção de gato específico (DELETE): http://localhost:8080/cats/1/adoption
+<small><pre><code>
+Body (raw JSON):
+&#123;
+    "reason": "Adotante desistiu da adoção"
+&#125;
+</code></pre></small>
+                        </li>
+                        <li>Remover gato específico (DELETE): http://localhost:8080/cats/1</li>
+                    </ol>
+                </li>
+            </ol>
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center bg-black text-light pt-4 pb-3">
+        <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>
+
+
+
+<!--
+OBSERVAÇÕES DOS PROJETOS:
+- API V1 (finalizada): Possui CRUD, Swagger, JWT, BD comum H2, DTO, Mapper
+
+
+
+- API V2 (será feita):
+- Conectar ao Oracle DB
+- flyway (migração de bd)
+- Gestão de usuários (parei no chat "Ok, então antes de tudo, vamos incluir enpoint de cadastro de usuário")
+- Controle de acesso (roles), refresh token + logout seguro + controle de sessão, Relações no BD (cliente-gato)
+
+
+
+OUTROS:
+PostgreSQL/Oracle
+Flyway (migração)
+Docker
+Testes
+Observabilidade
+CI/CD
+-> JWT + Flyway + testes + Docker = “padrão entrevista forte”
+
+
+
+=================
+PAREI EM: ETAPA 6.2 — Criar RefreshTokenRequest
+Criei os arquivos, mas tive erro no clean build. Agora, preciso verificar onde está o erro
+-->

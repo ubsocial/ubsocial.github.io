@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../../icons/logoTit.png">
+    <link rel="stylesheet" href="../../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <nav class="navbar rounded-bottom fixed-top navbar-expand-lg navbar-light bg-light shadow">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="../../index.html"><img src="../../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../sobre/sobre.html">Sobre</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../cursos.html">Cursos</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../../livros/livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 text-center" id="titulo">
+            <h1>ASP .NET Core</h1>
+            <h6><strong>Conceitos e exemplo prático</strong></h6>
+            <a href="../../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
+        </div>
+
+        <div class="col-sm-12">
+            <h4>Material complementar:</h4>
+            <ul>
+                <li>Conteúdo no YouTube: <a target="_blank" class="text-decoration-none disabled">Acesse em breve</a></li>
+                <li>Conteúdo no GitHub: <a href="https://github.com/mateusschwede/ubsocial/tree/main/aspnet" target="_blank" class="text-decoration-none">Acesse</a></li>
+                <li>Template de Clean Architecture: <a href="clean-architecture-template.zip" target="_blank" class="text-decoration-none">Baixar</a></li>
+            </ul>
+
+            <br><h4>Conceito:</h4>
+            <p id="textoPost">Framework web C#, que usa .NET Core. EF Core (Entity Framework Core) é ORM (Object-Relational Mapping) para .NET, instalado via 'dotnet tool install --global dotnet-ef'.</p>
+
+            <br><hr><h4>API CRUD .NET 10 básica (Controllers, EF Core, SQL Server, DTOs):</h4>
+            <p id="textoPost">Utiliza-se Visual Studio, criar API web ASP .NET Core, configurações padrão. Projeto 1 do GitHub (<a href="https://github.com/mateusschwede/ubsocial/tree/main/aspnet/projeto1" class="text-decoration-none" target="_blank">acesse</a>).</p>
+            <ol>
+                <u>Preparando projeto</u>:
+                <li>Instalar .NET 10, Visual Studio, SQL Server, SQL Server Management Studio</li>
+                <li>SQL Server Management Studio, localhost, bancos de dados, criar novo banco de dados nome 'VideoGameCharacterDb'
+                </li>
+                <li>Visual Studio / nova solução / criar projeto / API web ASP .NET Core</li>
+                <li>Visual Studio / pasta raíz do projeto / gerenciar pacotes NuGet / instalar Scalar.AspNetCore</li>
+                <li>Program.cs:
+<small><pre><code>
+using Microsoft.EntityFrameworkCore;
+using Scalar.AspNetCore;
+using VideoGameCharacterApi.Data;
+using VideoGameCharacterApi.Services;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers();
+builder.Services.AddOpenApi();
+
+builder.Services.AddDbContext&lt;AppDbContext&gt;(options =&gt;
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped&lt;IVideoGameCharacterService, VideoGameCharacterService&gt;();
+
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+&#123;
+    app.MapOpenApi();
+    app.MapScalarApiReference();
+&#125;
+
+app.UseHttpsRedirection();
+app.UseAuthorization();
+app.MapControllers();
+app.Run();
+</code></pre></small>
+                </li>
+                <li>Executar aplicação e acessar: http://localhost:porta/scalar</li>
+
+                <br><u>Implementar Models</u>:
+                <li>Pasta raíz do projeto, criar pasta "Models"</li>
+                <li>Models/Character.cs:
+<small><pre><code>
+namespace VideoGameCharacterApi.Models;
+
+public class Character
+&#123;
+    public int Id &#123; get; set; &#125;
+    public string Name &#123; get; set; &#125; = string.Empty;
+    public string Game &#123; get; set; &#125; = string.Empty;
+    public string Role &#123; get; set; &#125; = string.Empty;
+&#125;
+</code></pre></small>
+                </li>
+
+                <br><u>Implementar Controllers</u>:
+                <li>Controllers/VideoGameCharactersController.cs (Commom / API Controller / Empty Controller):
+<small><pre><code>
+using Microsoft.AspNetCore.Mvc;
+using VideoGameCharacterApi.Dtos;
+using VideoGameCharacterApi.Services;
+
+namespace VideoGameCharacterApi.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class VideoGameCharactersController(IVideoGameCharacterService service) : ControllerBase
+&#123;
+    [HttpGet]
+    public async Task&lt;ActionResult&lt;List&lt;CharacterResponse&gt;&gt;&gt; GetCharacters()
+        =&gt; Ok(await service.GetAllCharactersAsync());
+
+    [HttpGet("&#123;id&#125;")]
+    public async Task&lt;ActionResult&lt;CharacterResponse&gt;&gt; GetCharacter(int id)
+    &#123;
+        var character = await service.GetCharacterByIdAsync(id);
+        return character is null ? NotFound("Character with the given Id was not found.") : Ok(character);
+    &#125;
+
+    [HttpPost]
+    public async Task&lt;ActionResult&lt;CharacterResponse&gt;&gt; AddCharacter(CreateCharacterRequest character)
+    &#123;
+        var createdCharacter = await service.AddCharacterAsync(character);
+        return CreatedAtAction(nameof(GetCharacter), new &#123; id = createdCharacter.Id &#125;, createdCharacter);
+    &#125;
+
+    [HttpPut("&#123;id&#125;")]
+    public async Task&lt;ActionResult&gt; UpdateCharacter(int id, UpdateCharacterRequest character)
+    &#123;
+        var updated = await service.UpdateCharacterAsync(id, character);
+        return updated ? Ok() : NotFound("Character with the given Id was not found.");
+    &#125;
+
+    [HttpDelete("&#123;id&#125;")]
+    public async Task&lt;ActionResult&gt; DeleteCharacter(int id)
+    &#123;
+        var deleted = await service.DeleteCharacterAsync(id);
+        return deleted ? NoContent() : NotFound("Character with the given Id was not found.");
+    &#125;
+&#125;
+</code></pre></small>
+                </li>
+
+                <br><u>Implementar Services (Dependency Injection)</u>:
+                <li>Pasta raíz do projeto, criar pasta "Services"</li>
+                <li>Services/IVideoGameCharacterService.cs:
+<small><pre><code>
+using VideoGameCharacterApi.Dtos;
+
+namespace VideoGameCharacterApi.Services;
+
+public interface IVideoGameCharacterService
+&#123;
+    Task&lt;List&lt;CharacterResponse&gt;&gt; GetAllCharactersAsync();
+    Task&lt;CharacterResponse?&gt; GetCharacterByIdAsync(int id);
+    Task&lt;CharacterResponse&gt; AddCharacterAsync(CreateCharacterRequest character);
+    Task&lt;bool&gt; UpdateCharacterAsync(int id, UpdateCharacterRequest character);
+    Task&lt;bool&gt; DeleteCharacterAsync(int id);
+&#125;
+</code></pre></small>
+                </li>
+                <li>Services/VideoGameCharacterService.cs:
+<small><pre><code>
+using Microsoft.EntityFrameworkCore;
+using VideoGameCharacterApi.Data;
+using VideoGameCharacterApi.Dtos;
+using VideoGameCharacterApi.Models;
+
+namespace VideoGameCharacterApi.Services;
+
+public class VideoGameCharacterService(AppDbContext context) : IVideoGameCharacterService
+&#123;
+    public async Task&lt;CharacterResponse&gt; AddCharacterAsync(CreateCharacterRequest character)
+    &#123;
+        var newCharacter = new Character
+        &#123;
+            Name = character.Name,
+            Game = character.Game,
+            Role = character.Role
+        &#125;;
+
+        context.Characters.Add(newCharacter);
+        await context.SaveChangesAsync();
+
+        return new CharacterResponse
+        &#123;
+            Id = newCharacter.Id,
+            Name = newCharacter.Name,
+            Game = newCharacter.Game,
+            Role = newCharacter.Role
+        &#125;;
+    &#125;
+
+    public async Task&lt;bool&gt; DeleteCharacterAsync(int id)
+    &#123;
+        var characterToDelete = await context.Characters.FindAsync(id);
+        if (characterToDelete is null)
+            return false;
+
+        context.Characters.Remove(characterToDelete);
+        await context.SaveChangesAsync();
+
+        return true;
+    &#125;
+
+    public async Task&lt;List&lt;CharacterResponse&gt;&gt; GetAllCharactersAsync()
+        =&gt; await context.Characters.Select(c =&gt; new CharacterResponse
+        &#123;
+            Id = c.Id,
+            Name = c.Name,
+            Game = c.Game,
+            Role = c.Role
+        &#125;).ToListAsync();
+
+    public async Task&lt;CharacterResponse?&gt; GetCharacterByIdAsync(int id)
+    &#123;
+        var result = await context.Characters
+            .Where(c =&gt; c.Id == id)
+            .Select(c =&gt; new CharacterResponse
+            &#123;
+                Id = c.Id,
+                Name = c.Name,
+                Game = c.Game,
+                Role = c.Role
+            &#125;)
+            .FirstOrDefaultAsync();
+
+        return result;
+    &#125;
+
+    public async Task&lt;bool&gt; UpdateCharacterAsync(int id, UpdateCharacterRequest character)
+    &#123;
+        var existingCharacter = await context.Characters.FindAsync(id);
+        if (existingCharacter is null)
+            return false;
+
+        existingCharacter.Name = character.Name;
+        existingCharacter.Game = character.Game;
+        existingCharacter.Role = character.Role;
+
+        await context.SaveChangesAsync();
+
+        return true;
+    &#125;
+&#125;
+</code></pre></small>
+                </li>
+                <br><u>EF Core</u>:
+                <li>Visual Studio / pasta raíz do projeto / gerenciar pacotes NuGet / instalar Microsoft.EntityFrameworkCore</li>
+                <li>Visual Studio / pasta raíz do projeto / gerenciar pacotes NuGet / instalar Microsoft.EntityFrameworkCore.Tools</li>
+                <li>Visual Studio / pasta raíz do projeto / gerenciar pacotes NuGet / instalar Microsoft.EntityFrameworkCore.SqlServer</li>
+
+                <br><u>Aplicar DbContext</u>
+                <li>Pasta raíz do projeto / criar pasta "Data"</li>
+                <li>Data/AppDbContext.cs:
+<small><pre><code>
+using Microsoft.EntityFrameworkCore;
+using VideoGameCharacterApi.Models;
+
+namespace VideoGameCharacterApi.Data;
+
+public class AppDbContext(DbContextOptions&lt;AppDbContext&gt; options) : DbContext(options)
+&#123;
+    public DbSet&lt;Character&gt; Characters =&gt; Set&lt;Character&gt;();
+&#125;
+</code></pre></small>
+                </li>
+                <li>appsettings.json:
+<small><pre><code>
+&#123;
+  "ConnectionStrings": &#123;
+    "DefaultConnection": "Server=localhost;Database=VideoGameCharacterDb;Trusted_Connection=True;TrustServerCertificate=True;"
+  &#125;,
+  "Logging": &#123;
+    "LogLevel": &#123;
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    &#125;
+  &#125;,
+  "AllowedHosts": "*"
+&#125;
+</code></pre></small>
+                </li>
+                <li>Visual Studio / abrir console do gerenciador de pacotes
+                    <ul>
+                        <li>Entrar na pasta do projeto: cd nome_do_projeto</li>
+                        <li>Adicionar migrations: Add-Migration Initial</li>
+                        <li>Atualizar banco de dados: Update-Database</li>
+                    </ul>
+                </li>
+                <li>No SQL Server Management Studio, verificar se banco de dados foi criado corretamente</li>
+
+                <br><u>DTOs</u>:
+                <li>Criar pasta "DTOs" na raiz do projeto</li>
+                <li>DTOs/CreateCharacterRequest.cs:
+<small><pre><code>
+namespace VideoGameCharacterApi.Dtos;
+
+public class CreateCharacterRequest
+&#123;
+    public string Name &#123; get; set; &#125; = string.Empty;
+    public string Game &#123; get; set; &#125; = string.Empty;
+    public string Role &#123; get; set; &#125; = string.Empty;
+&#125;
+</code></pre></small>
+                </li>
+                <li>DTOs/UpdateCharacterRequest.cs:
+<small><pre><code>
+namespace VideoGameCharacterApi.Dtos;
+
+public class UpdateCharacterRequest
+&#123;
+    public int Id &#123; get; set; &#125;
+    public string Name &#123; get; set; &#125; = string.Empty;
+    public string Game &#123; get; set; &#125; = string.Empty;
+    public string Role &#123; get; set; &#125; = string.Empty;
+&#125;
+</code></pre></small>
+                </li>
+                <li>DTOs/CharacterResponse.cs:
+<small><pre><code>
+namespace VideoGameCharacterApi.Dtos;
+
+public class CharacterResponse
+&#123;
+    public int Id &#123; get; set; &#125;
+    public string Name &#123; get; set; &#125; = string.Empty;
+    public string Game &#123; get; set; &#125; = string.Empty;
+    public string Role &#123; get; set; &#125; = string.Empty;
+&#125;
+</code></pre></small>
+                </li>
+
+                <br><u>Consumir API</u>:
+                <li>Executar aplicação e acessar: http://localhost:porta/scalar</li>
+                <li>Consumir API no Scalar e verificar respostas</li>
+            </ol>
+
+            <br><hr><h4>API CRUD .NET 10 (EF Core, PostgreSQL e Docker):</h4>
+            <p>Em breve.</p>
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center bg-black text-light pt-4 pb-3">
+        <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>
