@@ -55,16 +55,23 @@
             <ol>
                 <u>Preparando projeto</u>:
                 <li>Instalar .NET 10, Visual Studio, SQL Server, SQL Server Management Studio</li>
-                <li>SQL Server Management Studio, localhost, bancos de dados, criar novo banco de dados nome 'VideoGameCharacterDb'
+                <li>SQL Server Management Studio, localhost, bancos de dados, criar novo banco de dados nome 'CatDB'
                 </li>
-                <li>Visual Studio / nova solução / criar projeto / API web ASP .NET Core</li>
-                <li>Visual Studio / pasta raíz do projeto / gerenciar pacotes NuGet / instalar Scalar.AspNetCore</li>
+                <li>Visual Studio / nova solução / criar projeto / API web ASP .NET Core, nome 'CatAPI'</li>
+                <li>Visual Studio / pasta raíz do projeto / gerenciar pacotes NuGet / instalar pacotes:
+                    <ul>
+                        <li>Scalar.AspNetCore</li>
+                        <li>Microsoft.EntityFrameworkCore</li>
+                        <li>Microsoft.EntityFrameworkCore.Tools</li>
+                        <li>Microsoft.EntityFrameworkCore.SqlServer</li>
+                    </ul>
+                </li>
                 <li>Program.cs:
 <small><pre><code>
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
-using VideoGameCharacterApi.Data;
-using VideoGameCharacterApi.Services;
+using CatAPI.Data;
+using CatAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -74,7 +81,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddDbContext&lt;AppDbContext&gt;(options =&gt;
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddScoped&lt;IVideoGameCharacterService, VideoGameCharacterService&gt;();
+builder.Services.AddScoped&lt;ICatService, CatService&gt;();
 
 var app = builder.Build();
 
@@ -94,189 +101,31 @@ app.Run();
 
                 <br><u>Implementar Models</u>:
                 <li>Pasta raíz do projeto, criar pasta "Models"</li>
-                <li>Models/Character.cs:
+                <li>Models/Cat.cs:
 <small><pre><code>
-namespace VideoGameCharacterApi.Models;
+namespace CatAPI.Models;
 
-public class Character
+public class Cat
 &#123;
     public int Id &#123; get; set; &#125;
     public string Name &#123; get; set; &#125; = string.Empty;
-    public string Game &#123; get; set; &#125; = string.Empty;
-    public string Role &#123; get; set; &#125; = string.Empty;
+    public string Breed &#123; get; set; &#125; = string.Empty;
 &#125;
 </code></pre></small>
                 </li>
-
-                <br><u>Implementar Controllers</u>:
-                <li>Controllers/VideoGameCharactersController.cs (Commom / API Controller / Empty Controller):
-<small><pre><code>
-using Microsoft.AspNetCore.Mvc;
-using VideoGameCharacterApi.Dtos;
-using VideoGameCharacterApi.Services;
-
-namespace VideoGameCharacterApi.Controllers;
-
-[Route("api/[controller]")]
-[ApiController]
-public class VideoGameCharactersController(IVideoGameCharacterService service) : ControllerBase
-&#123;
-    [HttpGet]
-    public async Task&lt;ActionResult&lt;List&lt;CharacterResponse&gt;&gt;&gt; GetCharacters()
-        =&gt; Ok(await service.GetAllCharactersAsync());
-
-    [HttpGet("&#123;id&#125;")]
-    public async Task&lt;ActionResult&lt;CharacterResponse&gt;&gt; GetCharacter(int id)
-    &#123;
-        var character = await service.GetCharacterByIdAsync(id);
-        return character is null ? NotFound("Character with the given Id was not found.") : Ok(character);
-    &#125;
-
-    [HttpPost]
-    public async Task&lt;ActionResult&lt;CharacterResponse&gt;&gt; AddCharacter(CreateCharacterRequest character)
-    &#123;
-        var createdCharacter = await service.AddCharacterAsync(character);
-        return CreatedAtAction(nameof(GetCharacter), new &#123; id = createdCharacter.Id &#125;, createdCharacter);
-    &#125;
-
-    [HttpPut("&#123;id&#125;")]
-    public async Task&lt;ActionResult&gt; UpdateCharacter(int id, UpdateCharacterRequest character)
-    &#123;
-        var updated = await service.UpdateCharacterAsync(id, character);
-        return updated ? Ok() : NotFound("Character with the given Id was not found.");
-    &#125;
-
-    [HttpDelete("&#123;id&#125;")]
-    public async Task&lt;ActionResult&gt; DeleteCharacter(int id)
-    &#123;
-        var deleted = await service.DeleteCharacterAsync(id);
-        return deleted ? NoContent() : NotFound("Character with the given Id was not found.");
-    &#125;
-&#125;
-</code></pre></small>
-                </li>
-
-                <br><u>Implementar Services (Dependency Injection)</u>:
-                <li>Pasta raíz do projeto, criar pasta "Services"</li>
-                <li>Services/IVideoGameCharacterService.cs:
-<small><pre><code>
-using VideoGameCharacterApi.Dtos;
-
-namespace VideoGameCharacterApi.Services;
-
-public interface IVideoGameCharacterService
-&#123;
-    Task&lt;List&lt;CharacterResponse&gt;&gt; GetAllCharactersAsync();
-    Task&lt;CharacterResponse?&gt; GetCharacterByIdAsync(int id);
-    Task&lt;CharacterResponse&gt; AddCharacterAsync(CreateCharacterRequest character);
-    Task&lt;bool&gt; UpdateCharacterAsync(int id, UpdateCharacterRequest character);
-    Task&lt;bool&gt; DeleteCharacterAsync(int id);
-&#125;
-</code></pre></small>
-                </li>
-                <li>Services/VideoGameCharacterService.cs:
-<small><pre><code>
-using Microsoft.EntityFrameworkCore;
-using VideoGameCharacterApi.Data;
-using VideoGameCharacterApi.Dtos;
-using VideoGameCharacterApi.Models;
-
-namespace VideoGameCharacterApi.Services;
-
-public class VideoGameCharacterService(AppDbContext context) : IVideoGameCharacterService
-&#123;
-    public async Task&lt;CharacterResponse&gt; AddCharacterAsync(CreateCharacterRequest character)
-    &#123;
-        var newCharacter = new Character
-        &#123;
-            Name = character.Name,
-            Game = character.Game,
-            Role = character.Role
-        &#125;;
-
-        context.Characters.Add(newCharacter);
-        await context.SaveChangesAsync();
-
-        return new CharacterResponse
-        &#123;
-            Id = newCharacter.Id,
-            Name = newCharacter.Name,
-            Game = newCharacter.Game,
-            Role = newCharacter.Role
-        &#125;;
-    &#125;
-
-    public async Task&lt;bool&gt; DeleteCharacterAsync(int id)
-    &#123;
-        var characterToDelete = await context.Characters.FindAsync(id);
-        if (characterToDelete is null)
-            return false;
-
-        context.Characters.Remove(characterToDelete);
-        await context.SaveChangesAsync();
-
-        return true;
-    &#125;
-
-    public async Task&lt;List&lt;CharacterResponse&gt;&gt; GetAllCharactersAsync()
-        =&gt; await context.Characters.Select(c =&gt; new CharacterResponse
-        &#123;
-            Id = c.Id,
-            Name = c.Name,
-            Game = c.Game,
-            Role = c.Role
-        &#125;).ToListAsync();
-
-    public async Task&lt;CharacterResponse?&gt; GetCharacterByIdAsync(int id)
-    &#123;
-        var result = await context.Characters
-            .Where(c =&gt; c.Id == id)
-            .Select(c =&gt; new CharacterResponse
-            &#123;
-                Id = c.Id,
-                Name = c.Name,
-                Game = c.Game,
-                Role = c.Role
-            &#125;)
-            .FirstOrDefaultAsync();
-
-        return result;
-    &#125;
-
-    public async Task&lt;bool&gt; UpdateCharacterAsync(int id, UpdateCharacterRequest character)
-    &#123;
-        var existingCharacter = await context.Characters.FindAsync(id);
-        if (existingCharacter is null)
-            return false;
-
-        existingCharacter.Name = character.Name;
-        existingCharacter.Game = character.Game;
-        existingCharacter.Role = character.Role;
-
-        await context.SaveChangesAsync();
-
-        return true;
-    &#125;
-&#125;
-</code></pre></small>
-                </li>
-                <br><u>EF Core</u>:
-                <li>Visual Studio / pasta raíz do projeto / gerenciar pacotes NuGet / instalar Microsoft.EntityFrameworkCore</li>
-                <li>Visual Studio / pasta raíz do projeto / gerenciar pacotes NuGet / instalar Microsoft.EntityFrameworkCore.Tools</li>
-                <li>Visual Studio / pasta raíz do projeto / gerenciar pacotes NuGet / instalar Microsoft.EntityFrameworkCore.SqlServer</li>
 
                 <br><u>Aplicar DbContext</u>
                 <li>Pasta raíz do projeto / criar pasta "Data"</li>
                 <li>Data/AppDbContext.cs:
 <small><pre><code>
 using Microsoft.EntityFrameworkCore;
-using VideoGameCharacterApi.Models;
+using CatAPI.Models;
 
-namespace VideoGameCharacterApi.Data;
+namespace CatAPI.Data;
 
 public class AppDbContext(DbContextOptions&lt;AppDbContext&gt; options) : DbContext(options)
 &#123;
-    public DbSet&lt;Character&gt; Characters =&gt; Set&lt;Character&gt;();
+    public DbSet&lt;Cat&gt; Cats =&gt; Set&lt;Cat&gt;();
 &#125;
 </code></pre></small>
                 </li>
@@ -284,7 +133,7 @@ public class AppDbContext(DbContextOptions&lt;AppDbContext&gt; options) : DbCont
 <small><pre><code>
 &#123;
   "ConnectionStrings": &#123;
-    "DefaultConnection": "Server=localhost;Database=VideoGameCharacterDb;Trusted_Connection=True;TrustServerCertificate=True;"
+    "DefaultConnection": "Server=localhost;Database=CatDB;Trusted_Connection=True;TrustServerCertificate=True;"
   &#125;,
   "Logging": &#123;
     "LogLevel": &#123;
@@ -296,6 +145,190 @@ public class AppDbContext(DbContextOptions&lt;AppDbContext&gt; options) : DbCont
 &#125;
 </code></pre></small>
                 </li>
+
+                <br><u>DTOs</u>:
+                <li>Criar pasta "DTOs" na raiz do projeto</li>
+                <li>DTOs/CreateCatRequest.cs:
+<small><pre><code>
+namespace CatAPI.Dtos;
+
+public class CreateCatRequest
+&#123;
+    public string Name &#123; get; set; &#125; = string.Empty;
+    public string Breed &#123; get; set; &#125; = string.Empty;
+&#125;
+</code></pre></small>
+                </li>
+                <li>DTOs/UpdateCatRequest.cs:
+<small><pre><code>
+namespace CatAPI.Dtos;
+
+public class UpdateCatRequest
+&#123;
+    public int Id &#123; get; set; &#125;
+    public string Name &#123; get; set; &#125; = string.Empty;
+    public string Breed &#123; get; set; &#125; = string.Empty;
+&#125;
+</code></pre></small>
+                </li>
+                <li>DTOs/CatResponse.cs:
+<small><pre><code>
+namespace CatAPI.Dtos;
+
+public class CatResponse
+&#123;
+    public int Id &#123; get; set; &#125;
+    public string Name &#123; get; set; &#125; = string.Empty;
+    public string Breed &#123; get; set; &#125; = string.Empty;
+&#125;
+</code></pre></small>
+                </li>
+
+                <br><u>Implementar Services (Dependency Injection)</u>:
+                <li>Pasta raíz do projeto, criar pasta "Services"</li>
+                <li>Services/ICatService.cs:
+<small><pre><code>
+using CatAPI.Dtos;
+
+namespace CatAPI.Services;
+
+public interface ICatService
+&#123;
+    Task&lt;List&lt;CatResponse&gt;&gt; GetAllCatsAsync();
+    Task&lt;CatResponse?&gt; GetCatByIdAsync(int id);
+    Task&lt;CatResponse&gt; AddCatAsync(CreateCatRequest cat);
+    Task&lt;bool&gt; UpdateCatAsync(int id, UpdateCatRequest cat);
+    Task&lt;bool&gt; DeleteCatAsync(int id);
+&#125;
+</code></pre></small>
+                </li>
+                <li>Services/CatService.cs:
+<small><pre><code>
+using Microsoft.EntityFrameworkCore;
+using CatAPI.Data;
+using CatAPI.Dtos;
+using CatAPI.Models;
+
+namespace CatAPI.Services;
+
+public class CatService(AppDbContext context) : ICatService
+&#123;
+    public async Task&lt;CatResponse&gt; AddCatAsync(CreateCatRequest cat)
+    &#123;
+        var newCat = new Cat
+        &#123;
+            Name = cat.Name,
+            Breed = cat.Breed
+        &#125;;
+
+        context.Cats.Add(newCat);
+        await context.SaveChangesAsync();
+        return new CatResponse
+        &#123;
+            Id = newCat.Id,
+            Name = newCat.Name,
+            Breed = newCat.Breed
+        &#125;;
+    &#125;
+
+    public async Task&lt;bool&gt; DeleteCatAsync(int id)
+    &#123;
+        var catToDelete = await context.Cats.FindAsync(id);
+        if (catToDelete is null)
+            return false;
+
+        context.Cats.Remove(catToDelete);
+        await context.SaveChangesAsync();
+        return true;
+    &#125;
+
+    public async Task&lt;List&lt;CatResponse&gt;&gt; GetAllCatsAsync()
+        =&gt; await context.Cats.Select(c =&gt; new CatResponse
+        &#123;
+            Id = c.Id,
+            Name = c.Name,
+            Breed = c.Breed
+        &#125;).ToListAsync();
+
+    public async Task&lt;CatResponse?&gt; GetCatByIdAsync(int id)
+    &#123;
+        var result = await context.Cats
+            .Where(c =&gt; c.Id == id)
+            .Select(c =&gt; new CatResponse
+            &#123;
+                Id = c.Id,
+                Name = c.Name,
+                Breed = c.Breed
+            &#125;)
+            .FirstOrDefaultAsync();
+
+        return result;
+    &#125;
+
+    public async Task&lt;bool&gt; UpdateCatAsync(int id, UpdateCatRequest cat)
+    &#123;
+        var existingCat = await context.Cats.FindAsync(id);
+        if (existingCat is null)
+            return false;
+
+        existingCat.Name = cat.Name;
+        existingCat.Breed = cat.Breed;
+
+        await context.SaveChangesAsync();
+        return true;
+    &#125;
+&#125;
+</code></pre></small>
+                </li>
+
+                <br><u>Implementar Controllers</u>:
+                <li>Controllers/CatsController.cs (Commom / API Controller / Empty Controller):
+<small><pre><code>
+using Microsoft.AspNetCore.Mvc;
+using CatAPI.Dtos;
+using CatAPI.Services;
+
+namespace CatAPI.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class CatsController(ICatService service) : ControllerBase
+&#123;
+    [HttpGet]
+    public async Task&lt;ActionResult&lt;List&lt;CatResponse&gt;&gt;&gt; GetCats()
+        =&gt; Ok(await service.GetAllCatsAsync());
+
+    [HttpGet("&#123;id&#125;")]
+    public async Task&lt;ActionResult&lt;CatResponse&gt;&gt; GetCat(int id)
+    &#123;
+        var cat = await service.GetCatByIdAsync(id);
+        return cat is null ? NotFound("Gato com ID não encontrado") : Ok(cat);
+    &#125;
+
+    [HttpPost]
+    public async Task&lt;ActionResult&lt;CatResponse&gt;&gt; AddCat(CreateCatRequest cat)
+    &#123;
+        var createdCat = await service.AddCatAsync(cat);
+        return CreatedAtAction(nameof(GetCat), new &#123; id = createdCat.Id &#125;, createdCat);
+    &#125;
+
+    [HttpPut("&#123;id&#125;")]
+    public async Task&lt;ActionResult&gt; UpdateCat(int id, UpdateCatRequest cat)
+    &#123;
+        var updated = await service.UpdateCatAsync(id, cat);
+        return updated ? Ok() : NotFound("Gato com ID não encontrado");
+    &#125;
+
+    [HttpDelete("&#123;id&#125;")]
+    public async Task&lt;ActionResult&gt; DeleteCat(int id)
+    &#123;
+        var deleted = await service.DeleteCatAsync(id);
+        return deleted ? NoContent() : NotFound("Gato com ID não encontrado");
+    &#125;
+&#125;
+</code></pre></small>
+                </li>
+
                 <li>Visual Studio / abrir console do gerenciador de pacotes
                     <ul>
                         <li>Entrar na pasta do projeto: cd nome_do_projeto</li>
@@ -304,47 +337,6 @@ public class AppDbContext(DbContextOptions&lt;AppDbContext&gt; options) : DbCont
                     </ul>
                 </li>
                 <li>No SQL Server Management Studio, verificar se banco de dados foi criado corretamente</li>
-
-                <br><u>DTOs</u>:
-                <li>Criar pasta "DTOs" na raiz do projeto</li>
-                <li>DTOs/CreateCharacterRequest.cs:
-<small><pre><code>
-namespace VideoGameCharacterApi.Dtos;
-
-public class CreateCharacterRequest
-&#123;
-    public string Name &#123; get; set; &#125; = string.Empty;
-    public string Game &#123; get; set; &#125; = string.Empty;
-    public string Role &#123; get; set; &#125; = string.Empty;
-&#125;
-</code></pre></small>
-                </li>
-                <li>DTOs/UpdateCharacterRequest.cs:
-<small><pre><code>
-namespace VideoGameCharacterApi.Dtos;
-
-public class UpdateCharacterRequest
-&#123;
-    public int Id &#123; get; set; &#125;
-    public string Name &#123; get; set; &#125; = string.Empty;
-    public string Game &#123; get; set; &#125; = string.Empty;
-    public string Role &#123; get; set; &#125; = string.Empty;
-&#125;
-</code></pre></small>
-                </li>
-                <li>DTOs/CharacterResponse.cs:
-<small><pre><code>
-namespace VideoGameCharacterApi.Dtos;
-
-public class CharacterResponse
-&#123;
-    public int Id &#123; get; set; &#125;
-    public string Name &#123; get; set; &#125; = string.Empty;
-    public string Game &#123; get; set; &#125; = string.Empty;
-    public string Role &#123; get; set; &#125; = string.Empty;
-&#125;
-</code></pre></small>
-                </li>
 
                 <br><u>Consumir API</u>:
                 <li>Executar aplicação e acessar: http://localhost:porta/scalar</li>
