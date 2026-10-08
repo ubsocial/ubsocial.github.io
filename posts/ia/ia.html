@@ -34,45 +34,31 @@
 
     <div class="row">
         <div class="col-sm-12 text-center" id="titulo">
-            <h1>Arquitetura MCP</h1>
-            <h6><strong>Arquiteturas cliente e servidor MCP</strong></h6>
+            <h1>Inteligência artificial</h1>
+            <h6><strong>Teoria e prática</strong></h6>
             <a href="../../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
+            <br><p class="text-warning">EM CONSTRUÇÃO</p>
         </div>
 
         <div class="col-sm-12">
             <h4>Material complementar:</h4>
             <ul>
-                <li>Conteúdo no YouTube: <a href="https://youtu.be/Ju1A3-2wDy0?si=m-gEyfBd1HmtNI2O" target="_blank" class="text-decoration-none">Acesse</a></li>
+                <li>Conteúdo no YouTube (MCP): <a href="https://youtu.be/Ju1A3-2wDy0?si=m-gEyfBd1HmtNI2O" target="_blank" class="text-decoration-none">Acesse</a></li>
             </ul>
-
-            <br><h4>Conceito:</h4>
-            <p id="textoPost">Model Context Protocol é conector e padronizador entre modelos de IA e dados, atribuindo padrões de conexão/features e limites de resposta, permitindo controle e personalização do que IA pode fazer e como faz. Possibilita que diferentes modelos de IA integram-se padronizadamente com diferentes fontes de dados, proporcionando experiência mais consistente, personalizada e segura. Técnicamente, MCP atua como receptor de requisições do modelo de IA, redirecionando-as, via endpoints, para fontes de dados apropriadas e respostas específicas.</p>
-
-            <br><h4>Cenários:</h4>
-            <img src="cenario_sem_mcp.png" class="img-fluid mb-3 rounded" width="200px">
-            <img src="cenario_com_mcp.png" class="img-fluid mb-3 rounded" width="200px">
+            
+            <br><h4>MCP:</h4>
+            <p id="textoPost">Model Context Protocol é conector e padronizador entre modelos de IA e dados, atribuindo padrões de conexão/features e limites de resposta, permitindo controle e personalização do que IA pode fazer e como fazer. Possibilita que diferentes modelos de IA integram-se padronizadamente com diferentes fontes de dados, proporcionando experiência mais consistente, personalizada e segura. Técnicamente, MCP atua como receptor de requisições do modelo de IA, redirecionando-as, via endpoints, para fontes de dados apropriadas e respostas específicas.</p>
             <ul>
                 <li>Sem MCP: modelo de IA comunica-se especificamente com cada fonte de dados, de formas diferentes, sem limites nem padronização de resposta;</li>
                 <li>Com MCP: modelo de IA comunica-se padronizadamente com servidor MCP, que conecta-se padronizadamente com diferentes fontes de dados, proporcionando respostas com dados de forma personalizada e limitada nos padrões definidos.</li>
             </ul>
-
-            <br><h4>Tipos de MCP:</h4>
-            <ul>
-                <li>MCP Server: servidor que gerencia comunicação entre modelos de IA e dados;</li>
-                <li>MCP Client: MCP Client: modelos LLMs de IA (ChatGPT, Claude, Copilot);</li>
-                <li>MCP Registry: Ambientes "loja" de servidores MCP.</li>
-            </ul>
-
-            <br><h4>Componentes de servidor MCP:</h4>
-            <ul>
+            <p id="textoPost">Componentes de servidor MCP:</p>
+            <ol>
                 <li>Tools: como extensões do servidor para IAs (ex: tool para buscar arquivos, tool para consultar API, tool para executar SQL);</li>
                 <li>Resources: dados disponíveis ao modelo de IA, já prontos em cotexto, dispensando buscas (como uma apostila pra IA consultar sempre que precisar);</li>
                 <li>Prompts: o que IA realmente vê, contexto final que chega no modelo, já montando com contexto do usuário, resources relevantes e tools disponíveis. Baseado nesse prompt, IA gerará resposta.</li>
-            </ul>
-
-            <br><h4>Fluxo:</h4>
-            <p class="text-danger">Usuário pede à IA, que contata servidor, que busca dados e retorna à IA, e então ao usuário.</p>
-            <p id="textoPost">De forma simples, modelo LLM IA diz ao servidor MCP "Busca no BD e gere relatório", e servidor MCP realiza todas tarefas solicitadas no dataset alvo (BD).</p>
+            </ol>
+            <p id="textoPost">Fluxo de funcionamento: Usuário pede à IA, que contata servidor, que busca dados e retorna à IA, e então ao usuário. De forma simples, modelo LLM IA diz ao servidor MCP "Busca no BD e gere relatório", e servidor MCP realiza todas tarefas solicitadas no dataset alvo (BD).</p>
             <ol>
                 <li>Usuário envia pergunta em prompt;
                     <ul>
@@ -105,36 +91,8 @@
                     </ul>
                 </li>
             </ol>
-            <img src="fluxo_mcp.jpg" class="img-fluid mb-3 rounded" width="450px">
-            <br><img src="fluxo2_mcp.png" class="img-fluid mb-3 rounded" width="450px">
 
-            <br><h4>Arquitetura de fluxo de dados:</h4>
-            <ul>
-                <li>MCP SSE (Server-Sent Events): baseado em HTTP para servidores MCP remotos;</li>
-                <li>MCP STDIO (Standard Input/Output): baseado em fluxos entrada/saída do próprio SO, para integração local de componentes em mesmo sistema.</li>
-            </ul>
-
-            <br><hr>
-            <h4>Exemplo prático:</h4>
-            <p id="textoPost">Baixar servidor MCP do GitHub para atuar em conjunto com Copilot (GPT-5), via VSCode. Utilizável para gerenciar operações no GitHub, via AI Agent.<br>Agente IA &lt;-&gt; Servidor MCP &lt;-&gt; Fonte de dados<br>Copilot &lt;-&gt; GitHub MCP &lt;-&gt; GitHub</p>
-            <p>Implementação:</p>
-            <ol>
-                <li>Baixar servidor MCP GitHub (<a href="https://code.visualstudio.com/mcp" class="text-decoration-none" target="_blank">https://code.visualstudio.com/mcp</a>), e autorizar acesso;</li>
-                <li>Ver servidor executando (Ctrl+ShiftP, "MCP listar servidores");
-                    <ul>
-                        <li>Mostrar JSON de configuração;</li>
-                    </ul>
-                </li>
-                <li>Abrir projeto GitHub local no VSCode;</li>
-                <li>Abrir Copilot Chat (Ctrl+Alt+i), modo Agent GPT-5, inserir prompt;
-                    <ul>
-                        <li>Prompt: "List my 10 GitHub commits from this project".</li>
-                    </ul>
-                </li>
-                <li>Listará 10 commits nesse projeto em que VSCode está aberto.</li>
-            </ol>
-            <img src="vscodeMCP.png" class="img-fluid rounded mb-3" width="700px"><br>
-            <img src="vscodeMCP2.png" class="img-fluid rounded mb-3" width="700px">
+            <p class="text-warning">EM BREVE: protocolos A2A, RAG, ML, DL, LLM. N8N. Machine Learning e Deep Learning, agentes autônomos e modelos.</p>
         </div>
     </div>
 
