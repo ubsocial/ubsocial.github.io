@@ -47,62 +47,174 @@
                 <li>Curso com certificado na Workover Academy (Criar API REST Spring Boot com Kotlin): <a href="https://workover.com.br/cursos/1891" target="_blank" class="text-decoration-none">Acesse</a></li>
             </ul>
 
-            <br><h4>Conceito:</h4>
-            <p id="textoPost">Camada que atua sob framework Spring, simplificando-o e modernizando-o, seguindo padrão MVC. Spring implementa padrão IoC (Inversion of Control), onde os objetos (Spring Beans / Beans) são instanciados automaticamente pelo container do Spring, dispensando criação manual.</p>
-
-            <br><h4>Pré-requisitos (Windows):</h4>
-            <p id="textoPost"><b>JDK</b> (Java Development Kit) é kit de ferramentas e bibliotecas para desenvolver aplicações Java. <b>Gradle</b> é automatizador de build moderno que usa linguagem baseada em Groovy ou <b>Kotlin</b> para configurar projetos.</p>
+            <br><h4>Conceito e instalação:</h4>
+            <p id="textoPost">Camada que atua sob framework Spring, simplificando-o e modernizando-o, seguindo padrão MVC. Spring implementa padrão IoC (Inversion of Control), onde os objetos (Spring Beans / Beans) são instanciados automaticamente pelo container do Spring, dispensando criação manual. JDK (Java Development Kit) é kit de ferramentas e bibliotecas para desenvolver aplicações Java. Gradle é automatizador de build moderno que usa linguagem baseada em Groovy:</p>
             <ol>
-                <li>JDK: <a href="https://www.oracle.com/br/java/technologies/downloads" target="_blank" class="text-decoration-none">Acesse</a>
+                <li>JDK:
                     <ol>
                         <li>Baixar e instalar JDK Oracle</li>
                         <li>Win + R, digite "SystemPropertiesAdvanced", acessar Variáveis de Ambiente</li>
-                        <li>Aba "Variáveis do sistema", editar variável Path: Editar:
-                            <ul>
-                                <li>Nome: Path</li>
-                                <li>Clicar em Novo</li>
-                                <li>Valor: C:\Program Files\Java\jdk-VERSAO-AQUI\bin</li>
-                                <li>Confirmar criação OK</li>
-                            </ul>
-                        </li>
-                        <li>Verificar instalação no CMD, com comando "java -version"</li>
+                        <li>Aba "Variáveis do sistema", editar variável Path, inserindo novo caminho 'C:\Program Files\Java\jdk-VERSAO-AQUI\bin'</li>
+                        <li>Testar funcionamento via comando 'java -version'</li>
                     </ol>
                 </li>
-                <li>Kotlin compiler: <a href="https://github.com/JetBrains/kotlin/releases" target="_blank" class="text-decoration-none">Acesse</a>
+                <li>Gradle
                     <ol>
-                        <li>Baixar e instalar Kotlin compiler (.zip)</li>
-                        <li>Diretório "C:/", crie pasta "Kotlin", e descompacte o Kotlin dentro dela</li>
+                        <li>Baixar Gradle via site oficial, instalar manualmente, baixar binary-only</li>
+                        <li>Diretório "C:/", crie pasta "Gradle" e descompacte Gradle nela</li>
                         <li>Win + R, digite "SystemPropertiesAdvanced", acessar Variáveis de Ambiente</li>
-                        <li>Aba "Variáveis do sistema", editar variável Path: Editar:
-                            <ul>
-                                <li>Nome: Path</li>
-                                <li>Clicar em Novo</li>
-                                <li>Valor: C:\Kotlin\kotlinc\bin</li>
-                                <li>Confirmar criação OK</li>
-                            </ul>
-                        </li>
-                        <li>Verificar instalação: Win + R, digitar CMD, e informar comando "kotlinc -version"</li>
-                    </ol>
-                </li>
-                <li>Gradle: <a href="https://gradle.org/install/#manually" target="_blank" class="text-decoration-none">Acesse</a>
-                    <ol>
-                        <li>Baixar e instalar Gradle: site oficial Gradle, Install, Install manually, Step 1, baixar Binary-only</li>
-                        <li>Diretório "C:/", crie pasta "Gradle", e descompacte o Gradle dentro dela</li>
-                        <li>Win + R, digite "SystemPropertiesAdvanced", acessar Variáveis de Ambiente</li>
-                        <li>Aba "Variáveis do sistema", editar variável Path:
-                            Editar:
-                            <ul>
-                                <li>Nome: Path</li>
-                                <li>Clicar em Novo</li>
-                                <li>Valor: C:\Gradle\gradle-VERSAO\bin</li>
-                                <li>Confirmar criação OK</li>
-                            </ul>
-                        </li>
-                        <li>Verificar instalação: Win + R, digitar CMD, e informar comando "gradle -v"</li>
+                        <li>Aba "Variáveis do sistema", editar variável Path, inserindo novo caminho 'C:\Gradle\gradle-VERSAO\bin'</li>
+                        <li>Testar funcionamento via comando 'gradle -v'</li>
                     </ol>
                 </li>
             </ol>
 
+            <br><h4>ORM:</h4>
+            <p id="textoPost">Object-Relational Mapping integra SQL via código Java Hibernate JPA (Java Persistence API) e biblioteca Jakarta Persistence, dispensando códigos SQL, transformando classe/entidade em table, atributo em coluna, objeto em registro. Cada table possui chave primária identificadora '@id'. Todas configurações são definidas em 'application.properties'. Mapeamento de relacionamentos entre entidades, via atributos, conforme cardinalidade (1 ou n), direcionalidade (unidirecional e bidirecional) e lado proprietário (todo (PK) ou parte (FK)).</p>
+            <ul>
+                <li>1:n / one-to-many unidirecional: 1 Operadora (todo) pode ter N Planos (parte), mas Plano não conhece Operadora por meio de atributo Java. Utiliza-se @OneToMany no atributo de coleção planos em Operadora e @JoinColumn(name = "operadora_id") para definir FK na tabela Plano, referenciando Operadora:
+<small><pre><code>
+@Entity
+public class Operadora &#123;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @OneToMany
+    @JoinColumn(name = "operadora_id")
+    private Set&lt;Plano&gt; planos = new HashSet&lt;&gt;();
+&#125;
+
+@Entity
+public class Plano &#123;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String nome;
+&#125;
+</code></pre></small>
+                </li>
+                <li>AQUI ----- 1:n / one-to-many bidirecional: 1 Cliente (todo) pode ter N Enderecos (parte), e ambas entidades conhecem uma à outra por meio de atributos Java. Usa-se @OneToMany(mappedBy = "cliente") no atributo enderecos em Cliente e @ManyToOne no atributo cliente em Endereco. A FK fica na tabela Endereco, referenciando Cliente:
+<small><pre><code>
+AQUI
+</code></pre></small>
+                </li>
+                <li>n:1 / many-to-one unidirecional: informa-se '@ManyToOne' no atributo  da entidade todo na entidade parte. Considere Endereco n (todo) e 1 Cliente (parte), Cliente a n Endereços, porém Cliente desconheça Endereços:
+<small><pre><code>
+@Entity
+public class Endereco &#123;
+    @ManyToOne
+    Cliente cliente;
+&#125;
+</code></pre></small>
+                </li>
+                <li>n:1 / many-to-one bidirecional: semelhante ao 1:n bidirecional</li>
+                <li>n:n / many-to-many unidirecional: informa-se '@ManyToMany' no atributo da entidade parte na entidade todo. Considere Conta n (todo) e Cliente n (parte), e Cliente desconheça Contas:
+<small><pre><code>
+@Entity
+public class Conta &#123;
+    @ManyToMany
+    Set&lt;Cliente&gt; clientes;
+&#125;
+</code></pre></small>
+                </li>
+                <li>n:n / many-to-many bidirecional: informa-se '@ManyToMany' nos atributos de ambas entidades, e mapeamento na entidade parte. Conta n (todo) e Cliente n (parte):
+<small><pre><code>
+@Entity
+public class Conta &#123;
+    @ManyToMany
+    Set&lt;Cliente&gt; clientes;
+&#125;
+
+@Entity
+public class Cliente &#123;
+    @ManyToMany(mappedBy = "clientes")
+    Set&lt;Conta&gt; contas;
+&#125;
+</code></pre></small>
+                </li>
+                <li>1:1 / one-to-one unidirecional: informa-se '@OneToOne' no atributo da entidade parte na entidade todo. Campus (todo) e Servidor (parte), e Servidor desconheça Campus:
+<small><pre><code>
+@Entity
+public class Campus &#123;
+    @OneToOne
+    Servidor diretor;
+&#125;
+</code></pre></small>
+                </li>
+                <li>1:1 / one-to-one bidirecional: informa-se '@OneToOne' nos atributos de ambas entidades, e mapeamento do atributo da entidade todo na entidade parte. Campus n (todo) e Servidor n (parte):
+<small><pre><code>
+@Entity
+public class Campus &#123;
+    @OneToOne
+    Servidor diretor;
+&#125;
+
+@Entity
+public class Servidor &#123;
+    @OneToOne(mappedBy = "diretor")
+    Campus campusDirigido;
+&#125;
+</code></pre></small>
+                </li>
+                <li>Herança (inheritance): <i>single table</i>, onde cria-se tabela única para todas subclasses com superclasse em comum, contendo colunas para cada atributo da superclasse, colunas para cada atributo das subclasses, e coluna "discriminatória" determinando a qual entidade "pertence" cada registro. Superclasse, informar anotação de herança single table e de coluna discriminatória. Subclasses, informar anotação de valor discriminador, apontando valor para coluna discriminatória da superclasse. Conforme abaixo, gerará tabela única para as 3 entidades, contendo colunas para atributos de Cliente, colunas para atributos de ClientePessoaFisica, colunas para atributos de ClientePessoaJuridica, e coluna discriminatória com nome <i>class</i>. Registros de ClientePessoaFisica serão armazenados em <i>class</i> com valor ClientePessoaFisica, e o mesmo para ClientePessoaJuridica, possibilitando queries SELECT com WHERE="ClientePessoaFisica" e "ClientePessoaJuridica":
+<small><pre><code>
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "class")
+public class Cliente &#123;
+&#125;
+
+@Entity
+@DiscriminatorValue(value="ClientePessoaFisica")
+public class ClientePessoaFisica &#123;
+&#125;
+
+@Entity
+@DiscriminatorValue(value="ClientePessoaJuridica")
+public class ClientePessoaJuridica &#123;
+&#125;
+</code></pre></small>
+                </li>
+            </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+            <h3 class="text-danger">Spring Batch e Spring Integration e Spring Cloud e Spring Security</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <br><hr><br>
             <br><h4>Criar projeto:</h4>
             <p id="textoPost">Em 'start.spring.io', selecione:</p>
             <ol>
