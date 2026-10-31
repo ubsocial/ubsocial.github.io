@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../icons/logoTit.png">
+    <link rel="stylesheet" href="../estilo.css">
+    <title>UB Social</title>
+</head>
+<body>
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <nav class="navbar rounded fixed-top navbar-expand-lg navbar-light bg-light shadow m-3">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="../index.html"><img src="../icons/logo.png" class="d-inline-block align-text-top" width="11pt"> UB Social</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../sobre/sobre.html">Sobre</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../cursos.html">Cursos</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../livros/livros.html">Livros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 text-center" id="titulo">
+            <h1>X++</h1>
+            <h6><strong>Teoria e prática</strong><br><br><span class="badge bg-warning text-dark">Resumo em construção</span></h6>
+            <a href="../index.html" class="btn btn-link text-decoration-none mb-3">Voltar</a>
+        </div>
+
+        <div class="col-sm-12">
+            <br><h4>Tipos de dados:</h4>
+<small><pre><code>
+class MyClass
+{
+    public static void main(Args _args)
+    {
+        // Comentário inline
+
+        /* Comentário de bloco
+        */
+
+        // Tipos de variáveis:
+        date dataCadastro = 13\10\2026;
+        NoYes clienteAtivo = NoYes::Yes;
+        Guid identificador = newGuid();
+        int quantidadeProdutos = 150;
+        int64 numeroPedido = 9876543210;
+        real precoProduto = 199.90;
+        str nomeProduto = "Notebook Dell";
+        TimeOfDay horarioAbertura = 8 * 60 * 60; (ou 'timeNow();')
+        utcDateTime dataHoraCriacao = 2026-10-13T13:05:00; (ou 'DateTimeUtil::utcNow();')
+
+        // Labels de informação:
+        info(strFmt("Nome do produto: %1", nomeProduto)); // Mensagem de informação
+        info(strFmt("Preço do produto: %1", num2Str(precoProduto, 5, 2, 1, 1))); // Mensagem de informação, formatada
+        warning(strFmt("O produto %1 está com estoque baixo.", nomeProduto)); // Mensagem de alerta
+        error(strFmt("O produto %1 não está disponível no estoque.", nomeProduto)); // Mensagem de erro
+        throw error("Cliente não encontrado"); // Mensagem de erro, interrompe execução do código
+        checkFailed("Grupo de clientes é obrigatório"); // Mensagem de erro para validações, interrompe execução do código
+
+        Global::info("Processado com sucesso"); // Mensagem de informação global
+        Global::warning("Valor acima do esperado"); // Mensagem de alerta global
+        Global::error("Falha no processamento"); // Mensagem de erro global
+    }
+}
+</code></pre></small>
+            
+            <br><h4>Dados compostos:</h4>
+<small><pre><code>
+class MyClass
+{
+    public static void main(Args _args)
+    {
+        // Array fixo
+        int numeros[3];
+        numeros[1] = 10;
+        numeros[2] = 20;
+        numeros[3] = 30;
+        info(strFmt("Número 1: %1", numeros[1]));
+
+        // Array dinâmico
+        str nomes[];
+        nomes[1] = "Ana";
+        nomes[2] = "Carlos";
+        info(strFmt("Nome 2: %1", nomes[2]));
+
+        // Container (coleção de valores de diferentes tipos)
+        container dadosCliente;
+        dadosCliente = ["Carlos", 27, NoYes::Yes];
+        str nomeCliente = conPeek(dadosCliente, 1);
+        int idadeCliente = conPeek(dadosCliente, 2);
+        info(strFmt("Nome: %1, Idade: %2", nomeCliente, idadeCliente));
+
+        real valorCompra = 1000.50;
+        dadosCliente += [valorCompra]; // Adiciona valor ao container
+        info(strFmt("Valor da compra: %1", conPeek(dadosCliente, 3)));
+
+        // Instância de classe
+        System.DateTime dataAtual = System.DateTime::get_Now();
+        info(strFmt("Data atual: %1", dataAtual.ToString()));
+
+        public class CustomerService
+        {
+            public str getCustomerName()
+            {
+                return "Cliente Teste";
+            }
+        }
+
+        public static void classExample()
+        {
+            CustomerService customerService;
+            customerService = new CustomerService();
+            info(customerService.getCustomerName());
+        }
+
+        // Delegate (declarado em classe, tabela, formulário ou consulta. Evento com métodos inscritos)
+        class OrderProcessor
+        {
+            delegate void orderProcessedDelegate(SalesId _salesId)
+            {
+            }
+
+            public void processOrder(SalesId _salesId)
+            {
+                info("Processando pedido");
+                this.orderProcessedDelegate(_salesId);
+            }
+        }
+
+        // Subscriber (assinatura de evento)
+        class OrderProcessorEventHandler
+        {
+            [SubscribesTo(classStr(OrderProcessor), delegateStr(OrderProcessor, orderProcessedDelegate))]
+            public static void orderProcessed(SalesId _salesId)
+            {
+                info(strFmt("Pedido %1 processado.", _salesId));
+            }
+        }
+
+        // Chamada do delegate
+        public static void delegateExample()
+        {
+            OrderProcessor orderProcessor;
+            orderProcessor = new OrderProcessor();
+            orderProcessor.processOrder("SO-000001");
+        }
+
+        // Table (instância de tabela)
+        public static void tableExample()
+        {
+            CustTable custTable;
+            select firstonly custTable
+                where custTable.AccountNum == "US-001";
+
+            if (custTable)
+            {
+                info(custTable.name());
+            }
+        }
+
+        public static void insertCustomer()
+        {
+            CustGroup custGroup;
+            ttsbegin;
+            custGroup.clear();
+            custGroup.CustGroup = "TEST";
+            custGroup.Name = "Grupo de Teste";
+            custGroup.insert();
+            ttscommit;
+        }
+
+        public static void updateCustomer()
+        {
+            CustTable custTable;
+            ttsbegin;
+            select forupdate custTable
+                where custTable.AccountNum == "US-001";
+
+            if (custTable)
+            {
+                custTable.NameAlias = "Novo Alias";
+                custTable.update();
+            }
+            ttscommit;
+        }
+
+    }
+}
+</code></pre></small>
+
+            <br><h4>EDT (Extended data types):</h4>
+<small><pre><code>
+class EDTExample
+{
+    public static void main(Args _args)
+    {
+        CustAccount custAccount;
+        TransDate transDate;
+        CurrencyCode currencyCode;
+
+        custAccount = "US-001";
+        transDate = today();
+        currencyCode = "USD";
+
+        info(strFmt(
+            "Cliente: %1 | Data: %2 | Moeda: %3",
+            custAccount,
+            transDate,
+            currencyCode));
+    }
+}
+</code></pre></small>
+
+            <br><h4 class="text-warning">Operadores:</h4>
+<small><pre><code>
+=	Assigns the value after the equal sign to the variable before.	Int i = 1;
++=	Assigns the current variable value plus the value after the equal sign.	int I ; I += 1;
+++	Increments the variable by 1.	int I; i++;
+-=	Assigns the current variable value minus the expression after the equal sign.	int I; I -= 1;
+--	Decrements the variable by 1.	int I; i--;
+
+&lt;&lt;	The left shift operator multiplies the left value by 2 by the number of times equal to the value on the right.	int a = 1 &lt;&lt; 2 (this equals 1*2*2.)
+&gt;&gt;	The right shift operator divides the left value by 2 by the number of times equal to the value on the right.	int a = 1 &gt;&gt; 2 (this equals 1/2/2.)
+*	This operator multiplies operands.	int a = 1*2
+/	This operator divides the left value by the right value.	int a = 1/2
+div	The integer division operator performs an integer division of the left value and the right value.	int a = 20 div 6 (This returns a division of 3 with a remainder of 2. A = 3)
+mod	The integer remainder operator returns the remainder of an integer of the left value and the right value.	int a = 20 mod 6 (This returns a division of 3 with a remainder of 2. A = 2)
+~	The not operator performs a binary not operation.	int a = ~1 (This returns -2.)
+&	The binary AND operator performs a binary operation on the left and right value. This returns the bits in common.	int a = 1 & 3 (This returns 1.)
+^	The binary XOR operator performs a binary XOR operation on the left and right value. This returns the bits set in one, but not the other.	int a = 1 ^ 3 (This returns 2.)
+|	The binary OR operator performs a binary operation on the left and right value. This returns the bits set in either.	int a = 1 | 3 (This returns 3.)
++	The plus operator adds operands.	int a = 1 + 4 (This returns 5.)
+-	The minus operator subtracts the left or right values.	int a = 4 - 1 (This returns 3.)
+?	The ternary operator takes three values. If value 1 is true, value 2 is returned. Else, value 3 is returned.	int a = (x > 3) ? 1:5 (If x is greater than 3, then return 1, else return 5.)
+
+
+Like	This operator is exclusively used in SQL statements and returns true if the criteria are found within the second value. For example, select a table where a field such as ‘12*’ returns all rows from a table where the field values start with 12.
+==	Returns true if the values are equal.
+!=	Returns true if the first value isn't equal to the second value.
+&gt;=	Returns true if the first value is greater than or equal to the second value.
+&lt;=	Returns true if the first value is less than or equal to the second value.
+&gt;	Returns true if the first value is greater than the second value.
+&lt;	Returns true if the first value is less than the second value.
+&&	Returns true if the first and second value are true.
+||	Returns true if the first or second value is true.
+!	Returns true if the value is false, and it returns false if the value is true.
+
+Condição ternária:
+result = (x==5) ? "Yes" : "No";
+</code></pre></small>
+        </div>
+    </div>
+
+
+<!--Rodapé-->
+<div class="row">
+    <div class="col-sm-12 text-center bg-black text-light pt-4 pb-3">
+        <p>Elaborado por Mateus Schwede<br><small class="text-muted">ubsocial.github.io</small></p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>
+
+<!-- PAROU AQUI: https://learn.microsoft.com/en-us/training/modules/get-started-xpp-finance-operations/2-base-types
+-->
